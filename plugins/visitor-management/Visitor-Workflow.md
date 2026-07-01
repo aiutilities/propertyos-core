@@ -306,6 +306,67 @@ All records shall be immutable.
 
 ---
 
+# Workflow 11 - Pre-Approved Recurring Visitor
+
+## Trigger
+
+A Host or Administrator creates a recurring visitor rule.
+
+## Examples
+
+* Maid
+* Cook
+* Housekeeping staff
+* Maintenance staff
+* Security contractor
+* Regular vendor
+
+## Inputs
+
+* Visitor Name
+* Mobile Number
+* Visitor Type
+* Allowed Days
+* Allowed Time Window
+* Destination Space
+* Valid From Date
+* Valid Until Date
+* Approval Required
+* Notes
+
+## Actions
+
+* Create recurring visitor rule
+* Generate reusable visitor profile
+* Generate visit entry token for each allowed visit
+* Allow Security to verify using QR Code or PIN Code
+* Record each check-in and check-out as a separate visit
+
+## Rules
+
+* Recurring visitor access must be limited by date and time window.
+* Entry outside the allowed window must be denied or require approval.
+* Each visit must have a separate audit trail.
+* Admin must be able to deactivate recurring access.
+* Host must be notified when recurring visitor checks in.
+* Host must be notified when recurring visitor checks out.
+
+## Events
+
+visitor.recurring.created
+
+visitor.recurring.updated
+
+visitor.recurring.deactivated
+
+visitor.recurring.checkedin
+
+visitor.recurring.checkedout
+
+visitor.recurring.denied
+
+---
+
 # Advaith's Nest Validation Scenarios
 
 The workflow must successfully support:

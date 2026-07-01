@@ -47,7 +47,7 @@ export class VisitorService {
       status: VISITOR_STATUSES.INVITED,
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    }) as { id: string };
 
     await this.recordStatusHistory(
       visit.id,
@@ -318,7 +318,7 @@ export class VisitorService {
     propertyId: string | undefined,
     dto: UpdateVisitorSettingsDto,
   ) {
-    return this.visitorRepository.updateSettings(propertyId, dto);
+    return this.visitorRepository.updateSettings(propertyId, { ...dto });
   }
 
   private async recordStatusHistory(

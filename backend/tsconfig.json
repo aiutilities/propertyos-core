@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "target": "es2021",
+
+    "moduleResolution": "node16",
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "strict": false,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "skipLibCheck": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    "types": ["node"],
+
+    "outDir": "./dist"
+  },
+
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

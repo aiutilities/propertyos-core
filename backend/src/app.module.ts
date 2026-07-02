@@ -4,6 +4,7 @@ import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
 
 import { AuditModule } from './core/audit/audit.module';
+import { EventBusModule } from './core/eventbus/eventbus.module';
 import { IdentityModule } from './core/identity/identity.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -14,6 +15,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     DatabaseModule,
 
     AuditModule,
+    EventBusModule,
     IdentityModule,
 
     VisitorModule,

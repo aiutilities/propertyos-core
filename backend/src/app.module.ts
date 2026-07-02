@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { AuditModule } from './core/audit/audit.module';
 import { EventBusModule } from './core/eventbus/eventbus.module';
 import { IdentityModule } from './core/identity/identity.module';
+import { NotificationModule } from './core/notification/notification.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
 
@@ -17,6 +18,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     AuditModule,
     EventBusModule,
     IdentityModule,
+    NotificationModule,
 
     VisitorModule,
   ],

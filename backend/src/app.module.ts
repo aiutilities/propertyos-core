@@ -8,6 +8,7 @@ import { AuthorizationModule } from './core/authorization/authorization.module';
 import { EventBusModule } from './core/eventbus/eventbus.module';
 import { IdentityModule } from './core/identity/identity.module';
 import { NotificationModule } from './core/notification/notification.module';
+import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
 
@@ -21,6 +22,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     EventBusModule,
     IdentityModule,
     NotificationModule,
+    HealthModule,
 
     VisitorModule,
   ],

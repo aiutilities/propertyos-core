@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
+import { EventBusModule } from '../eventbus/eventbus.module';
 import { AuditService } from './audit.service';
+import { AuditSubscriber } from './audit.subscriber';
 
 @Module({
-  providers: [AuditService],
+  imports: [EventBusModule],
+  providers: [AuditService, AuditSubscriber],
   exports: [AuditService],
 })
 export class AuditModule {}

@@ -8,11 +8,16 @@ import {
 @Injectable()
 export class EventBusService {
   private readonly handlers = new Map<string, EventHandler[]>();
+  private readonly globalHandlers: EventHandler[] = [];
 
   subscribe(eventType: string, handler: EventHandler): void {
     const existingHandlers = this.handlers.get(eventType) ?? [];
     existingHandlers.push(handler);
     this.handlers.set(eventType, existingHandlers);
+  }
+
+  subscribeAll(handler: EventHandler): void {
+    this.globalHandlers.push(handler);
   }
 
   unsubscribe(eventType: string, handler: EventHandler): void {
@@ -38,8 +43,9 @@ export class EventBusService {
     };
 
     const handlers = this.handlers.get(type) ?? [];
+    const allHandlers = [...handlers, ...this.globalHandlers];
 
-    for (const handler of handlers) {
+    for (const handler of allHandlers) {
       await handler(event);
     }
 

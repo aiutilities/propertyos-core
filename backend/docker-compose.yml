@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: propertyos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: propertyos
+      POSTGRES_USER: propertyos
+      POSTGRES_PASSWORD: propertyos
+    ports:
+      - "5433:5432"
+    volumes:
+      - propertyos_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  propertyos_postgres_data:

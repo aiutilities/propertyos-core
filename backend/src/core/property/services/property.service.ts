@@ -1,40 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Property, Space, Zone } from '../types/property.types';
+import { PropertyRepository } from '../repositories/property.repository';
+
+export const PROPERTY_REPOSITORY = 'PROPERTY_REPOSITORY';
 
 @Injectable()
 export class PropertyService {
-  private readonly properties: Property[] = [];
-  private readonly zones: Zone[] = [];
-  private readonly spaces: Space[] = [];
+  constructor(
+    @Inject(PROPERTY_REPOSITORY)
+    private readonly propertyRepository: PropertyRepository,
+  ) {}
 
-  createProperty(property: Property): Property {
-    this.properties.push(property);
-    return property;
+  createProperty(property: Property): Promise<Property> {
+    return this.propertyRepository.createProperty(property);
   }
 
-  findPropertyById(id: string): Property | null {
-    return this.properties.find((property) => property.id === id) || null;
+  findPropertyById(id: string): Promise<Property | null> {
+    return this.propertyRepository.findPropertyById(id);
   }
 
-  listProperties(): Property[] {
-    return this.properties;
+  listProperties(): Promise<Property[]> {
+    return this.propertyRepository.listProperties();
   }
 
-  createZone(zone: Zone): Zone {
-    this.zones.push(zone);
-    return zone;
+  createZone(zone: Zone): Promise<Zone> {
+    return this.propertyRepository.createZone(zone);
   }
 
-  listZonesByProperty(propertyId: string): Zone[] {
-    return this.zones.filter((zone) => zone.propertyId === propertyId);
+  listZonesByProperty(propertyId: string): Promise<Zone[]> {
+    return this.propertyRepository.listZonesByProperty(propertyId);
   }
 
-  createSpace(space: Space): Space {
-    this.spaces.push(space);
-    return space;
+  createSpace(space: Space): Promise<Space> {
+    return this.propertyRepository.createSpace(space);
   }
 
-  listSpacesByProperty(propertyId: string): Space[] {
-    return this.spaces.filter((space) => space.propertyId === propertyId);
+  listSpacesByProperty(propertyId: string): Promise<Space[]> {
+    return this.propertyRepository.listSpacesByProperty(propertyId);
   }
 }

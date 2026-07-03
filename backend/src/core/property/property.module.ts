@@ -1,8 +1,20 @@
 import { Module } from '@nestjs/common';
-import { PropertyService } from './services/property.service';
+import { PostgresModule } from '../../database/postgres/postgres.module';
+import {
+  PROPERTY_REPOSITORY,
+  PropertyService,
+} from './services/property.service';
+import { PostgresPropertyRepository } from './repositories/postgres-property.repository';
 
 @Module({
-  providers: [PropertyService],
+  imports: [PostgresModule],
+  providers: [
+    PropertyService,
+    {
+      provide: PROPERTY_REPOSITORY,
+      useClass: PostgresPropertyRepository,
+    },
+  ],
   exports: [PropertyService],
 })
 export class PropertyModule {}

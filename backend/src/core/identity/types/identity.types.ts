@@ -4,6 +4,7 @@ export type CredentialType =
   | 'EMAIL'
   | 'PHONE'
   | 'USERNAME'
+  | 'PASSWORD'
   | 'ACCESS_CARD'
   | 'QR_CODE';
 

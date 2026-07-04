@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { createHash, randomBytes } from 'crypto';
 import {
   Credential,
   Organization,
@@ -79,6 +80,18 @@ export class IdentityService {
   }
 
   createCredential(input: Omit<Credential, 'id' | 'createdAt'>): Promise<Credential> {
+    if (input.type === 'PASSWORD') {
+      const salt = randomBytes(16).toString('hex');
+      const hash = createHash('sha256')
+        .update(`${salt}:${input.value}`)
+        .digest('hex');
+
+      return this.identityRepository.createCredential({
+        ...input,
+        value: `sha256:${salt}:${hash}`,
+      });
+    }
+
     return this.identityRepository.createCredential(input);
   }
 

@@ -5,12 +5,14 @@ import { CreatePersonDto } from '../dto/create-person.dto';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { IdentityService } from '../services/identity.service';
 import {
+  Credential,
   Organization,
   Permission,
   Person,
   Role,
 } from '../types/identity.types';
 import { RolePermission } from '../types/role-permission.types';
+import { PersonRole } from '../types/person-role.types';
 
 @Controller()
 export class IdentityController {
@@ -109,5 +111,38 @@ export class IdentityController {
     @Param('id') id: string,
   ): Promise<Permission | undefined> {
     return this.identityService.getPermission(id);
+  }
+
+  @Post('credentials')
+  async createCredential(
+    @Body('personId') personId: string,
+    @Body('type') type: any,
+    @Body('value') value: string,
+  ): Promise<Credential> {
+    return this.identityService.createCredential({
+      personId,
+      type,
+      value,
+    });
+  }
+
+  @Get('credentials')
+  async listCredentials(): Promise<Credential[]> {
+    return this.identityService.listCredentials();
+  }
+
+  @Post('persons/:personId/roles')
+  async assignRoleToPerson(
+    @Param('personId') personId: string,
+    @Body('roleId') roleId: string,
+  ): Promise<PersonRole> {
+    return this.identityService.assignRoleToPerson(personId, roleId);
+  }
+
+  @Get('persons/:personId/roles')
+  async listPersonRoles(
+    @Param('personId') personId: string,
+  ): Promise<Role[]> {
+    return this.identityService.listPersonRoles(personId);
   }
 }

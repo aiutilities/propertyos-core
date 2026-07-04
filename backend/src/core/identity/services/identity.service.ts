@@ -7,6 +7,7 @@ import {
   Role,
 } from '../types/identity.types';
 import { RolePermission } from '../types/role-permission.types';
+import { PersonRole } from '../types/person-role.types';
 import { IdentityRepositoryPort } from '../repositories/identity-repository.interface';
 
 export const IDENTITY_REPOSITORY = 'IDENTITY_REPOSITORY';
@@ -83,5 +84,13 @@ export class IdentityService {
 
   listCredentials(): Promise<Credential[]> {
     return this.identityRepository.listCredentials();
+  }
+
+  assignRoleToPerson(personId: string, roleId: string): Promise<PersonRole> {
+    return this.identityRepository.assignRoleToPerson(personId, roleId);
+  }
+
+  listPersonRoles(personId: string): Promise<Role[]> {
+    return this.identityRepository.listPersonRoles(personId);
   }
 }

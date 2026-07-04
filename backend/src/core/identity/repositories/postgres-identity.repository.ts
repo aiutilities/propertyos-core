@@ -11,6 +11,7 @@ import {
   Role,
 } from '../types/identity.types';
 import { RolePermission } from '../types/role-permission.types';
+import { PersonRole } from '../types/person-role.types';
 
 @Injectable()
 export class PostgresIdentityRepository implements IdentityRepositoryPort {
@@ -246,6 +247,55 @@ export class PostgresIdentityRepository implements IdentityRepositoryPort {
     return result.rows.map((row) => this.mapPermission(row));
   }
 
+  async assignRoleToPerson(
+    personId: string,
+    roleId: string,
+  ): Promise<PersonRole> {
+    const existing = await this.pool.query(
+      `
+      SELECT *
+      FROM person_roles
+      WHERE person_id = $1
+      AND role_id = $2
+      `,
+      [personId, roleId],
+    );
+
+    if (existing.rows[0]) {
+      return this.mapPersonRole(existing.rows[0]);
+    }
+
+    const id = randomUUID();
+
+    const result = await this.pool.query(
+      `
+      INSERT INTO person_roles (id, person_id, role_id)
+      VALUES ($1, $2, $3)
+      RETURNING *
+      `,
+      [id, personId, roleId],
+    );
+
+    return this.mapPersonRole(result.rows[0]);
+  }
+
+  async listPersonRoles(personId: string): Promise<Role[]> {
+    const result = await this.pool.query(
+      `
+      SELECT r.*
+      FROM roles r
+      INNER JOIN person_roles pr
+        ON pr.role_id = r.id
+      WHERE pr.person_id = $1
+      AND r.deleted_at IS NULL
+      ORDER BY r.created_at DESC
+      `,
+      [personId],
+    );
+
+    return result.rows.map((row) => this.mapRole(row));
+  }
+
   async createCredential(
     input: Omit<Credential, 'id' | 'createdAt'>,
   ): Promise<Credential> {
@@ -319,6 +369,15 @@ export class PostgresIdentityRepository implements IdentityRepositoryPort {
       id: row.id,
       roleId: row.role_id,
       permissionId: row.permission_id,
+      createdAt: row.created_at,
+    };
+  }
+
+  private mapPersonRole(row: any): PersonRole {
+    return {
+      id: row.id,
+      personId: row.person_id,
+      roleId: row.role_id,
       createdAt: row.created_at,
     };
   }

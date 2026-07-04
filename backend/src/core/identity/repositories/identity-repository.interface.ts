@@ -6,6 +6,7 @@ import {
   Role,
 } from '../types/identity.types';
 import { RolePermission } from '../types/role-permission.types';
+import { PersonRole } from '../types/person-role.types';
 
 export interface IdentityRepositoryPort {
   createPerson(input: Omit<Person, 'id' | 'createdAt'>): Promise<Person>;
@@ -29,4 +30,7 @@ export interface IdentityRepositoryPort {
 
   createCredential(input: Omit<Credential, 'id' | 'createdAt'>): Promise<Credential>;
   listCredentials(): Promise<Credential[]>;
+
+  assignRoleToPerson(personId: string, roleId: string): Promise<PersonRole>;
+  listPersonRoles(personId: string): Promise<Role[]>;
 }

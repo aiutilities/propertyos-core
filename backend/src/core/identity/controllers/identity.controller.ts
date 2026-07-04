@@ -17,7 +17,7 @@ export class IdentityController {
   constructor(private readonly identityService: IdentityService) {}
 
   @Post('persons')
-  createPerson(@Body() body: CreatePersonDto): Person {
+  async createPerson(@Body() body: CreatePersonDto): Promise<Person> {
     return this.identityService.createPerson({
       displayName: body.displayName,
       email: body.email,
@@ -27,17 +27,19 @@ export class IdentityController {
   }
 
   @Get('persons')
-  listPersons(): Person[] {
+  async listPersons(): Promise<Person[]> {
     return this.identityService.listPersons();
   }
 
   @Get('persons/:id')
-  getPerson(@Param('id') id: string): Person | undefined {
+  async getPerson(@Param('id') id: string): Promise<Person | undefined> {
     return this.identityService.getPerson(id);
   }
 
   @Post('organizations')
-  createOrganization(@Body() body: CreateOrganizationDto): Organization {
+  async createOrganization(
+    @Body() body: CreateOrganizationDto,
+  ): Promise<Organization> {
     return this.identityService.createOrganization({
       name: body.name,
       type: body.type,
@@ -45,17 +47,19 @@ export class IdentityController {
   }
 
   @Get('organizations')
-  listOrganizations(): Organization[] {
+  async listOrganizations(): Promise<Organization[]> {
     return this.identityService.listOrganizations();
   }
 
   @Get('organizations/:id')
-  getOrganization(@Param('id') id: string): Organization | undefined {
+  async getOrganization(
+    @Param('id') id: string,
+  ): Promise<Organization | undefined> {
     return this.identityService.getOrganization(id);
   }
 
   @Post('roles')
-  createRole(@Body() body: CreateRoleDto): Role {
+  async createRole(@Body() body: CreateRoleDto): Promise<Role> {
     return this.identityService.createRole({
       name: body.name,
       description: body.description,
@@ -63,30 +67,32 @@ export class IdentityController {
   }
 
   @Get('roles')
-  listRoles(): Role[] {
+  async listRoles(): Promise<Role[]> {
     return this.identityService.listRoles();
   }
 
   @Get('roles/:id')
-  getRole(@Param('id') id: string): Role | undefined {
+  async getRole(@Param('id') id: string): Promise<Role | undefined> {
     return this.identityService.getRole(id);
   }
 
   @Post('roles/:roleId/permissions')
-  assignPermissionToRole(
+  async assignPermissionToRole(
     @Param('roleId') roleId: string,
     @Body('permissionId') permissionId: string,
-  ): RolePermission {
+  ): Promise<RolePermission> {
     return this.identityService.assignPermissionToRole(roleId, permissionId);
   }
 
   @Get('roles/:roleId/permissions')
-  listRolePermissions(@Param('roleId') roleId: string): Permission[] {
+  async listRolePermissions(
+    @Param('roleId') roleId: string,
+  ): Promise<Permission[]> {
     return this.identityService.listRolePermissions(roleId);
   }
 
   @Post('permissions')
-  createPermission(@Body() body: CreatePermissionDto): Permission {
+  async createPermission(@Body() body: CreatePermissionDto): Promise<Permission> {
     return this.identityService.createPermission({
       key: body.key,
       description: body.description,
@@ -94,12 +100,14 @@ export class IdentityController {
   }
 
   @Get('permissions')
-  listPermissions(): Permission[] {
+  async listPermissions(): Promise<Permission[]> {
     return this.identityService.listPermissions();
   }
 
   @Get('permissions/:id')
-  getPermission(@Param('id') id: string): Permission | undefined {
+  async getPermission(
+    @Param('id') id: string,
+  ): Promise<Permission | undefined> {
     return this.identityService.getPermission(id);
   }
 }

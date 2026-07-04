@@ -19,9 +19,9 @@ export class IdentityService {
   listPersons(): Person[] {
     return this.identityRepository.listPersons();
   }
-  
+
   getPerson(id: string): Person | undefined {
-  return this.identityRepository.getPerson(id);
+    return this.identityRepository.getPerson(id);
   }
 
   createOrganization(input: Omit<Organization, 'id' | 'createdAt'>): Organization {
@@ -31,9 +31,9 @@ export class IdentityService {
   listOrganizations(): Organization[] {
     return this.identityRepository.listOrganizations();
   }
-  
+
   getOrganization(id: string): Organization | undefined {
-  return this.identityRepository.getOrganization(id);
+    return this.identityRepository.getOrganization(id);
   }
 
   createRole(input: Omit<Role, 'id' | 'createdAt'>): Role {
@@ -42,6 +42,10 @@ export class IdentityService {
 
   listRoles(): Role[] {
     return this.identityRepository.listRoles();
+  }
+
+  getRole(id: string): Role | undefined {
+    return this.identityRepository.getRole(id);
   }
 
   createPermission(input: Omit<Permission, 'id' | 'createdAt'>): Permission {

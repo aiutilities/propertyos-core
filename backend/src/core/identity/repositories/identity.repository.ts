@@ -49,9 +49,9 @@ export class IdentityRepository {
   listOrganizations(): Organization[] {
     return [...this.organizations];
   }
-  
+
   getOrganization(id: string): Organization | undefined {
-  return this.organizations.find((organization) => organization.id === id);
+    return this.organizations.find((organization) => organization.id === id);
   }
 
   createRole(input: Omit<Role, 'id' | 'createdAt'>): Role {
@@ -67,6 +67,10 @@ export class IdentityRepository {
 
   listRoles(): Role[] {
     return [...this.roles];
+  }
+
+  getRole(id: string): Role | undefined {
+    return this.roles.find((role) => role.id === id);
   }
 
   createPermission(input: Omit<Permission, 'id' | 'createdAt'>): Permission {

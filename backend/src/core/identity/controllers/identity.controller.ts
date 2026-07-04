@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateOrganizationDto } from '../dto/create-organization.dto';
 import { CreatePersonDto } from '../dto/create-person.dto';
+import { CreateRoleDto } from '../dto/create-role.dto';
 import { IdentityService } from '../services/identity.service';
-import { Organization, Person } from '../types/identity.types';
+import { Organization, Person, Role } from '../types/identity.types';
 
 @Controller()
 export class IdentityController {
@@ -44,5 +45,23 @@ export class IdentityController {
   @Get('organizations/:id')
   getOrganization(@Param('id') id: string): Organization | undefined {
     return this.identityService.getOrganization(id);
+  }
+
+  @Post('roles')
+  createRole(@Body() body: CreateRoleDto): Role {
+    return this.identityService.createRole({
+      name: body.name,
+      description: body.description,
+    });
+  }
+
+  @Get('roles')
+  listRoles(): Role[] {
+    return this.identityService.listRoles();
+  }
+
+  @Get('roles/:id')
+  getRole(@Param('id') id: string): Role | undefined {
+    return this.identityService.getRole(id);
   }
 }

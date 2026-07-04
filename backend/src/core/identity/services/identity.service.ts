@@ -31,6 +31,10 @@ export class IdentityService {
   listOrganizations(): Organization[] {
     return this.identityRepository.listOrganizations();
   }
+  
+  getOrganization(id: string): Organization | undefined {
+  return this.identityRepository.getOrganization(id);
+  }
 
   createRole(input: Omit<Role, 'id' | 'createdAt'>): Role {
     return this.identityRepository.createRole(input);

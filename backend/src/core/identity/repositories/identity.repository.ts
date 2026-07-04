@@ -49,6 +49,10 @@ export class IdentityRepository {
   listOrganizations(): Organization[] {
     return [...this.organizations];
   }
+  
+  getOrganization(id: string): Organization | undefined {
+  return this.organizations.find((organization) => organization.id === id);
+  }
 
   createRole(input: Omit<Role, 'id' | 'createdAt'>): Role {
     const role: Role = {

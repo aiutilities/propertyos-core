@@ -31,6 +31,10 @@ export class IdentityRepository {
     return [...this.persons];
   }
 
+  getPerson(id: string): Person | undefined {
+    return this.persons.find((person) => person.id === id);
+  }
+
   createOrganization(input: Omit<Organization, 'id' | 'createdAt'>): Organization {
     const organization: Organization = {
       id: randomUUID(),

@@ -19,6 +19,10 @@ export class IdentityService {
   listPersons(): Person[] {
     return this.identityRepository.listPersons();
   }
+  
+  getPerson(id: string): Person | undefined {
+  return this.identityRepository.getPerson(id);
+  }
 
   createOrganization(input: Omit<Organization, 'id' | 'createdAt'>): Organization {
     return this.identityRepository.createOrganization(input);

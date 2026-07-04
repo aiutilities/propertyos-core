@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import { VisitorRepository } from './visitor.repository';
+import { VISITOR_REPOSITORY, VisitorRepositoryPort } from './repositories/visitor-repository.interface';
 import {
   QR_STATUSES,
   VISITOR_DEFAULT_SETTINGS,
@@ -19,7 +19,10 @@ import { UpdateVisitorSettingsDto } from './dto/update-visitor-settings.dto';
 
 @Injectable()
 export class VisitorService {
-  constructor(private readonly visitorRepository: VisitorRepository) {}
+  constructor(
+    @Inject(VISITOR_REPOSITORY)
+    private readonly visitorRepository: VisitorRepositoryPort,
+  ) {}
 
   async inviteVisitor(dto: CreateVisitorInviteDto) {
     const existingVisitor = await this.visitorRepository.findVisitorByMobile(

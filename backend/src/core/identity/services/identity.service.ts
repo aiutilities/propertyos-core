@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IdentityRepository } from '../repositories/identity.repository';
+import { RolePermission } from '../types/role-permission.types';
 import {
   Credential,
   Organization,
@@ -58,6 +59,20 @@ export class IdentityService {
 
   getPermission(id: string): Permission | undefined {
     return this.identityRepository.getPermission(id);
+  }
+
+  assignPermissionToRole(
+    roleId: string,
+    permissionId: string,
+  ): RolePermission {
+    return this.identityRepository.assignPermissionToRole(
+      roleId,
+      permissionId,
+    );
+  }
+
+  listRolePermissions(roleId: string): Permission[] {
+    return this.identityRepository.listRolePermissions(roleId);
   }
 
   createCredential(input: Omit<Credential, 'id' | 'createdAt'>): Credential {

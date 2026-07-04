@@ -4,7 +4,13 @@ import { CreatePermissionDto } from '../dto/create-permission.dto';
 import { CreatePersonDto } from '../dto/create-person.dto';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { IdentityService } from '../services/identity.service';
-import { Organization, Permission, Person, Role } from '../types/identity.types';
+import {
+  Organization,
+  Permission,
+  Person,
+  Role,
+} from '../types/identity.types';
+import { RolePermission } from '../types/role-permission.types';
 
 @Controller()
 export class IdentityController {
@@ -64,6 +70,19 @@ export class IdentityController {
   @Get('roles/:id')
   getRole(@Param('id') id: string): Role | undefined {
     return this.identityService.getRole(id);
+  }
+
+  @Post('roles/:roleId/permissions')
+  assignPermissionToRole(
+    @Param('roleId') roleId: string,
+    @Body('permissionId') permissionId: string,
+  ): RolePermission {
+    return this.identityService.assignPermissionToRole(roleId, permissionId);
+  }
+
+  @Get('roles/:roleId/permissions')
+  listRolePermissions(@Param('roleId') roleId: string): Permission[] {
+    return this.identityService.listRolePermissions(roleId);
   }
 
   @Post('permissions')

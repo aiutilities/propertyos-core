@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { RolePermission } from '../types/role-permission.types';
 import {
   Credential,
   Organization,
@@ -15,6 +16,7 @@ export class IdentityRepository {
   private readonly roles: Role[] = [];
   private readonly permissions: Permission[] = [];
   private readonly credentials: Credential[] = [];
+  private readonly rolePermissions: RolePermission[] = [];
 
   createPerson(input: Omit<Person, 'id' | 'createdAt'>): Person {
     const person: Person = {
@@ -90,6 +92,38 @@ export class IdentityRepository {
 
   getPermission(id: string): Permission | undefined {
     return this.permissions.find((permission) => permission.id === id);
+  }
+
+  assignPermissionToRole(roleId: string, permissionId: string): RolePermission {
+    const existing = this.rolePermissions.find(
+      (rolePermission) =>
+        rolePermission.roleId === roleId &&
+        rolePermission.permissionId === permissionId,
+    );
+
+    if (existing) {
+      return existing;
+    }
+
+    const rolePermission: RolePermission = {
+      id: randomUUID(),
+      roleId,
+      permissionId,
+      createdAt: new Date(),
+    };
+
+    this.rolePermissions.push(rolePermission);
+    return rolePermission;
+  }
+
+  listRolePermissions(roleId: string): Permission[] {
+    const permissionIds = this.rolePermissions
+      .filter((rolePermission) => rolePermission.roleId === roleId)
+      .map((rolePermission) => rolePermission.permissionId);
+
+    return this.permissions.filter((permission) =>
+      permissionIds.includes(permission.id),
+    );
   }
 
   createCredential(input: Omit<Credential, 'id' | 'createdAt'>): Credential {

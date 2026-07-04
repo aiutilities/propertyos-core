@@ -88,6 +88,10 @@ export class IdentityRepository {
     return [...this.permissions];
   }
 
+  getPermission(id: string): Permission | undefined {
+    return this.permissions.find((permission) => permission.id === id);
+  }
+
   createCredential(input: Omit<Credential, 'id' | 'createdAt'>): Credential {
     const credential: Credential = {
       id: randomUUID(),

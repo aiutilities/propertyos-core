@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateOrganizationDto } from '../dto/create-organization.dto';
+import { CreatePermissionDto } from '../dto/create-permission.dto';
 import { CreatePersonDto } from '../dto/create-person.dto';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { IdentityService } from '../services/identity.service';
-import { Organization, Person, Role } from '../types/identity.types';
+import { Organization, Permission, Person, Role } from '../types/identity.types';
 
 @Controller()
 export class IdentityController {
@@ -63,5 +64,23 @@ export class IdentityController {
   @Get('roles/:id')
   getRole(@Param('id') id: string): Role | undefined {
     return this.identityService.getRole(id);
+  }
+
+  @Post('permissions')
+  createPermission(@Body() body: CreatePermissionDto): Permission {
+    return this.identityService.createPermission({
+      key: body.key,
+      description: body.description,
+    });
+  }
+
+  @Get('permissions')
+  listPermissions(): Permission[] {
+    return this.identityService.listPermissions();
+  }
+
+  @Get('permissions/:id')
+  getPermission(@Param('id') id: string): Permission | undefined {
+    return this.identityService.getPermission(id);
   }
 }

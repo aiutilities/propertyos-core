@@ -56,6 +56,10 @@ export class IdentityService {
     return this.identityRepository.listPermissions();
   }
 
+  getPermission(id: string): Permission | undefined {
+    return this.identityRepository.getPermission(id);
+  }
+
   createCredential(input: Omit<Credential, 'id' | 'createdAt'>): Credential {
     return this.identityRepository.createCredential(input);
   }

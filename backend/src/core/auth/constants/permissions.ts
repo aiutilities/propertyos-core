@@ -16,4 +16,7 @@ export const Permissions = {
 
   VISITOR_READ: 'visitor.read',
   VISITOR_CREATE: 'visitor.create',
+
+  TENANT_READ: 'tenant.read',
+  TENANT_CREATE: 'tenant.create',
 } as const;

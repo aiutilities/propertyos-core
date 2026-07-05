@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { AuthTokenPayload } from '../../auth/services/auth.service';
 import { CreateOrganizationDto } from '../dto/create-organization.dto';
 import { CreatePermissionDto } from '../dto/create-permission.dto';
@@ -32,7 +34,8 @@ export class IdentityController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionGuard)
+  @RequirePermission('person.read')
   @Get('persons')
   async listPersons(
     @CurrentUser() _user: AuthTokenPayload,

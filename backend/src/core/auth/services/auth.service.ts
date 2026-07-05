@@ -5,6 +5,14 @@ import { IdentityService } from '../../identity/services/identity.service';
 
 const AUTH_SECRET = process.env.AUTH_SECRET ?? 'propertyos-dev-secret-change-me';
 
+export interface AuthTokenPayload {
+  sub: string;
+  email: string;
+  displayName: string;
+  iat: number;
+  exp: number;
+}
+
 @Injectable()
 export class AuthService {
   constructor(private readonly identityService: IdentityService) {}
@@ -35,11 +43,18 @@ export class AuthService {
     }
 
     const credentials = await this.identityService.listCredentials();
-    const passwordCredential = credentials.find(
-      (credential) =>
-        credential.personId === person.id &&
-        credential.type === 'PASSWORD',
-    );
+    const passwordCredential = credentials
+      .filter(
+        (credential) =>
+          credential.personId === person.id &&
+          credential.type === 'PASSWORD' &&
+          credential.value.startsWith('sha256:'),
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() -
+          new Date(a.createdAt).getTime(),
+      )[0];
 
     if (!passwordCredential) {
       throw new UnauthorizedException('Invalid email or password');

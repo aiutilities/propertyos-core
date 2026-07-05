@@ -1,4 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { AuthTokenPayload } from '../../auth/services/auth.service';
 import { CreateOrganizationDto } from '../dto/create-organization.dto';
 import { CreatePermissionDto } from '../dto/create-permission.dto';
 import { CreatePersonDto } from '../dto/create-person.dto';
@@ -11,8 +15,8 @@ import {
   Person,
   Role,
 } from '../types/identity.types';
-import { RolePermission } from '../types/role-permission.types';
 import { PersonRole } from '../types/person-role.types';
+import { RolePermission } from '../types/role-permission.types';
 
 @Controller()
 export class IdentityController {
@@ -28,8 +32,11 @@ export class IdentityController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('persons')
-  async listPersons(): Promise<Person[]> {
+  async listPersons(
+    @CurrentUser() _user: AuthTokenPayload,
+  ): Promise<Person[]> {
     return this.identityService.listPersons();
   }
 

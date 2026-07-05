@@ -11,6 +11,7 @@ import { IdentityModule } from './core/identity/identity.module';
 import { NotificationModule } from './core/notification/notification.module';
 import { PropertyModule } from './core/property/property.module';
 import { TenantModule } from './core/tenant/tenant.module';
+import { AgreementModule } from './core/agreement/agreement.module';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -28,6 +29,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     NotificationModule,
     PropertyModule,
     TenantModule,
+    AgreementModule,
     HealthModule,
 
     VisitorModule,

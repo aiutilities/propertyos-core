@@ -1,6 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { RentLedger, RentStatus } from '../types/rent.types';
 import { RentPayment } from '../types/payment.types';
 import {
@@ -15,9 +16,10 @@ export class RentService {
   constructor(
     @Inject(RENT_REPOSITORY)
     private readonly rentRepository: RentRepositoryPort,
+    private readonly eventBusService: EventBusService,
   ) {}
 
-  createRentLedger(input: {
+  async createRentLedger(input: {
     tenantId: string;
     agreementId: string;
     periodYear: number;
@@ -27,7 +29,7 @@ export class RentService {
   }): Promise<RentLedger> {
     const now = new Date().toISOString();
 
-    return this.rentRepository.createRentLedger({
+    const ledger = await this.rentRepository.createRentLedger({
       id: randomUUID(),
 
       tenantId: input.tenantId,
@@ -47,6 +49,27 @@ export class RentService {
       createdAt: now,
       updatedAt: now,
     });
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'rent.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Rent ledger created',
+        message: `Rent ledger created for ${ledger.periodMonth}/${ledger.periodYear}`,
+        metadata: {
+          domainEventType: 'RENT_LEDGER_CREATED',
+          rentLedgerId: ledger.id,
+          tenantId: ledger.tenantId,
+          agreementId: ledger.agreementId,
+          rentAmount: ledger.rentAmount,
+          dueDate: ledger.dueDate,
+        },
+      },
+    );
+
+    return ledger;
   }
 
   listRentLedgers(): Promise<RentLedger[]> {
@@ -103,6 +126,27 @@ export class RentService {
     if (!updatedLedger) {
       throw new NotFoundException('Updated rent ledger not found');
     }
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'rent.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Rent payment posted',
+        message: `Rent payment posted: ${input.amount}`,
+        metadata: {
+          domainEventType: 'RENT_PAYMENT_POSTED',
+          rentLedgerId,
+          paymentId: payment.id,
+          tenantId: updatedLedger.tenantId,
+          amount: input.amount,
+          amountPaid: updatedLedger.amountPaid,
+          balanceAmount: updatedLedger.balanceAmount,
+          status: updatedLedger.status,
+        },
+      },
+    );
 
     return {
       payment,

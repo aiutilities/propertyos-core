@@ -1,4 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { CreateReceiptDto } from '../dto/create-receipt.dto';
 import {
   RECEIPT_REPOSITORY,
@@ -11,10 +12,32 @@ export class ReceiptService {
   constructor(
     @Inject(RECEIPT_REPOSITORY)
     private readonly receiptRepository: ReceiptRepository,
+    private readonly eventBusService: EventBusService,
   ) {}
 
   async create(dto: CreateReceiptDto): Promise<Receipt> {
-    return this.receiptRepository.create(dto);
+    const receipt = await this.receiptRepository.create(dto);
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'receipt.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Receipt issued',
+        message: `Receipt issued successfully: ${receipt.receiptNumber}`,
+        metadata: {
+          domainEventType: 'RECEIPT_ISSUED',
+          receiptId: receipt.id,
+          receiptNumber: receipt.receiptNumber,
+          tenantId: receipt.tenantId,
+          rentLedgerId: receipt.rentLedgerId,
+          amount: receipt.amount,
+        },
+      },
+    );
+
+    return receipt;
   }
 
   async findAll(): Promise<Receipt[]> {

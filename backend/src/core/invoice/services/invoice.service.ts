@@ -1,4 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import {
   INVOICE_REPOSITORY,
@@ -11,15 +12,38 @@ export class InvoiceService {
   constructor(
     @Inject(INVOICE_REPOSITORY)
     private readonly invoiceRepository: InvoiceRepository,
+    private readonly eventBusService: EventBusService,
   ) {}
 
   async create(data: CreateInvoiceDto): Promise<Invoice> {
     const invoiceNumber = await this.generateInvoiceNumber(data.invoiceDate);
 
-    return this.invoiceRepository.create({
+    const invoice = await this.invoiceRepository.create({
       ...data,
       invoiceNumber,
     });
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'invoice.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Invoice issued',
+        message: `Invoice issued successfully: ${invoice.invoiceNumber}`,
+        metadata: {
+          domainEventType: 'INVOICE_ISSUED',
+          invoiceId: invoice.id,
+          invoiceNumber: invoice.invoiceNumber,
+          tenantId: invoice.tenantId,
+          agreementId: invoice.agreementId,
+          amount: invoice.amount,
+          status: invoice.status,
+        },
+      },
+    );
+
+    return invoice;
   }
 
   async findAll(): Promise<Invoice[]> {
@@ -42,7 +66,8 @@ export class InvoiceService {
 
     while (true) {
       const invoiceNumber = `INV-${compactDate}-${String(sequence).padStart(3, '0')}`;
-      const existing = await this.invoiceRepository.findByInvoiceNumber(invoiceNumber);
+      const existing =
+        await this.invoiceRepository.findByInvoiceNumber(invoiceNumber);
 
       if (!existing) {
         return invoiceNumber;

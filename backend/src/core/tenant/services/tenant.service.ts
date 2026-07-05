@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import {
   TENANT_REPOSITORY,
   TenantRepository,
@@ -13,17 +14,36 @@ export class TenantService {
   constructor(
     @Inject(TENANT_REPOSITORY)
     private readonly tenantRepository: TenantRepository,
+    private readonly eventBusService: EventBusService,
   ) {}
 
   async createTenant(
     input: Omit<Tenant, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Tenant> {
-    return this.tenantRepository.createTenant({
+    const tenant = await this.tenantRepository.createTenant({
       ...input,
       id: randomUUID(),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'tenant.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Tenant created',
+        message: `Tenant created successfully: ${tenant.id}`,
+        metadata: {
+          domainEventType: 'TENANT_CREATED',
+          tenantId: tenant.id,
+          personId: tenant.personId,
+        },
+      },
+    );
+
+    return tenant;
   }
 
   async listTenants(): Promise<Tenant[]> {
@@ -38,7 +58,7 @@ export class TenantService {
     tenantId: string,
     spaceId: string,
   ): Promise<TenantSpace> {
-    return this.tenantRepository.assignSpace({
+    const tenantSpace = await this.tenantRepository.assignSpace({
       id: randomUUID(),
       tenantId,
       spaceId,
@@ -46,6 +66,25 @@ export class TenantService {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'tenant.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Space assigned',
+        message: `Space assigned to tenant: ${tenantId}`,
+        metadata: {
+          domainEventType: 'TENANT_SPACE_ASSIGNED',
+          tenantId,
+          spaceId,
+          tenantSpaceId: tenantSpace.id,
+        },
+      },
+    );
+
+    return tenantSpace;
   }
 
   async listTenantSpaces(

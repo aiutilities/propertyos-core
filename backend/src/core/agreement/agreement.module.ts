@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { PostgresModule } from '../../database/postgres/postgres.module';
 import { IdentityModule } from '../identity/identity.module';
+import { EventBusModule } from '../eventbus/eventbus.module';
 import { AgreementController } from './controllers/agreement.controller';
 import {
   AGREEMENT_REPOSITORY,
@@ -10,7 +11,7 @@ import {
 import { PostgresAgreementRepository } from './repositories/postgres-agreement.repository';
 
 @Module({
-  imports: [PostgresModule, IdentityModule],
+  imports: [PostgresModule, IdentityModule, EventBusModule],
   controllers: [AgreementController],
   providers: [
     AgreementService,

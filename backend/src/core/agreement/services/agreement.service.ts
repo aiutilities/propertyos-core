@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import {
   Agreement,
   AgreementVersion,
@@ -16,6 +17,7 @@ export class AgreementService {
   constructor(
     @Inject(AGREEMENT_REPOSITORY)
     private readonly agreementRepository: AgreementRepositoryPort,
+    private readonly eventBusService: EventBusService,
   ) {}
 
   async createAgreement(input: {
@@ -43,10 +45,30 @@ export class AgreementService {
       noticePeriodDays: input.noticePeriodDays,
     });
 
-    return {
+    const agreementWithVersion: Agreement = {
       ...agreement,
       currentVersionId: version.id,
     };
+
+    await this.eventBusService.publish(
+      'NOTIFICATION_REQUESTED',
+      'agreement.service',
+      {
+        channel: 'IN_APP',
+        recipient: 'OWNER',
+        subject: 'Agreement created',
+        message: `Agreement created successfully: ${agreement.agreementNumber}`,
+        metadata: {
+          domainEventType: 'AGREEMENT_CREATED',
+          agreementId: agreement.id,
+          agreementVersionId: version.id,
+          tenantId: agreement.tenantId,
+          agreementNumber: agreement.agreementNumber,
+        },
+      },
+    );
+
+    return agreementWithVersion;
   }
 
   listAgreements(): Promise<Agreement[]> {

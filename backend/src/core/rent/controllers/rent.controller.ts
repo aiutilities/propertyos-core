@@ -11,6 +11,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { CreateRentLedgerDto } from '../dto/create-rent-ledger.dto';
+import { PostPaymentDto } from '../dto/post-payment.dto';
 import { RentService } from '../services/rent.service';
 
 @Controller('rent-ledgers')
@@ -48,6 +49,31 @@ export class RentController {
     return {
       success: true,
       data: ledger,
+    };
+  }
+
+  @Post(':id/payments')
+  @RequirePermission('rent.create')
+  async postPayment(
+    @Param('id') id: string,
+    @Body() body: PostPaymentDto,
+  ) {
+    const result = await this.rentService.postPayment(id, body);
+
+    return {
+      success: true,
+      data: result,
+    };
+  }
+
+  @Get(':id/payments')
+  @RequirePermission('rent.read')
+  async listPayments(@Param('id') id: string) {
+    const payments = await this.rentService.listPayments(id);
+
+    return {
+      success: true,
+      data: payments,
     };
   }
 }

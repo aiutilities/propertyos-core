@@ -3,6 +3,7 @@ import { Pool } from 'pg';
 
 import { POSTGRES_POOL } from '../../../database/postgres';
 import { RentLedger } from '../types/rent.types';
+import { RentPayment } from '../types/payment.types';
 import { RentRepositoryPort } from './rent-repository.interface';
 
 @Injectable()
@@ -75,6 +76,72 @@ export class PostgresRentRepository implements RentRepositoryPort {
     return result.rows[0] ? this.mapRentLedger(result.rows[0]) : undefined;
   }
 
+  async createPayment(payment: RentPayment): Promise<RentPayment> {
+    const result = await this.pool.query(
+      `
+      INSERT INTO rent_payments (
+        id,
+        rent_ledger_id,
+        payment_date,
+        amount,
+        payment_mode,
+        reference_number,
+        notes,
+        created_at
+      )
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+      RETURNING *
+      `,
+      [
+        payment.id,
+        payment.rentLedgerId,
+        payment.paymentDate,
+        payment.amount,
+        payment.paymentMode,
+        payment.referenceNumber ?? null,
+        payment.notes ?? null,
+        payment.createdAt,
+      ],
+    );
+
+    return this.mapRentPayment(result.rows[0]);
+  }
+
+  async listPayments(rentLedgerId: string): Promise<RentPayment[]> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM rent_payments
+      WHERE rent_ledger_id = $1
+        AND deleted_at IS NULL
+      ORDER BY payment_date DESC, created_at DESC
+      `,
+      [rentLedgerId],
+    );
+
+    return result.rows.map((row) => this.mapRentPayment(row));
+  }
+
+  async updateLedgerAmounts(
+    ledgerId: string,
+    amountPaid: number,
+    balanceAmount: number,
+    status: string,
+  ): Promise<void> {
+    await this.pool.query(
+      `
+      UPDATE rent_ledgers
+      SET amount_paid = $2,
+          balance_amount = $3,
+          status = $4,
+          updated_at = now()
+      WHERE id = $1
+        AND deleted_at IS NULL
+      `,
+      [ledgerId, amountPaid, balanceAmount, status],
+    );
+  }
+
   private formatDate(value: Date | string): string {
     if (value instanceof Date) {
       const year = value.getFullYear();
@@ -101,6 +168,19 @@ export class PostgresRentRepository implements RentRepositoryPort {
       status: row.status,
       createdAt: row.created_at,
       updatedAt: row.updated_at,
+    };
+  }
+
+  private mapRentPayment(row: any): RentPayment {
+    return {
+      id: row.id,
+      rentLedgerId: row.rent_ledger_id,
+      paymentDate: this.formatDate(row.payment_date),
+      amount: Number(row.amount),
+      paymentMode: row.payment_mode,
+      referenceNumber: row.reference_number ?? undefined,
+      notes: row.notes ?? undefined,
+      createdAt: row.created_at,
     };
   }
 }

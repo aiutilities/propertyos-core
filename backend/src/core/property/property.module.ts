@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PostgresModule } from '../../database/postgres/postgres.module';
+import { IdentityModule } from '../identity/identity.module';
 
 import { PropertyController } from './controllers/property.controller';
 
@@ -11,7 +12,7 @@ import {
 import { PostgresPropertyRepository } from './repositories/postgres-property.repository';
 
 @Module({
-  imports: [PostgresModule],
+  imports: [PostgresModule, IdentityModule],
   controllers: [PropertyController],
   providers: [
     PropertyService,

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PostgresModule } from '../../database/postgres/postgres.module';
+import { IdentityModule } from '../../core/identity/identity.module';
 
 import { VisitorController } from './visitor.controller';
 import { VisitorService } from './visitor.service';
@@ -7,7 +8,7 @@ import { VISITOR_REPOSITORY } from './repositories/visitor-repository.interface'
 import { PostgresVisitorRepository } from './repositories/postgres-visitor.repository';
 
 @Module({
-  imports: [PostgresModule],
+  imports: [PostgresModule, IdentityModule],
   controllers: [VisitorController],
   providers: [
     VisitorService,

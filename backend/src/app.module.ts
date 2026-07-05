@@ -13,6 +13,7 @@ import { PropertyModule } from './core/property/property.module';
 import { TenantModule } from './core/tenant/tenant.module';
 import { AgreementModule } from './core/agreement/agreement.module';
 import { RentModule } from './core/rent/rent.module';
+import { ReceiptModule } from './core/receipt';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -32,6 +33,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     TenantModule,
     AgreementModule,
     RentModule,
+    ReceiptModule,
     HealthModule,
 
     VisitorModule,

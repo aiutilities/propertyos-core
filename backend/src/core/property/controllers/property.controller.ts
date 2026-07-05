@@ -1,17 +1,21 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import { PropertyService } from '../services/property.service';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { Permissions } from '../../auth/constants/permissions';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { CreatePropertyDto } from '../dto/create-property.dto';
-
-import { CreateZoneDto } from '../dto/create-zone.dto';
-
 import { CreateSpaceDto } from '../dto/create-space.dto';
+import { CreateZoneDto } from '../dto/create-zone.dto';
+import { PropertyService } from '../services/property.service';
 
 @Controller('/properties')
+@UseGuards(JwtAuthGuard, PermissionGuard)
 export class PropertyController {
   constructor(private readonly propertyService: PropertyService) {}
 
+  @RequirePermission(Permissions.PROPERTY_CREATE)
   @Post()
   async createProperty(@Body() dto: CreatePropertyDto) {
     const property = await this.propertyService.createProperty({
@@ -34,11 +38,13 @@ export class PropertyController {
     return this.success(property);
   }
 
+  @RequirePermission(Permissions.PROPERTY_READ)
   @Get()
   async listProperties() {
     return this.success(await this.propertyService.listProperties());
   }
 
+  @RequirePermission(Permissions.PROPERTY_READ)
   @Get('/:id')
   async getProperty(@Param('id') id: string) {
     return this.success(
@@ -46,6 +52,7 @@ export class PropertyController {
     );
   }
 
+  @RequirePermission(Permissions.PROPERTY_CREATE)
   @Post('/:propertyId/zones')
   async createZone(
     @Param('propertyId') propertyId: string,
@@ -66,6 +73,7 @@ export class PropertyController {
     return this.success(zone);
   }
 
+  @RequirePermission(Permissions.PROPERTY_READ)
   @Get('/:propertyId/zones')
   async listZones(
     @Param('propertyId') propertyId: string,
@@ -75,6 +83,7 @@ export class PropertyController {
     );
   }
 
+  @RequirePermission(Permissions.PROPERTY_CREATE)
   @Post('/:propertyId/spaces')
   async createSpace(
     @Param('propertyId') propertyId: string,
@@ -97,6 +106,7 @@ export class PropertyController {
     return this.success(space);
   }
 
+  @RequirePermission(Permissions.PROPERTY_READ)
   @Get('/:propertyId/spaces')
   async listSpaces(
     @Param('propertyId') propertyId: string,

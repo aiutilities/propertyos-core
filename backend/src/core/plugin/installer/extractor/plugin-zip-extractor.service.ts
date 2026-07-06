@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import AdmZip from 'adm-zip';
 import { existsSync, mkdirSync } from 'fs';
-import { basename, join } from 'path';
+import { basename, extname, join } from 'path';
 
 @Injectable()
 export class PluginZipExtractorService {
@@ -14,7 +14,7 @@ export class PluginZipExtractorService {
       process.cwd(),
       'plugins',
       '.installed',
-      basename(zipFile, '.zip'),
+      basename(zipFile, extname(zipFile)),
     );
 
     mkdirSync(output, { recursive: true });

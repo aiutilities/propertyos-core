@@ -17,6 +17,7 @@ import { ReceiptModule } from './core/receipt';
 import { InvoiceModule } from './core/invoice';
 import { WorkflowModule } from './core/workflow';
 import { PluginModule } from './core/plugin';
+import { AdminModule } from './core/admin';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -40,6 +41,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     InvoiceModule,
     WorkflowModule,
     PluginModule,
+    AdminModule,
     HealthModule,
 
     VisitorModule,

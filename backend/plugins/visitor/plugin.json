@@ -1,0 +1,16 @@
+{
+  "id": "visitor",
+  "name": "VisitorOS",
+  "version": "0.1.0",
+  "provider": "PropertyOS",
+  "description": "Visitor management plugin for PropertyOS",
+  "enabled": true,
+  "bootstrap": "./bootstrap",
+  "permissions": [],
+  "workflows": [],
+  "notifications": [],
+  "documents": [],
+  "search": [],
+  "configuration": [],
+  "scheduler": []
+}

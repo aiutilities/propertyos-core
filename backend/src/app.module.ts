@@ -22,6 +22,7 @@ import { ThemeModule } from './core/theme';
 import { CredentialModule } from './core/credential';
 import { AiModule } from './core/ai';
 import { DistributionModule } from './core/distribution';
+import { IntegrationModule } from './core/integration';
 import { FormsModule } from './core/forms';
 import { DocumentModule } from './core/document';
 import { SearchModule } from './core/search';
@@ -57,6 +58,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     CredentialModule,
     AiModule,
     DistributionModule,
+    IntegrationModule,
     FormsModule,
     DocumentModule,
     SearchModule,

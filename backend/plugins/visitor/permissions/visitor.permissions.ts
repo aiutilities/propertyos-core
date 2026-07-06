@@ -1,4 +1,4 @@
-import { definePermissions } from '../../src/core/plugin/sdk';
+import { definePermissions } from '../../../src/core/plugin/sdk';
 
 export const visitorPermissions = definePermissions([
   {

@@ -1,4 +1,4 @@
-import { defineNotifications } from '../../src/core/plugin/sdk';
+import { defineNotifications } from '../../../src/core/plugin/sdk';
 
 export const visitorNotifications = defineNotifications([
   {

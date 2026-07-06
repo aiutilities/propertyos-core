@@ -5,6 +5,8 @@
   "provider": "PropertyOS",
   "description": "Visitor management plugin for PropertyOS",
   "enabled": true,
+  "minimumPlatformVersion": "0.1.0",
+  "dependencies": [],
   "bootstrap": "./bootstrap",
   "permissions": [
     "./permissions/visitor.permissions"

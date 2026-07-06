@@ -1,4 +1,4 @@
-import { defineWorkflows } from '../../src/core/plugin/sdk';
+import { defineWorkflows } from '../../../src/core/plugin/sdk';
 
 export const visitorWorkflows = defineWorkflows([
   {

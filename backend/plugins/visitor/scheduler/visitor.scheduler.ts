@@ -1,4 +1,4 @@
-import { defineScheduler } from '../../src/core/plugin/sdk';
+import { defineScheduler } from '../../../src/core/plugin/sdk';
 
 export const visitorSchedulerHandlers = defineScheduler([
   {

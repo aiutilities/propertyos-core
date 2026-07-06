@@ -1,4 +1,4 @@
-import { defineConfiguration } from '../../src/core/plugin/sdk';
+import { defineConfiguration } from '../../../src/core/plugin/sdk';
 
 export const visitorConfiguration = defineConfiguration([
   {

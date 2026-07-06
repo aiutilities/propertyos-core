@@ -1,4 +1,4 @@
-import { defineSearchProviders } from '../../src/core/plugin/sdk';
+import { defineSearchProviders } from '../../../src/core/plugin/sdk';
 
 export const visitorSearchProviders = defineSearchProviders([
   {

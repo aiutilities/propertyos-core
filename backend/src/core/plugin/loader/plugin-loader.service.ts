@@ -22,6 +22,8 @@ type CapabilityKey =
   | 'scheduler'
   | 'routes';
 
+const PLATFORM_VERSION = '0.1.0';
+
 @Injectable()
 export class PluginLoaderService {
   private readonly logger = new Logger(PluginLoaderService.name);
@@ -49,9 +51,9 @@ export class PluginLoaderService {
       .filter((entry) => entry.isDirectory())
       .map((entry) => entry.name);
 
-    await Promise.all(
-      pluginFolders.map((folder) => this.loadPlugin(join(pluginsRoot, folder))),
-    );
+    for (const folder of pluginFolders) {
+      await this.loadPlugin(join(pluginsRoot, folder));
+    }
 
     return this.listPlugins();
   }
@@ -71,11 +73,41 @@ export class PluginLoaderService {
       const rawManifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
       const manifest = validatePluginManifest(rawManifest);
 
+      const platformValidation = this.validatePlatformVersion(manifest);
+      const dependencyValidation = this.validateDependencies(manifest);
+      const validationErrors = [
+        ...platformValidation.errors,
+        ...dependencyValidation.errors,
+      ];
+
+      const validation = {
+        compatible: platformValidation.compatible,
+        dependenciesSatisfied: dependencyValidation.dependenciesSatisfied,
+        errors: validationErrors,
+      };
+
       if (manifest.enabled === false) {
         this.plugins.set(manifest.id, {
           manifest,
           status: 'DISABLED',
+          validation,
+          loadReport: ['Manifest validated', 'Plugin disabled'],
         });
+        return;
+      }
+
+      if (!validation.compatible || !validation.dependenciesSatisfied) {
+        this.plugins.set(manifest.id, {
+          manifest,
+          status: 'FAILED',
+          error: validation.errors.join(', '),
+          validation,
+          loadReport: this.buildLoadReport(manifest, validation, {}),
+        });
+
+        this.logger.error(
+          `Plugin failed validation: ${manifest.name} (${manifest.id}) - ${validation.errors.join(', ')}`,
+        );
         return;
       }
 
@@ -98,6 +130,16 @@ export class PluginLoaderService {
       this.plugins.set(manifest.id, {
         manifest,
         status: 'ACTIVE',
+        validation,
+        loadReport: this.buildLoadReport(manifest, validation, {
+          permissions,
+          workflows,
+          notifications,
+          documents,
+          configuration,
+          scheduler,
+          search,
+        }),
       });
 
       this.logger.log(`Plugin active: ${manifest.name} (${manifest.id})`);
@@ -114,10 +156,115 @@ export class PluginLoaderService {
         },
         status: 'FAILED',
         error: message,
+        validation: {
+          compatible: false,
+          dependenciesSatisfied: false,
+          errors: [message],
+        },
+        loadReport: ['Plugin load failed', message],
       });
 
       this.logger.error(`Plugin failed: ${pluginPath} - ${message}`);
     }
+  }
+
+  private validatePlatformVersion(manifest: PluginManifest): {
+    compatible: boolean;
+    errors: string[];
+  } {
+    const requiredVersion = manifest.minimumPlatformVersion;
+
+    if (!requiredVersion || this.compareVersions(PLATFORM_VERSION, requiredVersion) >= 0) {
+      return {
+        compatible: true,
+        errors: [],
+      };
+    }
+
+    return {
+      compatible: false,
+      errors: [
+        `Plugin requires platform ${requiredVersion}, current platform is ${PLATFORM_VERSION}`,
+      ],
+    };
+  }
+
+  private validateDependencies(manifest: PluginManifest): {
+    dependenciesSatisfied: boolean;
+    errors: string[];
+  } {
+    const dependencies = manifest.dependencies ?? [];
+    const errors: string[] = [];
+
+    for (const dependency of dependencies) {
+      if (!this.plugins.has(dependency)) {
+        errors.push(`Missing plugin dependency: ${dependency}`);
+      }
+    }
+
+    return {
+      dependenciesSatisfied: errors.length === 0,
+      errors,
+    };
+  }
+
+  private buildLoadReport(
+    manifest: PluginManifest,
+    validation: {
+      compatible: boolean;
+      dependenciesSatisfied: boolean;
+      errors: string[];
+    },
+    capabilities: Partial<Record<CapabilityKey, unknown[]>>,
+  ): string[] {
+    const report = ['Manifest validated'];
+
+    report.push(
+      validation.compatible ? 'Platform compatible' : 'Platform incompatible',
+    );
+
+    report.push(
+      validation.dependenciesSatisfied
+        ? 'Dependencies satisfied'
+        : 'Dependencies missing',
+    );
+
+    if (validation.errors.length) {
+      report.push(...validation.errors);
+      return report;
+    }
+
+    report.push(`Permissions loaded: ${capabilities.permissions?.length ?? 0}`);
+    report.push(`Workflows loaded: ${capabilities.workflows?.length ?? 0}`);
+    report.push(`Notifications loaded: ${capabilities.notifications?.length ?? 0}`);
+    report.push(`Documents loaded: ${capabilities.documents?.length ?? 0}`);
+    report.push(`Configuration loaded: ${capabilities.configuration?.length ?? 0}`);
+    report.push(`Scheduler loaded: ${capabilities.scheduler?.length ?? 0}`);
+    report.push(`Search loaded: ${capabilities.search?.length ?? 0}`);
+    report.push(`Plugin active: ${manifest.id}`);
+
+    return report;
+  }
+
+  private compareVersions(current: string, required: string): number {
+    const currentParts = current.split('.').map((part) => Number(part));
+    const requiredParts = required.split('.').map((part) => Number(part));
+    const maxLength = Math.max(currentParts.length, requiredParts.length);
+
+    for (let index = 0; index < maxLength; index += 1) {
+      const currentValue = currentParts[index] ?? 0;
+      const requiredValue = requiredParts[index] ?? 0;
+
+      if (currentValue > requiredValue) {
+        return 1;
+      }
+
+      if (currentValue < requiredValue) {
+        return -1;
+      }
+    }
+
+    return 0;
   }
 
   private async loadCapability(

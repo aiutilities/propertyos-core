@@ -6,6 +6,14 @@ export interface PluginRegistryEntry {
   manifest: PluginManifest;
   status: PluginStatus;
   error?: string;
+
+  validation?: {
+    compatible: boolean;
+    dependenciesSatisfied: boolean;
+    errors: string[];
+  };
+
+  loadReport?: string[];
 }
 
 export interface PluginContext {

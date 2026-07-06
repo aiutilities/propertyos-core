@@ -103,6 +103,8 @@ export class PluginService implements OnModuleInit {
         search: this.searchRegistry.findByPlugin(entry.manifest.id).length,
       },
       error: entry.error,
+      validation: entry.validation,
+      loadReport: entry.loadReport,
     }));
   }
 }

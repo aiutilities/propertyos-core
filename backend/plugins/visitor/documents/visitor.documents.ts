@@ -1,4 +1,4 @@
-import { defineDocuments } from '../../src/core/plugin/sdk';
+import { defineDocuments } from '../../../src/core/plugin/sdk';
 
 export const visitorDocumentTemplates = defineDocuments([
   {

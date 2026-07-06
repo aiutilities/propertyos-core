@@ -1,3 +1,9 @@
+import { PluginMigrationRunnerService } from './installer/migration/plugin-migration-runner.service';
+import { PluginDependencyResolverService } from './installer/dependency/plugin-dependency-resolver.service';
+import { PluginPackageValidatorService } from './installer/validator/plugin-package-validator.service';
+import { PluginPackageExtractorService } from './installer/archive/plugin-package-extractor.service';
+import { PluginInstallerService } from './installer/services/plugin-installer.service';
+import { PluginInstallerController } from './installer/controllers/plugin-installer.controller';
 import { Module } from '@nestjs/common';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { IdentityModule } from '../identity/identity.module';
@@ -30,6 +36,11 @@ import { PluginMarketplaceService } from './marketplace/services/plugin-marketpl
   imports: [EventBusModule, IdentityModule, PostgresModule],
   controllers: [PluginController, PluginPackageController, PluginMarketplaceController],
   providers: [
+    PluginInstallerService,
+    PluginPackageExtractorService,
+    PluginPackageValidatorService,
+    PluginDependencyResolverService,
+    PluginMigrationRunnerService,
     PluginService,
     {
       provide: PLUGIN_REPOSITORY,

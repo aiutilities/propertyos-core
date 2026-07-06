@@ -5,13 +5,18 @@ import {
   PluginPackage,
   PluginPackageManifest,
 } from '../types/plugin-package.types';
+import { PluginPackageValidator } from '../validator/plugin-package.validator';
+import { PluginPackageArchiveService } from '../archive/plugin-package-archive.service';
 
 @Injectable()
 export class PluginPackageService {
   private readonly packages = new Map<string, PluginPackage>();
+  private readonly validator = new PluginPackageValidator();
+  private readonly archive = new PluginPackageArchiveService();
 
   register(dto: RegisterPluginPackageDto): PluginPackage {
-    const validationErrors = this.validateManifest(dto.manifest);
+    const validation = this.validator.validateManifest(dto.manifest);
+    const files = dto.sourcePath ? this.archive.listFiles(dto.sourcePath) : [];
 
     const pluginPackage: PluginPackage = {
       id: randomUUID(),
@@ -19,8 +24,10 @@ export class PluginPackageService {
       version: dto.version,
       manifest: dto.manifest,
       sourcePath: dto.sourcePath,
-      status: validationErrors.length ? 'FAILED' : 'VALIDATED',
-      validationErrors,
+      status: validation.valid ? 'VALIDATED' : 'FAILED',
+      files,
+      validationErrors: validation.errors,
+      validationWarnings: validation.warnings,
       createdAt: new Date(),
     };
 
@@ -44,28 +51,17 @@ export class PluginPackageService {
       return undefined;
     }
 
-    const validationErrors = this.validateManifest(pluginPackage.manifest);
+    const validation = this.validator.validateManifest(pluginPackage.manifest);
 
     const updated: PluginPackage = {
       ...pluginPackage,
-      validationErrors,
-      status: validationErrors.length ? 'FAILED' : 'VALIDATED',
+      validationErrors: validation.errors,
+      validationWarnings: validation.warnings,
+      status: validation.valid ? 'VALIDATED' : 'FAILED',
     };
 
     this.packages.set(id, updated);
 
     return updated;
-  }
-
-  private validateManifest(manifest: PluginPackageManifest): string[] {
-    const errors: string[] = [];
-
-    for (const field of ['id', 'name', 'version'] as const) {
-      if (!manifest[field]) {
-        errors.push(`Missing required manifest field: ${field}`);
-      }
-    }
-
-    return errors;
   }
 }

@@ -39,6 +39,15 @@ import { PluginSearchRegistry } from './registries/plugin-search.registry';
     PluginSchedulerRegistry,
     PluginSearchRegistry,
   ],
-  exports: [PluginService],
+  exports: [
+    PluginService,
+    PluginWorkflowRegistry,
+    PluginPermissionRegistry,
+    PluginNotificationRegistry,
+    PluginDocumentRegistry,
+    PluginConfigurationRegistry,
+    PluginSchedulerRegistry,
+    PluginSearchRegistry,
+  ],
 })
 export class PluginModule {}

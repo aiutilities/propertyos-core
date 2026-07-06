@@ -3,6 +3,8 @@ import { Inject, Injectable, NotFoundException, BadRequestException } from '@nes
 import { CreateWorkflowDefinitionDto } from '../dto/create-workflow-definition.dto';
 import { StartWorkflowDto } from '../dto/start-workflow.dto';
 import { TransitionWorkflowDto } from '../dto/transition-workflow.dto';
+import { StartWorkflowByCodeDto } from '../dto/start-workflow-by-code.dto';
+import { TransitionWorkflowByEntityDto } from '../dto/transition-workflow-by-entity.dto';
 import {
   WORKFLOW_REPOSITORY,
   WorkflowRepository,
@@ -50,6 +52,78 @@ export class WorkflowService {
       states,
       transitions,
     };
+  }
+
+
+  async getDefinitionByCode(code: string) {
+    const definition = await this.workflowRepository.findDefinitionByCode(code);
+
+    if (!definition) {
+      throw new NotFoundException('Workflow definition not found');
+    }
+
+    const states = await this.workflowRepository.listStates(definition.id);
+    const transitions = await this.workflowRepository.listTransitions(definition.id);
+
+    return {
+      ...definition,
+      states,
+      transitions,
+    };
+  }
+
+  async getInstanceByEntity(entityType: string, entityId: string) {
+    const instance = await this.workflowRepository.findInstanceByEntity(
+      entityType,
+      entityId,
+    );
+
+    if (!instance) {
+      throw new NotFoundException('Workflow instance not found');
+    }
+
+    const history = await this.workflowRepository.listHistory(instance.id);
+
+    return {
+      ...instance,
+      history,
+    };
+  }
+
+  async startWorkflowByCode(dto: StartWorkflowByCodeDto) {
+    const definition = await this.workflowRepository.findDefinitionByCode(
+      dto.workflowCode,
+    );
+
+    if (!definition) {
+      throw new NotFoundException('Workflow definition not found');
+    }
+
+    return this.startWorkflow({
+      workflowDefinitionId: definition.id,
+      entityType: dto.entityType,
+      entityId: dto.entityId,
+      createdBy: dto.createdBy,
+      metadata: dto.metadata,
+    });
+  }
+
+  async transitionWorkflowByEntity(dto: TransitionWorkflowByEntityDto) {
+    const instance = await this.workflowRepository.findInstanceByEntity(
+      dto.entityType,
+      dto.entityId,
+    );
+
+    if (!instance) {
+      throw new NotFoundException('Workflow instance not found');
+    }
+
+    return this.transitionWorkflow(instance.id, {
+      actionCode: dto.actionCode,
+      actorId: dto.actorId,
+      notes: dto.notes,
+      metadata: dto.metadata,
+    });
   }
 
   async startWorkflow(dto: StartWorkflowDto) {

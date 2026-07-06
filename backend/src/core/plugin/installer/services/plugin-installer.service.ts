@@ -3,6 +3,8 @@ import { EventBusService } from '../../../eventbus/services/eventbus.service';
 import { PluginService } from '../../services/plugin.service';
 import { PluginPackageService } from '../../package/services/plugin-package.service';
 import { PluginPackageExtractorService } from '../archive/plugin-package-extractor.service';
+import { PluginDiscoveryService } from '../discovery/plugin-discovery.service';
+import { PluginInstallationRollbackService } from '../rollback/plugin-installation-rollback.service';
 import { PluginDependencyResolverService } from '../dependency/plugin-dependency-resolver.service';
 import { InstallPluginPackageDto } from '../dto/install-plugin-package.dto';
 import { PluginMigrationRunnerService } from '../migration/plugin-migration-runner.service';
@@ -16,6 +18,8 @@ export class PluginInstallerService {
 
   constructor(
     private readonly extractor: PluginPackageExtractorService,
+    private readonly discovery: PluginDiscoveryService,
+    private readonly rollbackService: PluginInstallationRollbackService,
     private readonly validator: PluginPackageValidatorService,
     private readonly dependencyResolver: PluginDependencyResolverService,
     private readonly migrationRunner: PluginMigrationRunnerService,
@@ -39,79 +43,109 @@ export class PluginInstallerService {
       },
     );
 
-    const extractedPath = await this.extractor.extract(dto.packagePath);
+    let extractedPath: string | undefined;
 
-    const manifest = this.manifestService.discover(extractedPath);
+    try {
+      extractedPath = await this.extractor.extract(dto.packagePath);
+      const pluginRoot = this.discovery.discover(extractedPath);
 
-    const validationErrors = await this.validator.validate(extractedPath);
+      const manifest = this.manifestService.discover(pluginRoot);
 
-    if (validationErrors.length) {
-      return {
-        success: false,
-        stage: 'FAILED',
+      const validationErrors = await this.validator.validate(pluginRoot);
+
+      if (validationErrors.length) {
+        return {
+          success: false,
+          stage: 'FAILED',
+          manifest: this.manifestService.toInstalledManifest(manifest),
+          messages: validationErrors,
+          error: 'PLUGIN_VALIDATION_FAILED',
+        };
+      }
+
+      const pluginPackage = this.pluginPackageService.register({
+        packageName: manifest.name,
+        version: manifest.version,
+        manifest: this.manifestService.toPackageManifest(manifest),
+        sourcePath: pluginRoot,
+      });
+
+      if (pluginPackage.status === 'FAILED') {
+        return {
+          success: false,
+          stage: 'FAILED',
+          manifest: this.manifestService.toInstalledManifest(manifest),
+          messages: [
+            ...pluginPackage.validationErrors,
+            ...pluginPackage.validationWarnings,
+          ],
+          error: 'PLUGIN_PACKAGE_VALIDATION_FAILED',
+        };
+      }
+
+      await this.dependencyResolver.resolve();
+      await this.migrationRunner.run();
+
+      const installation = await this.pluginService.install({
         manifest: this.manifestService.toInstalledManifest(manifest),
-        messages: validationErrors,
-        error: 'PLUGIN_VALIDATION_FAILED',
-      };
-    }
+      });
 
-    const pluginPackage = this.pluginPackageService.register({
-      packageName: manifest.name,
-      version: manifest.version,
-      manifest: this.manifestService.toPackageManifest(manifest),
-      sourcePath: extractedPath,
-    });
+      if (dto.autoEnable !== false) {
+        await this.pluginService.activate(installation.plugin.id);
+      }
 
-    if (pluginPackage.status === 'FAILED') {
+      await this.eventBus.publish(
+        'plugin.installation.completed',
+        this.eventSource,
+        {
+          packagePath: dto.packagePath,
+          pluginRoot,
+          pluginId: installation.plugin.id,
+          packageId: pluginPackage.id,
+          autoEnabled: dto.autoEnable !== false,
+        },
+      );
+
       return {
-        success: false,
-        stage: 'FAILED',
+        success: true,
+        stage: 'COMPLETE',
         manifest: this.manifestService.toInstalledManifest(manifest),
+        installedPluginId: installation.plugin.id,
         messages: [
-          ...pluginPackage.validationErrors,
-          ...pluginPackage.validationWarnings,
+          'Plugin extracted',
+          'Plugin root discovered',
+          'Manifest discovered',
+          'Plugin package registered',
+          'Plugin validated',
+          'Dependencies resolved',
+          'Migrations executed',
+          'Plugin installed',
+          dto.autoEnable !== false ? 'Plugin activated' : 'Plugin left inactive',
         ],
-        error: 'PLUGIN_PACKAGE_VALIDATION_FAILED',
+      };
+    } catch (error) {
+      if (extractedPath) {
+        this.rollbackService.rollback(extractedPath);
+      }
+
+      const message = error instanceof Error ? error.message : 'Unknown plugin installation error';
+
+      await this.eventBus.publish(
+        'plugin.installation.failed',
+        this.eventSource,
+        {
+          packagePath: dto.packagePath,
+          extractedPath,
+          error: message,
+        },
+      );
+
+      return {
+        success: false,
+        stage: 'FAILED',
+        messages: [message],
+        error: 'PLUGIN_INSTALLATION_FAILED',
       };
     }
-
-    await this.dependencyResolver.resolve();
-    await this.migrationRunner.run();
-
-    const installation = await this.pluginService.install({
-      manifest: this.manifestService.toInstalledManifest(manifest),
-    });
-
-    if (dto.autoEnable !== false) {
-      await this.pluginService.activate(installation.plugin.id);
-    }
-
-    await this.eventBus.publish(
-      'plugin.installation.completed',
-      this.eventSource,
-      {
-        packagePath: dto.packagePath,
-        pluginId: installation.plugin.id,
-        packageId: pluginPackage.id,
-        autoEnabled: dto.autoEnable !== false,
-      },
-    );
-
-    return {
-      success: true,
-      stage: 'COMPLETE',
-      manifest: this.manifestService.toInstalledManifest(manifest),
-      installedPluginId: installation.plugin.id,
-      messages: [
-        'Plugin extracted',
-        'Manifest discovered',
-        'Plugin package registered',
-        'Plugin validated',
-        'Dependencies resolved',
-        'Migrations executed',
-        'Plugin installed',
-        dto.autoEnable !== false ? 'Plugin activated' : 'Plugin left inactive',
-      ],
-    };
   }
 }

@@ -6,11 +6,25 @@
   "description": "Visitor management plugin for PropertyOS",
   "enabled": true,
   "bootstrap": "./bootstrap",
-  "permissions": [],
-  "workflows": [],
-  "notifications": [],
-  "documents": [],
-  "search": [],
-  "configuration": [],
-  "scheduler": []
+  "permissions": [
+    "./permissions/visitor.permissions"
+  ],
+  "workflows": [
+    "./workflow/visitor.workflow"
+  ],
+  "notifications": [
+    "./notifications/visitor.notifications"
+  ],
+  "documents": [
+    "./documents/visitor.documents"
+  ],
+  "search": [
+    "./search/visitor.search"
+  ],
+  "configuration": [
+    "./configuration/visitor.configuration"
+  ],
+  "scheduler": [
+    "./scheduler/visitor.scheduler"
+  ]
 }

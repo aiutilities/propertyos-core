@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { existsSync, readdirSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { validatePluginManifest } from '../manifest/plugin-manifest.validator';
+import { PluginManifest } from '../manifest/plugin-manifest.interface';
 import { PluginRegistryEntry } from '../types/plugin-runtime.types';
 import { PluginWorkflowRegistry } from '../registries/plugin-workflow.registry';
 import { PluginPermissionRegistry } from '../registries/plugin-permission.registry';
@@ -10,6 +11,16 @@ import { PluginDocumentRegistry } from '../registries/plugin-document.registry';
 import { PluginConfigurationRegistry } from '../registries/plugin-configuration.registry';
 import { PluginSchedulerRegistry } from '../registries/plugin-scheduler.registry';
 import { PluginSearchRegistry } from '../registries/plugin-search.registry';
+
+type CapabilityKey =
+  | 'permissions'
+  | 'workflows'
+  | 'notifications'
+  | 'documents'
+  | 'search'
+  | 'configuration'
+  | 'scheduler'
+  | 'routes';
 
 @Injectable()
 export class PluginLoaderService {
@@ -39,7 +50,7 @@ export class PluginLoaderService {
       .map((entry) => entry.name);
 
     for (const folder of pluginFolders) {
-      this.loadPlugin(join(pluginsRoot, folder));
+      void this.loadPlugin(join(pluginsRoot, folder));
     }
 
     return this.listPlugins();
@@ -49,7 +60,7 @@ export class PluginLoaderService {
     return Array.from(this.plugins.values());
   }
 
-  private loadPlugin(pluginPath: string): void {
+  private async loadPlugin(pluginPath: string): Promise<void> {
     try {
       const manifestPath = join(pluginPath, 'plugin.json');
 
@@ -68,13 +79,21 @@ export class PluginLoaderService {
         return;
       }
 
-      this.permissionRegistry.register(manifest.id, manifest.permissions ?? []);
-      this.workflowRegistry.register(manifest.id, manifest.workflows ?? []);
-      this.notificationRegistry.register(manifest.id, manifest.notifications ?? []);
-      this.documentRegistry.register(manifest.id, manifest.documents ?? []);
-      this.configurationRegistry.register(manifest.id, manifest.configuration ?? []);
-      this.schedulerRegistry.register(manifest.id, manifest.scheduler ?? []);
-      this.searchRegistry.register(manifest.id, manifest.search ?? []);
+      const permissions = await this.loadCapability(pluginPath, manifest, 'permissions');
+      const workflows = await this.loadCapability(pluginPath, manifest, 'workflows');
+      const notifications = await this.loadCapability(pluginPath, manifest, 'notifications');
+      const documents = await this.loadCapability(pluginPath, manifest, 'documents');
+      const configuration = await this.loadCapability(pluginPath, manifest, 'configuration');
+      const scheduler = await this.loadCapability(pluginPath, manifest, 'scheduler');
+      const search = await this.loadCapability(pluginPath, manifest, 'search');
+
+      this.permissionRegistry.register(manifest.id, permissions);
+      this.workflowRegistry.register(manifest.id, workflows);
+      this.notificationRegistry.register(manifest.id, notifications);
+      this.documentRegistry.register(manifest.id, documents);
+      this.configurationRegistry.register(manifest.id, configuration);
+      this.schedulerRegistry.register(manifest.id, scheduler);
+      this.searchRegistry.register(manifest.id, search);
 
       this.plugins.set(manifest.id, {
         manifest,
@@ -99,5 +118,52 @@ export class PluginLoaderService {
 
       this.logger.error(`Plugin failed: ${pluginPath} - ${message}`);
     }
+  }
+
+  private async loadCapability(
+    pluginPath: string,
+    manifest: PluginManifest,
+    key: CapabilityKey,
+  ): Promise<unknown[]> {
+    const entries = manifest[key];
+
+    if (!Array.isArray(entries)) {
+      return [];
+    }
+
+    const loaded: unknown[] = [];
+
+    for (const entry of entries) {
+      if (typeof entry !== 'string') {
+        loaded.push(entry);
+        continue;
+      }
+
+      const modulePath = resolve(pluginPath, entry);
+      const candidates = [
+        `${modulePath}.ts`,
+        `${modulePath}.js`,
+        modulePath,
+      ];
+
+      const existingPath = candidates.find((candidate) => existsSync(candidate));
+
+      if (!existingPath) {
+        throw new Error(`Capability file not found for ${key}: ${entry}`);
+      }
+
+      // ts-node supports requiring .ts files in this runtime.
+      // Later, production plugin packages can point to compiled .js files.
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const imported = require(existingPath);
+
+      for (const value of Object.values(imported)) {
+        if (Array.isArray(value)) {
+          loaded.push(...value);
+        }
+      }
+    }
+
+    return loaded;
   }
 }

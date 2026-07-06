@@ -13,6 +13,7 @@ export interface VisitorRepositoryPort {
   findQrPassByToken(qrToken: string): Promise<any>;
   findVisitById(visitId: string): Promise<any>;
   listVisits(filters: Record<string, unknown>): Promise<any>;
+  searchVisits(query: string, limit?: number): Promise<any[]>;
   createStatusHistory(data: Record<string, unknown>): Promise<any>;
   getVisitHistory(visitId: string): Promise<any>;
   getSettings(propertyId?: string): Promise<any>;

@@ -222,6 +222,37 @@ export class PostgresVisitorRepository implements VisitorRepositoryPort {
     };
   }
 
+
+  async searchVisits(query: string, limit = 25) {
+    const normalizedQuery = `%${query.trim()}%`;
+
+    const result = await this.pool.query(
+      `
+      SELECT
+        v.*,
+        vr.full_name AS visitor_full_name,
+        vr.mobile AS visitor_mobile,
+        vr.email AS visitor_email
+      FROM visits v
+      INNER JOIN visitors vr
+        ON vr.id = v.visitor_id
+      WHERE v.deleted_at IS NULL
+      AND (
+        vr.full_name ILIKE $1
+        OR vr.mobile ILIKE $1
+        OR COALESCE(vr.email, '') ILIKE $1
+        OR COALESCE(v.visit_purpose, '') ILIKE $1
+        OR v.status ILIKE $1
+      )
+      ORDER BY v.created_at DESC
+      LIMIT $2
+      `,
+      [normalizedQuery, limit],
+    );
+
+    return result.rows.map((row) => this.mapVisitWithVisitor(row));
+  }
+
   async createStatusHistory(data: Record<string, unknown>) {
     const result = await this.pool.query(
       `

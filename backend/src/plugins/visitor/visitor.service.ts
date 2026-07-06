@@ -323,6 +323,11 @@ export class VisitorService {
     return this.visitorRepository.findVisitById(visitId);
   }
 
+
+  async searchVisits(query: string, limit?: number) {
+    return this.visitorRepository.searchVisits(query, limit);
+  }
+
   async listVisits(filters: Record<string, unknown>) {
     return this.visitorRepository.listVisits(filters);
   }

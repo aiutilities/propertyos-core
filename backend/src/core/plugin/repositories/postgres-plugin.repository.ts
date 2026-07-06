@@ -113,6 +113,10 @@ export class PostgresPluginRepository
     );
   }
 
+  async remove(id: string): Promise<void> {
+    await this.delete(id);
+  }
+
   private map(row: any): PluginEntity {
     return {
       id: row.id,

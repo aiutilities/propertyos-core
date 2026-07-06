@@ -7,4 +7,5 @@ export interface PluginRepository {
   findByName(name: string): Promise<PluginEntity | null>;
   update(id: string, plugin: Partial<PluginEntity>): Promise<PluginEntity>;
   delete(id: string): Promise<void>;
+  remove(id: string): Promise<void>;
 }

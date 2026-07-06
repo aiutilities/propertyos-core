@@ -1,7 +1,9 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { PlatformEventNames } from '../../platform';
 import { CreatePluginDto } from '../dto/create-plugin.dto';
+import { UpgradePluginDto } from '../dto/upgrade-plugin.dto';
+import { RollbackPluginDto } from '../dto/rollback-plugin.dto';
 import { PluginLoaderService } from '../loader/plugin-loader.service';
 import { PluginWorkflowRegistry } from '../registries/plugin-workflow.registry';
 import { PluginPermissionRegistry } from '../registries/plugin-permission.registry';
@@ -79,7 +81,9 @@ export class PluginService implements OnModuleInit {
   }
 
   async activate(id: string) {
-    const plugin = await this.pluginRepository.update(id, {
+    const plugin = await this.requireInstalledPlugin(id);
+
+    const updated = await this.pluginRepository.update(plugin.id, {
       status: 'ACTIVE',
       activatedAt: new Date(),
     });
@@ -87,14 +91,16 @@ export class PluginService implements OnModuleInit {
     await this.eventBus.publish(
       PlatformEventNames.PLUGIN_ACTIVATED,
       this.eventSource,
-      { id },
+      { id: plugin.id },
     );
 
-    return { success: true, plugin, status: 'ACTIVE' };
+    return { success: true, plugin: updated, status: 'ACTIVE' };
   }
 
   async deactivate(id: string) {
-    const plugin = await this.pluginRepository.update(id, {
+    const plugin = await this.requireInstalledPlugin(id);
+
+    const updated = await this.pluginRepository.update(plugin.id, {
       status: 'INACTIVE',
       deactivatedAt: new Date(),
     });
@@ -102,14 +108,16 @@ export class PluginService implements OnModuleInit {
     await this.eventBus.publish(
       PlatformEventNames.PLUGIN_DEACTIVATED,
       this.eventSource,
-      { id },
+      { id: plugin.id },
     );
 
-    return { success: true, plugin, status: 'INACTIVE' };
+    return { success: true, plugin: updated, status: 'INACTIVE' };
   }
 
   async uninstall(id: string) {
-    const plugin = await this.pluginRepository.update(id, {
+    const plugin = await this.requireInstalledPlugin(id);
+
+    const updated = await this.pluginRepository.update(plugin.id, {
       status: 'UNINSTALLED',
       deactivatedAt: new Date(),
     });
@@ -117,14 +125,139 @@ export class PluginService implements OnModuleInit {
     await this.eventBus.publish(
       PlatformEventNames.PLUGIN_UNINSTALLED,
       this.eventSource,
-      { id },
+      { id: plugin.id },
     );
 
-    return { success: true, plugin, status: 'UNINSTALLED' };
+    return { success: true, plugin: updated, status: 'UNINSTALLED' };
+  }
+
+  async remove(id: string) {
+    const plugin = await this.requireInstalledPlugin(id);
+
+    await this.pluginRepository.remove(plugin.id);
+
+    return {
+      success: true,
+      id: plugin.id,
+      status: 'REMOVED',
+    };
+  }
+
+  async upgrade(id: string, dto: UpgradePluginDto) {
+    const plugin = await this.requireInstalledPlugin(id);
+
+    const nextManifest = dto.manifest ?? {
+      ...plugin.manifest,
+      version: dto.version,
+    };
+
+    const updated = await this.pluginRepository.update(plugin.id, {
+      version: dto.version,
+      manifest: nextManifest,
+      status: 'INSTALLED',
+      deactivatedAt: new Date(),
+    });
+
+    await this.eventBus.publish(
+      'plugin.upgraded',
+      this.eventSource,
+      {
+        id: plugin.id,
+        fromVersion: plugin.version,
+        toVersion: dto.version,
+        notes: dto.notes,
+      },
+    );
+
+    return {
+      success: true,
+      plugin: updated,
+      status: 'UPGRADED',
+    };
+  }
+
+  async rollback(id: string, dto: RollbackPluginDto) {
+    const plugin = await this.requireInstalledPlugin(id);
+
+    const nextManifest = {
+      ...plugin.manifest,
+      version: dto.targetVersion,
+    };
+
+    const updated = await this.pluginRepository.update(plugin.id, {
+      version: dto.targetVersion,
+      manifest: nextManifest,
+      status: 'INSTALLED',
+      deactivatedAt: new Date(),
+    });
+
+    await this.eventBus.publish(
+      'plugin.rolled_back',
+      this.eventSource,
+      {
+        id: plugin.id,
+        fromVersion: plugin.version,
+        toVersion: dto.targetVersion,
+        notes: dto.notes,
+      },
+    );
+
+    return {
+      success: true,
+      plugin: updated,
+      status: 'ROLLED_BACK',
+    };
   }
 
   async installedPlugins() {
     return this.pluginRepository.findAll();
+  }
+
+  async getInstalledPlugin(id: string) {
+    return this.requireInstalledPlugin(id);
+  }
+
+  async getPluginDiagnostics(id: string) {
+    const plugin = await this.getRuntimePlugin(id);
+
+    return {
+      id: plugin.id,
+      name: plugin.name,
+      status: plugin.status,
+      validation: plugin.validation,
+      loadReport: plugin.loadReport,
+      error: plugin.error,
+    };
+  }
+
+  async getPluginCapabilities(id: string) {
+    const plugin = await this.getRuntimePlugin(id);
+
+    return {
+      id: plugin.id,
+      name: plugin.name,
+      capabilities: plugin.capabilities,
+      permissions: this.permissionRegistry.findByPlugin(plugin.id),
+      workflows: this.workflowRegistry.findByPlugin(plugin.id),
+      notifications: this.notificationRegistry.findByPlugin(plugin.id),
+      documents: this.documentRegistry.findByPlugin(plugin.id),
+      configuration: this.configurationRegistry.findByPlugin(plugin.id),
+      scheduler: this.schedulerRegistry.findByPlugin(plugin.id),
+      search: this.searchRegistry.findByPlugin(plugin.id),
+    };
+  }
+
+  async getPluginLifecycle(id: string) {
+    const installed = await this.requireInstalledPlugin(id);
+
+    return {
+      id: installed.id,
+      name: installed.name,
+      status: installed.status,
+      installedAt: installed.installedAt,
+      activatedAt: installed.activatedAt,
+      deactivatedAt: installed.deactivatedAt,
+    };
   }
 
   async list() {
@@ -165,6 +298,30 @@ export class PluginService implements OnModuleInit {
         installedStatus: persisted?.status,
       };
     });
+  }
+
+  private async getRuntimePlugin(id: string) {
+    await this.ensurePluginsLoaded();
+
+    const plugin = (await this.list()).find(
+      (item) => item.id === id || item.installedPluginId === id,
+    );
+
+    if (!plugin) {
+      throw new NotFoundException('Plugin not found');
+    }
+
+    return plugin;
+  }
+
+  private async requireInstalledPlugin(id: string) {
+    const plugin = await this.pluginRepository.findById(id);
+
+    if (!plugin) {
+      throw new NotFoundException('Installed plugin not found');
+    }
+
+    return plugin;
   }
 
   private isSamePlugin(manifest: PluginManifest, runtimeName: string): boolean {

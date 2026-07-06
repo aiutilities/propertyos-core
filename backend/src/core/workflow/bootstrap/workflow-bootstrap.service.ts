@@ -1,5 +1,6 @@
-import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 
+import { RegistryBootstrapRunner } from '../../plugin/bootstrap/registry-bootstrap.runner';
 import { PluginWorkflowRegistry } from '../../plugin/registries/plugin-workflow.registry';
 import {
   WORKFLOW_REPOSITORY,
@@ -36,27 +37,27 @@ type PluginWorkflowDefinition = {
 };
 
 @Injectable()
-export class WorkflowBootstrapService implements OnModuleInit {
-  private readonly logger = new Logger(WorkflowBootstrapService.name);
-
+export class WorkflowBootstrapService
+  extends RegistryBootstrapRunner<PluginWorkflowDefinition>
+  implements OnModuleInit
+{
   constructor(
     private readonly pluginWorkflowRegistry: PluginWorkflowRegistry,
     @Inject(WORKFLOW_REPOSITORY)
     private readonly workflowRepository: WorkflowRepository,
-  ) {}
-
-  async onModuleInit(): Promise<void> {
-    await this.syncRegisteredWorkflows();
+  ) {
+    super(WorkflowBootstrapService.name);
   }
 
-  async syncRegisteredWorkflows(): Promise<void> {
-    const workflows = this.pluginWorkflowRegistry.list() as PluginWorkflowDefinition[];
+  async onModuleInit(): Promise<void> {
+    await this.run();
+  }
 
-    if (!workflows.length) {
-      this.logger.log('No plugin workflow definitions registered');
-      return;
-    }
+  load(): PluginWorkflowDefinition[] {
+    return this.pluginWorkflowRegistry.list() as PluginWorkflowDefinition[];
+  }
 
+  async synchronize(workflows: PluginWorkflowDefinition[]): Promise<void> {
     for (const workflow of workflows) {
       await this.syncWorkflow(workflow);
     }

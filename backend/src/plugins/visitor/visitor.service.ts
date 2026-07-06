@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
+import { EventBusService } from '../../core/eventbus/services/eventbus.service';
 import { VISITOR_REPOSITORY, VisitorRepositoryPort } from './repositories/visitor-repository.interface';
 import {
   QR_STATUSES,
@@ -22,6 +23,7 @@ export class VisitorService {
   constructor(
     @Inject(VISITOR_REPOSITORY)
     private readonly visitorRepository: VisitorRepositoryPort,
+    private readonly eventBus: EventBusService,
   ) {}
 
   async inviteVisitor(dto: CreateVisitorInviteDto) {
@@ -344,14 +346,7 @@ export class VisitorService {
     eventName: string,
     payload: Record<string, unknown>,
   ) {
-    // TODO: Replace with EventBusService once core Event Bus is implemented.
-    return {
-      id: randomUUID(),
-      name: eventName,
-      source: 'visitor-plugin',
-      payload,
-      createdAt: new Date(),
-    };
+    return this.eventBus.publish(eventName, 'plugin.visitor', payload);
   }
 
   private getDefaultQrExpiry() {

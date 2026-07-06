@@ -4,11 +4,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api/v1');
 
   await app.listen(3000);
 
-  console.log('PropertyOS API running on http://localhost:3000');
+  console.log('PropertyOS API running on http://localhost:3000/api/v1');
 }
 
 bootstrap();

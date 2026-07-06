@@ -101,6 +101,9 @@ export class VisitorService {
 
     await this.publishVisitorEvent(VISITOR_EVENTS.APPROVED, {
       visitId,
+      visitorId: visit.visitorId,
+      propertyId: visit.propertyId,
+      hostPersonId: visit.hostPersonId,
       status: VISITOR_STATUSES.APPROVED,
     });
 

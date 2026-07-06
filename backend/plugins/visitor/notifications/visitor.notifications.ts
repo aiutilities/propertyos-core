@@ -4,27 +4,39 @@ export const visitorNotifications = [
     event: 'visitor.invited',
     channel: 'WHATSAPP',
     subject: 'Visitor invited',
-    template: 'Visitor {{visitorName}} has been invited to {{propertyName}}.',
+    template: 'Visitor {{visitorId}} has been invited to property {{propertyId}}.',
+    metadata: {
+      recipientField: 'hostPersonId',
+    },
   },
   {
     code: 'visitor.approved.visitor',
     event: 'visitor.approved',
     channel: 'WHATSAPP',
     subject: 'Visit approved',
-    template: 'Your visit to {{propertyName}} has been approved.',
+    template: 'Your visit {{visitId}} has been approved.',
+    metadata: {
+      recipientField: 'visitorId',
+    },
   },
   {
     code: 'visitor.checked_in.host',
     event: 'visitor.checked_in',
     channel: 'WHATSAPP',
     subject: 'Visitor checked in',
-    template: '{{visitorName}} has checked in at {{checkedInAt}}.',
+    template: 'Visit {{visitId}} has checked in at {{checkedInAt}}.',
+    metadata: {
+      recipientField: 'hostPersonId',
+    },
   },
   {
     code: 'visitor.checked_out.host',
     event: 'visitor.checked_out',
     channel: 'WHATSAPP',
     subject: 'Visitor checked out',
-    template: '{{visitorName}} has checked out at {{checkedOutAt}}.',
+    template: 'Visit {{visitId}} has checked out at {{checkedOutAt}}.',
+    metadata: {
+      recipientField: 'hostPersonId',
+    },
   },
 ];

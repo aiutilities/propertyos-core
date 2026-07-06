@@ -1,3 +1,6 @@
+import { PluginInstallationRollbackService } from './installer/rollback/plugin-installation-rollback.service';
+import { PluginDiscoveryService } from './installer/discovery/plugin-discovery.service';
+import { PluginZipExtractorService } from './installer/extractor/plugin-zip-extractor.service';
 import { PluginInstallationManifestService } from './installer/manifest/plugin-installation-manifest.service';
 import { PluginMigrationRunnerService } from './installer/migration/plugin-migration-runner.service';
 import { PluginDependencyResolverService } from './installer/dependency/plugin-dependency-resolver.service';
@@ -39,6 +42,9 @@ import { PluginMarketplaceService } from './marketplace/services/plugin-marketpl
   providers: [
     PluginInstallerService,
     PluginPackageExtractorService,
+    PluginZipExtractorService,
+    PluginDiscoveryService,
+    PluginInstallationRollbackService,
     PluginPackageValidatorService,
     PluginDependencyResolverService,
     PluginMigrationRunnerService,

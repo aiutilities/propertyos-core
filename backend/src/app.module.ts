@@ -25,6 +25,7 @@ import { SearchModule } from './core/search';
 import { ConfigurationModule } from './core/configuration';
 import { StorageModule } from './core/storage';
 import { UploadModule } from './core/upload';
+import { SchedulerModule } from './core/scheduler';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -56,6 +57,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     ConfigurationModule,
     StorageModule,
     UploadModule,
+    SchedulerModule,
     HealthModule,
 
     VisitorModule,

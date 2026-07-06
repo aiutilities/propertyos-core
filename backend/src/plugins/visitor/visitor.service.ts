@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import { EventBusService } from '../../core/eventbus/services/eventbus.service';
+import { SchedulerService } from '../../core/scheduler';
 import { VISITOR_REPOSITORY, VisitorRepositoryPort } from './repositories/visitor-repository.interface';
 import {
   QR_STATUSES,
@@ -24,6 +25,7 @@ export class VisitorService {
     @Inject(VISITOR_REPOSITORY)
     private readonly visitorRepository: VisitorRepositoryPort,
     private readonly eventBus: EventBusService,
+    private readonly schedulerService: SchedulerService,
   ) {}
 
   async inviteVisitor(dto: CreateVisitorInviteDto) {
@@ -69,6 +71,13 @@ export class VisitorService {
       visitDate: dto.visitDate,
       status: VISITOR_STATUSES.INVITED,
     });
+
+    await this.scheduleVisitorNoShowJob(
+      visit.id,
+      dto.visitDate,
+      dto.propertyId,
+      dto.hostPersonId,
+    );
 
     return visit;
   }
@@ -139,6 +148,8 @@ export class VisitorService {
       qrPassId: qrPass.id,
       expiresAt: qrPass.expiresAt,
     });
+
+    await this.scheduleQrExpiryJob(visitId, qrPass.id, qrPass.expiresAt);
 
     return qrPass;
   }
@@ -237,12 +248,16 @@ export class VisitorService {
       'Visitor checked in',
     );
 
+    const checkedInAt = new Date();
+
     await this.publishVisitorEvent(VISITOR_EVENTS.CHECKED_IN, {
       visitId,
-      checkedInAt: new Date(),
+      checkedInAt,
       gate: dto.gate,
       securityPersonId: dto.securityPersonId,
     });
+
+    await this.scheduleAutoCheckoutJob(visitId, checkedInAt);
 
     return visit;
   }
@@ -339,6 +354,69 @@ export class VisitorService {
       newStatus,
       changeReason: reason,
       createdAt: new Date(),
+    });
+  }
+
+
+  private async scheduleVisitorNoShowJob(
+    visitId: string,
+    visitDate: string,
+    propertyId: string,
+    hostPersonId: string,
+  ) {
+    const runAt = new Date(visitDate);
+
+    if (Number.isNaN(runAt.getTime())) {
+      return;
+    }
+
+    await this.schedulerService.createJob({
+      name: 'Visitor No Show Check',
+      jobType: 'visitor.no_show',
+      payload: {
+        visitId,
+        propertyId,
+        hostPersonId,
+      },
+      scheduleType: 'ONE_TIME',
+      runAt: runAt.toISOString(),
+      maxAttempts: 3,
+    });
+  }
+
+  private async scheduleQrExpiryJob(
+    visitId: string,
+    qrPassId: string,
+    expiresAt: Date,
+  ) {
+    await this.schedulerService.createJob({
+      name: 'Visitor QR Expiry',
+      jobType: 'visitor.qr.expire',
+      payload: {
+        visitId,
+        qrPassId,
+      },
+      scheduleType: 'ONE_TIME',
+      runAt: expiresAt.toISOString(),
+      maxAttempts: 3,
+    });
+  }
+
+  private async scheduleAutoCheckoutJob(visitId: string, checkedInAt: Date) {
+    const runAt = new Date(checkedInAt);
+    runAt.setHours(
+      runAt.getHours() + VISITOR_DEFAULT_SETTINGS.defaultVisitDurationHours,
+    );
+
+    await this.schedulerService.createJob({
+      name: 'Visitor Auto Checkout',
+      jobType: 'visitor.auto_checkout',
+      payload: {
+        visitId,
+      },
+      scheduleType: 'ONE_TIME',
+      runAt: runAt.toISOString(),
+      maxAttempts: 3,
     });
   }
 

@@ -20,6 +20,7 @@ import { PluginModule } from './core/plugin';
 import { AdminModule } from './core/admin';
 import { ThemeModule } from './core/theme';
 import { FormsModule } from './core/forms';
+import { DocumentModule } from './core/document';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -46,6 +47,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     AdminModule,
     ThemeModule,
     FormsModule,
+    DocumentModule,
     HealthModule,
 
     VisitorModule,

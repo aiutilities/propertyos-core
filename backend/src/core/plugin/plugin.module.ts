@@ -3,6 +3,7 @@ import { EventBusModule } from '../eventbus/eventbus.module';
 import { IdentityModule } from '../identity/identity.module';
 import { PostgresModule } from '../../database/postgres/postgres.module';
 import { PluginController } from './controllers/plugin.controller';
+import { PluginPackageController } from './package/controllers/plugin-package.controller';
 import { PluginService } from './services/plugin.service';
 import { PostgresPluginRepository } from './repositories/postgres-plugin.repository';
 import { PLUGIN_REPOSITORY } from './plugin.constants';
@@ -21,10 +22,11 @@ import { PluginConfigurationRegistry } from './registries/plugin-configuration.r
 import { PluginSchedulerRegistry } from './registries/plugin-scheduler.registry';
 import { PluginSearchRegistry } from './registries/plugin-search.registry';
 import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.service';
+import { PluginPackageService } from './package/services/plugin-package.service';
 
 @Module({
   imports: [EventBusModule, IdentityModule, PostgresModule],
-  controllers: [PluginController],
+  controllers: [PluginController, PluginPackageController],
   providers: [
     PluginService,
     {
@@ -46,6 +48,7 @@ import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.ser
     PluginSchedulerRegistry,
     PluginSearchRegistry,
     PermissionBootstrapService,
+    PluginPackageService,
   ],
   exports: [
     PluginService,
@@ -57,6 +60,7 @@ import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.ser
     PluginSchedulerRegistry,
     PluginSearchRegistry,
     PermissionBootstrapService,
+    PluginPackageService,
   ],
 })
 export class PluginModule {}

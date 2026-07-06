@@ -21,6 +21,7 @@ import { AdminModule } from './core/admin';
 import { ThemeModule } from './core/theme';
 import { FormsModule } from './core/forms';
 import { DocumentModule } from './core/document';
+import { SearchModule } from './core/search';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -48,6 +49,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     ThemeModule,
     FormsModule,
     DocumentModule,
+    SearchModule,
     HealthModule,
 
     VisitorModule,

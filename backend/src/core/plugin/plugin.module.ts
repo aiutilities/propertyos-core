@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { IdentityModule } from '../identity/identity.module';
+import { PostgresModule } from '../../database/postgres/postgres.module';
 import { PluginController } from './controllers/plugin.controller';
 import { PluginService } from './services/plugin.service';
 import { PostgresPluginRepository } from './repositories/postgres-plugin.repository';
+import { PLUGIN_REPOSITORY } from './plugin.constants';
 import { PluginRegistry } from './sdk/plugin-registry';
 import { PluginLoader } from './sdk/plugin-loader';
 import { PluginManager } from './sdk/plugin-manager';
@@ -21,11 +23,14 @@ import { PluginSearchRegistry } from './registries/plugin-search.registry';
 import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.service';
 
 @Module({
-  imports: [EventBusModule, IdentityModule],
+  imports: [EventBusModule, IdentityModule, PostgresModule],
   controllers: [PluginController],
   providers: [
     PluginService,
-    PostgresPluginRepository,
+    {
+      provide: PLUGIN_REPOSITORY,
+      useClass: PostgresPluginRepository,
+    },
     PluginRegistry,
     PluginLoader,
     PluginManager,

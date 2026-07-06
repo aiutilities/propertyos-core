@@ -5,3 +5,4 @@ dist/
 
 # Runtime uploads
 uploads/
+plugins/.installed/

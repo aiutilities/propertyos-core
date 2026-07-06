@@ -12,6 +12,18 @@ export class NotificationController {
     private readonly notificationService: NotificationService,
   ) {}
 
+
+  @Get('templates')
+  @RequirePermission('notification.read')
+  listTemplates() {
+    return {
+      success: true,
+      data: {
+        templates: this.notificationService.listTemplates(),
+      },
+    };
+  }
+
   @Get()
   @RequirePermission('notification.read')
   listNotifications() {

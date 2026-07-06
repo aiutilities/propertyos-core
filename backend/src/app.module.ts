@@ -20,6 +20,7 @@ import { PluginModule } from './core/plugin';
 import { AdminModule } from './core/admin';
 import { ThemeModule } from './core/theme';
 import { CredentialModule } from './core/credential';
+import { AiModule } from './core/ai';
 import { FormsModule } from './core/forms';
 import { DocumentModule } from './core/document';
 import { SearchModule } from './core/search';
@@ -53,6 +54,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     AdminModule,
     ThemeModule,
     CredentialModule,
+    AiModule,
     FormsModule,
     DocumentModule,
     SearchModule,

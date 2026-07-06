@@ -1,4 +1,6 @@
-export const visitorWorkflows = [
+import { defineWorkflows } from '../../src/core/plugin/sdk';
+
+export const visitorWorkflows = defineWorkflows([
   {
     code: 'visitor.visit.lifecycle',
     name: 'Visitor Visit Lifecycle',
@@ -32,4 +34,4 @@ export const visitorWorkflows = [
       { from: 'CHECKED_IN', to: 'OVERSTAYED', action: 'MARK_OVERSTAYED' },
     ],
   },
-];
+]);

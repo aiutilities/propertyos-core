@@ -1,4 +1,6 @@
-export const visitorPermissions = [
+import { definePermissions } from '../../src/core/plugin/sdk';
+
+export const visitorPermissions = definePermissions([
   {
     code: 'visitor.create',
     name: 'Create Visitor',
@@ -39,4 +41,4 @@ export const visitorPermissions = [
     name: 'Manage Visitor Settings',
     description: 'Allows admin to manage VisitorOS settings',
   },
-];
+]);

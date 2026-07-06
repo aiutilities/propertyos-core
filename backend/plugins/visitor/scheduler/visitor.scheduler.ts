@@ -1,4 +1,6 @@
-export const visitorSchedulerHandlers = [
+import { defineScheduler } from '../../src/core/plugin/sdk';
+
+export const visitorSchedulerHandlers = defineScheduler([
   {
     code: 'visitor.no_show',
     name: 'Visitor No Show Handler',
@@ -14,4 +16,4 @@ export const visitorSchedulerHandlers = [
     name: 'Visitor Auto Checkout Handler',
     description: 'Auto-checks out visitors after configured duration.',
   },
-];
+]);

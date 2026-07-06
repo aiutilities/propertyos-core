@@ -1,4 +1,6 @@
-export const visitorNotifications = [
+import { defineNotifications } from '../../src/core/plugin/sdk';
+
+export const visitorNotifications = defineNotifications([
   {
     code: 'visitor.invited.host',
     event: 'visitor.invited',
@@ -39,4 +41,4 @@ export const visitorNotifications = [
       recipientField: 'hostPersonId',
     },
   },
-];
+]);

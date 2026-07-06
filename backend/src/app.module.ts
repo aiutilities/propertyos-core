@@ -19,6 +19,7 @@ import { WorkflowModule } from './core/workflow';
 import { PluginModule } from './core/plugin';
 import { AdminModule } from './core/admin';
 import { ThemeModule } from './core/theme';
+import { FormsModule } from './core/forms';
 import { HealthModule } from './core/health/health.module';
 
 import { VisitorModule } from './plugins/visitor/visitor.module';
@@ -44,6 +45,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     PluginModule,
     AdminModule,
     ThemeModule,
+    FormsModule,
     HealthModule,
 
     VisitorModule,

@@ -23,6 +23,7 @@ import { CheckInVisitorDto } from './dto/check-in-visitor.dto';
 import { CheckOutVisitorDto } from './dto/check-out-visitor.dto';
 import { UpdateVisitorSettingsDto } from './dto/update-visitor-settings.dto';
 
+@UseGuards(JwtAuthGuard, PermissionGuard)
 @Controller('/plugins/visitor')
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}

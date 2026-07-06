@@ -28,13 +28,13 @@ export class PluginService implements OnModuleInit {
     private readonly searchRegistry: PluginSearchRegistry,
   ) {}
 
-  onModuleInit() {
-    this.ensurePluginsLoaded();
+  async onModuleInit(): Promise<void> {
+    await this.ensurePluginsLoaded();
   }
 
-  private ensurePluginsLoaded(): void {
+  private async ensurePluginsLoaded(): Promise<void> {
     if (!this.pluginsLoaded) {
-      this.pluginLoader.loadPlugins();
+      await this.pluginLoader.loadPlugins();
       this.pluginsLoaded = true;
     }
   }
@@ -84,7 +84,7 @@ export class PluginService implements OnModuleInit {
   }
 
   async list() {
-    this.ensurePluginsLoaded();
+    await this.ensurePluginsLoaded();
 
     return this.pluginLoader.listPlugins().map((entry) => ({
       id: entry.manifest.id,

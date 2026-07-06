@@ -1,5 +1,15 @@
 export const visitorPermissions = [
   {
+    code: 'visitor.create',
+    name: 'Create Visitor',
+    description: 'Allows user to create visitor records and visit actions',
+  },
+  {
+    code: 'visitor.read',
+    name: 'Read Visitor',
+    description: 'Allows user to read visitor records, settings and history',
+  },
+  {
     code: 'visitor.invite',
     name: 'Invite Visitor',
     description: 'Allows user to invite a visitor',

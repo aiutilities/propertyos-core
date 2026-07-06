@@ -37,7 +37,7 @@ export class PluginLoaderService {
     private readonly searchRegistry: PluginSearchRegistry,
   ) {}
 
-  loadPlugins(): PluginRegistryEntry[] {
+  async loadPlugins(): Promise<PluginRegistryEntry[]> {
     const pluginsRoot = join(process.cwd(), 'plugins');
 
     if (!existsSync(pluginsRoot)) {
@@ -49,9 +49,9 @@ export class PluginLoaderService {
       .filter((entry) => entry.isDirectory())
       .map((entry) => entry.name);
 
-    for (const folder of pluginFolders) {
-      void this.loadPlugin(join(pluginsRoot, folder));
-    }
+    await Promise.all(
+      pluginFolders.map((folder) => this.loadPlugin(join(pluginsRoot, folder))),
+    );
 
     return this.listPlugins();
   }

@@ -1,3 +1,4 @@
+import { PluginInstallationManifestService } from './installer/manifest/plugin-installation-manifest.service';
 import { PluginMigrationRunnerService } from './installer/migration/plugin-migration-runner.service';
 import { PluginDependencyResolverService } from './installer/dependency/plugin-dependency-resolver.service';
 import { PluginPackageValidatorService } from './installer/validator/plugin-package-validator.service';
@@ -41,6 +42,7 @@ import { PluginMarketplaceService } from './marketplace/services/plugin-marketpl
     PluginPackageValidatorService,
     PluginDependencyResolverService,
     PluginMigrationRunnerService,
+    PluginInstallationManifestService,
     PluginService,
     {
       provide: PLUGIN_REPOSITORY,

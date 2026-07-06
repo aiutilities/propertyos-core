@@ -4,6 +4,7 @@ import { IdentityModule } from '../identity/identity.module';
 import { PostgresModule } from '../../database/postgres/postgres.module';
 import { PluginController } from './controllers/plugin.controller';
 import { PluginPackageController } from './package/controllers/plugin-package.controller';
+import { PluginMarketplaceController } from './marketplace/controllers/plugin-marketplace.controller';
 import { PluginService } from './services/plugin.service';
 import { PostgresPluginRepository } from './repositories/postgres-plugin.repository';
 import { PLUGIN_REPOSITORY } from './plugin.constants';
@@ -23,10 +24,11 @@ import { PluginSchedulerRegistry } from './registries/plugin-scheduler.registry'
 import { PluginSearchRegistry } from './registries/plugin-search.registry';
 import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.service';
 import { PluginPackageService } from './package/services/plugin-package.service';
+import { PluginMarketplaceService } from './marketplace/services/plugin-marketplace.service';
 
 @Module({
   imports: [EventBusModule, IdentityModule, PostgresModule],
-  controllers: [PluginController, PluginPackageController],
+  controllers: [PluginController, PluginPackageController, PluginMarketplaceController],
   providers: [
     PluginService,
     {
@@ -49,6 +51,7 @@ import { PluginPackageService } from './package/services/plugin-package.service'
     PluginSearchRegistry,
     PermissionBootstrapService,
     PluginPackageService,
+    PluginMarketplaceService,
   ],
   exports: [
     PluginService,
@@ -61,6 +64,7 @@ import { PluginPackageService } from './package/services/plugin-package.service'
     PluginSearchRegistry,
     PermissionBootstrapService,
     PluginPackageService,
+    PluginMarketplaceService,
   ],
 })
 export class PluginModule {}

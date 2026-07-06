@@ -24,7 +24,6 @@ import { CheckOutVisitorDto } from './dto/check-out-visitor.dto';
 import { UpdateVisitorSettingsDto } from './dto/update-visitor-settings.dto';
 
 @Controller('/plugins/visitor')
-@UseGuards(JwtAuthGuard, PermissionGuard)
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}
 

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { EventBusModule } from '../eventbus/eventbus.module';
 import { PluginController } from './controllers/plugin.controller';
 import { PluginService } from './services/plugin.service';
 import { PostgresPluginRepository } from './repositories/postgres-plugin.repository';
@@ -10,6 +11,7 @@ import { ExtensionRegistry } from './sdk/extension-registry';
 import { PluginLifecycleService } from './lifecycle/plugin-lifecycle.service';
 
 @Module({
+  imports: [EventBusModule],
   controllers: [PluginController],
   providers: [
     PluginService,

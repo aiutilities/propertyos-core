@@ -38,7 +38,7 @@ import { PluginMarketplaceService } from './marketplace/services/plugin-marketpl
 
 @Module({
   imports: [EventBusModule, IdentityModule, PostgresModule],
-  controllers: [PluginController, PluginPackageController, PluginMarketplaceController],
+  controllers: [PluginController, PluginPackageController, PluginMarketplaceController, PluginInstallerController],
   providers: [
     PluginInstallerService,
     PluginPackageExtractorService,

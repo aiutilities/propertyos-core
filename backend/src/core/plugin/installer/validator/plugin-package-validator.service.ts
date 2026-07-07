@@ -3,11 +3,16 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import semver from 'semver';
 import { PluginManifest } from '../../manifest/plugin-manifest.interface';
+import { PluginSignatureVerifierService } from '../signature/plugin-signature-verifier.service';
 
 const PLATFORM_VERSION = '0.1.0';
 
 @Injectable()
 export class PluginPackageValidatorService {
+  constructor(
+    private readonly signatureVerifier: PluginSignatureVerifierService,
+  ) {}
+
   async validate(pluginRoot: string, manifest?: PluginManifest): Promise<string[]> {
     const errors: string[] = [];
 
@@ -50,6 +55,8 @@ export class PluginPackageValidatorService {
     if (manifest.dependencies && !Array.isArray(manifest.dependencies)) {
       errors.push('Plugin dependencies must be an array');
     }
+
+    errors.push(...this.signatureVerifier.verify(pluginRoot));
 
     return errors;
   }

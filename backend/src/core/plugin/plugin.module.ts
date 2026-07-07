@@ -5,6 +5,7 @@ import { PluginInstallationManifestService } from './installer/manifest/plugin-i
 import { PluginMigrationRunnerService } from './installer/migration/plugin-migration-runner.service';
 import { PluginDependencyResolverService } from './installer/dependency/plugin-dependency-resolver.service';
 import { PluginPackageValidatorService } from './installer/validator/plugin-package-validator.service';
+import { PluginSignatureVerifierService } from './installer/signature/plugin-signature-verifier.service';
 import { PluginPackageExtractorService } from './installer/archive/plugin-package-extractor.service';
 import { PluginInstallerService } from './installer/services/plugin-installer.service';
 import { PluginInstallerController } from './installer/controllers/plugin-installer.controller';
@@ -46,6 +47,7 @@ import { PluginMarketplaceService } from './marketplace/services/plugin-marketpl
     PluginDiscoveryService,
     PluginInstallationRollbackService,
     PluginPackageValidatorService,
+    PluginSignatureVerifierService,
     PluginDependencyResolverService,
     PluginMigrationRunnerService,
     PluginInstallationManifestService,

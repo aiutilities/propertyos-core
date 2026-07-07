@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createHash } from 'crypto';
-import { existsSync, readdirSync, statSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 
 import {
@@ -22,10 +22,36 @@ export class PluginPackageArchiveService {
       return {
         path: relativePath,
         type: this.inferFileType(relativePath),
-        checksum: this.checksum(relativePath),
+        checksum: this.checksumFile(filePath),
         sizeBytes: stats.size,
       };
     });
+  }
+
+  validateChecksums(
+    sourcePath: string,
+    files: PluginPackageFile[],
+  ): string[] {
+    const errors: string[] = [];
+
+    for (const file of files) {
+      const fullPath = join(sourcePath, file.path);
+
+      if (!existsSync(fullPath)) {
+        errors.push(`Package file missing: ${file.path}`);
+        continue;
+      }
+
+      const actualChecksum = this.checksumFile(fullPath);
+
+      if (file.checksum && file.checksum !== actualChecksum) {
+        errors.push(
+          `Checksum mismatch for ${file.path}: expected ${file.checksum}, actual ${actualChecksum}`,
+        );
+      }
+    }
+
+    return errors;
   }
 
   private walk(root: string): string[] {
@@ -59,7 +85,9 @@ export class PluginPackageArchiveService {
     return 'other';
   }
 
-  private checksum(value: string): string {
-    return createHash('sha256').update(value).digest('hex');
+  private checksumFile(filePath: string): string {
+    return createHash('sha256')
+      .update(readFileSync(filePath))
+      .digest('hex');
   }
 }

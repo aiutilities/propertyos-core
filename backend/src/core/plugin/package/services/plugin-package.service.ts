@@ -18,15 +18,24 @@ export class PluginPackageService {
     const validation = this.validator.validateManifest(dto.manifest);
     const files = dto.sourcePath ? this.archive.listFiles(dto.sourcePath) : [];
 
+    const checksumErrors = dto.sourcePath
+      ? this.archive.validateChecksums(dto.sourcePath, files)
+      : [];
+
+    const validationErrors = [
+      ...validation.errors,
+      ...checksumErrors,
+    ];
+
     const pluginPackage: PluginPackage = {
       id: randomUUID(),
       packageName: dto.packageName,
       version: dto.version,
       manifest: dto.manifest,
       sourcePath: dto.sourcePath,
-      status: validation.valid ? 'VALIDATED' : 'FAILED',
+      status: validationErrors.length === 0 ? 'VALIDATED' : 'FAILED',
       files,
-      validationErrors: validation.errors,
+      validationErrors,
       validationWarnings: validation.warnings,
       createdAt: new Date(),
     };
@@ -53,11 +62,20 @@ export class PluginPackageService {
 
     const validation = this.validator.validateManifest(pluginPackage.manifest);
 
+    const checksumErrors = pluginPackage.sourcePath
+      ? this.archive.validateChecksums(pluginPackage.sourcePath, pluginPackage.files)
+      : [];
+
+    const validationErrors = [
+      ...validation.errors,
+      ...checksumErrors,
+    ];
+
     const updated: PluginPackage = {
       ...pluginPackage,
-      validationErrors: validation.errors,
+      validationErrors,
       validationWarnings: validation.warnings,
-      status: validation.valid ? 'VALIDATED' : 'FAILED',
+      status: validationErrors.length === 0 ? 'VALIDATED' : 'FAILED',
     };
 
     this.packages.set(id, updated);

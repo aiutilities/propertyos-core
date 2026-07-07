@@ -3,8 +3,11 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { validateEnvironment } from './config/env.validation';
 
 async function bootstrap() {
+  validateEnvironment();
+
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());

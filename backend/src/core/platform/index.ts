@@ -33,3 +33,4 @@ export * from './utils/date.util';
 export * from './utils/validation.util';
 
 export * from './platform.module';
+export * from './logging';

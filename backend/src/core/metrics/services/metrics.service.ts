@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as os from 'os';
 import {
   CounterMetricInput,
   GaugeMetricInput,
@@ -51,6 +52,27 @@ export class MetricsService {
 
   listSamples(): MetricSample[] {
     return [...this.samples];
+  }
+
+  getRuntimeMetrics() {
+    const memoryUsage = process.memoryUsage();
+
+    return {
+      pid: process.pid,
+      nodeVersion: process.version,
+      platform: process.platform,
+      arch: process.arch,
+      uptimeSeconds: Math.floor(process.uptime()),
+      cpuCount: os.cpus().length,
+      loadAverage: os.loadavg(),
+      memory: {
+        rss: memoryUsage.rss,
+        heapTotal: memoryUsage.heapTotal,
+        heapUsed: memoryUsage.heapUsed,
+        external: memoryUsage.external,
+        arrayBuffers: memoryUsage.arrayBuffers,
+      },
+    };
   }
 
   clear(): void {

@@ -9,7 +9,17 @@ export class MetricsController {
   getMetrics() {
     return {
       status: 'ok',
+      runtime: this.metricsService.getRuntimeMetrics(),
       samples: this.metricsService.listSamples(),
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Get('runtime')
+  getRuntimeMetrics() {
+    return {
+      status: 'ok',
+      runtime: this.metricsService.getRuntimeMetrics(),
       timestamp: new Date().toISOString(),
     };
   }

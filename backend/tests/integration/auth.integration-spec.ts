@@ -87,7 +87,10 @@ describe('Auth API integration', () => {
       })
       .expect(401)
       .expect((response) => {
-        expect(response.body.message).toBe('Invalid email or password');
+        expect(response.body.success).toBe(false);
+        expect(response.body.error.code).toBe('UNAUTHORIZED');
+        expect(response.body.error.message).toBe('Invalid email or password');
+        expect(response.body.requestId).toBeDefined();
       });
   });
 
@@ -100,7 +103,10 @@ describe('Auth API integration', () => {
       })
       .expect(401)
       .expect((response) => {
-        expect(response.body.message).toBe('Invalid email or password');
+        expect(response.body.success).toBe(false);
+        expect(response.body.error.code).toBe('UNAUTHORIZED');
+        expect(response.body.error.message).toBe('Invalid email or password');
+        expect(response.body.requestId).toBeDefined();
       });
   });
 });

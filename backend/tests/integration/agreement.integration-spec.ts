@@ -279,7 +279,10 @@ describe('Agreement API integration', () => {
       .get('/api/v1/agreements')
       .expect(401)
       .expect((response) => {
-        expect(response.body.message).toBe('Missing bearer token');
+        expect(response.body.success).toBe(false);
+        expect(response.body.error.code).toBe('UNAUTHORIZED');
+        expect(response.body.error.message).toBe('Missing bearer token');
+        expect(response.body.requestId).toBeDefined();
       });
   });
 });

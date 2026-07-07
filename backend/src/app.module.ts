@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { ConfigModule } from './config/config.module';
@@ -34,6 +34,7 @@ import { UploadModule } from './core/upload';
 import { SchedulerModule } from './core/scheduler';
 import { HealthModule } from './core/health/health.module';
 
+import { GlobalExceptionFilter } from './core/platform/filters/global-exception.filter';
 import { RequestIdMiddleware } from './core/platform/middleware/request-id.middleware';
 import { VisitorModule } from './plugins/visitor/visitor.module';
 
@@ -80,6 +81,10 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     VisitorModule,
   ],
   providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

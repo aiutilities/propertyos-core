@@ -243,9 +243,11 @@ describe('Workflow API integration', () => {
       })
       .expect(400)
       .expect((response) => {
-        expect(response.body.message).toBe(
+        expect(response.body.success).toBe(false);
+        expect(response.body.error.message).toBe(
           'Workflow instance already exists for this entity',
         );
+        expect(response.body.requestId).toBeDefined();
       });
   });
 });

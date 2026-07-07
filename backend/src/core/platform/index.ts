@@ -34,3 +34,4 @@ export * from './utils/validation.util';
 
 export * from './platform.module';
 export * from './logging';
+export * from './swagger';

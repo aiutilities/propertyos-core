@@ -1,14 +1,15 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { validateEnvironment } from './config/env.validation';
+import { ConsolePlatformLogger, setupSwagger } from './core/platform';
 
 async function bootstrap() {
   validateEnvironment();
 
   const app = await NestFactory.create(AppModule);
+  const logger = app.get(ConsolePlatformLogger);
 
   app.enableShutdownHooks();
 
@@ -26,21 +27,16 @@ async function bootstrap() {
   );
 
   app.setGlobalPrefix('api/v1');
+  setupSwagger(app);
 
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle('PropertyOS API')
-    .setDescription('Enterprise plugin-first property management platform API')
-    .setVersion('0.1.0')
-    .addBearerAuth()
-    .build();
+  const port = Number(process.env.PORT ?? 3000);
+  await app.listen(port);
 
-  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api/docs', app, swaggerDocument);
-
-  await app.listen(3000);
-
-  console.log('PropertyOS API running on http://localhost:3000/api/v1');
-  console.log('PropertyOS API docs running on http://localhost:3000/api/docs');
+  logger.info('api.started', {
+    port,
+    baseUrl: `http://localhost:${port}/api/v1`,
+    docsUrl: `http://localhost:${port}/api/docs`,
+  });
 }
 
 bootstrap();

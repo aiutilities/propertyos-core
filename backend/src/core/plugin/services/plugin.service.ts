@@ -169,52 +169,100 @@ export class PluginService implements OnModuleInit {
 
   async upgrade(id: string, dto: UpgradePluginDto) {
     const plugin = await this.requireInstalledPlugin(id);
-    const updates = await this.lifecycleService.upgrade(plugin, dto);
-    const updated = await this.pluginRepository.update(plugin.id, updates);
 
-    await this.eventBus.publish(
-      'plugin.upgraded',
-      this.eventSource,
-      {
-        id: plugin.id,
-        fromVersion: plugin.version,
-        toVersion: dto.version,
-        notes: dto.notes,
-      },
-    );
+    try {
+      const updates = await this.lifecycleService.upgrade(plugin, dto);
+      const updated = await this.pluginRepository.update(plugin.id, updates);
 
-    return this.lifecycleService.buildResult(
-      updated,
-      'UPGRADED',
-      plugin.status,
-      plugin.version,
-      dto.version,
-    );
+      await this.eventBus.publish(
+        'plugin.upgraded',
+        this.eventSource,
+        {
+          id: plugin.id,
+          fromVersion: plugin.version,
+          toVersion: dto.version,
+          notes: dto.notes,
+        },
+      );
+
+      return this.lifecycleService.buildResult(
+        updated,
+        'UPGRADED',
+        plugin.status,
+        plugin.version,
+        dto.version,
+      );
+    } catch (error) {
+      await this.pluginRepository.update(plugin.id, {
+        version: plugin.version,
+        manifest: plugin.manifest,
+        status: plugin.status,
+        activatedAt: plugin.activatedAt,
+        deactivatedAt: plugin.deactivatedAt,
+      });
+
+      await this.eventBus.publish(
+        'plugin.upgrade_failed',
+        this.eventSource,
+        {
+          id: plugin.id,
+          fromVersion: plugin.version,
+          toVersion: dto.version,
+          error: error instanceof Error ? error.message : 'Unknown upgrade error',
+        },
+      );
+
+      throw error;
+    }
   }
 
   async rollback(id: string, dto: RollbackPluginDto) {
     const plugin = await this.requireInstalledPlugin(id);
-    const updates = await this.lifecycleService.rollback(plugin, dto);
-    const updated = await this.pluginRepository.update(plugin.id, updates);
 
-    await this.eventBus.publish(
-      'plugin.rolled_back',
-      this.eventSource,
-      {
-        id: plugin.id,
-        fromVersion: plugin.version,
-        toVersion: dto.targetVersion,
-        notes: dto.notes,
-      },
-    );
+    try {
+      const updates = await this.lifecycleService.rollback(plugin, dto);
+      const updated = await this.pluginRepository.update(plugin.id, updates);
 
-    return this.lifecycleService.buildResult(
-      updated,
-      'ROLLED_BACK',
-      plugin.status,
-      plugin.version,
-      dto.targetVersion,
-    );
+      await this.eventBus.publish(
+        'plugin.rolled_back',
+        this.eventSource,
+        {
+          id: plugin.id,
+          fromVersion: plugin.version,
+          toVersion: dto.targetVersion,
+          notes: dto.notes,
+        },
+      );
+
+      return this.lifecycleService.buildResult(
+        updated,
+        'ROLLED_BACK',
+        plugin.status,
+        plugin.version,
+        dto.targetVersion,
+      );
+    } catch (error) {
+      await this.pluginRepository.update(plugin.id, {
+        version: plugin.version,
+        manifest: plugin.manifest,
+        status: plugin.status,
+        activatedAt: plugin.activatedAt,
+        deactivatedAt: plugin.deactivatedAt,
+      });
+
+      await this.eventBus.publish(
+        'plugin.rollback_failed',
+        this.eventSource,
+        {
+          id: plugin.id,
+          fromVersion: plugin.version,
+          toVersion: dto.targetVersion,
+          error: error instanceof Error ? error.message : 'Unknown rollback error',
+        },
+      );
+
+      throw error;
+    }
   }
 
   async installedPlugins() {

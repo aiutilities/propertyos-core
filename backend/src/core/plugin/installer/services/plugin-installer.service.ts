@@ -83,7 +83,30 @@ export class PluginInstallerService {
         };
       }
 
-      await this.dependencyResolver.resolve();
+      const installedPlugins = (await this.pluginService.installedPlugins()).map(
+        (plugin) => ({
+          name: plugin.name,
+          version: plugin.version,
+          status: plugin.status,
+        }),
+      );
+
+      const dependencyResult =
+        await this.dependencyResolver.validateDependencies(
+          manifest.dependencies ?? [],
+          installedPlugins,
+        );
+
+      if (!dependencyResult.valid) {
+        return {
+          success: false,
+          stage: 'FAILED',
+          manifest: this.manifestService.toInstalledManifest(manifest),
+          messages: dependencyResult.errors,
+          error: 'PLUGIN_DEPENDENCY_RESOLUTION_FAILED',
+        };
+      }
+
       await this.migrationRunner.run();
 
       const installation = await this.pluginService.install({

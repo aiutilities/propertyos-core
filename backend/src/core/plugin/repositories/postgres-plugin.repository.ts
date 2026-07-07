@@ -82,11 +82,11 @@ export class PostgresPluginRepository
       `
       SELECT *
       FROM core_plugins
-      WHERE manifest::text LIKE $1
-        AND name <> $2
+      WHERE manifest->'dependencies' ? $1
+        AND name <> $1
       ORDER BY display_name
       `,
-      [`%"dependencies":["${pluginName}%`, pluginName],
+      [pluginName],
     );
 
     return result.rows.map((row) => this.map(row));

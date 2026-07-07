@@ -76,6 +76,22 @@ export class PostgresPluginRepository
     return result.rows[0] ? this.map(result.rows[0]) : null;
   }
 
+
+  async findDependents(pluginName: string): Promise<PluginEntity[]> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM core_plugins
+      WHERE manifest::text LIKE $1
+        AND name <> $2
+      ORDER BY display_name
+      `,
+      [`%"dependencies":["${pluginName}%`, pluginName],
+    );
+
+    return result.rows.map((row) => this.map(row));
+  }
+
   async update(
     id: string,
     plugin: Partial<PluginEntity>,

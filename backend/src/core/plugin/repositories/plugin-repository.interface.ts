@@ -5,6 +5,7 @@ export interface PluginRepository {
   findAll(): Promise<PluginEntity[]>;
   findById(id: string): Promise<PluginEntity | null>;
   findByName(name: string): Promise<PluginEntity | null>;
+  findDependents(pluginName: string): Promise<PluginEntity[]>;
   update(id: string, plugin: Partial<PluginEntity>): Promise<PluginEntity>;
   delete(id: string): Promise<void>;
   remove(id: string): Promise<void>;

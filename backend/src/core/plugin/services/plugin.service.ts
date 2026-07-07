@@ -120,6 +120,25 @@ export class PluginService implements OnModuleInit {
 
   async uninstall(id: string) {
     const plugin = await this.requireInstalledPlugin(id);
+
+    const dependents =
+      await this.pluginRepository.findDependents(plugin.name);
+
+    if (dependents.length > 0) {
+      return {
+        success: false,
+        status: 'DEPENDENCY_BLOCKED',
+        plugin: plugin.name,
+        dependents: dependents.map((item) => ({
+          id: item.id,
+          name: item.name,
+          version: item.version,
+        })),
+        error:
+          'PLUGIN_UNINSTALL_BLOCKED_BY_DEPENDENCIES',
+      };
+    }
+
     const updates = await this.lifecycleService.uninstall(plugin);
     const updated = await this.pluginRepository.update(plugin.id, updates);
 

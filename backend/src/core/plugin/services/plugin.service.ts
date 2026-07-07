@@ -5,6 +5,7 @@ import { CreatePluginDto } from '../dto/create-plugin.dto';
 import { UpgradePluginDto } from '../dto/upgrade-plugin.dto';
 import { RollbackPluginDto } from '../dto/rollback-plugin.dto';
 import { PluginLoaderService } from '../loader/plugin-loader.service';
+import { PluginLifecycleService } from '../lifecycle/plugin-lifecycle.service';
 import { PluginWorkflowRegistry } from '../registries/plugin-workflow.registry';
 import { PluginPermissionRegistry } from '../registries/plugin-permission.registry';
 import { PluginNotificationRegistry } from '../registries/plugin-notification.registry';
@@ -24,6 +25,7 @@ export class PluginService implements OnModuleInit {
   constructor(
     private readonly eventBus: EventBusService,
     private readonly pluginLoader: PluginLoaderService,
+    private readonly lifecycleService: PluginLifecycleService,
     private readonly workflowRegistry: PluginWorkflowRegistry,
     private readonly permissionRegistry: PluginPermissionRegistry,
     private readonly notificationRegistry: PluginNotificationRegistry,
@@ -82,11 +84,8 @@ export class PluginService implements OnModuleInit {
 
   async activate(id: string) {
     const plugin = await this.requireInstalledPlugin(id);
-
-    const updated = await this.pluginRepository.update(plugin.id, {
-      status: 'ACTIVE',
-      activatedAt: new Date(),
-    });
+    const updates = await this.lifecycleService.activate(plugin);
+    const updated = await this.pluginRepository.update(plugin.id, updates);
 
     await this.eventBus.publish(
       PlatformEventNames.PLUGIN_ACTIVATED,
@@ -94,16 +93,17 @@ export class PluginService implements OnModuleInit {
       { id: plugin.id },
     );
 
-    return { success: true, plugin: updated, status: 'ACTIVE' };
+    return this.lifecycleService.buildResult(
+      updated,
+      'ACTIVE',
+      plugin.status,
+    );
   }
 
   async deactivate(id: string) {
     const plugin = await this.requireInstalledPlugin(id);
-
-    const updated = await this.pluginRepository.update(plugin.id, {
-      status: 'INACTIVE',
-      deactivatedAt: new Date(),
-    });
+    const updates = await this.lifecycleService.deactivate(plugin);
+    const updated = await this.pluginRepository.update(plugin.id, updates);
 
     await this.eventBus.publish(
       PlatformEventNames.PLUGIN_DEACTIVATED,
@@ -111,16 +111,17 @@ export class PluginService implements OnModuleInit {
       { id: plugin.id },
     );
 
-    return { success: true, plugin: updated, status: 'INACTIVE' };
+    return this.lifecycleService.buildResult(
+      updated,
+      'INACTIVE',
+      plugin.status,
+    );
   }
 
   async uninstall(id: string) {
     const plugin = await this.requireInstalledPlugin(id);
-
-    const updated = await this.pluginRepository.update(plugin.id, {
-      status: 'UNINSTALLED',
-      deactivatedAt: new Date(),
-    });
+    const updates = await this.lifecycleService.uninstall(plugin);
+    const updated = await this.pluginRepository.update(plugin.id, updates);
 
     await this.eventBus.publish(
       PlatformEventNames.PLUGIN_UNINSTALLED,
@@ -128,7 +129,11 @@ export class PluginService implements OnModuleInit {
       { id: plugin.id },
     );
 
-    return { success: true, plugin: updated, status: 'UNINSTALLED' };
+    return this.lifecycleService.buildResult(
+      updated,
+      'UNINSTALLED',
+      plugin.status,
+    );
   }
 
   async remove(id: string) {
@@ -145,18 +150,8 @@ export class PluginService implements OnModuleInit {
 
   async upgrade(id: string, dto: UpgradePluginDto) {
     const plugin = await this.requireInstalledPlugin(id);
-
-    const nextManifest = dto.manifest ?? {
-      ...plugin.manifest,
-      version: dto.version,
-    };
-
-    const updated = await this.pluginRepository.update(plugin.id, {
-      version: dto.version,
-      manifest: nextManifest,
-      status: 'INSTALLED',
-      deactivatedAt: new Date(),
-    });
+    const updates = await this.lifecycleService.upgrade(plugin, dto);
+    const updated = await this.pluginRepository.update(plugin.id, updates);
 
     await this.eventBus.publish(
       'plugin.upgraded',
@@ -169,27 +164,19 @@ export class PluginService implements OnModuleInit {
       },
     );
 
-    return {
-      success: true,
-      plugin: updated,
-      status: 'UPGRADED',
-    };
+    return this.lifecycleService.buildResult(
+      updated,
+      'UPGRADED',
+      plugin.status,
+      plugin.version,
+      dto.version,
+    );
   }
 
   async rollback(id: string, dto: RollbackPluginDto) {
     const plugin = await this.requireInstalledPlugin(id);
-
-    const nextManifest = {
-      ...plugin.manifest,
-      version: dto.targetVersion,
-    };
-
-    const updated = await this.pluginRepository.update(plugin.id, {
-      version: dto.targetVersion,
-      manifest: nextManifest,
-      status: 'INSTALLED',
-      deactivatedAt: new Date(),
-    });
+    const updates = await this.lifecycleService.rollback(plugin, dto);
+    const updated = await this.pluginRepository.update(plugin.id, updates);
 
     await this.eventBus.publish(
       'plugin.rolled_back',
@@ -202,11 +189,13 @@ export class PluginService implements OnModuleInit {
       },
     );
 
-    return {
-      success: true,
-      plugin: updated,
-      status: 'ROLLED_BACK',
-    };
+    return this.lifecycleService.buildResult(
+      updated,
+      'ROLLED_BACK',
+      plugin.status,
+      plugin.version,
+      dto.targetVersion,
+    );
   }
 
   async installedPlugins() {

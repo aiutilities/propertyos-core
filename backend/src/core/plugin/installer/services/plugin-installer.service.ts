@@ -107,7 +107,7 @@ export class PluginInstallerService {
         };
       }
 
-      await this.migrationRunner.run();
+      const migrationResult = await this.migrationRunner.run(pluginRoot, manifest.name);
 
       const installation = await this.pluginService.install({
         manifest: this.manifestService.toInstalledManifest(manifest),
@@ -141,7 +141,8 @@ export class PluginInstallerService {
           'Plugin package registered',
           'Plugin validated',
           'Dependencies resolved',
-          'Migrations executed',
+          `Migrations executed: ${migrationResult.executed.length}`,
+          `Migrations skipped: ${migrationResult.skipped.length}`,
           'Plugin installed',
           dto.autoEnable !== false ? 'Plugin activated' : 'Plugin left inactive',
         ],

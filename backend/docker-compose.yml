@@ -4,13 +4,42 @@ services:
     container_name: propertyos-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: propertyos
-      POSTGRES_USER: propertyos
-      POSTGRES_PASSWORD: propertyos
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT:-5433}:5432"
     volumes:
       - propertyos_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-propertyos} -d ${POSTGRES_DB:-propertyos}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: propertyos-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+      AUTH_SECRET: ${AUTH_SECRET:-propertyos-dev-secret-change-me}
+    ports:
+      - "${API_PORT:-3001}:3000"
+    volumes:
+      - propertyos_plugin_data:/app/plugins/.installed
 
 volumes:
   propertyos_postgres_data:
+  propertyos_plugin_data:

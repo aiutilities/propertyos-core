@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/main.ts",
-    "build": "tsc --noEmit",
+    "build": "tsc",
     "dev": "ts-node src/main.ts",
     "migrate": "ts-node src/database/runner/migration-runner.ts",
     "test": "jest",
-    "test:integration": "jest --runInBand"
+    "test:integration": "jest --runInBand",
+    "typecheck": "tsc --noEmit",
+    "start:prod": "node dist/main.js"
   },
   "keywords": [],
   "author": "",

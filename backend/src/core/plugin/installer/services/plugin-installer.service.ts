@@ -51,7 +51,7 @@ export class PluginInstallerService {
 
       const manifest = this.manifestService.discover(pluginRoot);
 
-      const validationErrors = await this.validator.validate(pluginRoot);
+      const validationErrors = await this.validator.validate(pluginRoot, manifest);
 
       if (validationErrors.length) {
         return {

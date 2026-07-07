@@ -31,4 +31,14 @@ describe('Health API integration', () => {
         expect(response.body.service).toBe('propertyos-api');
       });
   });
+  it('GET /api/v1/health returns request id header', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/health')
+      .set('x-request-id', 'test-request-id')
+      .expect(200)
+      .expect((response) => {
+        expect(response.headers['x-request-id']).toBe('test-request-id');
+      });
+  });
+
 });

@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
@@ -36,6 +38,12 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: Number(process.env.RATE_LIMIT_TTL_MS ?? 60000),
+        limit: Number(process.env.RATE_LIMIT_MAX ?? 100),
+      },
+    ]),
     ConfigModule,
     DatabaseModule,
 
@@ -69,6 +77,12 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     HealthModule,
 
     VisitorModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

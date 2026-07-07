@@ -1,31 +1,27 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { Pool } from 'pg';
-import { POSTGRES_POOL } from '../../database/postgres';
+import { Controller, Get } from '@nestjs/common';
+import { HealthService } from './health.service';
 
 @Controller('health')
 export class HealthController {
-  constructor(
-    @Inject(POSTGRES_POOL)
-    private readonly pool: Pool,
-  ) {}
+  constructor(private readonly healthService: HealthService) {}
 
   @Get()
   getHealth() {
-    return {
-      status: 'ok',
-      service: 'propertyos-api',
-      timestamp: new Date().toISOString(),
-    };
+    return this.healthService.getHealth();
+  }
+
+  @Get('live')
+  getLiveness() {
+    return this.healthService.getLiveness();
+  }
+
+  @Get('ready')
+  getReadiness() {
+    return this.healthService.getReadiness();
   }
 
   @Get('database')
-  async getDatabaseHealth() {
-    const result = await this.pool.query('SELECT NOW() as now');
-
-    return {
-      status: 'ok',
-      database: 'postgres',
-      timestamp: result.rows[0].now,
-    };
+  getDatabaseHealth() {
+    return this.healthService.getDatabaseHealth();
   }
 }

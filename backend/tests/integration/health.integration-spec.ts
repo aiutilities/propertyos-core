@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
+import { POSTGRES_POOL } from '../../src/database/postgres';
 
 describe('Health API integration', () => {
   let app: any;
@@ -16,6 +17,8 @@ describe('Health API integration', () => {
   });
 
   afterAll(async () => {
+    const pool = app.get(POSTGRES_POOL);
+    await pool.end();
     await app.close();
   });
 

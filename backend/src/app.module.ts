@@ -34,8 +34,10 @@ import { UploadModule } from './core/upload';
 import { SchedulerModule } from './core/scheduler';
 import { HealthModule } from './core/health/health.module';
 
+import { PlatformModule } from './core/platform';
 import { GlobalExceptionFilter } from './core/platform/filters/global-exception.filter';
 import { RequestIdMiddleware } from './core/platform/middleware/request-id.middleware';
+import { RequestLoggingMiddleware } from './core/platform/middleware/request-logging.middleware';
 import { VisitorModule } from './plugins/visitor/visitor.module';
 
 @Module({
@@ -48,6 +50,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     ]),
     ConfigModule,
     DatabaseModule,
+    PlatformModule,
 
     AuditModule,
     AuthModule,
@@ -93,6 +96,6 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestIdMiddleware).forRoutes('*');
+    consumer.apply(RequestIdMiddleware, RequestLoggingMiddleware).forRoutes('*');
   }
 }

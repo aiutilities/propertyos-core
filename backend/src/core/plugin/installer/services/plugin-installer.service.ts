@@ -44,6 +44,7 @@ export class PluginInstallerService {
     );
 
     let extractedPath: string | undefined;
+    let migrationResult: { executed: string[]; skipped: string[] } | undefined;
 
     try {
       extractedPath = await this.extractor.extract(dto.packagePath);
@@ -107,7 +108,7 @@ export class PluginInstallerService {
         };
       }
 
-      const migrationResult = await this.migrationRunner.run(pluginRoot, manifest.name);
+      migrationResult = await this.migrationRunner.run(pluginRoot, manifest.name);
 
       const installation = await this.pluginService.install({
         manifest: this.manifestService.toInstalledManifest(manifest),
@@ -148,6 +149,10 @@ export class PluginInstallerService {
         ],
       };
     } catch (error) {
+      if (migrationResult?.executed.length) {
+        await this.migrationRunner.rollback(migrationResult.executed);
+      }
+
       if (extractedPath) {
         this.rollbackService.rollback(extractedPath);
       }

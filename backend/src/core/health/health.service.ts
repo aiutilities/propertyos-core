@@ -5,6 +5,9 @@ import { PluginService } from '../plugin';
 import { PluginLoaderService } from '../plugin/loader/plugin-loader.service';
 import { SchedulerService } from '../scheduler';
 import { StorageService } from '../storage';
+import { EventBusService } from '../eventbus/services/eventbus.service';
+import { MetricsService } from '../metrics';
+import { WorkflowService } from '../workflow';
 import { POSTGRES_POOL } from '../../database/postgres';
 
 type HealthCheckStatus = 'ok' | 'error';
@@ -26,12 +29,18 @@ export class HealthService {
     private readonly storageService: StorageService,
     private readonly pluginService: PluginService,
     private readonly pluginLoaderService: PluginLoaderService,
+    private readonly eventBusService: EventBusService,
+    private readonly metricsService: MetricsService,
+    private readonly workflowService: WorkflowService,
   ) {}
 
-  getHealth() {
+  async getHealth() {
     return {
       status: 'ok',
       service: 'propertyos-api',
+      runtime: this.metricsService.getRuntimeMetrics(),
+      eventBus: this.eventBusService.getStats(),
+      workflow: await this.workflowService.getMetrics(),
       timestamp: new Date().toISOString(),
     };
   }
@@ -61,6 +70,8 @@ export class HealthService {
       scheduler: this.checkScheduler(),
       storage: this.checkStorage(),
       plugins: this.checkPlugins(),
+      eventBus: this.checkEventBus(),
+      workflow: await this.checkWorkflow(),
     };
 
     const status = Object.values(checks).every((check) => check.status === 'ok')
@@ -172,6 +183,40 @@ export class HealthService {
         failedPluginIds: failedPlugins.map((plugin) => plugin.manifest.id),
       },
     };
+  }
+
+
+  private checkEventBus(): HealthCheckResult {
+    const stats = this.eventBusService.getStats();
+
+    return {
+      status: stats.deadLetters === 0 ? 'ok' : 'error',
+      latencyMs: 0,
+      details: stats as unknown as Record<string, unknown>,
+    };
+  }
+
+  private async checkWorkflow(): Promise<HealthCheckResult> {
+    const startedAt = Date.now();
+
+    try {
+      const metrics = await this.workflowService.getMetrics();
+
+      return {
+        status: 'ok',
+        latencyMs: Date.now() - startedAt,
+        details: metrics as unknown as Record<string, unknown>,
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        latencyMs: Date.now() - startedAt,
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Unknown workflow health error',
+      };
+    }
   }
 
   private async checkDatabase(): Promise<HealthCheckResult> {

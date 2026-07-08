@@ -7,6 +7,7 @@ import {
 export interface PaginatedQueryOptions<TData> {
   tableName: string;
   searchableColumns?: string[];
+  baseWhereClauses?: string[];
   sortableColumns?: Record<string, string>;
   defaultSortColumn?: string;
   mapRow: (row: any) => TData;
@@ -27,7 +28,7 @@ export abstract class BasePostgresRepository {
   ) {
     const { page, limit, offset } = normalizePagination(query);
     const values: unknown[] = [];
-    const whereClauses: string[] = [];
+    const whereClauses: string[] = [...(options.baseWhereClauses ?? [])];
 
     if (query.search && options.searchableColumns?.length) {
       values.push(`%${query.search}%`);

@@ -88,6 +88,7 @@ export class PostgresAgreementRepository
   ): Promise<PaginatedResponseDto<Agreement>> {
     const paginatedQuery = this.buildPaginatedQuery(query, {
       tableName: 'agreements',
+      baseWhereClauses: ['deleted_at IS NULL'],
       searchableColumns: [
         'agreement_number',
         'status',
@@ -102,21 +103,11 @@ export class PostgresAgreementRepository
       mapRow: (row) => this.mapAgreement(row),
     });
 
-    const itemsSql = paginatedQuery.itemsSql.replace(
-      'FROM agreements',
-      'FROM agreements WHERE deleted_at IS NULL',
-    );
-
-    const countSql = paginatedQuery.countSql.replace(
-      'FROM agreements',
-      'FROM agreements WHERE deleted_at IS NULL',
-    );
-
     const countValues = paginatedQuery.values.slice(0, -2);
 
     const [itemsResult, countResult] = await Promise.all([
-      this.pool.query(itemsSql, paginatedQuery.values),
-      this.pool.query(countSql, countValues),
+      this.pool.query(paginatedQuery.itemsSql, paginatedQuery.values),
+      this.pool.query(paginatedQuery.countSql, countValues),
     ]);
 
     const total = Number(countResult.rows[0]?.total ?? 0);

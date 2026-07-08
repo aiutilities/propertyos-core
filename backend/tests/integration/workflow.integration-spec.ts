@@ -277,6 +277,26 @@ describe('Workflow API integration', () => {
   });
 
 
+
+  it('GET /api/v1/workflows/metrics returns workflow operational metrics', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/workflows/metrics')
+      .expect(200);
+
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.metrics.definitions.total).toBeGreaterThanOrEqual(1);
+    expect(response.body.data.metrics.definitions.active).toBeGreaterThanOrEqual(1);
+    expect(response.body.data.metrics.instances.total).toBeGreaterThanOrEqual(1);
+    expect(response.body.data.metrics.instances.completed).toBeGreaterThanOrEqual(1);
+    expect(response.body.data.metrics.history.totalTransitions).toBeGreaterThanOrEqual(3);
+    expect(
+      response.body.data.metrics.history.averageTransitionsPerInstance,
+    ).toBeGreaterThanOrEqual(1);
+    expect(
+      response.body.data.metrics.completion.averageCompletionTimeSeconds,
+    ).not.toBeNull();
+  });
+
   it('POST /api/v1/workflows/instances/:id/transitions rejects transition after completion', async () => {
     await request(app.getHttpServer())
       .post(`/api/v1/workflows/instances/${workflowInstanceId}/transitions`)

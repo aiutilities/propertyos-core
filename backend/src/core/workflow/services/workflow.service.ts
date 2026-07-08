@@ -41,6 +41,10 @@ export class WorkflowService {
     return this.workflowRepository.listDefinitions();
   }
 
+  async getMetrics() {
+    return this.workflowRepository.getMetrics();
+  }
+
   async getDefinition(id: string) {
     const definition = await this.workflowRepository.findDefinitionById(id);
 

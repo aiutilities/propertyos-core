@@ -62,6 +62,28 @@ export interface WorkflowHistory {
   createdAt: Date;
 }
 
+
+export interface WorkflowMetrics {
+  definitions: {
+    total: number;
+    active: number;
+    inactive: number;
+  };
+  instances: {
+    total: number;
+    active: number;
+    completed: number;
+    cancelled: number;
+  };
+  history: {
+    totalTransitions: number;
+    averageTransitionsPerInstance: number;
+  };
+  completion: {
+    averageCompletionTimeSeconds: number | null;
+  };
+}
+
 export interface CreateWorkflowDefinitionInput {
   code: string;
   name: string;

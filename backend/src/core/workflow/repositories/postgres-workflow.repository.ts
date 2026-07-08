@@ -9,6 +9,7 @@ import {
   WorkflowDefinition,
   WorkflowHistory,
   WorkflowInstance,
+  WorkflowMetrics,
   WorkflowState,
   WorkflowTransition,
 } from '../types/workflow.types';
@@ -242,6 +243,99 @@ export class PostgresWorkflowRepository {
       [workflowInstanceId],
     );
     return result.rows.map((row) => this.mapHistory(row));
+  }
+
+
+  async getMetrics(): Promise<WorkflowMetrics> {
+    const result = await this.pool.query(`
+      WITH definition_counts AS (
+        SELECT
+          COUNT(*)::int AS total_definitions,
+          COUNT(*) FILTER (WHERE is_active)::int AS active_definitions,
+          COUNT(*) FILTER (WHERE NOT is_active)::int AS inactive_definitions
+        FROM workflow_definitions
+      ),
+      instance_counts AS (
+        SELECT
+          COUNT(*)::int AS total_instances,
+          COUNT(*) FILTER (WHERE status = 'ACTIVE')::int AS active_instances,
+          COUNT(*) FILTER (WHERE status = 'COMPLETED')::int AS completed_instances,
+          COUNT(*) FILTER (WHERE status = 'CANCELLED')::int AS cancelled_instances
+        FROM workflow_instances
+      ),
+      history_counts AS (
+        SELECT
+          COUNT(*)::int AS total_transitions
+        FROM workflow_history
+      ),
+      per_instance_history AS (
+        SELECT
+          wi.id,
+          COUNT(wh.id)::float AS transition_count
+        FROM workflow_instances wi
+        LEFT JOIN workflow_history wh ON wh.workflow_instance_id = wi.id
+        GROUP BY wi.id
+      ),
+      completion_times AS (
+        SELECT
+          EXTRACT(EPOCH FROM (wi.updated_at - wi.created_at))::float AS completion_seconds
+        FROM workflow_instances wi
+        WHERE wi.status = 'COMPLETED'
+      )
+      SELECT
+        dc.total_definitions,
+        dc.active_definitions,
+        dc.inactive_definitions,
+        ic.total_instances,
+        ic.active_instances,
+        ic.completed_instances,
+        ic.cancelled_instances,
+        hc.total_transitions,
+        COALESCE(AVG(pih.transition_count), 0)::float AS average_transitions_per_instance,
+        AVG(ct.completion_seconds)::float AS average_completion_time_seconds
+      FROM definition_counts dc
+      CROSS JOIN instance_counts ic
+      CROSS JOIN history_counts hc
+      LEFT JOIN per_instance_history pih ON TRUE
+      LEFT JOIN completion_times ct ON TRUE
+      GROUP BY
+        dc.total_definitions,
+        dc.active_definitions,
+        dc.inactive_definitions,
+        ic.total_instances,
+        ic.active_instances,
+        ic.completed_instances,
+        ic.cancelled_instances,
+        hc.total_transitions
+    `);
+
+    const row = result.rows[0];
+
+    return {
+      definitions: {
+        total: Number(row.total_definitions ?? 0),
+        active: Number(row.active_definitions ?? 0),
+        inactive: Number(row.inactive_definitions ?? 0),
+      },
+      instances: {
+        total: Number(row.total_instances ?? 0),
+        active: Number(row.active_instances ?? 0),
+        completed: Number(row.completed_instances ?? 0),
+        cancelled: Number(row.cancelled_instances ?? 0),
+      },
+      history: {
+        totalTransitions: Number(row.total_transitions ?? 0),
+        averageTransitionsPerInstance: Number(
+          row.average_transitions_per_instance ?? 0,
+        ),
+      },
+      completion: {
+        averageCompletionTimeSeconds:
+          row.average_completion_time_seconds === null
+            ? null
+            : Number(row.average_completion_time_seconds),
+      },
+    };
   }
 
   private mapDefinition(row: any): WorkflowDefinition {

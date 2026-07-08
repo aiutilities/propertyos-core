@@ -211,7 +211,10 @@ describe('Audit API integration', () => {
     const response = await request(app.getHttpServer())
       .get('/api/v1/audit')
       .set('Authorization', `Bearer ${accessToken}`)
-      .query({ limit: 10 })
+      .query({
+        source: 'audit.integration.test',
+        limit: 10,
+      })
       .expect(200);
 
     expect(response.body.success).toBe(true);

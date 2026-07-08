@@ -59,6 +59,19 @@ export class WorkflowController {
     };
   }
 
+
+  @Get('metrics')
+  async getMetrics() {
+    const metrics = await this.workflowService.getMetrics();
+
+    return {
+      success: true,
+      data: {
+        metrics,
+      },
+    };
+  }
+
   @Post('instances/by-code')
   async startWorkflowByCode(@Body() dto: StartWorkflowByCodeDto) {
     const instance = await this.workflowService.startWorkflowByCode(dto);

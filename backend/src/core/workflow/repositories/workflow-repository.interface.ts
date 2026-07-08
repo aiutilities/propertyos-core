@@ -5,6 +5,7 @@ import {
   WorkflowDefinition,
   WorkflowHistory,
   WorkflowInstance,
+  WorkflowMetrics,
   WorkflowState,
   WorkflowTransition,
 } from '../types/workflow.types';
@@ -53,4 +54,6 @@ export interface WorkflowRepository {
   }): Promise<WorkflowHistory>;
 
   listHistory(workflowInstanceId: string): Promise<WorkflowHistory[]>;
+
+  getMetrics(): Promise<WorkflowMetrics>;
 }

@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
+
 import { EventBusService } from '../eventbus/services/eventbus.service';
 import { PropertyOSEvent } from '../eventbus/types/event.types';
 import { AuditService } from './audit.service';
-import { AuditEventType } from './audit.types';
 
 @Injectable()
 export class AuditSubscriber implements OnModuleInit {
@@ -15,9 +15,9 @@ export class AuditSubscriber implements OnModuleInit {
     this.eventBusService.subscribeAll((event) => this.handleEvent(event));
   }
 
-  private handleEvent(event: PropertyOSEvent): void {
-    this.auditService.record(
-      event.type as AuditEventType,
+  private async handleEvent(event: PropertyOSEvent): Promise<void> {
+    await this.auditService.record(
+      event.type,
       event.source,
       event.payload,
     );

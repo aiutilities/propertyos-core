@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-test-docker:
-    name: Build, Test, Audit, and Docker
+    name: Build, Test, Audit, SBOM, and Docker
     runs-on: ubuntu-latest
 
     defaults:
@@ -72,6 +72,20 @@ jobs:
 
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=critical
+
+      - name: Generate SBOM
+        uses: CycloneDX/gh-node-module-generatebom@v1
+        with:
+          path: backend
+          output: backend/sbom.cdx.json
+          json: true
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-sbom
+          path: backend/sbom.cdx.json
+          if-no-files-found: error
 
       - name: Validate Docker Compose
         run: docker compose config

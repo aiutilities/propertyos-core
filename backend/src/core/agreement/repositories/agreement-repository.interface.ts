@@ -1,4 +1,8 @@
 import {
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
+import {
   Agreement,
   AgreementVersion,
 } from '../types/agreement.types';
@@ -13,6 +17,10 @@ export interface AgreementRepositoryPort {
   getAgreement(id: string): Promise<Agreement | undefined>;
 
   listAgreements(): Promise<Agreement[]>;
+
+  listAgreementsPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Agreement>>;
 
   createAgreementVersion(
     input: Omit<AgreementVersion, 'id' | 'createdAt'>,

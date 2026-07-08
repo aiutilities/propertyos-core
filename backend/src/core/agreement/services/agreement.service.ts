@@ -2,6 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import {
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
+import {
   Agreement,
   AgreementVersion,
 } from '../types/agreement.types';
@@ -73,6 +77,12 @@ export class AgreementService {
 
   listAgreements(): Promise<Agreement[]> {
     return this.agreementRepository.listAgreements();
+  }
+
+  listAgreementsPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Agreement>> {
+    return this.agreementRepository.listAgreementsPaginated(query);
   }
 
   getAgreement(id: string): Promise<Agreement | undefined> {

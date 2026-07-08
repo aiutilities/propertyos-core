@@ -3,17 +3,26 @@ import { Pool } from 'pg';
 
 import { POSTGRES_POOL } from '../../../database/postgres';
 import {
+  BasePostgresRepository,
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
+import {
   Agreement,
   AgreementVersion,
 } from '../types/agreement.types';
 import { AgreementRepositoryPort } from './agreement-repository.interface';
 
 @Injectable()
-export class PostgresAgreementRepository implements AgreementRepositoryPort {
+export class PostgresAgreementRepository
+  extends BasePostgresRepository
+  implements AgreementRepositoryPort {
   constructor(
     @Inject(POSTGRES_POOL)
     private readonly pool: Pool,
-  ) {}
+  ) {
+    super();
+  }
 
   async createAgreement(
     input: Omit<Agreement, 'id' | 'createdAt' | 'updatedAt'>,
@@ -72,6 +81,53 @@ export class PostgresAgreementRepository implements AgreementRepositoryPort {
     );
 
     return result.rows.map((row) => this.mapAgreement(row));
+  }
+
+  async listAgreementsPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Agreement>> {
+    const paginatedQuery = this.buildPaginatedQuery(query, {
+      tableName: 'agreements',
+      searchableColumns: [
+        'agreement_number',
+        'status',
+      ],
+      sortableColumns: {
+        agreementNumber: 'agreement_number',
+        status: 'status',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+      defaultSortColumn: 'created_at',
+      mapRow: (row) => this.mapAgreement(row),
+    });
+
+    const itemsSql = paginatedQuery.itemsSql.replace(
+      'FROM agreements',
+      'FROM agreements WHERE deleted_at IS NULL',
+    );
+
+    const countSql = paginatedQuery.countSql.replace(
+      'FROM agreements',
+      'FROM agreements WHERE deleted_at IS NULL',
+    );
+
+    const countValues = paginatedQuery.values.slice(0, -2);
+
+    const [itemsResult, countResult] = await Promise.all([
+      this.pool.query(itemsSql, paginatedQuery.values),
+      this.pool.query(countSql, countValues),
+    ]);
+
+    const total = Number(countResult.rows[0]?.total ?? 0);
+
+    return this.toPaginatedResponse(
+      itemsResult.rows,
+      total,
+      paginatedQuery.page,
+      paginatedQuery.limit,
+      (row) => this.mapAgreement(row),
+    );
   }
 
   async createAgreementVersion(

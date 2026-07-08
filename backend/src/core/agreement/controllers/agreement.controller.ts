@@ -4,12 +4,14 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { PaginationQueryDto } from '../../platform';
 import { AgreementService } from '../services/agreement.service';
 import { CreateAgreementDto } from '../dto/create-agreement.dto';
 
@@ -31,8 +33,8 @@ export class AgreementController {
 
   @Get()
   @RequirePermission('agreement.read')
-  async listAgreements() {
-    const agreements = await this.agreementService.listAgreements();
+  async listAgreements(@Query() query: PaginationQueryDto) {
+    const agreements = await this.agreementService.listAgreementsPaginated(query);
 
     return {
       success: true,

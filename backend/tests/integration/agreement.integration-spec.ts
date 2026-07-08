@@ -240,9 +240,15 @@ describe('Agreement API integration', () => {
       .expect(200);
 
     expect(response.body.success).toBe(true);
-    expect(Array.isArray(response.body.data)).toBe(true);
+    expect(Array.isArray(response.body.data.items)).toBe(true);
+    expect(response.body.data.page).toBe(1);
+    expect(response.body.data.limit).toBe(25);
+    expect(response.body.data.total).toBeGreaterThanOrEqual(1);
+    expect(response.body.data.totalPages).toBeGreaterThanOrEqual(1);
     expect(
-      response.body.data.some((agreement: any) => agreement.id === agreementId),
+      response.body.data.items.some(
+        (agreement: any) => agreement.id === agreementId,
+      ),
     ).toBe(true);
   });
 

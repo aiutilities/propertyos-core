@@ -1,7 +1,9 @@
 export interface SearchQuery {
   query: string;
   entityTypes?: string[];
+  providerNames?: string[];
   limit?: number;
+  offset?: number;
 }
 
 export interface SearchResult {
@@ -11,6 +13,7 @@ export interface SearchResult {
   title: string;
   description?: string;
   score?: number;
+  providerName?: string;
   metadata?: Record<string, unknown>;
 }
 

@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 
 import { POSTGRES_POOL } from '../../../database/postgres/postgres.types';
 import {
-  normalizePagination,
+  BasePostgresRepository,
   PaginatedResponseDto,
   PaginationQueryDto,
 } from '../../platform';
@@ -11,8 +11,12 @@ import { PropertyRepository } from './property.repository';
 import { Property, Space, Zone } from '../types/property.types';
 
 @Injectable()
-export class PostgresPropertyRepository implements PropertyRepository {
-  constructor(@Inject(POSTGRES_POOL) private readonly pool: Pool) {}
+export class PostgresPropertyRepository
+  extends BasePostgresRepository
+  implements PropertyRepository {
+  constructor(@Inject(POSTGRES_POOL) private readonly pool: Pool) {
+    super();
+  }
 
   async createProperty(property: Property): Promise<Property> {
     const result = await this.pool.query(
@@ -58,30 +62,46 @@ export class PostgresPropertyRepository implements PropertyRepository {
   async listProperties(
     query: PaginationQueryDto,
   ): Promise<PaginatedResponseDto<Property>> {
-    const { page, limit, offset } = normalizePagination(query);
+    const paginatedQuery = this.buildPaginatedQuery(query, {
+      tableName: 'properties',
+      searchableColumns: [
+        'name',
+        'code',
+        'property_type',
+        'city',
+        'state',
+        'country',
+      ],
+      sortableColumns: {
+        name: 'name',
+        code: 'code',
+        propertyType: 'property_type',
+        city: 'city',
+        state: 'state',
+        country: 'country',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+      defaultSortColumn: 'created_at',
+      mapRow: (row) => this.mapProperty(row),
+    });
+
+    const countValues = paginatedQuery.values.slice(0, -2);
 
     const [itemsResult, countResult] = await Promise.all([
-      this.pool.query(
-        `
-        SELECT *
-        FROM properties
-        ORDER BY created_at DESC
-        LIMIT $1 OFFSET $2
-        `,
-        [limit, offset],
-      ),
-      this.pool.query(`SELECT COUNT(*)::int AS total FROM properties`),
+      this.pool.query(paginatedQuery.itemsSql, paginatedQuery.values),
+      this.pool.query(paginatedQuery.countSql, countValues),
     ]);
 
     const total = Number(countResult.rows[0]?.total ?? 0);
 
-    return {
-      items: itemsResult.rows.map((row) => this.mapProperty(row)),
-      page,
-      limit,
+    return this.toPaginatedResponse(
+      itemsResult.rows,
       total,
-      totalPages: Math.ceil(total / limit),
-    };
+      paginatedQuery.page,
+      paginatedQuery.limit,
+      (row) => this.mapProperty(row),
+    );
   }
 
   async createZone(zone: Zone): Promise<Zone> {

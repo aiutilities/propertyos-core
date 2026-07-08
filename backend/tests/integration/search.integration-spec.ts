@@ -17,6 +17,8 @@ describe('Search API integration', () => {
   let agreementId: string;
   let rentLedgerId: string;
   let workflowDefinitionId: string;
+  let visitorId: string;
+  let visitorVisitId: string;
 
   const timestamp = Date.now();
 
@@ -233,9 +235,77 @@ describe('Search API integration', () => {
       .expect(201);
 
     workflowDefinitionId = workflow.body.data.definition.id;
+
+    visitorId = randomUUID();
+    visitorVisitId = randomUUID();
+
+    await pool.query(
+      `
+      INSERT INTO visitors (
+        id, full_name, mobile, email, created_at, updated_at
+      )
+      VALUES ($1,$2,$3,$4,NOW(),NOW())
+      `,
+      [
+        visitorId,
+        `Search Visitor ${timestamp}`,
+        `91000${String(timestamp).slice(-5)}`,
+        `search-visitor-${timestamp}@propertyos.test`,
+      ],
+    );
+
+    await pool.query(
+      `
+      INSERT INTO visits (
+        id,
+        visitor_id,
+        property_id,
+        host_person_id,
+        visit_date,
+        visit_purpose,
+        status,
+        created_at,
+        updated_at
+      )
+      VALUES ($1,$2,$3,$4,$5,$6,$7,NOW(),NOW())
+      `,
+      [
+        visitorVisitId,
+        visitorId,
+        propertyId,
+        adminPersonId,
+        new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        `Search Visitor Purpose ${timestamp}`,
+        'invited',
+      ],
+    );
   });
 
   afterAll(async () => {
+    if (visitorVisitId) {
+      await pool.query(
+        'DELETE FROM visitor_status_history WHERE visit_id=$1',
+        [visitorVisitId],
+      );
+
+      await pool.query(
+        'DELETE FROM visitor_qr_passes WHERE visit_id=$1',
+        [visitorVisitId],
+      );
+
+      await pool.query(
+        'DELETE FROM visits WHERE id=$1',
+        [visitorVisitId],
+      );
+    }
+
+    if (visitorId) {
+      await pool.query(
+        'DELETE FROM visitors WHERE id=$1',
+        [visitorId],
+      );
+    }
+
     if (rentLedgerId) {
       await pool.query(
         'DELETE FROM rent_payments WHERE rent_ledger_id=$1',
@@ -354,6 +424,7 @@ describe('Search API integration', () => {
     expect(response.body.data.some((p:any)=>p.name==='core-agreement-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-rent-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-workflow-search')).toBe(true);
+    expect(response.body.data.some((p:any)=>p.name==='visitor-search-provider')).toBe(true);
   });
 
   it('POST /api/v1/search searches properties', async () => {
@@ -447,6 +518,25 @@ describe('Search API integration', () => {
         (r:any)=>
           r.entityType==='WORKFLOW' &&
           r.entityId===workflowDefinitionId,
+      ),
+    ).toBe(true);
+  });
+
+  it('POST /api/v1/search searches visitor visits', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/search')
+      .send({
+        query:`Search Visitor ${timestamp}`,
+        entityTypes:['visitor.visit'],
+        limit:10,
+      })
+      .expect(201);
+
+    expect(
+      response.body.some(
+        (r:any)=>
+          r.entityType==='visitor.visit' &&
+          r.entityId===visitorVisitId,
       ),
     ).toBe(true);
   });

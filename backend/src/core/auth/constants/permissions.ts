@@ -63,6 +63,8 @@ export const Permissions = {
 
   METRICS_READ: 'metrics.read',
 
+  AUDIT_READ: 'audit.read',
+
   ADMIN_READ: 'admin.read',
   ADMIN_MANAGE: 'admin.manage',
 } as const;

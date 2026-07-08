@@ -7,3 +7,12 @@ export interface AuditLogEntry {
   payload: Record<string, unknown>;
   createdAt: Date;
 }
+
+export interface AuditLogListQuery {
+  eventType?: string;
+  source?: string;
+  entityType?: string;
+  entityId?: string;
+  limit?: number;
+  offset?: number;
+}

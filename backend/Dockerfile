@@ -14,10 +14,22 @@ RUN npm prune --omit=dev
 
 FROM node:22-alpine AS runtime
 WORKDIR /app
+
 ENV NODE_ENV=production
-COPY --from=build /app/package*.json ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
-COPY src/database/migrations ./src/database/migrations
+
+RUN apk add --no-cache dumb-init
+
+COPY --from=build --chown=node:node /app/package*.json ./
+COPY --from=build --chown=node:node /app/node_modules ./node_modules
+COPY --from=build --chown=node:node /app/dist ./dist
+COPY --chown=node:node src/database/migrations ./src/database/migrations
+
+RUN mkdir -p /app/uploads /app/plugins/.installed \
+  && chown -R node:node /app
+
+USER node
+
 EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
+
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "dist/main.js"]

@@ -28,29 +28,52 @@ export class PluginSearchProviderService implements OnModuleInit {
       return [];
     }
 
-    const plugins = await this.pluginService.list();
+    const runtimePlugins = await this.pluginService.list();
+    const installedPlugins = await this.pluginService.installedPlugins();
+
+    const plugins = [
+      ...runtimePlugins,
+      ...installedPlugins.map((plugin: any) => ({
+        id: plugin.id,
+        name: plugin.name,
+        displayName: plugin.displayName,
+        version: plugin.version,
+        provider: plugin.author ?? 'unknown',
+        status: plugin.status,
+        installed: true,
+        installedPluginId: plugin.id,
+        installedStatus: plugin.status,
+        description: plugin.description,
+      })),
+    ];
+
     const normalizedQuery = query.query.toLowerCase();
 
     return plugins
       .filter((plugin: any) => {
         const name = String(plugin.name ?? '').toLowerCase();
+        const displayName = String(plugin.displayName ?? '').toLowerCase();
         const provider = String(plugin.provider ?? '').toLowerCase();
         const status = String(plugin.status ?? '').toLowerCase();
         const installedStatus = String(plugin.installedStatus ?? '').toLowerCase();
+        const description = String(plugin.description ?? '').toLowerCase();
 
         return (
           name.includes(normalizedQuery) ||
+          displayName.includes(normalizedQuery) ||
           provider.includes(normalizedQuery) ||
           status.includes(normalizedQuery) ||
-          installedStatus.includes(normalizedQuery)
+          installedStatus.includes(normalizedQuery) ||
+          description.includes(normalizedQuery)
         );
       })
       .map((plugin: any) => ({
         id: `PLUGIN:${plugin.id}`,
         entityType: 'PLUGIN',
         entityId: plugin.id,
-        title: plugin.name,
+        title: plugin.displayName ?? plugin.name,
         description: [
+          plugin.name,
           plugin.version,
           plugin.provider,
           plugin.status,
@@ -60,6 +83,8 @@ export class PluginSearchProviderService implements OnModuleInit {
           .join(' | '),
         score: this.scorePlugin(query.query, plugin),
         metadata: {
+          name: plugin.name,
+          displayName: plugin.displayName,
           version: plugin.version,
           provider: plugin.provider,
           enabled: plugin.enabled,
@@ -76,12 +101,13 @@ export class PluginSearchProviderService implements OnModuleInit {
   private scorePlugin(query: string, plugin: any): number {
     const normalizedQuery = query.toLowerCase();
     const name = String(plugin.name ?? '').toLowerCase();
+    const displayName = String(plugin.displayName ?? '').toLowerCase();
 
-    if (name === normalizedQuery) {
+    if (name === normalizedQuery || displayName === normalizedQuery) {
       return 100;
     }
 
-    if (name.includes(normalizedQuery)) {
+    if (name.includes(normalizedQuery) || displayName.includes(normalizedQuery)) {
       return 80;
     }
 

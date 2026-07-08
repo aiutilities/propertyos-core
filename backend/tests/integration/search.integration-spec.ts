@@ -19,8 +19,13 @@ describe('Search API integration', () => {
   let workflowDefinitionId: string;
   let visitorId: string;
   let visitorVisitId: string;
+  let documentTemplateId: string;
+  let documentId: string;
+  let pluginId: string;
 
   const timestamp = Date.now();
+
+  const pluginName = `search-plugin-${timestamp}`;
 
   const email = `search-e2e-${timestamp}@propertyos.test`;
   const password = 'CorrectHorseBatteryStaple123!';
@@ -279,9 +284,62 @@ describe('Search API integration', () => {
         'invited',
       ],
     );
+
+    const template = await request(app.getHttpServer())
+      .post('/api/v1/document-templates')
+      .send({
+        name: `Search Document Template ${timestamp}`,
+        code: `SEARCH_DOC_TEMPLATE_${timestamp}`,
+        templateType: 'TEXT',
+        content: 'Hello {{name}}',
+        variables: ['name'],
+      })
+      .expect(201);
+
+    documentTemplateId = template.body.id;
+
+    const document = await request(app.getHttpServer())
+      .post('/api/v1/documents/generate')
+      .send({
+        templateId: documentTemplateId,
+        title: `Search Document ${timestamp}`,
+        entityType: 'search.entity',
+        entityId: propertyId,
+        values: {
+          name: 'PropertyOS',
+        },
+        metadata: {
+          source: 'search-integration-test',
+        },
+      })
+      .expect(201);
+
+    documentId = document.body.id;
+
+    const plugin = await request(app.getHttpServer())
+      .post('/api/v1/plugins')
+      .send({
+        manifest: {
+          name: pluginName,
+          displayName: `Search Plugin ${timestamp}`,
+          version: '1.0.0',
+          description: 'Search integration plugin',
+          author: 'PropertyOS E2E',
+        },
+      })
+      .expect(201);
+
+    pluginId = plugin.body.plugin.id;
   });
 
   afterAll(async () => {
+    if (pluginId) {
+      await pool.query(
+        'DELETE FROM core_plugins WHERE id=$1',
+        [pluginId],
+      );
+    }
+
     if (visitorVisitId) {
       await pool.query(
         'DELETE FROM visitor_status_history WHERE visit_id=$1',
@@ -425,6 +483,8 @@ describe('Search API integration', () => {
     expect(response.body.data.some((p:any)=>p.name==='core-rent-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-workflow-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='visitor-search-provider')).toBe(true);
+    expect(response.body.data.some((p:any)=>p.name==='core-document-search')).toBe(true);
+    expect(response.body.data.some((p:any)=>p.name==='core-plugin-search')).toBe(true);
   });
 
   it('POST /api/v1/search searches properties', async () => {
@@ -537,6 +597,44 @@ describe('Search API integration', () => {
         (r:any)=>
           r.entityType==='visitor.visit' &&
           r.entityId===visitorVisitId,
+      ),
+    ).toBe(true);
+  });
+
+  it('POST /api/v1/search searches documents', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/search')
+      .send({
+        query:`Search Document ${timestamp}`,
+        entityTypes:['DOCUMENT'],
+        limit:10,
+      })
+      .expect(201);
+
+    expect(
+      response.body.some(
+        (r:any)=>
+          r.entityType==='DOCUMENT' &&
+          r.entityId===documentId,
+      ),
+    ).toBe(true);
+  });
+
+  it('POST /api/v1/search searches plugins', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/search')
+      .send({
+        query:pluginName,
+        entityTypes:['PLUGIN'],
+        limit:10,
+      })
+      .expect(201);
+
+    expect(
+      response.body.some(
+        (r:any)=>
+          r.entityType==='PLUGIN' &&
+          r.entityId===pluginId,
       ),
     ).toBe(true);
   });

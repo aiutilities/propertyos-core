@@ -46,6 +46,7 @@ describe('Search API integration', () => {
     'agreement.create',
     'rent.read',
     'rent.create',
+    Permissions.SEARCH_READ,
   ];
 
   beforeAll(async () => {
@@ -473,6 +474,7 @@ describe('Search API integration', () => {
   it('GET /api/v1/search/providers lists registered providers', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/v1/search/providers')
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
     expect(response.body.success).toBe(true);
@@ -490,6 +492,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches properties', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:`SEARCH-E2E-${timestamp}`,
         entityTypes:['PROPERTY'],
@@ -509,6 +512,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches tenants', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:`SEARCH-TEN-${timestamp}`,
         entityTypes:['TENANT'],
@@ -528,6 +532,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches agreements', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:`SEARCH-AGR-${timestamp}`,
         entityTypes:['AGREEMENT'],
@@ -547,6 +552,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches rent ledgers', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:'UNPAID',
         entityTypes:['RENT_LEDGER'],
@@ -566,6 +572,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches workflow definitions', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:workflowCode,
         entityTypes:['WORKFLOW'],
@@ -585,6 +592,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches visitor visits', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:`Search Visitor ${timestamp}`,
         entityTypes:['visitor.visit'],
@@ -604,6 +612,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches documents', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:`Search Document ${timestamp}`,
         entityTypes:['DOCUMENT'],
@@ -623,6 +632,7 @@ describe('Search API integration', () => {
   it('POST /api/v1/search searches plugins', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         query:pluginName,
         entityTypes:['PLUGIN'],

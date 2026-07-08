@@ -12,17 +12,24 @@ describe('Search API integration', () => {
   let pool: Pool;
   let accessToken: string;
   let propertyId: string;
+  let tenantId: string;
 
   const timestamp = Date.now();
   const email = `search-e2e-${timestamp}@propertyos.test`;
   const password = 'CorrectHorseBatteryStaple123!';
 
-  const personId = randomUUID();
+  const adminPersonId = randomUUID();
+  const tenantPersonId = randomUUID();
   const credentialId = randomUUID();
   const roleId = randomUUID();
   const personRoleId = randomUUID();
-  const readRolePermissionId = randomUUID();
-  const createRolePermissionId = randomUUID();
+
+  const permissionKeys = [
+    Permissions.PROPERTY_READ,
+    Permissions.PROPERTY_CREATE,
+    Permissions.TENANT_READ,
+    Permissions.TENANT_CREATE,
+  ];
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -45,7 +52,21 @@ describe('Search API integration', () => {
       INSERT INTO persons (id, display_name, email, phone, status)
       VALUES ($1, $2, $3, $4, $5)
       `,
-      [personId, 'Search E2E User', email, null, 'ACTIVE'],
+      [adminPersonId, 'Search E2E Admin', email, null, 'ACTIVE'],
+    );
+
+    await pool.query(
+      `
+      INSERT INTO persons (id, display_name, email, phone, status)
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+      [
+        tenantPersonId,
+        'Search E2E Tenant',
+        `search-tenant-${timestamp}@propertyos.test`,
+        '9999999996',
+        'ACTIVE',
+      ],
     );
 
     await pool.query(
@@ -53,7 +74,7 @@ describe('Search API integration', () => {
       INSERT INTO credentials (id, person_id, credential_type, credential_value)
       VALUES ($1, $2, $3, $4)
       `,
-      [credentialId, personId, 'PASSWORD', `sha256:${salt}:${hash}`],
+      [credentialId, adminPersonId, 'PASSWORD', `sha256:${salt}:${hash}`],
     );
 
     await pool.query(
@@ -69,13 +90,10 @@ describe('Search API integration', () => {
       INSERT INTO person_roles (id, person_id, role_id)
       VALUES ($1, $2, $3)
       `,
-      [personRoleId, personId, roleId],
+      [personRoleId, adminPersonId, roleId],
     );
 
-    for (const permissionKey of [
-      Permissions.PROPERTY_READ,
-      Permissions.PROPERTY_CREATE,
-    ]) {
+    for (const permissionKey of permissionKeys) {
       await pool.query(
         `
         INSERT INTO permissions (id, permission_key, description)
@@ -84,33 +102,20 @@ describe('Search API integration', () => {
         `,
         [randomUUID(), permissionKey, `E2E permission: ${permissionKey}`],
       );
+
+      const permission = await pool.query(
+        'SELECT id FROM permissions WHERE permission_key = $1',
+        [permissionKey],
+      );
+
+      await pool.query(
+        `
+        INSERT INTO role_permissions (id, role_id, permission_id)
+        VALUES ($1, $2, $3)
+        `,
+        [randomUUID(), roleId, permission.rows[0].id],
+      );
     }
-
-    const readPermission = await pool.query(
-      'SELECT id FROM permissions WHERE permission_key = $1',
-      [Permissions.PROPERTY_READ],
-    );
-
-    const createPermission = await pool.query(
-      'SELECT id FROM permissions WHERE permission_key = $1',
-      [Permissions.PROPERTY_CREATE],
-    );
-
-    await pool.query(
-      `
-      INSERT INTO role_permissions (id, role_id, permission_id)
-      VALUES ($1, $2, $3)
-      `,
-      [readRolePermissionId, roleId, readPermission.rows[0].id],
-    );
-
-    await pool.query(
-      `
-      INSERT INTO role_permissions (id, role_id, permission_id)
-      VALUES ($1, $2, $3)
-      `,
-      [createRolePermissionId, roleId, createPermission.rows[0].id],
-    );
 
     const loginResponse = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
@@ -136,21 +141,53 @@ describe('Search API integration', () => {
       .expect(201);
 
     propertyId = propertyResponse.body.data.id;
+
+    const tenantResponse = await request(app.getHttpServer())
+      .post('/api/v1/tenants')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        personId: tenantPersonId,
+        propertyId,
+        tenantNumber: `SEARCH-TEN-${timestamp}`,
+        status: 'ACTIVE',
+        moveInDate: '2026-07-07T00:00:00.000Z',
+      })
+      .expect(201);
+
+    tenantId = tenantResponse.body.data.id;
   });
 
   afterAll(async () => {
     if (pool) {
+      if (tenantId) {
+        await pool.query('DELETE FROM tenant_spaces WHERE tenant_id = $1', [
+          tenantId,
+        ]);
+        await pool.query('DELETE FROM tenants WHERE id = $1', [tenantId]);
+      }
+
       if (propertyId) {
-        await pool.query('DELETE FROM spaces WHERE property_id = $1', [propertyId]);
-        await pool.query('DELETE FROM zones WHERE property_id = $1', [propertyId]);
+        await pool.query('DELETE FROM spaces WHERE property_id = $1', [
+          propertyId,
+        ]);
+        await pool.query('DELETE FROM zones WHERE property_id = $1', [
+          propertyId,
+        ]);
         await pool.query('DELETE FROM properties WHERE id = $1', [propertyId]);
       }
 
-      await pool.query('DELETE FROM role_permissions WHERE role_id = $1', [roleId]);
-      await pool.query('DELETE FROM person_roles WHERE person_id = $1', [personId]);
+      await pool.query('DELETE FROM role_permissions WHERE role_id = $1', [
+        roleId,
+      ]);
+      await pool.query('DELETE FROM person_roles WHERE person_id = $1', [
+        adminPersonId,
+      ]);
       await pool.query('DELETE FROM roles WHERE id = $1', [roleId]);
-      await pool.query('DELETE FROM credentials WHERE person_id = $1', [personId]);
-      await pool.query('DELETE FROM persons WHERE id = $1', [personId]);
+      await pool.query('DELETE FROM credentials WHERE person_id = $1', [
+        adminPersonId,
+      ]);
+      await pool.query('DELETE FROM persons WHERE id = $1', [tenantPersonId]);
+      await pool.query('DELETE FROM persons WHERE id = $1', [adminPersonId]);
 
       await pool.end();
     }
@@ -158,12 +195,13 @@ describe('Search API integration', () => {
     await app.close();
   });
 
-  it('GET /api/v1/search/providers lists property provider', async () => {
+  it('GET /api/v1/search/providers lists registered providers', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/v1/search/providers')
       .expect(200);
 
     expect(response.body.success).toBe(true);
+
     expect(
       response.body.data.some(
         (provider: any) =>
@@ -171,9 +209,17 @@ describe('Search API integration', () => {
           provider.entityType === 'PROPERTY',
       ),
     ).toBe(true);
+
+    expect(
+      response.body.data.some(
+        (provider: any) =>
+          provider.name === 'core-tenant-search' &&
+          provider.entityType === 'TENANT',
+      ),
+    ).toBe(true);
   });
 
-  it('POST /api/v1/search returns property search result', async () => {
+  it('POST /api/v1/search searches properties', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/search')
       .send({
@@ -190,6 +236,27 @@ describe('Search API integration', () => {
           result.entityType === 'PROPERTY' &&
           result.entityId === propertyId &&
           result.title === `Searchable Property ${timestamp}`,
+      ),
+    ).toBe(true);
+  });
+
+  it('POST /api/v1/search searches tenants', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/search')
+      .send({
+        query: `SEARCH-TEN-${timestamp}`,
+        entityTypes: ['TENANT'],
+        limit: 10,
+      })
+      .expect(201);
+
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(
+      response.body.some(
+        (result: any) =>
+          result.entityType === 'TENANT' &&
+          result.entityId === tenantId &&
+          result.title === `SEARCH-TEN-${timestamp}`,
       ),
     ).toBe(true);
   });

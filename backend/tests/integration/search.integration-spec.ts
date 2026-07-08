@@ -15,6 +15,7 @@ describe('Search API integration', () => {
   let propertyId: string;
   let tenantId: string;
   let agreementId: string;
+  let rentLedgerId: string;
 
   const timestamp = Date.now();
 
@@ -34,6 +35,8 @@ describe('Search API integration', () => {
     Permissions.TENANT_CREATE,
     'agreement.read',
     'agreement.create',
+    'rent.read',
+    'rent.create',
   ];
 
   beforeAll(async () => {
@@ -175,9 +178,36 @@ describe('Search API integration', () => {
       .expect(201);
 
     agreementId = agreement.body.data.id;
+
+    const rent = await request(app.getHttpServer())
+      .post('/api/v1/rent-ledgers')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        tenantId,
+        agreementId,
+        periodYear: 2026,
+        periodMonth: 7,
+        dueDate: '2026-07-31',
+        rentAmount: 9000,
+      })
+      .expect(201);
+
+    rentLedgerId = rent.body.data.id;
   });
 
   afterAll(async () => {
+    if (rentLedgerId) {
+      await pool.query(
+        'DELETE FROM rent_payments WHERE rent_ledger_id=$1',
+        [rentLedgerId],
+      );
+
+      await pool.query(
+        'DELETE FROM rent_ledgers WHERE id=$1',
+        [rentLedgerId],
+      );
+    }
+
     if (agreementId) {
       await pool.query(
         'DELETE FROM agreement_versions WHERE agreement_id=$1',
@@ -259,6 +289,7 @@ describe('Search API integration', () => {
     expect(response.body.data.some((p:any)=>p.name==='core-property-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-tenant-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-agreement-search')).toBe(true);
+    expect(response.body.data.some((p:any)=>p.name==='core-rent-search')).toBe(true);
   });
 
   it('POST /api/v1/search searches properties', async () => {
@@ -314,6 +345,25 @@ describe('Search API integration', () => {
         (r:any)=>
           r.entityType==='AGREEMENT' &&
           r.entityId===agreementId,
+      ),
+    ).toBe(true);
+  });
+
+  it('POST /api/v1/search searches rent ledgers', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/search')
+      .send({
+        query:'UNPAID',
+        entityTypes:['RENT_LEDGER'],
+        limit:10,
+      })
+      .expect(201);
+
+    expect(
+      response.body.some(
+        (r:any)=>
+          r.entityType==='RENT_LEDGER' &&
+          r.entityId===rentLedgerId,
       ),
     ).toBe(true);
   });

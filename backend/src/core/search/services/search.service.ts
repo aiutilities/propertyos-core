@@ -47,12 +47,6 @@ export class SearchService implements OnModuleInit {
 
   private registerCoreProviders(): void {
     this.registry.register({
-      name: 'core-workflow-search',
-      entityType: 'WORKFLOW',
-      search: async (query) => this.simplePlaceholderSearch(query, 'WORKFLOW'),
-    });
-
-    this.registry.register({
       name: 'core-document-search',
       entityType: 'DOCUMENT',
       search: async (query) => this.simplePlaceholderSearch(query, 'DOCUMENT'),

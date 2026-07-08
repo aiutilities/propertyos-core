@@ -1,5 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
+import { Permissions } from '../../auth/constants/permissions';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { CreateWorkflowDefinitionDto } from '../dto/create-workflow-definition.dto';
 import { StartWorkflowDto } from '../dto/start-workflow.dto';
 import { TransitionWorkflowDto } from '../dto/transition-workflow.dto';
@@ -8,10 +12,12 @@ import { TransitionWorkflowByEntityDto } from '../dto/transition-workflow-by-ent
 import { WorkflowService } from '../services/workflow.service';
 
 @Controller('workflows')
+@UseGuards(JwtAuthGuard, PermissionGuard)
 export class WorkflowController {
   constructor(private readonly workflowService: WorkflowService) {}
 
   @Post('definitions')
+  @RequirePermission(Permissions.WORKFLOW_CREATE)
   async createDefinition(@Body() dto: CreateWorkflowDefinitionDto) {
     const definition = await this.workflowService.createDefinition(dto);
 
@@ -24,6 +30,7 @@ export class WorkflowController {
   }
 
   @Get('definitions')
+  @RequirePermission(Permissions.WORKFLOW_READ)
   async listDefinitions() {
     const definitions = await this.workflowService.listDefinitions();
 
@@ -36,6 +43,7 @@ export class WorkflowController {
   }
 
   @Get('definitions/code/:code')
+  @RequirePermission(Permissions.WORKFLOW_READ)
   async getDefinitionByCode(@Param('code') code: string) {
     const definition = await this.workflowService.getDefinitionByCode(code);
 
@@ -48,6 +56,7 @@ export class WorkflowController {
   }
 
   @Get('definitions/:id')
+  @RequirePermission(Permissions.WORKFLOW_READ)
   async getDefinition(@Param('id') id: string) {
     const definition = await this.workflowService.getDefinition(id);
 
@@ -61,6 +70,7 @@ export class WorkflowController {
 
 
   @Get('metrics')
+  @RequirePermission(Permissions.WORKFLOW_READ)
   async getMetrics() {
     const metrics = await this.workflowService.getMetrics();
 
@@ -73,6 +83,7 @@ export class WorkflowController {
   }
 
   @Post('instances/by-code')
+  @RequirePermission(Permissions.WORKFLOW_CREATE)
   async startWorkflowByCode(@Body() dto: StartWorkflowByCodeDto) {
     const instance = await this.workflowService.startWorkflowByCode(dto);
 
@@ -85,6 +96,7 @@ export class WorkflowController {
   }
 
   @Post('instances/by-entity/transitions')
+  @RequirePermission(Permissions.WORKFLOW_CREATE)
   async transitionWorkflowByEntity(@Body() dto: TransitionWorkflowByEntityDto) {
     const instance = await this.workflowService.transitionWorkflowByEntity(dto);
 
@@ -97,6 +109,7 @@ export class WorkflowController {
   }
 
   @Get('instances/by-entity/:entityType/:entityId')
+  @RequirePermission(Permissions.WORKFLOW_READ)
   async getInstanceByEntity(
     @Param('entityType') entityType: string,
     @Param('entityId') entityId: string,
@@ -115,6 +128,7 @@ export class WorkflowController {
   }
 
   @Post('instances')
+  @RequirePermission(Permissions.WORKFLOW_CREATE)
   async startWorkflow(@Body() dto: StartWorkflowDto) {
     const instance = await this.workflowService.startWorkflow(dto);
 
@@ -127,6 +141,7 @@ export class WorkflowController {
   }
 
   @Get('instances/:id')
+  @RequirePermission(Permissions.WORKFLOW_READ)
   async getInstance(@Param('id') id: string) {
     const instance = await this.workflowService.getInstance(id);
 
@@ -139,6 +154,7 @@ export class WorkflowController {
   }
 
   @Post('instances/:id/transitions')
+  @RequirePermission(Permissions.WORKFLOW_CREATE)
   async transitionWorkflow(
     @Param('id') id: string,
     @Body() dto: TransitionWorkflowDto,

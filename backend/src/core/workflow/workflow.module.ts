@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '../../database/database.module';
 import { EventBusModule } from '../eventbus/eventbus.module';
+import { IdentityModule } from '../identity/identity.module';
 import { PluginModule } from '../plugin/plugin.module';
 import { SearchModule } from '../search';
 
@@ -14,7 +15,7 @@ import { WorkflowEventSubscriber } from './workflow-event.subscriber';
 import { WorkflowSearchProviderService } from './workflow-search-provider.service';
 
 @Module({
-  imports: [DatabaseModule, PluginModule, EventBusModule, SearchModule],
+  imports: [DatabaseModule, PluginModule, EventBusModule, IdentityModule, SearchModule],
   controllers: [WorkflowController],
   providers: [
     WorkflowService,

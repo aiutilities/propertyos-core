@@ -47,6 +47,8 @@ describe('Search API integration', () => {
     'rent.read',
     'rent.create',
     Permissions.SEARCH_READ,
+    Permissions.WORKFLOW_READ,
+    Permissions.WORKFLOW_CREATE,
   ];
 
   beforeAll(async () => {
@@ -206,6 +208,7 @@ describe('Search API integration', () => {
 
     const workflow = await request(app.getHttpServer())
       .post('/api/v1/workflows/definitions')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         code: workflowCode,
         name: `Search Workflow ${timestamp}`,

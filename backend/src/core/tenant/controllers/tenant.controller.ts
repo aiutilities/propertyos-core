@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 
 import { Permissions } from '../../auth/constants/permissions';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
+import { PaginationQueryDto } from '../../platform';
 import { AssignSpaceDto } from '../dto/assign-space.dto';
 import { CreateTenantDto } from '../dto/create-tenant.dto';
 import { TenantService } from '../services/tenant.service';
@@ -30,8 +31,8 @@ export class TenantController {
 
   @RequirePermission(Permissions.TENANT_READ)
   @Get()
-  async listTenants() {
-    return this.success(await this.tenantService.listTenants());
+  async listTenants(@Query() query: PaginationQueryDto) {
+    return this.success(await this.tenantService.listTenantsPaginated(query));
   }
 
   @RequirePermission(Permissions.TENANT_READ)

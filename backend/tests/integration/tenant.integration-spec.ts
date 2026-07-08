@@ -259,10 +259,14 @@ describe('Tenant API integration', () => {
       .expect(200);
 
     expect(response.body.success).toBe(true);
-    expect(Array.isArray(response.body.data)).toBe(true);
-    expect(response.body.data.some((tenant: any) => tenant.id === tenantId)).toBe(
-      true,
-    );
+    expect(Array.isArray(response.body.data.items)).toBe(true);
+    expect(response.body.data.page).toBe(1);
+    expect(response.body.data.limit).toBe(25);
+    expect(response.body.data.total).toBeGreaterThanOrEqual(1);
+    expect(response.body.data.totalPages).toBeGreaterThanOrEqual(1);
+    expect(
+      response.body.data.items.some((tenant: any) => tenant.id === tenantId),
+    ).toBe(true);
   });
 
   it('GET /api/v1/tenants/:id returns created tenant', async () => {

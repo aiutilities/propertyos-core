@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import { EventBusService } from '../../eventbus/services/eventbus.service';
+import { PaginatedResponseDto, PaginationQueryDto } from '../../platform';
 import {
   TENANT_REPOSITORY,
   TenantRepository,
@@ -48,6 +49,12 @@ export class TenantService {
 
   async listTenants(): Promise<Tenant[]> {
     return this.tenantRepository.listTenants();
+  }
+
+  async listTenantsPaginated(
+    pagination: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Tenant>> {
+    return this.tenantRepository.listTenantsPaginated(pagination);
   }
 
   async getTenant(id: string): Promise<Tenant | undefined> {

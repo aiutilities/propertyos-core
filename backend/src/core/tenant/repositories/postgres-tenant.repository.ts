@@ -2,8 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
 
 import { POSTGRES_POOL } from '../../../database/postgres';
-import { TenantRepository } from './tenant-repository.interface';
+import {
+  normalizePagination,
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { Tenant, TenantSpace } from '../types/tenant.types';
+import { TenantRepository } from './tenant-repository.interface';
 
 @Injectable()
 export class PostgresTenantRepository implements TenantRepository {
@@ -41,6 +46,35 @@ export class PostgresTenantRepository implements TenantRepository {
     );
 
     return result.rows.map((row) => this.mapTenant(row));
+  }
+
+  async listTenantsPaginated(
+    pagination: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Tenant>> {
+    const { page, limit, offset } = normalizePagination(pagination);
+
+    const [itemsResult, countResult] = await Promise.all([
+      this.pool.query(
+        `
+        SELECT *
+        FROM tenants
+        ORDER BY created_at DESC
+        LIMIT $1 OFFSET $2
+        `,
+        [limit, offset],
+      ),
+      this.pool.query(`SELECT COUNT(*)::int AS total FROM tenants`),
+    ]);
+
+    const total = Number(countResult.rows[0]?.total ?? 0);
+
+    return {
+      items: itemsResult.rows.map((row) => this.mapTenant(row)),
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async findTenantById(id: string): Promise<Tenant | undefined> {

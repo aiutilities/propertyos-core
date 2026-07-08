@@ -2,8 +2,12 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import { EventBusService } from '../../eventbus/services/eventbus.service';
-import { RentLedger, RentStatus } from '../types/rent.types';
+import {
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { RentPayment } from '../types/payment.types';
+import { RentLedger, RentStatus } from '../types/rent.types';
 import {
   RENT_REPOSITORY,
   RentRepositoryPort,
@@ -31,21 +35,15 @@ export class RentService {
 
     const ledger = await this.rentRepository.createRentLedger({
       id: randomUUID(),
-
       tenantId: input.tenantId,
       agreementId: input.agreementId,
-
       periodYear: input.periodYear,
       periodMonth: input.periodMonth,
-
       dueDate: input.dueDate,
-
       rentAmount: input.rentAmount,
       amountPaid: 0,
       balanceAmount: input.rentAmount,
-
       status: 'UNPAID',
-
       createdAt: now,
       updatedAt: now,
     });
@@ -74,6 +72,12 @@ export class RentService {
 
   listRentLedgers(): Promise<RentLedger[]> {
     return this.rentRepository.listRentLedgers();
+  }
+
+  listRentLedgersPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<RentLedger>> {
+    return this.rentRepository.listRentLedgersPaginated(query);
   }
 
   getRentLedger(id: string): Promise<RentLedger | undefined> {

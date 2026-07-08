@@ -1,5 +1,9 @@
-import { RentLedger } from '../types/rent.types';
+import {
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { RentPayment } from '../types/payment.types';
+import { RentLedger } from '../types/rent.types';
 
 export const RENT_REPOSITORY = 'RENT_REPOSITORY';
 
@@ -9,6 +13,10 @@ export interface RentRepositoryPort {
   ): Promise<RentLedger>;
 
   listRentLedgers(): Promise<RentLedger[]>;
+
+  listRentLedgersPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<RentLedger>>;
 
   getRentLedger(
     id: string,

@@ -2,13 +2,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
 
 import { POSTGRES_POOL } from '../../../database/postgres';
-import { RentLedger } from '../types/rent.types';
+import {
+  BasePostgresRepository,
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { RentPayment } from '../types/payment.types';
+import { RentLedger } from '../types/rent.types';
 import { RentRepositoryPort } from './rent-repository.interface';
 
 @Injectable()
-export class PostgresRentRepository implements RentRepositoryPort {
-  constructor(@Inject(POSTGRES_POOL) private readonly pool: Pool) {}
+export class PostgresRentRepository
+  extends BasePostgresRepository
+  implements RentRepositoryPort {
+  constructor(@Inject(POSTGRES_POOL) private readonly pool: Pool) {
+    super();
+  }
 
   async createRentLedger(ledger: RentLedger): Promise<RentLedger> {
     const result = await this.pool.query(
@@ -60,6 +69,57 @@ export class PostgresRentRepository implements RentRepositoryPort {
     );
 
     return result.rows.map((row) => this.mapRentLedger(row));
+  }
+
+  async listRentLedgersPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<RentLedger>> {
+    const paginatedQuery = this.buildPaginatedQuery(query, {
+      tableName: 'rent_ledgers',
+      searchableColumns: [
+        'status',
+      ],
+      sortableColumns: {
+        periodYear: 'period_year',
+        periodMonth: 'period_month',
+        dueDate: 'due_date',
+        rentAmount: 'rent_amount',
+        amountPaid: 'amount_paid',
+        balanceAmount: 'balance_amount',
+        status: 'status',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+      defaultSortColumn: 'created_at',
+      mapRow: (row) => this.mapRentLedger(row),
+    });
+
+    const itemsSql = paginatedQuery.itemsSql.replace(
+      'FROM rent_ledgers',
+      'FROM rent_ledgers WHERE deleted_at IS NULL',
+    );
+
+    const countSql = paginatedQuery.countSql.replace(
+      'FROM rent_ledgers',
+      'FROM rent_ledgers WHERE deleted_at IS NULL',
+    );
+
+    const countValues = paginatedQuery.values.slice(0, -2);
+
+    const [itemsResult, countResult] = await Promise.all([
+      this.pool.query(itemsSql, paginatedQuery.values),
+      this.pool.query(countSql, countValues),
+    ]);
+
+    const total = Number(countResult.rows[0]?.total ?? 0);
+
+    return this.toPaginatedResponse(
+      itemsResult.rows,
+      total,
+      paginatedQuery.page,
+      paginatedQuery.limit,
+      (row) => this.mapRentLedger(row),
+    );
   }
 
   async getRentLedger(id: string): Promise<RentLedger | undefined> {

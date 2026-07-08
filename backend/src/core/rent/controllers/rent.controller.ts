@@ -4,12 +4,14 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
-import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { PaginationQueryDto } from '../../platform';
 import { CreateRentLedgerDto } from '../dto/create-rent-ledger.dto';
 import { PostPaymentDto } from '../dto/post-payment.dto';
 import { RentService } from '../services/rent.service';
@@ -32,8 +34,8 @@ export class RentController {
 
   @Get()
   @RequirePermission('rent.read')
-  async listRentLedgers() {
-    const ledgers = await this.rentService.listRentLedgers();
+  async listRentLedgers(@Query() query: PaginationQueryDto) {
+    const ledgers = await this.rentService.listRentLedgersPaginated(query);
 
     return {
       success: true,

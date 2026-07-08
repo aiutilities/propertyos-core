@@ -16,11 +16,13 @@ describe('Search API integration', () => {
   let tenantId: string;
   let agreementId: string;
   let rentLedgerId: string;
+  let workflowDefinitionId: string;
 
   const timestamp = Date.now();
 
   const email = `search-e2e-${timestamp}@propertyos.test`;
   const password = 'CorrectHorseBatteryStaple123!';
+  const workflowCode = `search.workflow.${timestamp}`;
 
   const adminPersonId = randomUUID();
   const tenantPersonId = randomUUID();
@@ -193,6 +195,44 @@ describe('Search API integration', () => {
       .expect(201);
 
     rentLedgerId = rent.body.data.id;
+
+    const workflow = await request(app.getHttpServer())
+      .post('/api/v1/workflows/definitions')
+      .send({
+        code: workflowCode,
+        name: `Search Workflow ${timestamp}`,
+        description: 'Search integration workflow definition',
+        entityType: 'search.entity',
+        initialState: 'DRAFT',
+        states: [
+          {
+            code: 'DRAFT',
+            name: 'Draft',
+            isInitial: true,
+            sortOrder: 1,
+          },
+          {
+            code: 'COMPLETED',
+            name: 'Completed',
+            isFinal: true,
+            sortOrder: 2,
+          },
+        ],
+        transitions: [
+          {
+            fromState: 'DRAFT',
+            toState: 'COMPLETED',
+            actionCode: 'COMPLETE',
+            actionName: 'Complete',
+          },
+        ],
+        metadata: {
+          source: 'search-integration-test',
+        },
+      })
+      .expect(201);
+
+    workflowDefinitionId = workflow.body.data.definition.id;
   });
 
   afterAll(async () => {
@@ -245,6 +285,29 @@ describe('Search API integration', () => {
       );
     }
 
+    if (workflowDefinitionId) {
+      await pool.query(
+        'DELETE FROM workflow_instances WHERE workflow_definition_id=$1',
+        [workflowDefinitionId],
+      );
+      await pool.query(
+        'DELETE FROM workflow_history WHERE workflow_instance_id IN (SELECT id FROM workflow_instances WHERE workflow_definition_id=$1)',
+        [workflowDefinitionId],
+      );
+      await pool.query(
+        'DELETE FROM workflow_transitions WHERE workflow_definition_id=$1',
+        [workflowDefinitionId],
+      );
+      await pool.query(
+        'DELETE FROM workflow_states WHERE workflow_definition_id=$1',
+        [workflowDefinitionId],
+      );
+      await pool.query(
+        'DELETE FROM workflow_definitions WHERE id=$1',
+        [workflowDefinitionId],
+      );
+    }
+
     await pool.query(
       'DELETE FROM role_permissions WHERE role_id=$1',
       [roleId],
@@ -290,6 +353,7 @@ describe('Search API integration', () => {
     expect(response.body.data.some((p:any)=>p.name==='core-tenant-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-agreement-search')).toBe(true);
     expect(response.body.data.some((p:any)=>p.name==='core-rent-search')).toBe(true);
+    expect(response.body.data.some((p:any)=>p.name==='core-workflow-search')).toBe(true);
   });
 
   it('POST /api/v1/search searches properties', async () => {
@@ -364,6 +428,25 @@ describe('Search API integration', () => {
         (r:any)=>
           r.entityType==='RENT_LEDGER' &&
           r.entityId===rentLedgerId,
+      ),
+    ).toBe(true);
+  });
+
+  it('POST /api/v1/search searches workflow definitions', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/search')
+      .send({
+        query:workflowCode,
+        entityTypes:['WORKFLOW'],
+        limit:10,
+      })
+      .expect(201);
+
+    expect(
+      response.body.some(
+        (r:any)=>
+          r.entityType==='WORKFLOW' &&
+          r.entityId===workflowDefinitionId,
       ),
     ).toBe(true);
   });

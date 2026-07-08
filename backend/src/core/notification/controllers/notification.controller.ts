@@ -26,11 +26,11 @@ export class NotificationController {
 
   @Get()
   @RequirePermission('notification.read')
-  listNotifications() {
+  async listNotifications() {
     return {
       success: true,
       data: {
-        notifications: this.notificationService.listNotifications(),
+        notifications: await this.notificationService.listNotifications(),
       },
     };
   }

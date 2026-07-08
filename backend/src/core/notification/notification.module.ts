@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { DatabaseModule } from '../../database/database.module';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { IdentityModule } from '../identity/identity.module';
 import { PluginModule } from '../plugin/plugin.module';
@@ -8,7 +9,7 @@ import { NotificationSubscriber } from './notification.subscriber';
 import { NotificationBootstrapService } from './bootstrap/notification-bootstrap.service';
 
 @Module({
-  imports: [EventBusModule, IdentityModule, PluginModule],
+  imports: [DatabaseModule, EventBusModule, IdentityModule, PluginModule],
   controllers: [NotificationController],
   providers: [NotificationService, NotificationSubscriber, NotificationBootstrapService],
   exports: [NotificationService],

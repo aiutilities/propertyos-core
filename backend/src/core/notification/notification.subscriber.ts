@@ -24,7 +24,7 @@ export class NotificationSubscriber implements OnModuleInit {
     );
   }
 
-  private handleNotificationRequested(event: PropertyOSEvent): void {
+  private async handleNotificationRequested(event: PropertyOSEvent): Promise<void> {
     const payload = event.payload as {
       channel?: NotificationChannel;
       recipient?: string;
@@ -37,7 +37,7 @@ export class NotificationSubscriber implements OnModuleInit {
       return;
     }
 
-    this.notificationService.createNotification({
+    await this.notificationService.createNotification({
       channel: payload.channel,
       recipient: payload.recipient,
       subject: payload.subject,
@@ -62,14 +62,14 @@ export class NotificationSubscriber implements OnModuleInit {
       .filter((template) => template.event === event.type);
 
     for (const template of templates) {
-      this.createNotificationFromTemplate(template, event);
+      void this.createNotificationFromTemplate(template, event);
     }
   }
 
-  private createNotificationFromTemplate(
+  private async createNotificationFromTemplate(
     template: NotificationTemplate,
     event: PropertyOSEvent,
-  ): void {
+  ): Promise<void> {
     const payload = event.payload as Record<string, unknown>;
     const recipient = this.resolveRecipient(template, payload);
 
@@ -77,7 +77,7 @@ export class NotificationSubscriber implements OnModuleInit {
       return;
     }
 
-    this.notificationService.createNotification({
+    await this.notificationService.createNotification({
       channel: template.channel,
       recipient,
       subject: this.render(template.subject, payload),

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
 import { ConfigurationService } from '../configuration';
 import { PluginService } from '../plugin';
+import { PluginLoaderService } from '../plugin/loader/plugin-loader.service';
 import { SchedulerService } from '../scheduler';
 import { StorageService } from '../storage';
 import { POSTGRES_POOL } from '../../database/postgres';
@@ -12,6 +13,7 @@ interface HealthCheckResult {
   status: HealthCheckStatus;
   latencyMs?: number;
   error?: string;
+  details?: Record<string, unknown>;
 }
 
 @Injectable()
@@ -23,6 +25,7 @@ export class HealthService {
     private readonly schedulerService: SchedulerService,
     private readonly storageService: StorageService,
     private readonly pluginService: PluginService,
+    private readonly pluginLoaderService: PluginLoaderService,
   ) {}
 
   getHealth() {
@@ -54,13 +57,10 @@ export class HealthService {
     const checks = {
       database: await this.checkDatabase(),
       process: this.checkProcess(),
-      configuration: this.checkProvider(
-        'configuration',
-        this.configurationService,
-      ),
-      scheduler: this.checkProvider('scheduler', this.schedulerService),
-      storage: this.checkProvider('storage', this.storageService),
-      plugins: this.checkProvider('plugins', this.pluginService),
+      configuration: this.checkConfiguration(),
+      scheduler: this.checkScheduler(),
+      storage: this.checkStorage(),
+      plugins: this.checkPlugins(),
     };
 
     const status = Object.values(checks).every((check) => check.status === 'ok')
@@ -89,20 +89,88 @@ export class HealthService {
     return {
       status: 'ok',
       latencyMs: 0,
+      details: {
+        uptimeSeconds: Math.floor(process.uptime()),
+        pid: process.pid,
+      },
     };
   }
 
-  private checkProvider(name: string, provider: unknown): HealthCheckResult {
-    if (!provider) {
+  private checkConfiguration(): HealthCheckResult {
+    if (!this.configurationService) {
       return {
         status: 'error',
-        error: `${name} provider is not available`,
+        error: 'configuration service is not available',
       };
     }
 
     return {
       status: 'ok',
       latencyMs: 0,
+      details: {
+        service: 'available',
+      },
+    };
+  }
+
+  private checkScheduler(): HealthCheckResult {
+    if (!this.schedulerService) {
+      return {
+        status: 'error',
+        error: 'scheduler service is not available',
+      };
+    }
+
+    const handlers = this.schedulerService.listHandlers();
+
+    return {
+      status: 'ok',
+      latencyMs: 0,
+      details: {
+        registeredHandlers: handlers.length,
+        handlers,
+      },
+    };
+  }
+
+  private checkStorage(): HealthCheckResult {
+    if (!this.storageService) {
+      return {
+        status: 'error',
+        error: 'storage service is not available',
+      };
+    }
+
+    return {
+      status: 'ok',
+      latencyMs: 0,
+      details: {
+        service: 'available',
+      },
+    };
+  }
+
+  private checkPlugins(): HealthCheckResult {
+    if (!this.pluginService || !this.pluginLoaderService) {
+      return {
+        status: 'error',
+        error: 'plugin services are not available',
+      };
+    }
+
+    const plugins = this.pluginLoaderService.listPlugins();
+    const activePlugins = plugins.filter((plugin) => plugin.status === 'ACTIVE');
+    const failedPlugins = plugins.filter((plugin) => plugin.status === 'FAILED');
+
+    return {
+      status: failedPlugins.length === 0 ? 'ok' : 'error',
+      latencyMs: 0,
+      details: {
+        totalPlugins: plugins.length,
+        activePlugins: activePlugins.length,
+        failedPlugins: failedPlugins.length,
+        failedPluginIds: failedPlugins.map((plugin) => plugin.manifest.id),
+      },
     };
   }
 

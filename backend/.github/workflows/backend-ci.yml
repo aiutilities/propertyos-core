@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-test-docker:
-    name: Build, Test, and Docker
+    name: Build, Test, Audit, and Docker
     runs-on: ubuntu-latest
 
     defaults:
@@ -69,6 +69,12 @@ jobs:
 
       - name: Run integration tests
         run: npm run test:integration
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=critical
+
+      - name: Validate Docker Compose
+        run: docker compose config
 
       - name: Build Docker image
         run: docker build -t propertyos-backend-ci .

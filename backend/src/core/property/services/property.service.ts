@@ -1,6 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Property, Space, Zone } from '../types/property.types';
+
+import {
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { PropertyRepository } from '../repositories/property.repository';
+import { Property, Space, Zone } from '../types/property.types';
 
 export const PROPERTY_REPOSITORY = 'PROPERTY_REPOSITORY';
 
@@ -19,8 +24,10 @@ export class PropertyService {
     return this.propertyRepository.findPropertyById(id);
   }
 
-  listProperties(): Promise<Property[]> {
-    return this.propertyRepository.listProperties();
+  listProperties(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Property>> {
+    return this.propertyRepository.listProperties(query);
   }
 
   createZone(zone: Zone): Promise<Zone> {

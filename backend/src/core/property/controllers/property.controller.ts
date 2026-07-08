@@ -1,10 +1,19 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { Permissions } from '../../auth/constants/permissions';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
+import { PaginationQueryDto } from '../../platform';
 import { CreatePropertyDto } from '../dto/create-property.dto';
 import { CreateSpaceDto } from '../dto/create-space.dto';
 import { CreateZoneDto } from '../dto/create-zone.dto';
@@ -40,8 +49,8 @@ export class PropertyController {
 
   @RequirePermission(Permissions.PROPERTY_READ)
   @Get()
-  async listProperties() {
-    return this.success(await this.propertyService.listProperties());
+  async listProperties(@Query() query: PaginationQueryDto) {
+    return this.success(await this.propertyService.listProperties(query));
   }
 
   @RequirePermission(Permissions.PROPERTY_READ)

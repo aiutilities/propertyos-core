@@ -1,6 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
+
 import { POSTGRES_POOL } from '../../../database/postgres/postgres.types';
+import {
+  normalizePagination,
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { PropertyRepository } from './property.repository';
 import { Property, Space, Zone } from '../types/property.types';
 
@@ -49,12 +55,33 @@ export class PostgresPropertyRepository implements PropertyRepository {
     return result.rows[0] ? this.mapProperty(result.rows[0]) : null;
   }
 
-  async listProperties(): Promise<Property[]> {
-    const result = await this.pool.query(
-      `SELECT * FROM properties ORDER BY created_at DESC`,
-    );
+  async listProperties(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Property>> {
+    const { page, limit, offset } = normalizePagination(query);
 
-    return result.rows.map((row) => this.mapProperty(row));
+    const [itemsResult, countResult] = await Promise.all([
+      this.pool.query(
+        `
+        SELECT *
+        FROM properties
+        ORDER BY created_at DESC
+        LIMIT $1 OFFSET $2
+        `,
+        [limit, offset],
+      ),
+      this.pool.query(`SELECT COUNT(*)::int AS total FROM properties`),
+    ]);
+
+    const total = Number(countResult.rows[0]?.total ?? 0);
+
+    return {
+      items: itemsResult.rows.map((row) => this.mapProperty(row)),
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async createZone(zone: Zone): Promise<Zone> {

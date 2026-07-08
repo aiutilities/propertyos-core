@@ -5,10 +5,14 @@ import request from 'supertest';
 
 import { AppModule } from '../../src/app.module';
 import { POSTGRES_POOL } from '../../src/database/postgres';
+import { EventBusService } from '../../src/core/eventbus/services/eventbus.service';
+import { PropertyOSEvent } from '../../src/core/eventbus/types/event.types';
 
 describe('Workflow API integration', () => {
   let app: any;
   let pool: Pool;
+  let eventBus: EventBusService;
+  const capturedEvents: PropertyOSEvent[] = [];
 
   const timestamp = Date.now();
   const workflowCode = `workflow.e2e.${timestamp}`;
@@ -28,6 +32,12 @@ describe('Workflow API integration', () => {
     await app.init();
 
     pool = app.get(POSTGRES_POOL);
+    eventBus = app.get(EventBusService);
+    eventBus.subscribeAll((event) => {
+      if (event.type.startsWith('workflow.')) {
+        capturedEvents.push(event);
+      }
+    });
   });
 
   afterAll(async () => {
@@ -168,6 +178,16 @@ describe('Workflow API integration', () => {
     expect(response.body.data.instance.status).toBe('ACTIVE');
 
     workflowInstanceId = response.body.data.instance.id;
+
+    const startedEvent = capturedEvents.find(
+      (event) =>
+        event.type === 'workflow.started' &&
+        event.payload.workflowInstanceId === workflowInstanceId,
+    );
+
+    expect(startedEvent).toBeDefined();
+    expect(startedEvent?.source).toBe('workflow.service');
+    expect(startedEvent?.payload.currentState).toBe('DRAFT');
   });
 
   it('GET /api/v1/workflows/instances/:id returns started instance with history', async () => {
@@ -198,6 +218,18 @@ describe('Workflow API integration', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data.instance.id).toBe(workflowInstanceId);
     expect(response.body.data.instance.currentState).toBe('APPROVED');
+    expect(response.body.data.instance.status).toBe('ACTIVE');
+
+    const transitionedEvent = capturedEvents.find(
+      (event) =>
+        event.type === 'workflow.transitioned' &&
+        event.payload.workflowInstanceId === workflowInstanceId &&
+        event.payload.actionCode === 'APPROVE',
+    );
+
+    expect(transitionedEvent).toBeDefined();
+    expect(transitionedEvent?.payload.fromState).toBe('DRAFT');
+    expect(transitionedEvent?.payload.toState).toBe('APPROVED');
   });
 
   it('POST /api/v1/workflows/instances/by-entity/transitions transitions by entity', async () => {
@@ -215,6 +247,16 @@ describe('Workflow API integration', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data.instance.id).toBe(workflowInstanceId);
     expect(response.body.data.instance.currentState).toBe('COMPLETED');
+    expect(response.body.data.instance.status).toBe('COMPLETED');
+
+    const completedEvent = capturedEvents.find(
+      (event) =>
+        event.type === 'workflow.completed' &&
+        event.payload.workflowInstanceId === workflowInstanceId,
+    );
+
+    expect(completedEvent).toBeDefined();
+    expect(completedEvent?.payload.finalState).toBe('COMPLETED');
   });
 
   it('GET /api/v1/workflows/instances/by-entity/:entityType/:entityId returns instance with full history', async () => {
@@ -225,12 +267,30 @@ describe('Workflow API integration', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data.instance.id).toBe(workflowInstanceId);
     expect(response.body.data.instance.currentState).toBe('COMPLETED');
+    expect(response.body.data.instance.status).toBe('COMPLETED');
     expect(response.body.data.instance.history).toHaveLength(3);
     expect(response.body.data.instance.history.map((item: any) => item.actionCode)).toEqual([
       'START',
       'APPROVE',
       'COMPLETE',
     ]);
+  });
+
+
+  it('POST /api/v1/workflows/instances/:id/transitions rejects transition after completion', async () => {
+    await request(app.getHttpServer())
+      .post(`/api/v1/workflows/instances/${workflowInstanceId}/transitions`)
+      .send({
+        actionCode: 'COMPLETE',
+        actorId,
+      })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.success).toBe(false);
+        expect(response.body.error.message).toBe(
+          'Only active workflow instances can transition',
+        );
+      });
   });
 
   it('POST /api/v1/workflows/instances/by-code rejects duplicate entity instance', async () => {

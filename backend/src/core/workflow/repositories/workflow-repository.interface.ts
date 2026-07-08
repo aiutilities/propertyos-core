@@ -36,7 +36,11 @@ export interface WorkflowRepository {
 
   findInstanceByEntity(entityType: string, entityId: string): Promise<WorkflowInstance | null>;
 
-  transitionInstance(input: TransitionWorkflowInput, toState: string): Promise<WorkflowInstance>;
+  transitionInstance(
+    input: TransitionWorkflowInput,
+    toState: string,
+    status?: 'ACTIVE' | 'COMPLETED' | 'CANCELLED',
+  ): Promise<WorkflowInstance>;
 
   addHistory(input: {
     workflowInstanceId: string;

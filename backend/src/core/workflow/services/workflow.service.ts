@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { CreateWorkflowDefinitionDto } from '../dto/create-workflow-definition.dto';
 import { StartWorkflowDto } from '../dto/start-workflow.dto';
 import { TransitionWorkflowDto } from '../dto/transition-workflow.dto';
@@ -12,9 +13,12 @@ import {
 
 @Injectable()
 export class WorkflowService {
+  private readonly eventSource = 'workflow.service';
+
   constructor(
     @Inject(WORKFLOW_REPOSITORY)
     private readonly workflowRepository: WorkflowRepository,
+    private readonly eventBus: EventBusService,
   ) {}
 
   async createDefinition(dto: CreateWorkflowDefinitionDto) {
@@ -154,6 +158,17 @@ export class WorkflowService {
       metadata: dto.metadata ?? {},
     });
 
+    await this.eventBus.publish('workflow.started', this.eventSource, {
+      workflowInstanceId: instance.id,
+      workflowDefinitionId: instance.workflowDefinitionId,
+      entityType: instance.entityType,
+      entityId: instance.entityId,
+      currentState: instance.currentState,
+      status: instance.status,
+      createdBy: instance.createdBy ?? null,
+      metadata: dto.metadata ?? {},
+    });
+
     return instance;
   }
 
@@ -193,6 +208,10 @@ export class WorkflowService {
       throw new BadRequestException('Invalid workflow transition');
     }
 
+    const states = await this.workflowRepository.listStates(instance.workflowDefinitionId);
+    const targetState = states.find((state) => state.code === transition.toState);
+    const nextStatus = targetState?.isFinal ? 'COMPLETED' : 'ACTIVE';
+
     const updatedInstance = await this.workflowRepository.transitionInstance(
       {
         workflowInstanceId: instanceId,
@@ -202,6 +221,7 @@ export class WorkflowService {
         metadata: dto.metadata,
       },
       transition.toState,
+      nextStatus,
     );
 
     await this.workflowRepository.addHistory({
@@ -213,6 +233,31 @@ export class WorkflowService {
       notes: dto.notes ?? null,
       metadata: dto.metadata ?? {},
     });
+
+    await this.eventBus.publish('workflow.transitioned', this.eventSource, {
+      workflowInstanceId: updatedInstance.id,
+      workflowDefinitionId: updatedInstance.workflowDefinitionId,
+      entityType: updatedInstance.entityType,
+      entityId: updatedInstance.entityId,
+      fromState: instance.currentState,
+      toState: updatedInstance.currentState,
+      actionCode: dto.actionCode,
+      actorId: dto.actorId ?? null,
+      status: updatedInstance.status,
+      metadata: dto.metadata ?? {},
+    });
+
+    if (updatedInstance.status === 'COMPLETED') {
+      await this.eventBus.publish('workflow.completed', this.eventSource, {
+        workflowInstanceId: updatedInstance.id,
+        workflowDefinitionId: updatedInstance.workflowDefinitionId,
+        entityType: updatedInstance.entityType,
+        entityId: updatedInstance.entityId,
+        finalState: updatedInstance.currentState,
+        actorId: dto.actorId ?? null,
+        metadata: dto.metadata ?? {},
+      });
+    }
 
     return updatedInstance;
   }

@@ -185,16 +185,21 @@ export class PostgresWorkflowRepository {
     return result.rows[0] ? this.mapInstance(result.rows[0]) : null;
   }
 
-  async transitionInstance(input: TransitionWorkflowInput, toState: string): Promise<WorkflowInstance> {
+  async transitionInstance(
+    input: TransitionWorkflowInput,
+    toState: string,
+    status: 'ACTIVE' | 'COMPLETED' | 'CANCELLED' = 'ACTIVE',
+  ): Promise<WorkflowInstance> {
     const result = await this.pool.query(
       `
       UPDATE workflow_instances
       SET current_state = $2,
+          status = $3,
           updated_at = NOW()
       WHERE id = $1
       RETURNING *
       `,
-      [input.workflowInstanceId, toState],
+      [input.workflowInstanceId, toState, status],
     );
 
     return this.mapInstance(result.rows[0]);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useInvoices } from "@/hooks/useInvoices";
+import InvoiceRow from "./InvoiceRow";
 
 export default function InvoiceTable() {
   const { invoices, loading, error } = useInvoices();
@@ -23,14 +24,7 @@ export default function InvoiceTable() {
 
       <tbody>
         {invoices.map((invoice) => (
-          <tr key={invoice.id}>
-            <td>{invoice.invoiceNumber}</td>
-            <td>{invoice.tenantId}</td>
-            <td>{invoice.billingPeriodStart} to {invoice.billingPeriodEnd}</td>
-            <td>{invoice.dueDate}</td>
-            <td>{invoice.amount}</td>
-            <td>{invoice.status}</td>
-          </tr>
+          <InvoiceRow key={invoice.id} invoice={invoice} />
         ))}
       </tbody>
     </table>

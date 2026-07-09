@@ -6,7 +6,7 @@ export default function PropertiesPage() {
   return (
     <ProtectedRoute>
       <AdminShell>
-        <h1>Properties</h1>
+        <div className="page-header"><h1>Properties</h1><a className="button-link" href="/properties/new">New Property</a></div>
         <PropertyTable />
       </AdminShell>
     </ProtectedRoute>

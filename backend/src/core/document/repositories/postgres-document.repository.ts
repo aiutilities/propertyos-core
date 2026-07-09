@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { randomUUID } from 'crypto';
+import { Inject, Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+import { POSTGRES_POOL } from '../../../database/postgres';
 import { BasePostgresRepository } from '../../platform';
 import { CreateDocumentTemplateDto } from '../dto/create-document-template.dto';
 import { GenerateDocumentDto } from '../dto/generate-document.dto';
@@ -15,67 +16,117 @@ export class PostgresDocumentRepository
   extends BasePostgresRepository
   implements DocumentRepository
 {
-  private readonly templates = new Map<string, DocumentTemplate>();
-  private readonly documents = new Map<string, DocumentEntity>();
-  private readonly versions = new Map<string, DocumentVersion[]>();
+  constructor(
+    @Inject(POSTGRES_POOL)
+    private readonly pool: Pool,
+  ) {
+    super();
+  }
 
   async createTemplate(
     dto: CreateDocumentTemplateDto,
   ): Promise<DocumentTemplate> {
-    const now = new Date();
+    const result = await this.pool.query(
+      `
+      INSERT INTO core_document_templates (
+        name,
+        code,
+        description,
+        template_type,
+        content,
+        variables
+      )
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+      `,
+      [
+        dto.name,
+        dto.code,
+        dto.description ?? null,
+        dto.templateType ?? 'HTML',
+        dto.content,
+        JSON.stringify(dto.variables ?? []),
+      ],
+    );
 
-    const template: DocumentTemplate = {
-      id: randomUUID(),
-      name: dto.name,
-      code: dto.code,
-      description: dto.description,
-      templateType: dto.templateType ?? 'HTML',
-      content: dto.content,
-      variables: dto.variables ?? [],
-      status: 'ACTIVE',
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    this.templates.set(template.id, template);
-
-    return template;
+    return this.mapTemplate(result.rows[0]);
   }
 
   async listTemplates(): Promise<DocumentTemplate[]> {
-    return [...this.templates.values()];
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM core_document_templates
+      ORDER BY created_at DESC
+      `,
+    );
+
+    return result.rows.map((row) => this.mapTemplate(row));
   }
 
   async findTemplateById(id: string): Promise<DocumentTemplate | null> {
-    return this.templates.get(id) ?? null;
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM core_document_templates
+      WHERE id = $1
+      `,
+      [id],
+    );
+
+    return result.rows[0] ? this.mapTemplate(result.rows[0]) : null;
   }
 
   async createDocument(dto: GenerateDocumentDto): Promise<DocumentEntity> {
-    const now = new Date();
+    const result = await this.pool.query(
+      `
+      INSERT INTO core_documents (
+        template_id,
+        entity_type,
+        entity_id,
+        title,
+        status,
+        metadata
+      )
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+      `,
+      [
+        dto.templateId,
+        dto.entityType ?? null,
+        dto.entityId ?? null,
+        dto.title,
+        'GENERATED',
+        JSON.stringify(dto.metadata ?? {}),
+      ],
+    );
 
-    const document: DocumentEntity = {
-      id: randomUUID(),
-      templateId: dto.templateId,
-      entityType: dto.entityType,
-      entityId: dto.entityId,
-      title: dto.title,
-      status: 'GENERATED',
-      metadata: dto.metadata ?? {},
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    this.documents.set(document.id, document);
-
-    return document;
+    return this.mapDocument(result.rows[0]);
   }
 
   async listDocuments(): Promise<DocumentEntity[]> {
-    return [...this.documents.values()];
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM core_documents
+      ORDER BY created_at DESC
+      `,
+    );
+
+    return result.rows.map((row) => this.mapDocument(row));
   }
 
   async findDocumentById(id: string): Promise<DocumentEntity | null> {
-    return this.documents.get(id) ?? null;
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM core_documents
+      WHERE id = $1
+      `,
+      [id],
+    );
+
+    return result.rows[0] ? this.mapDocument(result.rows[0]) : null;
   }
 
   async createVersion(
@@ -83,23 +134,91 @@ export class PostgresDocumentRepository
     content: string,
     createdBy?: string,
   ): Promise<DocumentVersion> {
-    const existingVersions = this.versions.get(documentId) ?? [];
+    const result = await this.pool.query(
+      `
+      INSERT INTO core_document_versions (
+        document_id,
+        version_number,
+        content,
+        created_by
+      )
+      VALUES (
+        $1,
+        COALESCE(
+          (
+            SELECT MAX(version_number) + 1
+            FROM core_document_versions
+            WHERE document_id = $1
+          ),
+          1
+        ),
+        $2,
+        $3
+      )
+      RETURNING *
+      `,
+      [documentId, content, createdBy ?? null],
+    );
 
-    const version: DocumentVersion = {
-      id: randomUUID(),
-      documentId,
-      versionNumber: existingVersions.length + 1,
-      content,
-      createdBy,
-      createdAt: new Date(),
-    };
-
-    this.versions.set(documentId, [...existingVersions, version]);
-
-    return version;
+    return this.mapVersion(result.rows[0]);
   }
 
   async listVersions(documentId: string): Promise<DocumentVersion[]> {
-    return this.versions.get(documentId) ?? [];
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM core_document_versions
+      WHERE document_id = $1
+      ORDER BY version_number ASC
+      `,
+      [documentId],
+    );
+
+    return result.rows.map((row) => this.mapVersion(row));
+  }
+
+  private mapTemplate(row: any): DocumentTemplate {
+    return {
+      id: row.id,
+      name: row.name,
+      code: row.code,
+      description: row.description ?? undefined,
+      templateType: row.template_type,
+      content: row.content,
+      variables: Array.isArray(row.variables)
+        ? row.variables
+        : JSON.parse(row.variables ?? '[]'),
+      status: row.status,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at),
+    };
+  }
+
+  private mapDocument(row: any): DocumentEntity {
+    return {
+      id: row.id,
+      templateId: row.template_id ?? undefined,
+      entityType: row.entity_type ?? undefined,
+      entityId: row.entity_id ?? undefined,
+      title: row.title,
+      status: row.status,
+      metadata:
+        typeof row.metadata === 'string'
+          ? JSON.parse(row.metadata)
+          : row.metadata ?? {},
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at),
+    };
+  }
+
+  private mapVersion(row: any): DocumentVersion {
+    return {
+      id: row.id,
+      documentId: row.document_id,
+      versionNumber: Number(row.version_number),
+      content: row.content,
+      createdBy: row.created_by ?? undefined,
+      createdAt: new Date(row.created_at),
+    };
   }
 }

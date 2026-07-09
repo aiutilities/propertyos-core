@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 
+import { PostgresModule } from '../../database/postgres/postgres.module';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { SearchModule } from '../search';
 import { DocumentController } from './controllers/document.controller';
@@ -8,7 +9,7 @@ import { DocumentService } from './services/document.service';
 import { DocumentSearchProviderService } from './document-search-provider.service';
 
 @Module({
-  imports: [EventBusModule, SearchModule],
+  imports: [PostgresModule, EventBusModule, SearchModule],
   controllers: [DocumentController],
   providers: [
     DocumentService,

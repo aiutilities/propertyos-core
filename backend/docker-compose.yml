@@ -17,6 +17,25 @@ services:
       timeout: 5s
       retries: 5
 
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: propertyos-migrate
+    command: ["node", "dist/database/runner/migration-runner.js"]
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+
   api:
     build:
       context: .
@@ -25,8 +44,8 @@ services:
     restart: unless-stopped
     init: true
     depends_on:
-      postgres:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -46,7 +65,7 @@ services:
       - propertyos_upload_data:/app/uploads
       - propertyos_plugin_data:/app/plugins/.installed
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/v1/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
       interval: 30s
       timeout: 5s
       retries: 5

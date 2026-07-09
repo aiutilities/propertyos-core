@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -19,6 +20,8 @@ import { CreateSpaceDto } from '../dto/create-space.dto';
 import { CreateZoneDto } from '../dto/create-zone.dto';
 import { PropertyService } from '../services/property.service';
 
+@ApiTags('Properties')
+@ApiBearerAuth('JWT')
 @Controller('/properties')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class PropertyController {

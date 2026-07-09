@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 
 import { Permissions } from '../../auth/constants/permissions';
@@ -7,6 +8,8 @@ import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { AuditService } from '../audit.service';
 import { AuditQueryDto } from '../dto/audit-query.dto';
 
+@ApiTags('Audit')
+@ApiBearerAuth('JWT')
 @Controller('audit')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class AuditController {

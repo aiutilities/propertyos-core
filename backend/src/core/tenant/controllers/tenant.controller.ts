@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 
 import { Permissions } from '../../auth/constants/permissions';
@@ -9,6 +10,8 @@ import { AssignSpaceDto } from '../dto/assign-space.dto';
 import { CreateTenantDto } from '../dto/create-tenant.dto';
 import { TenantService } from '../services/tenant.service';
 
+@ApiTags('Tenants')
+@ApiBearerAuth('JWT')
 @Controller('/tenants')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class TenantController {

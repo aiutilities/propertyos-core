@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Header, Query, UseGuards } from '@nestjs/common';
 import { Permissions } from '../../auth/constants/permissions';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
@@ -6,6 +7,8 @@ import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { MetricsService } from '../services/metrics.service';
 
 @UseGuards(JwtAuthGuard, PermissionGuard)
+@ApiTags('Metrics')
+@ApiBearerAuth('JWT')
 @Controller('metrics')
 export class MetricsController {
   constructor(private readonly metricsService: MetricsService) {}

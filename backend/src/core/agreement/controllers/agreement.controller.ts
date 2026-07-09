@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -15,6 +16,8 @@ import { PaginationQueryDto } from '../../platform';
 import { AgreementService } from '../services/agreement.service';
 import { CreateAgreementDto } from '../dto/create-agreement.dto';
 
+@ApiTags('Agreements')
+@ApiBearerAuth('JWT')
 @Controller('agreements')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class AgreementController {

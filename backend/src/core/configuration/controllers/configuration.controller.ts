@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -13,6 +14,8 @@ import { UpdateSettingDto } from '../dto/update-setting.dto';
 import { ConfigurationService } from '../services/configuration.service';
 import { ConfigurationScope } from '../types/configuration.types';
 
+@ApiTags('Configuration')
+@ApiBearerAuth('JWT')
 @Controller('configuration')
 export class ConfigurationController {
   constructor(

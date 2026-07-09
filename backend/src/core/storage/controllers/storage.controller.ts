@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Delete, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Permissions } from '../../auth/constants/permissions';
@@ -8,6 +9,8 @@ import { StoreObjectDto } from '../dto/store-object.dto';
 import { StorageService } from '../services/storage.service';
 
 @UseGuards(JwtAuthGuard, PermissionGuard)
+@ApiTags('Storage')
+@ApiBearerAuth('JWT')
 @Controller('storage')
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}

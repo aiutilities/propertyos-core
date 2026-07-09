@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { Permissions } from '../../auth/constants/permissions';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
@@ -10,6 +11,8 @@ import { CredentialService } from '../services/credential.service';
 import { CredentialStatus } from '../types/credential.types';
 
 @UseGuards(JwtAuthGuard, PermissionGuard)
+@ApiTags('Access Credentials')
+@ApiBearerAuth('JWT')
 @Controller('access-credentials')
 export class CredentialController {
   constructor(private readonly credentialService: CredentialService) {}

@@ -1,9 +1,12 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateFormDto } from '../dto/create-form.dto';
 import { SubmitFormDto } from '../dto/submit-form.dto';
 import { FormsService } from '../services/forms.service';
 import { FormStatus } from '../types/forms.types';
 
+@ApiTags('Forms')
+@ApiBearerAuth('JWT')
 @Controller('forms')
 export class FormsController {
   constructor(private readonly service: FormsService) {}

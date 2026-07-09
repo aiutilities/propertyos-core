@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
 import { Permissions } from '../../auth/constants/permissions';
@@ -11,6 +12,8 @@ import { StartWorkflowByCodeDto } from '../dto/start-workflow-by-code.dto';
 import { TransitionWorkflowByEntityDto } from '../dto/transition-workflow-by-entity.dto';
 import { WorkflowService } from '../services/workflow.service';
 
+@ApiTags('Workflows')
+@ApiBearerAuth('JWT')
 @Controller('workflows')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class WorkflowController {

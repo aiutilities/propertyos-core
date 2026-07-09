@@ -1,7 +1,10 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RegisterPluginPackageDto } from '../dto/register-plugin-package.dto';
 import { PluginPackageService } from '../services/plugin-package.service';
 
+@ApiTags('Plugin Packages')
+@ApiBearerAuth('JWT')
 @Controller('plugin-packages')
 export class PluginPackageController {
   constructor(private readonly service: PluginPackageService) {}

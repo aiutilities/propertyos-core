@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { Permissions } from '../../auth/constants/permissions';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
@@ -6,6 +7,8 @@ import { RequirePermission } from '../../auth/decorators/require-permission.deco
 import { CreateReceiptDto } from '../dto/create-receipt.dto';
 import { ReceiptService } from '../services/receipt.service';
 
+@ApiTags('Receipts')
+@ApiBearerAuth('JWT')
 @Controller('receipts')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class ReceiptController {

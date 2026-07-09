@@ -1,6 +1,9 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller, Get } from '@nestjs/common';
 import { AdminService } from '../services/admin.service';
 
+@ApiTags('Admin')
+@ApiBearerAuth('JWT')
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}

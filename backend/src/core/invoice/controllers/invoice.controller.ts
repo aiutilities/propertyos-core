@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
@@ -5,6 +6,8 @@ import { RequirePermission } from '../../auth/decorators/require-permission.deco
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { InvoiceService } from '../services/invoice.service';
 
+@ApiTags('Invoices')
+@ApiBearerAuth('JWT')
 @Controller('invoices')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class InvoiceController {

@@ -1,9 +1,12 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateDocumentTemplateDto } from '../dto/create-document-template.dto';
 import { CreateDocumentVersionDto } from '../dto/create-document-version.dto';
 import { GenerateDocumentDto } from '../dto/generate-document.dto';
 import { DocumentService } from '../services/document.service';
 
+@ApiTags('Documents')
+@ApiBearerAuth('JWT')
 @Controller()
 export class DocumentController {
   constructor(private readonly service: DocumentService) {}

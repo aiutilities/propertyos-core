@@ -1,8 +1,11 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ExecuteIntegrationActionDto } from '../dto/execute-integration-action.dto';
 import { RegisterIntegrationDto } from '../dto/register-integration.dto';
 import { IntegrationService } from '../services/integration.service';
 
+@ApiTags('Integrations')
+@ApiBearerAuth('JWT')
 @Controller('integrations')
 export class IntegrationController {
   constructor(private readonly integrationService: IntegrationService) {}

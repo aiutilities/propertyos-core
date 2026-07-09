@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -16,6 +17,8 @@ import { CreateRentLedgerDto } from '../dto/create-rent-ledger.dto';
 import { PostPaymentDto } from '../dto/post-payment.dto';
 import { RentService } from '../services/rent.service';
 
+@ApiTags('Rent')
+@ApiBearerAuth('JWT')
 @Controller('rent-ledgers')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class RentController {

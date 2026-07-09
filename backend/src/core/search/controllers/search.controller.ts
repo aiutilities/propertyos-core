@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { Permissions } from '../../auth/constants/permissions';
@@ -7,6 +8,8 @@ import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { SearchQueryDto } from '../dto/search-query.dto';
 import { SearchService } from '../services/search.service';
 
+@ApiTags('Search')
+@ApiBearerAuth('JWT')
 @Controller('search')
 @UseGuards(JwtAuthGuard, PermissionGuard)
 export class SearchController {

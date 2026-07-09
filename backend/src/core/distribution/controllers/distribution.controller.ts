@@ -1,8 +1,11 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { InstallDistributionDto } from '../dto/install-distribution.dto';
 import { RegisterDistributionDto } from '../dto/register-distribution.dto';
 import { DistributionService } from '../services/distribution.service';
 
+@ApiTags('Distributions')
+@ApiBearerAuth('JWT')
 @Controller('distributions')
 export class DistributionController {
   constructor(private readonly distributionService: DistributionService) {}

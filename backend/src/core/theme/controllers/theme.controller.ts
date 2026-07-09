@@ -1,7 +1,10 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { InstallThemeDto } from '../dto/install-theme.dto';
 import { ThemeService } from '../services/theme.service';
 
+@ApiTags('Themes')
+@ApiBearerAuth('JWT')
 @Controller('themes')
 export class ThemeController {
   constructor(private readonly themeService: ThemeService) {}

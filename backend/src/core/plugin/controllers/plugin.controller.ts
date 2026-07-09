@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { PluginService } from '../services/plugin.service';
 import { CreatePluginDto } from '../dto/create-plugin.dto';
@@ -5,6 +6,8 @@ import { PluginTransitionDto } from '../dto/plugin-transition.dto';
 import { UpgradePluginDto } from '../dto/upgrade-plugin.dto';
 import { RollbackPluginDto } from '../dto/rollback-plugin.dto';
 
+@ApiTags('Plugins')
+@ApiBearerAuth('JWT')
 @Controller('plugins')
 export class PluginController {
   constructor(private readonly service: PluginService) {}

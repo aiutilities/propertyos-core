@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
@@ -21,6 +22,8 @@ import {
 import { PersonRole } from '../types/person-role.types';
 import { RolePermission } from '../types/role-permission.types';
 
+@ApiTags('Identity')
+@ApiBearerAuth('JWT')
 @Controller()
 export class IdentityController {
   constructor(private readonly identityService: IdentityService) {}

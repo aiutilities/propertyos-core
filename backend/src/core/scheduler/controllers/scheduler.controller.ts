@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { Permissions } from '../../auth/constants/permissions';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
@@ -7,6 +8,8 @@ import { CreateJobDto } from '../dto/create-job.dto';
 import { SchedulerService } from '../services/scheduler.service';
 
 @UseGuards(JwtAuthGuard, PermissionGuard)
+@ApiTags('Scheduler')
+@ApiBearerAuth('JWT')
 @Controller('scheduler')
 export class SchedulerController {
   constructor(private readonly schedulerService: SchedulerService) {}

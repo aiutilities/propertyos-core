@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -24,6 +25,8 @@ import { CheckOutVisitorDto } from './dto/check-out-visitor.dto';
 import { UpdateVisitorSettingsDto } from './dto/update-visitor-settings.dto';
 
 @UseGuards(JwtAuthGuard, PermissionGuard)
+@ApiTags('Visitor Plugin')
+@ApiBearerAuth('JWT')
 @Controller('/plugins/visitor')
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}

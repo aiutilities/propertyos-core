@@ -12,20 +12,22 @@ export default function TenantTable() {
     <table className="table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
+          <th>Tenant Number</th>
           <th>Status</th>
+          <th>Property ID</th>
+          <th>Move In</th>
+          <th>Move Out</th>
         </tr>
       </thead>
 
       <tbody>
         {tenants.map((tenant) => (
           <tr key={tenant.id}>
-            <td>{tenant.displayName}</td>
-            <td>{tenant.email}</td>
-            <td>{tenant.phone}</td>
+            <td>{tenant.tenantNumber}</td>
             <td>{tenant.status}</td>
+            <td>{tenant.propertyId}</td>
+            <td>{tenant.moveInDate ?? "-"}</td>
+            <td>{tenant.moveOutDate ?? "-"}</td>
           </tr>
         ))}
       </tbody>

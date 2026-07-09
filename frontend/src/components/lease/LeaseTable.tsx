@@ -1,6 +1,7 @@
 "use client";
 
 import { useLeases } from "@/hooks/useLeases";
+import LeaseRow from "./LeaseRow";
 
 export default function LeaseTable() {
   const { leases, loading, error } = useLeases();
@@ -22,13 +23,7 @@ export default function LeaseTable() {
 
       <tbody>
         {leases.map((lease) => (
-          <tr key={lease.id}>
-            <td>{lease.leaseNumber}</td>
-            <td>{lease.tenantId}</td>
-            <td>{lease.currentVersionId ?? "-"}</td>
-            <td>{lease.status}</td>
-            <td>{lease.createdAt ?? "-"}</td>
-          </tr>
+          <LeaseRow key={lease.id} lease={lease} />
         ))}
       </tbody>
     </table>

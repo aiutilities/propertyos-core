@@ -38,8 +38,8 @@ describe('Receipt API integration', () => {
     'agreement.create',
     'rent.read',
     'rent.create',
-    'receipt:read',
-    'receipt:create',
+    'receipt.read',
+    'receipt.create',
   ];
 
   beforeAll(async () => {

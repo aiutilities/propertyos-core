@@ -7,7 +7,7 @@ import { login } from "@/lib/auth";
 export function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("admin@propertyos.local");
-  const [password, setPassword] = useState("admin123");
+  const [password, setPassword] = useState("admin12345");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

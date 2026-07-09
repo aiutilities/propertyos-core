@@ -34,6 +34,7 @@ import { UploadModule } from './core/upload';
 import { SchedulerModule } from './core/scheduler';
 import { HealthModule } from './core/health/health.module';
 import { MetricsModule } from './core/metrics';
+import { BootstrapModule } from './core/bootstrap/bootstrap.module';
 
 import { PlatformModule } from './core/platform';
 import { GlobalExceptionFilter } from './core/platform/filters/global-exception.filter';
@@ -82,6 +83,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     SchedulerModule,
     HealthModule,
     MetricsModule,
+    BootstrapModule,
 
     VisitorModule,
   ],

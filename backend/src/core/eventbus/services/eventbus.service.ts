@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import {
@@ -8,9 +8,16 @@ import {
   EventPublishOptions,
   PropertyOSEvent,
 } from '../types/event.types';
+import { EVENTBUS_REPOSITORY, EventBusRepository } from '../repositories/eventbus.repository';
+import { InMemoryEventBusRepository } from '../repositories/inmemory-eventbus.repository';
 
 @Injectable()
 export class EventBusService {
+  constructor(
+    @Inject(EVENTBUS_REPOSITORY)
+    private readonly repository: EventBusRepository = new InMemoryEventBusRepository(),
+  ) {}
+
   private readonly handlers = new Map<string, EventHandler[]>();
   private readonly globalHandlers: EventHandler[] = [];
   private readonly deadLetters: EventDeliveryFailure[] = [];
@@ -58,6 +65,8 @@ export class EventBusService {
       metadata: options.metadata ?? {},
     };
 
+    await this.repository.saveEvent(event);
+
     this.stats.published += 1;
 
     const handlers = this.handlers.get(type) ?? [];
@@ -74,13 +83,27 @@ export class EventBusService {
     return { ...this.stats };
   }
 
+  async listEvents(filters?: {
+    type?: string;
+    source?: string;
+    correlationId?: string;
+    limit?: number;
+  }): Promise<PropertyOSEvent[]> {
+    return this.repository.listEvents(filters);
+  }
+
   listDeadLetters(): EventDeliveryFailure[] {
     return [...this.deadLetters];
   }
 
-  clearDeadLetters(): void {
+  async listPersistentDeadLetters(): Promise<EventDeliveryFailure[]> {
+    return this.repository.listDeadLetters();
+  }
+
+  async clearDeadLetters(): Promise<void> {
     this.deadLetters.length = 0;
     this.stats.deadLetters = 0;
+    await this.repository.clearDeadLetters();
   }
 
   private async deliver(
@@ -112,7 +135,7 @@ export class EventBusService {
     error: unknown,
     attempt: number,
   ): void {
-    this.deadLetters.push({
+    const failure = {
       id: randomUUID(),
       event,
       handlerName: handler.name || 'anonymous-handler',
@@ -120,7 +143,10 @@ export class EventBusService {
         error instanceof Error ? error.message : 'Unknown event handler error',
       attempt,
       createdAt: new Date(),
-    });
+    };
+
+    this.deadLetters.push(failure);
+    void this.repository.saveDeadLetter(failure);
 
     this.stats.deadLetters = this.deadLetters.length;
   }

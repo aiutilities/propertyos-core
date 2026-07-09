@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../../database/database.module';
 import { ConfigurationModule } from '../configuration';
+import { IdentityModule } from '../identity/identity.module';
 import { StorageController } from './controllers/storage.controller';
 import { StorageService } from './services/storage.service';
 import { LocalStorageProvider } from './providers/local-storage.provider';
@@ -11,7 +12,7 @@ import { MinioStorageProvider } from './providers/minio-storage.provider';
 import { PostgresStorageObjectRepository } from './providers/postgres-storage-object.repository';
 
 @Module({
-  imports: [DatabaseModule, ConfigurationModule],
+  imports: [DatabaseModule, ConfigurationModule, IdentityModule],
   controllers: [StorageController],
   providers: [
     StorageService,

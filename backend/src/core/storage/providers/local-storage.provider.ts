@@ -41,7 +41,15 @@ export class LocalStorageProvider implements StorageProvider {
   }
 
   private safeObjectKey(objectKey: string): string {
-    const normalized = normalize(objectKey).replace(/^(\.\.(\/|\\|$))+/, '');
+    if (
+      objectKey.startsWith('/') ||
+      objectKey.startsWith('\\') ||
+      objectKey.split(/[\\/]+/).includes('..')
+    ) {
+      throw new Error('Invalid storage object key');
+    }
+
+    const normalized = normalize(objectKey);
 
     if (normalized.startsWith('/') || normalized.includes('..')) {
       throw new Error('Invalid storage object key');

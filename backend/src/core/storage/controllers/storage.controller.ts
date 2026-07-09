@@ -1,12 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+import { Permissions } from '../../auth/constants/permissions';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { StoreObjectDto } from '../dto/store-object.dto';
 import { StorageService } from '../services/storage.service';
 
+@UseGuards(JwtAuthGuard, PermissionGuard)
 @Controller('storage')
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
+  @RequirePermission(Permissions.STORAGE_CREATE)
   @Post('objects')
   async store(@Body() dto: StoreObjectDto) {
     return {
@@ -17,6 +23,7 @@ export class StorageController {
     };
   }
 
+  @RequirePermission(Permissions.STORAGE_READ)
   @Get('objects')
   async list() {
     return {
@@ -27,6 +34,7 @@ export class StorageController {
     };
   }
 
+  @RequirePermission(Permissions.STORAGE_READ)
   @Get('objects/:id/content')
   async getContent(@Param('id') id: string, @Res() res: Response) {
     const content = await this.storageService.getContent(id);
@@ -34,6 +42,7 @@ export class StorageController {
     res.send(content);
   }
 
+  @RequirePermission(Permissions.STORAGE_CREATE)
   @Delete('objects/:id')
   async delete(@Param('id') id: string) {
     await this.storageService.delete(id);

@@ -74,8 +74,8 @@ export class PostgresStorageObjectRepository
       entityType: row.entity_type ?? undefined,
       entityId: row.entity_id ?? undefined,
       metadata: row.metadata ?? {},
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at),
     };
   }
 }

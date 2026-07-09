@@ -59,6 +59,60 @@ export class PostgresPropertyRepository
     return result.rows[0] ? this.mapProperty(result.rows[0]) : null;
   }
 
+  async updateProperty(id: string, input: Partial<Property>): Promise<Property | null> {
+    const current = await this.findPropertyById(id);
+
+    if (!current) {
+      return null;
+    }
+
+    const merged: Property = {
+      ...current,
+      ...input,
+      id: current.id,
+      createdAt: current.createdAt,
+      updatedAt: new Date(),
+    };
+
+    const result = await this.pool.query(
+      `
+      UPDATE properties
+      SET
+        name = $2,
+        code = $3,
+        property_type = $4,
+        description = $5,
+        address_line1 = $6,
+        address_line2 = $7,
+        city = $8,
+        state = $9,
+        country = $10,
+        postal_code = $11,
+        is_active = $12,
+        updated_at = $13
+      WHERE id = $1
+      RETURNING *
+      `,
+      [
+        id,
+        merged.name,
+        merged.code ?? null,
+        merged.propertyType ?? null,
+        merged.description ?? null,
+        merged.addressLine1 ?? null,
+        merged.addressLine2 ?? null,
+        merged.city ?? null,
+        merged.state ?? null,
+        merged.country ?? null,
+        merged.postalCode ?? null,
+        merged.isActive,
+        merged.updatedAt,
+      ],
+    );
+
+    return result.rows[0] ? this.mapProperty(result.rows[0]) : null;
+  }
+
   async listProperties(
     query: PaginationQueryDto,
   ): Promise<PaginatedResponseDto<Property>> {

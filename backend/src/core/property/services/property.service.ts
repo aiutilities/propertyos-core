@@ -24,6 +24,13 @@ export class PropertyService {
     return this.propertyRepository.findPropertyById(id);
   }
 
+  updateProperty(
+    id: string,
+    input: Partial<Property>,
+  ): Promise<Property | null> {
+    return this.propertyRepository.updateProperty(id, input);
+  }
+
   listProperties(
     query: PaginationQueryDto,
   ): Promise<PaginatedResponseDto<Property>> {

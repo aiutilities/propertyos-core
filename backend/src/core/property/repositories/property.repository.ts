@@ -10,6 +10,8 @@ export interface PropertyRepository {
 
   findPropertyById(id: string): Promise<Property | null>;
 
+  updateProperty(id: string, input: Partial<Property>): Promise<Property | null>;
+
   listProperties(
     query: PaginationQueryDto,
   ): Promise<PaginatedResponseDto<Property>>;

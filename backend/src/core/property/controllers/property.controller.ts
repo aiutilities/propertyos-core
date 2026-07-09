@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { PaginationQueryDto } from '../../platform';
 import { CreatePropertyDto } from '../dto/create-property.dto';
+import { UpdatePropertyDto } from '../dto/update-property.dto';
 import { CreateSpaceDto } from '../dto/create-space.dto';
 import { CreateZoneDto } from '../dto/create-zone.dto';
 import { PropertyService } from '../services/property.service';
@@ -61,6 +63,17 @@ export class PropertyController {
   async getProperty(@Param('id') id: string) {
     return this.success(
       await this.propertyService.findPropertyById(id),
+    );
+  }
+
+  @RequirePermission(Permissions.PROPERTY_CREATE)
+  @Patch('/:id')
+  async updateProperty(
+    @Param('id') id: string,
+    @Body() dto: UpdatePropertyDto,
+  ) {
+    return this.success(
+      await this.propertyService.updateProperty(id, dto),
     );
   }
 

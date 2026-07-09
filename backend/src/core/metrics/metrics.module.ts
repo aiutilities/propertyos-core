@@ -1,10 +1,22 @@
 import { Module } from '@nestjs/common';
+
+import { PostgresModule } from '../../database/postgres/postgres.module';
+import { IdentityModule } from '../identity/identity.module';
 import { MetricsController } from './controllers/metrics.controller';
+import { METRICS_REPOSITORY } from './repositories/metrics.repository';
+import { PostgresMetricsRepository } from './repositories/postgres-metrics.repository';
 import { MetricsService } from './services/metrics.service';
 
 @Module({
+  imports: [PostgresModule, IdentityModule],
   controllers: [MetricsController],
-  providers: [MetricsService],
+  providers: [
+    MetricsService,
+    {
+      provide: METRICS_REPOSITORY,
+      useClass: PostgresMetricsRepository,
+    },
+  ],
   exports: [MetricsService],
 })
 export class MetricsModule {}

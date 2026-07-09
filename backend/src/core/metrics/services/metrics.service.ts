@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as os from 'os';
 import {
   CounterMetricInput,
@@ -6,10 +6,18 @@ import {
   HistogramMetricInput,
   MetricSample,
 } from '../types/metric.types';
+import { InMemoryMetricsRepository } from '../repositories/inmemory-metrics.repository';
+import { METRICS_REPOSITORY, MetricsRepository } from '../repositories/metrics.repository';
 
 @Injectable()
 export class MetricsService {
   private readonly samples: MetricSample[] = [];
+
+  constructor(
+    @Inject(METRICS_REPOSITORY)
+    private readonly repository: MetricsRepository = new InMemoryMetricsRepository(),
+  ) {}
+
 
   incrementCounter(input: CounterMetricInput): MetricSample {
     const sample = this.createSample({
@@ -21,6 +29,7 @@ export class MetricsService {
     });
 
     this.samples.push(sample);
+    void this.repository.saveSample(sample);
     return sample;
   }
 
@@ -34,6 +43,7 @@ export class MetricsService {
     });
 
     this.samples.push(sample);
+    void this.repository.saveSample(sample);
     return sample;
   }
 
@@ -47,11 +57,20 @@ export class MetricsService {
     });
 
     this.samples.push(sample);
+    void this.repository.saveSample(sample);
     return sample;
   }
 
   listSamples(): MetricSample[] {
     return [...this.samples];
+  }
+
+  listPersistentSamples(filters?: {
+    name?: string;
+    type?: MetricSample['type'];
+    limit?: number;
+  }): Promise<MetricSample[]> {
+    return this.repository.listSamples(filters);
   }
 
   getRuntimeMetrics() {
@@ -162,8 +181,9 @@ export class MetricsService {
     return `${lines.join('\n')}\n`;
   }
 
-  clear(): void {
+  async clear(): Promise<void> {
     this.samples.length = 0;
+    await this.repository.clearSamples();
   }
 
   private createSample(input: {

@@ -1,17 +1,42 @@
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3001/api/v1';
+import { getToken } from "@/lib/session";
 
-export async function apiGet<T>(path: string): Promise<T> {
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000/api/v1";
+
+type ApiOptions = RequestInit & {
+  auth?: boolean;
+};
+
+export async function apiRequest<T>(
+  path: string,
+  options: ApiOptions = {},
+): Promise<T> {
+  const headers = new Headers(options.headers);
+
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  if (options.auth !== false) {
+    const token = getToken();
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+  }
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: {
-      Accept: 'application/json'
-    },
-    cache: 'no-store'
+    ...options,
+    headers,
   });
 
   if (!response.ok) {
-    throw new Error(`API GET ${path} failed with ${response.status}`);
+    const message = await response.text();
+    throw new Error(message || `Request failed with ${response.status}`);
   }
 
-  return response.json() as Promise<T>;
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
+  return (await response.json()) as T;
 }

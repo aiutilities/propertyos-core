@@ -1,16 +1,17 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
-    <main className="shell">
-      <section className="hero">
-        <p className="eyebrow">PropertyOS Admin Portal</p>
-        <h1>Backend v1.0.0 is ready. Frontend development starts here.</h1>
-        <p className="summary">
-          This admin portal will manage properties, tenants, agreements, rent,
-          receipts, invoices, documents, workflows, plugins, and visitor operations.
+    <main className="landing">
+      <section>
+        <p className="eyebrow">PropertyOS</p>
+        <h1>Open-source operating system for properties and shared spaces.</h1>
+        <p>
+          Manage properties, people, workflows, plugins and operations through an extensible admin platform.
         </p>
         <div className="actions">
-          <a href="/login">Start with Login</a>
-          <a href="http://localhost:3001/api/docs">Open API Docs</a>
+          <Link href="/login">Open Admin Console</Link>
+          <Link href="/dashboard">Go to Dashboard</Link>
         </div>
       </section>
     </main>

@@ -71,10 +71,10 @@ export class PostgresSchedulerRepository implements SchedulerRepository {
       `
       UPDATE scheduler_jobs
       SET
-        status = $2,
+        status = $2::varchar,
         error_message = $3,
         last_run_at = CASE
-          WHEN $2 IN ('COMPLETED', 'FAILED') THEN NOW()
+          WHEN $2::varchar IN ('COMPLETED', 'FAILED') THEN NOW()
           ELSE last_run_at
         END,
         updated_at = NOW()

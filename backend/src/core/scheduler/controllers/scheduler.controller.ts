@@ -1,11 +1,17 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Permissions } from '../../auth/constants/permissions';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { CreateJobDto } from '../dto/create-job.dto';
 import { SchedulerService } from '../services/scheduler.service';
 
+@UseGuards(JwtAuthGuard, PermissionGuard)
 @Controller('scheduler')
 export class SchedulerController {
   constructor(private readonly schedulerService: SchedulerService) {}
 
+  @RequirePermission(Permissions.SCHEDULER_MANAGE)
   @Post('jobs')
   async createJob(@Body() dto: CreateJobDto) {
     return {
@@ -16,6 +22,7 @@ export class SchedulerController {
     };
   }
 
+  @RequirePermission(Permissions.SCHEDULER_READ)
   @Get('jobs')
   async listJobs() {
     return {
@@ -26,6 +33,7 @@ export class SchedulerController {
     };
   }
 
+  @RequirePermission(Permissions.SCHEDULER_READ)
   @Get('jobs/:id')
   async getJob(@Param('id') id: string) {
     return {
@@ -36,6 +44,7 @@ export class SchedulerController {
     };
   }
 
+  @RequirePermission(Permissions.SCHEDULER_MANAGE)
   @Post('jobs/:id/run')
   async runJob(@Param('id') id: string) {
     return {
@@ -46,6 +55,7 @@ export class SchedulerController {
     };
   }
 
+  @RequirePermission(Permissions.SCHEDULER_READ)
   @Get('handlers')
   async listHandlers() {
     return {

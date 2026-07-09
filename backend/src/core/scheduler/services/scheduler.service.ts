@@ -65,10 +65,9 @@ export class SchedulerService {
       );
     }
 
-    await this.repository.incrementAttempts(id);
-    await this.repository.updateStatus(id, 'RUNNING');
-
     try {
+      await this.repository.incrementAttempts(id);
+      await this.repository.updateStatus(id, 'RUNNING');
       await handler.handle(job);
       return this.repository.updateStatus(id, 'COMPLETED');
     } catch (error) {

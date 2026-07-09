@@ -17,7 +17,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
   ): Promise<Credential> {
     const result = await this.pool.query(
       `
-      INSERT INTO credentials (
+      INSERT INTO access_credentials (
         id,
         credential_type,
         subject_type,
@@ -66,7 +66,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
 
   async findById(id: string): Promise<Credential | undefined> {
     const result = await this.pool.query(
-      `SELECT * FROM credentials WHERE id = $1`,
+      `SELECT * FROM access_credentials WHERE id = $1`,
       [id],
     );
 
@@ -75,7 +75,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
 
   async findByTokenHash(tokenHash: string): Promise<Credential | undefined> {
     const result = await this.pool.query(
-      `SELECT * FROM credentials WHERE token_hash = $1`,
+      `SELECT * FROM access_credentials WHERE token_hash = $1`,
       [tokenHash],
     );
 
@@ -114,7 +114,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
     const where = clauses.length ? `WHERE ${clauses.join(' AND ')}` : '';
 
     const result = await this.pool.query(
-      `SELECT * FROM credentials ${where} ORDER BY created_at DESC`,
+      `SELECT * FROM access_credentials ${where} ORDER BY created_at DESC`,
       values,
     );
 
@@ -124,7 +124,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
   async updateStatus(id: string, status: CredentialStatus): Promise<Credential | undefined> {
     const result = await this.pool.query(
       `
-      UPDATE credentials
+      UPDATE access_credentials
       SET status = $2,
           updated_at = NOW()
       WHERE id = $1
@@ -139,7 +139,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
   async incrementUseCount(id: string): Promise<Credential | undefined> {
     const result = await this.pool.query(
       `
-      UPDATE credentials
+      UPDATE access_credentials
       SET use_count = use_count + 1,
           updated_at = NOW()
       WHERE id = $1
@@ -156,7 +156,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
   ): Promise<CredentialUsage> {
     const result = await this.pool.query(
       `
-      INSERT INTO credential_usage (
+      INSERT INTO access_credential_usage (
         id,
         credential_id,
         used_by_person_id,
@@ -184,7 +184,7 @@ export class PostgresCredentialRepository implements CredentialRepositoryPort {
     const result = await this.pool.query(
       `
       SELECT *
-      FROM credential_usage
+      FROM access_credential_usage
       WHERE credential_id = $1
       ORDER BY used_at DESC
       `,

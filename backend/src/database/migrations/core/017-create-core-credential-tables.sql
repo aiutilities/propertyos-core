@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS credentials (
+CREATE TABLE IF NOT EXISTS access_credentials (
     id UUID PRIMARY KEY,
     credential_type VARCHAR(50) NOT NULL,
     subject_type VARCHAR(100) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS credentials (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS credential_usage (
+CREATE TABLE IF NOT EXISTS access_credential_usage (
     id UUID PRIMARY KEY,
     credential_id UUID NOT NULL,
     used_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -27,16 +27,16 @@ CREATE TABLE IF NOT EXISTS credential_usage (
     property_id UUID NULL,
     space_id UUID NULL,
     context JSONB NOT NULL DEFAULT '{}'::jsonb,
-    CONSTRAINT fk_credential_usage_credential
+    CONSTRAINT fk_access_credential_usage_credential
         FOREIGN KEY (credential_id)
-        REFERENCES credentials(id)
+        REFERENCES access_credentials(id)
         ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS idx_credentials_type ON credentials(credential_type);
-CREATE INDEX IF NOT EXISTS idx_credentials_subject ON credentials(subject_type, subject_id);
-CREATE INDEX IF NOT EXISTS idx_credentials_property ON credentials(property_id);
-CREATE INDEX IF NOT EXISTS idx_credentials_status ON credentials(status);
-CREATE INDEX IF NOT EXISTS idx_credentials_valid_until ON credentials(valid_until);
-CREATE INDEX IF NOT EXISTS idx_credential_usage_credential ON credential_usage(credential_id);
-CREATE INDEX IF NOT EXISTS idx_credential_usage_used_at ON credential_usage(used_at);
+CREATE INDEX IF NOT EXISTS idx_access_credentials_type ON access_credentials(credential_type);
+CREATE INDEX IF NOT EXISTS idx_access_credentials_subject ON access_credentials(subject_type, subject_id);
+CREATE INDEX IF NOT EXISTS idx_access_credentials_property ON access_credentials(property_id);
+CREATE INDEX IF NOT EXISTS idx_access_credentials_status ON access_credentials(status);
+CREATE INDEX IF NOT EXISTS idx_access_credentials_valid_until ON access_credentials(valid_until);
+CREATE INDEX IF NOT EXISTS idx_access_credential_usage_credential ON access_credential_usage(credential_id);
+CREATE INDEX IF NOT EXISTS idx_access_credential_usage_used_at ON access_credential_usage(used_at);

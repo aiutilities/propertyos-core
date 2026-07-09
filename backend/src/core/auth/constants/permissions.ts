@@ -53,6 +53,9 @@ export const Permissions = {
   FORM_READ: 'form.read',
   FORM_CREATE: 'form.create',
 
+  ACCESS_CREDENTIAL_READ: 'access-credential.read',
+  ACCESS_CREDENTIAL_MANAGE: 'access-credential.manage',
+
   SCHEDULER_READ: 'scheduler.read',
   SCHEDULER_MANAGE: 'scheduler.manage',
 

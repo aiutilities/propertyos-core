@@ -12,11 +12,11 @@ export default function LeaseTable() {
     <table className="table">
       <thead>
         <tr>
-          <th>Lease</th>
+          <th>Lease / Agreement</th>
           <th>Tenant</th>
-          <th>Property</th>
-          <th>Rent</th>
+          <th>Current Version</th>
           <th>Status</th>
+          <th>Created</th>
         </tr>
       </thead>
 
@@ -25,9 +25,9 @@ export default function LeaseTable() {
           <tr key={lease.id}>
             <td>{lease.leaseNumber}</td>
             <td>{lease.tenantId}</td>
-            <td>{lease.propertyId}</td>
-            <td>{lease.monthlyRent}</td>
+            <td>{lease.currentVersionId ?? "-"}</td>
             <td>{lease.status}</td>
+            <td>{lease.createdAt ?? "-"}</td>
           </tr>
         ))}
       </tbody>

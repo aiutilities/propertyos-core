@@ -1,14 +1,11 @@
 export interface Lease {
   id: string;
   tenantId: string;
-  propertyId: string;
-  spaceId?: string;
   leaseNumber: string;
-  startDate: string;
-  endDate?: string;
-  monthlyRent: number;
-  securityDeposit: number;
+  currentVersionId?: string;
   status: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface LeaseListResponse {

@@ -13,7 +13,7 @@ export function useLeases() {
     async function load() {
       try {
         const response =
-          await apiRequest<LeaseListResponse>("/leases");
+          await apiRequest<LeaseListResponse>("/agreements");
         setLeases(response.data.items);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unable to load leases.");

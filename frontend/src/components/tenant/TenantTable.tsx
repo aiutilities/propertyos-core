@@ -1,6 +1,7 @@
 "use client";
 
 import { useTenants } from "@/hooks/useTenants";
+import TenantRow from "./TenantRow";
 
 export default function TenantTable() {
   const { tenants, loading, error } = useTenants();
@@ -22,13 +23,7 @@ export default function TenantTable() {
 
       <tbody>
         {tenants.map((tenant) => (
-          <tr key={tenant.id}>
-            <td>{tenant.tenantNumber}</td>
-            <td>{tenant.status}</td>
-            <td>{tenant.propertyId}</td>
-            <td>{tenant.moveInDate ?? "-"}</td>
-            <td>{tenant.moveOutDate ?? "-"}</td>
-          </tr>
+          <TenantRow key={tenant.id} tenant={tenant} />
         ))}
       </tbody>
     </table>

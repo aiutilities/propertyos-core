@@ -6,7 +6,7 @@ export default function InvoicesPage() {
   return (
     <ProtectedRoute>
       <AdminShell>
-        <h1>Invoices</h1>
+        <div className="page-header"><h1>Invoices</h1><a className="button-link" href="/invoices/new">New Invoice</a></div>
         <InvoiceTable />
       </AdminShell>
     </ProtectedRoute>

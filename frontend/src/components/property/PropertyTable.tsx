@@ -1,6 +1,7 @@
 "use client";
 
 import { useProperties } from "@/hooks/useProperties";
+import PropertyRow from "./PropertyRow";
 
 export default function PropertyTable() {
   const { items, loading } = useProperties();
@@ -23,13 +24,7 @@ export default function PropertyTable() {
 
       <tbody>
         {items.map((property) => (
-          <tr key={property.id}>
-            <td>{property.name}</td>
-            <td>{property.code}</td>
-            <td>{property.propertyType}</td>
-            <td>{property.city ?? "-"}</td>
-            <td>{property.isActive ? "Active" : "Inactive"}</td>
-          </tr>
+          <PropertyRow key={property.id} property={property} />
         ))}
       </tbody>
     </table>

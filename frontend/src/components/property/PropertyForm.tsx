@@ -1,10 +1,15 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/lib/api";
+import type { Property } from "@/types/property";
 
-type CreatePropertyPayload = {
+type PropertyFormProps = {
+  propertyId?: string;
+};
+
+type PropertyPayload = {
   name: string;
   code?: string;
   propertyType?: string;
@@ -19,12 +24,10 @@ type CreatePropertyPayload = {
 
 type PropertyResponse = {
   success: boolean;
-  data: {
-    id: string;
-  };
+  data: Property;
 };
 
-const initialForm: CreatePropertyPayload = {
+const initialForm: PropertyPayload = {
   name: "",
   code: "",
   propertyType: "PG",
@@ -37,13 +40,46 @@ const initialForm: CreatePropertyPayload = {
   postalCode: "",
 };
 
-export default function PropertyForm() {
+export default function PropertyForm({ propertyId }: PropertyFormProps) {
   const router = useRouter();
-  const [form, setForm] = useState<CreatePropertyPayload>(initialForm);
+  const isEditMode = Boolean(propertyId);
+
+  const [form, setForm] = useState<PropertyPayload>(initialForm);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(isEditMode);
   const [saving, setSaving] = useState(false);
 
-  function updateField(field: keyof CreatePropertyPayload, value: string) {
+  useEffect(() => {
+    async function loadProperty() {
+      if (!propertyId) return;
+
+      try {
+        const response = await apiRequest<PropertyResponse>(`/properties/${propertyId}`);
+        const property = response.data;
+
+        setForm({
+          name: property.name ?? "",
+          code: property.code ?? "",
+          propertyType: property.propertyType ?? "",
+          description: property.description ?? "",
+          addressLine1: property.addressLine1 ?? "",
+          addressLine2: property.addressLine2 ?? "",
+          city: property.city ?? "",
+          state: property.state ?? "",
+          country: property.country ?? "",
+          postalCode: property.postalCode ?? "",
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unable to load property.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProperty();
+  }, [propertyId]);
+
+  function updateField(field: keyof PropertyPayload, value: string) {
     setForm((current) => ({
       ...current,
       [field]: value,
@@ -62,17 +98,24 @@ export default function PropertyForm() {
     setSaving(true);
 
     try {
-      const response = await apiRequest<PropertyResponse>("/properties", {
-        method: "POST",
-        body: JSON.stringify(cleanPayload(form)),
-      });
+      const response = await apiRequest<PropertyResponse>(
+        propertyId ? `/properties/${propertyId}` : "/properties",
+        {
+          method: propertyId ? "PATCH" : "POST",
+          body: JSON.stringify(cleanPayload(form)),
+        },
+      );
 
       router.replace(`/properties/${response.data.id}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to create property.");
+      setError(err instanceof Error ? err.message : "Unable to save property.");
     } finally {
       setSaving(false);
     }
+  }
+
+  if (loading) {
+    return <p>Loading property...</p>;
   }
 
   return (
@@ -165,16 +208,22 @@ export default function PropertyForm() {
       {error ? <p className="error">{error}</p> : null}
 
       <button type="submit" disabled={saving}>
-        {saving ? "Creating..." : "Create Property"}
+        {saving
+          ? isEditMode
+            ? "Updating..."
+            : "Creating..."
+          : isEditMode
+            ? "Update Property"
+            : "Create Property"}
       </button>
     </form>
   );
 }
 
-function cleanPayload(payload: CreatePropertyPayload): CreatePropertyPayload {
+function cleanPayload(payload: PropertyPayload): PropertyPayload {
   return Object.fromEntries(
     Object.entries(payload)
       .map(([key, value]) => [key, value?.trim()])
       .filter(([, value]) => Boolean(value)),
-  ) as CreatePropertyPayload;
+  ) as PropertyPayload;
 }

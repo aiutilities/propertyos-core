@@ -6,7 +6,7 @@ export default function LeasePage() {
   return (
     <ProtectedRoute>
       <AdminShell>
-        <h1>Leases</h1>
+        <div className="page-header"><h1>Leases</h1><a className="button-link" href="/leases/new">New Lease</a></div>
         <LeaseTable />
       </AdminShell>
     </ProtectedRoute>

@@ -35,6 +35,7 @@ const navGroups: NavGroup[] = [
       { label: "Rent Ledgers", href: "/rent-ledgers" },
       { label: "Receipts", href: "/receipts" },
       { label: "Invoices", href: "/invoices" },
+      { label: "Reports", href: "/reports" },
     ],
   },
 ];
@@ -55,6 +56,7 @@ function getSectionTitle(pathname: string) {
     { prefix: "/rent-ledgers", title: "Rent Ledgers" },
     { prefix: "/receipts", title: "Receipts" },
     { prefix: "/invoices", title: "Invoices" },
+    { prefix: "/reports", title: "Reports" },
     { prefix: "/dashboard", title: "Dashboard" },
   ];
 

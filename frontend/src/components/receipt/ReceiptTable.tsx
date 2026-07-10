@@ -1,12 +1,14 @@
 "use client";
 
+import ReceiptRow from "./ReceiptRow";
 import { useReceipts } from "@/hooks/useReceipts";
 
 export default function ReceiptTable() {
   const { receipts, loading, error } = useReceipts();
 
   if (loading) return <p>Loading receipts...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p className="error">{error}</p>;
+  if (receipts.length === 0) return <p>No receipts found.</p>;
 
   return (
     <table className="table">
@@ -24,15 +26,7 @@ export default function ReceiptTable() {
 
       <tbody>
         {receipts.map((receipt) => (
-          <tr key={receipt.id}>
-            <td>{receipt.receiptNumber}</td>
-            <td>{receipt.tenantId}</td>
-            <td>{receipt.rentLedgerId}</td>
-            <td>{receipt.amount}</td>
-            <td>{receipt.receiptDate}</td>
-            <td>{receipt.paymentMode}</td>
-            <td>{receipt.status}</td>
-          </tr>
+          <ReceiptRow key={receipt.id} receipt={receipt} />
         ))}
       </tbody>
     </table>

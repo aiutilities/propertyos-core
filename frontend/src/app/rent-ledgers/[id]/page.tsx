@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import Link from "next/link";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminShell } from "@/components/layout/AdminShell";
 import RentPaymentTable from "@/components/rent/RentPaymentTable";
@@ -30,17 +31,53 @@ function RentLedgerDetails({ id }: { id: string }) {
 
   return (
     <>
-      <h1>Rent Ledger</h1>
+      <div className="page-header">
+        <h1>Rent Ledger</h1>
+        <Link className="button-link" href="/rent-ledgers">
+          Back to Rent Ledgers
+        </Link>
+      </div>
 
       <table className="table">
         <tbody>
-          <tr><th>Tenant</th><td>{ledger.tenantId}</td></tr>
-          <tr><th>Agreement</th><td>{ledger.agreementId}</td></tr>
-          <tr><th>Period</th><td>{ledger.periodMonth}/{ledger.periodYear}</td></tr>
-          <tr><th>Rent</th><td>{ledger.rentAmount}</td></tr>
-          <tr><th>Paid</th><td>{ledger.amountPaid}</td></tr>
-          <tr><th>Balance</th><td>{ledger.balanceAmount}</td></tr>
-          <tr><th>Status</th><td>{ledger.status}</td></tr>
+          <tr>
+            <th>Tenant</th>
+            <td>
+              <Link href={`/tenants/${ledger.tenantId}`}>
+                {ledger.tenantId}
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <th>Agreement</th>
+            <td>
+              <Link href={`/leases/${ledger.agreementId}`}>
+                {ledger.agreementId}
+              </Link>
+            </td>
+          </tr>
+          <tr>
+            <th>Period</th>
+            <td>
+              {ledger.periodMonth}/{ledger.periodYear}
+            </td>
+          </tr>
+          <tr>
+            <th>Rent</th>
+            <td>{ledger.rentAmount}</td>
+          </tr>
+          <tr>
+            <th>Paid</th>
+            <td>{ledger.amountPaid}</td>
+          </tr>
+          <tr>
+            <th>Balance</th>
+            <td>{ledger.balanceAmount}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>{ledger.status}</td>
+          </tr>
         </tbody>
       </table>
 

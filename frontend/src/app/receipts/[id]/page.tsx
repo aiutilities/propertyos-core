@@ -27,9 +27,7 @@ export default function ReceiptDetailsPage({
         {loading && <p>Loading receipt...</p>}
         {error && <p className="error">{error}</p>}
 
-        {!loading && !error && !receipt && (
-          <p>Receipt not found.</p>
-        )}
+        {!loading && !error && !receipt && <p>Receipt not found.</p>}
 
         {!loading && receipt && (
           <table className="table">
@@ -40,7 +38,11 @@ export default function ReceiptDetailsPage({
               </tr>
               <tr>
                 <th>Tenant ID</th>
-                <td>{receipt.tenantId}</td>
+                <td>
+                  <Link href={`/tenants/${receipt.tenantId}`}>
+                    {receipt.tenantId}
+                  </Link>
+                </td>
               </tr>
               <tr>
                 <th>Rent Ledger ID</th>

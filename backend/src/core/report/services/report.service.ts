@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { OutstandingRentQueryDto } from '../dto/outstanding-rent-query.dto';
 import { RentCollectionQueryDto } from '../dto/rent-collection-query.dto';
 import {
   REPORT_REPOSITORY,
@@ -15,5 +16,9 @@ export class ReportService {
 
   getRentCollection(query: RentCollectionQueryDto) {
     return this.reportRepository.getRentCollection(query);
+  }
+
+  getOutstandingRent(query: OutstandingRentQueryDto) {
+    return this.reportRepository.getOutstandingRent(query);
   }
 }

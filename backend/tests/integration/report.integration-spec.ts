@@ -30,6 +30,9 @@ describe('Report API integration', () => {
   let secondPaymentId: string;
   let receiptId: string;
 
+  const unpaidRentLedgerId = randomUUID();
+  const paidRentLedgerId = randomUUID();
+
   const permissionKeys = [
     Permissions.PROPERTY_READ,
     Permissions.PROPERTY_CREATE,
@@ -277,6 +280,40 @@ describe('Report API integration', () => {
       .expect(201);
 
     receiptId = receipt.body.id;
+
+    await pool.query(
+      `
+      INSERT INTO rent_ledgers (
+        id,
+        tenant_id,
+        agreement_id,
+        period_year,
+        period_month,
+        due_date,
+        rent_amount,
+        amount_paid,
+        balance_amount,
+        status,
+        created_at,
+        updated_at
+      )
+      VALUES
+        (
+          $1, $3, $4, 2026, 6, '2026-06-05',
+          9000, 0, 9000, 'UNPAID', now(), now()
+        ),
+        (
+          $2, $3, $4, 2026, 5, '2026-05-05',
+          9000, 9000, 0, 'PAID', now(), now()
+        )
+      `,
+      [
+        unpaidRentLedgerId,
+        paidRentLedgerId,
+        tenantId,
+        agreementId,
+      ],
+    );
   });
 
   afterAll(async () => {
@@ -297,11 +334,17 @@ describe('Report API integration', () => {
         );
       }
 
-      if (rentLedgerId) {
-        await pool.query('DELETE FROM rent_ledgers WHERE id = $1', [
+      await pool.query(
+        `
+        DELETE FROM rent_ledgers
+        WHERE id = ANY($1::uuid[])
+        `,
+        [[
           rentLedgerId,
-        ]);
-      }
+          unpaidRentLedgerId,
+          paidRentLedgerId,
+        ].filter(Boolean)],
+      );
 
       if (agreementId) {
         await pool.query(
@@ -442,5 +485,97 @@ describe('Report API integration', () => {
       firstPaymentId,
     );
     expect(response.body.data.summary.totalCollected).toBe(5000);
+  });
+
+  it('rejects unauthenticated outstanding rent report access', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent')
+      .expect(401);
+  });
+
+  it('returns only positive outstanding balances with summary totals', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent')
+      .query({
+        propertyId,
+        tenantId,
+        page: 1,
+        limit: 1,
+        sortBy: 'balanceAmount',
+        sortOrder: 'desc',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.items).toHaveLength(1);
+    expect(response.body.data.page).toBe(1);
+    expect(response.body.data.limit).toBe(1);
+    expect(response.body.data.total).toBe(2);
+    expect(response.body.data.totalPages).toBe(2);
+
+    expect(response.body.data.summary).toEqual({
+      totalRentBilled: 18000,
+      totalAmountPaid: 7000,
+      totalOutstanding: 11000,
+      ledgerCount: 2,
+      overdueLedgerCount: 2,
+    });
+
+    const row = response.body.data.items[0];
+
+    expect(row.rentLedgerId).toBe(unpaidRentLedgerId);
+    expect(row.propertyId).toBe(propertyId);
+    expect(row.tenantId).toBe(tenantId);
+    expect(row.agreementId).toBe(agreementId);
+    expect(row.periodYear).toBe(2026);
+    expect(row.periodMonth).toBe(6);
+    expect(row.rentAmount).toBe(9000);
+    expect(row.amountPaid).toBe(0);
+    expect(row.balanceAmount).toBe(9000);
+    expect(row.status).toBe('UNPAID');
+    expect(row.overdueDays).toBeGreaterThan(0);
+  });
+
+  it('filters outstanding rent by status and due-date range', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent')
+      .query({
+        propertyId,
+        status: 'unpaid',
+        dueFrom: '2026-06-01',
+        dueTo: '2026-06-30',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(response.body.data.items).toHaveLength(1);
+    expect(response.body.data.items[0].rentLedgerId).toBe(
+      unpaidRentLedgerId,
+    );
+    expect(response.body.data.summary.ledgerCount).toBe(1);
+    expect(response.body.data.summary.totalRentBilled).toBe(9000);
+    expect(response.body.data.summary.totalAmountPaid).toBe(0);
+    expect(response.body.data.summary.totalOutstanding).toBe(9000);
+    expect(response.body.data.summary.overdueLedgerCount).toBe(1);
+  });
+
+  it('searches outstanding rent across related entities', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent')
+      .query({
+        propertyId,
+        search: `REPORT-AGR-${timestamp}`,
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(response.body.data.items).toHaveLength(2);
+    expect(
+      response.body.data.items.every(
+        (item: any) => item.balanceAmount > 0,
+      ),
+    ).toBe(true);
+    expect(response.body.data.summary.totalOutstanding).toBe(11000);
   });
 });

@@ -1,8 +1,18 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
-import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { PaginationQueryDto } from '../../platform';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { InvoiceService } from '../services/invoice.service';
 
@@ -26,12 +36,10 @@ export class InvoiceController {
 
   @Get()
   @RequirePermission('invoice.read')
-  async findAll() {
-    const invoices = await this.invoiceService.findAll();
-
+  async findAll(@Query() query: PaginationQueryDto) {
     return {
       success: true,
-      data: { invoices },
+      data: await this.invoiceService.listPaginated(query),
     };
   }
 

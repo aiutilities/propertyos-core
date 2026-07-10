@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
+import { PaginatedResponseDto, PaginationQueryDto } from '../../platform';
 import { CreateReceiptDto } from '../dto/create-receipt.dto';
 import {
   RECEIPT_REPOSITORY,
@@ -42,6 +43,12 @@ export class ReceiptService {
 
   async findAll(): Promise<Receipt[]> {
     return this.receiptRepository.findAll();
+  }
+
+  async listPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Receipt>> {
+    return this.receiptRepository.listPaginated(query);
   }
 
   async findById(id: string): Promise<Receipt> {

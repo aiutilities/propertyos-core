@@ -1,9 +1,19 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+
 import { Permissions } from '../../auth/constants/permissions';
+import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
-import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
+import { PaginationQueryDto } from '../../platform';
 import { CreateReceiptDto } from '../dto/create-receipt.dto';
 import { ReceiptService } from '../services/receipt.service';
 
@@ -22,8 +32,11 @@ export class ReceiptController {
 
   @Get()
   @RequirePermission(Permissions.RECEIPT_READ)
-  async findAll() {
-    return this.receiptService.findAll();
+  async findAll(@Query() query: PaginationQueryDto) {
+    return {
+      success: true,
+      data: await this.receiptService.listPaginated(query),
+    };
   }
 
   @Get(':id')

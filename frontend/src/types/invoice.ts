@@ -18,6 +18,10 @@ export interface Invoice {
 export interface InvoiceListResponse {
   success: boolean;
   data: {
-    invoices: Invoice[];
+    items: Invoice[];
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
   };
 }

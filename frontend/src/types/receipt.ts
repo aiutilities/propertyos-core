@@ -12,3 +12,14 @@ export interface Receipt {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface ReceiptListResponse {
+  success: boolean;
+  data: {
+    items: Receipt[];
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}

@@ -1,15 +1,28 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
+
 import { POSTGRES_POOL } from '../../../database/postgres';
+import {
+  BasePostgresRepository,
+  PaginatedResponseDto,
+  PaginationQueryDto,
+} from '../../platform';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { Invoice } from '../types';
 import { InvoiceRepository } from './invoice-repository.interface';
 
 @Injectable()
-export class PostgresInvoiceRepository implements InvoiceRepository {
-  constructor(@Inject(POSTGRES_POOL) private readonly pool: Pool) {}
+export class PostgresInvoiceRepository
+  extends BasePostgresRepository
+  implements InvoiceRepository
+{
+  constructor(@Inject(POSTGRES_POOL) private readonly pool: Pool) {
+    super();
+  }
 
-  async create(data: CreateInvoiceDto & { invoiceNumber: string }): Promise<Invoice> {
+  async create(
+    data: CreateInvoiceDto & { invoiceNumber: string },
+  ): Promise<Invoice> {
     const result = await this.pool.query(
       `
       INSERT INTO invoices (
@@ -43,7 +56,7 @@ export class PostgresInvoiceRepository implements InvoiceRepository {
       ],
     );
 
-    return this.mapRow(result.rows[0]);
+    return this.mapInvoice(result.rows[0]);
   }
 
   async findAll(): Promise<Invoice[]> {
@@ -55,7 +68,49 @@ export class PostgresInvoiceRepository implements InvoiceRepository {
       `,
     );
 
-    return result.rows.map((row) => this.mapRow(row));
+    return result.rows.map((row) => this.mapInvoice(row));
+  }
+
+  async listPaginated(
+    query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Invoice>> {
+    const paginatedQuery = this.buildPaginatedQuery(query, {
+      tableName: 'invoices',
+      searchableColumns: [
+        'invoice_number',
+        'status',
+      ],
+      sortableColumns: {
+        invoiceNumber: 'invoice_number',
+        billingPeriodStart: 'billing_period_start',
+        billingPeriodEnd: 'billing_period_end',
+        invoiceDate: 'invoice_date',
+        dueDate: 'due_date',
+        amount: 'amount',
+        status: 'status',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+      defaultSortColumn: 'created_at',
+      mapRow: (row) => this.mapInvoice(row),
+    });
+
+    const countValues = paginatedQuery.values.slice(0, -2);
+
+    const [itemsResult, countResult] = await Promise.all([
+      this.pool.query(paginatedQuery.itemsSql, paginatedQuery.values),
+      this.pool.query(paginatedQuery.countSql, countValues),
+    ]);
+
+    const total = Number(countResult.rows[0]?.total ?? 0);
+
+    return this.toPaginatedResponse(
+      itemsResult.rows,
+      total,
+      paginatedQuery.page,
+      paginatedQuery.limit,
+      (row) => this.mapInvoice(row),
+    );
   }
 
   async findById(id: string): Promise<Invoice | null> {
@@ -72,10 +127,12 @@ export class PostgresInvoiceRepository implements InvoiceRepository {
       return null;
     }
 
-    return this.mapRow(result.rows[0]);
+    return this.mapInvoice(result.rows[0]);
   }
 
-  async findByInvoiceNumber(invoiceNumber: string): Promise<Invoice | null> {
+  async findByInvoiceNumber(
+    invoiceNumber: string,
+  ): Promise<Invoice | null> {
     const result = await this.pool.query(
       `
       SELECT *
@@ -89,10 +146,10 @@ export class PostgresInvoiceRepository implements InvoiceRepository {
       return null;
     }
 
-    return this.mapRow(result.rows[0]);
+    return this.mapInvoice(result.rows[0]);
   }
 
-  private mapRow(row: any): Invoice {
+  private mapInvoice(row: any): Invoice {
     return {
       id: row.id,
       invoiceNumber: row.invoice_number,
@@ -100,8 +157,12 @@ export class PostgresInvoiceRepository implements InvoiceRepository {
       agreementId: row.agreement_id,
       rentLedgerId: row.rent_ledger_id,
       receiptId: row.receipt_id,
-      billingPeriodStart: this.toLocalDateString(row.billing_period_start),
-      billingPeriodEnd: this.toLocalDateString(row.billing_period_end),
+      billingPeriodStart: this.toLocalDateString(
+        row.billing_period_start,
+      ),
+      billingPeriodEnd: this.toLocalDateString(
+        row.billing_period_end,
+      ),
       invoiceDate: this.toLocalDateString(row.invoice_date),
       dueDate: this.toLocalDateString(row.due_date),
       amount: Number(row.amount),

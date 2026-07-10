@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import PersonLookup from "@/components/common/PersonLookup";
 import PropertyLookup from "@/components/common/PropertyLookup";
 import { apiRequest } from "@/lib/api";
 
@@ -60,12 +61,16 @@ export default function TenantForm() {
 
   return (
     <form onSubmit={submit} className="form">
-      <input
-        placeholder="Person ID"
-        value={form.personId}
-        onChange={(e) => update("personId", e.target.value)}
-        required
-      />
+      <label>
+        Person
+        <PersonLookup
+          required
+          value={form.personId}
+          onChange={(personId) =>
+            update("personId", personId)
+          }
+        />
+      </label>
 
       <label>
         Property

@@ -5,14 +5,15 @@ import { useRouter } from "next/navigation";
 import AgreementLookup from "@/components/common/AgreementLookup";
 import TenantLookup from "@/components/common/TenantLookup";
 import RentLedgerLookup from "@/components/common/RentLedgerLookup";
+import ReceiptLookup from "@/components/common/ReceiptLookup";
 import { apiRequest } from "@/lib/api";
 import type { Invoice } from "@/types/invoice";
 
 type InvoicePayload = {
   tenantId: string;
-  agreementId?: string;
-  rentLedgerId?: string;
-  receiptId?: string;
+  agreementId: string;
+  rentLedgerId: string;
+  receiptId: string;
   billingPeriodStart: string;
   billingPeriodEnd: string;
   invoiceDate: string;
@@ -115,10 +116,10 @@ export default function InvoiceForm() {
       </label>
 
       <label>
-        Receipt ID
-        <input
+        Receipt
+        <ReceiptLookup
           value={form.receiptId}
-          onChange={(event) => update("receiptId", event.target.value)}
+          onChange={(receiptId) => update("receiptId", receiptId)}
         />
       </label>
 

@@ -296,9 +296,14 @@ describe('Invoice API integration', () => {
       .expect(200);
 
     expect(response.body.success).toBe(true);
-    expect(Array.isArray(response.body.data.invoices)).toBe(true);
+    expect(Array.isArray(response.body.data.items)).toBe(true);
+    expect(response.body.data.page).toBe(1);
+    expect(response.body.data.limit).toBeGreaterThan(0);
+    expect(response.body.data.total).toBeGreaterThanOrEqual(1);
     expect(
-      response.body.data.invoices.some((invoice: any) => invoice.id === invoiceId),
+      response.body.data.items.some(
+        (invoice: any) => invoice.id === invoiceId,
+      ),
     ).toBe(true);
   });
 

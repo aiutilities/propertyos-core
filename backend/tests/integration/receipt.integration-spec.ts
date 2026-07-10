@@ -304,9 +304,15 @@ describe('Receipt API integration', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.success).toBe(true);
+    expect(Array.isArray(response.body.data.items)).toBe(true);
+    expect(response.body.data.page).toBe(1);
+    expect(response.body.data.limit).toBeGreaterThan(0);
+    expect(response.body.data.total).toBeGreaterThanOrEqual(1);
     expect(
-      response.body.some((receipt: any) => receipt.id === receiptId),
+      response.body.data.items.some(
+        (receipt: any) => receipt.id === receiptId,
+      ),
     ).toBe(true);
   });
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import RentLedgerLookup from "@/components/common/RentLedgerLookup";
+import RentPaymentLookup from "@/components/common/RentPaymentLookup";
 import TenantLookup from "@/components/common/TenantLookup";
 import { apiRequest } from "@/lib/api";
 import type { Receipt } from "@/types/receipt";
@@ -99,17 +100,24 @@ export default function ReceiptForm() {
           required
           value={form.rentLedgerId}
           onChange={(rentLedgerId) =>
-            update("rentLedgerId", rentLedgerId)
+            setForm((current) => ({
+              ...current,
+              rentLedgerId,
+              rentPaymentId: "",
+            }))
           }
         />
       </label>
 
       <label>
-        Rent Payment ID
-        <input
+        Rent Payment
+        <RentPaymentLookup
           required
+          rentLedgerId={form.rentLedgerId}
           value={form.rentPaymentId}
-          onChange={(event) => update("rentPaymentId", event.target.value)}
+          onChange={(rentPaymentId) =>
+            update("rentPaymentId", rentPaymentId)
+          }
         />
       </label>
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminShell } from "@/components/layout/AdminShell";
@@ -9,6 +10,10 @@ export default function RentLedgersPage() {
       <AdminShell>
         <div className="page-header">
           <h1>Rent Ledgers</h1>
+
+          <Link className="button-link" href="/rent-ledgers/new">
+            New Rent Ledger
+          </Link>
         </div>
 
         <Suspense fallback={<p>Loading rent ledgers...</p>}>

@@ -17,10 +17,10 @@ export class AdminController {
   }
 
   @Get('dashboard')
-  dashboard() {
+  async dashboard() {
     return {
       success: true,
-      data: this.adminService.getDashboard(),
+      data: await this.adminService.getDashboard(),
     };
   }
 

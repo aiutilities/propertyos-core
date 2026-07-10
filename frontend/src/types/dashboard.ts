@@ -9,6 +9,16 @@ export interface DashboardSummary {
     status: string;
     version: string;
   };
+  business: {
+    properties: number;
+    tenants: number;
+    activeLeases: number;
+    rentLedgers: number;
+    outstandingRent: number;
+    receipts: number;
+    invoices: number;
+    overdueInvoices: number;
+  };
   plugins: {
     installed: number;
     active: number;

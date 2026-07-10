@@ -1,4 +1,10 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
+import { AgreementService } from '../../agreement/services/agreement.service';
+import { InvoiceService } from '../../invoice/services/invoice.service';
+import { PropertyService } from '../../property/services/property.service';
+import { ReceiptService } from '../../receipt/services/receipt.service';
+import { RentService } from '../../rent/services/rent.service';
+import { TenantService } from '../../tenant/services/tenant.service';
 import { PluginService } from '../../plugin/services/plugin.service';
 import { PluginPermissionRegistry } from '../../plugin/registries/plugin-permission.registry';
 import { PluginWorkflowRegistry } from '../../plugin/registries/plugin-workflow.registry';
@@ -24,6 +30,12 @@ export class AdminService implements OnModuleInit {
     private readonly configurationRegistry: PluginConfigurationRegistry,
     private readonly schedulerRegistry: PluginSchedulerRegistry,
     private readonly searchRegistry: PluginSearchRegistry,
+    private readonly propertyService: PropertyService,
+    private readonly tenantService: TenantService,
+    private readonly agreementService: AgreementService,
+    private readonly rentService: RentService,
+    private readonly receiptService: ReceiptService,
+    private readonly invoiceService: InvoiceService,
   ) {}
 
   onModuleInit(): void {
@@ -31,16 +43,65 @@ export class AdminService implements OnModuleInit {
     this.registerCoreWidgets();
   }
 
-  getDashboard(): AdminDashboardSummary {
+  async getDashboard(): Promise<AdminDashboardSummary> {
+    const [
+      propertyPage,
+      tenants,
+      agreements,
+      rentLedgers,
+      receipts,
+      invoices,
+      plugins,
+    ] = await Promise.all([
+      this.propertyService.listProperties({ page: 1, limit: 1 }),
+      this.tenantService.listTenants(),
+      this.agreementService.listAgreements(),
+      this.rentService.listRentLedgers(),
+      this.receiptService.findAll(),
+      this.invoiceService.findAll(),
+      this.pluginService.list(),
+    ]);
+
+    const activePlugins = plugins.filter(
+      (plugin) => plugin.status === 'ACTIVE',
+    );
+
+    const failedPlugins = plugins.filter(
+      (plugin) => plugin.status === 'FAILED',
+    );
+
+    const activeLeases = agreements.filter(
+      (agreement) => agreement.status === 'ACTIVE',
+    ).length;
+
+    const outstandingRent = rentLedgers.reduce(
+      (total, ledger) => total + Number(ledger.balanceAmount ?? 0),
+      0,
+    );
+
+    const overdueInvoices = invoices.filter(
+      (invoice) => invoice.status === 'OVERDUE',
+    ).length;
+
     return {
       platform: {
         name: 'PropertyOS',
-        status: 'OK',
+        status: failedPlugins.length > 0 ? 'WARNING' : 'OK',
         version: '0.1.0',
       },
+      business: {
+        properties: propertyPage.total,
+        tenants: tenants.length,
+        activeLeases,
+        rentLedgers: rentLedgers.length,
+        outstandingRent,
+        receipts: receipts.length,
+        invoices: invoices.length,
+        overdueInvoices,
+      },
       plugins: {
-        installed: 0,
-        active: 0,
+        installed: plugins.length,
+        active: activePlugins.length,
       },
       workflows: {
         enabled: true,

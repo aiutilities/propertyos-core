@@ -7,14 +7,24 @@ import type { DashboardApiResponse, DashboardSummary } from "@/types/dashboard";
 export function useDashboard() {
   const [data, setData] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function load() {
       try {
-        const result = await apiRequest<DashboardApiResponse>("/admin/dashboard");
+        setError("");
+
+        const result =
+          await apiRequest<DashboardApiResponse>("/admin/dashboard");
+
         setData(result.data);
       } catch (err) {
-        console.error(err);
+        setData(null);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Unable to load dashboard.",
+        );
       } finally {
         setLoading(false);
       }
@@ -23,5 +33,5 @@ export function useDashboard() {
     load();
   }, []);
 
-  return { data, loading };
+  return { data, loading, error };
 }

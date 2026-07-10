@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import SpaceLookup from "@/components/common/SpaceLookup";
 import { apiRequest } from "@/lib/api";
 
 export default function AssignSpaceForm({
@@ -37,12 +38,12 @@ export default function AssignSpaceForm({
   return (
     <form className="form-card" onSubmit={submit}>
       <label>
-        Space ID
-        <input
+        Space
+        <SpaceLookup
           required
+          tenantId={tenantId}
           value={spaceId}
-          onChange={(event) => setSpaceId(event.target.value)}
-          placeholder="Paste the Space ID to assign"
+          onChange={setSpaceId}
         />
       </label>
 

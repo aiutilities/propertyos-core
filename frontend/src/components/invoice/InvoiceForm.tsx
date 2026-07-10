@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import AgreementLookup from "@/components/common/AgreementLookup";
+import RentLedgerLookup from "@/components/common/RentLedgerLookup";
 import { apiRequest } from "@/lib/api";
 import type { Invoice } from "@/types/invoice";
 
@@ -103,10 +104,12 @@ export default function InvoiceForm() {
       </label>
 
       <label>
-        Rent Ledger ID
-        <input
+        Rent Ledger
+        <RentLedgerLookup
           value={form.rentLedgerId}
-          onChange={(event) => update("rentLedgerId", event.target.value)}
+          onChange={(rentLedgerId) =>
+            update("rentLedgerId", rentLedgerId)
+          }
         />
       </label>
 

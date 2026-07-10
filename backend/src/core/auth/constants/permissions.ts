@@ -66,6 +66,8 @@ export const Permissions = {
 
   METRICS_READ: 'metrics.read',
 
+  REPORT_READ: 'report.read',
+
   AUDIT_READ: 'audit.read',
 
   ADMIN_READ: 'admin.read',

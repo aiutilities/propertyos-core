@@ -1,21 +1,21 @@
 import Link from "next/link";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminShell } from "@/components/layout/AdminShell";
-import ReceiptTable from "@/components/receipt/ReceiptTable";
+import ReceiptForm from "@/components/receipt/ReceiptForm";
 
-export default function ReceiptsPage() {
+export default function NewReceiptPage() {
   return (
     <ProtectedRoute>
       <AdminShell>
         <div className="page-header">
-          <h1>Receipts</h1>
+          <h1>Create Receipt</h1>
 
-          <Link className="button-link" href="/receipts/new">
-            New Receipt
+          <Link className="button-link" href="/receipts">
+            Back to Receipts
           </Link>
         </div>
 
-        <ReceiptTable />
+        <ReceiptForm />
       </AdminShell>
     </ProtectedRoute>
   );

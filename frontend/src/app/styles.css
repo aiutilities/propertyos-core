@@ -763,3 +763,114 @@ input {
     justify-content: space-between;
   }
 }
+
+
+/* Entity lookup */
+
+.entity-lookup {
+  position: relative;
+}
+
+.entity-lookup-hidden-value {
+  height: 1px;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.entity-lookup-input-wrap {
+  position: relative;
+}
+
+.entity-lookup-input-wrap > input {
+  width: 100%;
+}
+
+.entity-lookup-menu {
+  background: white;
+  border: 1px solid #d8ddea;
+  border-radius: 12px;
+  box-shadow: 0 18px 45px rgba(20, 28, 45, 0.14);
+  display: grid;
+  left: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+}
+
+.entity-lookup-option {
+  background: white;
+  border: 0;
+  border-bottom: 1px solid #eef0f5;
+  color: #151922;
+  cursor: pointer;
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  text-align: left;
+  width: 100%;
+}
+
+.entity-lookup-option:last-child {
+  border-bottom: 0;
+}
+
+.entity-lookup-option:hover,
+.entity-lookup-option:focus-visible {
+  background: #f4f6ff;
+  outline: none;
+}
+
+.entity-lookup-option span,
+.entity-lookup-selection span {
+  color: #606779;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.entity-lookup-message {
+  color: #606779;
+  margin: 0;
+  padding: 14px;
+}
+
+.entity-lookup-message.error-text {
+  color: #9d1010;
+}
+
+.entity-lookup-selection {
+  align-items: center;
+  background: #f8f9fc;
+  border: 1px solid #d8ddea;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 10px 12px;
+}
+
+.entity-lookup-selection > div {
+  display: grid;
+  gap: 4px;
+}
+
+.entity-lookup-clear {
+  background: white;
+  border: 1px solid #d8ddea;
+  border-radius: 9px;
+  color: #151922;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 8px 10px;
+}
+
+.entity-lookup-clear:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}

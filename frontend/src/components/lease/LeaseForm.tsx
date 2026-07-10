@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import TenantLookup from "@/components/common/TenantLookup";
 import { apiRequest } from "@/lib/api";
 import type { Lease } from "@/types/lease";
 
@@ -74,11 +75,11 @@ export default function LeaseForm() {
   return (
     <form className="form-card" onSubmit={submit}>
       <label>
-        Tenant ID
-        <input
+        Tenant
+        <TenantLookup
           required
           value={form.tenantId}
-          onChange={(event) => update("tenantId", event.target.value)}
+          onChange={(tenantId) => update("tenantId", tenantId)}
         />
       </label>
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import RentLedgerLookup from "@/components/common/RentLedgerLookup";
+import TenantLookup from "@/components/common/TenantLookup";
 import { apiRequest } from "@/lib/api";
 import type { Receipt } from "@/types/receipt";
 
@@ -84,11 +85,11 @@ export default function ReceiptForm() {
       </label>
 
       <label>
-        Tenant ID
-        <input
+        Tenant
+        <TenantLookup
           required
           value={form.tenantId}
-          onChange={(event) => update("tenantId", event.target.value)}
+          onChange={(tenantId) => update("tenantId", tenantId)}
         />
       </label>
 

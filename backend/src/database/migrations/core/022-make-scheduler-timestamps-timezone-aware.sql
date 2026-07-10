@@ -1,0 +1,11 @@
+ALTER TABLE scheduler_jobs
+  ALTER COLUMN run_at TYPE TIMESTAMPTZ
+    USING run_at AT TIME ZONE 'UTC',
+  ALTER COLUMN last_run_at TYPE TIMESTAMPTZ
+    USING last_run_at AT TIME ZONE 'UTC',
+  ALTER COLUMN next_run_at TYPE TIMESTAMPTZ
+    USING next_run_at AT TIME ZONE 'UTC',
+  ALTER COLUMN created_at TYPE TIMESTAMPTZ
+    USING created_at AT TIME ZONE 'UTC',
+  ALTER COLUMN updated_at TYPE TIMESTAMPTZ
+    USING updated_at AT TIME ZONE 'UTC';

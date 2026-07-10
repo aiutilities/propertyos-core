@@ -1,0 +1,64 @@
+import { Test } from '@nestjs/testing';
+import request from 'supertest';
+import { AppModule } from '../../src/app.module';
+import { POSTGRES_POOL } from '../../src/database/postgres';
+
+describe('Health API integration', () => {
+  let app: any;
+
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleRef.createNestApplication();
+    app.setGlobalPrefix('api/v1');
+    await app.init();
+  });
+
+  afterAll(async () => {
+    const pool = app.get(POSTGRES_POOL);
+    await pool.end();
+    await app.close();
+  });
+
+  it('GET /api/v1/health returns ok', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/health')
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.status).toBe('ok');
+        expect(response.body.service).toBe('propertyos-api');
+        expect(response.body.runtime).toBeDefined();
+        expect(response.body.runtime.uptimeSeconds).toBeGreaterThanOrEqual(0);
+        expect(response.body.eventBus).toBeDefined();
+        expect(response.body.eventBus.published).toBeGreaterThanOrEqual(0);
+        expect(response.body.workflow).toBeDefined();
+        expect(response.body.workflow.definitions).toBeDefined();
+        expect(response.body.timestamp).toBeDefined();
+      });
+  });
+  it('GET /api/v1/health returns request id header', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/health')
+      .set('x-request-id', 'test-request-id')
+      .expect(200)
+      .expect((response) => {
+        expect(response.headers['x-request-id']).toBe('test-request-id');
+      });
+  });
+
+
+  it('GET /api/v1/health/ready includes observability checks', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/health/ready')
+      .expect(200)
+      .expect((response) => {
+        expect(['ok', 'degraded']).toContain(response.body.status);
+        expect(response.body.checks.database).toBeDefined();
+        expect(response.body.checks.eventBus).toBeDefined();
+        expect(response.body.checks.workflow).toBeDefined();
+      });
+  });
+
+});

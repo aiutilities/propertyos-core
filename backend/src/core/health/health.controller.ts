@@ -1,0 +1,30 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Controller, Get } from '@nestjs/common';
+import { HealthService } from './health.service';
+
+@ApiTags('Health')
+@ApiBearerAuth('JWT')
+@Controller('health')
+export class HealthController {
+  constructor(private readonly healthService: HealthService) {}
+
+  @Get()
+  getHealth() {
+    return this.healthService.getHealth();
+  }
+
+  @Get('live')
+  getLiveness() {
+    return this.healthService.getLiveness();
+  }
+
+  @Get('ready')
+  getReadiness() {
+    return this.healthService.getReadiness();
+  }
+
+  @Get('database')
+  getDatabaseHealth() {
+    return this.healthService.getDatabaseHealth();
+  }
+}

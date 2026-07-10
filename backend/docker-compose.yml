@@ -1,0 +1,107 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: propertyos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - propertyos_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-propertyos} -d ${POSTGRES_DB:-propertyos}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: propertyos-migrate
+    command: ["node", "dist/database/runner/migration-runner.js"]
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: propertyos-api
+    restart: unless-stopped
+    init: true
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000,http://localhost:3001}
+      RATE_LIMIT_TTL_MS: ${RATE_LIMIT_TTL_MS:-60000}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+      STORAGE_LOCAL_ROOT: ${STORAGE_LOCAL_ROOT:-/app/uploads}
+    ports:
+      - "${API_PORT:-3001}:3000"
+    volumes:
+      - propertyos_upload_data:/app/uploads
+      - propertyos_plugin_data:/app/plugins/.installed
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: propertyos-scheduler
+    command: ["node", "dist/scheduler-worker.js"]
+    restart: unless-stopped
+    init: true
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+      STORAGE_LOCAL_ROOT: ${STORAGE_LOCAL_ROOT:-/app/uploads}
+      SCHEDULER_POLL_INTERVAL_MS: ${SCHEDULER_POLL_INTERVAL_MS:-30000}
+      SCHEDULER_BATCH_SIZE: ${SCHEDULER_BATCH_SIZE:-20}
+      SCHEDULER_STALE_AFTER_MS: ${SCHEDULER_STALE_AFTER_MS:-300000}
+      SCHEDULER_RETRY_BASE_DELAY_MS: ${SCHEDULER_RETRY_BASE_DELAY_MS:-30000}
+      SCHEDULER_MAX_RETRY_DELAY_MS: ${SCHEDULER_MAX_RETRY_DELAY_MS:-300000}
+    volumes:
+      - propertyos_upload_data:/app/uploads
+      - propertyos_plugin_data:/app/plugins/.installed
+
+volumes:
+  propertyos_postgres_data:
+  propertyos_upload_data:
+  propertyos_plugin_data:

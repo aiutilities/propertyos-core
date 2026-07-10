@@ -1,0 +1,55 @@
+{
+  "name": "visitor",
+  "displayName": "Visitor Plugin",
+  "version": "0.1.0",
+  "description": "Property-neutral visitor invitation, QR pass, check-in and check-out plugin.",
+  "author": "PropertyOS",
+  "type": "business",
+  "main": "visitor.module.ts",
+  "permissions": [
+    "visitor.create",
+    "visitor.read",
+    "visitor.update",
+    "visitor.delete",
+    "visitor.approve",
+    "visitor.reject",
+    "visitor.check_in",
+    "visitor.check_out",
+    "visitor.history.read",
+    "visitor.settings.manage"
+  ],
+  "eventsPublished": [
+    "visitor.invited",
+    "visitor.approved",
+    "visitor.rejected",
+    "visitor.cancelled",
+    "visitor.expired",
+    "visitor.arrived",
+    "visitor.qr_generated",
+    "visitor.qr_scanned",
+    "visitor.qr_invalid",
+    "visitor.checked_in",
+    "visitor.checked_out",
+    "visitor.completed"
+  ],
+  "eventsSubscribed": [
+    "notification.sent",
+    "notification.failed"
+  ],
+  "dependencies": [
+    "eventbus",
+    "notification",
+    "document",
+    "audit",
+    "people",
+    "property",
+    "identity"
+  ],
+  "configSchema": {
+    "allowQrInvite": true,
+    "hostApprovalRequired": false,
+    "defaultVisitDurationHours": 4,
+    "notifyHostOnCheckIn": true,
+    "notifyHostOnCheckOut": true
+  }
+}

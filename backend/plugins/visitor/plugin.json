@@ -1,0 +1,32 @@
+{
+  "id": "visitor",
+  "name": "VisitorOS",
+  "version": "0.1.0",
+  "provider": "PropertyOS",
+  "description": "Visitor management plugin for PropertyOS",
+  "enabled": true,
+  "minimumPlatformVersion": "0.1.0",
+  "dependencies": [],
+  "bootstrap": "./bootstrap",
+  "permissions": [
+    "./permissions/visitor.permissions"
+  ],
+  "workflows": [
+    "./workflow/visitor.workflow"
+  ],
+  "notifications": [
+    "./notifications/visitor.notifications"
+  ],
+  "documents": [
+    "./documents/visitor.documents"
+  ],
+  "search": [
+    "./search/visitor.search"
+  ],
+  "configuration": [
+    "./configuration/visitor.configuration"
+  ],
+  "scheduler": [
+    "./scheduler/visitor.scheduler"
+  ]
+}

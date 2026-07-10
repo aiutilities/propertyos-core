@@ -1,5 +1,5 @@
 export interface ReportExport {
-  content: string;
+  content: string | Buffer;
   filename: string;
   contentType: string;
 }

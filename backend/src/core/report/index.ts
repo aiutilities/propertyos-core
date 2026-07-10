@@ -3,3 +3,4 @@ export * from './services/report.service';
 export * from './types/outstanding-rent.types';
 export * from './types/rent-collection.types';
 export * from './types/report-export.types';
+export * from './services/report-export.service';

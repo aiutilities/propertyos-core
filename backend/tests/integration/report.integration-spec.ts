@@ -521,6 +521,44 @@ describe('Report API integration', () => {
     expect(dataRows).toHaveLength(2);
   });
 
+  it('exports the filtered rent collection report as PDF', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/rent-collection/export.pdf')
+      .query({
+        propertyId,
+        tenantId,
+        sortBy: 'paymentDate',
+        sortOrder: 'asc',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .buffer(true)
+      .parse((response, callback) => {
+        const chunks: Buffer[] = [];
+
+        response.on('data', (chunk) => chunks.push(chunk));
+        response.on('end', () =>
+          callback(null, Buffer.concat(chunks)),
+        );
+      })
+      .expect(200);
+
+    expect(response.headers['content-type']).toContain(
+      'application/pdf',
+    );
+    expect(response.headers['content-disposition']).toContain(
+      'attachment; filename="rent-collection-',
+    );
+    expect(Buffer.isBuffer(response.body)).toBe(true);
+    expect(response.body.subarray(0, 5).toString()).toBe('%PDF-');
+    expect(response.body.length).toBeGreaterThan(1000);
+  });
+
+  it('rejects unauthenticated rent collection PDF export', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/reports/rent-collection/export.pdf')
+      .expect(401);
+  });
+
   it('rejects unauthenticated rent collection CSV export', async () => {
     await request(app.getHttpServer())
       .get('/api/v1/reports/rent-collection/export.csv')
@@ -632,6 +670,44 @@ describe('Report API integration', () => {
       .slice(1);
 
     expect(dataRows).toHaveLength(2);
+  });
+
+  it('exports the filtered outstanding rent report as PDF', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent/export.pdf')
+      .query({
+        propertyId,
+        tenantId,
+        sortBy: 'balanceAmount',
+        sortOrder: 'desc',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .buffer(true)
+      .parse((response, callback) => {
+        const chunks: Buffer[] = [];
+
+        response.on('data', (chunk) => chunks.push(chunk));
+        response.on('end', () =>
+          callback(null, Buffer.concat(chunks)),
+        );
+      })
+      .expect(200);
+
+    expect(response.headers['content-type']).toContain(
+      'application/pdf',
+    );
+    expect(response.headers['content-disposition']).toContain(
+      'attachment; filename="outstanding-rent-',
+    );
+    expect(Buffer.isBuffer(response.body)).toBe(true);
+    expect(response.body.subarray(0, 5).toString()).toBe('%PDF-');
+    expect(response.body.length).toBeGreaterThan(1000);
+  });
+
+  it('rejects unauthenticated outstanding rent PDF export', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent/export.pdf')
+      .expect(401);
   });
 
   it('rejects unauthenticated outstanding rent CSV export', async () => {

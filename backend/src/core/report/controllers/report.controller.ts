@@ -51,6 +51,23 @@ export class ReportController {
     response.status(200).send(file.content);
   }
 
+  @Get('rent-collection/export.pdf')
+  @RequirePermission(Permissions.REPORT_READ)
+  async exportRentCollectionPdf(
+    @Query() query: RentCollectionQueryDto,
+    @Res() response: Response,
+  ): Promise<void> {
+    const file =
+      await this.reportService.exportRentCollectionPdf(query);
+
+    response.setHeader('Content-Type', file.contentType);
+    response.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${file.filename}"`,
+    );
+    response.status(200).send(file.content);
+  }
+
   @Get('outstanding-rent')
   @RequirePermission(Permissions.REPORT_READ)
   async getOutstandingRent(
@@ -70,6 +87,24 @@ export class ReportController {
   ): Promise<void> {
     const file =
       await this.reportService.exportOutstandingRentCsv(query);
+
+    response.setHeader('Content-Type', file.contentType);
+    response.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${file.filename}"`,
+    );
+    response.status(200).send(file.content);
+  }
+
+
+  @Get('outstanding-rent/export.pdf')
+  @RequirePermission(Permissions.REPORT_READ)
+  async exportOutstandingRentPdf(
+    @Query() query: OutstandingRentQueryDto,
+    @Res() response: Response,
+  ): Promise<void> {
+    const file =
+      await this.reportService.exportOutstandingRentPdf(query);
 
     response.setHeader('Content-Type', file.contentType);
     response.setHeader(

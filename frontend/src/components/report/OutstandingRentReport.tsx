@@ -110,7 +110,7 @@ export default function OutstandingRentReport() {
     useState(query.dueFrom);
   const [dueTo, setDueTo] =
     useState(query.dueTo);
-  const [exporting, setExporting] = useState(false);
+  const [exportingFormat, setExportingFormat] = useState<"csv" | "pdf" | null>(null);
   const [exportError, setExportError] = useState("");
 
   useEffect(() => {
@@ -186,7 +186,7 @@ export default function OutstandingRentReport() {
   }
 
   async function exportCsv() {
-    setExporting(true);
+    setExportingFormat("csv");
     setExportError("");
 
     try {
@@ -203,7 +203,29 @@ export default function OutstandingRentReport() {
           : "Unable to export this report.",
       );
     } finally {
-      setExporting(false);
+      setExportingFormat(null);
+    }
+  }
+
+  async function exportPdf() {
+    setExportingFormat("pdf");
+    setExportError("");
+
+    try {
+      const params = new URLSearchParams(searchParamsString);
+
+      await downloadApiFile(
+        `/reports/outstanding-rent/export.pdf?${params.toString()}`,
+        "outstanding-rent.pdf",
+      );
+    } catch (err) {
+      setExportError(
+        err instanceof Error
+          ? err.message
+          : "Unable to export this report.",
+      );
+    } finally {
+      setExportingFormat(null);
     }
   }
 
@@ -362,11 +384,24 @@ export default function OutstandingRentReport() {
       <div className="report-actions-row">
         <button
           className="button-link"
-          disabled={exporting}
+          disabled={exportingFormat !== null}
           type="button"
           onClick={exportCsv}
         >
-          {exporting ? "Exporting..." : "Export CSV"}
+          {exportingFormat === "csv"
+            ? "Exporting CSV..."
+            : "Export CSV"}
+        </button>
+
+        <button
+          className="secondary-button"
+          disabled={exportingFormat !== null}
+          type="button"
+          onClick={exportPdf}
+        >
+          {exportingFormat === "pdf"
+            ? "Exporting PDF..."
+            : "Export PDF"}
         </button>
       </div>
 

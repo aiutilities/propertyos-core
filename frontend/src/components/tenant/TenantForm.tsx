@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import PropertyLookup from "@/components/common/PropertyLookup";
 import { apiRequest } from "@/lib/api";
 
 type TenantPayload = {
@@ -66,12 +67,16 @@ export default function TenantForm() {
         required
       />
 
-      <input
-        placeholder="Property ID"
-        value={form.propertyId}
-        onChange={(e) => update("propertyId", e.target.value)}
-        required
-      />
+      <label>
+        Property
+        <PropertyLookup
+          required
+          value={form.propertyId}
+          onChange={(propertyId) =>
+            update("propertyId", propertyId)
+          }
+        />
+      </label>
 
       <input
         placeholder="Tenant Number"

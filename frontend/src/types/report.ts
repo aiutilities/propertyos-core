@@ -50,3 +50,58 @@ export interface RentCollectionReportQuery {
   fromDate: string;
   toDate: string;
 }
+
+
+export interface OutstandingRentReportRow {
+  rentLedgerId: string;
+  propertyId: string;
+  propertyName: string;
+  tenantId: string;
+  tenantNumber: string;
+  tenantName: string;
+  agreementId: string;
+  agreementNumber: string;
+  periodYear: number;
+  periodMonth: number;
+  dueDate: string;
+  rentAmount: number;
+  amountPaid: number;
+  balanceAmount: number;
+  status: string;
+  overdueDays: number;
+}
+
+export interface OutstandingRentSummary {
+  totalRentBilled: number;
+  totalAmountPaid: number;
+  totalOutstanding: number;
+  ledgerCount: number;
+  overdueLedgerCount: number;
+}
+
+export interface OutstandingRentReportData {
+  items: OutstandingRentReportRow[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  summary: OutstandingRentSummary;
+}
+
+export interface OutstandingRentReportResponse {
+  success: boolean;
+  data: OutstandingRentReportData;
+}
+
+export interface OutstandingRentReportQuery {
+  page: number;
+  limit: number;
+  search: string;
+  sortBy: string;
+  sortOrder: SortOrder;
+  propertyId: string;
+  tenantId: string;
+  status: string;
+  dueFrom: string;
+  dueTo: string;
+}

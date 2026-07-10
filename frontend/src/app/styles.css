@@ -1096,3 +1096,54 @@ input {
     flex-direction: column;
   }
 }
+
+
+/* Outstanding rent report */
+
+.report-summary-grid-wide {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.report-summary-card-emphasis {
+  background: #fff8f1;
+  border-color: #f2d2ae;
+}
+
+.report-summary-card-emphasis strong {
+  color: #9a4d00;
+}
+
+.outstanding-amount {
+  color: #9d1010;
+}
+
+.report-status-pill {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 9px;
+}
+
+.report-status-unpaid {
+  background: #fff1f1;
+  color: #9d1010;
+}
+
+.report-status-partial {
+  background: #fff8df;
+  color: #7d5900;
+}
+
+@media (max-width: 1200px) {
+  .report-summary-grid-wide {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .report-summary-grid-wide {
+    grid-template-columns: 1fr;
+  }
+}

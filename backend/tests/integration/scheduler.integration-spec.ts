@@ -8,6 +8,7 @@ import { Permissions } from '../../src/core/auth/constants/permissions';
 import {
   REPORT_EXPORT_JOB_TYPE,
   SchedulerService,
+  SchedulerWorkerService,
 } from '../../src/core/scheduler';
 import { EventBusService } from '../../src/core/eventbus/services/eventbus.service';
 import { PropertyOSEvent } from '../../src/core/eventbus/types/event.types';
@@ -20,6 +21,7 @@ describe('Scheduler API integration', () => {
   let accessToken: string;
   let handledJobs: string[];
   let eventBus: EventBusService;
+  let schedulerWorker: SchedulerWorkerService;
   const reportEvents: PropertyOSEvent[] = [];
 
   const timestamp = Date.now();
@@ -50,6 +52,7 @@ describe('Scheduler API integration', () => {
 
     pool = app.get(POSTGRES_POOL);
     eventBus = app.get(EventBusService);
+    schedulerWorker = app.get(SchedulerWorkerService);
 
     eventBus.subscribeAll((event) => {
       if (event.type.startsWith('report.export.')) {
@@ -67,15 +70,15 @@ describe('Scheduler API integration', () => {
         status VARCHAR(50) NOT NULL DEFAULT 'PENDING',
         payload JSONB NOT NULL DEFAULT '{}'::jsonb,
         schedule_type VARCHAR(50) NOT NULL DEFAULT 'MANUAL',
-        run_at TIMESTAMP NULL,
+        run_at TIMESTAMPTZ NULL,
         cron_expression VARCHAR(255) NULL,
-        last_run_at TIMESTAMP NULL,
-        next_run_at TIMESTAMP NULL,
+        last_run_at TIMESTAMPTZ NULL,
+        next_run_at TIMESTAMPTZ NULL,
         attempts INTEGER NOT NULL DEFAULT 0,
         max_attempts INTEGER NOT NULL DEFAULT 3,
         error_message TEXT NULL,
-        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
     `);
 
@@ -331,6 +334,76 @@ describe('Scheduler API integration', () => {
     expect(generatedEvent?.payload.recipients).toEqual([
       'owner@propertyos.test',
     ]);
+  });
+
+  it('atomically claims and automatically executes a due one-time job', async () => {
+    const createResponse = await request(app.getHttpServer())
+      .post('/api/v1/scheduler/jobs')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        name: 'Automatically executed scheduler job',
+        jobType: successJobType,
+        payload: {
+          executionMode: 'worker',
+        },
+        scheduleType: 'ONE_TIME',
+        runAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+      })
+      .expect(201);
+
+    const job = createResponse.body.data.job;
+
+    expect(job.status).toBe('PENDING');
+    expect(job.scheduleType).toBe('ONE_TIME');
+    expect(job.runAt).toBeDefined();
+    expect(job.nextRunAt).toBeDefined();
+
+    const storedBeforeTick = await pool.query(
+      `SELECT
+         status,
+         schedule_type,
+         run_at,
+         next_run_at,
+         attempts,
+         max_attempts,
+         run_at,
+         next_run_at,
+         COALESCE(next_run_at, run_at) <= NOW() AS is_due
+       FROM scheduler_jobs
+       WHERE id = $1`,
+      [job.id],
+    );
+
+    expect(storedBeforeTick.rows[0]).toMatchObject({
+      status: 'PENDING',
+      schedule_type: 'ONE_TIME',
+      attempts: 0,
+      max_attempts: 3,
+      is_due: true,
+    });
+
+    const [firstTick, secondTick] = await Promise.all([
+      schedulerWorker.tick(),
+      schedulerWorker.tick(),
+    ]);
+
+    expect(
+      firstTick.claimed + secondTick.claimed,
+    ).toBe(1);
+
+    const completed = await request(app.getHttpServer())
+      .get(`/api/v1/scheduler/jobs/${job.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(completed.body.data.job.status).toBe(
+      'COMPLETED',
+    );
+    expect(completed.body.data.job.attempts).toBe(1);
+
+    expect(
+      handledJobs.filter((id) => id === job.id),
+    ).toHaveLength(1);
   });
 
   it('fails an invalid REPORT_EXPORT payload and publishes failure metadata', async () => {

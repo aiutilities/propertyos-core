@@ -98,6 +98,133 @@ export class PostgresSchedulerRepository implements SchedulerRepository {
     );
   }
 
+  async claimDueOneTimeJobs(
+    limit: number,
+  ): Promise<SchedulerJob[]> {
+    const client = await this.pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      const result = await client.query(
+        `
+        WITH due_jobs AS (
+          SELECT id
+          FROM scheduler_jobs
+          WHERE schedule_type = 'ONE_TIME'
+            AND status IN ('PENDING', 'FAILED')
+            AND attempts < max_attempts
+            AND COALESCE(next_run_at, run_at) IS NOT NULL
+            AND COALESCE(next_run_at, run_at) <= NOW()
+          ORDER BY COALESCE(next_run_at, run_at) ASC,
+                   created_at ASC
+          FOR UPDATE SKIP LOCKED
+          LIMIT $1
+        )
+        UPDATE scheduler_jobs job
+        SET status = 'RUNNING',
+            attempts = job.attempts + 1,
+            error_message = NULL,
+            updated_at = NOW()
+        FROM due_jobs
+        WHERE job.id = due_jobs.id
+        RETURNING job.*
+        `,
+        [Math.max(1, limit)],
+      );
+
+      await client.query('COMMIT');
+
+      return result.rows.map((row) => this.mapJob(row));
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async completeClaimedJob(
+    id: string,
+  ): Promise<SchedulerJob> {
+    const result = await this.pool.query(
+      `
+      UPDATE scheduler_jobs
+      SET status = 'COMPLETED',
+          last_run_at = NOW(),
+          next_run_at = NULL,
+          error_message = NULL,
+          updated_at = NOW()
+      WHERE id = $1
+        AND status = 'RUNNING'
+      RETURNING *
+      `,
+      [id],
+    );
+
+    if (!result.rows[0]) {
+      throw new Error(
+        `Claimed scheduler job not found or not running: ${id}`,
+      );
+    }
+
+    return this.mapJob(result.rows[0]);
+  }
+
+  async failClaimedJob(
+    id: string,
+    errorMessage: string,
+    retryAt?: Date,
+  ): Promise<SchedulerJob> {
+    const result = await this.pool.query(
+      `
+      UPDATE scheduler_jobs
+      SET status = 'FAILED',
+          last_run_at = NOW(),
+          next_run_at = CASE
+            WHEN attempts < max_attempts THEN $3
+            ELSE NULL
+          END,
+          error_message = $2,
+          updated_at = NOW()
+      WHERE id = $1
+        AND status = 'RUNNING'
+      RETURNING *
+      `,
+      [id, errorMessage, retryAt ?? null],
+    );
+
+    if (!result.rows[0]) {
+      throw new Error(
+        `Claimed scheduler job not found or not running: ${id}`,
+      );
+    }
+
+    return this.mapJob(result.rows[0]);
+  }
+
+  async recoverStaleRunningJobs(
+    staleBefore: Date,
+  ): Promise<number> {
+    const result = await this.pool.query(
+      `
+      UPDATE scheduler_jobs
+      SET status = 'FAILED',
+          next_run_at = CASE
+            WHEN attempts < max_attempts THEN NOW()
+            ELSE NULL
+          END,
+          error_message = 'Recovered after stale RUNNING state',
+          updated_at = NOW()
+      WHERE status = 'RUNNING'
+        AND updated_at < $1
+      `,
+      [staleBefore],
+    );
+
+    return result.rowCount ?? 0;
+  }
+
   private mapJob(row: any): SchedulerJob {
     return {
       id: row.id,

@@ -1,4 +1,7 @@
-import { SchedulerJob, SchedulerJobStatus } from '../types/scheduler.types';
+import {
+  SchedulerJob,
+  SchedulerJobStatus,
+} from '../types/scheduler.types';
 
 export interface SchedulerRepository {
   create(job: SchedulerJob): Promise<SchedulerJob>;
@@ -14,4 +17,20 @@ export interface SchedulerRepository {
   ): Promise<SchedulerJob>;
 
   incrementAttempts(id: string): Promise<void>;
+
+  claimDueOneTimeJobs(
+    limit: number,
+  ): Promise<SchedulerJob[]>;
+
+  completeClaimedJob(id: string): Promise<SchedulerJob>;
+
+  failClaimedJob(
+    id: string,
+    errorMessage: string,
+    retryAt?: Date,
+  ): Promise<SchedulerJob>;
+
+  recoverStaleRunningJobs(
+    staleBefore: Date,
+  ): Promise<number>;
 }

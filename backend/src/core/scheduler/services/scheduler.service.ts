@@ -14,6 +14,8 @@ export class SchedulerService {
 
   async createJob(dto: CreateJobDto): Promise<SchedulerJob> {
     const now = new Date();
+    const runAt = dto.runAt ? new Date(dto.runAt) : undefined;
+    const scheduleType = dto.scheduleType ?? 'MANUAL';
 
     return this.repository.create({
       id: randomUUID(),
@@ -21,8 +23,12 @@ export class SchedulerService {
       jobType: dto.jobType,
       status: 'PENDING',
       payload: dto.payload ?? {},
-      scheduleType: dto.scheduleType ?? 'MANUAL',
-      runAt: dto.runAt ? new Date(dto.runAt) : undefined,
+      scheduleType,
+      runAt,
+      nextRunAt:
+        scheduleType === 'ONE_TIME'
+          ? runAt
+          : undefined,
       cronExpression: dto.cronExpression,
       attempts: 0,
       maxAttempts: dto.maxAttempts ?? 3,

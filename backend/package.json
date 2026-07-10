@@ -12,7 +12,9 @@
     "test:integration": "jest --runInBand",
     "typecheck": "tsc --noEmit",
     "start:prod": "node dist/main.js",
-    "migrate:prod": "node dist/database/runner/migration-runner.js"
+    "migrate:prod": "node dist/database/runner/migration-runner.js",
+    "start:scheduler": "ts-node src/scheduler-worker.ts",
+    "start:scheduler:prod": "node dist/scheduler-worker.js"
   },
   "keywords": [],
   "author": "",

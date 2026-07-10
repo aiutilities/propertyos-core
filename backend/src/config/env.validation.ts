@@ -52,6 +52,26 @@ export function validateEnvironment() {
     errors.push('RATE_LIMIT_MAX must be a number');
   }
 
+
+  const positiveIntegerSettings = [
+    'SCHEDULER_POLL_INTERVAL_MS',
+    'SCHEDULER_BATCH_SIZE',
+    'SCHEDULER_STALE_AFTER_MS',
+    'SCHEDULER_RETRY_BASE_DELAY_MS',
+    'SCHEDULER_MAX_RETRY_DELAY_MS',
+  ];
+
+  for (const key of positiveIntegerSettings) {
+    const raw = process.env[key];
+
+    if (
+      raw !== undefined &&
+      (!Number.isInteger(Number(raw)) || Number(raw) <= 0)
+    ) {
+      errors.push(`${key} must be a positive integer`);
+    }
+  }
+
   if (errors.length > 0) {
     throw new Error(`Invalid environment configuration: ${errors.join('; ')}`);
   }

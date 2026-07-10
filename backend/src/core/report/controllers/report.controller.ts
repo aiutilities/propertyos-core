@@ -1,5 +1,12 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import type { Response } from 'express';
 
 import { Permissions } from '../../auth/constants/permissions';
 import { RequirePermission } from '../../auth/decorators/require-permission.decorator';
@@ -27,6 +34,23 @@ export class ReportController {
     };
   }
 
+  @Get('rent-collection/export.csv')
+  @RequirePermission(Permissions.REPORT_READ)
+  async exportRentCollectionCsv(
+    @Query() query: RentCollectionQueryDto,
+    @Res() response: Response,
+  ): Promise<void> {
+    const file =
+      await this.reportService.exportRentCollectionCsv(query);
+
+    response.setHeader('Content-Type', file.contentType);
+    response.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${file.filename}"`,
+    );
+    response.status(200).send(file.content);
+  }
+
   @Get('outstanding-rent')
   @RequirePermission(Permissions.REPORT_READ)
   async getOutstandingRent(
@@ -36,5 +60,22 @@ export class ReportController {
       success: true,
       data: await this.reportService.getOutstandingRent(query),
     };
+  }
+
+  @Get('outstanding-rent/export.csv')
+  @RequirePermission(Permissions.REPORT_READ)
+  async exportOutstandingRentCsv(
+    @Query() query: OutstandingRentQueryDto,
+    @Res() response: Response,
+  ): Promise<void> {
+    const file =
+      await this.reportService.exportOutstandingRentCsv(query);
+
+    response.setHeader('Content-Type', file.contentType);
+    response.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${file.filename}"`,
+    );
+    response.status(200).send(file.content);
   }
 }

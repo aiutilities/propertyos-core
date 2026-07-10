@@ -10,6 +10,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import PaginationControls from "@/components/common/PaginationControls";
+import { downloadApiFile } from "@/lib/api";
 import PropertyLookup from "@/components/common/PropertyLookup";
 import TenantLookup from "@/components/common/TenantLookup";
 import { useRentCollectionReport } from "@/hooks/useRentCollectionReport";
@@ -83,6 +84,8 @@ export default function RentCollectionReport() {
     useState(query.paymentMode);
   const [fromDate, setFromDate] = useState(query.fromDate);
   const [toDate, setToDate] = useState(query.toDate);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState("");
 
   useEffect(() => {
     setSearchValue(query.search);
@@ -150,6 +153,28 @@ export default function RentCollectionReport() {
       fromDate,
       toDate,
     });
+  }
+
+  async function exportCsv() {
+    setExporting(true);
+    setExportError("");
+
+    try {
+      const params = new URLSearchParams(searchParamsString);
+
+      await downloadApiFile(
+        `/reports/rent-collection/export.csv?${params.toString()}`,
+        "rent-collection.csv",
+      );
+    } catch (err) {
+      setExportError(
+        err instanceof Error
+          ? err.message
+          : "Unable to export this report.",
+      );
+    } finally {
+      setExporting(false);
+    }
   }
 
   function resetFilters() {
@@ -269,6 +294,21 @@ export default function RentCollectionReport() {
           </button>
         </div>
       </form>
+
+      {exportError ? (
+        <p className="error">{exportError}</p>
+      ) : null}
+
+      <div className="report-actions-row">
+        <button
+          className="button-link"
+          disabled={exporting}
+          type="button"
+          onClick={exportCsv}
+        >
+          {exporting ? "Exporting..." : "Export CSV"}
+        </button>
+      </div>
 
       <div className="report-list-controls">
         <label>

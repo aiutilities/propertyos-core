@@ -487,6 +487,46 @@ describe('Report API integration', () => {
     expect(response.body.data.summary.totalCollected).toBe(5000);
   });
 
+  it('exports the full filtered rent collection as CSV', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/rent-collection/export.csv')
+      .query({
+        propertyId,
+        tenantId,
+        page: 1,
+        limit: 1,
+        sortBy: 'paymentDate',
+        sortOrder: 'asc',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(response.headers['content-type']).toContain(
+      'text/csv',
+    );
+    expect(response.headers['content-disposition']).toContain(
+      'attachment; filename="rent-collection-',
+    );
+
+    expect(response.text).toContain('Payment Date');
+    expect(response.text).toContain(`UPI-${timestamp}`);
+    expect(response.text).toContain(`CASH-${timestamp}`);
+
+    const dataRows = response.text
+      .replace(/^\uFEFF/, '')
+      .trim()
+      .split(/\r?\n/)
+      .slice(1);
+
+    expect(dataRows).toHaveLength(2);
+  });
+
+  it('rejects unauthenticated rent collection CSV export', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/reports/rent-collection/export.csv')
+      .expect(401);
+  });
+
   it('rejects unauthenticated outstanding rent report access', async () => {
     await request(app.getHttpServer())
       .get('/api/v1/reports/outstanding-rent')
@@ -558,6 +598,46 @@ describe('Report API integration', () => {
     expect(response.body.data.summary.totalAmountPaid).toBe(0);
     expect(response.body.data.summary.totalOutstanding).toBe(9000);
     expect(response.body.data.summary.overdueLedgerCount).toBe(1);
+  });
+
+  it('exports the full filtered outstanding rent report as CSV', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent/export.csv')
+      .query({
+        propertyId,
+        tenantId,
+        page: 1,
+        limit: 1,
+        sortBy: 'balanceAmount',
+        sortOrder: 'desc',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(response.headers['content-type']).toContain(
+      'text/csv',
+    );
+    expect(response.headers['content-disposition']).toContain(
+      'attachment; filename="outstanding-rent-',
+    );
+
+    expect(response.text).toContain('Outstanding Balance');
+    expect(response.text).toContain('UNPAID');
+    expect(response.text).toContain('PARTIAL');
+
+    const dataRows = response.text
+      .replace(/^\uFEFF/, '')
+      .trim()
+      .split(/\r?\n/)
+      .slice(1);
+
+    expect(dataRows).toHaveLength(2);
+  });
+
+  it('rejects unauthenticated outstanding rent CSV export', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/reports/outstanding-rent/export.csv')
+      .expect(401);
   });
 
   it('searches outstanding rent across related entities', async () => {

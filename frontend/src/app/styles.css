@@ -1147,3 +1147,27 @@ input {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Report exports */
+
+.report-actions-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.report-actions-row button:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+@media (max-width: 900px) {
+  .report-actions-row {
+    justify-content: stretch;
+  }
+
+  .report-actions-row button {
+    justify-content: center;
+    width: 100%;
+  }
+}

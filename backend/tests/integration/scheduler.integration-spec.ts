@@ -5,7 +5,12 @@ import request from 'supertest';
 
 import { AppModule } from '../../src/app.module';
 import { Permissions } from '../../src/core/auth/constants/permissions';
-import { SchedulerService } from '../../src/core/scheduler';
+import {
+  REPORT_EXPORT_JOB_TYPE,
+  SchedulerService,
+} from '../../src/core/scheduler';
+import { EventBusService } from '../../src/core/eventbus/services/eventbus.service';
+import { PropertyOSEvent } from '../../src/core/eventbus/types/event.types';
 import { SchedulerJob } from '../../src/core/scheduler/types/scheduler.types';
 import { POSTGRES_POOL } from '../../src/database/postgres';
 
@@ -14,6 +19,8 @@ describe('Scheduler API integration', () => {
   let pool: Pool;
   let accessToken: string;
   let handledJobs: string[];
+  let eventBus: EventBusService;
+  const reportEvents: PropertyOSEvent[] = [];
 
   const timestamp = Date.now();
   const email = `scheduler-e2e-${timestamp}@propertyos.test`;
@@ -42,6 +49,13 @@ describe('Scheduler API integration', () => {
     await app.init();
 
     pool = app.get(POSTGRES_POOL);
+    eventBus = app.get(EventBusService);
+
+    eventBus.subscribeAll((event) => {
+      if (event.type.startsWith('report.export.')) {
+        reportEvents.push(event);
+      }
+    });
 
     await pool.query(`DROP TABLE IF EXISTS scheduler_jobs`);
 
@@ -157,6 +171,9 @@ describe('Scheduler API integration', () => {
       .expect((response) => {
         expect(response.body.data.handlers).toContain(successJobType);
         expect(response.body.data.handlers).toContain(failureJobType);
+        expect(response.body.data.handlers).toContain(
+          REPORT_EXPORT_JOB_TYPE,
+        );
       });
 
     const successJobResponse = await request(app.getHttpServer())
@@ -250,6 +267,99 @@ describe('Scheduler API integration', () => {
             expect(runResponse.body.data.job.status).toBe('FAILED');
             expect(runResponse.body.data.job.errorMessage).toContain('No handler registered');
           });
+      });
+  });
+
+  it('executes a REPORT_EXPORT job and publishes generated metadata', async () => {
+    const createResponse = await request(app.getHttpServer())
+      .post('/api/v1/scheduler/jobs')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        name: 'Scheduled rent collection export',
+        jobType: REPORT_EXPORT_JOB_TYPE,
+        payload: {
+          reportType: 'RENT_COLLECTION',
+          format: 'CSV',
+          filters: {
+            sortBy: 'paymentDate',
+            sortOrder: 'desc',
+          },
+          recipients: ['owner@propertyos.test'],
+          channel: 'EMAIL',
+        },
+        scheduleType: 'MANUAL',
+      })
+      .expect(201);
+
+    const job = createResponse.body.data.job;
+
+    await request(app.getHttpServer())
+      .post(`/api/v1/scheduler/jobs/${job.id}/run`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body.data.job.status).toBe(
+          'COMPLETED',
+        );
+        expect(response.body.data.job.attempts).toBe(1);
+      });
+
+    const generatedEvent = reportEvents.find(
+      (event) =>
+        event.type === 'report.export.generated' &&
+        event.payload.jobId === job.id,
+    );
+
+    expect(generatedEvent).toBeDefined();
+    expect(generatedEvent?.source).toBe(
+      'scheduler.report-export',
+    );
+    expect(generatedEvent?.correlationId).toBe(job.id);
+    expect(generatedEvent?.payload.reportType).toBe(
+      'RENT_COLLECTION',
+    );
+    expect(generatedEvent?.payload.format).toBe('CSV');
+    expect(generatedEvent?.payload.filename).toContain(
+      'rent-collection-',
+    );
+    expect(generatedEvent?.payload.contentType).toContain(
+      'text/csv',
+    );
+    expect(
+      Number(generatedEvent?.payload.sizeBytes),
+    ).toBeGreaterThan(0);
+    expect(generatedEvent?.payload.recipients).toEqual([
+      'owner@propertyos.test',
+    ]);
+  });
+
+  it('fails an invalid REPORT_EXPORT payload and publishes failure metadata', async () => {
+    const createResponse = await request(app.getHttpServer())
+      .post('/api/v1/scheduler/jobs')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        name: 'Invalid report export',
+        jobType: REPORT_EXPORT_JOB_TYPE,
+        payload: {
+          reportType: 'UNKNOWN_REPORT',
+          format: 'CSV',
+          recipients: [],
+          channel: 'EMAIL',
+        },
+      })
+      .expect(201);
+
+    const job = createResponse.body.data.job;
+
+    await request(app.getHttpServer())
+      .post(`/api/v1/scheduler/jobs/${job.id}/run`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body.data.job.status).toBe('FAILED');
+        expect(response.body.data.job.errorMessage).toContain(
+          'requires reportType',
+        );
       });
   });
 });

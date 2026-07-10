@@ -19,6 +19,6 @@ import { ReportService } from './services/report.service';
       useClass: PostgresReportRepository,
     },
   ],
-  exports: [ReportService],
+  exports: [ReportService, ReportExportService],
 })
 export class ReportModule {}

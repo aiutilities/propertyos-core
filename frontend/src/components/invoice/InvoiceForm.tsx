@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AgreementLookup from "@/components/common/AgreementLookup";
 import { apiRequest } from "@/lib/api";
 import type { Invoice } from "@/types/invoice";
 
@@ -94,10 +95,10 @@ export default function InvoiceForm() {
       </label>
 
       <label>
-        Agreement ID
-        <input
+        Agreement
+        <AgreementLookup
           value={form.agreementId}
-          onChange={(event) => update("agreementId", event.target.value)}
+          onChange={(agreementId) => update("agreementId", agreementId)}
         />
       </label>
 

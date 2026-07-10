@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import AgreementLookup from "@/components/common/AgreementLookup";
 import TenantLookup from "@/components/common/TenantLookup";
 import { apiRequest } from "@/lib/api";
 import type { RentLedger } from "@/types/rent";
@@ -80,11 +81,11 @@ export default function RentLedgerForm() {
       </label>
 
       <label>
-        Agreement ID
-        <input
+        Agreement
+        <AgreementLookup
           required
           value={form.agreementId}
-          onChange={(event) => update("agreementId", event.target.value)}
+          onChange={(agreementId) => update("agreementId", agreementId)}
         />
       </label>
 

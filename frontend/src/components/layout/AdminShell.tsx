@@ -1,21 +1,74 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { clearSession, getSessionUser } from "@/lib/session";
 
-const navItems = [
-  ["Dashboard", "/dashboard"],
-  ["Properties", "/dashboard#properties"],
-  ["People", "/dashboard#people"],
-  ["Plugins", "/dashboard#plugins"],
-  ["Workflows", "/dashboard#workflows"],
-  ["Notifications", "/dashboard#notifications"],
+type NavItem = {
+  label: string;
+  href: string;
+};
+
+type NavGroup = {
+  label: string;
+  items: NavItem[];
+};
+
+const navGroups: NavGroup[] = [
+  {
+    label: "Overview",
+    items: [
+      { label: "Dashboard", href: "/dashboard" },
+    ],
+  },
+  {
+    label: "Property Operations",
+    items: [
+      { label: "Properties", href: "/properties" },
+      { label: "Tenants", href: "/tenants" },
+      { label: "Leases", href: "/leases" },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      { label: "Rent Ledgers", href: "/rent-ledgers" },
+      { label: "Receipts", href: "/receipts" },
+      { label: "Invoices", href: "/invoices" },
+    ],
+  },
 ];
 
+function isActiveRoute(pathname: string, href: string) {
+  if (href === "/dashboard") {
+    return pathname === href;
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function getSectionTitle(pathname: string) {
+  const sections = [
+    { prefix: "/properties", title: "Properties" },
+    { prefix: "/tenants", title: "Tenants" },
+    { prefix: "/leases", title: "Leases" },
+    { prefix: "/rent-ledgers", title: "Rent Ledgers" },
+    { prefix: "/receipts", title: "Receipts" },
+    { prefix: "/invoices", title: "Invoices" },
+    { prefix: "/dashboard", title: "Dashboard" },
+  ];
+
+  return (
+    sections.find((section) => pathname.startsWith(section.prefix))?.title ??
+    "Admin Console"
+  );
+}
+
 export function AdminShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname() ?? "/dashboard";
   const router = useRouter();
   const user = getSessionUser();
+  const sectionTitle = getSectionTitle(pathname);
 
   function logout() {
     clearSession();
@@ -25,34 +78,65 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-shell">
       <aside className="sidebar">
-        <div className="brand">
+        <Link className="brand" href="/dashboard">
           <strong>PropertyOS</strong>
           <span>Admin Console</span>
-        </div>
+        </Link>
 
-        <nav>
-          {navItems.map(([label, href]) => (
-            <Link key={href} href={href}>
-              {label}
-            </Link>
+        <nav aria-label="Primary navigation">
+          {navGroups.map((group) => (
+            <div className="nav-group" key={group.label}>
+              <p className="nav-group-label">{group.label}</p>
+
+              <div className="nav-group-items">
+                {group.items.map((item) => {
+                  const active = isActiveRoute(pathname, item.href);
+
+                  return (
+                    <Link
+                      aria-current={active ? "page" : undefined}
+                      className={active ? "nav-link active" : "nav-link"}
+                      href={item.href}
+                      key={item.href}
+                    >
+                      <span>{item.label}</span>
+                      <span className="nav-arrow" aria-hidden="true">
+                        →
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           ))}
         </nav>
+
+        <div className="sidebar-footer">
+          <span>Open Core Platform</span>
+          <small>PropertyOS v1</small>
+        </div>
       </aside>
 
       <main className="admin-main">
         <header className="topbar">
           <div>
-            <p className="eyebrow">Open Core Platform</p>
-            <h1>Admin Dashboard</h1>
+            <p className="eyebrow">PropertyOS Administration</p>
+            <h1>{sectionTitle}</h1>
           </div>
 
           <div className="user-menu">
-            <span>{user?.email ?? "Admin"}</span>
-            <button onClick={logout}>Logout</button>
+            <div className="user-identity">
+              <strong>{user?.email ?? "Admin"}</strong>
+              <span>Administrator</span>
+            </div>
+
+            <button type="button" onClick={logout}>
+              Logout
+            </button>
           </div>
         </header>
 
-        {children}
+        <div className="page-content">{children}</div>
       </main>
     </div>
   );

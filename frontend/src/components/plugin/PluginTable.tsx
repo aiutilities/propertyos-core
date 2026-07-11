@@ -1,11 +1,46 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { usePlugins } from "@/hooks/usePlugins";
+import {
+  usePlugins,
+  type PluginLifecycleAction,
+} from "@/hooks/usePlugins";
+import type { Plugin } from "@/types/plugin";
 import PluginRow from "./PluginRow";
 
+function getConfirmationMessage(
+  plugin: Plugin,
+  action: PluginLifecycleAction,
+) {
+  switch (action) {
+    case "ACTIVATE":
+      return `Activate ${plugin.displayName}?`;
+
+    case "DEACTIVATE":
+      return (
+        `Deactivate ${plugin.displayName}? ` +
+        "Its features may become unavailable immediately."
+      );
+
+    case "UNINSTALL":
+      return (
+        `Uninstall ${plugin.displayName}? ` +
+        "The plugin will be disabled and marked as uninstalled."
+      );
+  }
+}
+
 export default function PluginTable() {
-  const { plugins, loading, error, reload } = usePlugins();
+  const {
+    plugins,
+    loading,
+    error,
+    actionError,
+    transitioningPluginId,
+    reload,
+    transitionPlugin,
+  } = usePlugins();
+
   const [search, setSearch] = useState("");
 
   const filteredPlugins = useMemo(() => {
@@ -31,6 +66,21 @@ export default function PluginTable() {
     });
   }, [plugins, search]);
 
+  async function handleTransition(
+    plugin: Plugin,
+    action: PluginLifecycleAction,
+  ) {
+    const confirmed = window.confirm(
+      getConfirmationMessage(plugin, action),
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    await transitionPlugin(plugin.id, action);
+  }
+
   return (
     <div className="list-view">
       <div className="plugin-toolbar">
@@ -47,7 +97,7 @@ export default function PluginTable() {
         <button
           className="secondary-button"
           type="button"
-          disabled={loading}
+          disabled={loading || transitioningPluginId !== null}
           onClick={() => void reload()}
         >
           {loading ? "Refreshing..." : "Refresh"}
@@ -56,6 +106,7 @@ export default function PluginTable() {
 
       {loading ? <p>Loading installed plugins...</p> : null}
       {error ? <p className="error">{error}</p> : null}
+      {actionError ? <p className="error">{actionError}</p> : null}
 
       {!loading && !error && plugins.length === 0 ? (
         <div className="empty-state">
@@ -87,12 +138,18 @@ export default function PluginTable() {
                 <th>Author</th>
                 <th>Status</th>
                 <th>Installed</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {filteredPlugins.map((plugin) => (
-                <PluginRow key={plugin.id} plugin={plugin} />
+                <PluginRow
+                  key={plugin.id}
+                  plugin={plugin}
+                  busy={transitioningPluginId === plugin.id}
+                  onTransition={handleTransition}
+                />
               ))}
             </tbody>
           </table>

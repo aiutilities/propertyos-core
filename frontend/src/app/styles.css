@@ -1302,3 +1302,57 @@ input {
   }
 }
 
+/* Plugin lifecycle actions */
+
+.plugin-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 190px;
+}
+
+.plugin-action {
+  background: white;
+  border: 1px solid #cdd3df;
+  border-radius: 9px;
+  color: #273044;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+}
+
+.plugin-action:hover {
+  background: #f6f7fb;
+}
+
+.plugin-action-primary {
+  background: #151922;
+  border-color: #151922;
+  color: white;
+}
+
+.plugin-action-primary:hover {
+  background: #2b3240;
+}
+
+.plugin-action-danger {
+  border-color: #f0b8b8;
+  color: #9d1010;
+}
+
+.plugin-action-danger:hover {
+  background: #fff1f1;
+}
+
+.plugin-action:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.plugin-action-note {
+  color: #7a8294;
+  font-size: 12px;
+}
+

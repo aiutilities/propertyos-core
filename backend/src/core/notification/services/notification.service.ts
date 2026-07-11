@@ -89,6 +89,34 @@ export class NotificationService {
     return result.rows.map((row) => this.map(row));
   }
 
+  async updateDeliveryStatus(
+    id: string,
+    status: 'SENT' | 'FAILED',
+    metadata: Record<string, unknown> = {},
+  ): Promise<NotificationMessage | null> {
+    const result = await this.pool.query(
+      `
+      UPDATE notifications
+      SET
+        status = $2,
+        metadata =
+          COALESCE(metadata, '{}'::jsonb) ||
+          $3::jsonb
+      WHERE id = $1
+      RETURNING *
+      `,
+      [
+        id,
+        status,
+        JSON.stringify(metadata),
+      ],
+    );
+
+    return result.rows[0]
+      ? this.map(result.rows[0])
+      : null;
+  }
+
   private map(row: any): NotificationMessage {
     return {
       id: row.id,

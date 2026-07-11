@@ -127,7 +127,8 @@ describe('Notification API integration', () => {
         (notification: any) =>
           notification.recipient === recipient &&
           notification.message === `Notification persisted ${timestamp}` &&
-          notification.status === 'PENDING',
+          notification.status === 'SENT' &&
+          notification.metadata.providerName === 'in-app',
       ),
     ).toBe(true);
   });

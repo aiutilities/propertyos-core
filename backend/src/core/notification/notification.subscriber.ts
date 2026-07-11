@@ -6,12 +6,15 @@ import {
   NotificationTemplate,
 } from './services/notification.service';
 import { NotificationChannel } from './types/notification.types';
+import { NotificationDispatcherService } from './services/notification-dispatcher.service';
 
 @Injectable()
 export class NotificationSubscriber implements OnModuleInit {
   constructor(
     private readonly eventBusService: EventBusService,
     private readonly notificationService: NotificationService,
+    private readonly notificationDispatcher:
+      NotificationDispatcherService,
   ) {}
 
   onModuleInit(): void {
@@ -37,19 +40,22 @@ export class NotificationSubscriber implements OnModuleInit {
       return;
     }
 
-    await this.notificationService.createNotification({
-      channel: payload.channel,
-      recipient: payload.recipient,
-      subject: payload.subject,
-      message: payload.message,
-      metadata: {
-        ...payload.metadata,
-        sourceEventId: event.id,
-        sourceEventType: event.type,
-        source: event.source,
-        orchestrationMode: 'direct-request',
-      },
-    });
+    const notification =
+      await this.notificationService.createNotification({
+        channel: payload.channel,
+        recipient: payload.recipient,
+        subject: payload.subject,
+        message: payload.message,
+        metadata: {
+          ...payload.metadata,
+          sourceEventId: event.id,
+          sourceEventType: event.type,
+          source: event.source,
+          orchestrationMode: 'direct-request',
+        },
+      });
+
+    await this.notificationDispatcher.dispatch(notification);
   }
 
   private handleTemplateDrivenNotification(event: PropertyOSEvent): void {
@@ -77,20 +83,23 @@ export class NotificationSubscriber implements OnModuleInit {
       return;
     }
 
-    await this.notificationService.createNotification({
-      channel: template.channel,
-      recipient,
-      subject: this.render(template.subject, payload),
-      message: this.render(template.template, payload),
-      metadata: {
-        ...(template.metadata ?? {}),
-        sourceEventId: event.id,
-        sourceEventType: event.type,
-        source: event.source,
-        templateCode: template.code,
-        orchestrationMode: 'template-event',
-      },
-    });
+    const notification =
+      await this.notificationService.createNotification({
+        channel: template.channel,
+        recipient,
+        subject: this.render(template.subject, payload),
+        message: this.render(template.template, payload),
+        metadata: {
+          ...(template.metadata ?? {}),
+          sourceEventId: event.id,
+          sourceEventType: event.type,
+          source: event.source,
+          templateCode: template.code,
+          orchestrationMode: 'template-event',
+        },
+      });
+
+    await this.notificationDispatcher.dispatch(notification);
   }
 
   private resolveRecipient(

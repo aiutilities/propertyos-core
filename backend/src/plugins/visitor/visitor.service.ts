@@ -70,6 +70,12 @@ export class VisitorService {
       hostPersonId: dto.hostPersonId,
       visitDate: dto.visitDate,
       status: VISITOR_STATUSES.INVITED,
+      visitorName: visitor.fullName,
+      visitorMobile: visitor.mobile,
+      visitorEmail: visitor.email,
+      ...(await this.getHostNotificationContext(
+        dto.hostPersonId,
+      )),
     });
 
     await this.scheduleVisitorNoShowJob(
@@ -105,6 +111,7 @@ export class VisitorService {
       propertyId: visit.propertyId,
       hostPersonId: visit.hostPersonId,
       status: VISITOR_STATUSES.APPROVED,
+      ...(await this.getVisitNotificationContext(visitId)),
     });
 
     return visit;
@@ -131,6 +138,7 @@ export class VisitorService {
       visitId,
       reason: dto.reason,
       status: VISITOR_STATUSES.REJECTED,
+      ...(await this.getVisitNotificationContext(visitId)),
     });
 
     return visit;
@@ -149,7 +157,9 @@ export class VisitorService {
     await this.publishVisitorEvent(VISITOR_EVENTS.QR_GENERATED, {
       visitId,
       qrPassId: qrPass.id,
+      qrToken: qrPass.qrToken,
       expiresAt: qrPass.expiresAt,
+      ...(await this.getVisitNotificationContext(visitId)),
     });
 
     await this.scheduleQrExpiryJob(visitId, qrPass.id, qrPass.expiresAt);
@@ -228,6 +238,7 @@ export class VisitorService {
     await this.publishVisitorEvent(VISITOR_EVENTS.ARRIVED, {
       visitId,
       arrivedAt: new Date(),
+      ...(await this.getVisitNotificationContext(visitId)),
     });
 
     return visit;
@@ -258,6 +269,7 @@ export class VisitorService {
       checkedInAt,
       gate: dto.gate,
       securityPersonId: dto.securityPersonId,
+      ...(await this.getVisitNotificationContext(visitId)),
     });
 
     await this.scheduleAutoCheckoutJob(visitId, checkedInAt);
@@ -288,6 +300,7 @@ export class VisitorService {
       checkedOutAt: new Date(),
       gate: dto.gate,
       securityPersonId: dto.securityPersonId,
+      ...(await this.getVisitNotificationContext(visitId)),
     });
 
     return visit;
@@ -365,6 +378,44 @@ export class VisitorService {
     });
   }
 
+
+  private async getVisitNotificationContext(
+    visitId: string,
+  ): Promise<Record<string, unknown>> {
+    const visit =
+      await this.visitorRepository.findVisitById(visitId);
+
+    if (!visit) {
+      return {};
+    }
+
+    const hostContext =
+      await this.getHostNotificationContext(
+        visit.hostPersonId,
+      );
+
+    return {
+      visitorName: visit.visitor?.fullName,
+      visitorMobile: visit.visitor?.mobile,
+      visitorEmail: visit.visitor?.email,
+      hostPersonId: visit.hostPersonId,
+      propertyId: visit.propertyId,
+      visitDate: visit.visitDate,
+      visitPurpose: visit.visitPurpose,
+      ...hostContext,
+    };
+  }
+
+  private async getHostNotificationContext(
+    hostPersonId: string,
+  ): Promise<Record<string, unknown>> {
+    if (!hostPersonId) {
+      return {};
+    }
+
+    return this.visitorRepository
+      .findHostNotificationContact(hostPersonId);
+  }
 
   private async scheduleVisitorNoShowJob(
     visitId: string,

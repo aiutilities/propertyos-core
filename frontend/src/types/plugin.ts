@@ -26,3 +26,35 @@ export interface Plugin {
   activatedAt?: string;
   deactivatedAt?: string;
 }
+
+export interface PluginLifecycle {
+  id: string;
+  name: string;
+  status: PluginStatus;
+  installedAt: string;
+  activatedAt?: string;
+  deactivatedAt?: string;
+}
+
+export interface PluginDiagnostics {
+  id: string;
+  name: string;
+  status: string;
+  validation?: unknown;
+  loadReport?: unknown[];
+  error?: string;
+}
+
+export interface PluginCapabilities {
+  id: string;
+  name: string;
+  capabilities?: Record<string, number>;
+  permissions: unknown[];
+  workflows: unknown[];
+  notifications: unknown[];
+  documents: unknown[];
+  configuration: unknown[];
+  scheduler: unknown[];
+  search: unknown[];
+}
+

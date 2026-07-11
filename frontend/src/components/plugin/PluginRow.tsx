@@ -1,3 +1,4 @@
+import Link from "next/link";
 import PluginStatusBadge from "./PluginStatusBadge";
 import type {
   PluginLifecycleAction,
@@ -50,7 +51,14 @@ export default function PluginRow({
     <tr>
       <td>
         <div className="plugin-name-cell">
-          <strong>{plugin.displayName}</strong>
+          <strong>
+            <Link
+              className="plugin-detail-link"
+              href={`/plugins/${plugin.id}`}
+            >
+              {plugin.displayName}
+            </Link>
+          </strong>
           <span>{plugin.name}</span>
           {plugin.description ? <p>{plugin.description}</p> : null}
         </div>
@@ -100,9 +108,16 @@ export default function PluginRow({
             </button>
           ) : null}
 
+          <Link
+            className="plugin-action plugin-action-link"
+            href={`/plugins/${plugin.id}`}
+          >
+            Details
+          </Link>
+
           {plugin.status === "UNINSTALLED" ? (
             <span className="plugin-action-note">
-              No actions available
+              Lifecycle actions unavailable
             </span>
           ) : null}
         </div>

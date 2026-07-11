@@ -2688,3 +2688,132 @@ input {
   }
 }
 
+
+
+.qr-pass-card {
+  align-items: center;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border, #d9dee7);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+  padding: 1.25rem;
+}
+
+.qr-pass-image {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  width: min(100%, 320px);
+}
+
+.qr-pass-image svg {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.qr-pass-meta {
+  display: grid;
+  gap: 1rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.qr-pass-meta div {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.qr-pass-meta span {
+  color: var(--muted, #657083);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.qr-pass-meta code {
+  overflow-wrap: anywhere;
+}
+
+.qr-pass-actions {
+  justify-content: center;
+}
+
+.security-scanner-layout {
+  align-items: start;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+}
+
+.camera-scanner {
+  display: grid;
+  gap: 1rem;
+}
+
+.camera-scanner-preview {
+  aspect-ratio: 4 / 3;
+  background: #111827;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.camera-scanner-preview video {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.camera-scanner-placeholder {
+  align-items: center;
+  color: #ffffff;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+}
+
+.validated-visitor-card {
+  align-items: start;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 0.75rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.validated-visitor-card h3,
+.validated-visitor-card p {
+  margin: 0;
+}
+
+.validated-visitor-card p {
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 800px) {
+  .security-scanner-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .qr-pass-actions {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .qr-pass-actions button {
+    width: 100%;
+  }
+
+  .validated-visitor-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+

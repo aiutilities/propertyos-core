@@ -6,6 +6,7 @@ import { apiRequest } from "@/lib/api";
 import { useVisitor } from "@/hooks/useVisitor";
 import type { QrPassResponse } from "@/types/visitor";
 import VisitorStatusBadge from "./VisitorStatusBadge";
+import QrPassCard from "@/components/qr/QrPassCard";
 
 function formatDate(value?: string) {
   if (!value) return "—";
@@ -263,11 +264,10 @@ export default function VisitorDetails({ visitId }: { visitId: string }) {
             </div>
           </div>
 
-          <div className="card visitor-qr-card">
-            <h3>QR token</h3>
-            <code>{qrToken}</code>
-            <p>Expires: {formatDate(qrExpiry)}</p>
-          </div>
+          <QrPassCard
+            expiresAt={qrExpiry}
+            token={qrToken}
+          />
         </section>
       )}
 

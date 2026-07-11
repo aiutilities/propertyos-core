@@ -25,6 +25,14 @@ export class ThemeController {
     };
   }
 
+  @Get(':id')
+  get(@Param('id') id: string) {
+    return {
+      success: true,
+      data: this.themeService.get(id),
+    };
+  }
+
   @Post()
   install(@Body() dto: InstallThemeDto) {
     return this.themeService.install(dto);

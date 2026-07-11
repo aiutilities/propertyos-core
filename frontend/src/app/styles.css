@@ -2106,3 +2106,161 @@ input {
   }
 }
 
+/* Theme details */
+
+.theme-detail-link {
+  color: #2439cc;
+}
+
+.theme-detail-link:hover {
+  text-decoration: underline;
+}
+
+.theme-row-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.theme-details {
+  display: grid;
+  gap: 18px;
+}
+
+.theme-detail-card {
+  background: white;
+  border: 1px solid #e4e7ef;
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.theme-detail-card h2,
+.theme-detail-card h3 {
+  margin-top: 0;
+}
+
+.theme-detail-hero {
+  align-items: flex-start;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.theme-detail-hero h2 {
+  margin-bottom: 6px;
+}
+
+.theme-slug {
+  color: #687086;
+  font-family: monospace;
+  font-size: 13px;
+  margin: 0 0 14px;
+}
+
+.theme-detail-status {
+  align-items: flex-end;
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  white-space: nowrap;
+}
+
+.theme-detail-status span:last-child {
+  color: #606779;
+  font-size: 13px;
+}
+
+.theme-detail-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.theme-activate-button {
+  margin-top: 18px;
+}
+
+.theme-active-message {
+  background: #eaf8ef;
+  border: 1px solid #bde7ca;
+  border-radius: 12px;
+  color: #176b3a;
+  margin: 18px 0 0;
+  padding: 12px;
+}
+
+.theme-branding-preview {
+  align-items: center;
+  border-radius: 16px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+  min-height: 150px;
+  padding: 22px;
+}
+
+.theme-branding-preview img {
+  max-height: 64px;
+  max-width: 160px;
+  object-fit: contain;
+}
+
+.theme-branding-preview > div:last-child {
+  display: grid;
+  gap: 5px;
+}
+
+.theme-branding-preview span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.theme-logo-placeholder {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  display: flex;
+  font-size: 28px;
+  font-weight: 800;
+  height: 64px;
+  justify-content: center;
+  width: 64px;
+}
+
+.theme-layout-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.theme-layout-list span {
+  background: #e9efff;
+  border-radius: 999px;
+  color: #2442b8;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 11px;
+}
+
+.theme-details-error {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+@media (max-width: 800px) {
+  .theme-detail-hero {
+    display: grid;
+  }
+
+  .theme-detail-status {
+    justify-items: start;
+  }
+
+  .theme-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

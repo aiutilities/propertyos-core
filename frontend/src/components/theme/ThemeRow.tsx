@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ThemeStatusBadge from "./ThemeStatusBadge";
 import type { Theme } from "@/types/theme";
 
@@ -37,7 +38,14 @@ export default function ThemeRow({
       <td>
         <div className="theme-name-cell">
           <div className="theme-name-heading">
-            <strong>{theme.manifest.name}</strong>
+            <strong>
+              <Link
+                className="theme-detail-link"
+                href={`/themes/${theme.id}`}
+              >
+                {theme.manifest.name}
+              </Link>
+            </strong>
 
             {active ? (
               <span className="theme-current-badge">
@@ -64,18 +72,27 @@ export default function ThemeRow({
       <td>{formatDate(theme.installedAt)}</td>
 
       <td>
-        {active ? (
-          <span className="theme-active-note">Active</span>
-        ) : (
-          <button
-            className="plugin-action plugin-action-primary"
-            type="button"
-            disabled={busy || theme.status === "UNINSTALLED"}
-            onClick={() => void onActivate(theme)}
+        <div className="theme-row-actions">
+          {active ? (
+            <span className="theme-active-note">Active</span>
+          ) : (
+            <button
+              className="plugin-action plugin-action-primary"
+              type="button"
+              disabled={busy || theme.status === "UNINSTALLED"}
+              onClick={() => void onActivate(theme)}
+            >
+              {busy ? "Activating..." : "Activate"}
+            </button>
+          )}
+
+          <Link
+            className="plugin-action plugin-action-link"
+            href={`/themes/${theme.id}`}
           >
-            {busy ? "Activating..." : "Activate"}
-          </button>
-        )}
+            Details
+          </Link>
+        </div>
       </td>
     </tr>
   );

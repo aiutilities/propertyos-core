@@ -4,12 +4,20 @@ export type ThemeStatus =
   | "INACTIVE"
   | "UNINSTALLED";
 
+export interface ThemeBranding {
+  logo?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+}
+
 export interface ThemeManifest {
   id: string;
   name: string;
   version: string;
   author?: string;
   description?: string;
+  layouts?: string[];
+  branding?: ThemeBranding;
 }
 
 export interface Theme {

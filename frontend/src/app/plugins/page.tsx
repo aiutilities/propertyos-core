@@ -17,12 +17,21 @@ export default function PluginsPage() {
             </p>
           </div>
 
-          <Link
-            className="button-link"
-            href="/plugins/marketplace"
-          >
-            Browse Marketplace
-          </Link>
+          <div className="page-header-actions">
+            <Link
+              className="secondary-button"
+              href="/plugins/install"
+            >
+              Install ZIP
+            </Link>
+
+            <Link
+              className="button-link"
+              href="/plugins/marketplace"
+            >
+              Browse Marketplace
+            </Link>
+          </div>
         </div>
 
         <PluginTable />

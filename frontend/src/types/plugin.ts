@@ -105,3 +105,42 @@ export interface MarketplaceSearchResponse {
   data: MarketplaceSearchResult;
 }
 
+export type PluginInstallationStage =
+  | "DISCOVER"
+  | "EXTRACT"
+  | "VALIDATE"
+  | "RESOLVE_DEPENDENCIES"
+  | "RUN_MIGRATIONS"
+  | "REGISTER"
+  | "ENABLE"
+  | "COMPLETE"
+  | "FAILED"
+  | "ROLLED_BACK";
+
+export interface UploadResult {
+  storageObjectId: string;
+  objectKey: string;
+  originalName?: string;
+  mimeType?: string;
+  sizeBytes: number;
+  entityType?: string;
+  entityId?: string;
+  metadata: Record<string, unknown>;
+}
+
+export interface UploadResponse {
+  success: boolean;
+  data: {
+    upload: UploadResult;
+  };
+}
+
+export interface PluginInstallationResult {
+  success: boolean;
+  stage: PluginInstallationStage;
+  manifest?: PluginManifest;
+  installedPluginId?: string;
+  messages: string[];
+  error?: string;
+}
+

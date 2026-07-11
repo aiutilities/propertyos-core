@@ -12,6 +12,7 @@ import { PluginInstallerController } from './installer/controllers/plugin-instal
 import { Module } from '@nestjs/common';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { SearchModule } from '../search';
+import { StorageModule } from '../storage';
 import { IdentityModule } from '../identity/identity.module';
 import { PostgresModule } from '../../database/postgres/postgres.module';
 import { PluginController } from './controllers/plugin.controller';
@@ -40,7 +41,13 @@ import { PluginMarketplaceService } from './marketplace/services/plugin-marketpl
 import { PluginSearchProviderService } from './plugin-search-provider.service';
 
 @Module({
-  imports: [EventBusModule, IdentityModule, PostgresModule, SearchModule],
+  imports: [
+    EventBusModule,
+    IdentityModule,
+    PostgresModule,
+    SearchModule,
+    StorageModule,
+  ],
   controllers: [
     PluginController,
     PluginPackageController,

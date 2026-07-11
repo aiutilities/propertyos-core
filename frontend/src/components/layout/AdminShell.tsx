@@ -42,6 +42,7 @@ const navGroups: NavGroup[] = [
     label: "Platform",
     items: [
       { label: "Plugins", href: "/plugins" },
+      { label: "Install Plugin", href: "/plugins/install" },
       {
         label: "Plugin Marketplace",
         href: "/plugins/marketplace",

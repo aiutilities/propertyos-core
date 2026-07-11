@@ -1181,3 +1181,124 @@ input {
     width: 100%;
   }
 }
+
+/* Plugin manager */
+
+.page-description {
+  margin-bottom: 0;
+  max-width: 720px;
+}
+
+.plugin-toolbar {
+  align-items: flex-end;
+  background: white;
+  border: 1px solid #e4e7ef;
+  border-radius: 18px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
+.plugin-search {
+  display: grid;
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 8px;
+  max-width: 620px;
+}
+
+.plugin-search input {
+  border: 1px solid #d8ddea;
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.secondary-button {
+  background: white;
+  border: 1px solid #cdd3df;
+  border-radius: 12px;
+  color: #151922;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 12px 16px;
+}
+
+.secondary-button:hover {
+  background: #f6f7fb;
+}
+
+.secondary-button:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.plugin-table {
+  min-width: 840px;
+}
+
+.plugin-name-cell {
+  display: grid;
+  gap: 5px;
+  max-width: 520px;
+}
+
+.plugin-name-cell strong {
+  font-size: 15px;
+}
+
+.plugin-name-cell span {
+  color: #687086;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.plugin-name-cell p {
+  color: #606779;
+  line-height: 1.5;
+  margin: 5px 0 0;
+}
+
+.plugin-status {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 6px 9px;
+}
+
+.plugin-status-active {
+  background: #e6f7ed;
+  color: #176b3a;
+}
+
+.plugin-status-inactive,
+.plugin-status-installed {
+  background: #fff4d8;
+  color: #865b00;
+}
+
+.plugin-status-uninstalled {
+  background: #f1f3f7;
+  color: #5b6375;
+}
+
+@media (max-width: 800px) {
+  .plugin-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .plugin-search {
+    max-width: none;
+  }
+}
+

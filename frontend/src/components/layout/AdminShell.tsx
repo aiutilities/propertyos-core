@@ -38,6 +38,12 @@ const navGroups: NavGroup[] = [
       { label: "Reports", href: "/reports" },
     ],
   },
+  {
+    label: "Platform",
+    items: [
+      { label: "Plugins", href: "/plugins" },
+    ],
+  },
 ];
 
 function isActiveRoute(pathname: string, href: string) {
@@ -57,6 +63,7 @@ function getSectionTitle(pathname: string) {
     { prefix: "/receipts", title: "Receipts" },
     { prefix: "/invoices", title: "Invoices" },
     { prefix: "/reports", title: "Reports" },
+    { prefix: "/plugins", title: "Plugins" },
     { prefix: "/dashboard", title: "Dashboard" },
   ];
 

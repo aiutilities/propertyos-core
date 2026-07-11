@@ -19,6 +19,7 @@ const navGroups: NavGroup[] = [
     label: "Overview",
     items: [
       { label: "Dashboard", href: "/dashboard" },
+      { label: "Resident Portal", href: "/resident" },
     ],
   },
   {
@@ -77,6 +78,7 @@ function isActiveRoute(pathname: string, href: string) {
 
 function getSectionTitle(pathname: string) {
   const sections = [
+    { prefix: "/resident", title: "Resident Portal" },
     { prefix: "/properties", title: "Properties" },
     { prefix: "/tenants", title: "Tenants" },
     { prefix: "/leases", title: "Leases" },

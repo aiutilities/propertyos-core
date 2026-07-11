@@ -99,4 +99,11 @@ export class TenantService {
   ): Promise<TenantSpace[]> {
     return this.tenantRepository.listTenantSpaces(tenantId);
   }
+
+  getOccupancyCounts(): Promise<{
+    activeTenants: number;
+    occupiedSpaces: number;
+  }> {
+    return this.tenantRepository.getOccupancyCounts();
+  }
 }

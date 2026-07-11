@@ -52,4 +52,12 @@ export class PropertyService {
   listSpacesByProperty(propertyId: string): Promise<Space[]> {
     return this.propertyRepository.listSpacesByProperty(propertyId);
   }
+
+  getPortfolioCounts(): Promise<{
+    properties: number;
+    zones: number;
+    spaces: number;
+  }> {
+    return this.propertyRepository.getPortfolioCounts();
+  }
 }

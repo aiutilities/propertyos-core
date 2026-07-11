@@ -167,6 +167,37 @@ export class PostgresTenantRepository
     );
   }
 
+  async getOccupancyCounts(): Promise<{
+    activeTenants: number;
+    occupiedSpaces: number;
+  }> {
+    const result = await this.pool.query(
+      `
+      SELECT
+        (
+          SELECT COUNT(*)
+          FROM tenants
+          WHERE status = 'ACTIVE'
+        ) AS active_tenants,
+        (
+          SELECT COUNT(DISTINCT tenant_spaces.space_id)
+          FROM tenant_spaces
+          INNER JOIN tenants
+            ON tenants.id = tenant_spaces.tenant_id
+          WHERE tenant_spaces.released_at IS NULL
+            AND tenants.status = 'ACTIVE'
+        ) AS occupied_spaces
+      `,
+    );
+
+    const row = result.rows[0] ?? {};
+
+    return {
+      activeTenants: Number(row.active_tenants ?? 0),
+      occupiedSpaces: Number(row.occupied_spaces ?? 0),
+    };
+  }
+
   private mapTenant(row: any): Tenant {
     return {
       id: row.id,

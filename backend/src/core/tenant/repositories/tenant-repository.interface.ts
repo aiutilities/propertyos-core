@@ -17,4 +17,9 @@ export interface TenantRepository {
   assignSpace(tenantSpace: TenantSpace): Promise<TenantSpace>;
 
   listTenantSpaces(tenantId: string): Promise<TenantSpace[]>;
+
+  getOccupancyCounts(): Promise<{
+    activeTenants: number;
+    occupiedSpaces: number;
+  }>;
 }

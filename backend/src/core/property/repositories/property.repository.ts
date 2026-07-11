@@ -23,4 +23,10 @@ export interface PropertyRepository {
   createSpace(space: Space): Promise<Space>;
 
   listSpacesByProperty(propertyId: string): Promise<Space[]>;
+
+  getPortfolioCounts(): Promise<{
+    properties: number;
+    zones: number;
+    spaces: number;
+  }>;
 }

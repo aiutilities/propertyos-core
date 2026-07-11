@@ -230,6 +230,29 @@ export class PostgresPropertyRepository
     return result.rows.map((row) => this.mapSpace(row));
   }
 
+  async getPortfolioCounts(): Promise<{
+    properties: number;
+    zones: number;
+    spaces: number;
+  }> {
+    const result = await this.pool.query(
+      `
+      SELECT
+        (SELECT COUNT(*) FROM properties WHERE is_active = TRUE) AS properties,
+        (SELECT COUNT(*) FROM zones WHERE is_active = TRUE) AS zones,
+        (SELECT COUNT(*) FROM spaces WHERE is_active = TRUE) AS spaces
+      `,
+    );
+
+    const row = result.rows[0] ?? {};
+
+    return {
+      properties: Number(row.properties ?? 0),
+      zones: Number(row.zones ?? 0),
+      spaces: Number(row.spaces ?? 0),
+    };
+  }
+
   private mapProperty(row: any): Property {
     return {
       id: row.id,

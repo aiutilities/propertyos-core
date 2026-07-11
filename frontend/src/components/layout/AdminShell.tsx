@@ -27,6 +27,7 @@ const navGroups: NavGroup[] = [
       { label: "Properties", href: "/properties" },
       { label: "Tenants", href: "/tenants" },
       { label: "Leases", href: "/leases" },
+      { label: "Visitors", href: "/visitors" },
     ],
   },
   {
@@ -73,6 +74,7 @@ function getSectionTitle(pathname: string) {
     { prefix: "/properties", title: "Properties" },
     { prefix: "/tenants", title: "Tenants" },
     { prefix: "/leases", title: "Leases" },
+    { prefix: "/visitors", title: "Visitors" },
     { prefix: "/rent-ledgers", title: "Rent Ledgers" },
     { prefix: "/receipts", title: "Receipts" },
     { prefix: "/invoices", title: "Invoices" },

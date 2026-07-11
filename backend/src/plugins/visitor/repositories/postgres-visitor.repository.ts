@@ -166,16 +166,24 @@ export class PostgresVisitorRepository implements VisitorRepositoryPort {
   async findVisitById(visitId: string) {
     const result = await this.pool.query(
       `
-      SELECT *
-      FROM visits
-      WHERE id = $1
-      AND deleted_at IS NULL
+      SELECT
+        v.*,
+        vr.full_name AS visitor_full_name,
+        vr.mobile AS visitor_mobile,
+        vr.email AS visitor_email
+      FROM visits v
+      INNER JOIN visitors vr
+        ON vr.id = v.visitor_id
+      WHERE v.id = $1
+      AND v.deleted_at IS NULL
       LIMIT 1
       `,
       [visitId],
     );
 
-    return result.rows[0] ? this.mapVisit(result.rows[0]) : null;
+    return result.rows[0]
+      ? this.mapVisitWithVisitor(result.rows[0])
+      : null;
   }
 
   async listVisits(filters: Record<string, unknown>) {

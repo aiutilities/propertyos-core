@@ -191,6 +191,71 @@ input {
   margin: 0 0 10px;
 }
 
+
+.visitor-toolbar {
+  align-items: end;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(220px, 2fr) minmax(170px, 1fr) minmax(220px, 1fr) auto;
+  margin-bottom: 1.5rem;
+}
+
+.visitor-toolbar label {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.status-badge {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.65rem;
+  text-transform: capitalize;
+}
+
+.status-invited {
+  background: #e8f0fe;
+}
+
+.status-approved {
+  background: #e6f4ea;
+}
+
+.status-arrived,
+.status-checked_in {
+  background: #fff4ce;
+}
+
+.status-checked_out,
+.status-completed {
+  background: #e6f4ea;
+}
+
+.status-rejected,
+.status-cancelled,
+.status-expired {
+  background: #fce8e6;
+}
+
+.visitor-actions {
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.visitor-qr-card code {
+  display: block;
+  overflow-wrap: anywhere;
+  padding: 0.75rem 0;
+}
+
+@media (max-width: 900px) {
+  .visitor-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 @media (max-width: 800px) {
   .admin-shell {
     display: block;

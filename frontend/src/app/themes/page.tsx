@@ -1,13 +1,8 @@
-"use client";
-
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminShell } from "@/components/layout/AdminShell";
 import ThemeTable from "@/components/theme/ThemeTable";
-import { useThemes } from "@/hooks/useThemes";
 
 export default function ThemesPage() {
-  const { themes, loading, error } = useThemes();
-
   return (
     <ProtectedRoute>
       <AdminShell>
@@ -15,15 +10,14 @@ export default function ThemesPage() {
           <div>
             <p className="eyebrow">Appearance</p>
             <h1>Themes</h1>
+            <p className="muted page-description">
+              Review installed themes and select the active appearance
+              for this PropertyOS deployment.
+            </p>
           </div>
         </div>
 
-        {loading && <p>Loading themes...</p>}
-        {error && <p>{error}</p>}
-
-        {!loading && !error && (
-          <ThemeTable themes={themes} />
-        )}
+        <ThemeTable />
       </AdminShell>
     </ProtectedRoute>
   );

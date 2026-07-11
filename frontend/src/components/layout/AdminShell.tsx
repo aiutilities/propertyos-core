@@ -47,6 +47,7 @@ const navGroups: NavGroup[] = [
         label: "Plugin Marketplace",
         href: "/plugins/marketplace",
       },
+      { label: "Themes", href: "/themes" },
     ],
   },
 ];
@@ -69,6 +70,7 @@ function getSectionTitle(pathname: string) {
     { prefix: "/invoices", title: "Invoices" },
     { prefix: "/reports", title: "Reports" },
     { prefix: "/plugins", title: "Plugins" },
+    { prefix: "/themes", title: "Themes" },
     { prefix: "/dashboard", title: "Dashboard" },
   ];
 

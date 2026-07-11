@@ -2036,3 +2036,73 @@ input {
   }
 }
 
+/* Theme manager */
+
+.theme-toolbar {
+  align-items: flex-end;
+  background: white;
+  border: 1px solid #e4e7ef;
+  border-radius: 18px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
+.theme-table {
+  min-width: 880px;
+}
+
+.theme-row-active {
+  background: #f4f7ff;
+}
+
+.theme-name-cell {
+  display: grid;
+  gap: 5px;
+  max-width: 500px;
+}
+
+.theme-name-heading {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.theme-name-cell > span {
+  color: #687086;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.theme-name-cell p {
+  color: #606779;
+  line-height: 1.5;
+  margin: 5px 0 0;
+}
+
+.theme-current-badge {
+  background: #e9efff;
+  border-radius: 999px;
+  color: #2442b8;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 5px 8px;
+  text-transform: uppercase;
+}
+
+.theme-active-note {
+  color: #176b3a;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@media (max-width: 800px) {
+  .theme-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+

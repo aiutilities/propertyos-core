@@ -1,31 +1,28 @@
 import Link from "next/link";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminShell } from "@/components/layout/AdminShell";
-import ThemeTable from "@/components/theme/ThemeTable";
+import ThemePackageTable from "@/components/theme/ThemePackageTable";
 
-export default function ThemesPage() {
+export default function ThemePackagesPage() {
   return (
     <ProtectedRoute>
       <AdminShell>
         <div className="page-header">
           <div>
             <p className="eyebrow">Appearance</p>
-            <h1>Themes</h1>
+            <h1>Theme Packages</h1>
             <p className="muted page-description">
-              Review installed themes and select the active appearance
-              for this PropertyOS deployment.
+              Review validated, installed, invalid and archived theme
+              packages.
             </p>
           </div>
 
-          <Link
-            className="button-link"
-            href="/themes/packages"
-          >
-            Theme Packages
+          <Link className="button-link" href="/themes">
+            Installed Themes
           </Link>
         </div>
 
-        <ThemeTable />
+        <ThemePackageTable />
       </AdminShell>
     </ProtectedRoute>
   );

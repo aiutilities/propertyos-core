@@ -48,6 +48,10 @@ const navGroups: NavGroup[] = [
         href: "/plugins/marketplace",
       },
       { label: "Themes", href: "/themes" },
+      {
+        label: "Theme Packages",
+        href: "/themes/packages",
+      },
     ],
   },
 ];

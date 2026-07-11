@@ -2346,3 +2346,73 @@ input {
   padding-left: 18px;
 }
 
+/* Theme package registration */
+
+.theme-package-registration-layout {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1.35fr 0.85fr;
+}
+
+.theme-package-registration-card {
+  align-content: start;
+  background: white;
+  border: 1px solid #e4e7ef;
+  border-radius: 18px;
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.theme-package-registration-card h2 {
+  margin: 0;
+}
+
+.theme-package-registration-card label {
+  display: grid;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 8px;
+}
+
+.theme-package-registration-card input,
+.theme-package-registration-card textarea {
+  border: 1px solid #d8ddea;
+  border-radius: 12px;
+  font: inherit;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.theme-package-registration-card input[type="color"] {
+  min-height: 46px;
+  padding: 5px;
+}
+
+.theme-package-registration-card textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.theme-registration-result {
+  display: grid;
+  gap: 18px;
+}
+
+.theme-registration-errors {
+  background: #fff1f1;
+  border: 1px solid #ffcaca;
+  border-radius: 12px;
+  color: #9d1010;
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 14px 14px 14px 34px;
+}
+
+@media (max-width: 1000px) {
+  .theme-package-registration-layout {
+    grid-template-columns: 1fr;
+  }
+}
+

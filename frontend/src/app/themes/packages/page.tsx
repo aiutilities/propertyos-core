@@ -17,9 +17,18 @@ export default function ThemePackagesPage() {
             </p>
           </div>
 
-          <Link className="button-link" href="/themes">
-            Installed Themes
-          </Link>
+          <div className="page-header-actions">
+            <Link
+              className="secondary-button"
+              href="/themes/packages/new"
+            >
+              Register Package
+            </Link>
+
+            <Link className="button-link" href="/themes">
+              Installed Themes
+            </Link>
+          </div>
         </div>
 
         <ThemePackageTable />

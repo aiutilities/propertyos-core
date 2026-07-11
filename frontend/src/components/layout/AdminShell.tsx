@@ -52,6 +52,10 @@ const navGroups: NavGroup[] = [
         label: "Theme Packages",
         href: "/themes/packages",
       },
+      {
+        label: "Register Theme",
+        href: "/themes/packages/new",
+      },
     ],
   },
 ];

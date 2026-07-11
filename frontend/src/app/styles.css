@@ -1523,3 +1523,80 @@ input {
   }
 }
 
+/* Plugin version management */
+
+.plugin-section-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.plugin-section-heading h3,
+.plugin-section-heading p {
+  margin-top: 0;
+}
+
+.plugin-version-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.plugin-version-form {
+  background: #f8f9fc;
+  border: 1px solid #e4e7ef;
+  border-radius: 16px;
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.plugin-version-form h4 {
+  margin: 0;
+}
+
+.plugin-version-form label {
+  display: grid;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 8px;
+}
+
+.plugin-version-form input,
+.plugin-version-form textarea {
+  border: 1px solid #d8ddea;
+  border-radius: 11px;
+  font: inherit;
+  padding: 11px 12px;
+  width: 100%;
+}
+
+.plugin-version-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.plugin-version-form button {
+  justify-self: start;
+}
+
+.success-message {
+  background: #eaf8ef;
+  border: 1px solid #bde7ca;
+  border-radius: 12px;
+  color: #176b3a;
+  padding: 12px;
+}
+
+@media (max-width: 800px) {
+  .plugin-section-heading {
+    display: grid;
+  }
+
+  .plugin-version-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

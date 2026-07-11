@@ -1,5 +1,8 @@
 "use client";
 
+"use client";
+
+import { useState } from "react";
 import PluginStatusBadge from "./PluginStatusBadge";
 import { usePluginDetails } from "@/hooks/usePluginDetails";
 
@@ -64,8 +67,19 @@ export default function PluginDetails({
     capabilities,
     loading,
     error,
+    actionError,
+    actionSuccess,
+    submitting,
     reload,
+    upgrade,
+    rollback,
+    clearActionMessages,
   } = usePluginDetails(pluginId);
+
+  const [upgradeVersion, setUpgradeVersion] = useState("");
+  const [upgradeNotes, setUpgradeNotes] = useState("");
+  const [rollbackVersion, setRollbackVersion] = useState("");
+  const [rollbackNotes, setRollbackNotes] = useState("");
 
   if (loading) {
     return <p>Loading plugin details...</p>;
@@ -93,6 +107,69 @@ export default function PluginDetails({
         <p>The requested installed plugin is unavailable.</p>
       </div>
     );
+  }
+
+  async function submitUpgrade(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!plugin) {
+      return;
+    }
+
+    const version = upgradeVersion.trim();
+
+    if (!version) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Upgrade ${plugin.displayName} from ${plugin.version} to ${version}? ` +
+        "The plugin will be left inactive after the upgrade.",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const succeeded = await upgrade(version, upgradeNotes.trim());
+
+    if (succeeded) {
+      setUpgradeVersion("");
+      setUpgradeNotes("");
+    }
+  }
+
+  async function submitRollback(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!plugin) {
+      return;
+    }
+
+    const targetVersion = rollbackVersion.trim();
+
+    if (!targetVersion) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Roll back ${plugin.displayName} from ${plugin.version} ` +
+        `to ${targetVersion}? The plugin will be left inactive.`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const succeeded = await rollback(
+      targetVersion,
+      rollbackNotes.trim(),
+    );
+
+    if (succeeded) {
+      setRollbackVersion("");
+      setRollbackNotes("");
+    }
   }
 
   return (
@@ -164,6 +241,117 @@ export default function PluginDetails({
           </dl>
         </section>
       </div>
+
+      <section className="plugin-detail-card">
+        <div className="plugin-section-heading">
+          <div>
+            <h3>Version management</h3>
+            <p className="muted">
+              Upgrade or roll back this plugin. Both operations leave the
+              plugin installed but inactive so it can be reviewed before
+              activation.
+            </p>
+          </div>
+
+          <button
+            className="secondary-button"
+            type="button"
+            disabled={submitting}
+            onClick={clearActionMessages}
+          >
+            Clear messages
+          </button>
+        </div>
+
+        {actionError ? <p className="error">{actionError}</p> : null}
+        {actionSuccess ? (
+          <p className="success-message">{actionSuccess}</p>
+        ) : null}
+
+        <div className="plugin-version-grid">
+          <form
+            className="plugin-version-form"
+            onSubmit={submitUpgrade}
+          >
+            <div>
+              <p className="eyebrow">Upgrade</p>
+              <h4>Install a newer version</h4>
+            </div>
+
+            <label>
+              Target version
+              <input
+                required
+                placeholder="Example: 2.1.0"
+                value={upgradeVersion}
+                onChange={(event) =>
+                  setUpgradeVersion(event.target.value)
+                }
+              />
+            </label>
+
+            <label>
+              Release notes
+              <textarea
+                placeholder="Optional notes about this upgrade"
+                value={upgradeNotes}
+                onChange={(event) =>
+                  setUpgradeNotes(event.target.value)
+                }
+              />
+            </label>
+
+            <button
+              className="plugin-action plugin-action-primary"
+              type="submit"
+              disabled={submitting || !upgradeVersion.trim()}
+            >
+              {submitting ? "Processing..." : "Upgrade plugin"}
+            </button>
+          </form>
+
+          <form
+            className="plugin-version-form"
+            onSubmit={submitRollback}
+          >
+            <div>
+              <p className="eyebrow">Rollback</p>
+              <h4>Return to an earlier version</h4>
+            </div>
+
+            <label>
+              Target version
+              <input
+                required
+                placeholder="Example: 1.4.2"
+                value={rollbackVersion}
+                onChange={(event) =>
+                  setRollbackVersion(event.target.value)
+                }
+              />
+            </label>
+
+            <label>
+              Rollback notes
+              <textarea
+                placeholder="Optional reason for this rollback"
+                value={rollbackNotes}
+                onChange={(event) =>
+                  setRollbackNotes(event.target.value)
+                }
+              />
+            </label>
+
+            <button
+              className="plugin-action plugin-action-danger"
+              type="submit"
+              disabled={submitting || !rollbackVersion.trim()}
+            >
+              {submitting ? "Processing..." : "Roll back plugin"}
+            </button>
+          </form>
+        </div>
+      </section>
 
       <section className="plugin-detail-card">
         <h3>Registered capabilities</h3>

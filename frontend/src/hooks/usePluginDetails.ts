@@ -19,6 +19,9 @@ export function usePluginDetails(id: string) {
     useState<PluginCapabilities | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [actionError, setActionError] = useState("");
+  const [actionSuccess, setActionSuccess] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const load = useCallback(async () => {
     if (!id) {
@@ -64,6 +67,77 @@ export function usePluginDetails(id: string) {
     void load();
   }, [load]);
 
+  const upgrade = useCallback(
+    async (version: string, notes?: string) => {
+      setSubmitting(true);
+      setActionError("");
+      setActionSuccess("");
+
+      try {
+        await apiRequest(`/plugins/${id}/upgrade`, {
+          method: "POST",
+          body: JSON.stringify({
+            version,
+            notes: notes || undefined,
+          }),
+        });
+
+        setActionSuccess(`Plugin upgraded to version ${version}.`);
+        await load();
+        return true;
+      } catch (err) {
+        setActionError(
+          err instanceof Error
+            ? err.message
+            : "Unable to upgrade the plugin.",
+        );
+        return false;
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    [id, load],
+  );
+
+  const rollback = useCallback(
+    async (targetVersion: string, notes?: string) => {
+      setSubmitting(true);
+      setActionError("");
+      setActionSuccess("");
+
+      try {
+        await apiRequest(`/plugins/${id}/rollback`, {
+          method: "POST",
+          body: JSON.stringify({
+            targetVersion,
+            notes: notes || undefined,
+          }),
+        });
+
+        setActionSuccess(
+          `Plugin rolled back to version ${targetVersion}.`,
+        );
+        await load();
+        return true;
+      } catch (err) {
+        setActionError(
+          err instanceof Error
+            ? err.message
+            : "Unable to roll back the plugin.",
+        );
+        return false;
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    [id, load],
+  );
+
+  function clearActionMessages() {
+    setActionError("");
+    setActionSuccess("");
+  }
+
   return {
     plugin,
     lifecycle,
@@ -71,6 +145,12 @@ export function usePluginDetails(id: string) {
     capabilities,
     loading,
     error,
+    actionError,
+    actionSuccess,
+    submitting,
     reload: load,
+    upgrade,
+    rollback,
+    clearActionMessages,
   };
 }

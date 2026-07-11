@@ -1600,3 +1600,273 @@ input {
   }
 }
 
+/* Plugin marketplace */
+
+.marketplace-view {
+  display: grid;
+  gap: 20px;
+}
+
+.marketplace-toolbar {
+  align-items: end;
+  background: white;
+  border: 1px solid #e4e7ef;
+  border-radius: 18px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr auto;
+  padding: 18px;
+}
+
+.marketplace-filter-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+.marketplace-filter-grid label {
+  display: grid;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 8px;
+}
+
+.marketplace-filter-grid input {
+  border: 1px solid #d8ddea;
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.marketplace-toolbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.marketplace-results-heading h2,
+.marketplace-results-heading p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.marketplace-results-heading {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.marketplace-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.marketplace-card {
+  background: white;
+  border: 1px solid #e4e7ef;
+  border-radius: 18px;
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.marketplace-card-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.marketplace-title-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.marketplace-title-row h2 {
+  font-size: 19px;
+  margin: 0;
+}
+
+.marketplace-provider {
+  color: #687086;
+  font-size: 13px;
+  margin: 6px 0 0;
+}
+
+.verified-badge {
+  background: #e9efff;
+  border-radius: 999px;
+  color: #2442b8;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 5px 8px;
+  text-transform: uppercase;
+}
+
+.marketplace-description {
+  color: #4f586b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.marketplace-status {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 6px 9px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marketplace-status-available {
+  background: #eaf8ef;
+  color: #176b3a;
+}
+
+.marketplace-status-installed {
+  background: #e9efff;
+  color: #2442b8;
+}
+
+.marketplace-status-update-available {
+  background: #fff4d8;
+  color: #865b00;
+}
+
+.marketplace-status-deprecated,
+.marketplace-status-incompatible {
+  background: #fff1f1;
+  color: #9d1010;
+}
+
+.marketplace-meta-grid,
+.marketplace-version-info {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.marketplace-meta-grid div,
+.marketplace-version-info div {
+  background: #f8f9fc;
+  border: 1px solid #e8eaf0;
+  border-radius: 12px;
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+}
+
+.marketplace-meta-grid span,
+.marketplace-version-info span {
+  color: #687086;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.marketplace-meta-grid strong,
+.marketplace-version-info strong {
+  font-size: 13px;
+}
+
+.marketplace-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.marketplace-tags span {
+  background: #f1f3f7;
+  border-radius: 999px;
+  color: #50596c;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 9px;
+}
+
+.marketplace-tags .marketplace-category {
+  background: #e9efff;
+  color: #2442b8;
+}
+
+.marketplace-changelog {
+  border-top: 1px solid #eef0f5;
+  padding-top: 14px;
+}
+
+.marketplace-changelog summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.marketplace-changelog p {
+  color: #606779;
+  line-height: 1.6;
+}
+
+.marketplace-card-actions {
+  align-items: center;
+  border-top: 1px solid #eef0f5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.marketplace-installed-note,
+.marketplace-update-note,
+.marketplace-warning {
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+}
+
+.marketplace-installed-note {
+  background: #e9efff;
+  color: #2442b8;
+}
+
+.marketplace-update-note {
+  background: #fff4d8;
+  color: #865b00;
+}
+
+.marketplace-warning {
+  background: #fff1f1;
+  color: #9d1010;
+}
+
+@media (max-width: 1100px) {
+  .marketplace-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .marketplace-filter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .marketplace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .marketplace-toolbar-actions,
+  .marketplace-card-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .marketplace-meta-grid,
+  .marketplace-version-info {
+    grid-template-columns: 1fr;
+  }
+}
+

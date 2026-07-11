@@ -47,6 +47,15 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "Automation",
+    items: [
+      { label: "Operations Center", href: "/operations" },
+      { label: "Workflows", href: "/workflows" },
+      { label: "Notifications", href: "/notifications" },
+      { label: "Scheduler", href: "/scheduler" },
+    ],
+  },
+  {
     label: "Platform",
     items: [
       { label: "Plugins", href: "/plugins" },
@@ -88,6 +97,10 @@ function getSectionTitle(pathname: string) {
     { prefix: "/receipts", title: "Receipts" },
     { prefix: "/invoices", title: "Invoices" },
     { prefix: "/reports", title: "Reports" },
+    { prefix: "/operations", title: "Operations Center" },
+    { prefix: "/workflows", title: "Workflow Center" },
+    { prefix: "/notifications", title: "Notification Center" },
+    { prefix: "/scheduler", title: "Scheduler Center" },
     { prefix: "/plugins", title: "Plugins" },
     { prefix: "/themes", title: "Themes" },
     { prefix: "/dashboard", title: "Dashboard" },

@@ -37,6 +37,7 @@ import { MetricsModule } from './core/metrics';
 import { MaintenanceModule } from './core/maintenance';
 import { FacilityModule } from './core/facility';
 import { VehicleModule } from './core/vehicle';
+import { StaffModule } from './core/staff';
 import { ReportModule } from './core/report';
 import { BootstrapModule } from './core/bootstrap/bootstrap.module';
 
@@ -90,6 +91,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     MaintenanceModule,
     FacilityModule,
     VehicleModule,
+    StaffModule,
     ReportModule,
     BootstrapModule,
 

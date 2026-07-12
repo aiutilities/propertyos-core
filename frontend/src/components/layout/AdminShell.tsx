@@ -20,6 +20,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Dashboard", href: "/dashboard" },
       { label: "Resident Portal", href: "/resident" },
+      { label: "My Maintenance", href: "/resident/maintenance" },
     ],
   },
   {
@@ -29,6 +30,7 @@ const navGroups: NavGroup[] = [
       { label: "Tenants", href: "/tenants" },
       { label: "Leases", href: "/leases" },
       { label: "Visitors", href: "/visitors" },
+      { label: "Maintenance", href: "/maintenance" },
     ],
   },
   {
@@ -88,10 +90,12 @@ function isActiveRoute(pathname: string, href: string) {
 function getSectionTitle(pathname: string) {
   const sections = [
     { prefix: "/resident", title: "Resident Portal" },
+    { prefix: "/resident/maintenance", title: "My Maintenance" },
     { prefix: "/properties", title: "Properties" },
     { prefix: "/tenants", title: "Tenants" },
     { prefix: "/leases", title: "Leases" },
     { prefix: "/visitors", title: "Visitors" },
+    { prefix: "/maintenance", title: "Maintenance" },
     { prefix: "/security", title: "Security Dashboard" },
     { prefix: "/rent-ledgers", title: "Rent Ledgers" },
     { prefix: "/receipts", title: "Receipts" },

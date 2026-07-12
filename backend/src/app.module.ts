@@ -35,6 +35,7 @@ import { SchedulerModule } from './core/scheduler';
 import { HealthModule } from './core/health/health.module';
 import { MetricsModule } from './core/metrics';
 import { MaintenanceModule } from './core/maintenance';
+import { FacilityModule } from './core/facility';
 import { ReportModule } from './core/report';
 import { BootstrapModule } from './core/bootstrap/bootstrap.module';
 
@@ -86,6 +87,7 @@ import { VisitorModule } from './plugins/visitor/visitor.module';
     HealthModule,
     MetricsModule,
     MaintenanceModule,
+    FacilityModule,
     ReportModule,
     BootstrapModule,
 

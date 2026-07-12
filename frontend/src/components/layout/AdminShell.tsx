@@ -21,6 +21,7 @@ const navGroups: NavGroup[] = [
       { label: "Dashboard", href: "/dashboard" },
       { label: "Resident Portal", href: "/resident" },
       { label: "My Maintenance", href: "/resident/maintenance" },
+      { label: "My Vehicles", href: "/resident/vehicles" },
     ],
   },
   {
@@ -32,12 +33,14 @@ const navGroups: NavGroup[] = [
       { label: "Visitors", href: "/visitors" },
       { label: "Maintenance", href: "/maintenance" },
       { label: "Facilities & Assets", href: "/facilities" },
+      { label: "Vehicles", href: "/vehicles" },
     ],
   },
   {
     label: "Community Operations",
     items: [
       { label: "Security Dashboard", href: "/security" },
+      { label: "Vehicle Gate", href: "/security/vehicles" },
     ],
   },
   {
@@ -91,6 +94,7 @@ function isActiveRoute(pathname: string, href: string) {
 function getSectionTitle(pathname: string) {
   const sections = [
     { prefix: "/resident", title: "Resident Portal" },
+    { prefix: "/resident/vehicles", title: "My Vehicles" },
     { prefix: "/resident/maintenance", title: "My Maintenance" },
     { prefix: "/properties", title: "Properties" },
     { prefix: "/tenants", title: "Tenants" },
@@ -98,6 +102,8 @@ function getSectionTitle(pathname: string) {
     { prefix: "/visitors", title: "Visitors" },
     { prefix: "/maintenance", title: "Maintenance" },
     { prefix: "/facilities", title: "Facilities & Assets" },
+    { prefix: "/vehicles", title: "Vehicle Registry" },
+    { prefix: "/security/vehicles", title: "Vehicle Gate" },
     { prefix: "/security", title: "Security Dashboard" },
     { prefix: "/rent-ledgers", title: "Rent Ledgers" },
     { prefix: "/receipts", title: "Receipts" },

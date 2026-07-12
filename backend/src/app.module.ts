@@ -47,6 +47,7 @@ import { GlobalExceptionFilter } from "./core/platform/filters/global-exception.
 import { RequestIdMiddleware } from "./core/platform/middleware/request-id.middleware";
 import { RequestLoggingMiddleware } from "./core/platform/middleware/request-logging.middleware";
 import { VisitorModule } from "./plugins/visitor/visitor.module";
+import { ReservationModule } from "./core/reservation";
 
 @Module({
   imports: [
@@ -95,6 +96,7 @@ import { VisitorModule } from "./plugins/visitor/visitor.module";
     VehicleModule,
     StaffModule,
     ReportModule,
+    ReservationModule,
     BootstrapModule,
 
     VisitorModule,

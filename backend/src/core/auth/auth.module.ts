@@ -10,6 +10,11 @@ import { AuthService } from './services/auth.service';
   imports: [IdentityModule],
   controllers: [AuthController],
   providers: [AuthService, JwtAuthGuard, PermissionGuard],
-  exports: [AuthService, JwtAuthGuard, PermissionGuard],
+  exports: [
+    AuthService,
+    JwtAuthGuard,
+    PermissionGuard,
+    IdentityModule,
+  ],
 })
 export class AuthModule {}

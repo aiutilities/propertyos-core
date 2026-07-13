@@ -17,6 +17,8 @@ import type {
   VendorDetails,
   VendorFilters,
   VendorMetrics,
+  VendorRatingSummary,
+  VendorStatus,
 } from "@/types/vendor";
 
 function buildQuery(
@@ -215,6 +217,76 @@ export function useVendors() {
       [execute],
     );
 
+  const transition =
+    useCallback(
+      async (
+        id: string,
+        action:
+          | "activate"
+          | "suspend"
+          | "block"
+          | "reactivate"
+          | "archive",
+        changedByPersonId: string,
+        remarks?: string,
+      ) =>
+        execute(async () => {
+          const response =
+            await apiRequest<
+              ApiSuccessResponse<
+                Vendor
+              >
+            >(
+              `/vendors/${id}/${action}`,
+              {
+                method: "POST",
+                body:
+                  JSON.stringify({
+                    changedByPersonId,
+                    remarks:
+                      remarks ||
+                      undefined,
+                  }),
+              },
+            );
+
+          return response.data;
+        }),
+      [execute],
+    );
+
+  const ratingSummary =
+    useCallback(
+      async (
+        id: string,
+      ) =>
+        execute(async () => {
+          const response =
+            await apiRequest<
+              ApiSuccessResponse<
+                VendorRatingSummary
+              >
+            >(
+              `/vendors/${id}/rating-summary`,
+            );
+
+          return response.data;
+        }),
+      [execute],
+    );
+
+  const listByStatus =
+    useCallback(
+      async (
+        status:
+          VendorStatus,
+      ) =>
+        list({
+          status,
+        }),
+      [list],
+    );
+
   return {
     loading,
     error,
@@ -223,5 +295,8 @@ export function useVendors() {
     categories,
     get,
     create,
+    transition,
+    ratingSummary,
+    listByStatus,
   };
 }

@@ -4,11 +4,14 @@ import { Pool } from 'pg';
 import { POSTGRES_POOL } from '../../../database/postgres';
 import {
   HelpdeskCategory,
+  HelpdeskComment,
+  HelpdeskFeedback,
   HelpdeskStatus,
   HelpdeskTicket,
   HelpdeskTicketDetails,
   HelpdeskTicketFilters,
   HelpdeskTicketHistory,
+  HelpdeskWorklog,
 } from '../types/helpdesk.types';
 import { HelpdeskRepository } from './helpdesk.repository';
 
@@ -470,6 +473,156 @@ export class PostgresHelpdeskRepository
     return result.rows.map((row) =>
       this.mapHistory(row),
     );
+  }
+
+  async addComment(
+    comment: HelpdeskComment,
+  ): Promise<HelpdeskComment> {
+    const result = await this.pool.query(
+      `
+      INSERT INTO helpdesk_comments (
+        id,
+        ticket_id,
+        author_person_id,
+        body,
+        visibility,
+        created_at,
+        updated_at
+      )
+      VALUES ($1,$2,$3,$4,$5,$6,$7)
+      RETURNING *
+      `,
+      [
+        comment.id,
+        comment.ticketId,
+        comment.authorPersonId,
+        comment.body,
+        comment.visibility,
+        comment.createdAt,
+        comment.updatedAt,
+      ],
+    );
+
+    const row = result.rows[0];
+
+    return {
+      id: row.id,
+      ticketId: row.ticket_id,
+      authorPersonId: row.author_person_id,
+      body: row.body,
+      visibility: row.visibility,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    };
+  }
+
+  async addWorklog(
+    worklog: HelpdeskWorklog,
+  ): Promise<HelpdeskWorklog> {
+    const result = await this.pool.query(
+      `
+      INSERT INTO helpdesk_worklogs (
+        id,
+        ticket_id,
+        person_id,
+        minutes_spent,
+        description,
+        worked_at,
+        created_at
+      )
+      VALUES ($1,$2,$3,$4,$5,$6,$7)
+      RETURNING *
+      `,
+      [
+        worklog.id,
+        worklog.ticketId,
+        worklog.personId,
+        worklog.minutesSpent,
+        worklog.description,
+        worklog.workedAt,
+        worklog.createdAt,
+      ],
+    );
+
+    const row = result.rows[0];
+
+    return {
+      id: row.id,
+      ticketId: row.ticket_id,
+      personId: row.person_id,
+      minutesSpent: Number(row.minutes_spent),
+      description: row.description,
+      workedAt: row.worked_at,
+      createdAt: row.created_at,
+    };
+  }
+
+  async addFeedback(
+    feedback: HelpdeskFeedback,
+  ): Promise<HelpdeskFeedback> {
+    const result = await this.pool.query(
+      `
+      INSERT INTO helpdesk_feedback (
+        id,
+        ticket_id,
+        submitted_by_person_id,
+        rating,
+        comments,
+        created_at
+      )
+      VALUES ($1,$2,$3,$4,$5,$6)
+      RETURNING *
+      `,
+      [
+        feedback.id,
+        feedback.ticketId,
+        feedback.submittedByPersonId,
+        feedback.rating,
+        feedback.comments ?? null,
+        feedback.createdAt,
+      ],
+    );
+
+    const row = result.rows[0];
+
+    return {
+      id: row.id,
+      ticketId: row.ticket_id,
+      submittedByPersonId:
+        row.submitted_by_person_id,
+      rating: Number(row.rating),
+      comments: row.comments ?? undefined,
+      createdAt: row.created_at,
+    };
+  }
+
+  async findFeedback(
+    ticketId: string,
+  ): Promise<HelpdeskFeedback | null> {
+    const result = await this.pool.query(
+      `
+      SELECT *
+      FROM helpdesk_feedback
+      WHERE ticket_id = $1
+      `,
+      [ticketId],
+    );
+
+    const row = result.rows[0];
+
+    if (!row) {
+      return null;
+    }
+
+    return {
+      id: row.id,
+      ticketId: row.ticket_id,
+      submittedByPersonId:
+        row.submitted_by_person_id,
+      rating: Number(row.rating),
+      comments: row.comments ?? undefined,
+      createdAt: row.created_at,
+    };
   }
 
   async listCategories(): Promise<HelpdeskCategory[]> {

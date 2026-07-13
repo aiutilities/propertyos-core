@@ -18,6 +18,9 @@ import { CreateHelpdeskTicketDto } from '../dto/create-helpdesk-ticket.dto';
 import { UpdateHelpdeskTicketDto } from '../dto/update-helpdesk-ticket.dto';
 import { ResolveHelpdeskTicketDto } from '../dto/resolve-helpdesk-ticket.dto';
 import { TransitionHelpdeskTicketDto } from '../dto/transition-helpdesk-ticket.dto';
+import { AddHelpdeskCommentDto } from '../dto/add-helpdesk-comment.dto';
+import { AddHelpdeskWorklogDto } from '../dto/add-helpdesk-worklog.dto';
+import { SubmitHelpdeskFeedbackDto } from '../dto/submit-helpdesk-feedback.dto';
 import {
   HELPDESK_PERMISSIONS,
 } from '../helpdesk.constants';
@@ -194,6 +197,48 @@ export class HelpdeskController {
   ) {
     return this.success(
       await this.helpdeskService.cancel(id, dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.COMMENT)
+  @Post(':id/comments')
+  async addComment(
+    @Param('id') id: string,
+    @Body() dto: AddHelpdeskCommentDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.addComment(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.MANAGE)
+  @Post(':id/worklogs')
+  async addWorklog(
+    @Param('id') id: string,
+    @Body() dto: AddHelpdeskWorklogDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.addWorklog(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.CREATE)
+  @Post(':id/feedback')
+  async submitFeedback(
+    @Param('id') id: string,
+    @Body() dto: SubmitHelpdeskFeedbackDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.submitFeedback(
+        id,
+        dto,
+      ),
     );
   }
 

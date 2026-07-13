@@ -13,6 +13,9 @@ import { CreateHelpdeskTicketDto } from '../dto/create-helpdesk-ticket.dto';
 import { UpdateHelpdeskTicketDto } from '../dto/update-helpdesk-ticket.dto';
 import { ResolveHelpdeskTicketDto } from '../dto/resolve-helpdesk-ticket.dto';
 import { TransitionHelpdeskTicketDto } from '../dto/transition-helpdesk-ticket.dto';
+import { AddHelpdeskCommentDto } from '../dto/add-helpdesk-comment.dto';
+import { AddHelpdeskWorklogDto } from '../dto/add-helpdesk-worklog.dto';
+import { SubmitHelpdeskFeedbackDto } from '../dto/submit-helpdesk-feedback.dto';
 import {
   HELPDESK_EVENTS,
 } from '../helpdesk.constants';
@@ -21,10 +24,13 @@ import {
   HelpdeskRepository,
 } from '../repositories/helpdesk.repository';
 import {
+  HelpdeskComment,
+  HelpdeskFeedback,
   HelpdeskPriority,
   HelpdeskStatus,
   HelpdeskTicket,
   HelpdeskTicketFilters,
+  HelpdeskWorklog,
 } from '../types/helpdesk.types';
 
 @Injectable()
@@ -391,6 +397,199 @@ export class HelpdeskService {
       HelpdeskStatus.CANCELLED,
       HELPDESK_EVENTS.CANCELLED,
     );
+  }
+
+  async addComment(
+    id: string,
+    dto: AddHelpdeskCommentDto,
+  ): Promise<HelpdeskComment> {
+    const ticket = await this.requireTicket(id);
+
+    this.requireText(dto.body, 'body');
+
+    if (
+      [
+        HelpdeskStatus.CLOSED,
+        HelpdeskStatus.CANCELLED,
+      ].includes(ticket.status)
+    ) {
+      throw new BadRequestException(
+        `Comments cannot be added to a ${ticket.status} ticket`,
+      );
+    }
+
+    const now = new Date();
+
+    const comment =
+      await this.repository.addComment({
+        id: randomUUID(),
+        ticketId: ticket.id,
+        authorPersonId: dto.authorPersonId,
+        body: dto.body.trim(),
+        visibility: dto.visibility,
+        createdAt: now,
+        updatedAt: now,
+      });
+
+    await this.publish(
+      HELPDESK_EVENTS.COMMENT_ADDED,
+      ticket,
+    );
+
+    await this.auditService.record(
+      HELPDESK_EVENTS.COMMENT_ADDED,
+      'core.helpdesk',
+      {
+        ...this.auditPayload(ticket, {
+          actorPersonId: dto.authorPersonId,
+        }),
+        commentId: comment.id,
+        visibility: comment.visibility,
+      },
+    );
+
+    return comment;
+  }
+
+  async addWorklog(
+    id: string,
+    dto: AddHelpdeskWorklogDto,
+  ): Promise<HelpdeskWorklog> {
+    const ticket = await this.requireTicket(id);
+
+    if (
+      [
+        HelpdeskStatus.CLOSED,
+        HelpdeskStatus.CANCELLED,
+      ].includes(ticket.status)
+    ) {
+      throw new BadRequestException(
+        `Worklogs cannot be added to a ${ticket.status} ticket`,
+      );
+    }
+
+    if (
+      !Number.isInteger(dto.minutesSpent) ||
+      dto.minutesSpent <= 0
+    ) {
+      throw new BadRequestException(
+        'minutesSpent must be a positive integer',
+      );
+    }
+
+    this.requireText(
+      dto.description,
+      'description',
+    );
+
+    const workedAt = dto.workedAt
+      ? new Date(dto.workedAt)
+      : new Date();
+
+    if (Number.isNaN(workedAt.getTime())) {
+      throw new BadRequestException(
+        'workedAt must be a valid ISO date',
+      );
+    }
+
+    const worklog =
+      await this.repository.addWorklog({
+        id: randomUUID(),
+        ticketId: ticket.id,
+        personId: dto.personId,
+        minutesSpent: dto.minutesSpent,
+        description: dto.description.trim(),
+        workedAt,
+        createdAt: new Date(),
+      });
+
+    await this.publish(
+      HELPDESK_EVENTS.WORKLOG_ADDED,
+      ticket,
+    );
+
+    await this.auditService.record(
+      HELPDESK_EVENTS.WORKLOG_ADDED,
+      'core.helpdesk',
+      {
+        ...this.auditPayload(ticket, {
+          actorPersonId: dto.personId,
+        }),
+        worklogId: worklog.id,
+        minutesSpent: worklog.minutesSpent,
+      },
+    );
+
+    return worklog;
+  }
+
+  async submitFeedback(
+    id: string,
+    dto: SubmitHelpdeskFeedbackDto,
+  ): Promise<HelpdeskFeedback> {
+    const ticket = await this.requireTicket(id);
+
+    if (
+      ![
+        HelpdeskStatus.RESOLVED,
+        HelpdeskStatus.CLOSED,
+      ].includes(ticket.status)
+    ) {
+      throw new BadRequestException(
+        'Feedback can be submitted only for resolved or closed tickets',
+      );
+    }
+
+    if (
+      !Number.isInteger(dto.rating) ||
+      dto.rating < 1 ||
+      dto.rating > 5
+    ) {
+      throw new BadRequestException(
+        'rating must be an integer between 1 and 5',
+      );
+    }
+
+    const existing =
+      await this.repository.findFeedback(id);
+
+    if (existing) {
+      throw new BadRequestException(
+        'Feedback has already been submitted for this ticket',
+      );
+    }
+
+    const feedback =
+      await this.repository.addFeedback({
+        id: randomUUID(),
+        ticketId: ticket.id,
+        submittedByPersonId:
+          dto.submittedByPersonId,
+        rating: dto.rating,
+        comments:
+          dto.comments?.trim() || undefined,
+        createdAt: new Date(),
+      });
+
+    await this.publish(
+      HELPDESK_EVENTS.FEEDBACK_SUBMITTED,
+      ticket,
+    );
+
+    await this.auditService.record(
+      HELPDESK_EVENTS.FEEDBACK_SUBMITTED,
+      'core.helpdesk',
+      {
+        ...this.auditPayload(ticket, {
+          actorPersonId:
+            dto.submittedByPersonId,
+        }),
+        feedbackId: feedback.id,
+        rating: feedback.rating,
+      },
+    );
+
+    return feedback;
   }
 
   async listCategories() {

@@ -1,10 +1,13 @@
 import {
   HelpdeskCategory,
+  HelpdeskComment,
+  HelpdeskFeedback,
   HelpdeskStatus,
   HelpdeskTicket,
   HelpdeskTicketDetails,
   HelpdeskTicketFilters,
   HelpdeskTicketHistory,
+  HelpdeskWorklog,
 } from '../types/helpdesk.types';
 
 export const HELPDESK_REPOSITORY =
@@ -52,6 +55,22 @@ export interface HelpdeskRepository {
   getHistory(
     ticketId: string,
   ): Promise<HelpdeskTicketHistory[]>;
+
+  addComment(
+    comment: HelpdeskComment,
+  ): Promise<HelpdeskComment>;
+
+  addWorklog(
+    worklog: HelpdeskWorklog,
+  ): Promise<HelpdeskWorklog>;
+
+  addFeedback(
+    feedback: HelpdeskFeedback,
+  ): Promise<HelpdeskFeedback>;
+
+  findFeedback(
+    ticketId: string,
+  ): Promise<HelpdeskFeedback | null>;
 
   listCategories(): Promise<HelpdeskCategory[]>;
 

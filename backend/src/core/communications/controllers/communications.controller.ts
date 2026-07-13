@@ -33,6 +33,12 @@ import {
 import {
   UpdateCommunicationDto,
 } from '../dto/update-communication.dto';
+import {
+  ScheduleCommunicationDto,
+} from '../dto/schedule-communication.dto';
+import {
+  TransitionCommunicationDto,
+} from '../dto/transition-communication.dto';
 
 import {
   CommunicationsService,
@@ -144,6 +150,109 @@ export class CommunicationsController {
   ) {
     return this.success(
       await this.service.get(id),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.PUBLISH,
+  )
+  @Post(':id/schedule')
+  async schedule(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: ScheduleCommunicationDto,
+  ) {
+    return this.success(
+      await this.service.schedule(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.PUBLISH,
+  )
+  @Post(':id/publish')
+  async publish(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: TransitionCommunicationDto,
+  ) {
+    return this.success(
+      await this.service.publish(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.PUBLISH,
+  )
+  @Post(':id/expire')
+  async expire(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: TransitionCommunicationDto,
+  ) {
+    return this.success(
+      await this.service.expire(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.ARCHIVE,
+  )
+  @Post(':id/archive')
+  async archive(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: TransitionCommunicationDto,
+  ) {
+    return this.success(
+      await this.service.archive(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.ARCHIVE,
+  )
+  @Post(':id/cancel')
+  async cancel(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: TransitionCommunicationDto,
+  ) {
+    return this.success(
+      await this.service.cancel(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.READ,
+  )
+  @Get(':id/history')
+  async history(
+    @Param('id')
+    id: string,
+  ) {
+    return this.success(
+      await this.service.getHistory(id),
     );
   }
 

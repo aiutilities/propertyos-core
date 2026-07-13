@@ -22,6 +22,12 @@ import {
 import {
   UpdateCommunicationDto,
 } from '../dto/update-communication.dto';
+import {
+  ScheduleCommunicationDto,
+} from '../dto/schedule-communication.dto';
+import {
+  TransitionCommunicationDto,
+} from '../dto/transition-communication.dto';
 
 import {
   COMMUNICATIONS_EVENTS,
@@ -343,6 +349,224 @@ export class CommunicationsService {
     return updated;
   }
 
+  async schedule(
+    id: string,
+    dto: ScheduleCommunicationDto,
+  ) {
+    const current =
+      await this.requireCommunication(id);
+
+    if (
+      current.status !==
+      CommunicationStatus.DRAFT
+    ) {
+      throw new BadRequestException(
+        `Only DRAFT communications can be scheduled`,
+      );
+    }
+
+    const publishAt =
+      this.parseRequiredDate(
+        dto.publishAt,
+        'publishAt',
+      );
+
+    if (
+      publishAt.getTime() <=
+      Date.now()
+    ) {
+      throw new BadRequestException(
+        'publishAt must be in the future',
+      );
+    }
+
+    const expiresAt =
+      this.parseOptionalDate(
+        dto.expiresAt,
+        'expiresAt',
+      ) ??
+      current.expiresAt;
+
+    this.validateDateRange(
+      publishAt,
+      expiresAt,
+    );
+
+    return this.transition(
+      current,
+      CommunicationStatus.SCHEDULED,
+      COMMUNICATIONS_EVENTS.SCHEDULED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        publishAt,
+        expiresAt,
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async publish(
+    id: string,
+    dto: TransitionCommunicationDto,
+  ) {
+    const current =
+      await this.requireCommunication(id);
+
+    if (
+      ![
+        CommunicationStatus.DRAFT,
+        CommunicationStatus.SCHEDULED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Communication cannot be published from ${current.status}`,
+      );
+    }
+
+    const now =
+      new Date();
+
+    if (
+      current.expiresAt &&
+      current.expiresAt.getTime() <=
+        now.getTime()
+    ) {
+      throw new BadRequestException(
+        'Expired communication cannot be published',
+      );
+    }
+
+    return this.transition(
+      current,
+      CommunicationStatus.PUBLISHED,
+      COMMUNICATIONS_EVENTS.PUBLISHED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        publishAt:
+          current.publishAt ?? now,
+        publishedAt:
+          now,
+        publishedByPersonId:
+          dto.changedByPersonId,
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async expire(
+    id: string,
+    dto: TransitionCommunicationDto,
+  ) {
+    const current =
+      await this.requireCommunication(id);
+
+    if (
+      current.status !==
+      CommunicationStatus.PUBLISHED
+    ) {
+      throw new BadRequestException(
+        'Only PUBLISHED communications can expire',
+      );
+    }
+
+    return this.transition(
+      current,
+      CommunicationStatus.EXPIRED,
+      COMMUNICATIONS_EVENTS.EXPIRED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        expiresAt:
+          current.expiresAt ??
+          new Date(),
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async archive(
+    id: string,
+    dto: TransitionCommunicationDto,
+  ) {
+    const current =
+      await this.requireCommunication(id);
+
+    if (
+      ![
+        CommunicationStatus.PUBLISHED,
+        CommunicationStatus.EXPIRED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Communication cannot be archived from ${current.status}`,
+      );
+    }
+
+    return this.transition(
+      current,
+      CommunicationStatus.ARCHIVED,
+      COMMUNICATIONS_EVENTS.ARCHIVED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        archivedAt:
+          new Date(),
+        archivedByPersonId:
+          dto.changedByPersonId,
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async cancel(
+    id: string,
+    dto: TransitionCommunicationDto,
+  ) {
+    const current =
+      await this.requireCommunication(id);
+
+    if (
+      ![
+        CommunicationStatus.DRAFT,
+        CommunicationStatus.SCHEDULED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Communication cannot be cancelled from ${current.status}`,
+      );
+    }
+
+    return this.transition(
+      current,
+      CommunicationStatus.CANCELLED,
+      COMMUNICATIONS_EVENTS.CANCELLED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        cancelledAt:
+          new Date(),
+        cancelledByPersonId:
+          dto.changedByPersonId,
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async getHistory(
+    id: string,
+  ) {
+    await this.requireCommunication(id);
+
+    return this.repository.listHistory(id);
+  }
+
   async listCategories() {
     return this.repository.listCategories();
   }
@@ -353,6 +577,68 @@ export class CommunicationsService {
     return this.repository.getMetrics(
       propertyId,
     );
+  }
+
+  private async transition(
+    current: Communication,
+    nextStatus: CommunicationStatus,
+    eventName: string,
+    changedByPersonId: string,
+    remarks?: string,
+    changes: Partial<Communication> = {},
+  ) {
+    const updated =
+      await this.repository.update(
+        current.id,
+        {
+          ...changes,
+          status:
+            nextStatus,
+        },
+      );
+
+    if (!updated) {
+      throw new NotFoundException(
+        `Communication not found: ${current.id}`,
+      );
+    }
+
+    await this.repository.addHistory({
+      id: randomUUID(),
+      communicationId:
+        current.id,
+      fromStatus:
+        current.status,
+      toStatus:
+        nextStatus,
+      changedByPersonId,
+      remarks,
+      createdAt:
+        new Date(),
+    });
+
+    await this.publishEvent(
+      eventName,
+      updated,
+    );
+
+    await this.auditService.record(
+      eventName,
+      'core.communications',
+      {
+        ...this.auditPayload(
+          updated,
+          changedByPersonId,
+        ),
+        fromStatus:
+          current.status,
+        toStatus:
+          nextStatus,
+        remarks,
+      },
+    );
+
+    return updated;
   }
 
   private async requireCommunication(
@@ -447,6 +733,32 @@ export class CommunicationsService {
       createdAt:
         new Date(),
     };
+  }
+
+  private parseRequiredDate(
+    value: string,
+    field: string,
+  ): Date {
+    if (!value) {
+      throw new BadRequestException(
+        `${field} is required`,
+      );
+    }
+
+    const parsed =
+      new Date(value);
+
+    if (
+      Number.isNaN(
+        parsed.getTime(),
+      )
+    ) {
+      throw new BadRequestException(
+        `${field} must be a valid ISO date`,
+      );
+    }
+
+    return parsed;
   }
 
   private parseOptionalDate(

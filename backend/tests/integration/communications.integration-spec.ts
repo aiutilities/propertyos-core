@@ -196,6 +196,7 @@ describe(
         'communications.archive',
         'communications.read_receipts',
         'communications.configure',
+        'search.read',
       ];
 
       for (
@@ -785,6 +786,50 @@ describe(
               communicationNumber,
               status:
                 'PUBLISHED',
+            }),
+          ]),
+        );
+      },
+    );
+
+    it(
+      'returns the communication from global search',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post('/api/v1/search')
+            .set(auth())
+            .send({
+              query:
+                communicationNumber,
+              entityTypes: [
+                'communications',
+              ],
+            })
+            .expect(201);
+
+        expect(
+          response.body,
+        ).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              entityType:
+                'communications',
+              entityId:
+                communicationId,
+              title:
+                'Updated water supply interruption',
+              metadata:
+                expect.objectContaining({
+                  communicationNumber,
+                  propertyId,
+                  status:
+                    'PUBLISHED',
+                  priority:
+                    'URGENT',
+                }),
             }),
           ]),
         );

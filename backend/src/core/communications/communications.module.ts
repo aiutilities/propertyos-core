@@ -18,6 +18,9 @@ import {
 import {
   PluginModule,
 } from '../plugin/plugin.module';
+import {
+  SearchModule,
+} from '../search';
 
 import {
   CommunicationsBootstrapService,
@@ -34,6 +37,9 @@ import {
 import {
   CommunicationsService,
 } from './services/communications.service';
+import {
+  CommunicationsSearchProviderService,
+} from './communications-search-provider.service';
 
 @Module({
   imports: [
@@ -42,12 +48,14 @@ import {
     EventBusModule,
     PluginModule,
     PostgresModule,
+    SearchModule,
   ],
   controllers: [
     CommunicationsController,
   ],
   providers: [
     CommunicationsBootstrapService,
+    CommunicationsSearchProviderService,
     CommunicationsService,
     {
       provide:

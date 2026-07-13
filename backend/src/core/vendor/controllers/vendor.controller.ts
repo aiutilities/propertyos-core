@@ -35,6 +35,10 @@ import {
 } from '../dto/update-vendor.dto';
 
 import {
+  TransitionVendorDto,
+} from '../dto/transition-vendor.dto';
+
+import {
   VendorService,
 } from '../services/vendor.service';
 
@@ -138,6 +142,101 @@ export class VendorController {
   ) {
     return this.success(
       await this.service.get(id),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.MANAGE,
+  )
+  @Post(':id/activate')
+  async activate(
+    @Param('id')
+    id: string,
+
+    @Body()
+    dto: TransitionVendorDto,
+  ) {
+    return this.success(
+      await this.service.activate(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.MANAGE,
+  )
+  @Post(':id/suspend')
+  async suspend(
+    @Param('id')
+    id: string,
+
+    @Body()
+    dto: TransitionVendorDto,
+  ) {
+    return this.success(
+      await this.service.suspend(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.MANAGE,
+  )
+  @Post(':id/block')
+  async block(
+    @Param('id')
+    id: string,
+
+    @Body()
+    dto: TransitionVendorDto,
+  ) {
+    return this.success(
+      await this.service.block(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.MANAGE,
+  )
+  @Post(':id/reactivate')
+  async reactivate(
+    @Param('id')
+    id: string,
+
+    @Body()
+    dto: TransitionVendorDto,
+  ) {
+    return this.success(
+      await this.service.reactivate(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.MANAGE,
+  )
+  @Post(':id/archive')
+  async archive(
+    @Param('id')
+    id: string,
+
+    @Body()
+    dto: TransitionVendorDto,
+  ) {
+    return this.success(
+      await this.service.archive(
+        id,
+        dto,
+      ),
     );
   }
 

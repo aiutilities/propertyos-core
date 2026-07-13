@@ -24,6 +24,8 @@ export const VENDOR_EVENTS = {
     'vendor.suspended',
   BLOCKED:
     'vendor.blocked',
+  REACTIVATED:
+    'vendor.reactivated',
   ARCHIVED:
     'vendor.archived',
 

@@ -29,6 +29,10 @@ import {
 } from '../dto/update-vendor.dto';
 
 import {
+  TransitionVendorDto,
+} from '../dto/transition-vendor.dto';
+
+import {
   VENDOR_EVENTS,
 } from '../vendor.constants';
 
@@ -430,6 +434,173 @@ export class VendorService {
     return updated;
   }
 
+  async activate(
+    id: string,
+    dto: TransitionVendorDto,
+  ) {
+    const current =
+      await this.requireVendor(id);
+
+    if (
+      current.status !==
+      VendorStatus.DRAFT
+    ) {
+      throw new BadRequestException(
+        `Vendor cannot be activated from ${current.status}`,
+      );
+    }
+
+    return this.transition(
+      current,
+      VendorStatus.ACTIVE,
+      VENDOR_EVENTS.ACTIVATED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        activatedAt:
+          new Date(),
+        suspendedAt:
+          undefined,
+        blockedAt:
+          undefined,
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async suspend(
+    id: string,
+    dto: TransitionVendorDto,
+  ) {
+    const current =
+      await this.requireVendor(id);
+
+    if (
+      current.status !==
+      VendorStatus.ACTIVE
+    ) {
+      throw new BadRequestException(
+        `Vendor cannot be suspended from ${current.status}`,
+      );
+    }
+
+    return this.transition(
+      current,
+      VendorStatus.SUSPENDED,
+      VENDOR_EVENTS.SUSPENDED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        suspendedAt:
+          new Date(),
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async block(
+    id: string,
+    dto: TransitionVendorDto,
+  ) {
+    const current =
+      await this.requireVendor(id);
+
+    if (
+      ![
+        VendorStatus.ACTIVE,
+        VendorStatus.SUSPENDED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Vendor cannot be blocked from ${current.status}`,
+      );
+    }
+
+    return this.transition(
+      current,
+      VendorStatus.BLOCKED,
+      VENDOR_EVENTS.BLOCKED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        blockedAt:
+          new Date(),
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async reactivate(
+    id: string,
+    dto: TransitionVendorDto,
+  ) {
+    const current =
+      await this.requireVendor(id);
+
+    if (
+      ![
+        VendorStatus.SUSPENDED,
+        VendorStatus.BLOCKED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Vendor cannot be reactivated from ${current.status}`,
+      );
+    }
+
+    return this.transition(
+      current,
+      VendorStatus.ACTIVE,
+      VENDOR_EVENTS.REACTIVATED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        activatedAt:
+          new Date(),
+        suspendedAt:
+          undefined,
+        blockedAt:
+          undefined,
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async archive(
+    id: string,
+    dto: TransitionVendorDto,
+  ) {
+    const current =
+      await this.requireVendor(id);
+
+    if (
+      current.status ===
+      VendorStatus.ARCHIVED
+    ) {
+      throw new BadRequestException(
+        'Vendor is already archived',
+      );
+    }
+
+    return this.transition(
+      current,
+      VendorStatus.ARCHIVED,
+      VENDOR_EVENTS.ARCHIVED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        archivedAt:
+          new Date(),
+        updatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
   async listCategories() {
     return this.repository
       .listCategories();
@@ -438,6 +609,54 @@ export class VendorService {
   async getMetrics() {
     return this.repository
       .getMetrics();
+  }
+
+  private async transition(
+    current: Vendor,
+    nextStatus: VendorStatus,
+    eventName: string,
+    changedByPersonId: string,
+    remarks?: string,
+    changes: Partial<Vendor> = {},
+  ): Promise<Vendor> {
+    const updated =
+      await this.repository.update(
+        current.id,
+        {
+          ...changes,
+          status:
+            nextStatus,
+        },
+      );
+
+    if (!updated) {
+      throw new NotFoundException(
+        `Vendor not found: ${current.id}`,
+      );
+    }
+
+    await this.publishEvent(
+      eventName,
+      updated,
+    );
+
+    await this.auditService.record(
+      eventName,
+      'core.vendor',
+      {
+        ...this.auditPayload(
+          updated,
+          changedByPersonId,
+        ),
+        fromStatus:
+          current.status,
+        toStatus:
+          nextStatus,
+        remarks,
+      },
+    );
+
+    return updated;
   }
 
   private async requireVendor(

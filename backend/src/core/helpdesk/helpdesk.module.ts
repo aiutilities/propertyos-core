@@ -5,6 +5,10 @@ import { AuditModule } from '../audit/audit.module';
 import { AuthModule } from '../auth/auth.module';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { PluginModule } from '../plugin/plugin.module';
+
+import {
+  SearchModule,
+} from '../search';
 import { HelpdeskBootstrapService } from './bootstrap/helpdesk-bootstrap.service';
 import { HelpdeskController } from './controllers/helpdesk.controller';
 import {
@@ -13,6 +17,10 @@ import {
 import { PostgresHelpdeskRepository } from './repositories/postgres-helpdesk.repository';
 import { HelpdeskService } from './services/helpdesk.service';
 
+
+import {
+  HelpdeskSearchProviderService,
+} from './helpdesk-search-provider.service';
 @Module({
   imports: [
     AuditModule,
@@ -20,12 +28,14 @@ import { HelpdeskService } from './services/helpdesk.service';
     PostgresModule,
     EventBusModule,
     PluginModule,
+    SearchModule,
   ],
   controllers: [
     HelpdeskController,
   ],
   providers: [
     HelpdeskBootstrapService,
+    HelpdeskSearchProviderService,
     HelpdeskService,
     {
       provide: HELPDESK_REPOSITORY,

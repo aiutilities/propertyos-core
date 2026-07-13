@@ -188,6 +188,7 @@ describe(
         'helpdesk.assign',
         'helpdesk.resolve',
         'helpdesk.configure',
+        'search.read',
       ];
 
       for (
@@ -405,6 +406,44 @@ describe(
               id: ticketId,
               ticketNumber,
               status: 'OPEN',
+            }),
+          ]),
+        );
+      },
+    );
+
+    it(
+      'returns the ticket from global search',
+      async () => {
+        const response = await request(
+          app.getHttpServer(),
+        )
+          .post('/api/v1/search')
+          .set(auth())
+          .send({
+            query: ticketNumber,
+            entityTypes: [
+              'helpdesk',
+            ],
+          })
+          .expect(201);
+
+        expect(
+          response.body,
+        ).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              entityType: 'helpdesk',
+              entityId: ticketId,
+              title:
+                'Internet connection unavailable',
+              metadata:
+                expect.objectContaining({
+                  ticketNumber,
+                  propertyId,
+                  status: 'OPEN',
+                  priority: 'HIGH',
+                }),
             }),
           ]),
         );

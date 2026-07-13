@@ -37,3 +37,5 @@ export const HELPDESK_SLA_BREACH_JOB_TYPE =
 
 export const HELPDESK_DAILY_SUMMARY_JOB_TYPE =
   'helpdesk.daily.summary';
+
+export const HELPDESK_SEARCH_PROVIDER = 'helpdesk';

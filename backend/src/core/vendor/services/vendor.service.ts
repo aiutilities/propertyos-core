@@ -942,7 +942,11 @@ export class VendorService {
           dto.estimatedCost,
 
         currency:
-          dto.currency.trim()
+          (
+            dto.currency ??
+            'INR'
+          )
+            .trim()
             .toUpperCase(),
 
         assignedByPersonId:
@@ -1606,8 +1610,12 @@ export class VendorService {
       false,
     );
 
+    const renewalNoticeDays =
+      dto.renewalNoticeDays ??
+      30;
+
     if (
-      dto.renewalNoticeDays < 0
+      renewalNoticeDays < 0
     ) {
       throw new BadRequestException(
         'renewalNoticeDays cannot be negative',
@@ -1650,7 +1658,11 @@ export class VendorService {
         dto.contractValue,
 
       currency:
-        dto.currency.trim()
+        (
+          dto.currency ??
+          'INR'
+        )
+          .trim()
           .toUpperCase(),
 
       responseSlaMinutes:
@@ -1660,10 +1672,12 @@ export class VendorService {
         dto.resolutionSlaMinutes,
 
       autoRenew:
-        dto.autoRenew,
+        dto.autoRenew ??
+        false,
 
       renewalNoticeDays:
-        dto.renewalNoticeDays,
+        dto.renewalNoticeDays ??
+        30,
 
       createdByPersonId:
         dto.createdByPersonId,

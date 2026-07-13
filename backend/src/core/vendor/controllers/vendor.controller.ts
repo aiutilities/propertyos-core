@@ -177,6 +177,34 @@ export class VendorController {
   }
 
   @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Get('contracts')
+  async listContracts(
+    @Query('vendorId')
+    vendorId?: string,
+
+    @Query('propertyId')
+    propertyId?: string,
+
+    @Query('status')
+    status?: string,
+
+    @Query('search')
+    search?: string,
+  ) {
+    return this.success(
+      await this.service
+        .listContracts({
+          vendorId,
+          propertyId,
+          status,
+          search,
+        }),
+    );
+  }
+
+  @RequirePermission(
     VENDOR_PERMISSIONS.READ,
   )
   @Get(':id')
@@ -608,34 +636,6 @@ export class VendorController {
     return this.success(
       await this.service
         .createContract(dto),
-    );
-  }
-
-  @RequirePermission(
-    VENDOR_PERMISSIONS.CONTRACTS,
-  )
-  @Get('contracts')
-  async listContracts(
-    @Query('vendorId')
-    vendorId?: string,
-
-    @Query('propertyId')
-    propertyId?: string,
-
-    @Query('status')
-    status?: string,
-
-    @Query('search')
-    search?: string,
-  ) {
-    return this.success(
-      await this.service
-        .listContracts({
-          vendorId,
-          propertyId,
-          status,
-          search,
-        }),
     );
   }
 

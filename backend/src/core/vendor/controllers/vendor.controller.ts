@@ -63,6 +63,22 @@ import {
 } from '../dto/transition-vendor-compliance.dto';
 
 import {
+  CreateVendorWorkOrderDto,
+} from '../dto/create-vendor-work-order.dto';
+
+import {
+  TransitionVendorWorkOrderDto,
+} from '../dto/transition-vendor-work-order.dto';
+
+import {
+  CompleteVendorWorkOrderDto,
+} from '../dto/complete-vendor-work-order.dto';
+
+import {
+  CancelVendorWorkOrderDto,
+} from '../dto/cancel-vendor-work-order.dto';
+
+import {
   VendorService,
 } from '../services/vendor.service';
 
@@ -166,6 +182,232 @@ export class VendorController {
   ) {
     return this.success(
       await this.service.get(id),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders')
+  async createWorkOrder(
+    @Body()
+    dto: CreateVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .createWorkOrder(dto),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Get('work-orders')
+  async listWorkOrders(
+    @Query('vendorId')
+    vendorId?: string,
+
+    @Query('propertyId')
+    propertyId?: string,
+
+    @Query('contractId')
+    contractId?: string,
+
+    @Query('status')
+    status?: string,
+
+    @Query('priority')
+    priority?: string,
+
+    @Query('search')
+    search?: string,
+  ) {
+    return this.success(
+      await this.service
+        .listWorkOrders({
+          vendorId,
+          propertyId,
+          contractId,
+          status,
+          priority,
+          search,
+        }),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Get('work-orders/:workOrderId')
+  async getWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+  ) {
+    return this.success(
+      await this.service
+        .getWorkOrder(
+          workOrderId,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/issue')
+  async issueWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .issueWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/accept')
+  async acceptWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .acceptWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/reject')
+  async rejectWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .rejectWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/start')
+  async startWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .startWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/hold')
+  async holdWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .holdWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/resume')
+  async resumeWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .resumeWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/complete')
+  async completeWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: CompleteVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .completeWorkOrder(
+          workOrderId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.WORK_ORDERS,
+  )
+  @Post('work-orders/:workOrderId/cancel')
+  async cancelWorkOrder(
+    @Param('workOrderId')
+    workOrderId: string,
+
+    @Body()
+    dto: CancelVendorWorkOrderDto,
+  ) {
+    return this.success(
+      await this.service
+        .cancelWorkOrder(
+          workOrderId,
+          dto,
+        ),
     );
   }
 

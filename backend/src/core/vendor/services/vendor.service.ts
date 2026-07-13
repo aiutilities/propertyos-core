@@ -57,6 +57,22 @@ import {
 } from '../dto/transition-vendor-compliance.dto';
 
 import {
+  CreateVendorWorkOrderDto,
+} from '../dto/create-vendor-work-order.dto';
+
+import {
+  TransitionVendorWorkOrderDto,
+} from '../dto/transition-vendor-work-order.dto';
+
+import {
+  CompleteVendorWorkOrderDto,
+} from '../dto/complete-vendor-work-order.dto';
+
+import {
+  CancelVendorWorkOrderDto,
+} from '../dto/cancel-vendor-work-order.dto';
+
+import {
   VENDOR_EVENTS,
 } from '../vendor.constants';
 
@@ -76,6 +92,9 @@ import {
   VendorPropertyCoverage,
   VendorServiceCategory,
   VendorStatus,
+  VendorWorkOrder,
+  VendorWorkOrderHistory,
+  VendorWorkOrderStatus,
 } from '../types/vendor.types';
 
 @Injectable()
@@ -625,6 +644,482 @@ export class VendorService {
           new Date(),
         updatedByPersonId:
           dto.changedByPersonId,
+      },
+    );
+  }
+
+  async createWorkOrder(
+    dto: CreateVendorWorkOrderDto,
+  ): Promise<VendorWorkOrder> {
+    const vendor =
+      await this.requireVendor(
+        dto.vendorId,
+      );
+
+    if (
+      vendor.status !==
+      VendorStatus.ACTIVE
+    ) {
+      throw new BadRequestException(
+        'Vendor must be ACTIVE before creating a work order',
+      );
+    }
+
+    if (dto.contractId) {
+      const contract =
+        await this.requireContract(
+          dto.contractId,
+        );
+
+      if (
+        contract.vendorId !==
+        dto.vendorId
+      ) {
+        throw new BadRequestException(
+          'Contract does not belong to the selected vendor',
+        );
+      }
+
+      if (
+        contract.status !==
+        VendorContractStatus.ACTIVE
+      ) {
+        throw new BadRequestException(
+          'Linked contract must be ACTIVE',
+        );
+      }
+    }
+
+    const scheduledStartAt =
+      dto.scheduledStartAt
+        ? this.parseDate(
+            dto.scheduledStartAt,
+            'scheduledStartAt',
+          )
+        : undefined;
+
+    const scheduledEndAt =
+      dto.scheduledEndAt
+        ? this.parseDate(
+            dto.scheduledEndAt,
+            'scheduledEndAt',
+          )
+        : undefined;
+
+    if (
+      scheduledStartAt &&
+      scheduledEndAt &&
+      scheduledEndAt.getTime() <
+        scheduledStartAt.getTime()
+    ) {
+      throw new BadRequestException(
+        'scheduledEndAt must be on or after scheduledStartAt',
+      );
+    }
+
+    this.validatePositiveNumber(
+      dto.estimatedCost,
+      'estimatedCost',
+      true,
+    );
+
+    const now =
+      new Date();
+
+    const workOrder:
+      VendorWorkOrder = {
+        id:
+          randomUUID(),
+
+        workOrderNumber:
+          this.createWorkOrderNumber(),
+
+        vendorId:
+          dto.vendorId,
+
+        propertyId:
+          dto.propertyId,
+
+        zoneId:
+          dto.zoneId,
+
+        spaceId:
+          dto.spaceId,
+
+        contractId:
+          dto.contractId,
+
+        maintenanceTicketId:
+          dto.maintenanceTicketId,
+
+        helpdeskTicketId:
+          dto.helpdeskTicketId,
+
+        facilityAssetId:
+          dto.facilityAssetId,
+
+        title:
+          dto.title.trim(),
+
+        description:
+          dto.description.trim(),
+
+        priority:
+          dto.priority,
+
+        status:
+          VendorWorkOrderStatus.DRAFT,
+
+        scheduledStartAt,
+        scheduledEndAt,
+
+        estimatedCost:
+          dto.estimatedCost,
+
+        currency:
+          dto.currency.trim()
+            .toUpperCase(),
+
+        assignedByPersonId:
+          dto.assignedByPersonId,
+
+        createdAt:
+          now,
+
+        updatedAt:
+          now,
+      };
+
+    const created =
+      await this.repository
+        .createWorkOrder(
+          workOrder,
+        );
+
+    await this.addWorkOrderHistory(
+      created,
+      undefined,
+      VendorWorkOrderStatus.DRAFT,
+      dto.assignedByPersonId,
+      'Work order created',
+    );
+
+    await this.publishWorkOrderEvent(
+      VENDOR_EVENTS.WORK_ORDER_CREATED,
+      created,
+    );
+
+    await this.auditService.record(
+      VENDOR_EVENTS.WORK_ORDER_CREATED,
+      'core.vendor',
+      this.workOrderAuditPayload(
+        created,
+        dto.assignedByPersonId,
+      ),
+    );
+
+    return created;
+  }
+
+  async listWorkOrders(
+    filters: {
+      vendorId?: string;
+      propertyId?: string;
+      contractId?: string;
+      status?: string;
+      priority?: string;
+      search?: string;
+    } = {},
+  ) {
+    return this.repository
+      .listWorkOrders(filters);
+  }
+
+  async getWorkOrder(
+    id: string,
+  ) {
+    const workOrder =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    return {
+      ...workOrder,
+      history:
+        await this.repository
+          .listWorkOrderHistory(
+            id,
+          ),
+    };
+  }
+
+  async issueWorkOrder(
+    id: string,
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      current.status !==
+      VendorWorkOrderStatus.DRAFT
+    ) {
+      throw new BadRequestException(
+        `Work order cannot be issued from ${current.status}`,
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.ISSUED,
+      VENDOR_EVENTS.WORK_ORDER_ASSIGNED,
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
+  async acceptWorkOrder(
+    id: string,
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      current.status !==
+      VendorWorkOrderStatus.ISSUED
+    ) {
+      throw new BadRequestException(
+        `Work order cannot be accepted from ${current.status}`,
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.ACCEPTED,
+      VENDOR_EVENTS.WORK_ORDER_ACCEPTED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        acceptedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async rejectWorkOrder(
+    id: string,
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      current.status !==
+      VendorWorkOrderStatus.ISSUED
+    ) {
+      throw new BadRequestException(
+        `Work order cannot be rejected from ${current.status}`,
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.REJECTED,
+      VENDOR_EVENTS.WORK_ORDER_REJECTED,
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
+  async startWorkOrder(
+    id: string,
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      current.status !==
+      VendorWorkOrderStatus.ACCEPTED
+    ) {
+      throw new BadRequestException(
+        `Work order cannot start from ${current.status}`,
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.IN_PROGRESS,
+      VENDOR_EVENTS.WORK_ORDER_STARTED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        actualStartAt:
+          new Date(),
+      },
+    );
+  }
+
+  async holdWorkOrder(
+    id: string,
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      current.status !==
+      VendorWorkOrderStatus.IN_PROGRESS
+    ) {
+      throw new BadRequestException(
+        `Work order cannot be put on hold from ${current.status}`,
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.ON_HOLD,
+      VENDOR_EVENTS.WORK_ORDER_ON_HOLD,
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
+  async resumeWorkOrder(
+    id: string,
+    dto: TransitionVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      current.status !==
+      VendorWorkOrderStatus.ON_HOLD
+    ) {
+      throw new BadRequestException(
+        `Work order cannot resume from ${current.status}`,
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.IN_PROGRESS,
+      VENDOR_EVENTS.WORK_ORDER_RESUMED,
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
+  async completeWorkOrder(
+    id: string,
+    dto: CompleteVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      ![
+        VendorWorkOrderStatus.IN_PROGRESS,
+        VendorWorkOrderStatus.ON_HOLD,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Work order cannot be completed from ${current.status}`,
+      );
+    }
+
+    this.validatePositiveNumber(
+      dto.actualCost,
+      'actualCost',
+      true,
+    );
+
+    if (
+      !dto.completionNotes?.trim()
+    ) {
+      throw new BadRequestException(
+        'completionNotes is required',
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.COMPLETED,
+      VENDOR_EVENTS.WORK_ORDER_COMPLETED,
+      dto.completedByPersonId,
+      dto.remarks,
+      {
+        actualEndAt:
+          new Date(),
+
+        actualCost:
+          dto.actualCost,
+
+        completedByPersonId:
+          dto.completedByPersonId,
+
+        completionNotes:
+          dto.completionNotes.trim(),
+      },
+    );
+  }
+
+  async cancelWorkOrder(
+    id: string,
+    dto: CancelVendorWorkOrderDto,
+  ) {
+    const current =
+      await this.requireWorkOrder(
+        id,
+      );
+
+    if (
+      [
+        VendorWorkOrderStatus.COMPLETED,
+        VendorWorkOrderStatus.CANCELLED,
+        VendorWorkOrderStatus.REJECTED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Work order cannot be cancelled from ${current.status}`,
+      );
+    }
+
+    if (
+      !dto.cancellationReason?.trim()
+    ) {
+      throw new BadRequestException(
+        'cancellationReason is required',
+      );
+    }
+
+    return this.transitionWorkOrder(
+      current,
+      VendorWorkOrderStatus.CANCELLED,
+      VENDOR_EVENTS.WORK_ORDER_CANCELLED,
+      dto.cancelledByPersonId,
+      dto.remarks,
+      {
+        cancelledByPersonId:
+          dto.cancelledByPersonId,
+
+        cancellationReason:
+          dto.cancellationReason.trim(),
       },
     );
   }
@@ -1269,6 +1764,101 @@ export class VendorService {
       .getMetrics();
   }
 
+  private async requireWorkOrder(
+    id: string,
+  ): Promise<VendorWorkOrder> {
+    const workOrder =
+      await this.repository
+        .findWorkOrderById(id);
+
+    if (!workOrder) {
+      throw new NotFoundException(
+        `Vendor work order not found: ${id}`,
+      );
+    }
+
+    return workOrder;
+  }
+
+  private async transitionWorkOrder(
+    current: VendorWorkOrder,
+    nextStatus: VendorWorkOrderStatus,
+    eventName: string,
+    changedByPersonId: string,
+    remarks?: string,
+    changes: Partial<VendorWorkOrder> = {},
+  ): Promise<VendorWorkOrder> {
+    const updated =
+      await this.repository
+        .updateWorkOrder(
+          current.id,
+          {
+            ...changes,
+            status:
+              nextStatus,
+          },
+        );
+
+    if (!updated) {
+      throw new NotFoundException(
+        `Vendor work order not found: ${current.id}`,
+      );
+    }
+
+    await this.addWorkOrderHistory(
+      updated,
+      current.status,
+      nextStatus,
+      changedByPersonId,
+      remarks,
+    );
+
+    await this.publishWorkOrderEvent(
+      eventName,
+      updated,
+    );
+
+    await this.auditService.record(
+      eventName,
+      'core.vendor',
+      {
+        ...this.workOrderAuditPayload(
+          updated,
+          changedByPersonId,
+        ),
+        fromStatus:
+          current.status,
+        toStatus:
+          nextStatus,
+        remarks,
+      },
+    );
+
+    return updated;
+  }
+
+  private async addWorkOrderHistory(
+    workOrder: VendorWorkOrder,
+    fromStatus: VendorWorkOrderStatus | undefined,
+    toStatus: VendorWorkOrderStatus,
+    changedByPersonId: string,
+    remarks?: string,
+  ): Promise<VendorWorkOrderHistory> {
+    return this.repository
+      .addWorkOrderHistory({
+        id:
+          randomUUID(),
+        workOrderId:
+          workOrder.id,
+        fromStatus,
+        toStatus,
+        changedByPersonId,
+        remarks,
+        createdAt:
+          new Date(),
+      });
+  }
+
   private async requireComplianceDocument(
     id: string,
   ): Promise<VendorComplianceDocument> {
@@ -1642,6 +2232,22 @@ export class VendorService {
     }
   }
 
+  private createWorkOrderNumber(): string {
+    const date =
+      new Date()
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, '');
+
+    const suffix =
+      randomUUID()
+        .replace(/-/g, '')
+        .slice(0, 8)
+        .toUpperCase();
+
+    return `VWO-${date}-${suffix}`;
+  }
+
   private createContractNumber(): string {
     const date =
       new Date()
@@ -1672,6 +2278,25 @@ export class VendorService {
         .toUpperCase();
 
     return `VEN-${date}-${suffix}`;
+  }
+
+  private async publishWorkOrderEvent(
+    eventName: string,
+    workOrder: VendorWorkOrder,
+  ): Promise<void> {
+    await this.eventBus.publish(
+      eventName,
+      'core.vendor',
+      {
+        ...workOrder,
+        entityType:
+          'vendor.work_order',
+        entityId:
+          workOrder.id,
+        eventVersion:
+          1,
+      },
+    );
   }
 
   private async publishComplianceEvent(
@@ -1729,6 +2354,29 @@ export class VendorService {
           1,
       },
     );
+  }
+
+  private workOrderAuditPayload(
+    workOrder: VendorWorkOrder,
+    actorPersonId: string,
+  ) {
+    return {
+      workOrderId:
+        workOrder.id,
+      workOrderNumber:
+        workOrder.workOrderNumber,
+      vendorId:
+        workOrder.vendorId,
+      propertyId:
+        workOrder.propertyId,
+      contractId:
+        workOrder.contractId,
+      priority:
+        workOrder.priority,
+      status:
+        workOrder.status,
+      actorPersonId,
+    };
   }
 
   private complianceAuditPayload(

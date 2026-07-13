@@ -57,6 +57,12 @@ export const VENDOR_EVENTS = {
     'vendor.work_order.accepted',
   WORK_ORDER_STARTED:
     'vendor.work_order.started',
+  WORK_ORDER_ON_HOLD:
+    'vendor.work_order.on_hold',
+  WORK_ORDER_RESUMED:
+    'vendor.work_order.resumed',
+  WORK_ORDER_REJECTED:
+    'vendor.work_order.rejected',
   WORK_ORDER_COMPLETED:
     'vendor.work_order.completed',
   WORK_ORDER_CANCELLED:

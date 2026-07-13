@@ -9,6 +9,8 @@ import {
   VendorMetrics,
   VendorPropertyCoverage,
   VendorServiceCategory,
+  VendorWorkOrder,
+  VendorWorkOrderHistory,
 } from '../types/vendor.types';
 
 export const VENDOR_REPOSITORY =
@@ -62,6 +64,38 @@ export interface VendorRepository {
   listServiceCategories(
     vendorId: string,
   ): Promise<VendorServiceCategory[]>;
+
+  createWorkOrder(
+    workOrder: VendorWorkOrder,
+  ): Promise<VendorWorkOrder>;
+
+  findWorkOrderById(
+    id: string,
+  ): Promise<VendorWorkOrder | null>;
+
+  listWorkOrders(
+    filters?: {
+      vendorId?: string;
+      propertyId?: string;
+      contractId?: string;
+      status?: string;
+      priority?: string;
+      search?: string;
+    },
+  ): Promise<VendorWorkOrder[]>;
+
+  updateWorkOrder(
+    id: string,
+    input: Partial<VendorWorkOrder>,
+  ): Promise<VendorWorkOrder | null>;
+
+  addWorkOrderHistory(
+    history: VendorWorkOrderHistory,
+  ): Promise<VendorWorkOrderHistory>;
+
+  listWorkOrderHistory(
+    workOrderId: string,
+  ): Promise<VendorWorkOrderHistory[]>;
 
   createComplianceDocument(
     document: VendorComplianceDocument,

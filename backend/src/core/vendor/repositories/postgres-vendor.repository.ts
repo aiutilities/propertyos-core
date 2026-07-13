@@ -22,6 +22,8 @@ import {
   VendorMetrics,
   VendorPropertyCoverage,
   VendorServiceCategory,
+  VendorWorkOrder,
+  VendorWorkOrderHistory,
 } from '../types/vendor.types';
 
 import {
@@ -856,6 +858,364 @@ export class PostgresVendorRepository
     );
   }
 
+  async createWorkOrder(
+    workOrder: VendorWorkOrder,
+  ): Promise<VendorWorkOrder> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO vendor_work_orders (
+          id,
+          work_order_number,
+          vendor_id,
+          property_id,
+          zone_id,
+          space_id,
+          contract_id,
+          maintenance_ticket_id,
+          helpdesk_ticket_id,
+          facility_asset_id,
+          title,
+          description,
+          priority,
+          status,
+          scheduled_start_at,
+          scheduled_end_at,
+          actual_start_at,
+          actual_end_at,
+          estimated_cost,
+          actual_cost,
+          currency,
+          assigned_by_person_id,
+          accepted_by_person_id,
+          completed_by_person_id,
+          cancelled_by_person_id,
+          completion_notes,
+          cancellation_reason,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,
+          $9,$10,$11,$12,$13,$14,$15,
+          $16,$17,$18,$19,$20,$21,$22,
+          $23,$24,$25,$26,$27,$28,$29
+        )
+        RETURNING *
+        `,
+        [
+          workOrder.id,
+          workOrder.workOrderNumber,
+          workOrder.vendorId,
+          workOrder.propertyId,
+          workOrder.zoneId ?? null,
+          workOrder.spaceId ?? null,
+          workOrder.contractId ?? null,
+          workOrder.maintenanceTicketId ?? null,
+          workOrder.helpdeskTicketId ?? null,
+          workOrder.facilityAssetId ?? null,
+          workOrder.title,
+          workOrder.description,
+          workOrder.priority,
+          workOrder.status,
+          workOrder.scheduledStartAt ?? null,
+          workOrder.scheduledEndAt ?? null,
+          workOrder.actualStartAt ?? null,
+          workOrder.actualEndAt ?? null,
+          workOrder.estimatedCost ?? null,
+          workOrder.actualCost ?? null,
+          workOrder.currency,
+          workOrder.assignedByPersonId,
+          workOrder.acceptedByPersonId ?? null,
+          workOrder.completedByPersonId ?? null,
+          workOrder.cancelledByPersonId ?? null,
+          workOrder.completionNotes ?? null,
+          workOrder.cancellationReason ?? null,
+          workOrder.createdAt,
+          workOrder.updatedAt,
+        ],
+      );
+
+    return this.mapWorkOrder(
+      result.rows[0],
+    );
+  }
+
+  async findWorkOrderById(
+    id: string,
+  ): Promise<VendorWorkOrder | null> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_work_orders
+        WHERE id = $1
+        `,
+        [id],
+      );
+
+    return result.rows[0]
+      ? this.mapWorkOrder(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async listWorkOrders(
+    filters: {
+      vendorId?: string;
+      propertyId?: string;
+      contractId?: string;
+      status?: string;
+      priority?: string;
+      search?: string;
+    } = {},
+  ): Promise<VendorWorkOrder[]> {
+    const conditions: string[] = [];
+    const values: unknown[] = [];
+
+    const addCondition = (
+      column: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${column} = $${values.length}`,
+      );
+    };
+
+    if (filters.vendorId) {
+      addCondition(
+        'vendor_id',
+        filters.vendorId,
+      );
+    }
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.contractId) {
+      addCondition(
+        'contract_id',
+        filters.contractId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status',
+        filters.status,
+      );
+    }
+
+    if (filters.priority) {
+      addCondition(
+        'priority',
+        filters.priority,
+      );
+    }
+
+    if (filters.search) {
+      values.push(
+        `%${filters.search}%`,
+      );
+
+      conditions.push(
+        `(
+          work_order_number
+            ILIKE $${values.length}
+          OR title
+            ILIKE $${values.length}
+          OR description
+            ILIKE $${values.length}
+        )`,
+      );
+    }
+
+    const where =
+      conditions.length > 0
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_work_orders
+        ${where}
+        ORDER BY
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapWorkOrder(row),
+    );
+  }
+
+  async updateWorkOrder(
+    id: string,
+    input: Partial<VendorWorkOrder>,
+  ): Promise<VendorWorkOrder | null> {
+    const current =
+      await this.findWorkOrderById(id);
+
+    if (!current) {
+      return null;
+    }
+
+    const merged: VendorWorkOrder = {
+      ...current,
+      ...input,
+      id:
+        current.id,
+      workOrderNumber:
+        current.workOrderNumber,
+      vendorId:
+        current.vendorId,
+      propertyId:
+        current.propertyId,
+      assignedByPersonId:
+        current.assignedByPersonId,
+      createdAt:
+        current.createdAt,
+      updatedAt:
+        new Date(),
+    };
+
+    const result =
+      await this.pool.query(
+        `
+        UPDATE vendor_work_orders
+        SET
+          zone_id = $2,
+          space_id = $3,
+          contract_id = $4,
+          maintenance_ticket_id = $5,
+          helpdesk_ticket_id = $6,
+          facility_asset_id = $7,
+          title = $8,
+          description = $9,
+          priority = $10,
+          status = $11,
+          scheduled_start_at = $12,
+          scheduled_end_at = $13,
+          actual_start_at = $14,
+          actual_end_at = $15,
+          estimated_cost = $16,
+          actual_cost = $17,
+          currency = $18,
+          accepted_by_person_id = $19,
+          completed_by_person_id = $20,
+          cancelled_by_person_id = $21,
+          completion_notes = $22,
+          cancellation_reason = $23,
+          updated_at = $24
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          id,
+          merged.zoneId ?? null,
+          merged.spaceId ?? null,
+          merged.contractId ?? null,
+          merged.maintenanceTicketId ?? null,
+          merged.helpdeskTicketId ?? null,
+          merged.facilityAssetId ?? null,
+          merged.title,
+          merged.description,
+          merged.priority,
+          merged.status,
+          merged.scheduledStartAt ?? null,
+          merged.scheduledEndAt ?? null,
+          merged.actualStartAt ?? null,
+          merged.actualEndAt ?? null,
+          merged.estimatedCost ?? null,
+          merged.actualCost ?? null,
+          merged.currency,
+          merged.acceptedByPersonId ?? null,
+          merged.completedByPersonId ?? null,
+          merged.cancelledByPersonId ?? null,
+          merged.completionNotes ?? null,
+          merged.cancellationReason ?? null,
+          merged.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapWorkOrder(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async addWorkOrderHistory(
+    history: VendorWorkOrderHistory,
+  ): Promise<VendorWorkOrderHistory> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO vendor_work_order_history (
+          id,
+          work_order_id,
+          from_status,
+          to_status,
+          changed_by_person_id,
+          remarks,
+          created_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7
+        )
+        RETURNING *
+        `,
+        [
+          history.id,
+          history.workOrderId,
+          history.fromStatus ?? null,
+          history.toStatus,
+          history.changedByPersonId,
+          history.remarks ?? null,
+          history.createdAt,
+        ],
+      );
+
+    return this.mapWorkOrderHistory(
+      result.rows[0],
+    );
+  }
+
+  async listWorkOrderHistory(
+    workOrderId: string,
+  ): Promise<VendorWorkOrderHistory[]> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_work_order_history
+        WHERE work_order_id = $1
+        ORDER BY created_at ASC
+        `,
+        [workOrderId],
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapWorkOrderHistory(
+          row,
+        ),
+    );
+  }
+
   async createComplianceDocument(
     document: VendorComplianceDocument,
   ): Promise<VendorComplianceDocument> {
@@ -1506,6 +1866,117 @@ export class PostgresVendorRepository
           row.open_work_orders ??
           0,
         ),
+    };
+  }
+
+  private mapWorkOrderHistory(
+    row: any,
+  ): VendorWorkOrderHistory {
+    return {
+      id:
+        row.id,
+      workOrderId:
+        row.work_order_id,
+      fromStatus:
+        row.from_status ??
+        undefined,
+      toStatus:
+        row.to_status,
+      changedByPersonId:
+        row.changed_by_person_id,
+      remarks:
+        row.remarks ??
+        undefined,
+      createdAt:
+        row.created_at,
+    };
+  }
+
+  private mapWorkOrder(
+    row: any,
+  ): VendorWorkOrder {
+    return {
+      id:
+        row.id,
+      workOrderNumber:
+        row.work_order_number,
+      vendorId:
+        row.vendor_id,
+      propertyId:
+        row.property_id,
+      zoneId:
+        row.zone_id ??
+        undefined,
+      spaceId:
+        row.space_id ??
+        undefined,
+      contractId:
+        row.contract_id ??
+        undefined,
+      maintenanceTicketId:
+        row.maintenance_ticket_id ??
+        undefined,
+      helpdeskTicketId:
+        row.helpdesk_ticket_id ??
+        undefined,
+      facilityAssetId:
+        row.facility_asset_id ??
+        undefined,
+      title:
+        row.title,
+      description:
+        row.description,
+      priority:
+        row.priority,
+      status:
+        row.status,
+      scheduledStartAt:
+        row.scheduled_start_at ??
+        undefined,
+      scheduledEndAt:
+        row.scheduled_end_at ??
+        undefined,
+      actualStartAt:
+        row.actual_start_at ??
+        undefined,
+      actualEndAt:
+        row.actual_end_at ??
+        undefined,
+      estimatedCost:
+        row.estimated_cost === null
+          ? undefined
+          : Number(
+              row.estimated_cost,
+            ),
+      actualCost:
+        row.actual_cost === null
+          ? undefined
+          : Number(
+              row.actual_cost,
+            ),
+      currency:
+        row.currency,
+      assignedByPersonId:
+        row.assigned_by_person_id,
+      acceptedByPersonId:
+        row.accepted_by_person_id ??
+        undefined,
+      completedByPersonId:
+        row.completed_by_person_id ??
+        undefined,
+      cancelledByPersonId:
+        row.cancelled_by_person_id ??
+        undefined,
+      completionNotes:
+        row.completion_notes ??
+        undefined,
+      cancellationReason:
+        row.cancellation_reason ??
+        undefined,
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
     };
   }
 

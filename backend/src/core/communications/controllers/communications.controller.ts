@@ -39,6 +39,12 @@ import {
 import {
   TransitionCommunicationDto,
 } from '../dto/transition-communication.dto';
+import {
+  MarkCommunicationReadDto,
+} from '../dto/mark-communication-read.dto';
+import {
+  AcknowledgeCommunicationDto,
+} from '../dto/acknowledge-communication.dto';
 
 import {
   CommunicationsService,
@@ -239,6 +245,70 @@ export class CommunicationsController {
       await this.service.cancel(
         id,
         dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.READ,
+  )
+  @Post(':id/read')
+  async markRead(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: MarkCommunicationReadDto,
+  ) {
+    return this.success(
+      await this.service.markRead(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.READ,
+  )
+  @Post(':id/acknowledge')
+  async acknowledge(
+    @Param('id')
+    id: string,
+    @Body()
+    dto: AcknowledgeCommunicationDto,
+  ) {
+    return this.success(
+      await this.service.acknowledge(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.READ_RECEIPTS,
+  )
+  @Get(':id/reads')
+  async reads(
+    @Param('id')
+    id: string,
+  ) {
+    return this.success(
+      await this.service.listReads(id),
+    );
+  }
+
+  @RequirePermission(
+    COMMUNICATIONS_PERMISSIONS.READ_RECEIPTS,
+  )
+  @Get(':id/engagement')
+  async engagement(
+    @Param('id')
+    id: string,
+  ) {
+    return this.success(
+      await this.service.getEngagementMetrics(
+        id,
       ),
     );
   }

@@ -175,3 +175,10 @@ export interface CommunicationMetrics {
   pinned: number;
   acknowledgementRequired: number;
 }
+
+export interface CommunicationEngagementMetrics {
+  communicationId: string;
+  totalReads: number;
+  totalAcknowledgements: number;
+  acknowledgementRequired: boolean;
+}

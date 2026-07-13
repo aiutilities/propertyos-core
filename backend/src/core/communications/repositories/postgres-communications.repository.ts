@@ -14,8 +14,10 @@ import {
   Communication,
   CommunicationCategory,
   CommunicationDetails,
+  CommunicationEngagementMetrics,
   CommunicationFilters,
   CommunicationMetrics,
+  CommunicationRead,
   CommunicationStatusHistory,
   CommunicationTarget,
 } from '../types/communications.types';
@@ -611,6 +613,177 @@ export class PostgresCommunicationsRepository
     );
   }
 
+  async markRead(
+    communicationId: string,
+    personId: string,
+    readAt: Date,
+  ): Promise<CommunicationRead> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO communication_reads (
+          id,
+          communication_id,
+          person_id,
+          read_at,
+          created_at
+        )
+        VALUES (
+          gen_random_uuid(),
+          $1,
+          $2,
+          $3,
+          $3
+        )
+        ON CONFLICT (
+          communication_id,
+          person_id
+        )
+        DO UPDATE SET
+          read_at =
+            LEAST(
+              communication_reads.read_at,
+              EXCLUDED.read_at
+            )
+        RETURNING *
+        `,
+        [
+          communicationId,
+          personId,
+          readAt,
+        ],
+      );
+
+    return this.mapRead(
+      result.rows[0],
+    );
+  }
+
+  async acknowledge(
+    communicationId: string,
+    personId: string,
+    acknowledgedAt: Date,
+  ): Promise<CommunicationRead> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO communication_reads (
+          id,
+          communication_id,
+          person_id,
+          read_at,
+          acknowledged_at,
+          created_at
+        )
+        VALUES (
+          gen_random_uuid(),
+          $1,
+          $2,
+          $3,
+          $3,
+          $3
+        )
+        ON CONFLICT (
+          communication_id,
+          person_id
+        )
+        DO UPDATE SET
+          acknowledged_at =
+            COALESCE(
+              communication_reads.acknowledged_at,
+              EXCLUDED.acknowledged_at
+            ),
+          read_at =
+            LEAST(
+              communication_reads.read_at,
+              EXCLUDED.read_at
+            )
+        RETURNING *
+        `,
+        [
+          communicationId,
+          personId,
+          acknowledgedAt,
+        ],
+      );
+
+    return this.mapRead(
+      result.rows[0],
+    );
+  }
+
+  async listReads(
+    communicationId: string,
+  ): Promise<CommunicationRead[]> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM communication_reads
+        WHERE communication_id = $1
+        ORDER BY read_at ASC
+        `,
+        [communicationId],
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapRead(row),
+    );
+  }
+
+  async getEngagementMetrics(
+    communicationId: string,
+  ): Promise<CommunicationEngagementMetrics> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT
+          c.id AS communication_id,
+          c.requires_acknowledgement,
+          COUNT(cr.id) AS total_reads,
+          COUNT(cr.id) FILTER (
+            WHERE cr.acknowledged_at
+              IS NOT NULL
+          ) AS total_acknowledgements
+        FROM communications c
+        LEFT JOIN communication_reads cr
+          ON cr.communication_id = c.id
+        WHERE c.id = $1
+        GROUP BY
+          c.id,
+          c.requires_acknowledgement
+        `,
+        [communicationId],
+      );
+
+    const row =
+      result.rows[0];
+
+    if (!row) {
+      return {
+        communicationId,
+        totalReads: 0,
+        totalAcknowledgements: 0,
+        acknowledgementRequired: false,
+      };
+    }
+
+    return {
+      communicationId:
+        row.communication_id,
+      totalReads:
+        Number(row.total_reads ?? 0),
+      totalAcknowledgements:
+        Number(
+          row.total_acknowledgements ??
+            0,
+        ),
+      acknowledgementRequired:
+        row.requires_acknowledgement,
+    };
+  }
+
   async listCategories():
     Promise<CommunicationCategory[]> {
     const result =
@@ -803,6 +976,25 @@ export class PostgresCommunicationsRepository
         row.created_at,
       updatedAt:
         row.updated_at,
+    };
+  }
+
+  private mapRead(
+    row: any,
+  ): CommunicationRead {
+    return {
+      id: row.id,
+      communicationId:
+        row.communication_id,
+      personId:
+        row.person_id,
+      readAt:
+        row.read_at,
+      acknowledgedAt:
+        row.acknowledged_at ??
+        undefined,
+      createdAt:
+        row.created_at,
     };
   }
 

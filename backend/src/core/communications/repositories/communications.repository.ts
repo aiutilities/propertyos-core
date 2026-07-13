@@ -2,8 +2,10 @@ import {
   Communication,
   CommunicationCategory,
   CommunicationDetails,
+  CommunicationEngagementMetrics,
   CommunicationFilters,
   CommunicationMetrics,
+  CommunicationRead,
   CommunicationStatusHistory,
   CommunicationTarget,
 } from '../types/communications.types';
@@ -49,6 +51,26 @@ export interface CommunicationsRepository {
   listHistory(
     communicationId: string,
   ): Promise<CommunicationStatusHistory[]>;
+
+  markRead(
+    communicationId: string,
+    personId: string,
+    readAt: Date,
+  ): Promise<CommunicationRead>;
+
+  acknowledge(
+    communicationId: string,
+    personId: string,
+    acknowledgedAt: Date,
+  ): Promise<CommunicationRead>;
+
+  listReads(
+    communicationId: string,
+  ): Promise<CommunicationRead[]>;
+
+  getEngagementMetrics(
+    communicationId: string,
+  ): Promise<CommunicationEngagementMetrics>;
 
   listCategories():
     Promise<CommunicationCategory[]>;

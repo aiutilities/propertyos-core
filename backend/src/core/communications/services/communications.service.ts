@@ -28,6 +28,12 @@ import {
 import {
   TransitionCommunicationDto,
 } from '../dto/transition-communication.dto';
+import {
+  MarkCommunicationReadDto,
+} from '../dto/mark-communication-read.dto';
+import {
+  AcknowledgeCommunicationDto,
+} from '../dto/acknowledge-communication.dto';
 
 import {
   COMMUNICATIONS_EVENTS,
@@ -556,6 +562,129 @@ export class CommunicationsService {
         updatedByPersonId:
           dto.changedByPersonId,
       },
+    );
+  }
+
+  async markRead(
+    id: string,
+    dto: MarkCommunicationReadDto,
+  ) {
+    const communication =
+      await this.requireCommunication(id);
+
+    if (
+      ![
+        CommunicationStatus.PUBLISHED,
+        CommunicationStatus.EXPIRED,
+        CommunicationStatus.ARCHIVED,
+      ].includes(communication.status)
+    ) {
+      throw new BadRequestException(
+        'Only published communications can be marked as read',
+      );
+    }
+
+    const read =
+      await this.repository.markRead(
+        id,
+        dto.personId,
+        new Date(),
+      );
+
+    await this.publishEvent(
+      COMMUNICATIONS_EVENTS.READ,
+      communication,
+    );
+
+    await this.auditService.record(
+      COMMUNICATIONS_EVENTS.READ,
+      'core.communications',
+      {
+        ...this.auditPayload(
+          communication,
+          dto.personId,
+        ),
+        readId:
+          read.id,
+        personId:
+          dto.personId,
+      },
+    );
+
+    return read;
+  }
+
+  async acknowledge(
+    id: string,
+    dto: AcknowledgeCommunicationDto,
+  ) {
+    const communication =
+      await this.requireCommunication(id);
+
+    if (
+      !communication.requiresAcknowledgement
+    ) {
+      throw new BadRequestException(
+        'This communication does not require acknowledgement',
+      );
+    }
+
+    if (
+      ![
+        CommunicationStatus.PUBLISHED,
+        CommunicationStatus.EXPIRED,
+        CommunicationStatus.ARCHIVED,
+      ].includes(communication.status)
+    ) {
+      throw new BadRequestException(
+        'Only published communications can be acknowledged',
+      );
+    }
+
+    const read =
+      await this.repository.acknowledge(
+        id,
+        dto.personId,
+        new Date(),
+      );
+
+    await this.auditService.record(
+      'communications.communication.acknowledged',
+      'core.communications',
+      {
+        ...this.auditPayload(
+          communication,
+          dto.personId,
+        ),
+        readId:
+          read.id,
+        personId:
+          dto.personId,
+        acknowledgedAt:
+          read.acknowledgedAt,
+      },
+    );
+
+    return read;
+  }
+
+  async listReads(
+    id: string,
+  ) {
+    await this.requireCommunication(id);
+
+    return this.repository.listReads(
+      id,
+    );
+  }
+
+  async getEngagementMetrics(
+    id: string,
+  ) {
+    await this.requireCommunication(id);
+
+    return this.repository.getEngagementMetrics(
+      id,
     );
   }
 

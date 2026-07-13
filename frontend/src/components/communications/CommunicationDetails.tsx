@@ -38,6 +38,10 @@ import {
   CommunicationStatusBadge,
 } from "./CommunicationStatusBadge";
 
+import AcknowledgementTable from "./AcknowledgementTable";
+import DeliveryMetrics from "./DeliveryMetrics";
+import ReadReceiptTable from "./ReadReceiptTable";
+
 function formatDate(
   value?: string,
 ) {
@@ -638,68 +642,87 @@ export default function CommunicationDetails({
       </section>
 
       {!residentMode ? (
-        <section className="detail-grid">
-          <article className="panel">
-            <h2>Engagement</h2>
-
-            <dl className="detail-list">
-              <div>
-                <dt>Total Reads</dt>
-                <dd>
-                  {engagement?.totalReads ??
-                    0}
-                </dd>
-              </div>
-
-              <div>
-                <dt>Acknowledgements</dt>
-                <dd>
-                  {engagement?.totalAcknowledgements ??
-                    0}
-                </dd>
-              </div>
-            </dl>
-          </article>
-
-          <article className="panel">
-            <h2>Read Receipts</h2>
-
-            {communication.reads.length ? (
-              <div className="stack-md">
-                {communication.reads.map(
-                  (read) => (
-                    <article
-                      className="subtle-card"
-                      key={read.id}
-                    >
-                      <strong>
-                        {read.personId}
-                      </strong>
-
-                      <p>
-                        Read:{" "}
-                        {formatDate(
-                          read.readAt,
-                        )}
-                      </p>
-
-                      <p>
-                        Acknowledged:{" "}
-                        {formatDate(
-                          read.acknowledgedAt,
-                        )}
-                      </p>
-                    </article>
-                  ),
-                )}
-              </div>
-            ) : (
-              <p>
-                No read receipts yet.
+        <div className="stack-lg">
+          <section className="panel stack-md">
+            <div>
+              <p className="eyebrow">
+                Audience Activity
               </p>
-            )}
-          </article>
-        </section>
+              <h2>Engagement</h2>
+            </div>
+
+            <div className="metric-grid">
+              <article className="metric-card">
+                <span>Total Reads</span>
+                <strong>
+                  {engagement?.totalReads ??
+                    communication.reads.length}
+                </strong>
+              </article>
+
+              <article className="metric-card">
+                <span>
+                  Acknowledgements
+                </span>
+                <strong>
+                  {engagement?.totalAcknowledgements ??
+                    communication.reads.filter(
+                      (read) =>
+                        Boolean(
+                          read.acknowledgedAt,
+                        ),
+                    ).length}
+                </strong>
+              </article>
+
+              <article className="metric-card">
+                <span>
+                  Acknowledgement Required
+                </span>
+                <strong>
+                  {communication.requiresAcknowledgement
+                    ? "YES"
+                    : "NO"}
+                </strong>
+              </article>
+            </div>
+          </section>
+
+          <section className="panel stack-md">
+            <div>
+              <p className="eyebrow">
+                Reader Activity
+              </p>
+              <h2>Read Receipts</h2>
+            </div>
+
+            <ReadReceiptTable
+              reads={communication.reads}
+            />
+          </section>
+
+          <section className="panel stack-md">
+            <div>
+              <p className="eyebrow">
+                Confirmation
+              </p>
+              <h2>Acknowledgements</h2>
+            </div>
+
+            <AcknowledgementTable
+              acknowledgementRequired={
+                communication.requiresAcknowledgement
+              }
+              reads={communication.reads}
+            />
+          </section>
+
+          <DeliveryMetrics
+            deliveries={
+              communication.deliveries
+            }
+          />
+        </div>
       ) : null}
 
       <section className="panel">

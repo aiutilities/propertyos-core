@@ -141,3 +141,37 @@ export interface CommunicationStatusHistory {
   remarks?: string;
   createdAt: Date;
 }
+
+export interface CommunicationDetails
+  extends Communication {
+  category?: CommunicationCategory;
+  targets: CommunicationTarget[];
+  attachments: CommunicationAttachment[];
+  reads: CommunicationRead[];
+  deliveries: CommunicationDelivery[];
+  history: CommunicationStatusHistory[];
+}
+
+export interface CommunicationFilters {
+  propertyId?: string;
+  categoryId?: string;
+  type?: CommunicationType;
+  priority?: CommunicationPriority;
+  status?: CommunicationStatus;
+  createdByPersonId?: string;
+  isPinned?: boolean;
+  search?: string;
+}
+
+export interface CommunicationMetrics {
+  total: number;
+  draft: number;
+  scheduled: number;
+  published: number;
+  expired: number;
+  archived: number;
+  cancelled: number;
+  urgent: number;
+  pinned: number;
+  acknowledgementRequired: number;
+}

@@ -1,0 +1,63 @@
+import {
+  Module,
+} from '@nestjs/common';
+
+import {
+  PostgresModule,
+} from '../../database/postgres/postgres.module';
+
+import {
+  AuditModule,
+} from '../audit/audit.module';
+import {
+  AuthModule,
+} from '../auth/auth.module';
+import {
+  EventBusModule,
+} from '../eventbus/eventbus.module';
+import {
+  PluginModule,
+} from '../plugin/plugin.module';
+
+import {
+  CommunicationsBootstrapService,
+} from './bootstrap/communications-bootstrap.service';
+import {
+  CommunicationsController,
+} from './controllers/communications.controller';
+import {
+  COMMUNICATIONS_REPOSITORY,
+} from './repositories/communications.repository';
+import {
+  PostgresCommunicationsRepository,
+} from './repositories/postgres-communications.repository';
+import {
+  CommunicationsService,
+} from './services/communications.service';
+
+@Module({
+  imports: [
+    AuditModule,
+    AuthModule,
+    EventBusModule,
+    PluginModule,
+    PostgresModule,
+  ],
+  controllers: [
+    CommunicationsController,
+  ],
+  providers: [
+    CommunicationsBootstrapService,
+    CommunicationsService,
+    {
+      provide:
+        COMMUNICATIONS_REPOSITORY,
+      useClass:
+        PostgresCommunicationsRepository,
+    },
+  ],
+  exports: [
+    CommunicationsService,
+  ],
+})
+export class CommunicationsModule {}

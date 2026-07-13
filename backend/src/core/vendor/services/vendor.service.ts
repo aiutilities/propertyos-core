@@ -45,6 +45,18 @@ import {
 } from '../dto/transition-vendor-contract.dto';
 
 import {
+  CreateVendorComplianceDto,
+} from '../dto/create-vendor-compliance.dto';
+
+import {
+  VerifyVendorComplianceDto,
+} from '../dto/verify-vendor-compliance.dto';
+
+import {
+  TransitionVendorComplianceDto,
+} from '../dto/transition-vendor-compliance.dto';
+
+import {
   VENDOR_EVENTS,
 } from '../vendor.constants';
 
@@ -55,6 +67,8 @@ import {
 
 import {
   Vendor,
+  VendorComplianceDocument,
+  VendorComplianceStatus,
   VendorContact,
   VendorContract,
   VendorContractStatus,
@@ -615,6 +629,271 @@ export class VendorService {
     );
   }
 
+  async createComplianceDocument(
+    dto: CreateVendorComplianceDto,
+  ): Promise<VendorComplianceDocument> {
+    const vendor =
+      await this.requireVendor(
+        dto.vendorId,
+      );
+
+    if (
+      vendor.status ===
+      VendorStatus.ARCHIVED
+    ) {
+      throw new BadRequestException(
+        'Cannot add compliance to an archived vendor',
+      );
+    }
+
+    const issuedAt =
+      dto.issuedAt
+        ? this.parseDate(
+            dto.issuedAt,
+            'issuedAt',
+          )
+        : undefined;
+
+    const expiresAt =
+      dto.expiresAt
+        ? this.parseDate(
+            dto.expiresAt,
+            'expiresAt',
+          )
+        : undefined;
+
+    if (
+      issuedAt &&
+      expiresAt &&
+      expiresAt.getTime() <
+        issuedAt.getTime()
+    ) {
+      throw new BadRequestException(
+        'expiresAt must be on or after issuedAt',
+      );
+    }
+
+    const now =
+      new Date();
+
+    const document:
+      VendorComplianceDocument = {
+        id:
+          randomUUID(),
+
+        vendorId:
+          dto.vendorId,
+
+        complianceType:
+          dto.complianceType,
+
+        documentId:
+          dto.documentId,
+
+        referenceNumber:
+          dto.referenceNumber?.trim() ||
+          undefined,
+
+        issuedAt,
+        expiresAt,
+
+        status:
+          VendorComplianceStatus.PENDING,
+
+        remarks:
+          dto.remarks?.trim() ||
+          undefined,
+
+        createdAt:
+          now,
+
+        updatedAt:
+          now,
+      };
+
+    const created =
+      await this.repository
+        .createComplianceDocument(
+          document,
+        );
+
+    await this.publishComplianceEvent(
+      VENDOR_EVENTS.COMPLIANCE_ADDED,
+      created,
+    );
+
+    await this.auditService.record(
+      VENDOR_EVENTS.COMPLIANCE_ADDED,
+      'core.vendor',
+      this.complianceAuditPayload(
+        created,
+        dto.createdByPersonId,
+      ),
+    );
+
+    return created;
+  }
+
+  async listComplianceDocuments(
+    filters: {
+      vendorId?: string;
+      complianceType?: string;
+      status?: string;
+      expiringBefore?: string;
+    } = {},
+  ) {
+    return this.repository
+      .listComplianceDocuments({
+        vendorId:
+          filters.vendorId,
+        complianceType:
+          filters.complianceType,
+        status:
+          filters.status,
+        expiringBefore:
+          filters.expiringBefore
+            ? this.parseDate(
+                filters.expiringBefore,
+                'expiringBefore',
+              )
+            : undefined,
+      });
+  }
+
+  async getComplianceDocument(
+    id: string,
+  ) {
+    return this.requireComplianceDocument(
+      id,
+    );
+  }
+
+  async verifyComplianceDocument(
+    id: string,
+    dto: VerifyVendorComplianceDto,
+  ) {
+    const current =
+      await this.requireComplianceDocument(
+        id,
+      );
+
+    if (
+      ![
+        VendorComplianceStatus.PENDING,
+        VendorComplianceStatus.REJECTED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Compliance document cannot be verified from ${current.status}`,
+      );
+    }
+
+    return this.transitionComplianceDocument(
+      current,
+      VendorComplianceStatus.VERIFIED,
+      VENDOR_EVENTS.COMPLIANCE_VERIFIED,
+      dto.verifiedByPersonId,
+      dto.remarks,
+      {
+        verifiedByPersonId:
+          dto.verifiedByPersonId,
+        verifiedAt:
+          new Date(),
+      },
+    );
+  }
+
+  async rejectComplianceDocument(
+    id: string,
+    dto: TransitionVendorComplianceDto,
+  ) {
+    const current =
+      await this.requireComplianceDocument(
+        id,
+      );
+
+    if (
+      ![
+        VendorComplianceStatus.PENDING,
+        VendorComplianceStatus.VERIFIED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Compliance document cannot be rejected from ${current.status}`,
+      );
+    }
+
+    return this.transitionComplianceDocument(
+      current,
+      VendorComplianceStatus.REJECTED,
+      'vendor.compliance.rejected',
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        verifiedByPersonId:
+          undefined,
+        verifiedAt:
+          undefined,
+      },
+    );
+  }
+
+  async waiveComplianceDocument(
+    id: string,
+    dto: TransitionVendorComplianceDto,
+  ) {
+    const current =
+      await this.requireComplianceDocument(
+        id,
+      );
+
+    if (
+      current.status ===
+      VendorComplianceStatus.EXPIRED
+    ) {
+      throw new BadRequestException(
+        'Expired compliance cannot be waived',
+      );
+    }
+
+    return this.transitionComplianceDocument(
+      current,
+      VendorComplianceStatus.WAIVED,
+      'vendor.compliance.waived',
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
+  async expireComplianceDocument(
+    id: string,
+    dto: TransitionVendorComplianceDto,
+  ) {
+    const current =
+      await this.requireComplianceDocument(
+        id,
+      );
+
+    if (
+      ![
+        VendorComplianceStatus.VERIFIED,
+        VendorComplianceStatus.PENDING,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Compliance document cannot expire from ${current.status}`,
+      );
+    }
+
+    return this.transitionComplianceDocument(
+      current,
+      VendorComplianceStatus.EXPIRED,
+      VENDOR_EVENTS.COMPLIANCE_EXPIRED,
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
   async createContract(
     dto: CreateVendorContractDto,
   ): Promise<VendorContract> {
@@ -990,6 +1269,77 @@ export class VendorService {
       .getMetrics();
   }
 
+  private async requireComplianceDocument(
+    id: string,
+  ): Promise<VendorComplianceDocument> {
+    const document =
+      await this.repository
+        .findComplianceDocumentById(
+          id,
+        );
+
+    if (!document) {
+      throw new NotFoundException(
+        `Vendor compliance document not found: ${id}`,
+      );
+    }
+
+    return document;
+  }
+
+  private async transitionComplianceDocument(
+    current: VendorComplianceDocument,
+    nextStatus: VendorComplianceStatus,
+    eventName: string,
+    changedByPersonId: string,
+    remarks?: string,
+    changes: Partial<VendorComplianceDocument> = {},
+  ): Promise<VendorComplianceDocument> {
+    const updated =
+      await this.repository
+        .updateComplianceDocument(
+          current.id,
+          {
+            ...changes,
+            status:
+              nextStatus,
+            remarks:
+              remarks ??
+              changes.remarks ??
+              current.remarks,
+          },
+        );
+
+    if (!updated) {
+      throw new NotFoundException(
+        `Vendor compliance document not found: ${current.id}`,
+      );
+    }
+
+    await this.publishComplianceEvent(
+      eventName,
+      updated,
+    );
+
+    await this.auditService.record(
+      eventName,
+      'core.vendor',
+      {
+        ...this.complianceAuditPayload(
+          updated,
+          changedByPersonId,
+        ),
+        fromStatus:
+          current.status,
+        toStatus:
+          nextStatus,
+        remarks,
+      },
+    );
+
+    return updated;
+  }
+
   private async requireContract(
     id: string,
   ): Promise<VendorContract> {
@@ -1324,6 +1674,25 @@ export class VendorService {
     return `VEN-${date}-${suffix}`;
   }
 
+  private async publishComplianceEvent(
+    eventName: string,
+    document: VendorComplianceDocument,
+  ): Promise<void> {
+    await this.eventBus.publish(
+      eventName,
+      'core.vendor',
+      {
+        ...document,
+        entityType:
+          'vendor.compliance',
+        entityId:
+          document.id,
+        eventVersion:
+          1,
+      },
+    );
+  }
+
   private async publishContractEvent(
     eventName: string,
     contract: VendorContract,
@@ -1360,6 +1729,31 @@ export class VendorService {
           1,
       },
     );
+  }
+
+  private complianceAuditPayload(
+    document: VendorComplianceDocument,
+    actorPersonId: string,
+  ) {
+    return {
+      complianceDocumentId:
+        document.id,
+      vendorId:
+        document.vendorId,
+      complianceType:
+        document.complianceType,
+      documentId:
+        document.documentId,
+      referenceNumber:
+        document.referenceNumber,
+      status:
+        document.status,
+      issuedAt:
+        document.issuedAt,
+      expiresAt:
+        document.expiresAt,
+      actorPersonId,
+    };
   }
 
   private contractAuditPayload(

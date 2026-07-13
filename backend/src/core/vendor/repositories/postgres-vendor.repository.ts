@@ -14,6 +14,7 @@ import {
 import {
   Vendor,
   VendorCategory,
+  VendorComplianceDocument,
   VendorContact,
   VendorContract,
   VendorDetails,
@@ -855,6 +856,219 @@ export class PostgresVendorRepository
     );
   }
 
+  async createComplianceDocument(
+    document: VendorComplianceDocument,
+  ): Promise<VendorComplianceDocument> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO vendor_compliance_documents (
+          id,
+          vendor_id,
+          compliance_type,
+          document_id,
+          reference_number,
+          issued_at,
+          expires_at,
+          status,
+          verified_by_person_id,
+          verified_at,
+          remarks,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,
+          $8,$9,$10,$11,$12,$13
+        )
+        RETURNING *
+        `,
+        [
+          document.id,
+          document.vendorId,
+          document.complianceType,
+          document.documentId,
+          document.referenceNumber ?? null,
+          document.issuedAt ?? null,
+          document.expiresAt ?? null,
+          document.status,
+          document.verifiedByPersonId ?? null,
+          document.verifiedAt ?? null,
+          document.remarks ?? null,
+          document.createdAt,
+          document.updatedAt,
+        ],
+      );
+
+    return this.mapComplianceDocument(
+      result.rows[0],
+    );
+  }
+
+  async findComplianceDocumentById(
+    id: string,
+  ): Promise<VendorComplianceDocument | null> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_compliance_documents
+        WHERE id = $1
+        `,
+        [id],
+      );
+
+    return result.rows[0]
+      ? this.mapComplianceDocument(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async listComplianceDocuments(
+    filters: {
+      vendorId?: string;
+      complianceType?: string;
+      status?: string;
+      expiringBefore?: Date;
+    } = {},
+  ): Promise<VendorComplianceDocument[]> {
+    const conditions: string[] = [];
+    const values: unknown[] = [];
+
+    const addCondition = (
+      expression: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${expression} $${values.length}`,
+      );
+    };
+
+    if (filters.vendorId) {
+      addCondition(
+        'vendor_id =',
+        filters.vendorId,
+      );
+    }
+
+    if (filters.complianceType) {
+      addCondition(
+        'compliance_type =',
+        filters.complianceType,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status =',
+        filters.status,
+      );
+    }
+
+    if (filters.expiringBefore) {
+      addCondition(
+        'expires_at <=',
+        filters.expiringBefore,
+      );
+    }
+
+    const where =
+      conditions.length > 0
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_compliance_documents
+        ${where}
+        ORDER BY
+          expires_at ASC NULLS LAST,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapComplianceDocument(
+          row,
+        ),
+    );
+  }
+
+  async updateComplianceDocument(
+    id: string,
+    input: Partial<VendorComplianceDocument>,
+  ): Promise<VendorComplianceDocument | null> {
+    const current =
+      await this.findComplianceDocumentById(
+        id,
+      );
+
+    if (!current) {
+      return null;
+    }
+
+    const merged: VendorComplianceDocument = {
+      ...current,
+      ...input,
+      id:
+        current.id,
+      vendorId:
+        current.vendorId,
+      documentId:
+        current.documentId,
+      createdAt:
+        current.createdAt,
+      updatedAt:
+        new Date(),
+    };
+
+    const result =
+      await this.pool.query(
+        `
+        UPDATE vendor_compliance_documents
+        SET
+          compliance_type = $2,
+          reference_number = $3,
+          issued_at = $4,
+          expires_at = $5,
+          status = $6,
+          verified_by_person_id = $7,
+          verified_at = $8,
+          remarks = $9,
+          updated_at = $10
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          id,
+          merged.complianceType,
+          merged.referenceNumber ?? null,
+          merged.issuedAt ?? null,
+          merged.expiresAt ?? null,
+          merged.status,
+          merged.verifiedByPersonId ?? null,
+          merged.verifiedAt ?? null,
+          merged.remarks ?? null,
+          merged.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapComplianceDocument(
+          result.rows[0],
+        )
+      : null;
+  }
+
   async createContract(
     contract: VendorContract,
   ): Promise<VendorContract> {
@@ -1292,6 +1506,45 @@ export class PostgresVendorRepository
           row.open_work_orders ??
           0,
         ),
+    };
+  }
+
+  private mapComplianceDocument(
+    row: any,
+  ): VendorComplianceDocument {
+    return {
+      id:
+        row.id,
+      vendorId:
+        row.vendor_id,
+      complianceType:
+        row.compliance_type,
+      documentId:
+        row.document_id,
+      referenceNumber:
+        row.reference_number ??
+        undefined,
+      issuedAt:
+        row.issued_at ??
+        undefined,
+      expiresAt:
+        row.expires_at ??
+        undefined,
+      status:
+        row.status,
+      verifiedByPersonId:
+        row.verified_by_person_id ??
+        undefined,
+      verifiedAt:
+        row.verified_at ??
+        undefined,
+      remarks:
+        row.remarks ??
+        undefined,
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
     };
   }
 

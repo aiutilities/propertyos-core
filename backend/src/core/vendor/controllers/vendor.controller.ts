@@ -51,6 +51,18 @@ import {
 } from '../dto/transition-vendor-contract.dto';
 
 import {
+  CreateVendorComplianceDto,
+} from '../dto/create-vendor-compliance.dto';
+
+import {
+  VerifyVendorComplianceDto,
+} from '../dto/verify-vendor-compliance.dto';
+
+import {
+  TransitionVendorComplianceDto,
+} from '../dto/transition-vendor-compliance.dto';
+
+import {
   VendorService,
 } from '../services/vendor.service';
 
@@ -154,6 +166,146 @@ export class VendorController {
   ) {
     return this.success(
       await this.service.get(id),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Post('compliance')
+  async createComplianceDocument(
+    @Body()
+    dto: CreateVendorComplianceDto,
+  ) {
+    return this.success(
+      await this.service
+        .createComplianceDocument(
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Get('compliance')
+  async listComplianceDocuments(
+    @Query('vendorId')
+    vendorId?: string,
+
+    @Query('complianceType')
+    complianceType?: string,
+
+    @Query('status')
+    status?: string,
+
+    @Query('expiringBefore')
+    expiringBefore?: string,
+  ) {
+    return this.success(
+      await this.service
+        .listComplianceDocuments({
+          vendorId,
+          complianceType,
+          status,
+          expiringBefore,
+        }),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Get('compliance/:documentId')
+  async getComplianceDocument(
+    @Param('documentId')
+    documentId: string,
+  ) {
+    return this.success(
+      await this.service
+        .getComplianceDocument(
+          documentId,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Post('compliance/:documentId/verify')
+  async verifyComplianceDocument(
+    @Param('documentId')
+    documentId: string,
+
+    @Body()
+    dto: VerifyVendorComplianceDto,
+  ) {
+    return this.success(
+      await this.service
+        .verifyComplianceDocument(
+          documentId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Post('compliance/:documentId/reject')
+  async rejectComplianceDocument(
+    @Param('documentId')
+    documentId: string,
+
+    @Body()
+    dto: TransitionVendorComplianceDto,
+  ) {
+    return this.success(
+      await this.service
+        .rejectComplianceDocument(
+          documentId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Post('compliance/:documentId/waive')
+  async waiveComplianceDocument(
+    @Param('documentId')
+    documentId: string,
+
+    @Body()
+    dto: TransitionVendorComplianceDto,
+  ) {
+    return this.success(
+      await this.service
+        .waiveComplianceDocument(
+          documentId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.COMPLIANCE,
+  )
+  @Post('compliance/:documentId/expire')
+  async expireComplianceDocument(
+    @Param('documentId')
+    documentId: string,
+
+    @Body()
+    dto: TransitionVendorComplianceDto,
+  ) {
+    return this.success(
+      await this.service
+        .expireComplianceDocument(
+          documentId,
+          dto,
+        ),
     );
   }
 

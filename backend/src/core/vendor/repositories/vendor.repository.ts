@@ -2,6 +2,7 @@ import {
   Vendor,
   VendorCategory,
   VendorContact,
+  VendorComplianceDocument,
   VendorContract,
   VendorDetails,
   VendorFilters,
@@ -61,6 +62,28 @@ export interface VendorRepository {
   listServiceCategories(
     vendorId: string,
   ): Promise<VendorServiceCategory[]>;
+
+  createComplianceDocument(
+    document: VendorComplianceDocument,
+  ): Promise<VendorComplianceDocument>;
+
+  findComplianceDocumentById(
+    id: string,
+  ): Promise<VendorComplianceDocument | null>;
+
+  listComplianceDocuments(
+    filters?: {
+      vendorId?: string;
+      complianceType?: string;
+      status?: string;
+      expiringBefore?: Date;
+    },
+  ): Promise<VendorComplianceDocument[]>;
+
+  updateComplianceDocument(
+    id: string,
+    input: Partial<VendorComplianceDocument>,
+  ): Promise<VendorComplianceDocument | null>;
 
   createContract(
     contract: VendorContract,

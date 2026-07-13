@@ -597,6 +597,45 @@ describe(
     );
 
     it(
+      'creates scheduled publish and expiry jobs',
+      async () => {
+        const jobs =
+          await pool.query(
+            `
+            SELECT
+              job_type,
+              run_at
+            FROM scheduler_jobs
+            WHERE payload->>'communicationId' = $1
+            ORDER BY job_type
+            `,
+            [
+              communicationId,
+            ],
+          );
+
+        expect(
+          jobs.rows.map(
+            (row) =>
+              row.job_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining([
+            'communications.publish',
+            'communications.expire',
+          ]),
+        );
+
+        expect(
+          jobs.rows.every(
+            (row) =>
+              row.run_at !== null,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
       'rejects editing a scheduled communication',
       async () => {
         await request(

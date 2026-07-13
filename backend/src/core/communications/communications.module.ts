@@ -23,6 +23,22 @@ import {
 } from '../search';
 
 import {
+  SchedulerModule,
+} from '../scheduler';
+
+import {
+  CommunicationsSchedulerService,
+} from './services/communications-scheduler.service';
+
+import {
+  PublishCommunicationJobHandler,
+} from './handlers/publish-communication-job.handler';
+
+import {
+  ExpireCommunicationJobHandler,
+} from './handlers/expire-communication-job.handler';
+
+import {
   CommunicationsBootstrapService,
 } from './bootstrap/communications-bootstrap.service';
 import {
@@ -49,6 +65,7 @@ import {
     PluginModule,
     PostgresModule,
     SearchModule,
+    SchedulerModule,
   ],
   controllers: [
     CommunicationsController,
@@ -63,7 +80,9 @@ import {
       useClass:
         PostgresCommunicationsRepository,
     },
-  ],
+    CommunicationsSchedulerService,
+    PublishCommunicationJobHandler,
+    ExpireCommunicationJobHandler,],
   exports: [
     CommunicationsService,
   ],

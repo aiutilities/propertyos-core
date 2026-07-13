@@ -52,6 +52,10 @@ import {
   CommunicationTarget,
 } from '../types/communications.types';
 
+import {
+  CommunicationsSchedulerService,
+} from './communications-scheduler.service';
+
 @Injectable()
 export class CommunicationsService {
   constructor(
@@ -62,6 +66,8 @@ export class CommunicationsService {
       EventBusService,
     private readonly auditService:
       AuditService,
+    private readonly communicationsScheduler:
+      CommunicationsSchedulerService,
   ) {}
 
   async create(
@@ -398,19 +404,28 @@ export class CommunicationsService {
       expiresAt,
     );
 
-    return this.transition(
-      current,
-      CommunicationStatus.SCHEDULED,
-      COMMUNICATIONS_EVENTS.SCHEDULED,
-      dto.changedByPersonId,
-      dto.remarks,
-      {
-        publishAt,
-        expiresAt,
-        updatedByPersonId:
-          dto.changedByPersonId,
-      },
-    );
+    const scheduled =
+      await this.transition(
+        current,
+        CommunicationStatus.SCHEDULED,
+        COMMUNICATIONS_EVENTS.SCHEDULED,
+        dto.changedByPersonId,
+        dto.remarks,
+        {
+          publishAt,
+          expiresAt,
+          updatedByPersonId:
+            dto.changedByPersonId,
+        },
+      );
+
+    await this.communicationsScheduler
+      .schedulePublication(scheduled);
+
+    await this.communicationsScheduler
+      .scheduleExpiry(scheduled);
+
+    return scheduled;
   }
 
   async publish(
@@ -444,23 +459,29 @@ export class CommunicationsService {
       );
     }
 
-    return this.transition(
-      current,
-      CommunicationStatus.PUBLISHED,
-      COMMUNICATIONS_EVENTS.PUBLISHED,
-      dto.changedByPersonId,
-      dto.remarks,
-      {
-        publishAt:
-          current.publishAt ?? now,
-        publishedAt:
-          now,
-        publishedByPersonId:
-          dto.changedByPersonId,
-        updatedByPersonId:
-          dto.changedByPersonId,
-      },
-    );
+    const published =
+      await this.transition(
+        current,
+        CommunicationStatus.PUBLISHED,
+        COMMUNICATIONS_EVENTS.PUBLISHED,
+        dto.changedByPersonId,
+        dto.remarks,
+        {
+          publishAt:
+            current.publishAt ?? now,
+          publishedAt:
+            now,
+          publishedByPersonId:
+            dto.changedByPersonId,
+          updatedByPersonId:
+            dto.changedByPersonId,
+        },
+      );
+
+    await this.communicationsScheduler
+      .scheduleExpiry(published);
+
+    return published;
   }
 
   async expire(

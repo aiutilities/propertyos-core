@@ -27,15 +27,40 @@ export default function DashboardOverview() {
     return <p>Dashboard data is unavailable.</p>;
   }
 
-  const cards = [
+  const portfolioCards = [
     {
       title: "Properties",
       value: String(data.business.properties),
       href: "/properties",
     },
     {
-      title: "Tenants",
-      value: String(data.business.tenants),
+      title: "Zones",
+      value: String(data.business.zones),
+      href: "/properties",
+    },
+    {
+      title: "Total Spaces",
+      value: String(data.business.spaces),
+      href: "/properties",
+    },
+    {
+      title: "Occupied Spaces",
+      value: String(data.business.occupiedSpaces),
+      href: "/tenants",
+    },
+    {
+      title: "Vacant Spaces",
+      value: String(data.business.vacantSpaces),
+      href: "/properties",
+    },
+    {
+      title: "Occupancy",
+      value: `${data.business.occupancyPercentage.toFixed(2)}%`,
+      href: "/properties",
+    },
+    {
+      title: "Active Tenants",
+      value: String(data.business.activeTenants),
       href: "/tenants",
     },
     {
@@ -43,14 +68,32 @@ export default function DashboardOverview() {
       value: String(data.business.activeLeases),
       href: "/leases",
     },
+  ];
+
+  const financeCards = [
     {
-      title: "Rent Ledgers",
-      value: String(data.business.rentLedgers),
+      title: "Expected Rent This Month",
+      value: formatAmount(data.business.currentMonthExpectedRent),
       href: "/rent-ledgers",
+    },
+    {
+      title: "Collected This Month",
+      value: formatAmount(data.business.currentMonthCollectedRent),
+      href: "/rent-ledgers",
+    },
+    {
+      title: "Collection Rate",
+      value: `${data.business.collectionPercentage.toFixed(2)}%`,
+      href: "/reports/rent-collection",
     },
     {
       title: "Outstanding Rent",
       value: formatAmount(data.business.outstandingRent),
+      href: "/reports/outstanding-rent",
+    },
+    {
+      title: "Rent Ledgers",
+      value: String(data.business.rentLedgers),
       href: "/rent-ledgers",
     },
     {
@@ -81,7 +124,28 @@ export default function DashboardOverview() {
         </div>
 
         <div className="dashboard-grid">
-          {cards.map((card) => (
+          {portfolioCards.map((card) => (
+            <Link
+              className="dashboard-card-link"
+              href={card.href}
+              key={card.title}
+            >
+              <StatCard title={card.title} value={card.value} />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Financial Overview</p>
+            <h2>Rent and collections</h2>
+          </div>
+        </div>
+
+        <div className="dashboard-grid">
+          {financeCards.map((card) => (
             <Link
               className="dashboard-card-link"
               href={card.href}

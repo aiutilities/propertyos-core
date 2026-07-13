@@ -45,7 +45,8 @@ export class AdminService implements OnModuleInit {
 
   async getDashboard(): Promise<AdminDashboardSummary> {
     const [
-      propertyPage,
+      portfolio,
+      occupancy,
       tenants,
       agreements,
       rentLedgers,
@@ -53,7 +54,8 @@ export class AdminService implements OnModuleInit {
       invoices,
       plugins,
     ] = await Promise.all([
-      this.propertyService.listProperties({ page: 1, limit: 1 }),
+      this.propertyService.getPortfolioCounts(),
+      this.tenantService.getOccupancyCounts(),
       this.tenantService.listTenants(),
       this.agreementService.listAgreements(),
       this.rentService.listRentLedgers(),
@@ -74,10 +76,55 @@ export class AdminService implements OnModuleInit {
       (agreement) => agreement.status === 'ACTIVE',
     ).length;
 
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    const currentMonthLedgers = rentLedgers.filter(
+      (ledger) =>
+        ledger.periodYear === currentYear &&
+        ledger.periodMonth === currentMonth,
+    );
+
+    const currentMonthExpectedRent = currentMonthLedgers.reduce(
+      (total, ledger) => total + Number(ledger.rentAmount ?? 0),
+      0,
+    );
+
+    const currentMonthCollectedRent = currentMonthLedgers.reduce(
+      (total, ledger) => total + Number(ledger.amountPaid ?? 0),
+      0,
+    );
+
     const outstandingRent = rentLedgers.reduce(
       (total, ledger) => total + Number(ledger.balanceAmount ?? 0),
       0,
     );
+
+    const vacantSpaces = Math.max(
+      portfolio.spaces - occupancy.occupiedSpaces,
+      0,
+    );
+
+    const occupancyPercentage =
+      portfolio.spaces > 0
+        ? Number(
+            (
+              (occupancy.occupiedSpaces / portfolio.spaces) *
+              100
+            ).toFixed(2),
+          )
+        : 0;
+
+    const collectionPercentage =
+      currentMonthExpectedRent > 0
+        ? Number(
+            (
+              (currentMonthCollectedRent / currentMonthExpectedRent) *
+              100
+            ).toFixed(2),
+          )
+        : 0;
 
     const overdueInvoices = invoices.filter(
       (invoice) => invoice.status === 'OVERDUE',
@@ -90,11 +137,20 @@ export class AdminService implements OnModuleInit {
         version: '0.1.0',
       },
       business: {
-        properties: propertyPage.total,
+        properties: portfolio.properties,
+        zones: portfolio.zones,
+        spaces: portfolio.spaces,
+        occupiedSpaces: occupancy.occupiedSpaces,
+        vacantSpaces,
+        occupancyPercentage,
         tenants: tenants.length,
+        activeTenants: occupancy.activeTenants,
         activeLeases,
         rentLedgers: rentLedgers.length,
+        currentMonthExpectedRent,
+        currentMonthCollectedRent,
         outstandingRent,
+        collectionPercentage,
         receipts: receipts.length,
         invoices: invoices.length,
         overdueInvoices,

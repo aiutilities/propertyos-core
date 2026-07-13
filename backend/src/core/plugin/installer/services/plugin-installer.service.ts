@@ -1,5 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventBusService } from '../../../eventbus/services/eventbus.service';
+import { StorageService } from '../../../storage';
+import { randomUUID } from 'crypto';
+import { mkdir, rm, writeFile } from 'fs/promises';
+import { join } from 'path';
 import { PluginService } from '../../services/plugin.service';
 import { PluginPackageService } from '../../package/services/plugin-package.service';
 import { PluginPackageExtractorService } from '../archive/plugin-package-extractor.service';
@@ -27,16 +31,20 @@ export class PluginInstallerService {
     private readonly pluginPackageService: PluginPackageService,
     private readonly pluginService: PluginService,
     private readonly eventBus: EventBusService,
+    private readonly storageService: StorageService,
   ) {}
 
   async install(
     dto: InstallPluginPackageDto,
   ): Promise<PluginInstallationResult> {
+    const materializedPackage = await this.resolvePackage(dto);
+
     await this.eventBus.publish(
       'plugin.installation.started',
       this.eventSource,
       {
-        packagePath: dto.packagePath,
+        packagePath: materializedPackage.path,
+        storageObjectId: dto.storageObjectId,
         autoEnable: dto.autoEnable,
         overwrite: dto.overwrite,
         metadata: dto.metadata ?? {},
@@ -47,7 +55,7 @@ export class PluginInstallerService {
     let migrationResult: { executed: string[]; skipped: string[] } | undefined;
 
     try {
-      extractedPath = await this.extractor.extract(dto.packagePath);
+      extractedPath = await this.extractor.extract(materializedPackage.path);
       const pluginRoot = this.discovery.discover(extractedPath);
 
       const manifest = this.manifestService.discover(pluginRoot);
@@ -122,7 +130,8 @@ export class PluginInstallerService {
         'plugin.installation.completed',
         this.eventSource,
         {
-          packagePath: dto.packagePath,
+          packagePath: materializedPackage.path,
+          storageObjectId: dto.storageObjectId,
           pluginRoot,
           pluginId: installation.plugin.id,
           packageId: pluginPackage.id,
@@ -163,7 +172,8 @@ export class PluginInstallerService {
         'plugin.installation.failed',
         this.eventSource,
         {
-          packagePath: dto.packagePath,
+          packagePath: materializedPackage.path,
+          storageObjectId: dto.storageObjectId,
           extractedPath,
           error: message,
         },
@@ -175,6 +185,51 @@ export class PluginInstallerService {
         messages: [message],
         error: 'PLUGIN_INSTALLATION_FAILED',
       };
+    } finally {
+      if (materializedPackage.temporary) {
+        await rm(materializedPackage.path, { force: true });
+      }
     }
+  }
+
+  private async resolvePackage(
+    dto: InstallPluginPackageDto,
+  ): Promise<{ path: string; temporary: boolean }> {
+    if (dto.packagePath) {
+      return {
+        path: dto.packagePath,
+        temporary: false,
+      };
+    }
+
+    if (!dto.storageObjectId) {
+      throw new BadRequestException(
+        'Either packagePath or storageObjectId is required',
+      );
+    }
+
+    const content = await this.storageService.getContent(
+      dto.storageObjectId,
+    );
+
+    const uploadDirectory = join(
+      process.cwd(),
+      'plugins',
+      '.uploads',
+    );
+
+    await mkdir(uploadDirectory, { recursive: true });
+
+    const packagePath = join(
+      uploadDirectory,
+      `${randomUUID()}.zip`,
+    );
+
+    await writeFile(packagePath, content);
+
+    return {
+      path: packagePath,
+      temporary: true,
+    };
   }
 }

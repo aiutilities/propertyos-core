@@ -40,6 +40,10 @@ export class ThemeService {
     return this.registry.getActive();
   }
 
+  get(id: string): ThemeEntity | undefined {
+    return this.registry.get(id);
+  }
+
   async activate(id: string): Promise<ThemeEntity | undefined> {
     const theme = this.registry.activate(id);
 

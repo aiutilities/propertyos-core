@@ -12,6 +12,11 @@ export interface VisitorRepositoryPort {
   createQrPass(data: Record<string, unknown>): Promise<any>;
   findQrPassByToken(qrToken: string): Promise<any>;
   findVisitById(visitId: string): Promise<any>;
+
+  findHostNotificationContact(
+    hostPersonId: string,
+  ): Promise<Record<string, unknown>>;
+
   listVisits(filters: Record<string, unknown>): Promise<any>;
   searchVisits(query: string, limit?: number): Promise<any[]>;
   createStatusHistory(data: Record<string, unknown>): Promise<any>;

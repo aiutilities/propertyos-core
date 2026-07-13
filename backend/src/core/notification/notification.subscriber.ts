@@ -1,30 +1,58 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { EventBusService } from '../eventbus/services/eventbus.service';
-import { PropertyOSEvent } from '../eventbus/types/event.types';
+import {
+  Injectable,
+  OnModuleInit,
+} from '@nestjs/common';
+
+import {
+  EventBusService,
+} from '../eventbus/services/eventbus.service';
+import {
+  PropertyOSEvent,
+} from '../eventbus/types/event.types';
+import {
+  NotificationDispatcherService,
+} from './services/notification-dispatcher.service';
 import {
   NotificationService,
   NotificationTemplate,
 } from './services/notification.service';
-import { NotificationChannel } from './types/notification.types';
+import {
+  NotificationChannel,
+} from './types/notification.types';
 
 @Injectable()
-export class NotificationSubscriber implements OnModuleInit {
+export class NotificationSubscriber
+  implements OnModuleInit
+{
   constructor(
-    private readonly eventBusService: EventBusService,
-    private readonly notificationService: NotificationService,
+    private readonly eventBusService:
+      EventBusService,
+    private readonly notificationService:
+      NotificationService,
+    private readonly notificationDispatcher:
+      NotificationDispatcherService,
   ) {}
 
   onModuleInit(): void {
-    this.eventBusService.subscribe('NOTIFICATION_REQUESTED', (event) =>
-      this.handleNotificationRequested(event),
+    this.eventBusService.subscribe(
+      'NOTIFICATION_REQUESTED',
+      (event) =>
+        this.handleNotificationRequested(
+          event,
+        ),
     );
 
-    this.eventBusService.subscribeAll((event) =>
-      this.handleTemplateDrivenNotification(event),
+    this.eventBusService.subscribeAll(
+      (event) =>
+        this.handleTemplateDrivenNotification(
+          event,
+        ),
     );
   }
 
-  private async handleNotificationRequested(event: PropertyOSEvent): Promise<void> {
+  private async handleNotificationRequested(
+    event: PropertyOSEvent,
+  ): Promise<void> {
     const payload = event.payload as {
       channel?: NotificationChannel;
       recipient?: string;
@@ -33,76 +61,131 @@ export class NotificationSubscriber implements OnModuleInit {
       metadata?: Record<string, unknown>;
     };
 
-    if (!payload.channel || !payload.recipient || !payload.message) {
+    if (
+      !payload.channel ||
+      !payload.recipient ||
+      !payload.message
+    ) {
       return;
     }
 
-    await this.notificationService.createNotification({
-      channel: payload.channel,
-      recipient: payload.recipient,
-      subject: payload.subject,
-      message: payload.message,
-      metadata: {
-        ...payload.metadata,
-        sourceEventId: event.id,
-        sourceEventType: event.type,
-        source: event.source,
-        orchestrationMode: 'direct-request',
-      },
-    });
+    const notification =
+      await this.notificationService
+        .createNotification({
+          channel: payload.channel,
+          recipient: payload.recipient,
+          subject: payload.subject,
+          message: payload.message,
+          metadata: {
+            ...payload.metadata,
+            sourceEventId: event.id,
+            sourceEventType: event.type,
+            source: event.source,
+            orchestrationMode:
+              'direct-request',
+          },
+        });
+
+    await this.notificationDispatcher
+      .dispatch(notification);
   }
 
-  private handleTemplateDrivenNotification(event: PropertyOSEvent): void {
-    if (event.type === 'NOTIFICATION_REQUESTED') {
+  private async handleTemplateDrivenNotification(
+    event: PropertyOSEvent,
+  ): Promise<void> {
+    if (
+      event.type ===
+      'NOTIFICATION_REQUESTED'
+    ) {
       return;
     }
 
-    const templates = this.notificationService
-      .listTemplates()
-      .filter((template) => template.event === event.type);
+    const templates =
+      this.notificationService
+        .listTemplates()
+        .filter(
+          (template) =>
+            template.event === event.type,
+        );
 
-    for (const template of templates) {
-      void this.createNotificationFromTemplate(template, event);
-    }
+    await Promise.all(
+      templates.map((template) =>
+        this.createNotificationFromTemplate(
+          template,
+          event,
+        ),
+      ),
+    );
   }
 
   private async createNotificationFromTemplate(
     template: NotificationTemplate,
     event: PropertyOSEvent,
   ): Promise<void> {
-    const payload = event.payload as Record<string, unknown>;
-    const recipient = this.resolveRecipient(template, payload);
+    const payload =
+      event.payload as Record<
+        string,
+        unknown
+      >;
+
+    const recipient =
+      this.resolveRecipient(
+        template,
+        payload,
+      );
 
     if (!recipient) {
       return;
     }
 
-    await this.notificationService.createNotification({
-      channel: template.channel,
-      recipient,
-      subject: this.render(template.subject, payload),
-      message: this.render(template.template, payload),
-      metadata: {
-        ...(template.metadata ?? {}),
-        sourceEventId: event.id,
-        sourceEventType: event.type,
-        source: event.source,
-        templateCode: template.code,
-        orchestrationMode: 'template-event',
-      },
-    });
+    const notification =
+      await this.notificationService
+        .createNotification({
+          channel: template.channel,
+          recipient,
+          subject: this.render(
+            template.subject,
+            payload,
+          ),
+          message: this.render(
+            template.template,
+            payload,
+          ),
+          metadata: {
+            ...(template.metadata ?? {}),
+            sourceEventId: event.id,
+            sourceEventType: event.type,
+            source: event.source,
+            templateCode: template.code,
+            orchestrationMode:
+              'template-event',
+          },
+        });
+
+    await this.notificationDispatcher
+      .dispatch(notification);
   }
 
   private resolveRecipient(
     template: NotificationTemplate,
     payload: Record<string, unknown>,
   ): string | undefined {
-    const metadata = template.metadata ?? {};
-    const recipientField = metadata.recipientField;
+    const metadata =
+      template.metadata ?? {};
 
-    if (typeof recipientField === 'string') {
-      const value = payload[recipientField];
-      return typeof value === 'string' ? value : undefined;
+    const recipientField =
+      metadata.recipientField;
+
+    if (
+      typeof recipientField ===
+      'string'
+    ) {
+      const value =
+        payload[recipientField];
+
+      return typeof value === 'string'
+        ? value
+        : undefined;
     }
 
     const fallbackFields = [
@@ -114,10 +197,16 @@ export class NotificationSubscriber implements OnModuleInit {
       'visitorId',
     ];
 
-    for (const field of fallbackFields) {
+    for (
+      const field
+      of fallbackFields
+    ) {
       const value = payload[field];
 
-      if (typeof value === 'string' && value.trim()) {
+      if (
+        typeof value === 'string' &&
+        value.trim()
+      ) {
         return value;
       }
     }
@@ -133,14 +222,20 @@ export class NotificationSubscriber implements OnModuleInit {
       return undefined;
     }
 
-    return template.replace(/\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g, (_match, key) => {
-      const value = payload[key];
+    return template.replace(
+      /\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g,
+      (_match, key) => {
+        const value = payload[key];
 
-      if (value === undefined || value === null) {
-        return '';
-      }
+        if (
+          value === undefined ||
+          value === null
+        ) {
+          return '';
+        }
 
-      return String(value);
-    });
+        return String(value);
+      },
+    );
   }
 }

@@ -163,19 +163,58 @@ export class PostgresVisitorRepository implements VisitorRepositoryPort {
     return result.rows[0] ? this.mapQrPass(result.rows[0]) : null;
   }
 
+  async findHostNotificationContact(
+    hostPersonId: string,
+  ): Promise<Record<string, unknown>> {
+    const result = await this.pool.query(
+      `
+      SELECT
+        id,
+        display_name,
+        email,
+        phone
+      FROM persons
+      WHERE id = $1
+      LIMIT 1
+      `,
+      [hostPersonId],
+    );
+
+    const person = result.rows[0];
+
+    if (!person) {
+      return {};
+    }
+
+    return {
+      hostPersonId: person.id,
+      hostName: person.display_name,
+      hostEmail: person.email ?? undefined,
+      hostMobile: person.phone ?? undefined,
+    };
+  }
+
   async findVisitById(visitId: string) {
     const result = await this.pool.query(
       `
-      SELECT *
-      FROM visits
-      WHERE id = $1
-      AND deleted_at IS NULL
+      SELECT
+        v.*,
+        vr.full_name AS visitor_full_name,
+        vr.mobile AS visitor_mobile,
+        vr.email AS visitor_email
+      FROM visits v
+      INNER JOIN visitors vr
+        ON vr.id = v.visitor_id
+      WHERE v.id = $1
+      AND v.deleted_at IS NULL
       LIMIT 1
       `,
       [visitId],
     );
 
-    return result.rows[0] ? this.mapVisit(result.rows[0]) : null;
+    return result.rows[0]
+      ? this.mapVisitWithVisitor(result.rows[0])
+      : null;
   }
 
   async listVisits(filters: Record<string, unknown>) {

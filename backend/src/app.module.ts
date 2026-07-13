@@ -49,6 +49,7 @@ import { RequestLoggingMiddleware } from "./core/platform/middleware/request-log
 import { VisitorModule } from "./plugins/visitor/visitor.module";
 import { ReservationModule } from "./core/reservation";
 import { HelpdeskModule } from "./core/helpdesk";
+import { CommunicationsModule } from "./core/communications";
 
 @Module({
   imports: [
@@ -99,6 +100,7 @@ import { HelpdeskModule } from "./core/helpdesk";
     ReportModule,
     ReservationModule,
     HelpdeskModule,
+    CommunicationsModule,
     BootstrapModule,
 
     VisitorModule,

@@ -29,6 +29,18 @@ import {
   HelpdeskVisibility,
 } from "@/types/helpdesk";
 
+import {
+  HelpdeskPriorityBadge,
+} from "./HelpdeskPriorityBadge";
+
+import {
+  HelpdeskSlaCountdown,
+} from "./HelpdeskSlaCountdown";
+
+import {
+  HelpdeskStatusBadge,
+} from "./HelpdeskStatusBadge";
+
 function formatDate(
   value?: string,
 ) {
@@ -496,16 +508,18 @@ export default function HelpdeskDetails({
             <div>
               <dt>Status</dt>
               <dd>
-                {statusLabel(
-                  ticket.status,
-                )}
+                <HelpdeskStatusBadge
+                  status={ticket.status}
+                />
               </dd>
             </div>
 
             <div>
               <dt>Priority</dt>
               <dd>
-                {ticket.priority}
+                <HelpdeskPriorityBadge
+                  priority={ticket.priority}
+                />
               </dd>
             </div>
 
@@ -564,10 +578,18 @@ export default function HelpdeskDetails({
 
             <div>
               <dt>Resolution Due</dt>
-              <dd>
-                {formatDate(
-                  ticket.resolutionDueAt,
-                )}
+              <dd className="stack-xs">
+                <span>
+                  {formatDate(
+                    ticket.resolutionDueAt,
+                  )}
+                </span>
+
+                <HelpdeskSlaCountdown
+                  dueAt={
+                    ticket.resolutionDueAt
+                  }
+                />
               </dd>
             </div>
 

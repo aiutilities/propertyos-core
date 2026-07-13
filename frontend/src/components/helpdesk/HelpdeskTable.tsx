@@ -6,6 +6,18 @@ import {
   HelpdeskTicket,
 } from "@/types/helpdesk";
 
+import {
+  HelpdeskPriorityBadge,
+} from "./HelpdeskPriorityBadge";
+
+import {
+  HelpdeskSlaCountdown,
+} from "./HelpdeskSlaCountdown";
+
+import {
+  HelpdeskStatusBadge,
+} from "./HelpdeskStatusBadge";
+
 function formatDate(
   value?: string,
 ) {
@@ -24,27 +36,6 @@ function formatDate(
   );
 }
 
-function isResolutionOverdue(
-  ticket: HelpdeskTicket,
-) {
-  if (
-    !ticket.resolutionDueAt ||
-    [
-      "RESOLVED",
-      "CLOSED",
-      "CANCELLED",
-    ].includes(ticket.status)
-  ) {
-    return false;
-  }
-
-  return (
-    new Date(
-      ticket.resolutionDueAt,
-    ).getTime() <
-    Date.now()
-  );
-}
 
 export default function HelpdeskTable({
   items,
@@ -103,36 +94,31 @@ export default function HelpdeskTable({
                   </td>
 
                   <td>
-                    <span
-                      className={`status-badge status-${ticket.priority.toLowerCase()}`}
-                    >
-                      {ticket.priority}
-                    </span>
+                    <HelpdeskPriorityBadge
+                      priority={ticket.priority}
+                    />
                   </td>
 
                   <td>
-                    <span className="status-badge">
-                      {ticket.status.replaceAll(
-                        "_",
-                        " ",
-                      )}
-                    </span>
+                    <HelpdeskStatusBadge
+                      status={ticket.status}
+                    />
                   </td>
 
                   <td>
-                    <span
-                      className={
-                        isResolutionOverdue(
-                          ticket,
-                        )
-                          ? "text-danger"
-                          : undefined
-                      }
-                    >
-                      {formatDate(
-                        ticket.resolutionDueAt,
-                      )}
-                    </span>
+                    <div className="stack-xs">
+                      <span>
+                        {formatDate(
+                          ticket.resolutionDueAt,
+                        )}
+                      </span>
+
+                      <HelpdeskSlaCountdown
+                        dueAt={
+                          ticket.resolutionDueAt
+                        }
+                      />
+                    </div>
                   </td>
 
                   <td>

@@ -38,6 +38,10 @@ const navGroups: NavGroup[] = [
         href: "/resident/reservations",
       },
       {
+        label: "My Helpdesk",
+        href: "/resident/helpdesk",
+      },
+      {
         label: "My Maintenance",
         href: "/resident/maintenance",
       },
@@ -65,6 +69,10 @@ const navGroups: NavGroup[] = [
       {
         label: "Visitors",
         href: "/visitors",
+      },
+      {
+        label: "Helpdesk",
+        href: "/helpdesk",
       },
       {
         label: "Maintenance",

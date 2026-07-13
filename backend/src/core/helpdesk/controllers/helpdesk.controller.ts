@@ -16,6 +16,8 @@ import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { AssignHelpdeskTicketDto } from '../dto/assign-helpdesk-ticket.dto';
 import { CreateHelpdeskTicketDto } from '../dto/create-helpdesk-ticket.dto';
 import { UpdateHelpdeskTicketDto } from '../dto/update-helpdesk-ticket.dto';
+import { ResolveHelpdeskTicketDto } from '../dto/resolve-helpdesk-ticket.dto';
+import { TransitionHelpdeskTicketDto } from '../dto/transition-helpdesk-ticket.dto';
 import {
   HELPDESK_PERMISSIONS,
 } from '../helpdesk.constants';
@@ -123,6 +125,75 @@ export class HelpdeskController {
   ) {
     return this.success(
       await this.helpdeskService.assign(id, dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.MANAGE)
+  @Post(':id/start-progress')
+  async startProgress(
+    @Param('id') id: string,
+    @Body() dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.startProgress(
+        id,
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.MANAGE)
+  @Post(':id/escalate')
+  async escalate(
+    @Param('id') id: string,
+    @Body() dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.escalate(id, dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.RESOLVE)
+  @Post(':id/resolve')
+  async resolve(
+    @Param('id') id: string,
+    @Body() dto: ResolveHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.resolve(id, dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.RESOLVE)
+  @Post(':id/reopen')
+  async reopen(
+    @Param('id') id: string,
+    @Body() dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.reopen(id, dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.RESOLVE)
+  @Post(':id/close')
+  async close(
+    @Param('id') id: string,
+    @Body() dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.close(id, dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.RESOLVE)
+  @Post(':id/cancel')
+  async cancel(
+    @Param('id') id: string,
+    @Body() dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskService.cancel(id, dto),
     );
   }
 

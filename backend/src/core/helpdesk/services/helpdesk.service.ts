@@ -11,6 +11,8 @@ import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AssignHelpdeskTicketDto } from '../dto/assign-helpdesk-ticket.dto';
 import { CreateHelpdeskTicketDto } from '../dto/create-helpdesk-ticket.dto';
 import { UpdateHelpdeskTicketDto } from '../dto/update-helpdesk-ticket.dto';
+import { ResolveHelpdeskTicketDto } from '../dto/resolve-helpdesk-ticket.dto';
+import { TransitionHelpdeskTicketDto } from '../dto/transition-helpdesk-ticket.dto';
 import {
   HELPDESK_EVENTS,
 } from '../helpdesk.constants';
@@ -279,6 +281,118 @@ export class HelpdeskService {
     return assigned;
   }
 
+  async startProgress(
+    id: string,
+    dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.transition(
+      id,
+      dto,
+      [HelpdeskStatus.ASSIGNED],
+      HelpdeskStatus.IN_PROGRESS,
+      HELPDESK_EVENTS.IN_PROGRESS,
+    );
+  }
+
+  async escalate(
+    id: string,
+    dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.transition(
+      id,
+      dto,
+      [
+        HelpdeskStatus.OPEN,
+        HelpdeskStatus.ASSIGNED,
+        HelpdeskStatus.IN_PROGRESS,
+        HelpdeskStatus.REOPENED,
+      ],
+      HelpdeskStatus.ESCALATED,
+      HELPDESK_EVENTS.ESCALATED,
+      {
+        escalatedAt: new Date(),
+      },
+    );
+  }
+
+  async resolve(
+    id: string,
+    dto: ResolveHelpdeskTicketDto,
+  ) {
+    this.requireText(
+      dto.resolutionSummary,
+      'resolutionSummary',
+    );
+
+    return this.transition(
+      id,
+      dto,
+      [
+        HelpdeskStatus.ASSIGNED,
+        HelpdeskStatus.IN_PROGRESS,
+        HelpdeskStatus.ESCALATED,
+        HelpdeskStatus.REOPENED,
+      ],
+      HelpdeskStatus.RESOLVED,
+      HELPDESK_EVENTS.RESOLVED,
+      {
+        resolvedAt: new Date(),
+      },
+      dto.resolutionSummary.trim(),
+    );
+  }
+
+  async reopen(
+    id: string,
+    dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.transition(
+      id,
+      dto,
+      [
+        HelpdeskStatus.RESOLVED,
+        HelpdeskStatus.CLOSED,
+      ],
+      HelpdeskStatus.REOPENED,
+      HELPDESK_EVENTS.REOPENED,
+    );
+  }
+
+  async close(
+    id: string,
+    dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.transition(
+      id,
+      dto,
+      [HelpdeskStatus.RESOLVED],
+      HelpdeskStatus.CLOSED,
+      HELPDESK_EVENTS.CLOSED,
+      {
+        closedAt: new Date(),
+      },
+    );
+  }
+
+  async cancel(
+    id: string,
+    dto: TransitionHelpdeskTicketDto,
+  ) {
+    return this.transition(
+      id,
+      dto,
+      [
+        HelpdeskStatus.OPEN,
+        HelpdeskStatus.ASSIGNED,
+        HelpdeskStatus.IN_PROGRESS,
+        HelpdeskStatus.ESCALATED,
+        HelpdeskStatus.REOPENED,
+      ],
+      HelpdeskStatus.CANCELLED,
+      HELPDESK_EVENTS.CANCELLED,
+    );
+  }
+
   async listCategories() {
     return this.repository.listCategories();
   }
@@ -290,6 +404,66 @@ export class HelpdeskService {
 
   async getMetrics(propertyId?: string) {
     return this.repository.getMetrics(propertyId);
+  }
+
+  private async transition(
+    id: string,
+    dto: TransitionHelpdeskTicketDto,
+    allowedFrom: HelpdeskStatus[],
+    nextStatus: HelpdeskStatus,
+    eventName: string,
+    timestamps: {
+      firstRespondedAt?: Date;
+      escalatedAt?: Date;
+      resolvedAt?: Date;
+      closedAt?: Date;
+    } = {},
+    resolutionSummary?: string,
+  ) {
+    const current = await this.requireTicket(id);
+
+    if (!allowedFrom.includes(current.status)) {
+      throw new BadRequestException(
+        `Helpdesk ticket cannot transition from ${current.status} to ${nextStatus}`,
+      );
+    }
+
+    const updated =
+      await this.repository.updateStatus(
+        id,
+        nextStatus,
+        timestamps,
+        resolutionSummary,
+      );
+
+    if (!updated) {
+      throw new NotFoundException(
+        `Helpdesk ticket not found: ${id}`,
+      );
+    }
+
+    await this.repository.addHistory({
+      id: randomUUID(),
+      ticketId: id,
+      fromStatus: current.status,
+      toStatus: nextStatus,
+      changedByPersonId: dto.changedByPersonId,
+      remarks: dto.remarks,
+      createdAt: new Date(),
+    });
+
+    await this.publish(eventName, updated);
+
+    await this.auditService.record(
+      eventName,
+      'core.helpdesk',
+      this.auditPayload(updated, {
+        actorPersonId: dto.changedByPersonId,
+        remarks: dto.remarks,
+      }),
+    );
+
+    return updated;
   }
 
   private async requireTicket(

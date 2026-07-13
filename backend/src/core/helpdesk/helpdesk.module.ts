@@ -9,6 +9,9 @@ import { PluginModule } from '../plugin/plugin.module';
 import {
   SearchModule,
 } from '../search';
+import {
+  SchedulerModule,
+} from '../scheduler';
 import { HelpdeskBootstrapService } from './bootstrap/helpdesk-bootstrap.service';
 import { HelpdeskController } from './controllers/helpdesk.controller';
 import {
@@ -16,6 +19,9 @@ import {
 } from './repositories/helpdesk.repository';
 import { PostgresHelpdeskRepository } from './repositories/postgres-helpdesk.repository';
 import { HelpdeskService } from './services/helpdesk.service';
+import { HelpdeskSlaService } from './services/helpdesk-sla.service';
+import { HelpdeskSlaWarningJobHandler } from './handlers/helpdesk-sla-warning-job.handler';
+import { HelpdeskSlaBreachJobHandler } from './handlers/helpdesk-sla-breach-job.handler';
 
 
 import {
@@ -29,6 +35,7 @@ import {
     EventBusModule,
     PluginModule,
     SearchModule,
+    SchedulerModule,
   ],
   controllers: [
     HelpdeskController,
@@ -36,6 +43,9 @@ import {
   providers: [
     HelpdeskBootstrapService,
     HelpdeskSearchProviderService,
+    HelpdeskSlaService,
+    HelpdeskSlaWarningJobHandler,
+    HelpdeskSlaBreachJobHandler,
     HelpdeskService,
     {
       provide: HELPDESK_REPOSITORY,
@@ -44,6 +54,9 @@ import {
   ],
   exports: [
     HelpdeskService,
+    HelpdeskSlaService,
+    HelpdeskSlaWarningJobHandler,
+    HelpdeskSlaBreachJobHandler,
   ],
 })
 export class HelpdeskModule {}

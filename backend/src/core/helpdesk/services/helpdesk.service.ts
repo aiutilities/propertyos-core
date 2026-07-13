@@ -8,6 +8,7 @@ import { randomUUID } from 'crypto';
 
 import { AuditService } from '../../audit/audit.service';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
+import { SchedulerService } from '../../scheduler/services/scheduler.service';
 import { AssignHelpdeskTicketDto } from '../dto/assign-helpdesk-ticket.dto';
 import { CreateHelpdeskTicketDto } from '../dto/create-helpdesk-ticket.dto';
 import { UpdateHelpdeskTicketDto } from '../dto/update-helpdesk-ticket.dto';
@@ -18,6 +19,8 @@ import { AddHelpdeskWorklogDto } from '../dto/add-helpdesk-worklog.dto';
 import { SubmitHelpdeskFeedbackDto } from '../dto/submit-helpdesk-feedback.dto';
 import {
   HELPDESK_EVENTS,
+  HELPDESK_SLA_BREACH_JOB_TYPE,
+  HELPDESK_SLA_WARNING_JOB_TYPE,
 } from '../helpdesk.constants';
 import {
   HELPDESK_REPOSITORY,
@@ -40,6 +43,8 @@ export class HelpdeskService {
     private readonly repository: HelpdeskRepository,
     private readonly eventBus: EventBusService,
     private readonly auditService: AuditService,
+    private readonly schedulerService:
+      SchedulerService,
   ) {}
 
   async create(
@@ -117,6 +122,8 @@ export class HelpdeskService {
         actorPersonId: dto.requesterPersonId,
       }),
     );
+
+    await this.scheduleSlaJobs(created);
 
     return created;
   }
@@ -603,6 +610,66 @@ export class HelpdeskService {
 
   async getMetrics(propertyId?: string) {
     return this.repository.getMetrics(propertyId);
+  }
+
+  private async scheduleSlaJobs(
+    ticket: HelpdeskTicket,
+  ): Promise<void> {
+    if (!ticket.resolutionDueAt) {
+      return;
+    }
+
+    const now = Date.now();
+    const dueAt =
+      ticket.resolutionDueAt.getTime();
+
+    const warningAt = new Date(
+      now +
+        Math.max(
+          Math.round(
+            (dueAt - now) * 0.8,
+          ),
+          60_000,
+        ),
+    );
+
+    const payload = {
+      ticketId: ticket.id,
+      ticketNumber:
+        ticket.ticketNumber,
+      propertyId:
+        ticket.propertyId,
+    };
+
+    if (warningAt.getTime() > now) {
+      await this.schedulerService.createJob({
+        name:
+          `Helpdesk SLA warning: ${ticket.ticketNumber}`,
+        jobType:
+          HELPDESK_SLA_WARNING_JOB_TYPE,
+        payload,
+        scheduleType:
+          'ONE_TIME',
+        runAt:
+          warningAt.toISOString(),
+        maxAttempts: 3,
+      });
+    }
+
+    if (dueAt > now) {
+      await this.schedulerService.createJob({
+        name:
+          `Helpdesk SLA breach: ${ticket.ticketNumber}`,
+        jobType:
+          HELPDESK_SLA_BREACH_JOB_TYPE,
+        payload,
+        scheduleType:
+          'ONE_TIME',
+        runAt:
+          ticket.resolutionDueAt.toISOString(),
+        maxAttempts: 3,
+      });
+    }
   }
 
   private async transition(

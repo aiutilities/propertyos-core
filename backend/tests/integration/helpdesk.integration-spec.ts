@@ -384,6 +384,33 @@ describe(
     );
 
     it(
+      'creates SLA warning and breach scheduler jobs',
+      async () => {
+        const jobs =
+          await pool.query(
+            `
+            SELECT job_type
+            FROM scheduler_jobs
+            WHERE payload->>'ticketId' = $1
+            ORDER BY job_type
+            `,
+            [ticketId],
+          );
+
+        expect(
+          jobs.rows.map(
+            (row) => row.job_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining([
+            'helpdesk.sla.warning',
+            'helpdesk.sla.breach',
+          ]),
+        );
+      },
+    );
+
+    it(
       'lists and searches the created ticket',
       async () => {
         const response = await request(

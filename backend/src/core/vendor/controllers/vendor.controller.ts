@@ -79,6 +79,10 @@ import {
 } from '../dto/cancel-vendor-work-order.dto';
 
 import {
+  CreateVendorRatingDto,
+} from '../dto/create-vendor-rating.dto';
+
+import {
   VendorService,
 } from '../services/vendor.service';
 
@@ -182,6 +186,48 @@ export class VendorController {
   ) {
     return this.success(
       await this.service.get(id),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.RATINGS,
+  )
+  @Post('ratings')
+  async createRating(
+    @Body()
+    dto: CreateVendorRatingDto,
+  ) {
+    return this.success(
+      await this.service
+        .createRating(dto),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.READ,
+  )
+  @Get(':id/ratings')
+  async listRatings(
+    @Param('id')
+    id: string,
+  ) {
+    return this.success(
+      await this.service
+        .listRatings(id),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.READ,
+  )
+  @Get(':id/rating-summary')
+  async getRatingSummary(
+    @Param('id')
+    id: string,
+  ) {
+    return this.success(
+      await this.service
+        .getRatingSummary(id),
     );
   }
 

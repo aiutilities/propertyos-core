@@ -21,6 +21,7 @@ import {
   VendorFilters,
   VendorMetrics,
   VendorPropertyCoverage,
+  VendorRating,
   VendorServiceCategory,
   VendorWorkOrder,
   VendorWorkOrderHistory,
@@ -856,6 +857,175 @@ export class PostgresVendorRepository
           row.created_at,
       }),
     );
+  }
+
+  async createRating(
+    rating: VendorRating,
+  ): Promise<VendorRating> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO vendor_ratings (
+          id,
+          vendor_id,
+          work_order_id,
+          property_id,
+          rated_by_person_id,
+          rating,
+          quality_rating,
+          timeliness_rating,
+          professionalism_rating,
+          comments,
+          created_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,
+          $7,$8,$9,$10,$11
+        )
+        RETURNING *
+        `,
+        [
+          rating.id,
+          rating.vendorId,
+          rating.workOrderId ?? null,
+          rating.propertyId ?? null,
+          rating.ratedByPersonId,
+          rating.rating,
+          rating.qualityRating ?? null,
+          rating.timelinessRating ?? null,
+          rating.professionalismRating ?? null,
+          rating.comments ?? null,
+          rating.createdAt,
+        ],
+      );
+
+    return this.mapRating(
+      result.rows[0],
+    );
+  }
+
+  async listRatings(
+    vendorId: string,
+  ): Promise<VendorRating[]> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_ratings
+        WHERE vendor_id = $1
+        ORDER BY created_at DESC
+        `,
+        [vendorId],
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapRating(row),
+    );
+  }
+
+  async findRatingByWorkOrderAndPerson(
+    vendorId: string,
+    workOrderId: string,
+    ratedByPersonId: string,
+  ): Promise<VendorRating | null> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_ratings
+        WHERE vendor_id = $1
+          AND work_order_id = $2
+          AND rated_by_person_id = $3
+        LIMIT 1
+        `,
+        [
+          vendorId,
+          workOrderId,
+          ratedByPersonId,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapRating(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async getRatingSummary(
+    vendorId: string,
+  ): Promise<{
+    count: number;
+    averageRating: number;
+    averageQualityRating: number;
+    averageTimelinessRating: number;
+    averageProfessionalismRating: number;
+  }> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT
+          COUNT(*) AS rating_count,
+          COALESCE(
+            AVG(rating),
+            0
+          ) AS average_rating,
+          COALESCE(
+            AVG(quality_rating),
+            0
+          ) AS average_quality_rating,
+          COALESCE(
+            AVG(timeliness_rating),
+            0
+          ) AS average_timeliness_rating,
+          COALESCE(
+            AVG(professionalism_rating),
+            0
+          ) AS average_professionalism_rating
+        FROM vendor_ratings
+        WHERE vendor_id = $1
+        `,
+        [vendorId],
+      );
+
+    const row =
+      result.rows[0] ?? {};
+
+    return {
+      count:
+        Number(
+          row.rating_count ?? 0,
+        ),
+
+      averageRating:
+        Number(
+          Number(
+            row.average_rating ?? 0,
+          ).toFixed(2),
+        ),
+
+      averageQualityRating:
+        Number(
+          Number(
+            row.average_quality_rating ?? 0,
+          ).toFixed(2),
+        ),
+
+      averageTimelinessRating:
+        Number(
+          Number(
+            row.average_timeliness_rating ?? 0,
+          ).toFixed(2),
+        ),
+
+      averageProfessionalismRating:
+        Number(
+          Number(
+            row.average_professionalism_rating ?? 0,
+          ).toFixed(2),
+        ),
+    };
   }
 
   async createWorkOrder(
@@ -1866,6 +2036,41 @@ export class PostgresVendorRepository
           row.open_work_orders ??
           0,
         ),
+    };
+  }
+
+  private mapRating(
+    row: any,
+  ): VendorRating {
+    return {
+      id:
+        row.id,
+      vendorId:
+        row.vendor_id,
+      workOrderId:
+        row.work_order_id ??
+        undefined,
+      propertyId:
+        row.property_id ??
+        undefined,
+      ratedByPersonId:
+        row.rated_by_person_id,
+      rating:
+        row.rating,
+      qualityRating:
+        row.quality_rating ??
+        undefined,
+      timelinessRating:
+        row.timeliness_rating ??
+        undefined,
+      professionalismRating:
+        row.professionalism_rating ??
+        undefined,
+      comments:
+        row.comments ??
+        undefined,
+      createdAt:
+        row.created_at,
     };
   }
 

@@ -73,6 +73,10 @@ import {
 } from '../dto/cancel-vendor-work-order.dto';
 
 import {
+  CreateVendorRatingDto,
+} from '../dto/create-vendor-rating.dto';
+
+import {
   VENDOR_EVENTS,
 } from '../vendor.constants';
 
@@ -90,6 +94,7 @@ import {
   VendorContractStatus,
   VendorFilters,
   VendorPropertyCoverage,
+  VendorRating,
   VendorServiceCategory,
   VendorStatus,
   VendorWorkOrder,
@@ -646,6 +651,166 @@ export class VendorService {
           dto.changedByPersonId,
       },
     );
+  }
+
+  async createRating(
+    dto: CreateVendorRatingDto,
+  ): Promise<VendorRating> {
+    const vendor =
+      await this.requireVendor(
+        dto.vendorId,
+      );
+
+    if (
+      vendor.status ===
+      VendorStatus.ARCHIVED
+    ) {
+      throw new BadRequestException(
+        'Cannot rate an archived vendor',
+      );
+    }
+
+    this.validateRating(
+      dto.rating,
+      'rating',
+      false,
+    );
+
+    this.validateRating(
+      dto.qualityRating,
+      'qualityRating',
+      true,
+    );
+
+    this.validateRating(
+      dto.timelinessRating,
+      'timelinessRating',
+      true,
+    );
+
+    this.validateRating(
+      dto.professionalismRating,
+      'professionalismRating',
+      true,
+    );
+
+    if (dto.workOrderId) {
+      const workOrder =
+        await this.requireWorkOrder(
+          dto.workOrderId,
+        );
+
+      if (
+        workOrder.vendorId !==
+        dto.vendorId
+      ) {
+        throw new BadRequestException(
+          'Work order does not belong to the selected vendor',
+        );
+      }
+
+      if (
+        workOrder.status !==
+        VendorWorkOrderStatus.COMPLETED
+      ) {
+        throw new BadRequestException(
+          'Only completed work orders can be rated',
+        );
+      }
+
+      const existing =
+        await this.repository
+          .findRatingByWorkOrderAndPerson(
+            dto.vendorId,
+            dto.workOrderId,
+            dto.ratedByPersonId,
+          );
+
+      if (existing) {
+        throw new BadRequestException(
+          'This person has already rated the work order',
+        );
+      }
+    }
+
+    const rating: VendorRating = {
+      id:
+        randomUUID(),
+
+      vendorId:
+        dto.vendorId,
+
+      workOrderId:
+        dto.workOrderId,
+
+      propertyId:
+        dto.propertyId,
+
+      ratedByPersonId:
+        dto.ratedByPersonId,
+
+      rating:
+        dto.rating,
+
+      qualityRating:
+        dto.qualityRating,
+
+      timelinessRating:
+        dto.timelinessRating,
+
+      professionalismRating:
+        dto.professionalismRating,
+
+      comments:
+        dto.comments?.trim() ||
+        undefined,
+
+      createdAt:
+        new Date(),
+    };
+
+    const created =
+      await this.repository
+        .createRating(rating);
+
+    await this.publishRatingEvent(
+      VENDOR_EVENTS.RATED,
+      created,
+    );
+
+    await this.auditService.record(
+      VENDOR_EVENTS.RATED,
+      'core.vendor',
+      this.ratingAuditPayload(
+        created,
+      ),
+    );
+
+    return created;
+  }
+
+  async listRatings(
+    vendorId: string,
+  ) {
+    await this.requireVendor(
+      vendorId,
+    );
+
+    return this.repository
+      .listRatings(vendorId);
+  }
+
+  async getRatingSummary(
+    vendorId: string,
+  ) {
+    await this.requireVendor(
+      vendorId,
+    );
+
+    return this.repository
+      .getRatingSummary(
+        vendorId,
+      );
   }
 
   async createWorkOrder(
@@ -2170,6 +2335,30 @@ export class VendorService {
     }
   }
 
+  private validateRating(
+    value: number | undefined,
+    field: string,
+    optional: boolean,
+  ): void {
+    if (
+      value === undefined &&
+      optional
+    ) {
+      return;
+    }
+
+    if (
+      value === undefined ||
+      !Number.isInteger(value) ||
+      value < 1 ||
+      value > 5
+    ) {
+      throw new BadRequestException(
+        `${field} must be an integer between 1 and 5`,
+      );
+    }
+  }
+
   private parseDate(
     value: string,
     field: string,
@@ -2280,6 +2469,25 @@ export class VendorService {
     return `VEN-${date}-${suffix}`;
   }
 
+  private async publishRatingEvent(
+    eventName: string,
+    rating: VendorRating,
+  ): Promise<void> {
+    await this.eventBus.publish(
+      eventName,
+      'core.vendor',
+      {
+        ...rating,
+        entityType:
+          'vendor.rating',
+        entityId:
+          rating.id,
+        eventVersion:
+          1,
+      },
+    );
+  }
+
   private async publishWorkOrderEvent(
     eventName: string,
     workOrder: VendorWorkOrder,
@@ -2354,6 +2562,31 @@ export class VendorService {
           1,
       },
     );
+  }
+
+  private ratingAuditPayload(
+    rating: VendorRating,
+  ) {
+    return {
+      ratingId:
+        rating.id,
+      vendorId:
+        rating.vendorId,
+      workOrderId:
+        rating.workOrderId,
+      propertyId:
+        rating.propertyId,
+      rating:
+        rating.rating,
+      qualityRating:
+        rating.qualityRating,
+      timelinessRating:
+        rating.timelinessRating,
+      professionalismRating:
+        rating.professionalismRating,
+      actorPersonId:
+        rating.ratedByPersonId,
+    };
   }
 
   private workOrderAuditPayload(

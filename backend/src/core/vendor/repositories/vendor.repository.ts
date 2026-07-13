@@ -8,6 +8,7 @@ import {
   VendorFilters,
   VendorMetrics,
   VendorPropertyCoverage,
+  VendorRating,
   VendorServiceCategory,
   VendorWorkOrder,
   VendorWorkOrderHistory,
@@ -64,6 +65,30 @@ export interface VendorRepository {
   listServiceCategories(
     vendorId: string,
   ): Promise<VendorServiceCategory[]>;
+
+  createRating(
+    rating: VendorRating,
+  ): Promise<VendorRating>;
+
+  listRatings(
+    vendorId: string,
+  ): Promise<VendorRating[]>;
+
+  findRatingByWorkOrderAndPerson(
+    vendorId: string,
+    workOrderId: string,
+    ratedByPersonId: string,
+  ): Promise<VendorRating | null>;
+
+  getRatingSummary(
+    vendorId: string,
+  ): Promise<{
+    count: number;
+    averageRating: number;
+    averageQualityRating: number;
+    averageTimelinessRating: number;
+    averageProfessionalismRating: number;
+  }>;
 
   createWorkOrder(
     workOrder: VendorWorkOrder,

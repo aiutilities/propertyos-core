@@ -48,6 +48,7 @@ import { RequestIdMiddleware } from "./core/platform/middleware/request-id.middl
 import { RequestLoggingMiddleware } from "./core/platform/middleware/request-logging.middleware";
 import { VisitorModule } from "./plugins/visitor/visitor.module";
 import { ReservationModule } from "./core/reservation";
+import { HelpdeskModule } from "./core/helpdesk";
 
 @Module({
   imports: [
@@ -97,6 +98,7 @@ import { ReservationModule } from "./core/reservation";
     StaffModule,
     ReportModule,
     ReservationModule,
+    HelpdeskModule,
     BootstrapModule,
 
     VisitorModule,

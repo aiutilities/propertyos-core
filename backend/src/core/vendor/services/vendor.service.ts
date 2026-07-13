@@ -33,6 +33,18 @@ import {
 } from '../dto/transition-vendor.dto';
 
 import {
+  CreateVendorContractDto,
+} from '../dto/create-vendor-contract.dto';
+
+import {
+  RenewVendorContractDto,
+} from '../dto/renew-vendor-contract.dto';
+
+import {
+  TransitionVendorContractDto,
+} from '../dto/transition-vendor-contract.dto';
+
+import {
   VENDOR_EVENTS,
 } from '../vendor.constants';
 
@@ -44,6 +56,8 @@ import {
 import {
   Vendor,
   VendorContact,
+  VendorContract,
+  VendorContractStatus,
   VendorFilters,
   VendorPropertyCoverage,
   VendorServiceCategory,
@@ -601,6 +615,371 @@ export class VendorService {
     );
   }
 
+  async createContract(
+    dto: CreateVendorContractDto,
+  ): Promise<VendorContract> {
+    const vendor =
+      await this.requireVendor(
+        dto.vendorId,
+      );
+
+    if (
+      vendor.status ===
+      VendorStatus.ARCHIVED
+    ) {
+      throw new BadRequestException(
+        'Cannot create a contract for an archived vendor',
+      );
+    }
+
+    const startDate =
+      this.parseDate(
+        dto.startDate,
+        'startDate',
+      );
+
+    const endDate =
+      this.parseDate(
+        dto.endDate,
+        'endDate',
+      );
+
+    this.validateContractDates(
+      startDate,
+      endDate,
+    );
+
+    this.validatePositiveNumber(
+      dto.contractValue,
+      'contractValue',
+      true,
+    );
+
+    this.validatePositiveNumber(
+      dto.responseSlaMinutes,
+      'responseSlaMinutes',
+      false,
+    );
+
+    this.validatePositiveNumber(
+      dto.resolutionSlaMinutes,
+      'resolutionSlaMinutes',
+      false,
+    );
+
+    if (
+      dto.renewalNoticeDays < 0
+    ) {
+      throw new BadRequestException(
+        'renewalNoticeDays cannot be negative',
+      );
+    }
+
+    const now =
+      new Date();
+
+    const contract: VendorContract = {
+      id:
+        randomUUID(),
+
+      contractNumber:
+        this.createContractNumber(),
+
+      vendorId:
+        dto.vendorId,
+
+      propertyId:
+        dto.propertyId,
+
+      contractType:
+        dto.contractType,
+
+      title:
+        dto.title.trim(),
+
+      description:
+        dto.description?.trim() ||
+        undefined,
+
+      status:
+        VendorContractStatus.DRAFT,
+
+      startDate,
+      endDate,
+
+      contractValue:
+        dto.contractValue,
+
+      currency:
+        dto.currency.trim()
+          .toUpperCase(),
+
+      responseSlaMinutes:
+        dto.responseSlaMinutes,
+
+      resolutionSlaMinutes:
+        dto.resolutionSlaMinutes,
+
+      autoRenew:
+        dto.autoRenew,
+
+      renewalNoticeDays:
+        dto.renewalNoticeDays,
+
+      createdByPersonId:
+        dto.createdByPersonId,
+
+      createdAt:
+        now,
+
+      updatedAt:
+        now,
+    };
+
+    const created =
+      await this.repository
+        .createContract(contract);
+
+    await this.publishContractEvent(
+      VENDOR_EVENTS.CONTRACT_CREATED,
+      created,
+    );
+
+    await this.auditService.record(
+      VENDOR_EVENTS.CONTRACT_CREATED,
+      'core.vendor',
+      this.contractAuditPayload(
+        created,
+        dto.createdByPersonId,
+      ),
+    );
+
+    return created;
+  }
+
+  async listContracts(
+    filters: {
+      vendorId?: string;
+      propertyId?: string;
+      status?: string;
+      search?: string;
+    } = {},
+  ) {
+    return this.repository
+      .listContracts(filters);
+  }
+
+  async getContract(
+    id: string,
+  ) {
+    return this.requireContract(id);
+  }
+
+  async activateContract(
+    id: string,
+    dto: TransitionVendorContractDto,
+  ) {
+    const current =
+      await this.requireContract(id);
+
+    if (
+      current.status !==
+      VendorContractStatus.DRAFT
+    ) {
+      throw new BadRequestException(
+        `Contract cannot be activated from ${current.status}`,
+      );
+    }
+
+    const vendor =
+      await this.requireVendor(
+        current.vendorId,
+      );
+
+    if (
+      vendor.status !==
+      VendorStatus.ACTIVE
+    ) {
+      throw new BadRequestException(
+        'Vendor must be ACTIVE before contract activation',
+      );
+    }
+
+    return this.transitionContract(
+      current,
+      VendorContractStatus.ACTIVE,
+      VENDOR_EVENTS.CONTRACT_ACTIVATED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        activatedAt:
+          new Date(),
+        approvedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async renewContract(
+    id: string,
+    dto: RenewVendorContractDto,
+  ) {
+    const current =
+      await this.requireContract(id);
+
+    if (
+      ![
+        VendorContractStatus.ACTIVE,
+        VendorContractStatus.EXPIRED,
+      ].includes(current.status)
+    ) {
+      throw new BadRequestException(
+        `Contract cannot be renewed from ${current.status}`,
+      );
+    }
+
+    const startDate =
+      this.parseDate(
+        dto.startDate,
+        'startDate',
+      );
+
+    const endDate =
+      this.parseDate(
+        dto.endDate,
+        'endDate',
+      );
+
+    this.validateContractDates(
+      startDate,
+      endDate,
+    );
+
+    this.validatePositiveNumber(
+      dto.contractValue,
+      'contractValue',
+      true,
+    );
+
+    this.validatePositiveNumber(
+      dto.responseSlaMinutes,
+      'responseSlaMinutes',
+      false,
+    );
+
+    this.validatePositiveNumber(
+      dto.resolutionSlaMinutes,
+      'resolutionSlaMinutes',
+      false,
+    );
+
+    return this.transitionContract(
+      current,
+      VendorContractStatus.RENEWED,
+      VENDOR_EVENTS.CONTRACT_RENEWED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        startDate,
+        endDate,
+        contractValue:
+          dto.contractValue ??
+          current.contractValue,
+        responseSlaMinutes:
+          dto.responseSlaMinutes ??
+          current.responseSlaMinutes,
+        resolutionSlaMinutes:
+          dto.resolutionSlaMinutes ??
+          current.resolutionSlaMinutes,
+        renewedAt:
+          new Date(),
+        approvedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async expireContract(
+    id: string,
+    dto: TransitionVendorContractDto,
+  ) {
+    const current =
+      await this.requireContract(id);
+
+    if (
+      current.status !==
+      VendorContractStatus.ACTIVE
+    ) {
+      throw new BadRequestException(
+        `Contract cannot expire from ${current.status}`,
+      );
+    }
+
+    return this.transitionContract(
+      current,
+      VendorContractStatus.EXPIRED,
+      VENDOR_EVENTS.CONTRACT_EXPIRED,
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
+  async terminateContract(
+    id: string,
+    dto: TransitionVendorContractDto,
+  ) {
+    const current =
+      await this.requireContract(id);
+
+    if (
+      current.status !==
+      VendorContractStatus.ACTIVE
+    ) {
+      throw new BadRequestException(
+        `Contract cannot be terminated from ${current.status}`,
+      );
+    }
+
+    return this.transitionContract(
+      current,
+      VendorContractStatus.TERMINATED,
+      VENDOR_EVENTS.CONTRACT_TERMINATED,
+      dto.changedByPersonId,
+      dto.remarks,
+      {
+        terminatedAt:
+          new Date(),
+        terminatedByPersonId:
+          dto.changedByPersonId,
+      },
+    );
+  }
+
+  async cancelContract(
+    id: string,
+    dto: TransitionVendorContractDto,
+  ) {
+    const current =
+      await this.requireContract(id);
+
+    if (
+      current.status !==
+      VendorContractStatus.DRAFT
+    ) {
+      throw new BadRequestException(
+        `Contract cannot be cancelled from ${current.status}`,
+      );
+    }
+
+    return this.transitionContract(
+      current,
+      VendorContractStatus.CANCELLED,
+      'vendor.contract.cancelled',
+      dto.changedByPersonId,
+      dto.remarks,
+    );
+  }
+
   async listCategories() {
     return this.repository
       .listCategories();
@@ -609,6 +988,71 @@ export class VendorService {
   async getMetrics() {
     return this.repository
       .getMetrics();
+  }
+
+  private async requireContract(
+    id: string,
+  ): Promise<VendorContract> {
+    const contract =
+      await this.repository
+        .findContractById(id);
+
+    if (!contract) {
+      throw new NotFoundException(
+        `Vendor contract not found: ${id}`,
+      );
+    }
+
+    return contract;
+  }
+
+  private async transitionContract(
+    current: VendorContract,
+    nextStatus: VendorContractStatus,
+    eventName: string,
+    changedByPersonId: string,
+    remarks?: string,
+    changes: Partial<VendorContract> = {},
+  ): Promise<VendorContract> {
+    const updated =
+      await this.repository
+        .updateContract(
+          current.id,
+          {
+            ...changes,
+            status:
+              nextStatus,
+          },
+        );
+
+    if (!updated) {
+      throw new NotFoundException(
+        `Vendor contract not found: ${current.id}`,
+      );
+    }
+
+    await this.publishContractEvent(
+      eventName,
+      updated,
+    );
+
+    await this.auditService.record(
+      eventName,
+      'core.vendor',
+      {
+        ...this.contractAuditPayload(
+          updated,
+          changedByPersonId,
+        ),
+        fromStatus:
+          current.status,
+        toStatus:
+          nextStatus,
+        remarks,
+      },
+    );
+
+    return updated;
   }
 
   private async transition(
@@ -786,6 +1230,84 @@ export class VendorService {
     }
   }
 
+  private parseDate(
+    value: string,
+    field: string,
+  ): Date {
+    const parsed =
+      new Date(value);
+
+    if (
+      !value ||
+      Number.isNaN(
+        parsed.getTime(),
+      )
+    ) {
+      throw new BadRequestException(
+        `${field} must be a valid date`,
+      );
+    }
+
+    return parsed;
+  }
+
+  private validateContractDates(
+    startDate: Date,
+    endDate: Date,
+  ): void {
+    if (
+      endDate.getTime() <
+      startDate.getTime()
+    ) {
+      throw new BadRequestException(
+        'endDate must be on or after startDate',
+      );
+    }
+  }
+
+  private validatePositiveNumber(
+    value: number | undefined,
+    field: string,
+    allowZero: boolean,
+  ): void {
+    if (value === undefined) {
+      return;
+    }
+
+    if (
+      !Number.isFinite(value) ||
+      (
+        allowZero
+          ? value < 0
+          : value <= 0
+      )
+    ) {
+      throw new BadRequestException(
+        `${field} must be ${
+          allowZero
+            ? 'zero or greater'
+            : 'greater than zero'
+        }`,
+      );
+    }
+  }
+
+  private createContractNumber(): string {
+    const date =
+      new Date()
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, '');
+
+    const suffix =
+      randomUUID()
+        .replace(/-/g, '')
+        .slice(0, 8)
+        .toUpperCase();
+
+    return `VCT-${date}-${suffix}`;
+  }
+
   private createNumber(): string {
     const date =
       new Date()
@@ -800,6 +1322,25 @@ export class VendorService {
         .toUpperCase();
 
     return `VEN-${date}-${suffix}`;
+  }
+
+  private async publishContractEvent(
+    eventName: string,
+    contract: VendorContract,
+  ): Promise<void> {
+    await this.eventBus.publish(
+      eventName,
+      'core.vendor',
+      {
+        ...contract,
+        entityType:
+          'vendor.contract',
+        entityId:
+          contract.id,
+        eventVersion:
+          1,
+      },
+    );
   }
 
   private async publishEvent(
@@ -819,6 +1360,31 @@ export class VendorService {
           1,
       },
     );
+  }
+
+  private contractAuditPayload(
+    contract: VendorContract,
+    actorPersonId: string,
+  ) {
+    return {
+      contractId:
+        contract.id,
+      contractNumber:
+        contract.contractNumber,
+      vendorId:
+        contract.vendorId,
+      propertyId:
+        contract.propertyId,
+      contractType:
+        contract.contractType,
+      status:
+        contract.status,
+      startDate:
+        contract.startDate,
+      endDate:
+        contract.endDate,
+      actorPersonId,
+    };
   }
 
   private auditPayload(

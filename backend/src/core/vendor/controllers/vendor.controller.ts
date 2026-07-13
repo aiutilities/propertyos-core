@@ -39,6 +39,18 @@ import {
 } from '../dto/transition-vendor.dto';
 
 import {
+  CreateVendorContractDto,
+} from '../dto/create-vendor-contract.dto';
+
+import {
+  RenewVendorContractDto,
+} from '../dto/renew-vendor-contract.dto';
+
+import {
+  TransitionVendorContractDto,
+} from '../dto/transition-vendor-contract.dto';
+
+import {
   VendorService,
 } from '../services/vendor.service';
 
@@ -142,6 +154,164 @@ export class VendorController {
   ) {
     return this.success(
       await this.service.get(id),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Post('contracts')
+  async createContract(
+    @Body()
+    dto: CreateVendorContractDto,
+  ) {
+    return this.success(
+      await this.service
+        .createContract(dto),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Get('contracts')
+  async listContracts(
+    @Query('vendorId')
+    vendorId?: string,
+
+    @Query('propertyId')
+    propertyId?: string,
+
+    @Query('status')
+    status?: string,
+
+    @Query('search')
+    search?: string,
+  ) {
+    return this.success(
+      await this.service
+        .listContracts({
+          vendorId,
+          propertyId,
+          status,
+          search,
+        }),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Get('contracts/:contractId')
+  async getContract(
+    @Param('contractId')
+    contractId: string,
+  ) {
+    return this.success(
+      await this.service
+        .getContract(
+          contractId,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Post('contracts/:contractId/activate')
+  async activateContract(
+    @Param('contractId')
+    contractId: string,
+
+    @Body()
+    dto: TransitionVendorContractDto,
+  ) {
+    return this.success(
+      await this.service
+        .activateContract(
+          contractId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Post('contracts/:contractId/renew')
+  async renewContract(
+    @Param('contractId')
+    contractId: string,
+
+    @Body()
+    dto: RenewVendorContractDto,
+  ) {
+    return this.success(
+      await this.service
+        .renewContract(
+          contractId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Post('contracts/:contractId/expire')
+  async expireContract(
+    @Param('contractId')
+    contractId: string,
+
+    @Body()
+    dto: TransitionVendorContractDto,
+  ) {
+    return this.success(
+      await this.service
+        .expireContract(
+          contractId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Post('contracts/:contractId/terminate')
+  async terminateContract(
+    @Param('contractId')
+    contractId: string,
+
+    @Body()
+    dto: TransitionVendorContractDto,
+  ) {
+    return this.success(
+      await this.service
+        .terminateContract(
+          contractId,
+          dto,
+        ),
+    );
+  }
+
+  @RequirePermission(
+    VENDOR_PERMISSIONS.CONTRACTS,
+  )
+  @Post('contracts/:contractId/cancel')
+  async cancelContract(
+    @Param('contractId')
+    contractId: string,
+
+    @Body()
+    dto: TransitionVendorContractDto,
+  ) {
+    return this.success(
+      await this.service
+        .cancelContract(
+          contractId,
+          dto,
+        ),
     );
   }
 

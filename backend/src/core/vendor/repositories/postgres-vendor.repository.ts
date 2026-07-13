@@ -15,6 +15,7 @@ import {
   Vendor,
   VendorCategory,
   VendorContact,
+  VendorContract,
   VendorDetails,
   VendorFilters,
   VendorMetrics,
@@ -854,6 +855,271 @@ export class PostgresVendorRepository
     );
   }
 
+  async createContract(
+    contract: VendorContract,
+  ): Promise<VendorContract> {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO vendor_contracts (
+          id,
+          contract_number,
+          vendor_id,
+          property_id,
+          contract_type,
+          title,
+          description,
+          status,
+          start_date,
+          end_date,
+          contract_value,
+          currency,
+          response_sla_minutes,
+          resolution_sla_minutes,
+          auto_renew,
+          renewal_notice_days,
+          created_by_person_id,
+          approved_by_person_id,
+          terminated_by_person_id,
+          activated_at,
+          terminated_at,
+          renewed_at,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,
+          $9,$10,$11,$12,$13,$14,$15,
+          $16,$17,$18,$19,$20,$21,$22,
+          $23,$24
+        )
+        RETURNING *
+        `,
+        [
+          contract.id,
+          contract.contractNumber,
+          contract.vendorId,
+          contract.propertyId ?? null,
+          contract.contractType,
+          contract.title,
+          contract.description ?? null,
+          contract.status,
+          contract.startDate,
+          contract.endDate,
+          contract.contractValue ?? null,
+          contract.currency,
+          contract.responseSlaMinutes ?? null,
+          contract.resolutionSlaMinutes ?? null,
+          contract.autoRenew,
+          contract.renewalNoticeDays,
+          contract.createdByPersonId,
+          contract.approvedByPersonId ?? null,
+          contract.terminatedByPersonId ?? null,
+          contract.activatedAt ?? null,
+          contract.terminatedAt ?? null,
+          contract.renewedAt ?? null,
+          contract.createdAt,
+          contract.updatedAt,
+        ],
+      );
+
+    return this.mapContract(
+      result.rows[0],
+    );
+  }
+
+  async findContractById(
+    id: string,
+  ): Promise<VendorContract | null> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_contracts
+        WHERE id = $1
+        `,
+        [id],
+      );
+
+    return result.rows[0]
+      ? this.mapContract(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async listContracts(
+    filters: {
+      vendorId?: string;
+      propertyId?: string;
+      status?: string;
+      search?: string;
+    } = {},
+  ): Promise<VendorContract[]> {
+    const conditions: string[] = [];
+    const values: unknown[] = [];
+
+    const addCondition = (
+      column: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${column} = $${values.length}`,
+      );
+    };
+
+    if (filters.vendorId) {
+      addCondition(
+        'vendor_id',
+        filters.vendorId,
+      );
+    }
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status',
+        filters.status,
+      );
+    }
+
+    if (filters.search) {
+      values.push(
+        `%${filters.search}%`,
+      );
+
+      conditions.push(
+        `(
+          contract_number
+            ILIKE $${values.length}
+          OR title
+            ILIKE $${values.length}
+          OR description
+            ILIKE $${values.length}
+        )`,
+      );
+    }
+
+    const where =
+      conditions.length > 0
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM vendor_contracts
+        ${where}
+        ORDER BY
+          end_date ASC,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapContract(row),
+    );
+  }
+
+  async updateContract(
+    id: string,
+    input: Partial<VendorContract>,
+  ): Promise<VendorContract | null> {
+    const current =
+      await this.findContractById(id);
+
+    if (!current) {
+      return null;
+    }
+
+    const merged: VendorContract = {
+      ...current,
+      ...input,
+      id:
+        current.id,
+      contractNumber:
+        current.contractNumber,
+      vendorId:
+        current.vendorId,
+      createdByPersonId:
+        current.createdByPersonId,
+      createdAt:
+        current.createdAt,
+      updatedAt:
+        new Date(),
+    };
+
+    const result =
+      await this.pool.query(
+        `
+        UPDATE vendor_contracts
+        SET
+          property_id = $2,
+          contract_type = $3,
+          title = $4,
+          description = $5,
+          status = $6,
+          start_date = $7,
+          end_date = $8,
+          contract_value = $9,
+          currency = $10,
+          response_sla_minutes = $11,
+          resolution_sla_minutes = $12,
+          auto_renew = $13,
+          renewal_notice_days = $14,
+          approved_by_person_id = $15,
+          terminated_by_person_id = $16,
+          activated_at = $17,
+          terminated_at = $18,
+          renewed_at = $19,
+          updated_at = $20
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          id,
+          merged.propertyId ?? null,
+          merged.contractType,
+          merged.title,
+          merged.description ?? null,
+          merged.status,
+          merged.startDate,
+          merged.endDate,
+          merged.contractValue ?? null,
+          merged.currency,
+          merged.responseSlaMinutes ?? null,
+          merged.resolutionSlaMinutes ?? null,
+          merged.autoRenew,
+          merged.renewalNoticeDays,
+          merged.approvedByPersonId ?? null,
+          merged.terminatedByPersonId ?? null,
+          merged.activatedAt ?? null,
+          merged.terminatedAt ?? null,
+          merged.renewedAt ?? null,
+          merged.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapContract(
+          result.rows[0],
+        )
+      : null;
+  }
+
   async listCategories():
     Promise<VendorCategory[]> {
     const result =
@@ -1026,6 +1292,74 @@ export class PostgresVendorRepository
           row.open_work_orders ??
           0,
         ),
+    };
+  }
+
+  private mapContract(
+    row: any,
+  ): VendorContract {
+    return {
+      id:
+        row.id,
+      contractNumber:
+        row.contract_number,
+      vendorId:
+        row.vendor_id,
+      propertyId:
+        row.property_id ??
+        undefined,
+      contractType:
+        row.contract_type,
+      title:
+        row.title,
+      description:
+        row.description ??
+        undefined,
+      status:
+        row.status,
+      startDate:
+        row.start_date,
+      endDate:
+        row.end_date,
+      contractValue:
+        row.contract_value === null
+          ? undefined
+          : Number(
+              row.contract_value,
+            ),
+      currency:
+        row.currency,
+      responseSlaMinutes:
+        row.response_sla_minutes ??
+        undefined,
+      resolutionSlaMinutes:
+        row.resolution_sla_minutes ??
+        undefined,
+      autoRenew:
+        row.auto_renew,
+      renewalNoticeDays:
+        row.renewal_notice_days,
+      createdByPersonId:
+        row.created_by_person_id,
+      approvedByPersonId:
+        row.approved_by_person_id ??
+        undefined,
+      terminatedByPersonId:
+        row.terminated_by_person_id ??
+        undefined,
+      activatedAt:
+        row.activated_at ??
+        undefined,
+      terminatedAt:
+        row.terminated_at ??
+        undefined,
+      renewedAt:
+        row.renewed_at ??
+        undefined,
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
     };
   }
 

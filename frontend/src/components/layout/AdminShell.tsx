@@ -38,6 +38,10 @@ const navGroups: NavGroup[] = [
         href: "/resident/reservations",
       },
       {
+        label: "Community Notices",
+        href: "/resident/notices",
+      },
+      {
         label: "My Helpdesk",
         href: "/resident/helpdesk",
       },
@@ -107,6 +111,10 @@ const navGroups: NavGroup[] = [
   {
     label: "Community Operations",
     items: [
+      {
+        label: "Communications",
+        href: "/communications",
+      },
       {
         label: "Security Dashboard",
         href: "/security",

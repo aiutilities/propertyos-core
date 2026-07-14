@@ -3,6 +3,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  PostgresModule,
+} from '../../database/postgres/postgres.module';
+
+import {
   AuditModule,
 } from '../audit/audit.module';
 
@@ -13,6 +17,10 @@ import {
 import {
   EventBusModule,
 } from '../eventbus/eventbus.module';
+
+import {
+  PluginModule,
+} from '../plugin/plugin.module';
 
 import {
   ProcurementBootstrapService,
@@ -36,9 +44,11 @@ import {
 
 @Module({
   imports: [
-    AuthModule,
     AuditModule,
+    AuthModule,
     EventBusModule,
+    PluginModule,
+    PostgresModule,
   ],
 
   controllers: [

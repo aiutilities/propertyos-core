@@ -138,6 +138,12 @@ describe(
     let invoiceMatchNumber:
       string;
 
+    let paymentRequestId:
+      string;
+
+    let paymentRequestNumber:
+      string;
+
     beforeAll(
       async () => {
         const moduleRef:
@@ -4364,6 +4370,693 @@ it(
             `,
             [
               invoiceMatchId,
+            ],
+          );
+
+        expect(
+          eventResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+      },
+    );
+
+    it(
+      'rejects creating a Payment Request above the approved Invoice Match amount',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/payment-requests',
+          )
+          .set(auth())
+          .send({
+            invoiceMatchId,
+
+            requestedAmount:
+              110601,
+
+            requestedByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid amount above approved Invoice Match value',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates a draft Payment Request from the approved Invoice Match',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/payment-requests',
+            )
+            .set(auth())
+            .send({
+              invoiceMatchId,
+
+              requestedAmount:
+                110600,
+
+              currency:
+                'inr',
+
+              dueDate:
+                '2026-07-10',
+
+              requestedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Vendor payment request created from approved Invoice Match',
+            })
+            .expect(201);
+
+        expect(
+          response.body.success,
+        ).toBe(true);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data
+            .invoiceMatchId,
+        ).toBe(
+          invoiceMatchId,
+        );
+
+        expect(
+          response.body.data
+            .purchaseOrderId,
+        ).toBe(
+          purchaseOrderId,
+        );
+
+        expect(
+          response.body.data.vendorId,
+        ).toBe(
+          vendorOneId,
+        );
+
+        expect(
+          response.body.data.propertyId,
+        ).toBe(
+          propertyId,
+        );
+
+        expect(
+          response.body.data
+            .requestedAmount,
+        ).toBe(110600);
+
+        expect(
+          response.body.data.currency,
+        ).toBe('INR');
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data
+            .history[0]
+            .toStatus,
+        ).toBe('DRAFT');
+
+        paymentRequestId =
+          response.body.data.id;
+
+        paymentRequestNumber =
+          response.body.data
+            .paymentRequestNumber;
+
+        expect(
+          paymentRequestNumber,
+        ).toMatch(
+          /^PAY-\d{8}-[A-F0-9]{8}$/,
+        );
+      },
+    );
+
+    it(
+      'rejects a duplicate active Payment Request for the Invoice Match',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/payment-requests',
+          )
+          .set(auth())
+          .send({
+            invoiceMatchId,
+
+            requestedByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid duplicate Payment Request',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'returns Payment Request details',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/payment-requests/${paymentRequestId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.id,
+        ).toBe(
+          paymentRequestId,
+        );
+
+        expect(
+          response.body.data
+            .paymentRequestNumber,
+        ).toBe(
+          paymentRequestNumber,
+        );
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+      },
+    );
+
+    it(
+      'lists and filters Payment Requests',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/payment-requests?invoiceMatchId=${invoiceMatchId}&purchaseOrderId=${purchaseOrderId}&vendorId=${vendorOneId}&propertyId=${propertyId}&status=DRAFT&search=${encodeURIComponent(
+                paymentRequestNumber,
+              )}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              paymentRequestId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'updates the draft Payment Request',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .patch(
+              `/api/v1/procurement/payment-requests/${paymentRequestId}`,
+            )
+            .set(auth())
+            .send({
+              requestedAmount:
+                105000,
+
+              currency:
+                'INR',
+
+              dueDate:
+                '2026-07-09',
+
+              remarks:
+                'Payment Request adjusted before submission',
+
+              updatedByPersonId:
+                adminPersonId,
+            })
+            .expect(200);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data
+            .requestedAmount,
+        ).toBe(105000);
+
+        expect(
+          response.body.data.currency,
+        ).toBe('INR');
+      },
+    );
+
+    it(
+      'submits the draft Payment Request',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/payment-requests/${paymentRequestId}/submit`,
+            )
+            .set(auth())
+            .send({
+              submittedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Payment Request submitted for approval',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('SUBMITTED');
+
+        expect(
+          response.body.data.submittedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'SUBMITTED',
+        ]);
+      },
+    );
+
+    it(
+      'lists overdue submitted Payment Requests',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              '/api/v1/procurement/payment-requests?overdue=true',
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              paymentRequestId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'rejects editing a submitted Payment Request',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .patch(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}`,
+          )
+          .set(auth())
+          .send({
+            requestedAmount:
+              100000,
+
+            updatedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects duplicate Payment Request submission',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}/submit`,
+          )
+          .set(auth())
+          .send({
+            submittedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects approval above the requested amount',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}/approve`,
+          )
+          .set(auth())
+          .send({
+            approvedByPersonId:
+              adminPersonId,
+
+            approvedAmount:
+              105001,
+
+            remarks:
+              'Invalid approval above requested amount',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'approves the submitted Payment Request',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/payment-requests/${paymentRequestId}/approve`,
+            )
+            .set(auth())
+            .send({
+              approvedByPersonId:
+                adminPersonId,
+
+              approvedAmount:
+                100000,
+
+              remarks:
+                'Payment Request approved with retained amount',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('APPROVED');
+
+        expect(
+          response.body.data
+            .approvedAmount,
+        ).toBe(100000);
+
+        expect(
+          response.body.data
+            .approvedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data.approvedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'SUBMITTED',
+          'APPROVED',
+        ]);
+      },
+    );
+
+    it(
+      'rejects payment above the approved amount',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}/pay`,
+          )
+          .set(auth())
+          .send({
+            paidByPersonId:
+              adminPersonId,
+
+            paidAmount:
+              100001,
+
+            paymentReference:
+              `INVALID-PAYMENT-${suffix}`,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects payment without a reference',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}/pay`,
+          )
+          .set(auth())
+          .send({
+            paidByPersonId:
+              adminPersonId,
+
+            paidAmount:
+              100000,
+
+            paymentReference:
+              '   ',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'marks the approved Payment Request as paid',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/payment-requests/${paymentRequestId}/pay`,
+            )
+            .set(auth())
+            .send({
+              paidByPersonId:
+                adminPersonId,
+
+              paidAmount:
+                100000,
+
+              paymentReference:
+                `UTR-${suffix}`,
+
+              remarks:
+                'Vendor payment completed',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('PAID');
+
+        expect(
+          response.body.data
+            .paidAmount,
+        ).toBe(100000);
+
+        expect(
+          response.body.data
+            .paidByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data
+            .paymentReference,
+        ).toBe(
+          `UTR-${suffix}`,
+        );
+
+        expect(
+          response.body.data.paidAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'SUBMITTED',
+          'APPROVED',
+          'PAID',
+        ]);
+      },
+    );
+
+    it(
+      'rejects duplicate Payment Request payment',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}/pay`,
+          )
+          .set(auth())
+          .send({
+            paidByPersonId:
+              adminPersonId,
+
+            paidAmount:
+              100000,
+
+            paymentReference:
+              `DUPLICATE-UTR-${suffix}`,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects cancelling a paid Payment Request',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/payment-requests/${paymentRequestId}/cancel`,
+          )
+          .set(auth())
+          .send({
+            cancelledByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid cancellation after payment',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'persists Payment Request audit and EventBus records',
+      async () => {
+        const expectedEvents = [
+          'procurement.payment_request.created',
+          'procurement.payment_request.submitted',
+          'procurement.payment_request.approved',
+          'procurement.payment_request.paid',
+        ];
+
+        const auditResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM audit_logs
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.payment_request'
+            `,
+            [
+              paymentRequestId,
+            ],
+          );
+
+        expect(
+          auditResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+
+        const eventResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM eventbus_events
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.payment_request'
+            `,
+            [
+              paymentRequestId,
             ],
           );
 

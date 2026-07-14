@@ -34,6 +34,11 @@ import {
   ProcurementInvoiceMatchController,
 } from './controllers/procurement-invoice-match.controller';
 
+import {
+  ProcurementPaymentRequestController,
+} from './controllers/procurement-payment-request.controller';
+
+
 
 import {
   ProcurementPurchaseOrderController,
@@ -63,6 +68,11 @@ import {
   PROCUREMENT_INVOICE_MATCH_REPOSITORY,
 } from './repositories/procurement-invoice-match.repository';
 
+import {
+  PROCUREMENT_PAYMENT_REQUEST_REPOSITORY,
+} from './repositories/procurement-payment-request.repository';
+
+
 
 import {
   PROCUREMENT_PURCHASE_ORDER_REPOSITORY,
@@ -88,6 +98,11 @@ import {
   PostgresProcurementInvoiceMatchRepository,
 } from './repositories/postgres-procurement-invoice-match.repository';
 
+import {
+  PostgresProcurementPaymentRequestRepository,
+} from './repositories/postgres-procurement-payment-request.repository';
+
+
 
 import {
   PostgresProcurementPurchaseOrderRepository,
@@ -112,6 +127,11 @@ import {
 import {
   ProcurementInvoiceMatchService,
 } from './services/procurement-invoice-match.service';
+
+import {
+  ProcurementPaymentRequestService,
+} from './services/procurement-payment-request.service';
+
 
 
 import {
@@ -146,6 +166,7 @@ import {
   controllers: [
     ProcurementGoodsReceiptController,
     ProcurementInvoiceMatchController,
+    ProcurementPaymentRequestController,
     ProcurementPurchaseOrderController,
     ProcurementQuotationComparisonController,
     ProcurementQuotationController,
@@ -157,6 +178,7 @@ import {
     ProcurementBootstrapService,
     ProcurementGoodsReceiptService,
     ProcurementInvoiceMatchService,
+    ProcurementPaymentRequestService,
     ProcurementPurchaseOrderService,
     ProcurementQuotationComparisonService,
     ProcurementQuotationService,
@@ -165,6 +187,7 @@ import {
 
     PostgresProcurementGoodsReceiptRepository,
     PostgresProcurementInvoiceMatchRepository,
+    PostgresProcurementPaymentRequestRepository,
     PostgresProcurementPurchaseOrderRepository,
     PostgresProcurementQuotationRepository,
     PostgresProcurementRfqRepository,
@@ -182,6 +205,13 @@ import {
         PROCUREMENT_INVOICE_MATCH_REPOSITORY,
       useExisting:
         PostgresProcurementInvoiceMatchRepository,
+    },
+
+    {
+      provide:
+        PROCUREMENT_PAYMENT_REQUEST_REPOSITORY,
+      useExisting:
+        PostgresProcurementPaymentRequestRepository,
     },
 
     {
@@ -216,6 +246,7 @@ import {
   exports: [
     ProcurementGoodsReceiptService,
     ProcurementInvoiceMatchService,
+    ProcurementPaymentRequestService,
     ProcurementPurchaseOrderService,
     ProcurementQuotationComparisonService,
     ProcurementQuotationService,

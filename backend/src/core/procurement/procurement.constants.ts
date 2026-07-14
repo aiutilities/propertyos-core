@@ -31,6 +31,8 @@ export const PROCUREMENT_EVENTS = {
 
   RFQ_CREATED:
     'procurement.rfq.created',
+  RFQ_UPDATED:
+    'procurement.rfq.updated',
   RFQ_ISSUED:
     'procurement.rfq.issued',
   RFQ_CLOSED:
@@ -41,6 +43,12 @@ export const PROCUREMENT_EVENTS = {
     'procurement.rfq.cancelled',
   RFQ_EXPIRED:
     'procurement.rfq.expired',
+  RFQ_VENDOR_VIEWED:
+    'procurement.rfq.vendor.viewed',
+  RFQ_VENDOR_RESPONDED:
+    'procurement.rfq.vendor.responded',
+  RFQ_VENDOR_DECLINED:
+    'procurement.rfq.vendor.declined',
 
   QUOTATION_CREATED:
     'procurement.quotation.created',

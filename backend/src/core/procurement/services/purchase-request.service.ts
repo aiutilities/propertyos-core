@@ -444,6 +444,69 @@ export class PurchaseRequestService {
     );
   }
 
+  async markConvertedToRfq(
+    id: string,
+    changedByPersonId: string,
+    rfqId: string,
+  ) {
+    const current =
+      await this.requireRequest(id);
+
+    if (
+      current.status !==
+      PurchaseRequestStatus.APPROVED
+    ) {
+      throw new BadRequestException(
+        `Purchase request cannot be converted to RFQ from ${current.status}`,
+      );
+    }
+
+    const updated:
+      PurchaseRequest = {
+        ...current,
+
+        status:
+          PurchaseRequestStatus
+            .CONVERTED_TO_RFQ,
+
+        metadata: {
+          ...current.metadata,
+          rfqId,
+        },
+
+        updatedAt:
+          new Date(),
+      };
+
+    const saved =
+      await this.repository.update(
+        updated,
+      );
+
+    await this.repository.addHistory(
+      this.createHistory(
+        id,
+        current.status,
+        PurchaseRequestStatus
+          .CONVERTED_TO_RFQ,
+        changedByPersonId,
+        `Converted to RFQ ${rfqId}`,
+      ),
+    );
+
+    await this.publishAndAudit(
+      PROCUREMENT_EVENTS
+        .PURCHASE_REQUEST_UPDATED,
+      saved,
+      changedByPersonId,
+      `Converted to RFQ ${rfqId}`,
+    );
+
+    return this.requireRequest(
+      saved.id,
+    );
+  }
+
   async close(
     id: string,
     dto: TransitionPurchaseRequestDto,

@@ -72,6 +72,21 @@ describe(
     let purchaseRequestNumber:
       string;
 
+    const vendorOneId =
+      randomUUID();
+
+    const vendorTwoId =
+      randomUUID();
+
+    const vendorThreeId =
+      randomUUID();
+
+    let rfqId:
+      string;
+
+    let rfqNumber:
+      string;
+
     beforeAll(
       async () => {
         const moduleRef:
@@ -353,6 +368,108 @@ describe(
             true,
           ],
         );
+
+        const vendorFixtures = [
+          {
+            id:
+              vendorOneId,
+            vendorNumber:
+              `V-E2E-A-${suffix}`,
+            legalName:
+              'Procurement E2E Vendor One Private Limited',
+            displayName:
+              'Procurement Vendor One',
+            email:
+              `vendor-one-${suffix}@propertyos.test`,
+            phone:
+              `81${String(
+                suffix,
+              ).slice(-8)}`,
+            status:
+              'ACTIVE',
+          },
+          {
+            id:
+              vendorTwoId,
+            vendorNumber:
+              `V-E2E-B-${suffix}`,
+            legalName:
+              'Procurement E2E Vendor Two Private Limited',
+            displayName:
+              'Procurement Vendor Two',
+            email:
+              `vendor-two-${suffix}@propertyos.test`,
+            phone:
+              `82${String(
+                suffix,
+              ).slice(-8)}`,
+            status:
+              'ACTIVE',
+          },
+          {
+            id:
+              vendorThreeId,
+            vendorNumber:
+              `V-E2E-C-${suffix}`,
+            legalName:
+              'Procurement E2E Suspended Vendor Private Limited',
+            displayName:
+              'Procurement Suspended Vendor',
+            email:
+              `vendor-three-${suffix}@propertyos.test`,
+            phone:
+              `83${String(
+                suffix,
+              ).slice(-8)}`,
+            status:
+              'SUSPENDED',
+          },
+        ];
+
+        for (
+          const vendor
+          of vendorFixtures
+        ) {
+          await pool.query(
+            `
+            INSERT INTO vendors (
+              id,
+              vendor_number,
+              legal_name,
+              display_name,
+              vendor_type,
+              status,
+              email,
+              phone,
+              country,
+              metadata,
+              created_by_person_id,
+              created_at,
+              updated_at
+            )
+            VALUES (
+              $1,$2,$3,$4,$5,$6,$7,
+              $8,$9,$10,$11,NOW(),NOW()
+            )
+            `,
+            [
+              vendor.id,
+              vendor.vendorNumber,
+              vendor.legalName,
+              vendor.displayName,
+              'COMPANY',
+              vendor.status,
+              vendor.email,
+              vendor.phone,
+              'India',
+              JSON.stringify({
+                source:
+                  'procurement-integration-test',
+              }),
+              adminPersonId,
+            ],
+          );
+        }
 
         const login =
           await request(
@@ -898,6 +1015,617 @@ describe(
             expectedEvents,
           ),
         );
+      },
+    );
+
+
+    it(
+      'rejects creating an RFQ with an inactive vendor',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/rfqs',
+          )
+          .set(auth())
+          .send({
+            purchaseRequestId,
+
+            title:
+              'Electrical panel procurement RFQ',
+
+            quotationDeadline:
+              '2026-12-15T12:00:00.000Z',
+
+            deliveryRequiredBy:
+              '2027-01-15',
+
+            currency:
+              'INR',
+
+            vendorIds: [
+              vendorOneId,
+              vendorThreeId,
+            ],
+
+            createdByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects duplicate vendor invitations',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/rfqs',
+          )
+          .set(auth())
+          .send({
+            purchaseRequestId,
+
+            title:
+              'Electrical panel procurement RFQ',
+
+            quotationDeadline:
+              '2026-12-15T12:00:00.000Z',
+
+            vendorIds: [
+              vendorOneId,
+              vendorOneId,
+            ],
+
+            createdByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates an RFQ from the approved purchase request',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/rfqs',
+            )
+            .set(auth())
+            .send({
+              purchaseRequestId,
+
+              title:
+                'Electrical panel replacement RFQ',
+
+              description:
+                'Request quotations for panel supply and installation',
+
+              quotationDeadline:
+                '2026-12-15T12:00:00.000Z',
+
+              deliveryRequiredBy:
+                '2027-01-15',
+
+              currency:
+                'INR',
+
+              termsAndConditions:
+                'Quote must include taxes, delivery and installation.',
+
+              vendorIds: [
+                vendorOneId,
+                vendorTwoId,
+              ],
+
+              createdByPersonId:
+                adminPersonId,
+            })
+            .expect(201);
+
+        expect(
+          response.body.success,
+        ).toBe(true);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+
+        expect(
+          response.body.data.vendors,
+        ).toHaveLength(2);
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data
+            .purchaseRequestId,
+        ).toBe(
+          purchaseRequestId,
+        );
+
+        rfqId =
+          response.body.data.id;
+
+        rfqNumber =
+          response.body.data
+            .rfqNumber;
+
+        expect(
+          rfqNumber,
+        ).toMatch(
+          /^RFQ-\d{8}-[A-F0-9]{8}$/,
+        );
+      },
+    );
+
+    it(
+      'converts the source purchase request to RFQ status',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/requests/${purchaseRequestId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.status,
+        ).toBe(
+          'CONVERTED_TO_RFQ',
+        );
+
+        expect(
+          response.body.data.metadata.rfqId,
+        ).toBe(
+          rfqId,
+        );
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual(
+          expect.arrayContaining([
+            'APPROVED',
+            'CONVERTED_TO_RFQ',
+          ]),
+        );
+      },
+    );
+
+    it(
+      'rejects a second RFQ for the same purchase request',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/rfqs',
+          )
+          .set(auth())
+          .send({
+            purchaseRequestId,
+
+            title:
+              'Duplicate RFQ',
+
+            quotationDeadline:
+              '2026-12-20T12:00:00.000Z',
+
+            vendorIds: [
+              vendorOneId,
+            ],
+
+            createdByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'returns RFQ details',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs/${rfqId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.id,
+        ).toBe(rfqId);
+
+        expect(
+          response.body.data.rfqNumber,
+        ).toBe(rfqNumber);
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+
+        expect(
+          response.body.data.vendors.map(
+            (
+              row: {
+                vendorId: string;
+              },
+            ) =>
+              row.vendorId,
+          ),
+        ).toEqual(
+          expect.arrayContaining([
+            vendorOneId,
+            vendorTwoId,
+          ]),
+        );
+      },
+    );
+
+    it(
+      'updates a draft RFQ and vendor invitations',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .patch(
+              `/api/v1/procurement/rfqs/${rfqId}`,
+            )
+            .set(auth())
+            .send({
+              title:
+                'Electrical panel replacement and commissioning RFQ',
+
+              termsAndConditions:
+                'Quote must include taxes, delivery, installation and commissioning.',
+
+              quotationDeadline:
+                '2026-12-20T12:00:00.000Z',
+
+              vendorIds: [
+                vendorOneId,
+              ],
+
+              updatedByPersonId:
+                adminPersonId,
+            })
+            .expect(200);
+
+        expect(
+          response.body.data.title,
+        ).toBe(
+          'Electrical panel replacement and commissioning RFQ',
+        );
+
+        expect(
+          response.body.data.vendors,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data.vendors[0]
+            .vendorId,
+        ).toBe(
+          vendorOneId,
+        );
+      },
+    );
+
+    it(
+      'lists and filters RFQs',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs?propertyId=${propertyId}&vendorId=${vendorOneId}&status=DRAFT&search=${encodeURIComponent(
+                rfqNumber,
+              )}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              rfqId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'issues the draft RFQ',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/rfqs/${rfqId}/issue`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'RFQ released to vendors',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('OPEN');
+
+        expect(
+          response.body.data.issuedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data
+            .issuedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+      },
+    );
+
+    it(
+      'rejects editing an issued RFQ',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .patch(
+            `/api/v1/procurement/rfqs/${rfqId}`,
+          )
+          .set(auth())
+          .send({
+            title:
+              'Invalid RFQ update',
+
+            updatedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'tracks vendor viewed and responded actions',
+      async () => {
+        const viewed =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/rfqs/${rfqId}/vendors/${vendorOneId}/viewed`,
+            )
+            .set(auth())
+            .expect(201);
+
+        expect(
+          viewed.body.data.status,
+        ).toBe('VIEWED');
+
+        expect(
+          viewed.body.data.viewedAt,
+        ).toBeDefined();
+
+        const responded =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/rfqs/${rfqId}/vendors/${vendorOneId}/responded`,
+            )
+            .set(auth())
+            .expect(201);
+
+        expect(
+          responded.body.data.status,
+        ).toBe('RESPONDED');
+
+        expect(
+          responded.body.data.respondedAt,
+        ).toBeDefined();
+      },
+    );
+
+    it(
+      'returns complete RFQ lifecycle history',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs/${rfqId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'OPEN',
+        ]);
+      },
+    );
+
+    it(
+      'persists RFQ audit and EventBus records',
+      async () => {
+        const expectedEvents = [
+          'procurement.rfq.created',
+          'procurement.rfq.updated',
+          'procurement.rfq.issued',
+          'procurement.rfq.vendor.viewed',
+          'procurement.rfq.vendor.responded',
+        ];
+
+        const auditResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM audit_logs
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.rfq'
+            `,
+            [
+              rfqId,
+            ],
+          );
+
+        expect(
+          auditResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+
+        const eventResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM eventbus_events
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.rfq'
+            `,
+            [
+              rfqId,
+            ],
+          );
+
+        expect(
+          eventResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+      },
+    );
+
+    it(
+      'closes the open RFQ',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/rfqs/${rfqId}/close`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Quotation collection completed',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('CLOSED');
+
+        expect(
+          response.body.data.closedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'OPEN',
+          'CLOSED',
+        ]);
+      },
+    );
+
+    it(
+      'rejects cancelling a closed RFQ',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/rfqs/${rfqId}/cancel`,
+          )
+          .set(auth())
+          .send({
+            changedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
       },
     );
   },

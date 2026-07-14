@@ -8,3 +8,5 @@ export * from './repositories/procurement-rfq.repository';
 export * from './services/procurement-rfq.service';
 export * from './repositories/procurement-quotation.repository';
 export * from './services/procurement-quotation.service';
+export * from './quotation/quotation-comparison.types';
+export * from './services/procurement-quotation-comparison.service';

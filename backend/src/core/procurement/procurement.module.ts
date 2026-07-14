@@ -27,6 +27,10 @@ import {
 } from './bootstrap/procurement-bootstrap.service';
 
 import {
+  ProcurementQuotationComparisonController,
+} from './controllers/procurement-quotation-comparison.controller';
+
+import {
   ProcurementQuotationController,
 } from './controllers/procurement-quotation.controller';
 
@@ -63,6 +67,10 @@ import {
 } from './repositories/postgres-purchase-request.repository';
 
 import {
+  ProcurementQuotationComparisonService,
+} from './services/procurement-quotation-comparison.service';
+
+import {
   ProcurementQuotationService,
 } from './services/procurement-quotation.service';
 
@@ -84,6 +92,7 @@ import {
   ],
 
   controllers: [
+    ProcurementQuotationComparisonController,
     ProcurementQuotationController,
     ProcurementRfqController,
     PurchaseRequestController,
@@ -91,6 +100,7 @@ import {
 
   providers: [
     ProcurementBootstrapService,
+    ProcurementQuotationComparisonService,
     ProcurementQuotationService,
     ProcurementRfqService,
     PurchaseRequestService,
@@ -122,6 +132,7 @@ import {
   ],
 
   exports: [
+    ProcurementQuotationComparisonService,
     ProcurementQuotationService,
     ProcurementRfqService,
     PurchaseRequestService,

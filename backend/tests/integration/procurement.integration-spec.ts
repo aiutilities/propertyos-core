@@ -2221,6 +2221,252 @@ describe(
     );
 
     it(
+      'returns ranked quotation comparison',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs/${rfqId}/comparison`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.success,
+        ).toBe(true);
+
+        expect(
+          response.body.data.rfqId,
+        ).toBe(rfqId);
+
+        expect(
+          response.body.data.rfqNumber,
+        ).toBe(rfqNumber);
+
+        expect(
+          response.body.data.quotationCount,
+        ).toBe(2);
+
+        expect(
+          response.body.data
+            .comparableQuotationCount,
+        ).toBe(2);
+
+        expect(
+          response.body.data.currency,
+        ).toBe('INR');
+
+        const ranking =
+          response.body.data
+            .commercialRanking;
+
+        expect(
+          ranking,
+        ).toHaveLength(2);
+
+        expect(
+          ranking[0].quotationId,
+        ).toBe(
+          quotationOneId,
+        );
+
+        expect(
+          ranking[0].commercialRank,
+        ).toBe(1);
+
+        expect(
+          ranking[0]
+            .isLowestCommercialOffer,
+        ).toBe(true);
+
+        expect(
+          ranking[0].totalAmount,
+        ).toBe(110600);
+
+        expect(
+          ranking[1].quotationId,
+        ).toBe(
+          quotationTwoId,
+        );
+
+        expect(
+          ranking[1].commercialRank,
+        ).toBe(2);
+
+        expect(
+          ranking[1]
+            .isLowestCommercialOffer,
+        ).toBe(false);
+
+        expect(
+          ranking[1].totalAmount,
+        ).toBe(121180);
+      },
+    );
+
+    it(
+      'returns line-level L1 and L2 comparison',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs/${rfqId}/comparison`,
+            )
+            .set(auth())
+            .expect(200);
+
+        const itemComparisons =
+          response.body.data
+            .itemComparisons;
+
+        expect(
+          itemComparisons,
+        ).toHaveLength(2);
+
+        const firstItem =
+          itemComparisons.find(
+            (
+              item: {
+                rfqItemId: string;
+              },
+            ) =>
+              item.rfqItemId ===
+              rfqItemOneId,
+          );
+
+        const secondItem =
+          itemComparisons.find(
+            (
+              item: {
+                rfqItemId: string;
+              },
+            ) =>
+              item.rfqItemId ===
+              rfqItemTwoId,
+          );
+
+        expect(
+          firstItem,
+        ).toBeDefined();
+
+        expect(
+          secondItem,
+        ).toBeDefined();
+
+        expect(
+          firstItem.entries,
+        ).toHaveLength(2);
+
+        expect(
+          firstItem.entries[0]
+            .quotationId,
+        ).toBe(
+          quotationOneId,
+        );
+
+        expect(
+          firstItem.entries[0]
+            .lineRank,
+        ).toBe(1);
+
+        expect(
+          firstItem.entries[0]
+            .isLowestLineOffer,
+        ).toBe(true);
+
+        expect(
+          firstItem.entries[0]
+            .lineTotal,
+        ).toBe(88500);
+
+        expect(
+          firstItem.entries[1]
+            .quotationId,
+        ).toBe(
+          quotationTwoId,
+        );
+
+        expect(
+          firstItem.entries[1]
+            .lineRank,
+        ).toBe(2);
+
+        expect(
+          firstItem.entries[1]
+            .lineTotal,
+        ).toBe(93220);
+
+        expect(
+          secondItem.entries[0]
+            .quotationId,
+        ).toBe(
+          quotationOneId,
+        );
+
+        expect(
+          secondItem.entries[0]
+            .lineRank,
+        ).toBe(1);
+
+        expect(
+          secondItem.entries[0]
+            .lineTotal,
+        ).toBe(23600);
+
+        expect(
+          secondItem.entries[1]
+            .quotationId,
+        ).toBe(
+          quotationTwoId,
+        );
+
+        expect(
+          secondItem.entries[1]
+            .lineRank,
+        ).toBe(2);
+
+        expect(
+          secondItem.entries[1]
+            .lineTotal,
+        ).toBe(25960);
+      },
+    );
+
+    it(
+      'compares submitted quotations before award decision',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs/${rfqId}/comparison`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data
+            .commercialRanking.map(
+              (
+                row: {
+                  status: string;
+                },
+              ) =>
+                row.status,
+            ),
+        ).toEqual([
+          'SUBMITTED',
+          'SUBMITTED',
+        ]);
+      },
+    );
+
+    it(
       'selects the first vendor quotation',
       async () => {
         const response =

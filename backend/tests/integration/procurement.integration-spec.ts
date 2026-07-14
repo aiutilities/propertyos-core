@@ -87,6 +87,21 @@ describe(
     let rfqNumber:
       string;
 
+    let rfqItemOneId:
+      string;
+
+    let rfqItemTwoId:
+      string;
+
+    let quotationOneId:
+      string;
+
+    let quotationOneNumber:
+      string;
+
+    let quotationTwoId:
+      string;
+
     beforeAll(
       async () => {
         const moduleRef:
@@ -1269,6 +1284,22 @@ describe(
           response.body.data.items,
         ).toHaveLength(2);
 
+        rfqItemOneId =
+          response.body.data
+            .items[0].id;
+
+        rfqItemTwoId =
+          response.body.data
+            .items[1].id;
+
+        expect(
+          rfqItemOneId,
+        ).toBeDefined();
+
+        expect(
+          rfqItemTwoId,
+        ).toBeDefined();
+
         expect(
           response.body.data.vendors.map(
             (
@@ -1310,6 +1341,7 @@ describe(
 
               vendorIds: [
                 vendorOneId,
+                vendorTwoId,
               ],
 
               updatedByPersonId:
@@ -1325,13 +1357,22 @@ describe(
 
         expect(
           response.body.data.vendors,
-        ).toHaveLength(1);
+        ).toHaveLength(2);
 
         expect(
-          response.body.data.vendors[0]
-            .vendorId,
-        ).toBe(
-          vendorOneId,
+          response.body.data.vendors.map(
+            (
+              row: {
+                vendorId: string;
+              },
+            ) =>
+              row.vendorId,
+          ),
+        ).toEqual(
+          expect.arrayContaining([
+            vendorOneId,
+            vendorTwoId,
+          ]),
         );
       },
     );
@@ -1546,6 +1587,781 @@ describe(
             `,
             [
               rfqId,
+            ],
+          );
+
+        expect(
+          eventResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+      },
+    );
+
+    it(
+      'rejects a quotation from an uninvited vendor',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/quotations',
+          )
+          .set(auth())
+          .send({
+            rfqId,
+            vendorId:
+              vendorThreeId,
+
+            validUntil:
+              '2027-01-31',
+
+            currency:
+              'INR',
+
+            submittedByPersonId:
+              adminPersonId,
+
+            items: [
+              {
+                rfqItemId:
+                  rfqItemOneId,
+
+                quantity:
+                  1,
+
+                unit:
+                  'NOS',
+
+                unitPrice:
+                  80000,
+              },
+            ],
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects a quotation item from another RFQ',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/quotations',
+          )
+          .set(auth())
+          .send({
+            rfqId,
+            vendorId:
+              vendorOneId,
+
+            validUntil:
+              '2027-01-31',
+
+            currency:
+              'INR',
+
+            submittedByPersonId:
+              adminPersonId,
+
+            items: [
+              {
+                rfqItemId:
+                  randomUUID(),
+
+                quantity:
+                  1,
+
+                unit:
+                  'NOS',
+
+                unitPrice:
+                  80000,
+              },
+            ],
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates the first vendor quotation with calculated totals',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/quotations',
+            )
+            .set(auth())
+            .send({
+              rfqId,
+              vendorId:
+                vendorOneId,
+
+              vendorReference:
+                `V1-QUOTE-${suffix}`,
+
+              quotationDate:
+                '2026-12-01',
+
+              validUntil:
+                '2027-01-31',
+
+              deliveryDays:
+                20,
+
+              discountAmount:
+                2000,
+
+              freightAmount:
+                1500,
+
+              currency:
+                'INR',
+
+              paymentTerms:
+                '50 percent advance and balance after commissioning',
+
+              deliveryTerms:
+                'Delivered at property',
+
+              notes:
+                'Includes installation and testing',
+
+              submittedByPersonId:
+                adminPersonId,
+
+              items: [
+                {
+                  rfqItemId:
+                    rfqItemOneId,
+
+                  description:
+                    'Three-phase main electrical panel',
+
+                  quantity:
+                    1,
+
+                  unit:
+                    'NOS',
+
+                  unitPrice:
+                    80000,
+
+                  discountAmount:
+                    5000,
+
+                  taxRate:
+                    18,
+
+                  deliveryDays:
+                    20,
+                },
+                {
+                  rfqItemId:
+                    rfqItemTwoId,
+
+                  description:
+                    'Installation and commissioning',
+
+                  quantity:
+                    1,
+
+                  unit:
+                    'JOB',
+
+                  unitPrice:
+                    20000,
+
+                  discountAmount:
+                    0,
+
+                  taxRate:
+                    18,
+
+                  deliveryDays:
+                    5,
+                },
+              ],
+            })
+            .expect(201);
+
+        expect(
+          response.body.success,
+        ).toBe(true);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+
+        expect(
+          response.body.data.subtotal,
+        ).toBe(100000);
+
+        expect(
+          response.body.data.discountAmount,
+        ).toBe(7000);
+
+        expect(
+          response.body.data.taxAmount,
+        ).toBe(17100);
+
+        expect(
+          response.body.data.freightAmount,
+        ).toBe(1500);
+
+        expect(
+          response.body.data.totalAmount,
+        ).toBe(111600);
+
+        quotationOneId =
+          response.body.data.id;
+
+        quotationOneNumber =
+          response.body.data
+            .quotationNumber;
+
+        expect(
+          quotationOneNumber,
+        ).toMatch(
+          /^QT-\d{8}-[A-F0-9]{8}$/,
+        );
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+      },
+    );
+
+    it(
+      'rejects a duplicate quotation for the same vendor and RFQ',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/quotations',
+          )
+          .set(auth())
+          .send({
+            rfqId,
+            vendorId:
+              vendorOneId,
+
+            validUntil:
+              '2027-01-31',
+
+            submittedByPersonId:
+              adminPersonId,
+
+            items: [
+              {
+                rfqItemId:
+                  rfqItemOneId,
+
+                quantity:
+                  1,
+
+                unit:
+                  'NOS',
+
+                unitPrice:
+                  85000,
+              },
+            ],
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'updates the first draft quotation',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .patch(
+              `/api/v1/procurement/quotations/${quotationOneId}`,
+            )
+            .set(auth())
+            .send({
+              vendorReference:
+                `V1-QUOTE-REVISED-${suffix}`,
+
+              discountAmount:
+                2500,
+
+              freightAmount:
+                1000,
+
+              paymentTerms:
+                '30 percent advance and balance after commissioning',
+
+              updatedByPersonId:
+                adminPersonId,
+
+              items: [
+                {
+                  rfqItemId:
+                    rfqItemOneId,
+
+                  description:
+                    'Three-phase main electrical panel',
+
+                  quantity:
+                    1,
+
+                  unit:
+                    'NOS',
+
+                  unitPrice:
+                    80000,
+
+                  discountAmount:
+                    5000,
+
+                  taxRate:
+                    18,
+
+                  deliveryDays:
+                    18,
+                },
+                {
+                  rfqItemId:
+                    rfqItemTwoId,
+
+                  description:
+                    'Installation and commissioning',
+
+                  quantity:
+                    1,
+
+                  unit:
+                    'JOB',
+
+                  unitPrice:
+                    20000,
+
+                  discountAmount:
+                    0,
+
+                  taxRate:
+                    18,
+
+                  deliveryDays:
+                    5,
+                },
+              ],
+            })
+            .expect(200);
+
+        expect(
+          response.body.data
+            .vendorReference,
+        ).toBe(
+          `V1-QUOTE-REVISED-${suffix}`,
+        );
+
+        expect(
+          response.body.data.discountAmount,
+        ).toBe(7500);
+
+        expect(
+          response.body.data.freightAmount,
+        ).toBe(1000);
+
+        expect(
+          response.body.data.totalAmount,
+        ).toBe(110600);
+      },
+    );
+
+    it(
+      'lists and filters quotations',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/quotations?rfqId=${rfqId}&vendorId=${vendorOneId}&propertyId=${propertyId}&status=DRAFT&search=${encodeURIComponent(
+                quotationOneNumber,
+              )}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              quotationOneId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'submits the first quotation and marks the vendor responded',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/quotations/${quotationOneId}/submit`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Vendor one quotation submitted',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('SUBMITTED');
+
+        expect(
+          response.body.data.submittedAt,
+        ).toBeDefined();
+
+        const rfqResponse =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/rfqs/${rfqId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        const invitation =
+          rfqResponse.body.data
+            .vendors.find(
+              (
+                row: {
+                  vendorId: string;
+                },
+              ) =>
+                row.vendorId ===
+                vendorOneId,
+            );
+
+        expect(
+          invitation.status,
+        ).toBe('RESPONDED');
+
+        expect(
+          invitation.respondedAt,
+        ).toBeDefined();
+      },
+    );
+
+    it(
+      'rejects editing a submitted quotation',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .patch(
+            `/api/v1/procurement/quotations/${quotationOneId}`,
+          )
+          .set(auth())
+          .send({
+            notes:
+              'Invalid submitted update',
+
+            updatedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates and submits the second vendor quotation',
+      async () => {
+        const created =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/quotations',
+            )
+            .set(auth())
+            .send({
+              rfqId,
+              vendorId:
+                vendorTwoId,
+
+              vendorReference:
+                `V2-QUOTE-${suffix}`,
+
+              quotationDate:
+                '2026-12-02',
+
+              validUntil:
+                '2027-01-31',
+
+              deliveryDays:
+                25,
+
+              discountAmount:
+                0,
+
+              freightAmount:
+                2000,
+
+              currency:
+                'INR',
+
+              submittedByPersonId:
+                adminPersonId,
+
+              items: [
+                {
+                  rfqItemId:
+                    rfqItemOneId,
+
+                  quantity:
+                    1,
+
+                  unit:
+                    'NOS',
+
+                  unitPrice:
+                    79000,
+
+                  discountAmount:
+                    0,
+
+                  taxRate:
+                    18,
+                },
+                {
+                  rfqItemId:
+                    rfqItemTwoId,
+
+                  quantity:
+                    1,
+
+                  unit:
+                    'JOB',
+
+                  unitPrice:
+                    22000,
+
+                  discountAmount:
+                    0,
+
+                  taxRate:
+                    18,
+                },
+              ],
+            });
+
+        expect(
+          created.status,
+        ).toBe(201);
+
+        quotationTwoId =
+          created.body.data.id;
+
+        expect(
+          created.body.data.totalAmount,
+        ).toBe(121180);
+
+        const submitted =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/quotations/${quotationTwoId}/submit`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Vendor two quotation submitted',
+            })
+            .expect(201);
+
+        expect(
+          submitted.body.data.status,
+        ).toBe('SUBMITTED');
+      },
+    );
+
+    it(
+      'selects the first vendor quotation',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/quotations/${quotationOneId}/select`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Best commercial and technical offer',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('SELECTED');
+
+        expect(
+          response.body.data.selectedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'SUBMITTED',
+          'SELECTED',
+        ]);
+      },
+    );
+
+it(
+      'rejects the second vendor quotation',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/quotations/${quotationTwoId}/reject`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Higher evaluated cost',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('REJECTED');
+
+        expect(
+          response.body.data.rejectedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'SUBMITTED',
+          'REJECTED',
+        ]);
+      },
+    );
+
+    it(
+      'persists quotation audit and EventBus records',
+      async () => {
+        const expectedEvents = [
+          'procurement.quotation.created',
+          'procurement.quotation.updated',
+          'procurement.quotation.submitted',
+          'procurement.quotation.selected',
+        ];
+
+        const auditResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM audit_logs
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.quotation'
+            `,
+            [
+              quotationOneId,
+            ],
+          );
+
+        expect(
+          auditResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+
+        const eventResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM eventbus_events
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.quotation'
+            `,
+            [
+              quotationOneId,
             ],
           );
 

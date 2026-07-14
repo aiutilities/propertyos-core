@@ -52,6 +52,8 @@ export const PROCUREMENT_EVENTS = {
 
   QUOTATION_CREATED:
     'procurement.quotation.created',
+  QUOTATION_UPDATED:
+    'procurement.quotation.updated',
   QUOTATION_SUBMITTED:
     'procurement.quotation.submitted',
   QUOTATION_SELECTED:

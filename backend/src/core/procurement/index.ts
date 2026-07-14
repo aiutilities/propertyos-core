@@ -6,3 +6,5 @@ export * from './repositories/purchase-request.repository';
 export * from './services/purchase-request.service';
 export * from './repositories/procurement-rfq.repository';
 export * from './services/procurement-rfq.service';
+export * from './repositories/procurement-quotation.repository';
+export * from './services/procurement-quotation.service';

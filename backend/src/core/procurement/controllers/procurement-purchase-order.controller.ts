@@ -230,7 +230,7 @@ export class ProcurementPurchaseOrderController {
   }
 
   @RequirePermission(
-    PROCUREMENT_PERMISSIONS.PURCHASE_ORDER,
+    PROCUREMENT_PERMISSIONS.MANAGE,
   )
   @Post(':id/received')
   async markReceived(

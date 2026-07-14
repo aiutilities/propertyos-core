@@ -82,6 +82,8 @@ export const PROCUREMENT_EVENTS = {
     'procurement.purchase_order.issued',
   PURCHASE_ORDER_ACKNOWLEDGED:
     'procurement.purchase_order.acknowledged',
+  PURCHASE_ORDER_PARTIALLY_RECEIVED:
+    'procurement.purchase_order.partially_received',
   PURCHASE_ORDER_RECEIVED:
     'procurement.purchase_order.received',
   PURCHASE_ORDER_CLOSED:

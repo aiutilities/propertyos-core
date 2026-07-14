@@ -108,6 +108,24 @@ describe(
     let purchaseOrderNumber:
       string;
 
+    let purchaseOrderItemOneId:
+      string;
+
+    let purchaseOrderItemTwoId:
+      string;
+
+    let partialGoodsReceiptId:
+      string;
+
+    let partialGoodsReceiptNumber:
+      string;
+
+    let finalGoodsReceiptId:
+      string;
+
+    let finalGoodsReceiptNumber:
+      string;
+
     beforeAll(
       async () => {
         const moduleRef:
@@ -2725,6 +2743,22 @@ it(
           response.body.data
             .purchaseOrderNumber;
 
+        purchaseOrderItemOneId =
+          response.body.data
+            .items[0].id;
+
+        purchaseOrderItemTwoId =
+          response.body.data
+            .items[1].id;
+
+        expect(
+          purchaseOrderItemOneId,
+        ).toBeDefined();
+
+        expect(
+          purchaseOrderItemTwoId,
+        ).toBeDefined();
+
         expect(
           purchaseOrderNumber,
         ).toMatch(
@@ -3042,28 +3076,665 @@ it(
     );
 
     it(
-      'marks the Purchase Order as received',
+      'creates a draft Goods Receipt',
       async () => {
         const response =
           await request(
             app.getHttpServer(),
           )
             .post(
-              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/received`,
+              '/api/v1/procurement/goods-receipts',
             )
             .set(auth())
             .send({
-              changedByPersonId:
+              purchaseOrderId,
+
+              receiptDate:
+                '2027-01-08',
+
+              deliveryReference:
+                'DELIVERY-PARTIAL-001',
+
+              invoiceReference:
+                'INVOICE-PARTIAL-001',
+
+              receivedByPersonId:
                 adminPersonId,
 
               remarks:
-                'All ordered items received',
+                'First partial delivery received',
+
+              items: [
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemOneId,
+
+                  receivedQuantity:
+                    1,
+
+                  acceptedQuantity:
+                    1,
+
+                  rejectedQuantity:
+                    0,
+
+                  remarks:
+                    'First ordered item accepted',
+                },
+              ],
             })
             .expect(201);
 
         expect(
           response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data
+            .purchaseOrderId,
+        ).toBe(
+          purchaseOrderId,
+        );
+
+        expect(
+          response.body.data
+            .propertyId,
+        ).toBe(
+          propertyId,
+        );
+
+        expect(
+          response.body.data
+            .vendorId,
+        ).toBe(
+          vendorOneId,
+        );
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data
+            .items[0]
+            .purchaseOrderItemId,
+        ).toBe(
+          purchaseOrderItemOneId,
+        );
+
+        expect(
+          response.body.data
+            .items[0]
+            .receivedQuantity,
+        ).toBe(1);
+
+        expect(
+          response.body.data
+            .items[0]
+            .acceptedQuantity,
+        ).toBe(1);
+
+        expect(
+          response.body.data
+            .items[0]
+            .status,
+        ).toBe('ACCEPTED');
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data
+            .history[0]
+            .toStatus,
+        ).toBe('DRAFT');
+
+        partialGoodsReceiptId =
+          response.body.data.id;
+
+        partialGoodsReceiptNumber =
+          response.body.data
+            .goodsReceiptNumber;
+
+        expect(
+          partialGoodsReceiptNumber,
+        ).toMatch(
+          /^GRN-\d{8}-[A-F0-9]{8}$/,
+        );
+      },
+    );
+
+    it(
+      'returns draft Goods Receipt details',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/goods-receipts/${partialGoodsReceiptId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.id,
+        ).toBe(
+          partialGoodsReceiptId,
+        );
+
+        expect(
+          response.body.data
+            .goodsReceiptNumber,
+        ).toBe(
+          partialGoodsReceiptNumber,
+        );
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(1);
+      },
+    );
+
+    it(
+      'confirms draft Goods Receipt does not affect Purchase Order quantities',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.status,
+        ).toBe(
+          'ACKNOWLEDGED',
+        );
+
+        expect(
+          response.body.data.items
+            .find(
+              (
+                item: {
+                  id: string;
+                },
+              ) =>
+                item.id ===
+                purchaseOrderItemOneId,
+            )
+            .receivedQuantity,
+        ).toBe(0);
+      },
+    );
+
+    it(
+      'updates the draft Goods Receipt',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .patch(
+              `/api/v1/procurement/goods-receipts/${partialGoodsReceiptId}`,
+            )
+            .set(auth())
+            .send({
+              deliveryReference:
+                'DELIVERY-PARTIAL-UPDATED',
+
+              invoiceReference:
+                'INVOICE-PARTIAL-UPDATED',
+
+              remarks:
+                'Partial delivery inspected and accepted',
+
+              updatedByPersonId:
+                adminPersonId,
+
+              items: [
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemOneId,
+
+                  receivedQuantity:
+                    1,
+
+                  acceptedQuantity:
+                    1,
+
+                  rejectedQuantity:
+                    0,
+
+                  remarks:
+                    'Electrical panel accepted',
+                },
+              ],
+            })
+            .expect(200);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data
+            .deliveryReference,
+        ).toBe(
+          'DELIVERY-PARTIAL-UPDATED',
+        );
+
+        expect(
+          response.body.data
+            .invoiceReference,
+        ).toBe(
+          'INVOICE-PARTIAL-UPDATED',
+        );
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(1);
+      },
+    );
+
+    it(
+      'posts the partial Goods Receipt',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/goods-receipts/${partialGoodsReceiptId}/post`,
+            )
+            .set(auth())
+            .send({
+              postedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Partial Goods Receipt posted',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('POSTED');
+
+        expect(
+          response.body.data
+            .postedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data.postedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'POSTED',
+        ]);
+      },
+    );
+
+    it(
+      'moves the Purchase Order to partially received',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.status,
+        ).toBe(
+          'PARTIALLY_RECEIVED',
+        );
+
+        const itemOne =
+          response.body.data.items.find(
+            (
+              item: {
+                id: string;
+              },
+            ) =>
+              item.id ===
+              purchaseOrderItemOneId,
+          );
+
+        const itemTwo =
+          response.body.data.items.find(
+            (
+              item: {
+                id: string;
+              },
+            ) =>
+              item.id ===
+              purchaseOrderItemTwoId,
+          );
+
+        expect(
+          itemOne.receivedQuantity,
+        ).toBe(1);
+
+        expect(
+          itemTwo.receivedQuantity,
+        ).toBe(0);
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'PENDING_APPROVAL',
+          'APPROVED',
+          'ISSUED',
+          'ACKNOWLEDGED',
+          'PARTIALLY_RECEIVED',
+        ]);
+      },
+    );
+
+    it(
+      'rejects editing a posted Goods Receipt',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .patch(
+            `/api/v1/procurement/goods-receipts/${partialGoodsReceiptId}`,
+          )
+          .set(auth())
+          .send({
+            remarks:
+              'Invalid posted receipt update',
+
+            updatedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects duplicate Goods Receipt posting',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/goods-receipts/${partialGoodsReceiptId}/post`,
+          )
+          .set(auth())
+          .send({
+            postedByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid duplicate posting',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'prevents over-receipt of a fully received Purchase Order item',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/goods-receipts',
+          )
+          .set(auth())
+          .send({
+            purchaseOrderId,
+
+            receivedByPersonId:
+              adminPersonId,
+
+            items: [
+              {
+                purchaseOrderItemId:
+                  purchaseOrderItemOneId,
+
+                receivedQuantity:
+                  1,
+
+                acceptedQuantity:
+                  1,
+
+                rejectedQuantity:
+                  0,
+              },
+            ],
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates the final Goods Receipt',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/goods-receipts',
+            )
+            .set(auth())
+            .send({
+              purchaseOrderId,
+
+              receiptDate:
+                '2027-01-10',
+
+              deliveryReference:
+                'DELIVERY-FINAL-001',
+
+              invoiceReference:
+                'INVOICE-FINAL-001',
+
+              receivedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Final installation delivery received',
+
+              items: [
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemTwoId,
+
+                  receivedQuantity:
+                    1,
+
+                  acceptedQuantity:
+                    1,
+
+                  rejectedQuantity:
+                    0,
+
+                  remarks:
+                    'Installation and commissioning accepted',
+                },
+              ],
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data
+            .items[0]
+            .purchaseOrderItemId,
+        ).toBe(
+          purchaseOrderItemTwoId,
+        );
+
+        finalGoodsReceiptId =
+          response.body.data.id;
+
+        finalGoodsReceiptNumber =
+          response.body.data
+            .goodsReceiptNumber;
+
+        expect(
+          finalGoodsReceiptNumber,
+        ).toMatch(
+          /^GRN-\d{8}-[A-F0-9]{8}$/,
+        );
+      },
+    );
+
+    it(
+      'lists and filters Goods Receipts',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/goods-receipts?purchaseOrderId=${purchaseOrderId}&propertyId=${propertyId}&vendorId=${vendorOneId}&status=DRAFT&search=${encodeURIComponent(
+                finalGoodsReceiptNumber,
+              )}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              finalGoodsReceiptId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'posts the final Goods Receipt',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/goods-receipts/${finalGoodsReceiptId}/post`,
+            )
+            .set(auth())
+            .send({
+              postedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Final Goods Receipt posted',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('POSTED');
+
+        expect(
+          response.body.data
+            .postedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+      },
+    );
+
+    it(
+      'moves the Purchase Order to received through Goods Receipts',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.status,
         ).toBe('RECEIVED');
+
+        expect(
+          response.body.data.items.map(
+            (
+              item: {
+                receivedQuantity: number;
+              },
+            ) =>
+              item.receivedQuantity,
+          ),
+        ).toEqual([
+          1,
+          1,
+        ]);
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'PENDING_APPROVAL',
+          'APPROVED',
+          'ISSUED',
+          'ACKNOWLEDGED',
+          'PARTIALLY_RECEIVED',
+          'RECEIVED',
+        ]);
       },
     );
 
@@ -3110,6 +3781,7 @@ it(
           'APPROVED',
           'ISSUED',
           'ACKNOWLEDGED',
+          'PARTIALLY_RECEIVED',
           'RECEIVED',
           'CLOSED',
         ]);
@@ -3147,6 +3819,7 @@ it(
           'procurement.purchase_order.approved',
           'procurement.purchase_order.issued',
           'procurement.purchase_order.acknowledged',
+          'procurement.purchase_order.partially_received',
           'procurement.purchase_order.received',
           'procurement.purchase_order.closed',
         ];

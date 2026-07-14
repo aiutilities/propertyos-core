@@ -51,6 +51,7 @@ import { ReservationModule } from "./core/reservation";
 import { HelpdeskModule } from "./core/helpdesk";
 import { CommunicationsModule } from "./core/communications";
 import { VendorModule } from "./core/vendor";
+import { ProcurementModule } from "./core/procurement";
 
 @Module({
   imports: [
@@ -103,6 +104,7 @@ import { VendorModule } from "./core/vendor";
     HelpdeskModule,
     CommunicationsModule,
     VendorModule,
+    ProcurementModule,
     BootstrapModule,
 
     VisitorModule,

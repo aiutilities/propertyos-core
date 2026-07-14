@@ -107,6 +107,9 @@ export const PROCUREMENT_EVENTS = {
     'procurement.payment_request.cancelled',
 } as const;
 
+export const PROCUREMENT_REGISTRY_ID =
+  'procurement';
+
 export const PROCUREMENT_SEARCH_PROVIDER =
   'procurement';
 

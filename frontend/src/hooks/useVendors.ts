@@ -16,9 +16,13 @@ import type {
   VendorCategory,
   VendorDetails,
   VendorFilters,
+  VendorContract,
+  VendorContractFilters,
   VendorMetrics,
   VendorRatingSummary,
   VendorStatus,
+  VendorWorkOrder,
+  VendorWorkOrderFilters,
 } from "@/types/vendor";
 
 function buildQuery(
@@ -287,6 +291,87 @@ export function useVendors() {
       [list],
     );
 
+  const listContracts =
+    useCallback(
+      async (
+        filters:
+          VendorContractFilters = {},
+      ) =>
+        execute(async () => {
+          const query =
+            buildQuery({
+              vendorId:
+                filters.vendorId,
+
+              propertyId:
+                filters.propertyId,
+
+              status:
+                filters.status ||
+                undefined,
+
+              search:
+                filters.search,
+            });
+
+          const response =
+            await apiRequest<
+              ApiSuccessResponse<
+                VendorContract[]
+              >
+            >(
+              `/vendors/contracts${query}`,
+            );
+
+          return response.data;
+        }),
+      [execute],
+    );
+
+  const listWorkOrders =
+    useCallback(
+      async (
+        filters:
+          VendorWorkOrderFilters = {},
+      ) =>
+        execute(async () => {
+          const query =
+            buildQuery({
+              vendorId:
+                filters.vendorId,
+
+              propertyId:
+                filters.propertyId,
+
+              contractId:
+                filters.contractId,
+
+              status:
+                filters.status ||
+                undefined,
+
+              priority:
+                filters.priority ||
+                undefined,
+
+              search:
+                filters.search,
+            });
+
+          const response =
+            await apiRequest<
+              ApiSuccessResponse<
+                VendorWorkOrder[]
+              >
+            >(
+              `/vendors/work-orders${query}`,
+            );
+
+          return response.data;
+        }),
+      [execute],
+    );
+
   return {
     loading,
     error,
@@ -298,5 +383,7 @@ export function useVendors() {
     transition,
     ratingSummary,
     listByStatus,
+    listContracts,
+    listWorkOrders,
   };
 }

@@ -55,6 +55,7 @@ import {
   GoodsReceiptItemStatus,
   GoodsReceiptStatus,
   ProcurementStatusHistory,
+  PurchaseOrder,
   PurchaseOrderItem,
   PurchaseOrderStatus,
 } from '../types/procurement.types';

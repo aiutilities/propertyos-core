@@ -120,10 +120,22 @@ describe(
     let partialGoodsReceiptNumber:
       string;
 
+    let partialGoodsReceiptItemId:
+      string;
+
     let finalGoodsReceiptId:
       string;
 
     let finalGoodsReceiptNumber:
+      string;
+
+    let finalGoodsReceiptItemId:
+      string;
+
+    let invoiceMatchId:
+      string;
+
+    let invoiceMatchNumber:
       string;
 
     beforeAll(
@@ -3197,6 +3209,14 @@ it(
           response.body.data
             .goodsReceiptNumber;
 
+        partialGoodsReceiptItemId =
+          response.body.data
+            .items[0].id;
+
+        expect(
+          partialGoodsReceiptItemId,
+        ).toBeDefined();
+
         expect(
           partialGoodsReceiptNumber,
         ).toMatch(
@@ -3616,6 +3636,14 @@ it(
           response.body.data
             .goodsReceiptNumber;
 
+        finalGoodsReceiptItemId =
+          response.body.data
+            .items[0].id;
+
+        expect(
+          finalGoodsReceiptItemId,
+        ).toBeDefined();
+
         expect(
           finalGoodsReceiptNumber,
         ).toMatch(
@@ -3785,6 +3813,574 @@ it(
           'RECEIVED',
           'CLOSED',
         ]);
+      },
+    );
+
+    it(
+      'rejects an Invoice Match item from another Goods Receipt',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/invoice-matches',
+          )
+          .set(auth())
+          .send({
+            purchaseOrderId,
+
+            goodsReceiptId:
+              finalGoodsReceiptId,
+
+            externalInvoiceNumber:
+              `INVALID-GRN-INVOICE-${suffix}`,
+
+            invoiceAmount:
+              20000,
+
+            matchedByPersonId:
+              adminPersonId,
+
+            items: [
+              {
+                purchaseOrderItemId:
+                  purchaseOrderItemOneId,
+
+                goodsReceiptItemId:
+                  partialGoodsReceiptItemId,
+
+                invoicedQuantity:
+                  1,
+
+                unitPrice:
+                  80000,
+              },
+            ],
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates a pending Invoice Match',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/invoice-matches',
+            )
+            .set(auth())
+            .send({
+              purchaseOrderId,
+
+              externalInvoiceNumber:
+                `VENDOR-INVOICE-${suffix}`,
+
+              invoiceDate:
+                '2027-01-12',
+
+              invoiceAmount:
+                110600,
+
+              matchedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Full Purchase Order invoice submitted for matching',
+
+              items: [
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemOneId,
+
+                  invoicedQuantity:
+                    1,
+
+                  unitPrice:
+                    80000,
+
+                  remarks:
+                    'Electrical panel invoice line',
+                },
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemTwoId,
+
+                  invoicedQuantity:
+                    1,
+
+                  unitPrice:
+                    20000,
+
+                  remarks:
+                    'Installation invoice line',
+                },
+              ],
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('PENDING');
+
+        expect(
+          response.body.data
+            .purchaseOrderId,
+        ).toBe(
+          purchaseOrderId,
+        );
+
+        expect(
+          response.body.data.vendorId,
+        ).toBe(
+          vendorOneId,
+        );
+
+        expect(
+          response.body.data.propertyId,
+        ).toBe(
+          propertyId,
+        );
+
+        expect(
+          response.body.data
+            .purchaseOrderAmount,
+        ).toBe(110600);
+
+        expect(
+          response.body.data
+            .invoiceAmount,
+        ).toBe(110600);
+
+        expect(
+          response.body.data
+            .amountVariance,
+        ).toBe(0);
+
+        expect(
+          response.body.data
+            .quantityVariance,
+        ).toBe(0);
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+
+        expect(
+          response.body.data.items.every(
+            (
+              item: {
+                isMatched: boolean;
+              },
+            ) =>
+              item.isMatched,
+          ),
+        ).toBe(true);
+
+        expect(
+          response.body.data.items.map(
+            (
+              item: {
+                receivedQuantity: number;
+              },
+            ) =>
+              item.receivedQuantity,
+          ),
+        ).toEqual([
+          1,
+          1,
+        ]);
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data
+            .history[0]
+            .toStatus,
+        ).toBe('PENDING');
+
+        invoiceMatchId =
+          response.body.data.id;
+
+        invoiceMatchNumber =
+          response.body.data
+            .invoiceMatchNumber;
+
+        expect(
+          invoiceMatchNumber,
+        ).toMatch(
+          /^IM-\d{8}-[A-F0-9]{8}$/,
+        );
+      },
+    );
+
+    it(
+      'returns Invoice Match details',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/invoice-matches/${invoiceMatchId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.id,
+        ).toBe(
+          invoiceMatchId,
+        );
+
+        expect(
+          response.body.data
+            .invoiceMatchNumber,
+        ).toBe(
+          invoiceMatchNumber,
+        );
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+      },
+    );
+
+    it(
+      'lists and filters Invoice Matches',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/invoice-matches?purchaseOrderId=${purchaseOrderId}&vendorId=${vendorOneId}&propertyId=${propertyId}&status=PENDING&search=${encodeURIComponent(
+                invoiceMatchNumber,
+              )}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              invoiceMatchId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'updates the pending Invoice Match',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .patch(
+              `/api/v1/procurement/invoice-matches/${invoiceMatchId}`,
+            )
+            .set(auth())
+            .send({
+              externalInvoiceNumber:
+                `VENDOR-INVOICE-UPDATED-${suffix}`,
+
+              invoiceDate:
+                '2027-01-13',
+
+              invoiceAmount:
+                110600,
+
+              remarks:
+                'Invoice values verified before completing match',
+
+              updatedByPersonId:
+                adminPersonId,
+
+              items: [
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemOneId,
+
+                  invoicedQuantity:
+                    1,
+
+                  unitPrice:
+                    80000,
+                },
+                {
+                  purchaseOrderItemId:
+                    purchaseOrderItemTwoId,
+
+                  invoicedQuantity:
+                    1,
+
+                  unitPrice:
+                    20000,
+                },
+              ],
+            })
+            .expect(200);
+
+        expect(
+          response.body.data.status,
+        ).toBe('PENDING');
+
+        expect(
+          response.body.data
+            .externalInvoiceNumber,
+        ).toBe(
+          `VENDOR-INVOICE-UPDATED-${suffix}`,
+        );
+
+        expect(
+          response.body.data
+            .amountVariance,
+        ).toBe(0);
+
+        expect(
+          response.body.data
+            .quantityVariance,
+        ).toBe(0);
+      },
+    );
+
+    it(
+      'completes the Invoice Match as matched',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/invoice-matches/${invoiceMatchId}/complete`,
+            )
+            .set(auth())
+            .send({
+              matchedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Three-way comparison completed without variance',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('MATCHED');
+
+        expect(
+          response.body.data.matchedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'PENDING',
+          'MATCHED',
+        ]);
+      },
+    );
+
+    it(
+      'rejects editing a completed Invoice Match',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .patch(
+            `/api/v1/procurement/invoice-matches/${invoiceMatchId}`,
+          )
+          .set(auth())
+          .send({
+            remarks:
+              'Invalid update after matching',
+
+            updatedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'rejects duplicate Invoice Match completion',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/invoice-matches/${invoiceMatchId}/complete`,
+          )
+          .set(auth())
+          .send({
+            matchedByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid duplicate completion',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'approves the matched Invoice Match',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/invoice-matches/${invoiceMatchId}/approve`,
+            )
+            .set(auth())
+            .send({
+              approvedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Invoice Match approved for payment processing',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('APPROVED');
+
+        expect(
+          response.body.data
+            .approvedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data.approvedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'PENDING',
+          'MATCHED',
+          'APPROVED',
+        ]);
+      },
+    );
+
+    it(
+      'rejects duplicate Invoice Match approval',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/invoice-matches/${invoiceMatchId}/approve`,
+          )
+          .set(auth())
+          .send({
+            approvedByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid duplicate approval',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'persists Invoice Match audit and EventBus records',
+      async () => {
+        const expectedEvents = [
+          'procurement.invoice_match.created',
+          'procurement.invoice_match.completed',
+          'procurement.invoice_match.approved',
+        ];
+
+        const auditResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM audit_logs
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.invoice_match'
+            `,
+            [
+              invoiceMatchId,
+            ],
+          );
+
+        expect(
+          auditResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+
+        const eventResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM eventbus_events
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.invoice_match'
+            `,
+            [
+              invoiceMatchId,
+            ],
+          );
+
+        expect(
+          eventResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
       },
     );
 

@@ -31,6 +31,11 @@ import {
 } from './controllers/procurement-goods-receipt.controller';
 
 import {
+  ProcurementInvoiceMatchController,
+} from './controllers/procurement-invoice-match.controller';
+
+
+import {
   ProcurementPurchaseOrderController,
 } from './controllers/procurement-purchase-order.controller';
 
@@ -55,6 +60,11 @@ import {
 } from './repositories/procurement-goods-receipt.repository';
 
 import {
+  PROCUREMENT_INVOICE_MATCH_REPOSITORY,
+} from './repositories/procurement-invoice-match.repository';
+
+
+import {
   PROCUREMENT_PURCHASE_ORDER_REPOSITORY,
 } from './repositories/procurement-purchase-order.repository';
 
@@ -75,6 +85,11 @@ import {
 } from './repositories/postgres-procurement-goods-receipt.repository';
 
 import {
+  PostgresProcurementInvoiceMatchRepository,
+} from './repositories/postgres-procurement-invoice-match.repository';
+
+
+import {
   PostgresProcurementPurchaseOrderRepository,
 } from './repositories/postgres-procurement-purchase-order.repository';
 
@@ -93,6 +108,11 @@ import {
 import {
   ProcurementGoodsReceiptService,
 } from './services/procurement-goods-receipt.service';
+
+import {
+  ProcurementInvoiceMatchService,
+} from './services/procurement-invoice-match.service';
+
 
 import {
   ProcurementPurchaseOrderService,
@@ -125,6 +145,7 @@ import {
 
   controllers: [
     ProcurementGoodsReceiptController,
+    ProcurementInvoiceMatchController,
     ProcurementPurchaseOrderController,
     ProcurementQuotationComparisonController,
     ProcurementQuotationController,
@@ -135,6 +156,7 @@ import {
   providers: [
     ProcurementBootstrapService,
     ProcurementGoodsReceiptService,
+    ProcurementInvoiceMatchService,
     ProcurementPurchaseOrderService,
     ProcurementQuotationComparisonService,
     ProcurementQuotationService,
@@ -142,6 +164,7 @@ import {
     PurchaseRequestService,
 
     PostgresProcurementGoodsReceiptRepository,
+    PostgresProcurementInvoiceMatchRepository,
     PostgresProcurementPurchaseOrderRepository,
     PostgresProcurementQuotationRepository,
     PostgresProcurementRfqRepository,
@@ -152,6 +175,13 @@ import {
         PROCUREMENT_GOODS_RECEIPT_REPOSITORY,
       useExisting:
         PostgresProcurementGoodsReceiptRepository,
+    },
+
+    {
+      provide:
+        PROCUREMENT_INVOICE_MATCH_REPOSITORY,
+      useExisting:
+        PostgresProcurementInvoiceMatchRepository,
     },
 
     {
@@ -185,6 +215,7 @@ import {
 
   exports: [
     ProcurementGoodsReceiptService,
+    ProcurementInvoiceMatchService,
     ProcurementPurchaseOrderService,
     ProcurementQuotationComparisonService,
     ProcurementQuotationService,

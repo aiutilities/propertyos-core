@@ -50,6 +50,7 @@ import { VisitorModule } from "./plugins/visitor/visitor.module";
 import { ReservationModule } from "./core/reservation";
 import { HelpdeskModule } from "./core/helpdesk";
 import { CommunicationsModule } from "./core/communications";
+import { VendorModule } from "./core/vendor";
 
 @Module({
   imports: [
@@ -101,6 +102,7 @@ import { CommunicationsModule } from "./core/communications";
     ReservationModule,
     HelpdeskModule,
     CommunicationsModule,
+    VendorModule,
     BootstrapModule,
 
     VisitorModule,

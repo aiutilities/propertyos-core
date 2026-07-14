@@ -72,6 +72,8 @@ export const PROCUREMENT_EVENTS = {
 
   PURCHASE_ORDER_CREATED:
     'procurement.purchase_order.created',
+  PURCHASE_ORDER_UPDATED:
+    'procurement.purchase_order.updated',
   PURCHASE_ORDER_SUBMITTED:
     'procurement.purchase_order.submitted',
   PURCHASE_ORDER_APPROVED:

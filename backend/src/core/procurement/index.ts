@@ -10,3 +10,5 @@ export * from './repositories/procurement-quotation.repository';
 export * from './services/procurement-quotation.service';
 export * from './quotation/quotation-comparison.types';
 export * from './services/procurement-quotation-comparison.service';
+export * from './repositories/procurement-purchase-order.repository';
+export * from './services/procurement-purchase-order.service';

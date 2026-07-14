@@ -102,6 +102,12 @@ describe(
     let quotationTwoId:
       string;
 
+    let purchaseOrderId:
+      string;
+
+    let purchaseOrderNumber:
+      string;
+
     beforeAll(
       async () => {
         const moduleRef:
@@ -2553,6 +2559,657 @@ it(
           'SUBMITTED',
           'REJECTED',
         ]);
+      },
+    );
+
+    it(
+      'rejects creating a Purchase Order from a non-selected quotation',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/purchase-orders',
+          )
+          .set(auth())
+          .send({
+            quotationId:
+              quotationTwoId,
+
+            title:
+              'Invalid rejected quotation order',
+
+            createdByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'creates a Purchase Order from the selected quotation',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              '/api/v1/procurement/purchase-orders',
+            )
+            .set(auth())
+            .send({
+              quotationId:
+                quotationOneId,
+
+              title:
+                'Electrical panel supply and installation',
+
+              description:
+                'Purchase Order generated from the selected quotation',
+
+              orderDate:
+                '2026-12-15',
+
+              expectedDeliveryDate:
+                '2027-01-15',
+
+              shippingAddress:
+                'Property stores, Chennai',
+
+              billingAddress:
+                'PropertyOS Accounts Office, Chennai',
+
+              paymentTerms:
+                '30 percent advance and balance after commissioning',
+
+              deliveryTerms:
+                'Delivered at property',
+
+              createdByPersonId:
+                adminPersonId,
+            })
+            .expect(201);
+
+        expect(
+          response.body.success,
+        ).toBe(true);
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data
+            .quotationId,
+        ).toBe(
+          quotationOneId,
+        );
+
+        expect(
+          response.body.data.rfqId,
+        ).toBe(rfqId);
+
+        expect(
+          response.body.data
+            .purchaseRequestId,
+        ).toBe(
+          purchaseRequestId,
+        );
+
+        expect(
+          response.body.data.propertyId,
+        ).toBe(propertyId);
+
+        expect(
+          response.body.data.vendorId,
+        ).toBe(vendorOneId);
+
+        expect(
+          response.body.data.currency,
+        ).toBe('INR');
+
+        expect(
+          response.body.data.subtotal,
+        ).toBe(100000);
+
+        expect(
+          response.body.data
+            .discountAmount,
+        ).toBe(7500);
+
+        expect(
+          response.body.data.taxAmount,
+        ).toBe(17100);
+
+        expect(
+          response.body.data
+            .freightAmount,
+        ).toBe(1000);
+
+        expect(
+          response.body.data.totalAmount,
+        ).toBe(110600);
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+
+        expect(
+          response.body.data.items[0]
+            .orderedQuantity,
+        ).toBe(1);
+
+        expect(
+          response.body.data.items[0]
+            .receivedQuantity,
+        ).toBe(0);
+
+        expect(
+          response.body.data.items[0]
+            .itemType,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history,
+        ).toHaveLength(1);
+
+        expect(
+          response.body.data.history[0]
+            .toStatus,
+        ).toBe('DRAFT');
+
+        purchaseOrderId =
+          response.body.data.id;
+
+        purchaseOrderNumber =
+          response.body.data
+            .purchaseOrderNumber;
+
+        expect(
+          purchaseOrderNumber,
+        ).toMatch(
+          /^PO-\d{8}-[A-F0-9]{8}$/,
+        );
+      },
+    );
+
+    it(
+      'rejects a duplicate Purchase Order for the selected quotation',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/procurement/purchase-orders',
+          )
+          .set(auth())
+          .send({
+            quotationId:
+              quotationOneId,
+
+            title:
+              'Duplicate Purchase Order',
+
+            createdByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'returns Purchase Order details',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.id,
+        ).toBe(
+          purchaseOrderId,
+        );
+
+        expect(
+          response.body.data
+            .purchaseOrderNumber,
+        ).toBe(
+          purchaseOrderNumber,
+        );
+
+        expect(
+          response.body.data.items,
+        ).toHaveLength(2);
+      },
+    );
+
+    it(
+      'updates a draft Purchase Order',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .patch(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}`,
+            )
+            .set(auth())
+            .send({
+              title:
+                'Electrical panel supply, installation and testing',
+
+              description:
+                'Updated draft Purchase Order',
+
+              expectedDeliveryDate:
+                '2027-01-10',
+
+              shippingAddress:
+                'Main property stores, Chennai',
+
+              billingAddress:
+                'PropertyOS Finance Office, Chennai',
+
+              updatedByPersonId:
+                adminPersonId,
+            })
+            .expect(200);
+
+        expect(
+          response.body.data.title,
+        ).toBe(
+          'Electrical panel supply, installation and testing',
+        );
+
+        expect(
+          response.body.data
+            .shippingAddress,
+        ).toBe(
+          'Main property stores, Chennai',
+        );
+
+        expect(
+          response.body.data
+            .billingAddress,
+        ).toBe(
+          'PropertyOS Finance Office, Chennai',
+        );
+
+        expect(
+          response.body.data.status,
+        ).toBe('DRAFT');
+
+        expect(
+          response.body.data.totalAmount,
+        ).toBe(110600);
+      },
+    );
+
+    it(
+      'lists and filters Purchase Orders',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .get(
+              `/api/v1/procurement/purchase-orders?quotationId=${quotationOneId}&rfqId=${rfqId}&purchaseRequestId=${purchaseRequestId}&propertyId=${propertyId}&vendorId=${vendorOneId}&status=DRAFT&search=${encodeURIComponent(
+                purchaseOrderNumber,
+              )}`,
+            )
+            .set(auth())
+            .expect(200);
+
+        expect(
+          response.body.data.some(
+            (
+              row: {
+                id: string;
+              },
+            ) =>
+              row.id ===
+              purchaseOrderId,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'submits the Purchase Order for approval',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/submit`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Purchase Order submitted for approval',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe(
+          'PENDING_APPROVAL',
+        );
+      },
+    );
+
+    it(
+      'rejects editing a submitted Purchase Order',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .patch(
+            `/api/v1/procurement/purchase-orders/${purchaseOrderId}`,
+          )
+          .set(auth())
+          .send({
+            title:
+              'Invalid submitted update',
+
+            updatedByPersonId:
+              adminPersonId,
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'approves the Purchase Order',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/approve`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Commercial approval completed',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('APPROVED');
+
+        expect(
+          response.body.data
+            .approvedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data.approvedAt,
+        ).toBeDefined();
+      },
+    );
+
+    it(
+      'issues the approved Purchase Order',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/issue`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Purchase Order issued to vendor',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('ISSUED');
+
+        expect(
+          response.body.data
+            .issuedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data.issuedAt,
+        ).toBeDefined();
+      },
+    );
+
+    it(
+      'acknowledges the issued Purchase Order',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/acknowledge`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Vendor acknowledged the Purchase Order',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('ACKNOWLEDGED');
+
+        expect(
+          response.body.data
+            .acknowledgedByPersonId,
+        ).toBe(
+          adminPersonId,
+        );
+
+        expect(
+          response.body.data
+            .acknowledgedAt,
+        ).toBeDefined();
+      },
+    );
+
+    it(
+      'marks the Purchase Order as received',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/received`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'All ordered items received',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('RECEIVED');
+      },
+    );
+
+    it(
+      'closes the received Purchase Order',
+      async () => {
+        const response =
+          await request(
+            app.getHttpServer(),
+          )
+            .post(
+              `/api/v1/procurement/purchase-orders/${purchaseOrderId}/close`,
+            )
+            .set(auth())
+            .send({
+              changedByPersonId:
+                adminPersonId,
+
+              remarks:
+                'Purchase Order fully received and closed',
+            })
+            .expect(201);
+
+        expect(
+          response.body.data.status,
+        ).toBe('CLOSED');
+
+        expect(
+          response.body.data.closedAt,
+        ).toBeDefined();
+
+        expect(
+          response.body.data.history.map(
+            (
+              row: {
+                toStatus: string;
+              },
+            ) =>
+              row.toStatus,
+          ),
+        ).toEqual([
+          'DRAFT',
+          'PENDING_APPROVAL',
+          'APPROVED',
+          'ISSUED',
+          'ACKNOWLEDGED',
+          'RECEIVED',
+          'CLOSED',
+        ]);
+      },
+    );
+
+    it(
+      'rejects cancelling a closed Purchase Order',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            `/api/v1/procurement/purchase-orders/${purchaseOrderId}/cancel`,
+          )
+          .set(auth())
+          .send({
+            changedByPersonId:
+              adminPersonId,
+
+            remarks:
+              'Invalid closed-order cancellation',
+          })
+          .expect(400);
+      },
+    );
+
+    it(
+      'persists Purchase Order audit and EventBus records',
+      async () => {
+        const expectedEvents = [
+          'procurement.purchase_order.created',
+          'procurement.purchase_order.updated',
+          'procurement.purchase_order.submitted',
+          'procurement.purchase_order.approved',
+          'procurement.purchase_order.issued',
+          'procurement.purchase_order.acknowledged',
+          'procurement.purchase_order.received',
+          'procurement.purchase_order.closed',
+        ];
+
+        const auditResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM audit_logs
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.purchase_order'
+            `,
+            [
+              purchaseOrderId,
+            ],
+          );
+
+        expect(
+          auditResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
+
+        const eventResult =
+          await pool.query(
+            `
+            SELECT event_type
+            FROM eventbus_events
+            WHERE
+              payload ->> 'entityId' = $1
+              AND payload ->> 'entityType' =
+                'procurement.purchase_order'
+            `,
+            [
+              purchaseOrderId,
+            ],
+          );
+
+        expect(
+          eventResult.rows.map(
+            (
+              row: {
+                event_type: string;
+              },
+            ) =>
+              row.event_type,
+          ),
+        ).toEqual(
+          expect.arrayContaining(
+            expectedEvents,
+          ),
+        );
       },
     );
 

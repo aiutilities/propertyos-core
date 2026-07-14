@@ -27,6 +27,10 @@ import {
 } from './bootstrap/procurement-bootstrap.service';
 
 import {
+  ProcurementPurchaseOrderController,
+} from './controllers/procurement-purchase-order.controller';
+
+import {
   ProcurementQuotationComparisonController,
 } from './controllers/procurement-quotation-comparison.controller';
 
@@ -43,6 +47,10 @@ import {
 } from './controllers/purchase-request.controller';
 
 import {
+  PROCUREMENT_PURCHASE_ORDER_REPOSITORY,
+} from './repositories/procurement-purchase-order.repository';
+
+import {
   PROCUREMENT_QUOTATION_REPOSITORY,
 } from './repositories/procurement-quotation.repository';
 
@@ -55,6 +63,10 @@ import {
 } from './repositories/purchase-request.repository';
 
 import {
+  PostgresProcurementPurchaseOrderRepository,
+} from './repositories/postgres-procurement-purchase-order.repository';
+
+import {
   PostgresProcurementQuotationRepository,
 } from './repositories/postgres-procurement-quotation.repository';
 
@@ -65,6 +77,10 @@ import {
 import {
   PostgresPurchaseRequestRepository,
 } from './repositories/postgres-purchase-request.repository';
+
+import {
+  ProcurementPurchaseOrderService,
+} from './services/procurement-purchase-order.service';
 
 import {
   ProcurementQuotationComparisonService,
@@ -92,6 +108,7 @@ import {
   ],
 
   controllers: [
+    ProcurementPurchaseOrderController,
     ProcurementQuotationComparisonController,
     ProcurementQuotationController,
     ProcurementRfqController,
@@ -100,14 +117,23 @@ import {
 
   providers: [
     ProcurementBootstrapService,
+    ProcurementPurchaseOrderService,
     ProcurementQuotationComparisonService,
     ProcurementQuotationService,
     ProcurementRfqService,
     PurchaseRequestService,
 
+    PostgresProcurementPurchaseOrderRepository,
     PostgresProcurementQuotationRepository,
     PostgresProcurementRfqRepository,
     PostgresPurchaseRequestRepository,
+
+    {
+      provide:
+        PROCUREMENT_PURCHASE_ORDER_REPOSITORY,
+      useExisting:
+        PostgresProcurementPurchaseOrderRepository,
+    },
 
     {
       provide:
@@ -132,6 +158,7 @@ import {
   ],
 
   exports: [
+    ProcurementPurchaseOrderService,
     ProcurementQuotationComparisonService,
     ProcurementQuotationService,
     ProcurementRfqService,

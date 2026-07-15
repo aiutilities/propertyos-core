@@ -6,6 +6,7 @@ import {
   InventoryStockLedgerEntry,
   InventoryStockLedgerFilters,
   InventoryStockMovementType,
+  InventoryReservationStatus,
   InventoryStockReservation,
   InventoryStockTransfer,
   InventoryStockTransferItem,
@@ -100,6 +101,42 @@ export interface InventoryStockLedgerRepository {
       sourceId?: string;
       status?: string;
     },
+  ): Promise<
+    InventoryStockReservation[]
+  >;
+
+
+  createReservation(
+    reservation:
+      InventoryStockReservation,
+  ): Promise<
+    InventoryStockReservation
+  >;
+
+  updateReservation(
+    reservationId: string,
+
+    input: {
+      fulfilledQuantity: number;
+      releasedQuantity: number;
+      status:
+        InventoryReservationStatus;
+
+      releasedByPersonId?: string;
+      fulfilledByPersonId?: string;
+
+      releasedAt?: Date;
+      fulfilledAt?: Date;
+
+      remarks?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockReservation | null
+  >;
+
+  listExpiredReservations(
+    asOf: Date,
   ): Promise<
     InventoryStockReservation[]
   >;

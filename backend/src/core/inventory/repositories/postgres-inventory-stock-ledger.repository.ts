@@ -571,6 +571,213 @@ export class PostgresInventoryStockLedgerRepository
     );
   }
 
+  async createReservation(
+    reservation:
+      InventoryStockReservation,
+  ): Promise<
+    InventoryStockReservation
+  > {
+    const result =
+      await this.pool.query(
+        `
+        INSERT INTO inventory_stock_reservations (
+          id,
+          reservation_number,
+          item_id,
+          store_id,
+          bin_location_id,
+          quantity,
+          fulfilled_quantity,
+          released_quantity,
+          status,
+          source_type,
+          source_id,
+          reference_number,
+          reserved_for_person_id,
+          created_by_person_id,
+          released_by_person_id,
+          fulfilled_by_person_id,
+          expires_at,
+          released_at,
+          fulfilled_at,
+          remarks,
+          metadata,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,
+          $10,$11,$12,$13,$14,$15,$16,
+          $17,$18,$19,$20,$21,$22,$23
+        )
+        RETURNING *
+        `,
+        [
+          reservation.id,
+          reservation.reservationNumber,
+          reservation.itemId,
+          reservation.storeId,
+          reservation.binLocationId ??
+            null,
+          reservation.quantity,
+          reservation.fulfilledQuantity,
+          reservation.releasedQuantity,
+          reservation.status,
+          reservation.sourceType,
+          reservation.sourceId ??
+            null,
+          reservation.referenceNumber ??
+            null,
+          reservation.reservedForPersonId ??
+            null,
+          reservation.createdByPersonId ??
+            null,
+          reservation.releasedByPersonId ??
+            null,
+          reservation.fulfilledByPersonId ??
+            null,
+          reservation.expiresAt ??
+            null,
+          reservation.releasedAt ??
+            null,
+          reservation.fulfilledAt ??
+            null,
+          reservation.remarks ??
+            null,
+          JSON.stringify(
+            reservation.metadata ?? {},
+          ),
+          reservation.createdAt,
+          reservation.updatedAt,
+        ],
+      );
+
+    return this.mapReservation(
+      result.rows[0],
+    );
+  }
+
+  async updateReservation(
+    reservationId: string,
+
+    input: {
+      fulfilledQuantity: number;
+      releasedQuantity: number;
+      status:
+        InventoryReservationStatus;
+
+      releasedByPersonId?: string;
+      fulfilledByPersonId?: string;
+
+      releasedAt?: Date;
+      fulfilledAt?: Date;
+
+      remarks?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockReservation | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_stock_reservations
+        SET
+          fulfilled_quantity = $2,
+          released_quantity = $3,
+          status = $4,
+
+          released_by_person_id =
+            COALESCE(
+              $5,
+              released_by_person_id
+            ),
+
+          fulfilled_by_person_id =
+            COALESCE(
+              $6,
+              fulfilled_by_person_id
+            ),
+
+          released_at =
+            COALESCE(
+              $7,
+              released_at
+            ),
+
+          fulfilled_at =
+            COALESCE(
+              $8,
+              fulfilled_at
+            ),
+
+          remarks =
+            COALESCE(
+              $9,
+              remarks
+            ),
+
+          updated_at = $10
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          reservationId,
+          input.fulfilledQuantity,
+          input.releasedQuantity,
+          input.status,
+          input.releasedByPersonId ??
+            null,
+          input.fulfilledByPersonId ??
+            null,
+          input.releasedAt ??
+            null,
+          input.fulfilledAt ??
+            null,
+          input.remarks ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapReservation(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async listExpiredReservations(
+    asOf: Date,
+  ): Promise<
+    InventoryStockReservation[]
+  > {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_reservations
+        WHERE expires_at IS NOT NULL
+          AND expires_at <= $1
+          AND status IN (
+            'ACTIVE',
+            'PARTIALLY_FULFILLED'
+          )
+        ORDER BY
+          expires_at ASC,
+          created_at ASC
+        `,
+        [
+          asOf,
+        ],
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapReservation(row),
+    );
+  }
+
   async createAdjustment(
     adjustment:
       InventoryStockAdjustment,

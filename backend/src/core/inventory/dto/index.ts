@@ -21,3 +21,7 @@ export * from './create-stock-transfer.dto';
 export * from './dispatch-stock-transfer.dto';
 export * from './receive-stock-transfer.dto';
 export * from './cancel-stock-transfer.dto';
+export * from './create-stock-reservation.dto';
+export * from './release-stock-reservation.dto';
+export * from './fulfill-stock-reservation.dto';
+export * from './expire-stock-reservation.dto';

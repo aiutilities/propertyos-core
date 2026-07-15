@@ -14,3 +14,5 @@ export * from './controllers/inventory-stock-adjustment.controller';
 export * from './services/inventory-stock-adjustment.service';
 export * from './controllers/inventory-stock-transfer.controller';
 export * from './services/inventory-stock-transfer.service';
+export * from './controllers/inventory-stock-reservation.controller';
+export * from './services/inventory-stock-reservation.service';

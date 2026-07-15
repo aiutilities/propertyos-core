@@ -130,3 +130,181 @@ export interface InventoryStockBalanceFilters {
   propertyId?: string;
   belowReorderLevel?: boolean;
 }
+
+export enum InventoryStockMovementType {
+  OPENING = 'OPENING',
+  RECEIPT = 'RECEIPT',
+  ISSUE = 'ISSUE',
+  TRANSFER_OUT = 'TRANSFER_OUT',
+  TRANSFER_IN = 'TRANSFER_IN',
+  ADJUSTMENT_IN = 'ADJUSTMENT_IN',
+  ADJUSTMENT_OUT = 'ADJUSTMENT_OUT',
+  RESERVATION = 'RESERVATION',
+  RESERVATION_RELEASE = 'RESERVATION_RELEASE',
+  REVERSAL = 'REVERSAL',
+}
+
+export enum InventoryReservationStatus {
+  ACTIVE = 'ACTIVE',
+  PARTIALLY_FULFILLED = 'PARTIALLY_FULFILLED',
+  FULFILLED = 'FULFILLED',
+  RELEASED = 'RELEASED',
+  EXPIRED = 'EXPIRED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum InventoryAdjustmentStatus {
+  DRAFT = 'DRAFT',
+  POSTED = 'POSTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum InventoryTransferStatus {
+  DRAFT = 'DRAFT',
+  DISPATCHED = 'DISPATCHED',
+  RECEIVED = 'RECEIVED',
+  CANCELLED = 'CANCELLED',
+}
+
+export interface InventoryStockLedgerEntry {
+  id: string;
+  movementNumber: string;
+  movementType:
+    InventoryStockMovementType;
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+  quantityDelta: number;
+  quantityBefore: number;
+  quantityAfter: number;
+  reservedQuantityDelta: number;
+  reservedQuantityBefore: number;
+  reservedQuantityAfter: number;
+  unitCost: number;
+  totalCost: number;
+  averageUnitCostBefore: number;
+  averageUnitCostAfter: number;
+  sourceType: string;
+  sourceId?: string;
+  sourceLineId?: string;
+  referenceNumber?: string;
+  idempotencyKey?: string;
+  correlationId?: string;
+  movementDate: Date;
+  postedByPersonId?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+}
+
+export interface InventoryStockReservation {
+  id: string;
+  reservationNumber: string;
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+  quantity: number;
+  fulfilledQuantity: number;
+  releasedQuantity: number;
+  status:
+    InventoryReservationStatus;
+  sourceType: string;
+  sourceId?: string;
+  referenceNumber?: string;
+  reservedForPersonId?: string;
+  createdByPersonId?: string;
+  releasedByPersonId?: string;
+  fulfilledByPersonId?: string;
+  expiresAt?: Date;
+  releasedAt?: Date;
+  fulfilledAt?: Date;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryStockAdjustment {
+  id: string;
+  adjustmentNumber: string;
+  propertyId: string;
+  storeId: string;
+  status:
+    InventoryAdjustmentStatus;
+  adjustmentDate: Date;
+  reasonCode: string;
+  reasonDescription?: string;
+  createdByPersonId: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  postedAt?: Date;
+  cancelledAt?: Date;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryStockAdjustmentItem {
+  id: string;
+  adjustmentId: string;
+  itemId: string;
+  binLocationId?: string;
+  quantityDelta: number;
+  unitCost: number;
+  remarks?: string;
+  createdAt: Date;
+}
+
+export interface InventoryStockTransfer {
+  id: string;
+  transferNumber: string;
+  propertyId: string;
+  sourceStoreId: string;
+  destinationStoreId: string;
+  status:
+    InventoryTransferStatus;
+  transferDate: Date;
+  createdByPersonId: string;
+  dispatchedByPersonId?: string;
+  receivedByPersonId?: string;
+  cancelledByPersonId?: string;
+  dispatchedAt?: Date;
+  receivedAt?: Date;
+  cancelledAt?: Date;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryStockTransferItem {
+  id: string;
+  transferId: string;
+  itemId: string;
+  sourceBinLocationId?: string;
+  destinationBinLocationId?: string;
+  quantity: number;
+  dispatchedQuantity: number;
+  receivedQuantity: number;
+  unitCost: number;
+  remarks?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryStockLedgerFilters {
+  itemId?: string;
+  storeId?: string;
+  binLocationId?: string;
+  movementType?:
+    InventoryStockMovementType;
+  sourceType?: string;
+  sourceId?: string;
+  correlationId?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+  limit?: number;
+}

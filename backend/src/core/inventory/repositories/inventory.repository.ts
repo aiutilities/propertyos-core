@@ -130,4 +130,5 @@ export interface InventoryRepository {
   listStockBalances(
     filters?: InventoryStockBalanceFilters,
   ): Promise<InventoryStockBalance[]>;
+
 }

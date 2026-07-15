@@ -17,6 +17,9 @@ import {
   InventoryMaterialIssue,
   InventoryMaterialIssueItem,
   InventoryMaterialIssueStatus,
+  InventoryMaterialReturn,
+  InventoryMaterialReturnItem,
+  InventoryMaterialReturnStatus,
 } from '../types/inventory.types';
 
 export const INVENTORY_STOCK_LEDGER_REPOSITORY =
@@ -221,6 +224,69 @@ export interface InventoryStockLedgerRepository {
     },
   ): Promise<
     InventoryCycleCountItem | null
+  >;
+
+  createMaterialReturn(
+    materialReturn:
+      InventoryMaterialReturn,
+
+    items:
+      InventoryMaterialReturnItem[],
+  ): Promise<{
+    materialReturn:
+      InventoryMaterialReturn;
+
+    items:
+      InventoryMaterialReturnItem[];
+  }>;
+
+  findMaterialReturnById(
+    id: string,
+  ): Promise<{
+    materialReturn:
+      InventoryMaterialReturn;
+
+    items:
+      InventoryMaterialReturnItem[];
+  } | null>;
+
+  listMaterialReturns(
+    filters?: {
+      propertyId?: string;
+      storeId?: string;
+      materialIssueId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    },
+  ): Promise<
+    InventoryMaterialReturn[]
+  >;
+
+  getPostedMaterialReturnQuantity(
+    materialIssueId: string,
+    itemId: string,
+    binLocationId?: string,
+  ): Promise<number>;
+
+  updateMaterialReturnStatus(
+    materialReturnId: string,
+
+    input: {
+      status:
+        InventoryMaterialReturnStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialReturn | null
   >;
 
   createMaterialIssue(

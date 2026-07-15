@@ -36,6 +36,9 @@ import {
   InventoryMaterialIssue,
   InventoryMaterialIssueItem,
   InventoryMaterialIssueStatus,
+  InventoryMaterialReturn,
+  InventoryMaterialReturnItem,
+  InventoryMaterialReturnStatus,
 } from '../types/inventory.types';
 
 import {
@@ -1274,6 +1277,441 @@ export class PostgresInventoryStockLedgerRepository
           result.rows[0],
         )
       : null;
+  }
+
+  async createMaterialReturn(
+    materialReturn:
+      InventoryMaterialReturn,
+
+    items:
+      InventoryMaterialReturnItem[],
+  ): Promise<{
+    materialReturn:
+      InventoryMaterialReturn;
+
+    items:
+      InventoryMaterialReturnItem[];
+  }> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      await client.query(
+        `
+        INSERT INTO inventory_material_returns (
+          id,
+          return_number,
+          property_id,
+          store_id,
+          material_issue_id,
+          status,
+          return_date,
+          reason_code,
+          reason_description,
+          returned_by_person_id,
+          created_by_person_id,
+          posted_by_person_id,
+          cancelled_by_person_id,
+          posted_at,
+          cancelled_at,
+          cancellation_reason,
+          remarks,
+          metadata,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,
+          $11,$12,$13,$14,$15,$16,$17,$18,
+          $19,$20
+        )
+        `,
+        [
+          materialReturn.id,
+          materialReturn.returnNumber,
+          materialReturn.propertyId,
+          materialReturn.storeId,
+          materialReturn.materialIssueId ??
+            null,
+          materialReturn.status,
+          materialReturn.returnDate,
+          materialReturn.reasonCode,
+          materialReturn.reasonDescription ??
+            null,
+          materialReturn.returnedByPersonId ??
+            null,
+          materialReturn.createdByPersonId,
+          materialReturn.postedByPersonId ??
+            null,
+          materialReturn.cancelledByPersonId ??
+            null,
+          materialReturn.postedAt ??
+            null,
+          materialReturn.cancelledAt ??
+            null,
+          materialReturn.cancellationReason ??
+            null,
+          materialReturn.remarks ??
+            null,
+          JSON.stringify(
+            materialReturn.metadata ?? {},
+          ),
+          materialReturn.createdAt,
+          materialReturn.updatedAt,
+        ],
+      );
+
+      for (const item of items) {
+        await client.query(
+          `
+          INSERT INTO inventory_material_return_items (
+            id,
+            material_return_id,
+            item_id,
+            bin_location_id,
+            quantity,
+            unit_cost,
+            remarks,
+            metadata,
+            created_at,
+            updated_at
+          )
+          VALUES (
+            $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+          )
+          `,
+          [
+            item.id,
+            item.materialReturnId,
+            item.itemId,
+            item.binLocationId ??
+              null,
+            item.quantity,
+            item.unitCost,
+            item.remarks ??
+              null,
+            JSON.stringify(
+              item.metadata ?? {},
+            ),
+            item.createdAt,
+            item.updatedAt,
+          ],
+        );
+      }
+
+      await client.query(
+        'COMMIT',
+      );
+
+      const created =
+        await this.findMaterialReturnById(
+          materialReturn.id,
+        );
+
+      if (!created) {
+        throw new Error(
+          'Created Inventory Material Return was not found',
+        );
+      }
+
+      return created;
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async listMaterialReturns(
+    filters: {
+      propertyId?: string;
+      storeId?: string;
+      materialIssueId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    } = {},
+  ): Promise<
+    InventoryMaterialReturn[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      expression: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${expression} $${values.length}`,
+      );
+    };
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id =',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.storeId) {
+      addCondition(
+        'store_id =',
+        filters.storeId,
+      );
+    }
+
+    if (
+      filters.materialIssueId
+    ) {
+      addCondition(
+        'material_issue_id =',
+        filters.materialIssueId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status =',
+        filters.status,
+      );
+    }
+
+    if (filters.dateFrom) {
+      addCondition(
+        'return_date >=',
+        filters.dateFrom,
+      );
+    }
+
+    if (filters.dateTo) {
+      addCondition(
+        'return_date <=',
+        filters.dateTo,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_material_returns
+        ${where}
+        ORDER BY
+          return_date DESC,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapMaterialReturn(
+          row,
+        ),
+    );
+  }
+
+  async getPostedMaterialReturnQuantity(
+    materialIssueId: string,
+    itemId: string,
+    binLocationId?: string,
+  ): Promise<number> {
+    const result =
+      await this.pool.query(
+        `
+        SELECT
+          COALESCE(
+            SUM(item.quantity),
+            0
+          ) AS returned_quantity
+        FROM inventory_material_returns document
+        INNER JOIN inventory_material_return_items item
+          ON item.material_return_id =
+            document.id
+        WHERE document.material_issue_id = $1
+          AND document.status = 'POSTED'
+          AND item.item_id = $2
+          AND (
+            item.bin_location_id = $3
+            OR (
+              item.bin_location_id IS NULL
+              AND $3::UUID IS NULL
+            )
+          )
+        `,
+        [
+          materialIssueId,
+          itemId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    return Number(
+      result.rows[0]
+        ?.returned_quantity ??
+      0,
+    );
+  }
+
+  async updateMaterialReturnStatus(
+    materialReturnId: string,
+
+    input: {
+      status:
+        InventoryMaterialReturnStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialReturn | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_material_returns
+        SET
+          status = $2,
+
+          posted_by_person_id =
+            COALESCE(
+              $3,
+              posted_by_person_id
+            ),
+
+          cancelled_by_person_id =
+            COALESCE(
+              $4,
+              cancelled_by_person_id
+            ),
+
+          posted_at =
+            COALESCE(
+              $5,
+              posted_at
+            ),
+
+          cancelled_at =
+            COALESCE(
+              $6,
+              cancelled_at
+            ),
+
+          cancellation_reason =
+            COALESCE(
+              $7,
+              cancellation_reason
+            ),
+
+          updated_at = $8
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          materialReturnId,
+          input.status,
+          input.postedByPersonId ??
+            null,
+          input.cancelledByPersonId ??
+            null,
+          input.postedAt ??
+            null,
+          input.cancelledAt ??
+            null,
+          input.cancellationReason ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapMaterialReturn(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async findMaterialReturnById(
+    id: string,
+  ): Promise<{
+    materialReturn:
+      InventoryMaterialReturn;
+
+    items:
+      InventoryMaterialReturnItem[];
+  } | null> {
+    const materialReturnResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_material_returns
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    if (
+      !materialReturnResult.rows[0]
+    ) {
+      return null;
+    }
+
+    const itemsResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_material_return_items
+        WHERE material_return_id = $1
+        ORDER BY created_at ASC
+        `,
+        [
+          id,
+        ],
+      );
+
+    return {
+      materialReturn:
+        this.mapMaterialReturn(
+          materialReturnResult.rows[0],
+        ),
+
+      items:
+        itemsResult.rows.map(
+          (row) =>
+            this.mapMaterialReturnItem(
+              row,
+            ),
+        ),
+    };
   }
 
   async createMaterialIssue(
@@ -3390,6 +3828,124 @@ export class PostgresInventoryStockLedgerRepository
       countedAt:
         row.counted_at ??
         undefined,
+
+      remarks:
+        row.remarks ??
+        undefined,
+
+      metadata:
+        row.metadata ?? {},
+
+      createdAt:
+        row.created_at,
+
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapMaterialReturn(
+    row: any,
+  ): InventoryMaterialReturn {
+    return {
+      id:
+        row.id,
+
+      returnNumber:
+        row.return_number,
+
+      propertyId:
+        row.property_id,
+
+      storeId:
+        row.store_id,
+
+      materialIssueId:
+        row.material_issue_id ??
+        undefined,
+
+      status:
+        row.status as
+          InventoryMaterialReturnStatus,
+
+      returnDate:
+        row.return_date,
+
+      reasonCode:
+        row.reason_code,
+
+      reasonDescription:
+        row.reason_description ??
+        undefined,
+
+      returnedByPersonId:
+        row.returned_by_person_id ??
+        undefined,
+
+      createdByPersonId:
+        row.created_by_person_id,
+
+      postedByPersonId:
+        row.posted_by_person_id ??
+        undefined,
+
+      cancelledByPersonId:
+        row.cancelled_by_person_id ??
+        undefined,
+
+      postedAt:
+        row.posted_at ??
+        undefined,
+
+      cancelledAt:
+        row.cancelled_at ??
+        undefined,
+
+      cancellationReason:
+        row.cancellation_reason ??
+        undefined,
+
+      remarks:
+        row.remarks ??
+        undefined,
+
+      metadata:
+        row.metadata ?? {},
+
+      createdAt:
+        row.created_at,
+
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapMaterialReturnItem(
+    row: any,
+  ): InventoryMaterialReturnItem {
+    return {
+      id:
+        row.id,
+
+      materialReturnId:
+        row.material_return_id,
+
+      itemId:
+        row.item_id,
+
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+
+      quantity:
+        Number(
+          row.quantity,
+        ),
+
+      unitCost:
+        Number(
+          row.unit_cost,
+        ),
 
       remarks:
         row.remarks ??

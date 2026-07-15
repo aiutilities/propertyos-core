@@ -82,6 +82,12 @@ export class InventoryBootstrapService {
         },
         {
           key:
+            INVENTORY_PERMISSIONS.RETURN,
+          description:
+            'Create and post controlled Inventory Material Returns',
+        },
+        {
+          key:
             INVENTORY_PERMISSIONS.COUNT,
           description:
             'Perform physical stock counts',

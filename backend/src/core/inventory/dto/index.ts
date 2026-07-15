@@ -34,3 +34,6 @@ export * from './cancel-cycle-count.dto';
 export * from './create-material-issue.dto';
 export * from './post-material-issue.dto';
 export * from './cancel-material-issue.dto';
+export * from './create-material-return.dto';
+export * from './post-material-return.dto';
+export * from './cancel-material-return.dto';

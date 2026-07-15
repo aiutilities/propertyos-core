@@ -20,3 +20,5 @@ export * from './controllers/inventory-cycle-count.controller';
 export * from './services/inventory-cycle-count.service';
 export * from './controllers/inventory-material-issue.controller';
 export * from './services/inventory-material-issue.service';
+export * from './controllers/inventory-material-return.controller';
+export * from './services/inventory-material-return.service';

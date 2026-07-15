@@ -475,3 +475,46 @@ export interface InventoryMaterialIssueItem {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export enum InventoryMaterialReturnStatus {
+  DRAFT = 'DRAFT',
+  POSTED = 'POSTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export interface InventoryMaterialReturn {
+  id: string;
+  returnNumber: string;
+  propertyId: string;
+  storeId: string;
+  materialIssueId?: string;
+  status:
+    InventoryMaterialReturnStatus;
+  returnDate: Date;
+  reasonCode: string;
+  reasonDescription?: string;
+  returnedByPersonId?: string;
+  createdByPersonId: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  postedAt?: Date;
+  cancelledAt?: Date;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryMaterialReturnItem {
+  id: string;
+  materialReturnId: string;
+  itemId: string;
+  binLocationId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}

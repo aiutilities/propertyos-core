@@ -54,6 +54,11 @@ import {
   InventoryMaterialIssueController,
 } from './controllers/inventory-material-issue.controller';
 
+import {
+  InventoryMaterialReturnController,
+} from './controllers/inventory-material-return.controller';
+
+
 
 import {
   InventorySearchProviderService,
@@ -99,6 +104,11 @@ import {
   InventoryMaterialIssueService,
 } from './services/inventory-material-issue.service';
 
+import {
+  InventoryMaterialReturnService,
+} from './services/inventory-material-return.service';
+
+
 
 @Module({
   imports: [
@@ -117,6 +127,7 @@ import {
     InventoryStockReservationController,
     InventoryCycleCountController,
     InventoryMaterialIssueController,
+    InventoryMaterialReturnController,
   ],
 
   providers: [
@@ -145,6 +156,7 @@ import {
     InventoryStockReservationService,
     InventoryCycleCountService,
     InventoryMaterialIssueService,
+    InventoryMaterialReturnService,
     InventoryBootstrapService,
     InventorySearchProviderService,
   ],

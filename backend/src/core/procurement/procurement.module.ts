@@ -19,6 +19,10 @@ import {
 } from '../eventbus/eventbus.module';
 
 import {
+  InventoryModule,
+} from '../inventory/inventory.module';
+
+import {
   PluginModule,
 } from '../plugin/plugin.module';
 
@@ -125,6 +129,10 @@ import {
 } from './services/procurement-goods-receipt.service';
 
 import {
+  ProcurementInventoryPostingService,
+} from './services/procurement-inventory-posting.service';
+
+import {
   ProcurementInvoiceMatchService,
 } from './services/procurement-invoice-match.service';
 
@@ -159,6 +167,7 @@ import {
     AuditModule,
     AuthModule,
     EventBusModule,
+    InventoryModule,
     PluginModule,
     PostgresModule,
   ],
@@ -177,6 +186,7 @@ import {
   providers: [
     ProcurementBootstrapService,
     ProcurementGoodsReceiptService,
+    ProcurementInventoryPostingService,
     ProcurementInvoiceMatchService,
     ProcurementPaymentRequestService,
     ProcurementPurchaseOrderService,

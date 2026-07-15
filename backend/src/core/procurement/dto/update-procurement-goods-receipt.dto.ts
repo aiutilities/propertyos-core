@@ -3,6 +3,9 @@ import {
 } from './create-procurement-goods-receipt.dto';
 
 export class UpdateProcurementGoodsReceiptDto {
+  destinationStoreId?: string;
+  destinationBinLocationId?: string;
+
   receiptDate?: string;
 
   deliveryReference?: string;

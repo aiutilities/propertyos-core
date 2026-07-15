@@ -700,6 +700,8 @@ export class PostgresProcurementGoodsReceiptRepository
         purchase_order_id,
         property_id,
         vendor_id,
+        destination_store_id,
+        destination_bin_location_id,
         status,
         receipt_date,
         delivery_reference,
@@ -717,7 +719,7 @@ export class PostgresProcurementGoodsReceiptRepository
       VALUES (
         $1,$2,$3,$4,$5,$6,$7,$8,$9,
         $10,$11,$12,$13,$14,$15,$16,
-        $17,$18
+        $17,$18,$19,$20
       )
       `,
       [
@@ -726,6 +728,8 @@ export class PostgresProcurementGoodsReceiptRepository
         goodsReceipt.purchaseOrderId,
         goodsReceipt.propertyId,
         goodsReceipt.vendorId,
+        goodsReceipt.destinationStoreId ?? null,
+        goodsReceipt.destinationBinLocationId ?? null,
         goodsReceipt.status,
         goodsReceipt.receiptDate,
         goodsReceipt.deliveryReference ?? null,
@@ -755,18 +759,20 @@ export class PostgresProcurementGoodsReceiptRepository
         purchase_order_id = $3,
         property_id = $4,
         vendor_id = $5,
-        status = $6,
-        receipt_date = $7,
-        delivery_reference = $8,
-        invoice_reference = $9,
-        received_by_person_id = $10,
-        posted_by_person_id = $11,
-        reversed_by_person_id = $12,
-        remarks = $13,
-        posted_at = $14,
-        reversed_at = $15,
-        reversal_reason = $16,
-        updated_at = $17
+        destination_store_id = $6,
+        destination_bin_location_id = $7,
+        status = $8,
+        receipt_date = $9,
+        delivery_reference = $10,
+        invoice_reference = $11,
+        received_by_person_id = $12,
+        posted_by_person_id = $13,
+        reversed_by_person_id = $14,
+        remarks = $15,
+        posted_at = $16,
+        reversed_at = $17,
+        reversal_reason = $18,
+        updated_at = $19
       WHERE id = $1
       `,
       [
@@ -775,6 +781,8 @@ export class PostgresProcurementGoodsReceiptRepository
         goodsReceipt.purchaseOrderId,
         goodsReceipt.propertyId,
         goodsReceipt.vendorId,
+        goodsReceipt.destinationStoreId ?? null,
+        goodsReceipt.destinationBinLocationId ?? null,
         goodsReceipt.status,
         goodsReceipt.receiptDate,
         goodsReceipt.deliveryReference ?? null,
@@ -897,6 +905,14 @@ export class PostgresProcurementGoodsReceiptRepository
 
       vendorId:
         row.vendor_id,
+
+      destinationStoreId:
+        row.destination_store_id ??
+        undefined,
+
+      destinationBinLocationId:
+        row.destination_bin_location_id ??
+        undefined,
 
       status:
         row.status,

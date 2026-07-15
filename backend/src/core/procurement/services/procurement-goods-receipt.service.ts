@@ -50,6 +50,10 @@ import {
 } from '../repositories/procurement-purchase-order.repository';
 
 import {
+  ProcurementInventoryPostingService,
+} from './procurement-inventory-posting.service';
+
+import {
   GoodsReceipt,
   GoodsReceiptItem,
   GoodsReceiptItemStatus,
@@ -80,6 +84,9 @@ export class ProcurementGoodsReceiptService {
 
     private readonly eventBus:
       EventBusService,
+
+    private readonly inventoryPostingService:
+      ProcurementInventoryPostingService,
   ) {}
 
   async create(
@@ -153,6 +160,12 @@ export class ProcurementGoodsReceiptService {
 
         vendorId:
           purchaseOrder.vendorId,
+
+        destinationStoreId:
+          dto.destinationStoreId,
+
+        destinationBinLocationId:
+          dto.destinationBinLocationId,
 
         status:
           GoodsReceiptStatus.DRAFT,
@@ -300,6 +313,18 @@ export class ProcurementGoodsReceiptService {
     const updated:
       GoodsReceipt = {
         ...current,
+
+        destinationStoreId:
+          dto.destinationStoreId !==
+          undefined
+            ? dto.destinationStoreId
+            : current.destinationStoreId,
+
+        destinationBinLocationId:
+          dto.destinationBinLocationId !==
+          undefined
+            ? dto.destinationBinLocationId
+            : current.destinationBinLocationId,
 
         receiptDate,
 
@@ -532,6 +557,13 @@ export class ProcurementGoodsReceiptService {
         updatedAt:
           now,
       };
+
+    await this.inventoryPostingService
+      .postGoodsReceipt(
+        current,
+        purchaseOrder,
+        dto.postedByPersonId,
+      );
 
     const result =
       await this.repository.post(

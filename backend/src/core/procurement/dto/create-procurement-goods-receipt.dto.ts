@@ -12,6 +12,9 @@ export class CreateProcurementGoodsReceiptItemDto {
 export class CreateProcurementGoodsReceiptDto {
   purchaseOrderId!: string;
 
+  destinationStoreId?: string;
+  destinationBinLocationId?: string;
+
   receiptDate?: string;
 
   deliveryReference?: string;

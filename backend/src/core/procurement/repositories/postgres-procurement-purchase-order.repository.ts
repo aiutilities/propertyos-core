@@ -509,6 +509,7 @@ export class PostgresProcurementPurchaseOrderRepository
           purchase_order_id,
           quotation_item_id,
           purchase_request_item_id,
+          inventory_item_id,
           line_number,
           item_type,
           item_code,
@@ -525,7 +526,7 @@ export class PostgresProcurementPurchaseOrderRepository
           updated_at
         )
         VALUES (
-          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18
+          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
         )
         `,
         [
@@ -533,6 +534,7 @@ export class PostgresProcurementPurchaseOrderRepository
           item.purchaseOrderId,
           item.quotationItemId ?? null,
           item.purchaseRequestItemId ?? null,
+          item.inventoryItemId ?? null,
           item.lineNumber,
           item.itemType,
           item.itemCode ?? null,
@@ -755,6 +757,10 @@ export class PostgresProcurementPurchaseOrderRepository
 
       purchaseRequestItemId:
         row.purchase_request_item_id ??
+        undefined,
+
+      inventoryItemId:
+        row.inventory_item_id ??
         undefined,
 
       lineNumber:

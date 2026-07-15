@@ -27,6 +27,11 @@ export interface InventoryRepository {
     id: string,
   ): Promise<InventoryUnitOfMeasure | null>;
 
+  updateUnitOfMeasure(
+    id: string,
+    input: Partial<InventoryUnitOfMeasure>,
+  ): Promise<InventoryUnitOfMeasure | null>;
+
   createCategory(
     category: InventoryItemCategory,
   ): Promise<InventoryItemCategory>;
@@ -39,6 +44,11 @@ export interface InventoryRepository {
     id: string,
   ): Promise<InventoryItemCategory | null>;
 
+  updateCategory(
+    id: string,
+    input: Partial<InventoryItemCategory>,
+  ): Promise<InventoryItemCategory | null>;
+
   createBrand(
     brand: InventoryBrand,
   ): Promise<InventoryBrand>;
@@ -49,6 +59,11 @@ export interface InventoryRepository {
 
   findBrandById(
     id: string,
+  ): Promise<InventoryBrand | null>;
+
+  updateBrand(
+    id: string,
+    input: Partial<InventoryBrand>,
   ): Promise<InventoryBrand | null>;
 
   createItem(

@@ -911,6 +911,396 @@ export class PostgresInventoryStockLedgerRepository
     };
   }
 
+  async createTransfer(
+    transfer:
+      InventoryStockTransfer,
+
+    items:
+      InventoryStockTransferItem[],
+  ): Promise<{
+    transfer:
+      InventoryStockTransfer;
+
+    items:
+      InventoryStockTransferItem[];
+  }> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      await client.query(
+        `
+        INSERT INTO inventory_stock_transfers (
+          id,
+          transfer_number,
+          property_id,
+          source_store_id,
+          destination_store_id,
+          status,
+          transfer_date,
+          created_by_person_id,
+          dispatched_by_person_id,
+          received_by_person_id,
+          cancelled_by_person_id,
+          dispatched_at,
+          received_at,
+          cancelled_at,
+          cancellation_reason,
+          remarks,
+          metadata,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,
+          $10,$11,$12,$13,$14,$15,$16,
+          $17,$18,$19
+        )
+        `,
+        [
+          transfer.id,
+          transfer.transferNumber,
+          transfer.propertyId,
+          transfer.sourceStoreId,
+          transfer.destinationStoreId,
+          transfer.status,
+          transfer.transferDate,
+          transfer.createdByPersonId,
+          transfer.dispatchedByPersonId ??
+            null,
+          transfer.receivedByPersonId ??
+            null,
+          transfer.cancelledByPersonId ??
+            null,
+          transfer.dispatchedAt ??
+            null,
+          transfer.receivedAt ??
+            null,
+          transfer.cancelledAt ??
+            null,
+          transfer.cancellationReason ??
+            null,
+          transfer.remarks ??
+            null,
+          JSON.stringify(
+            transfer.metadata ?? {},
+          ),
+          transfer.createdAt,
+          transfer.updatedAt,
+        ],
+      );
+
+      for (const item of items) {
+        await client.query(
+          `
+          INSERT INTO inventory_stock_transfer_items (
+            id,
+            transfer_id,
+            item_id,
+            source_bin_location_id,
+            destination_bin_location_id,
+            quantity,
+            dispatched_quantity,
+            received_quantity,
+            unit_cost,
+            remarks,
+            created_at,
+            updated_at
+          )
+          VALUES (
+            $1,$2,$3,$4,$5,$6,$7,$8,
+            $9,$10,$11,$12
+          )
+          `,
+          [
+            item.id,
+            item.transferId,
+            item.itemId,
+            item.sourceBinLocationId ??
+              null,
+            item.destinationBinLocationId ??
+              null,
+            item.quantity,
+            item.dispatchedQuantity,
+            item.receivedQuantity,
+            item.unitCost,
+            item.remarks ??
+              null,
+            item.createdAt,
+            item.updatedAt,
+          ],
+        );
+      }
+
+      await client.query(
+        'COMMIT',
+      );
+
+      const created =
+        await this.findTransferById(
+          transfer.id,
+        );
+
+      if (!created) {
+        throw new Error(
+          'Created Inventory transfer was not found',
+        );
+      }
+
+      return created;
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async listTransfers(
+    filters: {
+      propertyId?: string;
+      sourceStoreId?: string;
+      destinationStoreId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    } = {},
+  ): Promise<
+    InventoryStockTransfer[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      expression: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${expression} $${values.length}`,
+      );
+    };
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id =',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.sourceStoreId) {
+      addCondition(
+        'source_store_id =',
+        filters.sourceStoreId,
+      );
+    }
+
+    if (
+      filters.destinationStoreId
+    ) {
+      addCondition(
+        'destination_store_id =',
+        filters.destinationStoreId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status =',
+        filters.status,
+      );
+    }
+
+    if (filters.dateFrom) {
+      addCondition(
+        'transfer_date >=',
+        filters.dateFrom,
+      );
+    }
+
+    if (filters.dateTo) {
+      addCondition(
+        'transfer_date <=',
+        filters.dateTo,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_transfers
+        ${where}
+        ORDER BY
+          transfer_date DESC,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapTransfer(row),
+    );
+  }
+
+  async updateTransferStatus(
+    transferId: string,
+
+    input: {
+      status:
+        InventoryTransferStatus;
+
+      dispatchedByPersonId?: string;
+      receivedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      dispatchedAt?: Date;
+      receivedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockTransfer | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_stock_transfers
+        SET
+          status = $2,
+
+          dispatched_by_person_id =
+            COALESCE(
+              $3,
+              dispatched_by_person_id
+            ),
+
+          received_by_person_id =
+            COALESCE(
+              $4,
+              received_by_person_id
+            ),
+
+          cancelled_by_person_id =
+            COALESCE(
+              $5,
+              cancelled_by_person_id
+            ),
+
+          dispatched_at =
+            COALESCE(
+              $6,
+              dispatched_at
+            ),
+
+          received_at =
+            COALESCE(
+              $7,
+              received_at
+            ),
+
+          cancelled_at =
+            COALESCE(
+              $8,
+              cancelled_at
+            ),
+
+          cancellation_reason =
+            COALESCE(
+              $9,
+              cancellation_reason
+            ),
+
+          updated_at = $10
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          transferId,
+          input.status,
+          input.dispatchedByPersonId ??
+            null,
+          input.receivedByPersonId ??
+            null,
+          input.cancelledByPersonId ??
+            null,
+          input.dispatchedAt ??
+            null,
+          input.receivedAt ??
+            null,
+          input.cancelledAt ??
+            null,
+          input.cancellationReason ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapTransfer(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async updateTransferItemQuantities(
+    transferItemId: string,
+
+    input: {
+      dispatchedQuantity: number;
+      receivedQuantity: number;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockTransferItem | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_stock_transfer_items
+        SET
+          dispatched_quantity = $2,
+          received_quantity = $3,
+          updated_at = $4
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          transferItemId,
+          input.dispatchedQuantity,
+          input.receivedQuantity,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapTransferItem(
+          result.rows[0],
+        )
+      : null;
+  }
+
   async findTransferById(
     id: string,
   ): Promise<{

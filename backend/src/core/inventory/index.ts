@@ -12,3 +12,5 @@ export * from './repositories/inventory-stock-ledger.repository';
 export * from './repositories/postgres-inventory-stock-ledger.repository';
 export * from './controllers/inventory-stock-adjustment.controller';
 export * from './services/inventory-stock-adjustment.service';
+export * from './controllers/inventory-stock-transfer.controller';
+export * from './services/inventory-stock-transfer.service';

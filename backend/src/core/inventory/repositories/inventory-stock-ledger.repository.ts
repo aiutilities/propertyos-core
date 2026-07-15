@@ -9,6 +9,7 @@ import {
   InventoryStockReservation,
   InventoryStockTransfer,
   InventoryStockTransferItem,
+  InventoryTransferStatus,
 } from '../types/inventory.types';
 
 export const INVENTORY_STOCK_LEDGER_REPOSITORY =
@@ -167,4 +168,66 @@ export interface InventoryStockLedgerRepository {
     items:
       InventoryStockTransferItem[];
   } | null>;
+
+
+  createTransfer(
+    transfer:
+      InventoryStockTransfer,
+
+    items:
+      InventoryStockTransferItem[],
+  ): Promise<{
+    transfer:
+      InventoryStockTransfer;
+
+    items:
+      InventoryStockTransferItem[];
+  }>;
+
+  listTransfers(
+    filters?: {
+      propertyId?: string;
+      sourceStoreId?: string;
+      destinationStoreId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    },
+  ): Promise<
+    InventoryStockTransfer[]
+  >;
+
+  updateTransferStatus(
+    transferId: string,
+
+    input: {
+      status:
+        InventoryTransferStatus;
+
+      dispatchedByPersonId?: string;
+      receivedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      dispatchedAt?: Date;
+      receivedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockTransfer | null
+  >;
+
+  updateTransferItemQuantities(
+    transferItemId: string,
+
+    input: {
+      dispatchedQuantity: number;
+      receivedQuantity: number;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockTransferItem | null
+  >;
 }

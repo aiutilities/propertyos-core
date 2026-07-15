@@ -17,3 +17,7 @@ export * from './query-stock.dto';
 export * from './create-stock-adjustment.dto';
 export * from './post-stock-adjustment.dto';
 export * from './cancel-stock-adjustment.dto';
+export * from './create-stock-transfer.dto';
+export * from './dispatch-stock-transfer.dto';
+export * from './receive-stock-transfer.dto';
+export * from './cancel-stock-transfer.dto';

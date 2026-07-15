@@ -65,6 +65,10 @@ import {
 } from './inventory-search-provider.service';
 
 import {
+  INVENTORY_BATCH_REPOSITORY,
+} from './repositories/inventory-batch.repository';
+
+import {
   INVENTORY_REPOSITORY,
 } from './repositories/inventory.repository';
 
@@ -73,12 +77,20 @@ import {
 } from './repositories/inventory-stock-ledger.repository';
 
 import {
+  PostgresInventoryBatchRepository,
+} from './repositories/postgres-inventory-batch.repository';
+
+import {
   PostgresInventoryRepository,
 } from './repositories/postgres-inventory.repository';
 
 import {
   PostgresInventoryStockLedgerRepository,
 } from './repositories/postgres-inventory-stock-ledger.repository';
+
+import {
+  InventoryBatchService,
+} from './services/inventory-batch.service';
 
 import {
   InventoryService,
@@ -132,6 +144,7 @@ import {
 
   providers: [
     PostgresInventoryRepository,
+    PostgresInventoryBatchRepository,
     PostgresInventoryStockLedgerRepository,
 
     {
@@ -144,6 +157,14 @@ import {
 
     {
       provide:
+        INVENTORY_BATCH_REPOSITORY,
+
+      useExisting:
+        PostgresInventoryBatchRepository,
+    },
+
+    {
+      provide:
         INVENTORY_STOCK_LEDGER_REPOSITORY,
 
       useExisting:
@@ -151,6 +172,7 @@ import {
     },
 
     InventoryService,
+    InventoryBatchService,
     InventoryStockAdjustmentService,
     InventoryStockTransferService,
     InventoryStockReservationService,
@@ -163,10 +185,13 @@ import {
 
   exports: [
     INVENTORY_REPOSITORY,
+    INVENTORY_BATCH_REPOSITORY,
     INVENTORY_STOCK_LEDGER_REPOSITORY,
     PostgresInventoryRepository,
+    PostgresInventoryBatchRepository,
     PostgresInventoryStockLedgerRepository,
     InventoryService,
+    InventoryBatchService,
     InventoryStockAdjustmentService,
   ],
 })

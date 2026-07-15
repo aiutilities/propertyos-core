@@ -25,6 +25,7 @@ import {
   InventoryReservationStatus,
   InventoryStockAdjustment,
   InventoryStockAdjustmentItem,
+  InventoryBatchBalance,
   InventoryStockBalance,
   InventoryStockLedgerEntry,
   InventoryStockLedgerFilters,
@@ -225,11 +226,25 @@ export class PostgresInventoryStockLedgerRepository
             existing.binLocationId,
           );
 
+        const batchBalance =
+          existing.batchId
+            ? await this
+                .requireBatchBalanceWithClient(
+                  client,
+                  existing.batchId,
+                  existing.itemId,
+                  existing.storeId,
+                  existing.binLocationId,
+                )
+            : undefined;
+
         return {
           entry:
             existing,
 
           balance,
+
+          batchBalance,
 
           idempotentReplay:
             true,
@@ -237,10 +252,37 @@ export class PostgresInventoryStockLedgerRepository
       }
     }
 
-    await this.requireActiveItem(
-      client,
-      input.itemId,
-    );
+    const item =
+      await this.requireActiveItem(
+        client,
+        input.itemId,
+      );
+
+    if (
+      item.isBatchTracked &&
+      !input.batchId
+    ) {
+      throw new BadRequestException(
+        'batchId is required for a batch-tracked Inventory item',
+      );
+    }
+
+    if (
+      !item.isBatchTracked &&
+      input.batchId
+    ) {
+      throw new BadRequestException(
+        'batchId cannot be used for an Inventory item that is not batch tracked',
+      );
+    }
+
+    if (input.batchId) {
+      await this.requireActiveBatch(
+        client,
+        input.batchId,
+        input.itemId,
+      );
+    }
 
     await this.requireActiveStore(
       client,
@@ -264,6 +306,18 @@ export class PostgresInventoryStockLedgerRepository
         input.storeId,
         input.binLocationId,
       );
+
+    const currentBatchBalance =
+      input.batchId
+        ? await this
+            .lockOrCreateBatchBalance(
+              client,
+              input.batchId,
+              input.itemId,
+              input.storeId,
+              input.binLocationId,
+            )
+        : undefined;
 
     const quantityDelta =
       this.roundQuantity(
@@ -297,6 +351,24 @@ export class PostgresInventoryStockLedgerRepository
         reservedDelta,
       );
 
+    const batchQuantityAfter =
+      currentBatchBalance
+        ? this.roundQuantity(
+            currentBatchBalance
+              .quantityOnHand +
+            quantityDelta,
+          )
+        : undefined;
+
+    const batchReservedAfter =
+      currentBatchBalance
+        ? this.roundQuantity(
+            currentBatchBalance
+              .reservedQuantity +
+            reservedDelta,
+          )
+        : undefined;
+
     if (quantityAfter < 0) {
       throw new BadRequestException(
         'Inventory movement would create negative stock',
@@ -318,6 +390,39 @@ export class PostgresInventoryStockLedgerRepository
       );
     }
 
+    if (
+      batchQuantityAfter !==
+        undefined &&
+      batchQuantityAfter < 0
+    ) {
+      throw new BadRequestException(
+        'Inventory movement would create negative Batch stock',
+      );
+    }
+
+    if (
+      batchReservedAfter !==
+        undefined &&
+      batchReservedAfter < 0
+    ) {
+      throw new BadRequestException(
+        'Inventory movement would create a negative Batch reservation',
+      );
+    }
+
+    if (
+      batchQuantityAfter !==
+        undefined &&
+      batchReservedAfter !==
+        undefined &&
+      batchReservedAfter >
+        batchQuantityAfter
+    ) {
+      throw new BadRequestException(
+        'Batch reserved quantity cannot exceed Batch quantity on hand',
+      );
+    }
+
     const averageCostAfter =
       this.calculateAverageCost(
         currentBalance
@@ -328,6 +433,21 @@ export class PostgresInventoryStockLedgerRepository
         unitCost,
         quantityAfter,
       );
+
+    const batchAverageCostAfter =
+      currentBatchBalance &&
+      batchQuantityAfter !==
+        undefined
+        ? this.calculateAverageCost(
+            currentBatchBalance
+              .quantityOnHand,
+            currentBatchBalance
+              .averageUnitCost,
+            quantityDelta,
+            unitCost,
+            batchQuantityAfter,
+          )
+        : undefined;
 
     const movementDate =
       input.movementDate ??
@@ -342,6 +462,24 @@ export class PostgresInventoryStockLedgerRepository
         averageCostAfter,
         movementDate,
       );
+
+    const updatedBatchBalance =
+      currentBatchBalance &&
+      batchQuantityAfter !==
+        undefined &&
+      batchReservedAfter !==
+        undefined &&
+      batchAverageCostAfter !==
+        undefined
+        ? await this.updateBatchBalance(
+            client,
+            currentBatchBalance.id,
+            batchQuantityAfter,
+            batchReservedAfter,
+            batchAverageCostAfter,
+            movementDate,
+          )
+        : undefined;
 
     const entry =
       await this.insertLedgerEntry(
@@ -360,6 +498,9 @@ export class PostgresInventoryStockLedgerRepository
 
       balance:
         updatedBalance,
+
+      batchBalance:
+        updatedBatchBalance,
 
       idempotentReplay:
         false,
@@ -3130,6 +3271,185 @@ export class PostgresInventoryStockLedgerRepository
     );
   }
 
+  private async requireActiveBatch(
+    client: PoolClient,
+    batchId: string,
+    itemId: string,
+  ): Promise<void> {
+    const result =
+      await client.query(
+        `
+        SELECT id
+        FROM inventory_batches
+        WHERE id = $1
+          AND item_id = $2
+          AND status = 'ACTIVE'
+        `,
+        [
+          batchId,
+          itemId,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new BadRequestException(
+        'Invalid, inactive, or mismatched Inventory Batch',
+      );
+    }
+  }
+
+  private async lockOrCreateBatchBalance(
+    client: PoolClient,
+    batchId: string,
+    itemId: string,
+    storeId: string,
+    binLocationId?: string,
+  ): Promise<
+    InventoryBatchBalance
+  > {
+    let result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_batch_balances
+        WHERE batch_id = $1
+          AND item_id = $2
+          AND store_id = $3
+          AND (
+            bin_location_id = $4
+            OR (
+              bin_location_id IS NULL
+              AND $4::UUID IS NULL
+            )
+          )
+        FOR UPDATE
+        `,
+        [
+          batchId,
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    if (result.rows[0]) {
+      return this.mapBatchBalance(
+        result.rows[0],
+      );
+    }
+
+    try {
+      await client.query(
+        `
+        INSERT INTO inventory_batch_balances (
+          id,
+          batch_id,
+          item_id,
+          store_id,
+          bin_location_id,
+          quantity_on_hand,
+          reserved_quantity,
+          average_unit_cost,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,0,0,0,NOW(),NOW()
+        )
+        `,
+        [
+          randomUUID(),
+          batchId,
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+    } catch (error) {
+      if (
+        (error as any)
+          ?.code !== '23505'
+      ) {
+        throw error;
+      }
+    }
+
+    result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_batch_balances
+        WHERE batch_id = $1
+          AND item_id = $2
+          AND store_id = $3
+          AND (
+            bin_location_id = $4
+            OR (
+              bin_location_id IS NULL
+              AND $4::UUID IS NULL
+            )
+          )
+        FOR UPDATE
+        `,
+        [
+          batchId,
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new Error(
+        'Unable to create or lock Inventory Batch balance',
+      );
+    }
+
+    return this.mapBatchBalance(
+      result.rows[0],
+    );
+  }
+
+  private async updateBatchBalance(
+    client: PoolClient,
+    batchBalanceId: string,
+    quantityAfter: number,
+    reservedAfter: number,
+    averageCostAfter: number,
+    movementDate: Date,
+  ): Promise<
+    InventoryBatchBalance
+  > {
+    const result =
+      await client.query(
+        `
+        UPDATE inventory_batch_balances
+        SET
+          quantity_on_hand = $2,
+          reserved_quantity = $3,
+          average_unit_cost = $4,
+          last_movement_at = $5,
+          updated_at = NOW()
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          batchBalanceId,
+          quantityAfter,
+          reservedAfter,
+          averageCostAfter,
+          movementDate,
+        ],
+      );
+
+    return this.mapBatchBalance(
+      result.rows[0],
+    );
+  }
+
   private async lockOrCreateBalance(
     client: PoolClient,
     itemId: string,
@@ -3312,6 +3632,7 @@ export class PostgresInventoryStockLedgerRepository
           item_id,
           store_id,
           bin_location_id,
+          batch_id,
           quantity_delta,
           quantity_before,
           quantity_after,
@@ -3337,7 +3658,7 @@ export class PostgresInventoryStockLedgerRepository
           $1,$2,$3,$4,$5,$6,$7,$8,
           $9,$10,$11,$12,$13,$14,$15,
           $16,$17,$18,$19,$20,$21,$22,
-          $23,$24,$25,NOW()
+          $23,$24,$25,$26,NOW()
         )
         RETURNING *
         `,
@@ -3348,6 +3669,8 @@ export class PostgresInventoryStockLedgerRepository
           input.itemId,
           input.storeId,
           input.binLocationId ??
+            null,
+          input.batchId ??
             null,
           quantityDelta,
           before.quantityOnHand,
@@ -3544,11 +3867,16 @@ export class PostgresInventoryStockLedgerRepository
   private async requireActiveItem(
     client: PoolClient,
     itemId: string,
-  ) {
+  ): Promise<{
+    id: string;
+    isBatchTracked: boolean;
+  }> {
     const result =
       await client.query(
         `
-        SELECT id
+        SELECT
+          id,
+          is_batch_tracked
         FROM inventory_items
         WHERE id = $1
           AND is_active = TRUE
@@ -3563,6 +3891,15 @@ export class PostgresInventoryStockLedgerRepository
         `Invalid or inactive Inventory item: ${itemId}`,
       );
     }
+
+    return {
+      id:
+        result.rows[0].id,
+
+      isBatchTracked:
+        result.rows[0]
+          .is_batch_tracked,
+    };
   }
 
   private async requireActiveStore(
@@ -3639,6 +3976,51 @@ export class PostgresInventoryStockLedgerRepository
           result.rows[0],
         )
       : null;
+  }
+
+  private async requireBatchBalanceWithClient(
+    client: PoolClient,
+    batchId: string,
+    itemId: string,
+    storeId: string,
+    binLocationId?: string,
+  ): Promise<
+    InventoryBatchBalance
+  > {
+    const result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_batch_balances
+        WHERE batch_id = $1
+          AND item_id = $2
+          AND store_id = $3
+          AND (
+            bin_location_id = $4
+            OR (
+              bin_location_id IS NULL
+              AND $4::UUID IS NULL
+            )
+          )
+        `,
+        [
+          batchId,
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new Error(
+        'Inventory Batch balance not found',
+      );
+    }
+
+    return this.mapBatchBalance(
+      result.rows[0],
+    );
   }
 
   private async requireBalanceWithClient(
@@ -3753,6 +4135,9 @@ export class PostgresInventoryStockLedgerRepository
       binLocationId:
         row.bin_location_id ??
         undefined,
+      batchId:
+        row.batch_id ??
+        undefined,
       quantityDelta:
         Number(
           row.quantity_delta,
@@ -3822,6 +4207,61 @@ export class PostgresInventoryStockLedgerRepository
         row.metadata ?? {},
       createdAt:
         row.created_at,
+    };
+  }
+
+  private mapBatchBalance(
+    row: any,
+  ): InventoryBatchBalance {
+    const quantityOnHand =
+      Number(
+        row.quantity_on_hand,
+      );
+
+    const reservedQuantity =
+      Number(
+        row.reserved_quantity,
+      );
+
+    return {
+      id:
+        row.id,
+
+      batchId:
+        row.batch_id,
+
+      itemId:
+        row.item_id,
+
+      storeId:
+        row.store_id,
+
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+
+      quantityOnHand,
+
+      reservedQuantity,
+
+      availableQuantity:
+        quantityOnHand -
+        reservedQuantity,
+
+      averageUnitCost:
+        Number(
+          row.average_unit_cost,
+        ),
+
+      lastMovementAt:
+        row.last_movement_at ??
+        undefined,
+
+      createdAt:
+        row.created_at,
+
+      updatedAt:
+        row.updated_at,
     };
   }
 

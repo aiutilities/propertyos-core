@@ -174,6 +174,7 @@ export interface InventoryStockLedgerEntry {
   itemId: string;
   storeId: string;
   binLocationId?: string;
+  batchId?: string;
   quantityDelta: number;
   quantityBefore: number;
   quantityAfter: number;
@@ -299,6 +300,7 @@ export interface InventoryStockLedgerFilters {
   itemId?: string;
   storeId?: string;
   binLocationId?: string;
+  batchId?: string;
   movementType?:
     InventoryStockMovementType;
   sourceType?: string;
@@ -515,6 +517,46 @@ export interface InventoryMaterialReturnItem {
   unitCost: number;
   remarks?: string;
   metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export enum InventoryBatchStatus {
+  ACTIVE = 'ACTIVE',
+  HOLD = 'HOLD',
+  EXPIRED = 'EXPIRED',
+  CLOSED = 'CLOSED',
+}
+
+export interface InventoryBatch {
+  id: string;
+  itemId: string;
+  batchNumber: string;
+  manufacturerBatchNumber?: string;
+  manufactureDate?: Date;
+  expiryDate?: Date;
+  status: InventoryBatchStatus;
+  sourceType?: string;
+  sourceId?: string;
+  sourceLineId?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdByPersonId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryBatchBalance {
+  id: string;
+  batchId: string;
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+  quantityOnHand: number;
+  reservedQuantity: number;
+  availableQuantity: number;
+  averageUnitCost: number;
+  lastMovementAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }

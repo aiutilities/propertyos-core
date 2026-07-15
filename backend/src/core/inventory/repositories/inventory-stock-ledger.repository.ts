@@ -6,6 +6,7 @@ import {
   InventoryStockAdjustment,
   InventoryStockAdjustmentItem,
   InventoryStockBalance,
+  InventoryBatchBalance,
   InventoryStockLedgerEntry,
   InventoryStockLedgerFilters,
   InventoryStockMovementType,
@@ -34,6 +35,7 @@ export interface PostInventoryMovementInput {
   itemId: string;
   storeId: string;
   binLocationId?: string;
+  batchId?: string;
 
   quantityDelta: number;
   reservedQuantityDelta?: number;
@@ -65,6 +67,9 @@ export interface PostInventoryMovementResult {
 
   balance:
     InventoryStockBalance;
+
+  batchBalance?:
+    InventoryBatchBalance;
 
   idempotentReplay: boolean;
 }

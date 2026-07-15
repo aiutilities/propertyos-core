@@ -10,3 +10,5 @@ export * from './controllers/inventory.controller';
 export * from './inventory-search-provider.service';
 export * from './repositories/inventory-stock-ledger.repository';
 export * from './repositories/postgres-inventory-stock-ledger.repository';
+export * from './controllers/inventory-stock-adjustment.controller';
+export * from './services/inventory-stock-adjustment.service';

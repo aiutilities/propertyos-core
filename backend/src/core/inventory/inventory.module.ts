@@ -35,6 +35,10 @@ import {
 } from './controllers/inventory.controller';
 
 import {
+  InventoryStockAdjustmentController,
+} from './controllers/inventory-stock-adjustment.controller';
+
+import {
   InventorySearchProviderService,
 } from './inventory-search-provider.service';
 
@@ -58,6 +62,10 @@ import {
   InventoryService,
 } from './services/inventory.service';
 
+import {
+  InventoryStockAdjustmentService,
+} from './services/inventory-stock-adjustment.service';
+
 @Module({
   imports: [
     PostgresModule,
@@ -70,6 +78,7 @@ import {
 
   controllers: [
     InventoryController,
+    InventoryStockAdjustmentController,
   ],
 
   providers: [
@@ -93,6 +102,7 @@ import {
     },
 
     InventoryService,
+    InventoryStockAdjustmentService,
     InventoryBootstrapService,
     InventorySearchProviderService,
   ],
@@ -103,6 +113,7 @@ import {
     PostgresInventoryRepository,
     PostgresInventoryStockLedgerRepository,
     InventoryService,
+    InventoryStockAdjustmentService,
   ],
 })
 export class InventoryModule {}

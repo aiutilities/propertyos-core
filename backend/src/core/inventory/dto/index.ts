@@ -13,3 +13,7 @@ export * from './update-inventory-store.dto';
 export * from './update-item-category.dto';
 export * from './update-unit-of-measure.dto';
 export * from './query-stock.dto';
+
+export * from './create-stock-adjustment.dto';
+export * from './post-stock-adjustment.dto';
+export * from './cancel-stock-adjustment.dto';

@@ -571,6 +571,290 @@ export class PostgresInventoryStockLedgerRepository
     );
   }
 
+  async createAdjustment(
+    adjustment:
+      InventoryStockAdjustment,
+
+    items:
+      InventoryStockAdjustmentItem[],
+  ): Promise<{
+    adjustment:
+      InventoryStockAdjustment;
+
+    items:
+      InventoryStockAdjustmentItem[];
+  }> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      await client.query(
+        `
+        INSERT INTO inventory_stock_adjustments (
+          id,
+          adjustment_number,
+          property_id,
+          store_id,
+          status,
+          adjustment_date,
+          reason_code,
+          reason_description,
+          created_by_person_id,
+          posted_by_person_id,
+          cancelled_by_person_id,
+          posted_at,
+          cancelled_at,
+          cancellation_reason,
+          remarks,
+          metadata,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,
+          $10,$11,$12,$13,$14,$15,$16,
+          $17,$18
+        )
+        `,
+        [
+          adjustment.id,
+          adjustment.adjustmentNumber,
+          adjustment.propertyId,
+          adjustment.storeId,
+          adjustment.status,
+          adjustment.adjustmentDate,
+          adjustment.reasonCode,
+          adjustment.reasonDescription ??
+            null,
+          adjustment.createdByPersonId,
+          adjustment.postedByPersonId ??
+            null,
+          adjustment.cancelledByPersonId ??
+            null,
+          adjustment.postedAt ??
+            null,
+          adjustment.cancelledAt ??
+            null,
+          adjustment.cancellationReason ??
+            null,
+          adjustment.remarks ??
+            null,
+          JSON.stringify(
+            adjustment.metadata ?? {},
+          ),
+          adjustment.createdAt,
+          adjustment.updatedAt,
+        ],
+      );
+
+      for (const item of items) {
+        await client.query(
+          `
+          INSERT INTO inventory_stock_adjustment_items (
+            id,
+            adjustment_id,
+            item_id,
+            bin_location_id,
+            quantity_delta,
+            unit_cost,
+            remarks,
+            created_at
+          )
+          VALUES (
+            $1,$2,$3,$4,$5,$6,$7,$8
+          )
+          `,
+          [
+            item.id,
+            item.adjustmentId,
+            item.itemId,
+            item.binLocationId ??
+              null,
+            item.quantityDelta,
+            item.unitCost,
+            item.remarks ??
+              null,
+            item.createdAt,
+          ],
+        );
+      }
+
+      await client.query(
+        'COMMIT',
+      );
+
+      const created =
+        await this.findAdjustmentById(
+          adjustment.id,
+        );
+
+      if (!created) {
+        throw new Error(
+          'Created Inventory adjustment was not found',
+        );
+      }
+
+      return created;
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async listAdjustments(
+    filters: {
+      propertyId?: string;
+      storeId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    } = {},
+  ): Promise<
+    InventoryStockAdjustment[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      expression: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${expression} $${values.length}`,
+      );
+    };
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id =',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.storeId) {
+      addCondition(
+        'store_id =',
+        filters.storeId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status =',
+        filters.status,
+      );
+    }
+
+    if (filters.dateFrom) {
+      addCondition(
+        'adjustment_date >=',
+        filters.dateFrom,
+      );
+    }
+
+    if (filters.dateTo) {
+      addCondition(
+        'adjustment_date <=',
+        filters.dateTo,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_adjustments
+        ${where}
+        ORDER BY
+          adjustment_date DESC,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapAdjustment(row),
+    );
+  }
+
+  async updateAdjustmentStatus(
+    adjustmentId: string,
+
+    input: {
+      status:
+        InventoryAdjustmentStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+      postedAt?: Date;
+      cancelledAt?: Date;
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockAdjustment | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_stock_adjustments
+        SET
+          status = $2,
+          posted_by_person_id = $3,
+          cancelled_by_person_id = $4,
+          posted_at = $5,
+          cancelled_at = $6,
+          cancellation_reason = $7,
+          updated_at = $8
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          adjustmentId,
+          input.status,
+          input.postedByPersonId ??
+            null,
+          input.cancelledByPersonId ??
+            null,
+          input.postedAt ??
+            null,
+          input.cancelledAt ??
+            null,
+          input.cancellationReason ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapAdjustment(
+          result.rows[0],
+        )
+      : null;
+  }
+
   async findAdjustmentById(
     id: string,
   ): Promise<{

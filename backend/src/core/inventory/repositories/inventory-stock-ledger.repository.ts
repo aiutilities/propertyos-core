@@ -1,4 +1,5 @@
 import {
+  InventoryAdjustmentStatus,
   InventoryStockAdjustment,
   InventoryStockAdjustmentItem,
   InventoryStockBalance,
@@ -111,6 +112,51 @@ export interface InventoryStockLedgerRepository {
     items:
       InventoryStockAdjustmentItem[];
   } | null>;
+
+
+  createAdjustment(
+    adjustment:
+      InventoryStockAdjustment,
+
+    items:
+      InventoryStockAdjustmentItem[],
+  ): Promise<{
+    adjustment:
+      InventoryStockAdjustment;
+
+    items:
+      InventoryStockAdjustmentItem[];
+  }>;
+
+  listAdjustments(
+    filters?: {
+      propertyId?: string;
+      storeId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    },
+  ): Promise<
+    InventoryStockAdjustment[]
+  >;
+
+  updateAdjustmentStatus(
+    adjustmentId: string,
+
+    input: {
+      status:
+        InventoryAdjustmentStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+      postedAt?: Date;
+      cancelledAt?: Date;
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryStockAdjustment | null
+  >;
 
   findTransferById(
     id: string,

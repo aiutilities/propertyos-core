@@ -51,6 +51,11 @@ import {
 } from './controllers/inventory-cycle-count.controller';
 
 import {
+  InventoryMaterialIssueController,
+} from './controllers/inventory-material-issue.controller';
+
+
+import {
   InventorySearchProviderService,
 } from './inventory-search-provider.service';
 
@@ -90,6 +95,11 @@ import {
   InventoryCycleCountService,
 } from './services/inventory-cycle-count.service';
 
+import {
+  InventoryMaterialIssueService,
+} from './services/inventory-material-issue.service';
+
+
 @Module({
   imports: [
     PostgresModule,
@@ -106,6 +116,7 @@ import {
     InventoryStockTransferController,
     InventoryStockReservationController,
     InventoryCycleCountController,
+    InventoryMaterialIssueController,
   ],
 
   providers: [
@@ -133,6 +144,7 @@ import {
     InventoryStockTransferService,
     InventoryStockReservationService,
     InventoryCycleCountService,
+    InventoryMaterialIssueService,
     InventoryBootstrapService,
     InventorySearchProviderService,
   ],

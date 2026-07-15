@@ -433,3 +433,45 @@ export interface InventoryCycleCountItem {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export enum InventoryMaterialIssueStatus {
+  DRAFT = 'DRAFT',
+  POSTED = 'POSTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export interface InventoryMaterialIssue {
+  id: string;
+  issueNumber: string;
+  propertyId: string;
+  storeId: string;
+  status:
+    InventoryMaterialIssueStatus;
+  issueDate: Date;
+  reasonCode: string;
+  reasonDescription?: string;
+  requestedByPersonId?: string;
+  createdByPersonId: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  postedAt?: Date;
+  cancelledAt?: Date;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryMaterialIssueItem {
+  id: string;
+  materialIssueId: string;
+  itemId: string;
+  binLocationId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}

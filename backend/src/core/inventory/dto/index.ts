@@ -31,3 +31,6 @@ export * from './record-cycle-count.dto';
 export * from './complete-cycle-count.dto';
 export * from './post-cycle-count.dto';
 export * from './cancel-cycle-count.dto';
+export * from './create-material-issue.dto';
+export * from './post-material-issue.dto';
+export * from './cancel-material-issue.dto';

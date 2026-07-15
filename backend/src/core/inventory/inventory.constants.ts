@@ -11,6 +11,7 @@ export const INVENTORY_PERMISSIONS = {
   STOCK: 'inventory.stock',
   TRANSFER: 'inventory.transfer',
   ADJUST: 'inventory.adjust',
+  ISSUE: 'inventory.issue',
   COUNT: 'inventory.count',
   CONFIGURE: 'inventory.configure',
 } as const;
@@ -58,6 +59,13 @@ export const INVENTORY_EVENTS = {
     'inventory.stock.received',
   STOCK_ISSUED:
     'inventory.stock.issued',
+  MATERIAL_ISSUE_CREATED:
+    'inventory.material_issue.created',
+  MATERIAL_ISSUE_POSTED:
+    'inventory.material_issue.posted',
+  MATERIAL_ISSUE_CANCELLED:
+    'inventory.material_issue.cancelled',
+
   STOCK_TRANSFERRED:
     'inventory.stock.transferred',
   STOCK_ADJUSTED:

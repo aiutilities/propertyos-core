@@ -33,6 +33,9 @@ import {
   InventoryStockTransfer,
   InventoryStockTransferItem,
   InventoryTransferStatus,
+  InventoryMaterialIssue,
+  InventoryMaterialIssueItem,
+  InventoryMaterialIssueStatus,
 } from '../types/inventory.types';
 
 import {
@@ -1271,6 +1274,385 @@ export class PostgresInventoryStockLedgerRepository
           result.rows[0],
         )
       : null;
+  }
+
+  async createMaterialIssue(
+    materialIssue:
+      InventoryMaterialIssue,
+
+    items:
+      InventoryMaterialIssueItem[],
+  ): Promise<{
+    materialIssue:
+      InventoryMaterialIssue;
+
+    items:
+      InventoryMaterialIssueItem[];
+  }> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      await client.query(
+        `
+        INSERT INTO inventory_material_issues (
+          id,
+          issue_number,
+          property_id,
+          store_id,
+          status,
+          issue_date,
+          reason_code,
+          reason_description,
+          requested_by_person_id,
+          created_by_person_id,
+          posted_by_person_id,
+          cancelled_by_person_id,
+          posted_at,
+          cancelled_at,
+          cancellation_reason,
+          remarks,
+          metadata,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,
+          $10,$11,$12,$13,$14,$15,$16,
+          $17,$18,$19
+        )
+        `,
+        [
+          materialIssue.id,
+          materialIssue.issueNumber,
+          materialIssue.propertyId,
+          materialIssue.storeId,
+          materialIssue.status,
+          materialIssue.issueDate,
+          materialIssue.reasonCode,
+          materialIssue.reasonDescription ??
+            null,
+          materialIssue.requestedByPersonId ??
+            null,
+          materialIssue.createdByPersonId,
+          materialIssue.postedByPersonId ??
+            null,
+          materialIssue.cancelledByPersonId ??
+            null,
+          materialIssue.postedAt ??
+            null,
+          materialIssue.cancelledAt ??
+            null,
+          materialIssue.cancellationReason ??
+            null,
+          materialIssue.remarks ??
+            null,
+          JSON.stringify(
+            materialIssue.metadata ?? {},
+          ),
+          materialIssue.createdAt,
+          materialIssue.updatedAt,
+        ],
+      );
+
+      for (const item of items) {
+        await client.query(
+          `
+          INSERT INTO inventory_material_issue_items (
+            id,
+            material_issue_id,
+            item_id,
+            bin_location_id,
+            quantity,
+            unit_cost,
+            remarks,
+            metadata,
+            created_at,
+            updated_at
+          )
+          VALUES (
+            $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+          )
+          `,
+          [
+            item.id,
+            item.materialIssueId,
+            item.itemId,
+            item.binLocationId ??
+              null,
+            item.quantity,
+            item.unitCost,
+            item.remarks ??
+              null,
+            JSON.stringify(
+              item.metadata ?? {},
+            ),
+            item.createdAt,
+            item.updatedAt,
+          ],
+        );
+      }
+
+      await client.query(
+        'COMMIT',
+      );
+
+      const created =
+        await this.findMaterialIssueById(
+          materialIssue.id,
+        );
+
+      if (!created) {
+        throw new Error(
+          'Created Inventory Material Issue was not found',
+        );
+      }
+
+      return created;
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async listMaterialIssues(
+    filters: {
+      propertyId?: string;
+      storeId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    } = {},
+  ): Promise<
+    InventoryMaterialIssue[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      expression: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${expression} $${values.length}`,
+      );
+    };
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id =',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.storeId) {
+      addCondition(
+        'store_id =',
+        filters.storeId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status =',
+        filters.status,
+      );
+    }
+
+    if (filters.dateFrom) {
+      addCondition(
+        'issue_date >=',
+        filters.dateFrom,
+      );
+    }
+
+    if (filters.dateTo) {
+      addCondition(
+        'issue_date <=',
+        filters.dateTo,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_material_issues
+        ${where}
+        ORDER BY
+          issue_date DESC,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapMaterialIssue(
+          row,
+        ),
+    );
+  }
+
+  async updateMaterialIssueStatus(
+    materialIssueId: string,
+
+    input: {
+      status:
+        InventoryMaterialIssueStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialIssue | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_material_issues
+        SET
+          status = $2,
+
+          posted_by_person_id =
+            COALESCE(
+              $3,
+              posted_by_person_id
+            ),
+
+          cancelled_by_person_id =
+            COALESCE(
+              $4,
+              cancelled_by_person_id
+            ),
+
+          posted_at =
+            COALESCE(
+              $5,
+              posted_at
+            ),
+
+          cancelled_at =
+            COALESCE(
+              $6,
+              cancelled_at
+            ),
+
+          cancellation_reason =
+            COALESCE(
+              $7,
+              cancellation_reason
+            ),
+
+          updated_at = $8
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          materialIssueId,
+          input.status,
+          input.postedByPersonId ??
+            null,
+          input.cancelledByPersonId ??
+            null,
+          input.postedAt ??
+            null,
+          input.cancelledAt ??
+            null,
+          input.cancellationReason ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapMaterialIssue(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async findMaterialIssueById(
+    id: string,
+  ): Promise<{
+    materialIssue:
+      InventoryMaterialIssue;
+
+    items:
+      InventoryMaterialIssueItem[];
+  } | null> {
+    const materialIssueResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_material_issues
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    if (
+      !materialIssueResult.rows[0]
+    ) {
+      return null;
+    }
+
+    const itemsResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_material_issue_items
+        WHERE material_issue_id = $1
+        ORDER BY created_at ASC
+        `,
+        [
+          id,
+        ],
+      );
+
+    return {
+      materialIssue:
+        this.mapMaterialIssue(
+          materialIssueResult.rows[0],
+        ),
+
+      items:
+        itemsResult.rows.map(
+          (row) =>
+            this.mapMaterialIssueItem(
+              row,
+            ),
+        ),
+    };
   }
 
   async createAdjustment(
@@ -3008,6 +3390,120 @@ export class PostgresInventoryStockLedgerRepository
       countedAt:
         row.counted_at ??
         undefined,
+
+      remarks:
+        row.remarks ??
+        undefined,
+
+      metadata:
+        row.metadata ?? {},
+
+      createdAt:
+        row.created_at,
+
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapMaterialIssue(
+    row: any,
+  ): InventoryMaterialIssue {
+    return {
+      id:
+        row.id,
+
+      issueNumber:
+        row.issue_number,
+
+      propertyId:
+        row.property_id,
+
+      storeId:
+        row.store_id,
+
+      status:
+        row.status as
+          InventoryMaterialIssueStatus,
+
+      issueDate:
+        row.issue_date,
+
+      reasonCode:
+        row.reason_code,
+
+      reasonDescription:
+        row.reason_description ??
+        undefined,
+
+      requestedByPersonId:
+        row.requested_by_person_id ??
+        undefined,
+
+      createdByPersonId:
+        row.created_by_person_id,
+
+      postedByPersonId:
+        row.posted_by_person_id ??
+        undefined,
+
+      cancelledByPersonId:
+        row.cancelled_by_person_id ??
+        undefined,
+
+      postedAt:
+        row.posted_at ??
+        undefined,
+
+      cancelledAt:
+        row.cancelled_at ??
+        undefined,
+
+      cancellationReason:
+        row.cancellation_reason ??
+        undefined,
+
+      remarks:
+        row.remarks ??
+        undefined,
+
+      metadata:
+        row.metadata ?? {},
+
+      createdAt:
+        row.created_at,
+
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapMaterialIssueItem(
+    row: any,
+  ): InventoryMaterialIssueItem {
+    return {
+      id:
+        row.id,
+
+      materialIssueId:
+        row.material_issue_id,
+
+      itemId:
+        row.item_id,
+
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+
+      quantity:
+        Number(
+          row.quantity,
+        ),
+
+      unitCost:
+        Number(
+          row.unit_cost,
+        ),
 
       remarks:
         row.remarks ??

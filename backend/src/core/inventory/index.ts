@@ -18,3 +18,5 @@ export * from './controllers/inventory-stock-reservation.controller';
 export * from './services/inventory-stock-reservation.service';
 export * from './controllers/inventory-cycle-count.controller';
 export * from './services/inventory-cycle-count.service';
+export * from './controllers/inventory-material-issue.controller';
+export * from './services/inventory-material-issue.service';

@@ -14,6 +14,9 @@ import {
   InventoryStockTransfer,
   InventoryStockTransferItem,
   InventoryTransferStatus,
+  InventoryMaterialIssue,
+  InventoryMaterialIssueItem,
+  InventoryMaterialIssueStatus,
 } from '../types/inventory.types';
 
 export const INVENTORY_STOCK_LEDGER_REPOSITORY =
@@ -218,6 +221,62 @@ export interface InventoryStockLedgerRepository {
     },
   ): Promise<
     InventoryCycleCountItem | null
+  >;
+
+  createMaterialIssue(
+    materialIssue:
+      InventoryMaterialIssue,
+
+    items:
+      InventoryMaterialIssueItem[],
+  ): Promise<{
+    materialIssue:
+      InventoryMaterialIssue;
+
+    items:
+      InventoryMaterialIssueItem[];
+  }>;
+
+  findMaterialIssueById(
+    id: string,
+  ): Promise<{
+    materialIssue:
+      InventoryMaterialIssue;
+
+    items:
+      InventoryMaterialIssueItem[];
+  } | null>;
+
+  listMaterialIssues(
+    filters?: {
+      propertyId?: string;
+      storeId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    },
+  ): Promise<
+    InventoryMaterialIssue[]
+  >;
+
+  updateMaterialIssueStatus(
+    materialIssueId: string,
+
+    input: {
+      status:
+        InventoryMaterialIssueStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialIssue | null
   >;
 
   findAdjustmentById(

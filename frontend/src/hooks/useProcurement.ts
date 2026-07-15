@@ -10,9 +10,13 @@ import type {
   PurchaseRequest,
   PurchaseRequestDetails,
   PurchaseRequestFilters,
+  CreateProcurementRfqInput,
+  ProcurementRfq,
+  ProcurementRfqDetails,
+  ProcurementRfqFilters,
 } from "@/types/procurement";
 
-function buildQuery(filters: PurchaseRequestFilters) {
+function buildQuery(filters: PurchaseRequestFilters | ProcurementRfqFilters) {
   const params = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
     if (value) params.set(key, value);
@@ -71,11 +75,33 @@ export function useProcurement() {
       { method: "POST", body: JSON.stringify({ changedByPersonId, remarks: remarks || undefined }) },
     )).data), [execute]);
 
+  const listRfqs = useCallback((filters: ProcurementRfqFilters = {}) =>
+    execute(async () => (await apiRequest<ApiSuccessResponse<ProcurementRfq[]>>(
+      `/procurement/rfqs${buildQuery(filters)}`,
+    )).data), [execute]);
+
+  const getRfq = useCallback((id: string) =>
+    execute(async () => (await apiRequest<ApiSuccessResponse<ProcurementRfqDetails>>(
+      `/procurement/rfqs/${id}`,
+    )).data), [execute]);
+
+  const createRfq = useCallback((input: CreateProcurementRfqInput) =>
+    execute(async () => (await apiRequest<ApiSuccessResponse<ProcurementRfqDetails>>(
+      "/procurement/rfqs",
+      { method: "POST", body: JSON.stringify(input) },
+    )).data), [execute]);
+
+  const transitionRfq = useCallback((id: string, action: "issue" | "close" | "cancel" | "expire", changedByPersonId: string, remarks?: string) =>
+    execute(async () => (await apiRequest<ApiSuccessResponse<ProcurementRfqDetails>>(
+      `/procurement/rfqs/${id}/${action}`,
+      { method: "POST", body: JSON.stringify({ changedByPersonId, remarks: remarks || undefined }) },
+    )).data), [execute]);
+
   const rejectRequest = useCallback((id: string, changedByPersonId: string, rejectionReason: string) =>
     execute(async () => (await apiRequest<ApiSuccessResponse<PurchaseRequestDetails>>(
       `/procurement/requests/${id}/reject`,
       { method: "POST", body: JSON.stringify({ changedByPersonId, rejectionReason }) },
     )).data), [execute]);
 
-  return { loading, error, listRequests, getRequest, createRequest, categories, metrics, transitionRequest, rejectRequest };
+  return { loading, error, listRequests, getRequest, createRequest, categories, metrics, transitionRequest, rejectRequest, listRfqs, getRfq, createRfq, transitionRfq };
 }

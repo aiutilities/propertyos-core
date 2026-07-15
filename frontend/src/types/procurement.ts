@@ -127,3 +127,83 @@ export interface CreatePurchaseRequestInput {
 }
 
 export interface ApiSuccessResponse<T> { success: true; data: T }
+
+export type RfqStatus = "DRAFT" | "ISSUED" | "OPEN" | "CLOSED" | "AWARDED" | "CANCELLED" | "EXPIRED";
+export type RfqVendorStatus = "INVITED" | "VIEWED" | "RESPONDED" | "DECLINED";
+
+export interface ProcurementRfq {
+  id: string;
+  rfqNumber: string;
+  purchaseRequestId: string;
+  propertyId: string;
+  title: string;
+  description?: string;
+  status: RfqStatus;
+  issueDate?: string;
+  quotationDeadline: string;
+  deliveryRequiredBy?: string;
+  currency: string;
+  termsAndConditions?: string;
+  createdByPersonId: string;
+  issuedByPersonId?: string;
+  awardedQuotationId?: string;
+  issuedAt?: string;
+  closedAt?: string;
+  awardedAt?: string;
+  cancelledAt?: string;
+  expiredAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProcurementRfqItem {
+  id: string;
+  rfqId: string;
+  purchaseRequestItemId?: string;
+  lineNumber: number;
+  itemType: ProcurementItemType;
+  itemCode?: string;
+  description: string;
+  quantity: number;
+  unit: string;
+  specifications?: string;
+  createdAt: string;
+}
+
+export interface ProcurementRfqVendor {
+  id: string;
+  rfqId: string;
+  vendorId: string;
+  status: RfqVendorStatus;
+  invitedAt: string;
+  viewedAt?: string;
+  respondedAt?: string;
+  declinedAt?: string;
+  declineReason?: string;
+}
+
+export interface ProcurementRfqDetails extends ProcurementRfq {
+  items: ProcurementRfqItem[];
+  vendors: ProcurementRfqVendor[];
+  history: ProcurementStatusHistory[];
+}
+
+export interface ProcurementRfqFilters {
+  purchaseRequestId?: string;
+  propertyId?: string;
+  vendorId?: string;
+  status?: RfqStatus | "";
+  search?: string;
+}
+
+export interface CreateProcurementRfqInput {
+  purchaseRequestId: string;
+  title: string;
+  description?: string;
+  quotationDeadline: string;
+  deliveryRequiredBy?: string;
+  currency: string;
+  termsAndConditions?: string;
+  vendorIds: string[];
+  createdByPersonId: string;
+}

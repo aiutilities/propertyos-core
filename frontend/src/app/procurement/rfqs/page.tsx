@@ -1,0 +1,1 @@
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute"; import { AdminShell } from "@/components/layout/AdminShell"; import { RfqDashboard } from "@/components/procurement/RfqDashboard"; export default function Page(){return <ProtectedRoute><AdminShell><RfqDashboard/></AdminShell></ProtectedRoute>;}

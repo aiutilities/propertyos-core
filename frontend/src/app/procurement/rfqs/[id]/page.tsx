@@ -1,0 +1,1 @@
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute"; import { AdminShell } from "@/components/layout/AdminShell"; import { RfqDetails } from "@/components/procurement/RfqDetails"; export default async function Page({params}:{params:Promise<{id:string}>}){const {id}=await params;return <ProtectedRoute><AdminShell><RfqDetails id={id}/></AdminShell></ProtectedRoute>;}

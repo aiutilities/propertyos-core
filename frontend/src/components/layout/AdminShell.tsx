@@ -95,6 +95,10 @@ const navGroups: NavGroup[] = [
         href: "/procurement/quotations",
       },
       {
+        label: "Comparison",
+        href: "/procurement/comparison",
+      },
+      {
         label: "Vendors",
         href: "/vendors",
       },

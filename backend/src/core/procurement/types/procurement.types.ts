@@ -355,6 +355,7 @@ export interface PurchaseOrderItem {
   purchaseOrderId: string;
   quotationItemId?: string;
   purchaseRequestItemId?: string;
+  inventoryItemId?: string;
   lineNumber: number;
   itemType: ProcurementItemType;
   itemCode?: string;
@@ -377,6 +378,8 @@ export interface GoodsReceipt {
   purchaseOrderId: string;
   propertyId: string;
   vendorId: string;
+  destinationStoreId?: string;
+  destinationBinLocationId?: string;
   status: GoodsReceiptStatus;
   receiptDate: Date;
   deliveryReference?: string;

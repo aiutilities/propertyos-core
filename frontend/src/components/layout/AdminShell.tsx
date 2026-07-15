@@ -103,6 +103,10 @@ const navGroups: NavGroup[] = [
         href: "/procurement/purchase-orders",
       },
       {
+        label: "Goods Receipts",
+        href: "/procurement/goods-receipts",
+      },
+      {
         label: "Vendors",
         href: "/vendors",
       },

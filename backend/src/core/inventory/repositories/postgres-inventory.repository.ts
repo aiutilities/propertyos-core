@@ -18,9 +18,14 @@ import {
   InventoryItemCategory,
   InventoryItemFilters,
   InventoryItemType,
+  InventoryDashboardSummary,
+  InventoryMovementHistoryRow,
+  InventoryReorderAlertRow,
   InventoryStockBalance,
   InventoryStockBalanceFilters,
+  InventoryStockMovementType,
   InventoryStore,
+  InventoryValuationRow,
   InventoryStoreFilters,
   InventoryUnitOfMeasure,
 } from '../types/inventory.types';
@@ -1279,7 +1284,667 @@ export class PostgresInventoryRepository
     );
   }
 
+  async listInventoryValuation(
+    propertyId?: string,
+    storeId?: string,
+  ): Promise<
+    InventoryValuationRow[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    if (propertyId) {
+      values.push(propertyId);
+
+      conditions.push(
+        `s.property_id = $${values.length}`,
+      );
+    }
+
+    if (storeId) {
+      values.push(storeId);
+
+      conditions.push(
+        `b.store_id = $${values.length}`,
+      );
+    }
+
+    const where =
+      conditions.length > 0
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT
+          i.id AS item_id,
+          i.sku,
+          i.name AS item_name,
+          s.id AS store_id,
+          s.store_code,
+          s.name AS store_name,
+          s.property_id,
+
+          COALESCE(
+            SUM(
+              b.quantity_on_hand
+            ),
+            0
+          ) AS quantity_on_hand,
+
+          COALESCE(
+            SUM(
+              b.reserved_quantity
+            ),
+            0
+          ) AS reserved_quantity,
+
+          COALESCE(
+            SUM(
+              b.available_quantity
+            ),
+            0
+          ) AS available_quantity,
+
+          CASE
+            WHEN SUM(
+              b.quantity_on_hand
+            ) > 0
+            THEN
+              SUM(
+                b.quantity_on_hand
+                *
+                b.average_unit_cost
+              )
+              /
+              SUM(
+                b.quantity_on_hand
+              )
+            ELSE 0
+          END AS average_unit_cost,
+
+          COALESCE(
+            SUM(
+              b.quantity_on_hand
+              *
+              b.average_unit_cost
+            ),
+            0
+          ) AS stock_value,
+
+          i.currency
+        FROM inventory_stock_balances b
+
+        INNER JOIN inventory_items i
+          ON i.id = b.item_id
+
+        INNER JOIN inventory_stores s
+          ON s.id = b.store_id
+
+        ${where}
+
+        GROUP BY
+          i.id,
+          i.sku,
+          i.name,
+          i.currency,
+          s.id,
+          s.store_code,
+          s.name,
+          s.property_id
+
+        ORDER BY
+          s.name ASC,
+          i.name ASC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) => ({
+        itemId:
+          row.item_id,
+
+        sku:
+          row.sku,
+
+        itemName:
+          row.item_name,
+
+        storeId:
+          row.store_id,
+
+        storeCode:
+          row.store_code,
+
+        storeName:
+          row.store_name,
+
+        propertyId:
+          row.property_id,
+
+        quantityOnHand:
+          Number(
+            row.quantity_on_hand,
+          ),
+
+        reservedQuantity:
+          Number(
+            row.reserved_quantity,
+          ),
+
+        availableQuantity:
+          Number(
+            row.available_quantity,
+          ),
+
+        averageUnitCost:
+          Number(
+            row.average_unit_cost,
+          ),
+
+        stockValue:
+          Number(
+            row.stock_value,
+          ),
+
+        currency:
+          row.currency,
+      }),
+    );
+  }
+
+  async listInventoryMovementHistory(
+    itemId: string,
+    storeId?: string,
+    limit = 100,
+  ): Promise<
+    InventoryMovementHistoryRow[]
+  > {
+    const values:
+      unknown[] = [
+        itemId,
+      ];
+
+    const conditions:
+      string[] = [
+        'item_id = $1',
+      ];
+
+    if (storeId) {
+      values.push(storeId);
+
+      conditions.push(
+        `store_id = $${values.length}`,
+      );
+    }
+
+    const safeLimit =
+      Math.min(
+        Math.max(
+          Number(limit) || 100,
+          1,
+        ),
+        500,
+      );
+
+    values.push(safeLimit);
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_ledger
+        WHERE ${conditions.join(
+          ' AND ',
+        )}
+        ORDER BY
+          movement_date DESC,
+          created_at DESC
+        LIMIT $${values.length}
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) => ({
+        ledgerEntryId:
+          row.id,
+
+        movementType:
+          row.movement_type as
+            InventoryStockMovementType,
+
+        itemId:
+          row.item_id,
+
+        storeId:
+          row.store_id,
+
+        binLocationId:
+          row.bin_location_id ??
+          undefined,
+
+        quantityDelta:
+          Number(
+            row.quantity_delta,
+          ),
+
+        reservedQuantityDelta:
+          Number(
+            row.reserved_quantity_delta,
+          ),
+
+        unitCost:
+          Number(
+            row.unit_cost,
+          ),
+
+        totalCost:
+          Number(
+            row.total_cost,
+          ),
+
+        sourceType:
+          row.source_type ??
+          undefined,
+
+        sourceId:
+          row.source_id ??
+          undefined,
+
+        sourceLineId:
+          row.source_line_id ??
+          undefined,
+
+        referenceNumber:
+          row.reference_number ??
+          undefined,
+
+        movementDate:
+          row.movement_date,
+
+        postedAt:
+          row.created_at,
+
+        postedByPersonId:
+          row.posted_by_person_id ??
+          undefined,
+
+        remarks:
+          row.remarks ??
+          undefined,
+
+        metadata:
+          row.metadata ??
+          {},
+      }),
+    );
+  }
+
+  async listItemsBelowReorderLevel(
+    propertyId?: string,
+    storeId?: string,
+  ): Promise<
+    InventoryReorderAlertRow[]
+  > {
+    const conditions:
+      string[] = [
+        'i.is_active = TRUE',
+      ];
+
+    const values:
+      unknown[] = [];
+
+    if (propertyId) {
+      values.push(propertyId);
+
+      conditions.push(
+        `s.property_id = $${values.length}`,
+      );
+    }
+
+    if (storeId) {
+      values.push(storeId);
+
+      conditions.push(
+        `s.id = $${values.length}`,
+      );
+    }
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT
+          i.id AS item_id,
+          i.sku,
+          i.name AS item_name,
+
+          s.id AS store_id,
+          s.store_code,
+          s.name AS store_name,
+          s.property_id,
+
+          COALESCE(
+            SUM(
+              b.quantity_on_hand
+            ),
+            0
+          ) AS quantity_on_hand,
+
+          COALESCE(
+            SUM(
+              b.reserved_quantity
+            ),
+            0
+          ) AS reserved_quantity,
+
+          COALESCE(
+            SUM(
+              b.available_quantity
+            ),
+            0
+          ) AS available_quantity,
+
+          i.reorder_level,
+          i.reorder_quantity,
+          i.currency
+
+        FROM inventory_stock_balances b
+
+        INNER JOIN inventory_items i
+          ON i.id = b.item_id
+
+        INNER JOIN inventory_stores s
+          ON s.id = b.store_id
+
+        WHERE ${conditions.join(
+          ' AND ',
+        )}
+
+        GROUP BY
+          i.id,
+          i.sku,
+          i.name,
+          i.reorder_level,
+          i.reorder_quantity,
+          i.currency,
+          s.id,
+          s.store_code,
+          s.name,
+          s.property_id
+
+        HAVING
+          SUM(
+            b.available_quantity
+          ) <= i.reorder_level
+
+        ORDER BY
+          (
+            i.reorder_level
+            -
+            SUM(
+              b.available_quantity
+            )
+          ) DESC,
+          i.name ASC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) => {
+        const availableQuantity =
+          Number(
+            row.available_quantity,
+          );
+
+        const reorderLevel =
+          Number(
+            row.reorder_level,
+          );
+
+        return {
+          itemId:
+            row.item_id,
+
+          sku:
+            row.sku,
+
+          itemName:
+            row.item_name,
+
+          storeId:
+            row.store_id,
+
+          storeCode:
+            row.store_code,
+
+          storeName:
+            row.store_name,
+
+          propertyId:
+            row.property_id,
+
+          quantityOnHand:
+            Number(
+              row.quantity_on_hand,
+            ),
+
+          reservedQuantity:
+            Number(
+              row.reserved_quantity,
+            ),
+
+          availableQuantity,
+
+          reorderLevel,
+
+          reorderQuantity:
+            Number(
+              row.reorder_quantity,
+            ),
+
+          shortageQuantity:
+            Math.max(
+              reorderLevel -
+              availableQuantity,
+              0,
+            ),
+
+          currency:
+            row.currency,
+        };
+      },
+    );
+  }
+
+  async getInventoryDashboardSummary(
+    propertyId?: string,
+  ): Promise<
+    InventoryDashboardSummary
+  > {
+    const values:
+      unknown[] = [];
+
+    let propertyCondition = '';
+
+    if (propertyId) {
+      values.push(propertyId);
+
+      propertyCondition =
+        `WHERE s.property_id = $1`;
+    }
+
+    const result =
+      await this.pool.query(
+        `
+        WITH aggregated_stock AS (
+          SELECT
+            b.item_id,
+            b.store_id,
+
+            SUM(
+              b.quantity_on_hand
+            ) AS quantity_on_hand,
+
+            SUM(
+              b.reserved_quantity
+            ) AS reserved_quantity,
+
+            SUM(
+              b.available_quantity
+            ) AS available_quantity,
+
+            SUM(
+              b.quantity_on_hand
+              *
+              b.average_unit_cost
+            ) AS stock_value,
+
+            MAX(
+              i.reorder_level
+            ) AS reorder_level
+
+          FROM inventory_stock_balances b
+
+          INNER JOIN inventory_items i
+            ON i.id = b.item_id
+
+          INNER JOIN inventory_stores s
+            ON s.id = b.store_id
+
+          ${propertyCondition}
+
+          GROUP BY
+            b.item_id,
+            b.store_id
+        )
+
+        SELECT
+          COUNT(
+            DISTINCT item_id
+          ) AS item_count,
+
+          COUNT(
+            DISTINCT store_id
+          ) AS store_count,
+
+          COUNT(*) AS stock_keeping_unit_count,
+
+          COALESCE(
+            SUM(
+              quantity_on_hand
+            ),
+            0
+          ) AS total_quantity_on_hand,
+
+          COALESCE(
+            SUM(
+              reserved_quantity
+            ),
+            0
+          ) AS total_reserved_quantity,
+
+          COALESCE(
+            SUM(
+              available_quantity
+            ),
+            0
+          ) AS total_available_quantity,
+
+          COALESCE(
+            SUM(
+              stock_value
+            ),
+            0
+          ) AS total_stock_value,
+
+          COUNT(*) FILTER (
+            WHERE
+              available_quantity
+              <= reorder_level
+          ) AS below_reorder_level_count,
+
+          COUNT(*) FILTER (
+            WHERE
+              available_quantity
+              <= 0
+          ) AS out_of_stock_count
+
+        FROM aggregated_stock
+        `,
+        values,
+      );
+
+    const row =
+      result.rows[0] ?? {};
+
+    return {
+      itemCount:
+        Number(
+          row.item_count ??
+          0,
+        ),
+
+      storeCount:
+        Number(
+          row.store_count ??
+          0,
+        ),
+
+      stockKeepingUnitCount:
+        Number(
+          row.stock_keeping_unit_count ??
+          0,
+        ),
+
+      totalQuantityOnHand:
+        Number(
+          row.total_quantity_on_hand ??
+          0,
+        ),
+
+      totalReservedQuantity:
+        Number(
+          row.total_reserved_quantity ??
+          0,
+        ),
+
+      totalAvailableQuantity:
+        Number(
+          row.total_available_quantity ??
+          0,
+        ),
+
+      totalStockValue:
+        Number(
+          row.total_stock_value ??
+          0,
+        ),
+
+      belowReorderLevelCount:
+        Number(
+          row.below_reorder_level_count ??
+          0,
+        ),
+
+      outOfStockCount:
+        Number(
+          row.out_of_stock_count ??
+          0,
+        ),
+    };
+  }
+
   private mapUnitOfMeasure(
+
     row: any,
   ): InventoryUnitOfMeasure {
     return {

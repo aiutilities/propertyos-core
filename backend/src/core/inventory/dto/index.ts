@@ -12,3 +12,4 @@ export * from './update-inventory-item.dto';
 export * from './update-inventory-store.dto';
 export * from './update-item-category.dto';
 export * from './update-unit-of-measure.dto';
+export * from './query-stock.dto';

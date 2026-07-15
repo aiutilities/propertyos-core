@@ -308,3 +308,69 @@ export interface InventoryStockLedgerFilters {
   dateTo?: Date;
   limit?: number;
 }
+
+export interface InventoryValuationRow {
+  itemId: string;
+  sku: string;
+  itemName: string;
+  storeId: string;
+  storeCode: string;
+  storeName: string;
+  propertyId: string;
+  quantityOnHand: number;
+  reservedQuantity: number;
+  availableQuantity: number;
+  averageUnitCost: number;
+  stockValue: number;
+  currency: string;
+}
+
+export interface InventoryMovementHistoryRow {
+  ledgerEntryId: string;
+  movementType: InventoryStockMovementType;
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+  quantityDelta: number;
+  reservedQuantityDelta: number;
+  unitCost: number;
+  totalCost: number;
+  sourceType?: string;
+  sourceId?: string;
+  sourceLineId?: string;
+  referenceNumber?: string;
+  movementDate: Date;
+  postedAt: Date;
+  postedByPersonId?: string;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+}
+
+export interface InventoryReorderAlertRow {
+  itemId: string;
+  sku: string;
+  itemName: string;
+  storeId: string;
+  storeCode: string;
+  storeName: string;
+  propertyId: string;
+  quantityOnHand: number;
+  reservedQuantity: number;
+  availableQuantity: number;
+  reorderLevel: number;
+  reorderQuantity: number;
+  shortageQuantity: number;
+  currency: string;
+}
+
+export interface InventoryDashboardSummary {
+  itemCount: number;
+  storeCount: number;
+  stockKeepingUnitCount: number;
+  totalQuantityOnHand: number;
+  totalReservedQuantity: number;
+  totalAvailableQuantity: number;
+  totalStockValue: number;
+  belowReorderLevelCount: number;
+  outOfStockCount: number;
+}

@@ -6,6 +6,10 @@ import {
   InventoryItemFilters,
   InventoryStockBalance,
   InventoryStockBalanceFilters,
+  InventoryValuationRow,
+  InventoryMovementHistoryRow,
+  InventoryReorderAlertRow,
+  InventoryDashboardSummary,
   InventoryStore,
   InventoryStoreFilters,
   InventoryUnitOfMeasure,
@@ -130,5 +134,27 @@ export interface InventoryRepository {
   listStockBalances(
     filters?: InventoryStockBalanceFilters,
   ): Promise<InventoryStockBalance[]>;
+
+
+  listInventoryValuation(
+    propertyId?: string,
+    storeId?: string,
+  ): Promise<InventoryValuationRow[]>;
+
+  listInventoryMovementHistory(
+    itemId: string,
+    storeId?: string,
+    limit?: number,
+  ): Promise<InventoryMovementHistoryRow[]>;
+
+  listItemsBelowReorderLevel(
+    propertyId?: string,
+    storeId?: string,
+  ): Promise<InventoryReorderAlertRow[]>;
+
+  getInventoryDashboardSummary(
+    propertyId?: string,
+  ): Promise<InventoryDashboardSummary>;
+
 
 }

@@ -374,3 +374,62 @@ export interface InventoryDashboardSummary {
   belowReorderLevelCount: number;
   outOfStockCount: number;
 }
+
+export enum InventoryCycleCountStatus {
+  DRAFT = 'DRAFT',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  POSTED = 'POSTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum InventoryCycleCountScopeType {
+  STORE = 'STORE',
+  BIN = 'BIN',
+  ITEM = 'ITEM',
+}
+
+export interface InventoryCycleCount {
+  id: string;
+  countNumber: string;
+  propertyId: string;
+  storeId: string;
+  status: InventoryCycleCountStatus;
+  countDate: Date;
+  blindCount: boolean;
+  freezeStock: boolean;
+  scopeType:
+    InventoryCycleCountScopeType;
+  notes?: string;
+  createdByPersonId: string;
+  startedByPersonId?: string;
+  completedByPersonId?: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  startedAt?: Date;
+  completedAt?: Date;
+  postedAt?: Date;
+  cancelledAt?: Date;
+  cancellationReason?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface InventoryCycleCountItem {
+  id: string;
+  cycleCountId: string;
+  itemId: string;
+  binLocationId?: string;
+  systemQuantity: number;
+  countedQuantity?: number;
+  varianceQuantity?: number;
+  averageUnitCost: number;
+  varianceValue?: number;
+  countedByPersonId?: string;
+  countedAt?: Date;
+  remarks?: string;
+  metadata: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}

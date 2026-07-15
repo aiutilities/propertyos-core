@@ -19,6 +19,9 @@ import {
 
 import {
   InventoryAdjustmentStatus,
+  InventoryCycleCount,
+  InventoryCycleCountItem,
+  InventoryCycleCountStatus,
   InventoryReservationStatus,
   InventoryStockAdjustment,
   InventoryStockAdjustmentItem,
@@ -776,6 +779,498 @@ export class PostgresInventoryStockLedgerRepository
       (row) =>
         this.mapReservation(row),
     );
+  }
+
+  async createCycleCount(
+    cycleCount:
+      InventoryCycleCount,
+
+    items:
+      InventoryCycleCountItem[],
+  ): Promise<{
+    cycleCount:
+      InventoryCycleCount;
+
+    items:
+      InventoryCycleCountItem[];
+  }> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      await client.query(
+        `
+        INSERT INTO inventory_cycle_counts (
+          id,
+          count_number,
+          property_id,
+          store_id,
+          status,
+          count_date,
+          blind_count,
+          freeze_stock,
+          scope_type,
+          notes,
+          created_by_person_id,
+          started_by_person_id,
+          completed_by_person_id,
+          posted_by_person_id,
+          cancelled_by_person_id,
+          started_at,
+          completed_at,
+          posted_at,
+          cancelled_at,
+          cancellation_reason,
+          metadata,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,
+          $10,$11,$12,$13,$14,$15,$16,
+          $17,$18,$19,$20,$21,$22,$23
+        )
+        `,
+        [
+          cycleCount.id,
+          cycleCount.countNumber,
+          cycleCount.propertyId,
+          cycleCount.storeId,
+          cycleCount.status,
+          cycleCount.countDate,
+          cycleCount.blindCount,
+          cycleCount.freezeStock,
+          cycleCount.scopeType,
+          cycleCount.notes ??
+            null,
+          cycleCount.createdByPersonId,
+          cycleCount.startedByPersonId ??
+            null,
+          cycleCount.completedByPersonId ??
+            null,
+          cycleCount.postedByPersonId ??
+            null,
+          cycleCount.cancelledByPersonId ??
+            null,
+          cycleCount.startedAt ??
+            null,
+          cycleCount.completedAt ??
+            null,
+          cycleCount.postedAt ??
+            null,
+          cycleCount.cancelledAt ??
+            null,
+          cycleCount.cancellationReason ??
+            null,
+          JSON.stringify(
+            cycleCount.metadata ?? {},
+          ),
+          cycleCount.createdAt,
+          cycleCount.updatedAt,
+        ],
+      );
+
+      for (const item of items) {
+        await client.query(
+          `
+          INSERT INTO inventory_cycle_count_items (
+            id,
+            cycle_count_id,
+            item_id,
+            bin_location_id,
+            system_quantity,
+            counted_quantity,
+            variance_quantity,
+            average_unit_cost,
+            variance_value,
+            counted_by_person_id,
+            counted_at,
+            remarks,
+            metadata,
+            created_at,
+            updated_at
+          )
+          VALUES (
+            $1,$2,$3,$4,$5,$6,$7,$8,
+            $9,$10,$11,$12,$13,$14,$15
+          )
+          `,
+          [
+            item.id,
+            item.cycleCountId,
+            item.itemId,
+            item.binLocationId ??
+              null,
+            item.systemQuantity,
+            item.countedQuantity ??
+              null,
+            item.varianceQuantity ??
+              null,
+            item.averageUnitCost,
+            item.varianceValue ??
+              null,
+            item.countedByPersonId ??
+              null,
+            item.countedAt ??
+              null,
+            item.remarks ??
+              null,
+            JSON.stringify(
+              item.metadata ?? {},
+            ),
+            item.createdAt,
+            item.updatedAt,
+          ],
+        );
+      }
+
+      await client.query(
+        'COMMIT',
+      );
+
+      const created =
+        await this.findCycleCountById(
+          cycleCount.id,
+        );
+
+      if (!created) {
+        throw new Error(
+          'Created Inventory Cycle Count was not found',
+        );
+      }
+
+      return created;
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async findCycleCountById(
+    id: string,
+  ): Promise<{
+    cycleCount:
+      InventoryCycleCount;
+
+    items:
+      InventoryCycleCountItem[];
+  } | null> {
+    const countResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_cycle_counts
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    if (!countResult.rows[0]) {
+      return null;
+    }
+
+    const itemResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_cycle_count_items
+        WHERE cycle_count_id = $1
+        ORDER BY
+          created_at ASC,
+          item_id ASC
+        `,
+        [
+          id,
+        ],
+      );
+
+    return {
+      cycleCount:
+        this.mapCycleCount(
+          countResult.rows[0],
+        ),
+
+      items:
+        itemResult.rows.map(
+          (row) =>
+            this.mapCycleCountItem(
+              row,
+            ),
+        ),
+    };
+  }
+
+  async listCycleCounts(
+    filters: {
+      propertyId?: string;
+      storeId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    } = {},
+  ): Promise<
+    InventoryCycleCount[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      expression: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${expression} $${values.length}`,
+      );
+    };
+
+    if (filters.propertyId) {
+      addCondition(
+        'property_id =',
+        filters.propertyId,
+      );
+    }
+
+    if (filters.storeId) {
+      addCondition(
+        'store_id =',
+        filters.storeId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status =',
+        filters.status,
+      );
+    }
+
+    if (filters.dateFrom) {
+      addCondition(
+        'count_date >=',
+        filters.dateFrom,
+      );
+    }
+
+    if (filters.dateTo) {
+      addCondition(
+        'count_date <=',
+        filters.dateTo,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_cycle_counts
+        ${where}
+        ORDER BY
+          count_date DESC,
+          created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapCycleCount(row),
+    );
+  }
+
+  async updateCycleCountStatus(
+    cycleCountId: string,
+
+    input: {
+      status:
+        InventoryCycleCountStatus;
+
+      startedByPersonId?: string;
+      completedByPersonId?: string;
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      startedAt?: Date;
+      completedAt?: Date;
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryCycleCount | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_cycle_counts
+        SET
+          status = $2,
+
+          started_by_person_id =
+            COALESCE(
+              $3,
+              started_by_person_id
+            ),
+
+          completed_by_person_id =
+            COALESCE(
+              $4,
+              completed_by_person_id
+            ),
+
+          posted_by_person_id =
+            COALESCE(
+              $5,
+              posted_by_person_id
+            ),
+
+          cancelled_by_person_id =
+            COALESCE(
+              $6,
+              cancelled_by_person_id
+            ),
+
+          started_at =
+            COALESCE(
+              $7,
+              started_at
+            ),
+
+          completed_at =
+            COALESCE(
+              $8,
+              completed_at
+            ),
+
+          posted_at =
+            COALESCE(
+              $9,
+              posted_at
+            ),
+
+          cancelled_at =
+            COALESCE(
+              $10,
+              cancelled_at
+            ),
+
+          cancellation_reason =
+            COALESCE(
+              $11,
+              cancellation_reason
+            ),
+
+          updated_at = $12
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          cycleCountId,
+          input.status,
+          input.startedByPersonId ??
+            null,
+          input.completedByPersonId ??
+            null,
+          input.postedByPersonId ??
+            null,
+          input.cancelledByPersonId ??
+            null,
+          input.startedAt ??
+            null,
+          input.completedAt ??
+            null,
+          input.postedAt ??
+            null,
+          input.cancelledAt ??
+            null,
+          input.cancellationReason ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapCycleCount(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async updateCycleCountItem(
+    cycleCountItemId: string,
+
+    input: {
+      countedQuantity: number;
+      varianceQuantity: number;
+      varianceValue: number;
+      countedByPersonId: string;
+      countedAt: Date;
+      remarks?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryCycleCountItem | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        UPDATE inventory_cycle_count_items
+        SET
+          counted_quantity = $2,
+          variance_quantity = $3,
+          variance_value = $4,
+          counted_by_person_id = $5,
+          counted_at = $6,
+          remarks = COALESCE(
+            $7,
+            remarks
+          ),
+          updated_at = $8
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          cycleCountItemId,
+          input.countedQuantity,
+          input.varianceQuantity,
+          input.varianceValue,
+          input.countedByPersonId,
+          input.countedAt,
+          input.remarks ??
+            null,
+          input.updatedAt,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapCycleCountItem(
+          result.rows[0],
+        )
+      : null;
   }
 
   async createAdjustment(
@@ -2358,6 +2853,172 @@ export class PostgresInventoryStockLedgerRepository
         row.metadata ?? {},
       createdAt:
         row.created_at,
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapCycleCount(
+    row: any,
+  ): InventoryCycleCount {
+    return {
+      id:
+        row.id,
+
+      countNumber:
+        row.count_number,
+
+      propertyId:
+        row.property_id,
+
+      storeId:
+        row.store_id,
+
+      status:
+        row.status as
+          InventoryCycleCountStatus,
+
+      countDate:
+        row.count_date,
+
+      blindCount:
+        row.blind_count,
+
+      freezeStock:
+        row.freeze_stock,
+
+      scopeType:
+        row.scope_type,
+
+      notes:
+        row.notes ??
+        undefined,
+
+      createdByPersonId:
+        row.created_by_person_id,
+
+      startedByPersonId:
+        row.started_by_person_id ??
+        undefined,
+
+      completedByPersonId:
+        row.completed_by_person_id ??
+        undefined,
+
+      postedByPersonId:
+        row.posted_by_person_id ??
+        undefined,
+
+      cancelledByPersonId:
+        row.cancelled_by_person_id ??
+        undefined,
+
+      startedAt:
+        row.started_at ??
+        undefined,
+
+      completedAt:
+        row.completed_at ??
+        undefined,
+
+      postedAt:
+        row.posted_at ??
+        undefined,
+
+      cancelledAt:
+        row.cancelled_at ??
+        undefined,
+
+      cancellationReason:
+        row.cancellation_reason ??
+        undefined,
+
+      metadata:
+        row.metadata ?? {},
+
+      createdAt:
+        row.created_at,
+
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapCycleCountItem(
+    row: any,
+  ): InventoryCycleCountItem {
+    return {
+      id:
+        row.id,
+
+      cycleCountId:
+        row.cycle_count_id,
+
+      itemId:
+        row.item_id,
+
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+
+      systemQuantity:
+        Number(
+          row.system_quantity,
+        ),
+
+      countedQuantity:
+        row.counted_quantity ===
+          null ||
+        row.counted_quantity ===
+          undefined
+          ? undefined
+          : Number(
+              row.counted_quantity,
+            ),
+
+      varianceQuantity:
+        row.variance_quantity ===
+          null ||
+        row.variance_quantity ===
+          undefined
+          ? undefined
+          : Number(
+              row.variance_quantity,
+            ),
+
+      averageUnitCost:
+        Number(
+          row.average_unit_cost,
+        ),
+
+      varianceValue:
+        row.variance_value ===
+          null ||
+        row.variance_value ===
+          undefined
+          ? undefined
+          : Number(
+              row.variance_value,
+            ),
+
+      countedByPersonId:
+        row.counted_by_person_id ??
+        undefined,
+
+      countedAt:
+        row.counted_at ??
+        undefined,
+
+      remarks:
+        row.remarks ??
+        undefined,
+
+      metadata:
+        row.metadata ?? {},
+
+      createdAt:
+        row.created_at,
+
       updatedAt:
         row.updated_at,
     };

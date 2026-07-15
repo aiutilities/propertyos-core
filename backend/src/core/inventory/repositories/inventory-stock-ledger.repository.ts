@@ -1,5 +1,8 @@
 import {
   InventoryAdjustmentStatus,
+  InventoryCycleCount,
+  InventoryCycleCountItem,
+  InventoryCycleCountStatus,
   InventoryStockAdjustment,
   InventoryStockAdjustmentItem,
   InventoryStockBalance,
@@ -139,6 +142,82 @@ export interface InventoryStockLedgerRepository {
     asOf: Date,
   ): Promise<
     InventoryStockReservation[]
+  >;
+
+  createCycleCount(
+    cycleCount:
+      InventoryCycleCount,
+
+    items:
+      InventoryCycleCountItem[],
+  ): Promise<{
+    cycleCount:
+      InventoryCycleCount;
+
+    items:
+      InventoryCycleCountItem[];
+  }>;
+
+  findCycleCountById(
+    id: string,
+  ): Promise<{
+    cycleCount:
+      InventoryCycleCount;
+
+    items:
+      InventoryCycleCountItem[];
+  } | null>;
+
+  listCycleCounts(
+    filters?: {
+      propertyId?: string;
+      storeId?: string;
+      status?: string;
+      dateFrom?: Date;
+      dateTo?: Date;
+    },
+  ): Promise<
+    InventoryCycleCount[]
+  >;
+
+  updateCycleCountStatus(
+    cycleCountId: string,
+
+    input: {
+      status:
+        InventoryCycleCountStatus;
+
+      startedByPersonId?: string;
+      completedByPersonId?: string;
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      startedAt?: Date;
+      completedAt?: Date;
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryCycleCount | null
+  >;
+
+  updateCycleCountItem(
+    cycleCountItemId: string,
+
+    input: {
+      countedQuantity: number;
+      varianceQuantity: number;
+      varianceValue: number;
+      countedByPersonId: string;
+      countedAt: Date;
+      remarks?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryCycleCountItem | null
   >;
 
   findAdjustmentById(

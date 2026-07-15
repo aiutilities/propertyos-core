@@ -11,6 +11,11 @@ import {
 } from '../../inventory/repositories/inventory-stock-ledger.repository';
 
 import {
+  InventoryBatchService,
+} from '../../inventory/services/inventory-batch.service';
+
+
+import {
   InventoryStockMovementType,
 } from '../../inventory/types/inventory.types';
 
@@ -26,6 +31,8 @@ export interface ProcurementInventoryPostingResult {
   goodsReceiptItemId: string;
   purchaseOrderItemId: string;
   inventoryItemId: string;
+  batchId?: string;
+
   movement:
     PostInventoryMovementResult;
 }
@@ -38,6 +45,9 @@ export class ProcurementInventoryPostingService {
     )
     private readonly stockLedgerRepository:
       InventoryStockLedgerRepository,
+
+    private readonly batchService:
+      InventoryBatchService,
   ) {}
 
   async postGoodsReceipt(
@@ -130,6 +140,65 @@ export class ProcurementInventoryPostingService {
         continue;
       }
 
+      const batch =
+        goodsReceiptItem.batchNumber
+          ? await this.batchService
+              .resolveOrCreate({
+                itemId:
+                  inventoryItemId,
+
+                batchNumber:
+                  goodsReceiptItem
+                    .batchNumber,
+
+                manufacturerBatchNumber:
+                  goodsReceiptItem
+                    .manufacturerBatchNumber,
+
+                manufactureDate:
+                  goodsReceiptItem
+                    .manufactureDate,
+
+                expiryDate:
+                  goodsReceiptItem
+                    .expiryDate,
+
+                sourceType:
+                  'procurement.goods_receipt',
+
+                sourceId:
+                  goodsReceipt.id,
+
+                sourceLineId:
+                  goodsReceiptItem.id,
+
+                remarks:
+                  goodsReceiptItem
+                    .remarks,
+
+                metadata: {
+                  propertyId:
+                    goodsReceipt.propertyId,
+
+                  vendorId:
+                    goodsReceipt.vendorId,
+
+                  purchaseOrderId:
+                    purchaseOrder.id,
+
+                  purchaseOrderItemId:
+                    purchaseOrderItem.id,
+
+                  goodsReceiptNumber:
+                    goodsReceipt
+                      .goodsReceiptNumber,
+                },
+
+                createdByPersonId:
+                  postedByPersonId,
+              })
+          : undefined;
+
       const movement =
         await this
           .stockLedgerRepository
@@ -148,6 +217,9 @@ export class ProcurementInventoryPostingService {
             binLocationId:
               goodsReceipt
                 .destinationBinLocationId,
+
+            batchId:
+              batch?.id,
 
             quantityDelta:
               goodsReceiptItem
@@ -236,6 +308,34 @@ export class ProcurementInventoryPostingService {
 
               currency:
                 purchaseOrder.currency,
+
+              batchId:
+                batch?.id,
+
+              batchNumber:
+                batch?.batchNumber,
+
+              manufacturerBatchNumber:
+                batch
+                  ?.manufacturerBatchNumber,
+
+              manufactureDate:
+                batch
+                  ?.manufactureDate
+                  ?.toISOString()
+                  .slice(
+                    0,
+                    10,
+                  ),
+
+              expiryDate:
+                batch
+                  ?.expiryDate
+                  ?.toISOString()
+                  .slice(
+                    0,
+                    10,
+                  ),
             },
           });
 
@@ -247,6 +347,9 @@ export class ProcurementInventoryPostingService {
           purchaseOrderItem.id,
 
         inventoryItemId,
+
+        batchId:
+          batch?.id,
 
         movement,
       });

@@ -469,6 +469,23 @@ export class PostgresProcurementGoodsReceiptRepository
             goodsReceipt.updatedAt,
           ],
         );
+
+        await client.query(
+          `
+          UPDATE procurement_goods_receipt_items
+          SET
+            batch_id = $2,
+            updated_at = $3
+          WHERE id = $1
+            AND goods_receipt_id = $4
+          `,
+          [
+            item.goodsReceiptItemId,
+            item.batchId ?? null,
+            goodsReceipt.updatedAt,
+            goodsReceipt.id,
+          ],
+        );
       }
 
       await client.query(
@@ -827,12 +844,18 @@ export class PostgresProcurementGoodsReceiptRepository
           status,
           rejection_reason,
           remarks,
+          batch_id,
+          batch_number,
+          manufacturer_batch_number,
+          manufacture_date,
+          expiry_date,
           created_at,
           updated_at
         )
         VALUES (
           $1,$2,$3,$4,$5,$6,$7,$8,
-          $9,$10,$11,$12,$13
+          $9,$10,$11,$12,$13,$14,
+          $15,$16,$17,$18
         )
         `,
         [
@@ -847,6 +870,11 @@ export class PostgresProcurementGoodsReceiptRepository
           item.status,
           item.rejectionReason ?? null,
           item.remarks ?? null,
+          item.batchId ?? null,
+          item.batchNumber ?? null,
+          item.manufacturerBatchNumber ?? null,
+          item.manufactureDate ?? null,
+          item.expiryDate ?? null,
           item.createdAt,
           item.updatedAt,
         ],
@@ -971,6 +999,49 @@ export class PostgresProcurementGoodsReceiptRepository
     };
   }
 
+  private mapDateOnly(
+    value: unknown,
+  ): Date | undefined {
+    if (!value) {
+      return undefined;
+    }
+
+    if (value instanceof Date) {
+      return new Date(
+        Date.UTC(
+          value.getFullYear(),
+          value.getMonth(),
+          value.getDate(),
+        ),
+      );
+    }
+
+    const text =
+      String(value)
+        .slice(
+          0,
+          10,
+        );
+
+    const match =
+      /^(\d{4})-(\d{2})-(\d{2})$/
+        .exec(text);
+
+    if (!match) {
+      throw new Error(
+        `Invalid PostgreSQL date value: ${String(value)}`,
+      );
+    }
+
+    return new Date(
+      Date.UTC(
+        Number(match[1]),
+        Number(match[2]) - 1,
+        Number(match[3]),
+      ),
+    );
+  }
+
   private mapGoodsReceiptItem(
     row: any,
   ): GoodsReceiptItem {
@@ -1019,6 +1090,28 @@ export class PostgresProcurementGoodsReceiptRepository
       remarks:
         row.remarks ??
         undefined,
+
+      batchId:
+        row.batch_id ??
+        undefined,
+
+      batchNumber:
+        row.batch_number ??
+        undefined,
+
+      manufacturerBatchNumber:
+        row.manufacturer_batch_number ??
+        undefined,
+
+      manufactureDate:
+        this.mapDateOnly(
+          row.manufacture_date,
+        ),
+
+      expiryDate:
+        this.mapDateOnly(
+          row.expiry_date,
+        ),
 
       createdAt:
         new Date(

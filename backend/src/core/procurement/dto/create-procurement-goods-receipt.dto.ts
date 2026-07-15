@@ -7,6 +7,12 @@ export class CreateProcurementGoodsReceiptItemDto {
 
   rejectionReason?: string;
   remarks?: string;
+
+  batchNumber?: string;
+  manufacturerBatchNumber?: string;
+
+  manufactureDate?: string;
+  expiryDate?: string;
 }
 
 export class CreateProcurementGoodsReceiptDto {

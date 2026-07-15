@@ -41,6 +41,8 @@ export interface GoodsReceiptPostingItem {
   receivedQuantity: number;
 
   newCumulativeReceivedQuantity: number;
+
+  batchId?: string;
 }
 
 export interface GoodsReceiptPostingResult {

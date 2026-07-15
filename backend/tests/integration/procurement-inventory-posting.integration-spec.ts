@@ -16,17 +16,25 @@ describe(
     const postMovement =
       jest.fn();
 
+    const resolveOrCreate =
+      jest.fn();
+
     let service:
       ProcurementInventoryPostingService;
 
     beforeEach(
       () => {
         postMovement.mockReset();
+        resolveOrCreate.mockReset();
 
         service =
           new ProcurementInventoryPostingService(
             {
               postMovement,
+            } as any,
+
+            {
+              resolveOrCreate,
             } as any,
           );
       },
@@ -174,6 +182,179 @@ describe(
         );
 
         expect(result).toHaveLength(1);
+      },
+    );
+
+    it(
+      'resolves and posts a Batch-aware Goods Receipt line',
+      async () => {
+        resolveOrCreate.mockResolvedValue({
+          id:
+            'batch-1',
+
+          batchNumber:
+            'LOT-001',
+
+          manufacturerBatchNumber:
+            'MFG-001',
+
+          manufactureDate:
+            new Date(
+              '2026-07-01T00:00:00.000Z',
+            ),
+
+          expiryDate:
+            new Date(
+              '2027-07-01T00:00:00.000Z',
+            ),
+        });
+
+        postMovement.mockResolvedValue({
+          entry: {
+            id:
+              'ledger-entry-1',
+          },
+
+          balance: {
+            quantityOnHand:
+              8,
+          },
+
+          idempotentReplay:
+            false,
+        });
+
+        await service.postGoodsReceipt(
+          {
+            ...goodsReceipt,
+
+            items: [
+              {
+                ...goodsReceipt.items[0],
+
+                batchNumber:
+                  'LOT-001',
+
+                manufacturerBatchNumber:
+                  'MFG-001',
+
+                manufactureDate:
+                  new Date(
+                    '2026-07-01T00:00:00.000Z',
+                  ),
+
+                expiryDate:
+                  new Date(
+                    '2027-07-01T00:00:00.000Z',
+                  ),
+              },
+            ],
+          },
+
+          purchaseOrder,
+          'person-1',
+        );
+
+        expect(
+          resolveOrCreate,
+        ).toHaveBeenCalledWith(
+          expect.objectContaining({
+            itemId:
+              'inventory-item-1',
+
+            batchNumber:
+              'LOT-001',
+
+            manufacturerBatchNumber:
+              'MFG-001',
+
+            sourceType:
+              'procurement.goods_receipt',
+
+            sourceId:
+              'goods-receipt-1',
+
+            sourceLineId:
+              'goods-receipt-item-1',
+
+            createdByPersonId:
+              'person-1',
+          }),
+        );
+
+        expect(
+          postMovement,
+        ).toHaveBeenCalledWith(
+          expect.objectContaining({
+            batchId:
+              'batch-1',
+
+            itemId:
+              'inventory-item-1',
+
+            quantityDelta:
+              8,
+          }),
+        );
+
+        const result =
+          await service.postGoodsReceipt(
+            {
+              ...goodsReceipt,
+
+              items: [
+                {
+                  ...goodsReceipt.items[0],
+
+                  batchNumber:
+                    'LOT-001',
+                },
+              ],
+            },
+
+            purchaseOrder,
+            'person-1',
+          );
+
+        expect(result[0]).toEqual(
+          expect.objectContaining({
+            goodsReceiptItemId:
+              'goods-receipt-item-1',
+
+            batchId:
+              'batch-1',
+          }),
+        );
+      },
+    );
+
+    it(
+      'does not resolve a Batch when Batch metadata is absent',
+      async () => {
+        postMovement.mockResolvedValue({
+          entry: {
+            id:
+              'ledger-entry-1',
+          },
+
+          balance: {
+            quantityOnHand:
+              8,
+          },
+
+          idempotentReplay:
+            false,
+        });
+
+        await service.postGoodsReceipt(
+          goodsReceipt,
+          purchaseOrder,
+          'person-1',
+        );
+
+        expect(
+          resolveOrCreate,
+        ).not.toHaveBeenCalled();
       },
     );
 

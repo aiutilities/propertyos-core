@@ -407,6 +407,14 @@ export interface GoodsReceiptItem {
   status: GoodsReceiptItemStatus;
   rejectionReason?: string;
   remarks?: string;
+
+  batchId?: string;
+  batchNumber?: string;
+  manufacturerBatchNumber?: string;
+
+  manufactureDate?: Date;
+  expiryDate?: Date;
+
   createdAt: Date;
   updatedAt: Date;
 }

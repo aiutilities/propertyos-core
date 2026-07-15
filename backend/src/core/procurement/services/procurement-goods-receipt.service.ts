@@ -558,17 +558,42 @@ export class ProcurementGoodsReceiptService {
           now,
       };
 
-    await this.inventoryPostingService
-      .postGoodsReceipt(
-        current,
-        purchaseOrder,
-        dto.postedByPersonId,
+    const inventoryPostingResults =
+      await this.inventoryPostingService
+        .postGoodsReceipt(
+          current,
+          purchaseOrder,
+          dto.postedByPersonId,
+        );
+
+    const inventoryPostingByReceiptItemId =
+      new Map(
+        inventoryPostingResults.map(
+          (posting) => [
+            posting.goodsReceiptItemId,
+            posting,
+          ],
+        ),
+      );
+
+    const postingItemsWithBatch =
+      postingItems.map(
+        (item) => ({
+          ...item,
+
+          batchId:
+            inventoryPostingByReceiptItemId
+              .get(
+                item.goodsReceiptItemId,
+              )
+              ?.batchId,
+        }),
       );
 
     const result =
       await this.repository.post(
         posted,
-        postingItems,
+        postingItemsWithBatch,
         purchaseOrderStatus,
         this.createHistory(
           current.id,
@@ -942,6 +967,32 @@ export class ProcurementGoodsReceiptService {
               ?.trim() ||
             undefined,
 
+          batchNumber:
+            dtoItem.batchNumber
+              ?.trim() ||
+            undefined,
+
+          manufacturerBatchNumber:
+            dtoItem.manufacturerBatchNumber
+              ?.trim() ||
+            undefined,
+
+          manufactureDate:
+            dtoItem.manufactureDate
+              ? this.parseDate(
+                  dtoItem.manufactureDate,
+                  'manufactureDate',
+                )
+              : undefined,
+
+          expiryDate:
+            dtoItem.expiryDate
+              ? this.parseDate(
+                  dtoItem.expiryDate,
+                  'expiryDate',
+                )
+              : undefined,
+
           createdAt:
             now,
 
@@ -1051,6 +1102,59 @@ export class ProcurementGoodsReceiptService {
     ) {
       throw new BadRequestException(
         'rejectionReason is required when rejectedQuantity is greater than zero',
+      );
+    }
+
+    const manufactureDate =
+      dtoItem.manufactureDate
+        ? this.parseDate(
+            dtoItem.manufactureDate,
+            'manufactureDate',
+          )
+        : undefined;
+
+    const expiryDate =
+      dtoItem.expiryDate
+        ? this.parseDate(
+            dtoItem.expiryDate,
+            'expiryDate',
+          )
+        : undefined;
+
+    if (
+      manufactureDate &&
+      expiryDate &&
+      expiryDate.getTime() <
+        manufactureDate.getTime()
+    ) {
+      throw new BadRequestException(
+        'expiryDate cannot be before manufactureDate',
+      );
+    }
+
+    const hasBatchMetadata =
+      Boolean(
+        dtoItem.batchNumber
+          ?.trim(),
+      ) ||
+      Boolean(
+        dtoItem.manufacturerBatchNumber
+          ?.trim(),
+      ) ||
+      Boolean(
+        manufactureDate,
+      ) ||
+      Boolean(
+        expiryDate,
+      );
+
+    if (
+      hasBatchMetadata &&
+      !dtoItem.batchNumber
+        ?.trim()
+    ) {
+      throw new BadRequestException(
+        'batchNumber is required when Goods Receipt Batch metadata is supplied',
       );
     }
   }

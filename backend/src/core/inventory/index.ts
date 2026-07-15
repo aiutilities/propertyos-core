@@ -9,3 +9,4 @@ export * from './bootstrap/inventory-bootstrap.service';
 export * from './controllers/inventory.controller';
 export * from './inventory-search-provider.service';
 export * from './repositories/inventory-stock-ledger.repository';
+export * from './repositories/postgres-inventory-stock-ledger.repository';

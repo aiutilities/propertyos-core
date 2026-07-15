@@ -43,8 +43,16 @@ import {
 } from './repositories/inventory.repository';
 
 import {
+  INVENTORY_STOCK_LEDGER_REPOSITORY,
+} from './repositories/inventory-stock-ledger.repository';
+
+import {
   PostgresInventoryRepository,
 } from './repositories/postgres-inventory.repository';
+
+import {
+  PostgresInventoryStockLedgerRepository,
+} from './repositories/postgres-inventory-stock-ledger.repository';
 
 import {
   InventoryService,
@@ -66,6 +74,7 @@ import {
 
   providers: [
     PostgresInventoryRepository,
+    PostgresInventoryStockLedgerRepository,
 
     {
       provide:
@@ -75,6 +84,14 @@ import {
         PostgresInventoryRepository,
     },
 
+    {
+      provide:
+        INVENTORY_STOCK_LEDGER_REPOSITORY,
+
+      useExisting:
+        PostgresInventoryStockLedgerRepository,
+    },
+
     InventoryService,
     InventoryBootstrapService,
     InventorySearchProviderService,
@@ -82,7 +99,9 @@ import {
 
   exports: [
     INVENTORY_REPOSITORY,
+    INVENTORY_STOCK_LEDGER_REPOSITORY,
     PostgresInventoryRepository,
+    PostgresInventoryStockLedgerRepository,
     InventoryService,
   ],
 })

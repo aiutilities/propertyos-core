@@ -1,8 +1,10 @@
 import {
   InventoryStockAdjustment,
   InventoryStockAdjustmentItem,
+  InventoryStockBalance,
   InventoryStockLedgerEntry,
   InventoryStockLedgerFilters,
+  InventoryStockMovementType,
   InventoryStockReservation,
   InventoryStockTransfer,
   InventoryStockTransferItem,
@@ -13,7 +15,56 @@ export const INVENTORY_STOCK_LEDGER_REPOSITORY =
     'INVENTORY_STOCK_LEDGER_REPOSITORY',
   );
 
+export interface PostInventoryMovementInput {
+  movementType:
+    InventoryStockMovementType;
+
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+
+  quantityDelta: number;
+  reservedQuantityDelta?: number;
+
+  unitCost?: number;
+
+  sourceType: string;
+  sourceId?: string;
+  sourceLineId?: string;
+
+  referenceNumber?: string;
+  idempotencyKey?: string;
+  correlationId?: string;
+
+  movementDate?: Date;
+  postedByPersonId?: string;
+
+  remarks?: string;
+
+  metadata?: Record<
+    string,
+    unknown
+  >;
+}
+
+export interface PostInventoryMovementResult {
+  entry:
+    InventoryStockLedgerEntry;
+
+  balance:
+    InventoryStockBalance;
+
+  idempotentReplay: boolean;
+}
+
 export interface InventoryStockLedgerRepository {
+  postMovement(
+    input:
+      PostInventoryMovementInput,
+  ): Promise<
+    PostInventoryMovementResult
+  >;
+
   findLedgerEntryById(
     id: string,
   ): Promise<

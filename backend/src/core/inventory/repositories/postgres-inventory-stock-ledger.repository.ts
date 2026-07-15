@@ -1,0 +1,1654 @@
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
+
+import {
+  randomUUID,
+} from 'crypto';
+
+import {
+  Pool,
+  PoolClient,
+} from 'pg';
+
+import {
+  POSTGRES_POOL,
+} from '../../../database/postgres';
+
+import {
+  InventoryAdjustmentStatus,
+  InventoryReservationStatus,
+  InventoryStockAdjustment,
+  InventoryStockAdjustmentItem,
+  InventoryStockBalance,
+  InventoryStockLedgerEntry,
+  InventoryStockLedgerFilters,
+  InventoryStockMovementType,
+  InventoryStockReservation,
+  InventoryStockTransfer,
+  InventoryStockTransferItem,
+  InventoryTransferStatus,
+} from '../types/inventory.types';
+
+import {
+  InventoryStockLedgerRepository,
+  PostInventoryMovementInput,
+  PostInventoryMovementResult,
+} from './inventory-stock-ledger.repository';
+
+@Injectable()
+export class PostgresInventoryStockLedgerRepository
+  implements InventoryStockLedgerRepository
+{
+  constructor(
+    @Inject(POSTGRES_POOL)
+    private readonly pool: Pool,
+  ) {}
+
+  async postMovement(
+    input:
+      PostInventoryMovementInput,
+  ): Promise<
+    PostInventoryMovementResult
+  > {
+    this.validateMovementInput(
+      input,
+    );
+
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      if (
+        input.idempotencyKey
+      ) {
+        const existing =
+          await this.findLedgerEntryByIdempotencyKeyWithClient(
+            client,
+            input.idempotencyKey,
+          );
+
+        if (existing) {
+          const balance =
+            await this.requireBalanceWithClient(
+              client,
+              existing.itemId,
+              existing.storeId,
+              existing.binLocationId,
+            );
+
+          await client.query(
+            'COMMIT',
+          );
+
+          return {
+            entry: existing,
+            balance,
+            idempotentReplay:
+              true,
+          };
+        }
+      }
+
+      await this.requireActiveItem(
+        client,
+        input.itemId,
+      );
+
+      await this.requireActiveStore(
+        client,
+        input.storeId,
+      );
+
+      if (
+        input.binLocationId
+      ) {
+        await this.requireActiveBin(
+          client,
+          input.binLocationId,
+          input.storeId,
+        );
+      }
+
+      const currentBalance =
+        await this.lockOrCreateBalance(
+          client,
+          input.itemId,
+          input.storeId,
+          input.binLocationId,
+        );
+
+      const quantityDelta =
+        this.roundQuantity(
+          input.quantityDelta,
+        );
+
+      const reservedDelta =
+        this.roundQuantity(
+          input.reservedQuantityDelta ??
+            0,
+        );
+
+      const unitCost =
+        this.roundCost(
+          input.unitCost ??
+            currentBalance
+              .averageUnitCost,
+        );
+
+      const quantityAfter =
+        this.roundQuantity(
+          currentBalance
+            .quantityOnHand +
+          quantityDelta,
+        );
+
+      const reservedAfter =
+        this.roundQuantity(
+          currentBalance
+            .reservedQuantity +
+          reservedDelta,
+        );
+
+      if (quantityAfter < 0) {
+        throw new BadRequestException(
+          'Inventory movement would create negative stock',
+        );
+      }
+
+      if (reservedAfter < 0) {
+        throw new BadRequestException(
+          'Inventory movement would create a negative reservation',
+        );
+      }
+
+      if (
+        reservedAfter >
+        quantityAfter
+      ) {
+        throw new BadRequestException(
+          'Reserved quantity cannot exceed quantity on hand',
+        );
+      }
+
+      const averageCostAfter =
+        this.calculateAverageCost(
+          currentBalance
+            .quantityOnHand,
+          currentBalance
+            .averageUnitCost,
+          quantityDelta,
+          unitCost,
+          quantityAfter,
+        );
+
+      const movementDate =
+        input.movementDate ??
+        new Date();
+
+      const updatedBalance =
+        await this.updateBalance(
+          client,
+          currentBalance.id,
+          quantityAfter,
+          reservedAfter,
+          averageCostAfter,
+          movementDate,
+        );
+
+      const entry =
+        await this.insertLedgerEntry(
+          client,
+          input,
+          currentBalance,
+          updatedBalance,
+          quantityDelta,
+          reservedDelta,
+          unitCost,
+          movementDate,
+        );
+
+      await client.query(
+        'COMMIT',
+      );
+
+      return {
+        entry,
+        balance:
+          updatedBalance,
+        idempotentReplay:
+          false,
+      };
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      if (
+        (error as any)
+          ?.code === '23505' &&
+        input.idempotencyKey
+      ) {
+        const existing =
+          await this
+            .findLedgerEntryByIdempotencyKey(
+              input.idempotencyKey,
+            );
+
+        if (existing) {
+          const balance =
+            await this.findBalance(
+              existing.itemId,
+              existing.storeId,
+              existing.binLocationId,
+            );
+
+          if (!balance) {
+            throw error;
+          }
+
+          return {
+            entry: existing,
+            balance,
+            idempotentReplay:
+              true,
+          };
+        }
+      }
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async findLedgerEntryById(
+    id: string,
+  ): Promise<
+    InventoryStockLedgerEntry | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_ledger
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapLedgerEntry(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async findLedgerEntryByIdempotencyKey(
+    idempotencyKey: string,
+  ): Promise<
+    InventoryStockLedgerEntry | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_ledger
+        WHERE idempotency_key = $1
+        `,
+        [
+          idempotencyKey,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapLedgerEntry(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async listStockLedger(
+    filters:
+      InventoryStockLedgerFilters = {},
+  ): Promise<
+    InventoryStockLedgerEntry[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      sql: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${sql} $${values.length}`,
+      );
+    };
+
+    if (filters.itemId) {
+      addCondition(
+        'item_id =',
+        filters.itemId,
+      );
+    }
+
+    if (filters.storeId) {
+      addCondition(
+        'store_id =',
+        filters.storeId,
+      );
+    }
+
+    if (
+      filters.binLocationId
+    ) {
+      addCondition(
+        'bin_location_id =',
+        filters.binLocationId,
+      );
+    }
+
+    if (
+      filters.movementType
+    ) {
+      addCondition(
+        'movement_type =',
+        filters.movementType,
+      );
+    }
+
+    if (filters.sourceType) {
+      addCondition(
+        'source_type =',
+        filters.sourceType,
+      );
+    }
+
+    if (filters.sourceId) {
+      addCondition(
+        'source_id =',
+        filters.sourceId,
+      );
+    }
+
+    if (
+      filters.correlationId
+    ) {
+      addCondition(
+        'correlation_id =',
+        filters.correlationId,
+      );
+    }
+
+    if (filters.dateFrom) {
+      addCondition(
+        'movement_date >=',
+        filters.dateFrom,
+      );
+    }
+
+    if (filters.dateTo) {
+      addCondition(
+        'movement_date <=',
+        filters.dateTo,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const limit =
+      Math.min(
+        Math.max(
+          filters.limit ?? 100,
+          1,
+        ),
+        500,
+      );
+
+    values.push(limit);
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_ledger
+        ${where}
+        ORDER BY
+          movement_date DESC,
+          created_at DESC
+        LIMIT $${values.length}
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapLedgerEntry(
+          row,
+        ),
+    );
+  }
+
+  async findReservationById(
+    id: string,
+  ): Promise<
+    InventoryStockReservation | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_reservations
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapReservation(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  async listReservations(
+    filters: {
+      itemId?: string;
+      storeId?: string;
+      binLocationId?: string;
+      sourceType?: string;
+      sourceId?: string;
+      status?: string;
+    } = {},
+  ): Promise<
+    InventoryStockReservation[]
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [];
+
+    const addCondition = (
+      column: string,
+      value: unknown,
+    ) => {
+      values.push(value);
+
+      conditions.push(
+        `${column} = $${values.length}`,
+      );
+    };
+
+    if (filters.itemId) {
+      addCondition(
+        'item_id',
+        filters.itemId,
+      );
+    }
+
+    if (filters.storeId) {
+      addCondition(
+        'store_id',
+        filters.storeId,
+      );
+    }
+
+    if (
+      filters.binLocationId
+    ) {
+      addCondition(
+        'bin_location_id',
+        filters.binLocationId,
+      );
+    }
+
+    if (filters.sourceType) {
+      addCondition(
+        'source_type',
+        filters.sourceType,
+      );
+    }
+
+    if (filters.sourceId) {
+      addCondition(
+        'source_id',
+        filters.sourceId,
+      );
+    }
+
+    if (filters.status) {
+      addCondition(
+        'status',
+        filters.status,
+      );
+    }
+
+    const where =
+      conditions.length
+        ? `WHERE ${conditions.join(
+            ' AND ',
+          )}`
+        : '';
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_reservations
+        ${where}
+        ORDER BY created_at DESC
+        `,
+        values,
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.mapReservation(
+          row,
+        ),
+    );
+  }
+
+  async findAdjustmentById(
+    id: string,
+  ): Promise<{
+    adjustment:
+      InventoryStockAdjustment;
+
+    items:
+      InventoryStockAdjustmentItem[];
+  } | null> {
+    const adjustmentResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_adjustments
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    if (
+      !adjustmentResult.rows[0]
+    ) {
+      return null;
+    }
+
+    const itemsResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_adjustment_items
+        WHERE adjustment_id = $1
+        ORDER BY created_at ASC
+        `,
+        [
+          id,
+        ],
+      );
+
+    return {
+      adjustment:
+        this.mapAdjustment(
+          adjustmentResult.rows[0],
+        ),
+
+      items:
+        itemsResult.rows.map(
+          (row) =>
+            this.mapAdjustmentItem(
+              row,
+            ),
+        ),
+    };
+  }
+
+  async findTransferById(
+    id: string,
+  ): Promise<{
+    transfer:
+      InventoryStockTransfer;
+
+    items:
+      InventoryStockTransferItem[];
+  } | null> {
+    const transferResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_transfers
+        WHERE id = $1
+        `,
+        [
+          id,
+        ],
+      );
+
+    if (!transferResult.rows[0]) {
+      return null;
+    }
+
+    const itemsResult =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_transfer_items
+        WHERE transfer_id = $1
+        ORDER BY created_at ASC
+        `,
+        [
+          id,
+        ],
+      );
+
+    return {
+      transfer:
+        this.mapTransfer(
+          transferResult.rows[0],
+        ),
+
+      items:
+        itemsResult.rows.map(
+          (row) =>
+            this.mapTransferItem(
+              row,
+            ),
+        ),
+    };
+  }
+
+  private async lockOrCreateBalance(
+    client: PoolClient,
+    itemId: string,
+    storeId: string,
+    binLocationId?: string,
+  ): Promise<
+    InventoryStockBalance
+  > {
+    let result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_stock_balances
+        WHERE item_id = $1
+          AND store_id = $2
+          AND (
+            bin_location_id = $3
+            OR (
+              bin_location_id IS NULL
+              AND $3::UUID IS NULL
+            )
+          )
+        FOR UPDATE
+        `,
+        [
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    if (result.rows[0]) {
+      return this.mapBalance(
+        result.rows[0],
+      );
+    }
+
+    try {
+      await client.query(
+        `
+        INSERT INTO inventory_stock_balances (
+          id,
+          item_id,
+          store_id,
+          bin_location_id,
+          quantity_on_hand,
+          reserved_quantity,
+          average_unit_cost,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          $1,$2,$3,$4,0,0,0,NOW(),NOW()
+        )
+        `,
+        [
+          randomUUID(),
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+    } catch (error) {
+      if (
+        (error as any)
+          ?.code !== '23505'
+      ) {
+        throw error;
+      }
+    }
+
+    result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_stock_balances
+        WHERE item_id = $1
+          AND store_id = $2
+          AND (
+            bin_location_id = $3
+            OR (
+              bin_location_id IS NULL
+              AND $3::UUID IS NULL
+            )
+          )
+        FOR UPDATE
+        `,
+        [
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new Error(
+        'Unable to create or lock Inventory stock balance',
+      );
+    }
+
+    return this.mapBalance(
+      result.rows[0],
+    );
+  }
+
+  private async updateBalance(
+    client: PoolClient,
+    balanceId: string,
+    quantityAfter: number,
+    reservedAfter: number,
+    averageCostAfter: number,
+    movementDate: Date,
+  ): Promise<
+    InventoryStockBalance
+  > {
+    const result =
+      await client.query(
+        `
+        UPDATE inventory_stock_balances
+        SET
+          quantity_on_hand = $2,
+          reserved_quantity = $3,
+          average_unit_cost = $4,
+          last_movement_at = $5,
+          updated_at = NOW()
+        WHERE id = $1
+        RETURNING *
+        `,
+        [
+          balanceId,
+          quantityAfter,
+          reservedAfter,
+          averageCostAfter,
+          movementDate,
+        ],
+      );
+
+    return this.mapBalance(
+      result.rows[0],
+    );
+  }
+
+  private async insertLedgerEntry(
+    client: PoolClient,
+    input:
+      PostInventoryMovementInput,
+    before:
+      InventoryStockBalance,
+    after:
+      InventoryStockBalance,
+    quantityDelta: number,
+    reservedDelta: number,
+    unitCost: number,
+    movementDate: Date,
+  ): Promise<
+    InventoryStockLedgerEntry
+  > {
+    const id =
+      randomUUID();
+
+    const movementNumber =
+      `MOV-${movementDate
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, '')}-${id
+        .replace(/-/g, '')
+        .slice(0, 12)
+        .toUpperCase()}`;
+
+    const result =
+      await client.query(
+        `
+        INSERT INTO inventory_stock_ledger (
+          id,
+          movement_number,
+          movement_type,
+          item_id,
+          store_id,
+          bin_location_id,
+          quantity_delta,
+          quantity_before,
+          quantity_after,
+          reserved_quantity_delta,
+          reserved_quantity_before,
+          reserved_quantity_after,
+          unit_cost,
+          average_unit_cost_before,
+          average_unit_cost_after,
+          source_type,
+          source_id,
+          source_line_id,
+          reference_number,
+          idempotency_key,
+          correlation_id,
+          movement_date,
+          posted_by_person_id,
+          remarks,
+          metadata,
+          created_at
+        )
+        VALUES (
+          $1,$2,$3,$4,$5,$6,$7,$8,
+          $9,$10,$11,$12,$13,$14,$15,
+          $16,$17,$18,$19,$20,$21,$22,
+          $23,$24,$25,NOW()
+        )
+        RETURNING *
+        `,
+        [
+          id,
+          movementNumber,
+          input.movementType,
+          input.itemId,
+          input.storeId,
+          input.binLocationId ??
+            null,
+          quantityDelta,
+          before.quantityOnHand,
+          after.quantityOnHand,
+          reservedDelta,
+          before.reservedQuantity,
+          after.reservedQuantity,
+          unitCost,
+          before.averageUnitCost,
+          after.averageUnitCost,
+          input.sourceType,
+          input.sourceId ??
+            null,
+          input.sourceLineId ??
+            null,
+          input.referenceNumber ??
+            null,
+          input.idempotencyKey ??
+            null,
+          input.correlationId ??
+            null,
+          movementDate,
+          input.postedByPersonId ??
+            null,
+          input.remarks ??
+            null,
+          JSON.stringify(
+            input.metadata ?? {},
+          ),
+        ],
+      );
+
+    return this.mapLedgerEntry(
+      result.rows[0],
+    );
+  }
+
+  private calculateAverageCost(
+    quantityBefore: number,
+    averageCostBefore: number,
+    quantityDelta: number,
+    incomingUnitCost: number,
+    quantityAfter: number,
+  ): number {
+    if (quantityAfter === 0) {
+      return 0;
+    }
+
+    if (quantityDelta <= 0) {
+      return this.roundCost(
+        averageCostBefore,
+      );
+    }
+
+    const previousValue =
+      quantityBefore *
+      averageCostBefore;
+
+    const incomingValue =
+      quantityDelta *
+      incomingUnitCost;
+
+    return this.roundCost(
+      (
+        previousValue +
+        incomingValue
+      ) /
+      quantityAfter,
+    );
+  }
+
+  private validateMovementInput(
+    input:
+      PostInventoryMovementInput,
+  ) {
+    if (!input.sourceType?.trim()) {
+      throw new BadRequestException(
+        'sourceType is required',
+      );
+    }
+
+    if (
+      !Number.isFinite(
+        input.quantityDelta,
+      )
+    ) {
+      throw new BadRequestException(
+        'quantityDelta must be numeric',
+      );
+    }
+
+    const reservedDelta =
+      input.reservedQuantityDelta ??
+      0;
+
+    if (
+      !Number.isFinite(
+        reservedDelta,
+      )
+    ) {
+      throw new BadRequestException(
+        'reservedQuantityDelta must be numeric',
+      );
+    }
+
+    const quantityOnly =
+      input.quantityDelta !== 0;
+
+    const reservationOnly =
+      reservedDelta !== 0;
+
+    if (
+      !quantityOnly &&
+      !reservationOnly
+    ) {
+      throw new BadRequestException(
+        'Movement must change stock or reserved quantity',
+      );
+    }
+
+    const positiveTypes = [
+      InventoryStockMovementType.OPENING,
+      InventoryStockMovementType.RECEIPT,
+      InventoryStockMovementType.TRANSFER_IN,
+      InventoryStockMovementType.ADJUSTMENT_IN,
+    ];
+
+    const negativeTypes = [
+      InventoryStockMovementType.ISSUE,
+      InventoryStockMovementType.TRANSFER_OUT,
+      InventoryStockMovementType.ADJUSTMENT_OUT,
+    ];
+
+    if (
+      positiveTypes.includes(
+        input.movementType,
+      ) &&
+      input.quantityDelta <= 0
+    ) {
+      throw new BadRequestException(
+        `${input.movementType} requires a positive quantityDelta`,
+      );
+    }
+
+    if (
+      negativeTypes.includes(
+        input.movementType,
+      ) &&
+      input.quantityDelta >= 0
+    ) {
+      throw new BadRequestException(
+        `${input.movementType} requires a negative quantityDelta`,
+      );
+    }
+
+    if (
+      input.movementType ===
+        InventoryStockMovementType.RESERVATION &&
+      (
+        input.quantityDelta !== 0 ||
+        reservedDelta <= 0
+      )
+    ) {
+      throw new BadRequestException(
+        'RESERVATION requires zero quantityDelta and positive reservedQuantityDelta',
+      );
+    }
+
+    if (
+      input.movementType ===
+        InventoryStockMovementType.RESERVATION_RELEASE &&
+      (
+        input.quantityDelta !== 0 ||
+        reservedDelta >= 0
+      )
+    ) {
+      throw new BadRequestException(
+        'RESERVATION_RELEASE requires zero quantityDelta and negative reservedQuantityDelta',
+      );
+    }
+
+    if (
+      (
+        input.unitCost ??
+        0
+      ) < 0
+    ) {
+      throw new BadRequestException(
+        'unitCost cannot be negative',
+      );
+    }
+  }
+
+  private async requireActiveItem(
+    client: PoolClient,
+    itemId: string,
+  ) {
+    const result =
+      await client.query(
+        `
+        SELECT id
+        FROM inventory_items
+        WHERE id = $1
+          AND is_active = TRUE
+        `,
+        [
+          itemId,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new BadRequestException(
+        `Invalid or inactive Inventory item: ${itemId}`,
+      );
+    }
+  }
+
+  private async requireActiveStore(
+    client: PoolClient,
+    storeId: string,
+  ) {
+    const result =
+      await client.query(
+        `
+        SELECT id
+        FROM inventory_stores
+        WHERE id = $1
+          AND is_active = TRUE
+        `,
+        [
+          storeId,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new BadRequestException(
+        `Invalid or inactive Inventory store: ${storeId}`,
+      );
+    }
+  }
+
+  private async requireActiveBin(
+    client: PoolClient,
+    binLocationId: string,
+    storeId: string,
+  ) {
+    const result =
+      await client.query(
+        `
+        SELECT id
+        FROM inventory_bin_locations
+        WHERE id = $1
+          AND store_id = $2
+          AND is_active = TRUE
+        `,
+        [
+          binLocationId,
+          storeId,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new BadRequestException(
+        'Invalid, inactive, or mismatched Inventory bin location',
+      );
+    }
+  }
+
+  private async findLedgerEntryByIdempotencyKeyWithClient(
+    client: PoolClient,
+    key: string,
+  ): Promise<
+    InventoryStockLedgerEntry | null
+  > {
+    const result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_stock_ledger
+        WHERE idempotency_key = $1
+        `,
+        [
+          key,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapLedgerEntry(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  private async requireBalanceWithClient(
+    client: PoolClient,
+    itemId: string,
+    storeId: string,
+    binLocationId?: string,
+  ): Promise<
+    InventoryStockBalance
+  > {
+    const result =
+      await client.query(
+        `
+        SELECT *
+        FROM inventory_stock_balances
+        WHERE item_id = $1
+          AND store_id = $2
+          AND (
+            bin_location_id = $3
+            OR (
+              bin_location_id IS NULL
+              AND $3::UUID IS NULL
+            )
+          )
+        `,
+        [
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    if (!result.rows[0]) {
+      throw new Error(
+        'Inventory stock balance not found',
+      );
+    }
+
+    return this.mapBalance(
+      result.rows[0],
+    );
+  }
+
+  private async findBalance(
+    itemId: string,
+    storeId: string,
+    binLocationId?: string,
+  ): Promise<
+    InventoryStockBalance | null
+  > {
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_stock_balances
+        WHERE item_id = $1
+          AND store_id = $2
+          AND (
+            bin_location_id = $3
+            OR (
+              bin_location_id IS NULL
+              AND $3::UUID IS NULL
+            )
+          )
+        `,
+        [
+          itemId,
+          storeId,
+          binLocationId ??
+            null,
+        ],
+      );
+
+    return result.rows[0]
+      ? this.mapBalance(
+          result.rows[0],
+        )
+      : null;
+  }
+
+  private roundQuantity(
+    value: number,
+  ) {
+    return Number(
+      Number(value).toFixed(6),
+    );
+  }
+
+  private roundCost(
+    value: number,
+  ) {
+    return Number(
+      Number(value).toFixed(6),
+    );
+  }
+
+  private mapLedgerEntry(
+    row: any,
+  ): InventoryStockLedgerEntry {
+    return {
+      id: row.id,
+      movementNumber:
+        row.movement_number,
+      movementType:
+        row.movement_type as
+          InventoryStockMovementType,
+      itemId:
+        row.item_id,
+      storeId:
+        row.store_id,
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+      quantityDelta:
+        Number(
+          row.quantity_delta,
+        ),
+      quantityBefore:
+        Number(
+          row.quantity_before,
+        ),
+      quantityAfter:
+        Number(
+          row.quantity_after,
+        ),
+      reservedQuantityDelta:
+        Number(
+          row.reserved_quantity_delta,
+        ),
+      reservedQuantityBefore:
+        Number(
+          row.reserved_quantity_before,
+        ),
+      reservedQuantityAfter:
+        Number(
+          row.reserved_quantity_after,
+        ),
+      unitCost:
+        Number(
+          row.unit_cost,
+        ),
+      totalCost:
+        Number(
+          row.total_cost,
+        ),
+      averageUnitCostBefore:
+        Number(
+          row.average_unit_cost_before,
+        ),
+      averageUnitCostAfter:
+        Number(
+          row.average_unit_cost_after,
+        ),
+      sourceType:
+        row.source_type,
+      sourceId:
+        row.source_id ??
+        undefined,
+      sourceLineId:
+        row.source_line_id ??
+        undefined,
+      referenceNumber:
+        row.reference_number ??
+        undefined,
+      idempotencyKey:
+        row.idempotency_key ??
+        undefined,
+      correlationId:
+        row.correlation_id ??
+        undefined,
+      movementDate:
+        row.movement_date,
+      postedByPersonId:
+        row.posted_by_person_id ??
+        undefined,
+      remarks:
+        row.remarks ??
+        undefined,
+      metadata:
+        row.metadata ?? {},
+      createdAt:
+        row.created_at,
+    };
+  }
+
+  private mapBalance(
+    row: any,
+  ): InventoryStockBalance {
+    return {
+      id: row.id,
+      itemId:
+        row.item_id,
+      storeId:
+        row.store_id,
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+      quantityOnHand:
+        Number(
+          row.quantity_on_hand,
+        ),
+      reservedQuantity:
+        Number(
+          row.reserved_quantity,
+        ),
+      availableQuantity:
+        Number(
+          row.available_quantity,
+        ),
+      averageUnitCost:
+        Number(
+          row.average_unit_cost,
+        ),
+      lastMovementAt:
+        row.last_movement_at ??
+        undefined,
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapReservation(
+    row: any,
+  ): InventoryStockReservation {
+    return {
+      id: row.id,
+      reservationNumber:
+        row.reservation_number,
+      itemId:
+        row.item_id,
+      storeId:
+        row.store_id,
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+      quantity:
+        Number(row.quantity),
+      fulfilledQuantity:
+        Number(
+          row.fulfilled_quantity,
+        ),
+      releasedQuantity:
+        Number(
+          row.released_quantity,
+        ),
+      status:
+        row.status as
+          InventoryReservationStatus,
+      sourceType:
+        row.source_type,
+      sourceId:
+        row.source_id ??
+        undefined,
+      referenceNumber:
+        row.reference_number ??
+        undefined,
+      reservedForPersonId:
+        row.reserved_for_person_id ??
+        undefined,
+      createdByPersonId:
+        row.created_by_person_id ??
+        undefined,
+      releasedByPersonId:
+        row.released_by_person_id ??
+        undefined,
+      fulfilledByPersonId:
+        row.fulfilled_by_person_id ??
+        undefined,
+      expiresAt:
+        row.expires_at ??
+        undefined,
+      releasedAt:
+        row.released_at ??
+        undefined,
+      fulfilledAt:
+        row.fulfilled_at ??
+        undefined,
+      remarks:
+        row.remarks ??
+        undefined,
+      metadata:
+        row.metadata ?? {},
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapAdjustment(
+    row: any,
+  ): InventoryStockAdjustment {
+    return {
+      id: row.id,
+      adjustmentNumber:
+        row.adjustment_number,
+      propertyId:
+        row.property_id,
+      storeId:
+        row.store_id,
+      status:
+        row.status as
+          InventoryAdjustmentStatus,
+      adjustmentDate:
+        row.adjustment_date,
+      reasonCode:
+        row.reason_code,
+      reasonDescription:
+        row.reason_description ??
+        undefined,
+      createdByPersonId:
+        row.created_by_person_id,
+      postedByPersonId:
+        row.posted_by_person_id ??
+        undefined,
+      cancelledByPersonId:
+        row.cancelled_by_person_id ??
+        undefined,
+      postedAt:
+        row.posted_at ??
+        undefined,
+      cancelledAt:
+        row.cancelled_at ??
+        undefined,
+      cancellationReason:
+        row.cancellation_reason ??
+        undefined,
+      remarks:
+        row.remarks ??
+        undefined,
+      metadata:
+        row.metadata ?? {},
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapAdjustmentItem(
+    row: any,
+  ): InventoryStockAdjustmentItem {
+    return {
+      id: row.id,
+      adjustmentId:
+        row.adjustment_id,
+      itemId:
+        row.item_id,
+      binLocationId:
+        row.bin_location_id ??
+        undefined,
+      quantityDelta:
+        Number(
+          row.quantity_delta,
+        ),
+      unitCost:
+        Number(
+          row.unit_cost,
+        ),
+      remarks:
+        row.remarks ??
+        undefined,
+      createdAt:
+        row.created_at,
+    };
+  }
+
+  private mapTransfer(
+    row: any,
+  ): InventoryStockTransfer {
+    return {
+      id: row.id,
+      transferNumber:
+        row.transfer_number,
+      propertyId:
+        row.property_id,
+      sourceStoreId:
+        row.source_store_id,
+      destinationStoreId:
+        row.destination_store_id,
+      status:
+        row.status as
+          InventoryTransferStatus,
+      transferDate:
+        row.transfer_date,
+      createdByPersonId:
+        row.created_by_person_id,
+      dispatchedByPersonId:
+        row.dispatched_by_person_id ??
+        undefined,
+      receivedByPersonId:
+        row.received_by_person_id ??
+        undefined,
+      cancelledByPersonId:
+        row.cancelled_by_person_id ??
+        undefined,
+      dispatchedAt:
+        row.dispatched_at ??
+        undefined,
+      receivedAt:
+        row.received_at ??
+        undefined,
+      cancelledAt:
+        row.cancelled_at ??
+        undefined,
+      cancellationReason:
+        row.cancellation_reason ??
+        undefined,
+      remarks:
+        row.remarks ??
+        undefined,
+      metadata:
+        row.metadata ?? {},
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
+    };
+  }
+
+  private mapTransferItem(
+    row: any,
+  ): InventoryStockTransferItem {
+    return {
+      id: row.id,
+      transferId:
+        row.transfer_id,
+      itemId:
+        row.item_id,
+      sourceBinLocationId:
+        row.source_bin_location_id ??
+        undefined,
+      destinationBinLocationId:
+        row.destination_bin_location_id ??
+        undefined,
+      quantity:
+        Number(row.quantity),
+      dispatchedQuantity:
+        Number(
+          row.dispatched_quantity,
+        ),
+      receivedQuantity:
+        Number(
+          row.received_quantity,
+        ),
+      unitCost:
+        Number(
+          row.unit_cost,
+        ),
+      remarks:
+        row.remarks ??
+        undefined,
+      createdAt:
+        row.created_at,
+      updatedAt:
+        row.updated_at,
+    };
+  }
+}

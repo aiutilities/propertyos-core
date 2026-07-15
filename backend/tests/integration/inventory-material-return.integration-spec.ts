@@ -73,6 +73,46 @@ describe(
             jest.fn(),
         };
 
+        repository.withTransaction =
+          jest.fn(
+            async (
+              work:
+                (transaction: any) =>
+                  Promise<any>,
+            ) =>
+              work({
+                acquireLock:
+                  jest.fn()
+                    .mockResolvedValue(
+                      undefined,
+                    ),
+
+                lockMaterialIssueById:
+                  repository
+                    .findMaterialIssueById,
+
+                lockMaterialReturnById:
+                  repository
+                    .findMaterialReturnById,
+
+                getPostedMaterialReturnQuantity:
+                  repository
+                    .getPostedMaterialReturnQuantity,
+
+                postMovement:
+                  repository
+                    .postMovement,
+
+                updateMaterialIssueStatus:
+                  repository
+                    .updateMaterialIssueStatus,
+
+                updateMaterialReturnStatus:
+                  repository
+                    .updateMaterialReturnStatus,
+              }),
+          );
+
         inventoryService = {
           getStore:
             jest.fn()

@@ -43,6 +43,7 @@ import {
 
 import {
   InventoryStockLedgerRepository,
+  InventoryStockLedgerTransaction,
   PostInventoryMovementInput,
   PostInventoryMovementResult,
 } from './inventory-stock-ledger.repository';
@@ -56,7 +57,135 @@ export class PostgresInventoryStockLedgerRepository
     private readonly pool: Pool,
   ) {}
 
+  async withTransaction<T>(
+    work: (
+      transaction:
+        InventoryStockLedgerTransaction,
+    ) => Promise<T>,
+  ): Promise<T> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query(
+        'BEGIN',
+      );
+
+      const transaction:
+        InventoryStockLedgerTransaction = {
+          acquireLock:
+            (
+              key: string,
+            ) =>
+              this.acquireTransactionLock(
+                client,
+                key,
+              ),
+
+          lockMaterialIssueById:
+            (
+              id: string,
+            ) =>
+              this.findMaterialIssueByIdWithClient(
+                client,
+                id,
+                true,
+              ),
+
+          lockMaterialReturnById:
+            (
+              id: string,
+            ) =>
+              this.findMaterialReturnByIdWithClient(
+                client,
+                id,
+                true,
+              ),
+
+          getPostedMaterialReturnQuantity:
+            (
+              materialIssueId,
+              itemId,
+              binLocationId,
+            ) =>
+              this.getPostedMaterialReturnQuantityWithClient(
+                client,
+                materialIssueId,
+                itemId,
+                binLocationId,
+              ),
+
+          postMovement:
+            (
+              input:
+                PostInventoryMovementInput,
+            ) =>
+              this.postMovementWithClient(
+                client,
+                input,
+              ),
+
+          updateMaterialIssueStatus:
+            (
+              materialIssueId,
+              input,
+            ) =>
+              this.updateMaterialIssueStatusWithClient(
+                client,
+                materialIssueId,
+                input,
+              ),
+
+          updateMaterialReturnStatus:
+            (
+              materialReturnId,
+              input,
+            ) =>
+              this.updateMaterialReturnStatusWithClient(
+                client,
+                materialReturnId,
+                input,
+              ),
+        };
+
+      const result =
+        await work(
+          transaction,
+        );
+
+      await client.query(
+        'COMMIT',
+      );
+
+      return result;
+    } catch (error) {
+      await client.query(
+        'ROLLBACK',
+      );
+
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
   async postMovement(
+    input:
+      PostInventoryMovementInput,
+  ): Promise<
+    PostInventoryMovementResult
+  > {
+    return this.withTransaction(
+      (transaction) =>
+        transaction.postMovement(
+          input,
+        ),
+    );
+  }
+
+  private async postMovementWithClient(
+    client: PoolClient,
+
     input:
       PostInventoryMovementInput,
   ): Promise<
@@ -66,215 +195,175 @@ export class PostgresInventoryStockLedgerRepository
       input,
     );
 
-    const client =
-      await this.pool.connect();
-
-    try {
+    if (
+      input.idempotencyKey
+    ) {
       await client.query(
-        'BEGIN',
+        `
+        SELECT pg_advisory_xact_lock(
+          hashtext($1)
+        )
+        `,
+        [
+          input.idempotencyKey,
+        ],
       );
 
-      if (
-        input.idempotencyKey
-      ) {
-        const existing =
-          await this.findLedgerEntryByIdempotencyKeyWithClient(
+      const existing =
+        await this
+          .findLedgerEntryByIdempotencyKeyWithClient(
             client,
             input.idempotencyKey,
           );
 
-        if (existing) {
-          const balance =
-            await this.requireBalanceWithClient(
-              client,
-              existing.itemId,
-              existing.storeId,
-              existing.binLocationId,
-            );
-
-          await client.query(
-            'COMMIT',
+      if (existing) {
+        const balance =
+          await this.requireBalanceWithClient(
+            client,
+            existing.itemId,
+            existing.storeId,
+            existing.binLocationId,
           );
 
-          return {
-            entry: existing,
-            balance,
-            idempotentReplay:
-              true,
-          };
-        }
+        return {
+          entry:
+            existing,
+
+          balance,
+
+          idempotentReplay:
+            true,
+        };
       }
+    }
 
-      await this.requireActiveItem(
-        client,
-        input.itemId,
-      );
+    await this.requireActiveItem(
+      client,
+      input.itemId,
+    );
 
-      await this.requireActiveStore(
+    await this.requireActiveStore(
+      client,
+      input.storeId,
+    );
+
+    if (
+      input.binLocationId
+    ) {
+      await this.requireActiveBin(
         client,
+        input.binLocationId,
         input.storeId,
       );
+    }
 
-      if (
-        input.binLocationId
-      ) {
-        await this.requireActiveBin(
-          client,
-          input.binLocationId,
-          input.storeId,
-        );
-      }
+    const currentBalance =
+      await this.lockOrCreateBalance(
+        client,
+        input.itemId,
+        input.storeId,
+        input.binLocationId,
+      );
 
-      const currentBalance =
-        await this.lockOrCreateBalance(
-          client,
-          input.itemId,
-          input.storeId,
-          input.binLocationId,
-        );
+    const quantityDelta =
+      this.roundQuantity(
+        input.quantityDelta,
+      );
 
-      const quantityDelta =
-        this.roundQuantity(
-          input.quantityDelta,
-        );
+    const reservedDelta =
+      this.roundQuantity(
+        input.reservedQuantityDelta ??
+          0,
+      );
 
-      const reservedDelta =
-        this.roundQuantity(
-          input.reservedQuantityDelta ??
-            0,
-        );
-
-      const unitCost =
-        this.roundCost(
-          input.unitCost ??
-            currentBalance
-              .averageUnitCost,
-        );
-
-      const quantityAfter =
-        this.roundQuantity(
-          currentBalance
-            .quantityOnHand +
-          quantityDelta,
-        );
-
-      const reservedAfter =
-        this.roundQuantity(
-          currentBalance
-            .reservedQuantity +
-          reservedDelta,
-        );
-
-      if (quantityAfter < 0) {
-        throw new BadRequestException(
-          'Inventory movement would create negative stock',
-        );
-      }
-
-      if (reservedAfter < 0) {
-        throw new BadRequestException(
-          'Inventory movement would create a negative reservation',
-        );
-      }
-
-      if (
-        reservedAfter >
-        quantityAfter
-      ) {
-        throw new BadRequestException(
-          'Reserved quantity cannot exceed quantity on hand',
-        );
-      }
-
-      const averageCostAfter =
-        this.calculateAverageCost(
-          currentBalance
-            .quantityOnHand,
+    const unitCost =
+      this.roundCost(
+        input.unitCost ??
           currentBalance
             .averageUnitCost,
-          quantityDelta,
-          unitCost,
-          quantityAfter,
-        );
-
-      const movementDate =
-        input.movementDate ??
-        new Date();
-
-      const updatedBalance =
-        await this.updateBalance(
-          client,
-          currentBalance.id,
-          quantityAfter,
-          reservedAfter,
-          averageCostAfter,
-          movementDate,
-        );
-
-      const entry =
-        await this.insertLedgerEntry(
-          client,
-          input,
-          currentBalance,
-          updatedBalance,
-          quantityDelta,
-          reservedDelta,
-          unitCost,
-          movementDate,
-        );
-
-      await client.query(
-        'COMMIT',
       );
 
-      return {
-        entry,
-        balance:
-          updatedBalance,
-        idempotentReplay:
-          false,
-      };
-    } catch (error) {
-      await client.query(
-        'ROLLBACK',
+    const quantityAfter =
+      this.roundQuantity(
+        currentBalance
+          .quantityOnHand +
+        quantityDelta,
       );
 
-      if (
-        (error as any)
-          ?.code === '23505' &&
-        input.idempotencyKey
-      ) {
-        const existing =
-          await this
-            .findLedgerEntryByIdempotencyKey(
-              input.idempotencyKey,
-            );
+    const reservedAfter =
+      this.roundQuantity(
+        currentBalance
+          .reservedQuantity +
+        reservedDelta,
+      );
 
-        if (existing) {
-          const balance =
-            await this.findBalance(
-              existing.itemId,
-              existing.storeId,
-              existing.binLocationId,
-            );
-
-          if (!balance) {
-            throw error;
-          }
-
-          return {
-            entry: existing,
-            balance,
-            idempotentReplay:
-              true,
-          };
-        }
-      }
-
-      throw error;
-    } finally {
-      client.release();
+    if (quantityAfter < 0) {
+      throw new BadRequestException(
+        'Inventory movement would create negative stock',
+      );
     }
+
+    if (reservedAfter < 0) {
+      throw new BadRequestException(
+        'Inventory movement would create a negative reservation',
+      );
+    }
+
+    if (
+      reservedAfter >
+      quantityAfter
+    ) {
+      throw new BadRequestException(
+        'Reserved quantity cannot exceed quantity on hand',
+      );
+    }
+
+    const averageCostAfter =
+      this.calculateAverageCost(
+        currentBalance
+          .quantityOnHand,
+        currentBalance
+          .averageUnitCost,
+        quantityDelta,
+        unitCost,
+        quantityAfter,
+      );
+
+    const movementDate =
+      input.movementDate ??
+      new Date();
+
+    const updatedBalance =
+      await this.updateBalance(
+        client,
+        currentBalance.id,
+        quantityAfter,
+        reservedAfter,
+        averageCostAfter,
+        movementDate,
+      );
+
+    const entry =
+      await this.insertLedgerEntry(
+        client,
+        input,
+        currentBalance,
+        updatedBalance,
+        quantityDelta,
+        reservedDelta,
+        unitCost,
+        movementDate,
+      );
+
+    return {
+      entry,
+
+      balance:
+        updatedBalance,
+
+      idempotentReplay:
+        false,
+    };
   }
 
   async findLedgerEntryById(
@@ -1536,8 +1625,30 @@ export class PostgresInventoryStockLedgerRepository
     itemId: string,
     binLocationId?: string,
   ): Promise<number> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      return await this
+        .getPostedMaterialReturnQuantityWithClient(
+          client,
+          materialIssueId,
+          itemId,
+          binLocationId,
+        );
+    } finally {
+      client.release();
+    }
+  }
+
+  private async getPostedMaterialReturnQuantityWithClient(
+    client: PoolClient,
+    materialIssueId: string,
+    itemId: string,
+    binLocationId?: string,
+  ): Promise<number> {
     const result =
-      await this.pool.query(
+      await client.query(
         `
         SELECT
           COALESCE(
@@ -1593,8 +1704,44 @@ export class PostgresInventoryStockLedgerRepository
   ): Promise<
     InventoryMaterialReturn | null
   > {
+    const client =
+      await this.pool.connect();
+
+    try {
+      return await this
+        .updateMaterialReturnStatusWithClient(
+          client,
+          materialReturnId,
+          input,
+        );
+    } finally {
+      client.release();
+    }
+  }
+
+  private async updateMaterialReturnStatusWithClient(
+    client: PoolClient,
+
+    materialReturnId: string,
+
+    input: {
+      status:
+        InventoryMaterialReturnStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialReturn | null
+  > {
     const result =
-      await this.pool.query(
+      await client.query(
         `
         UPDATE inventory_material_returns
         SET
@@ -1667,12 +1814,39 @@ export class PostgresInventoryStockLedgerRepository
     items:
       InventoryMaterialReturnItem[];
   } | null> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      return await this
+        .findMaterialReturnByIdWithClient(
+          client,
+          id,
+          false,
+        );
+    } finally {
+      client.release();
+    }
+  }
+
+  private async findMaterialReturnByIdWithClient(
+    client: PoolClient,
+    id: string,
+    lock: boolean,
+  ): Promise<{
+    materialReturn:
+      InventoryMaterialReturn;
+
+    items:
+      InventoryMaterialReturnItem[];
+  } | null> {
     const materialReturnResult =
-      await this.pool.query(
+      await client.query(
         `
         SELECT *
         FROM inventory_material_returns
         WHERE id = $1
+        ${lock ? 'FOR UPDATE' : ''}
         `,
         [
           id,
@@ -1686,7 +1860,7 @@ export class PostgresInventoryStockLedgerRepository
     }
 
     const itemsResult =
-      await this.pool.query(
+      await client.query(
         `
         SELECT *
         FROM inventory_material_return_items
@@ -1972,8 +2146,44 @@ export class PostgresInventoryStockLedgerRepository
   ): Promise<
     InventoryMaterialIssue | null
   > {
+    const client =
+      await this.pool.connect();
+
+    try {
+      return await this
+        .updateMaterialIssueStatusWithClient(
+          client,
+          materialIssueId,
+          input,
+        );
+    } finally {
+      client.release();
+    }
+  }
+
+  private async updateMaterialIssueStatusWithClient(
+    client: PoolClient,
+
+    materialIssueId: string,
+
+    input: {
+      status:
+        InventoryMaterialIssueStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialIssue | null
+  > {
     const result =
-      await this.pool.query(
+      await client.query(
         `
         UPDATE inventory_material_issues
         SET
@@ -2046,12 +2256,39 @@ export class PostgresInventoryStockLedgerRepository
     items:
       InventoryMaterialIssueItem[];
   } | null> {
+    const client =
+      await this.pool.connect();
+
+    try {
+      return await this
+        .findMaterialIssueByIdWithClient(
+          client,
+          id,
+          false,
+        );
+    } finally {
+      client.release();
+    }
+  }
+
+  private async findMaterialIssueByIdWithClient(
+    client: PoolClient,
+    id: string,
+    lock: boolean,
+  ): Promise<{
+    materialIssue:
+      InventoryMaterialIssue;
+
+    items:
+      InventoryMaterialIssueItem[];
+  } | null> {
     const materialIssueResult =
-      await this.pool.query(
+      await client.query(
         `
         SELECT *
         FROM inventory_material_issues
         WHERE id = $1
+        ${lock ? 'FOR UPDATE' : ''}
         `,
         [
           id,
@@ -2065,7 +2302,7 @@ export class PostgresInventoryStockLedgerRepository
     }
 
     const itemsResult =
-      await this.pool.query(
+      await client.query(
         `
         SELECT *
         FROM inventory_material_issue_items
@@ -2875,6 +3112,22 @@ export class PostgresInventoryStockLedgerRepository
             ),
         ),
     };
+  }
+
+  private async acquireTransactionLock(
+    client: PoolClient,
+    key: string,
+  ): Promise<void> {
+    await client.query(
+      `
+      SELECT pg_advisory_xact_lock(
+        hashtext($1)
+      )
+      `,
+      [
+        key,
+      ],
+    );
   }
 
   private async lockOrCreateBalance(

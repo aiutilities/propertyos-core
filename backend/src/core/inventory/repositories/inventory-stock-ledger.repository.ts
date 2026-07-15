@@ -69,7 +69,93 @@ export interface PostInventoryMovementResult {
   idempotentReplay: boolean;
 }
 
+export interface InventoryStockLedgerTransaction {
+  acquireLock(
+    key: string,
+  ): Promise<void>;
+
+  lockMaterialIssueById(
+    id: string,
+  ): Promise<{
+    materialIssue:
+      InventoryMaterialIssue;
+
+    items:
+      InventoryMaterialIssueItem[];
+  } | null>;
+
+  lockMaterialReturnById(
+    id: string,
+  ): Promise<{
+    materialReturn:
+      InventoryMaterialReturn;
+
+    items:
+      InventoryMaterialReturnItem[];
+  } | null>;
+
+  getPostedMaterialReturnQuantity(
+    materialIssueId: string,
+    itemId: string,
+    binLocationId?: string,
+  ): Promise<number>;
+
+  postMovement(
+    input:
+      PostInventoryMovementInput,
+  ): Promise<
+    PostInventoryMovementResult
+  >;
+
+  updateMaterialIssueStatus(
+    materialIssueId: string,
+
+    input: {
+      status:
+        InventoryMaterialIssueStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialIssue | null
+  >;
+
+  updateMaterialReturnStatus(
+    materialReturnId: string,
+
+    input: {
+      status:
+        InventoryMaterialReturnStatus;
+
+      postedByPersonId?: string;
+      cancelledByPersonId?: string;
+
+      postedAt?: Date;
+      cancelledAt?: Date;
+
+      cancellationReason?: string;
+      updatedAt: Date;
+    },
+  ): Promise<
+    InventoryMaterialReturn | null
+  >;
+}
+
 export interface InventoryStockLedgerRepository {
+  withTransaction<T>(
+    work: (
+      transaction:
+        InventoryStockLedgerTransaction,
+    ) => Promise<T>,
+  ): Promise<T>;
+
   postMovement(
     input:
       PostInventoryMovementInput,

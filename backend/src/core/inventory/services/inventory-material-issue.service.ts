@@ -407,177 +407,199 @@ export class InventoryMaterialIssueService {
     dto:
       PostMaterialIssueDto,
   ) {
-    const details =
-      await this.getMaterialIssue(
-        id,
-      );
-
-    if (
-      details.materialIssue
-        .status !==
-      InventoryMaterialIssueStatus
-        .DRAFT
-    ) {
-      throw new BadRequestException(
-        `Only DRAFT Material Issues can be posted; current status is ${details.materialIssue.status}`,
-      );
-    }
-
-    if (!details.items.length) {
-      throw new BadRequestException(
-        'Material Issue has no items',
-      );
-    }
-
-    for (
-      const item
-      of details.items
-    ) {
-      await this
-        .stockLedgerRepository
-        .postMovement({
-          movementType:
-            InventoryStockMovementType
-              .ISSUE,
-
-          itemId:
-            item.itemId,
-
-          storeId:
-            details.materialIssue
-              .storeId,
-
-          binLocationId:
-            item.binLocationId,
-
-          quantityDelta:
-            -Math.abs(
-              item.quantity,
-            ),
-
-          unitCost:
-            item.unitCost,
-
-          sourceType:
-            'inventory.material_issue',
-
-          sourceId:
-            details.materialIssue.id,
-
-          sourceLineId:
-            item.id,
-
-          referenceNumber:
-            details.materialIssue
-              .issueNumber,
-
-          idempotencyKey:
-            [
-              'inventory-material-issue',
-              details.materialIssue.id,
-              item.id,
-            ].join(':'),
-
-          correlationId:
-            details.materialIssue.id,
-
-          movementDate:
-            details.materialIssue
-              .issueDate,
-
-          postedByPersonId:
-            dto.postedByPersonId,
-
-          remarks:
-            item.remarks ??
-            details.materialIssue
-              .remarks,
-
-          metadata: {
-            materialIssueId:
-              details.materialIssue.id,
-
-            issueNumber:
-              details.materialIssue
-                .issueNumber,
-
-            propertyId:
-              details.materialIssue
-                .propertyId,
-
-            storeId:
-              details.materialIssue
-                .storeId,
-
-            reasonCode:
-              details.materialIssue
-                .reasonCode,
-
-            reasonDescription:
-              details.materialIssue
-                .reasonDescription,
-
-            materialIssueItemId:
-              item.id,
-
-            requestedByPersonId:
-              details.materialIssue
-                .requestedByPersonId,
-          },
-        });
-    }
-
     const postedAt =
       new Date();
 
-    const posted =
+    const transactionResult =
       await this
         .stockLedgerRepository
-        .updateMaterialIssueStatus(
-          id,
-          {
-            status:
+        .withTransaction(
+          async (transaction) => {
+            const details =
+              await transaction
+                .lockMaterialIssueById(
+                  id,
+                );
+
+            if (!details) {
+              throw new NotFoundException(
+                `Inventory Material Issue not found: ${id}`,
+              );
+            }
+
+            if (
+              details.materialIssue
+                .status !==
               InventoryMaterialIssueStatus
-                .POSTED,
+                .DRAFT
+            ) {
+              throw new BadRequestException(
+                `Only DRAFT Material Issues can be posted; current status is ${details.materialIssue.status}`,
+              );
+            }
 
-            postedByPersonId:
-              dto.postedByPersonId,
+            if (!details.items.length) {
+              throw new BadRequestException(
+                'Material Issue has no items',
+              );
+            }
 
-            postedAt,
+            for (
+              const item
+              of details.items
+            ) {
+              await transaction
+                .postMovement({
+                  movementType:
+                    InventoryStockMovementType
+                      .ISSUE,
 
-            updatedAt:
-              postedAt,
+                  itemId:
+                    item.itemId,
+
+                  storeId:
+                    details.materialIssue
+                      .storeId,
+
+                  binLocationId:
+                    item.binLocationId,
+
+                  quantityDelta:
+                    -Math.abs(
+                      item.quantity,
+                    ),
+
+                  unitCost:
+                    item.unitCost,
+
+                  sourceType:
+                    'inventory.material_issue',
+
+                  sourceId:
+                    details.materialIssue.id,
+
+                  sourceLineId:
+                    item.id,
+
+                  referenceNumber:
+                    details.materialIssue
+                      .issueNumber,
+
+                  idempotencyKey:
+                    [
+                      'inventory-material-issue',
+                      details.materialIssue.id,
+                      item.id,
+                    ].join(':'),
+
+                  correlationId:
+                    details.materialIssue.id,
+
+                  movementDate:
+                    details.materialIssue
+                      .issueDate,
+
+                  postedByPersonId:
+                    dto.postedByPersonId,
+
+                  remarks:
+                    item.remarks ??
+                    details.materialIssue
+                      .remarks,
+
+                  metadata: {
+                    materialIssueId:
+                      details.materialIssue.id,
+
+                    issueNumber:
+                      details.materialIssue
+                        .issueNumber,
+
+                    propertyId:
+                      details.materialIssue
+                        .propertyId,
+
+                    storeId:
+                      details.materialIssue
+                        .storeId,
+
+                    reasonCode:
+                      details.materialIssue
+                        .reasonCode,
+
+                    reasonDescription:
+                      details.materialIssue
+                        .reasonDescription,
+
+                    materialIssueItemId:
+                      item.id,
+
+                    requestedByPersonId:
+                      details.materialIssue
+                        .requestedByPersonId,
+                  },
+                });
+            }
+
+            const posted =
+              await transaction
+                .updateMaterialIssueStatus(
+                  id,
+                  {
+                    status:
+                      InventoryMaterialIssueStatus
+                        .POSTED,
+
+                    postedByPersonId:
+                      dto.postedByPersonId,
+
+                    postedAt,
+
+                    updatedAt:
+                      postedAt,
+                  },
+                );
+
+            if (!posted) {
+              throw new NotFoundException(
+                `Inventory Material Issue not found: ${id}`,
+              );
+            }
+
+            return {
+              posted,
+              itemCount:
+                details.items.length,
+            };
           },
         );
-
-    if (!posted) {
-      throw new NotFoundException(
-        `Inventory Material Issue not found: ${id}`,
-      );
-    }
 
     await this.publishAndAudit(
       INVENTORY_EVENTS
         .MATERIAL_ISSUE_POSTED,
-      posted.id,
+      transactionResult.posted.id,
       {
         materialIssueId:
-          posted.id,
+          transactionResult.posted.id,
 
         issueNumber:
-          posted.issueNumber,
+          transactionResult
+            .posted.issueNumber,
 
         propertyId:
-          posted.propertyId,
+          transactionResult
+            .posted.propertyId,
 
         storeId:
-          posted.storeId,
+          transactionResult
+            .posted.storeId,
 
         reasonCode:
-          posted.reasonCode,
+          transactionResult
+            .posted.reasonCode,
 
         itemCount:
-          details.items.length,
+          transactionResult.itemCount,
 
         actorPersonId:
           dto.postedByPersonId,

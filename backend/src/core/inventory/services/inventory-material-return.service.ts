@@ -515,192 +515,316 @@ export class InventoryMaterialReturnService {
     dto:
       PostMaterialReturnDto,
   ) {
-    const details =
-      await this.getMaterialReturn(
-        id,
-      );
-
-    if (
-      details.materialReturn
-        .status !==
-      InventoryMaterialReturnStatus
-        .DRAFT
-    ) {
-      throw new BadRequestException(
-        `Only DRAFT Material Returns can be posted; current status is ${details.materialReturn.status}`,
-      );
-    }
-
-    if (!details.items.length) {
-      throw new BadRequestException(
-        'Material Return has no items',
-      );
-    }
-
-    await this
-      .validateLinkedReturnQuantities(
-        details.materialReturn,
-        details.items,
-      );
-
-    for (
-      const item
-      of details.items
-    ) {
-      await this
-        .stockLedgerRepository
-        .postMovement({
-          movementType:
-            InventoryStockMovementType
-              .RECEIPT,
-
-          itemId:
-            item.itemId,
-
-          storeId:
-            details.materialReturn
-              .storeId,
-
-          binLocationId:
-            item.binLocationId,
-
-          quantityDelta:
-            Math.abs(
-              item.quantity,
-            ),
-
-          unitCost:
-            item.unitCost,
-
-          sourceType:
-            'inventory.material_return',
-
-          sourceId:
-            details.materialReturn.id,
-
-          sourceLineId:
-            item.id,
-
-          referenceNumber:
-            details.materialReturn
-              .returnNumber,
-
-          idempotencyKey:
-            [
-              'inventory-material-return',
-              details.materialReturn.id,
-              item.id,
-            ].join(':'),
-
-          correlationId:
-            details.materialReturn
-              .materialIssueId ??
-            details.materialReturn.id,
-
-          movementDate:
-            details.materialReturn
-              .returnDate,
-
-          postedByPersonId:
-            dto.postedByPersonId,
-
-          remarks:
-            item.remarks ??
-            details.materialReturn
-              .remarks,
-
-          metadata: {
-            materialReturnId:
-              details.materialReturn.id,
-
-            returnNumber:
-              details.materialReturn
-                .returnNumber,
-
-            materialIssueId:
-              details.materialReturn
-                .materialIssueId,
-
-            propertyId:
-              details.materialReturn
-                .propertyId,
-
-            storeId:
-              details.materialReturn
-                .storeId,
-
-            reasonCode:
-              details.materialReturn
-                .reasonCode,
-
-            reasonDescription:
-              details.materialReturn
-                .reasonDescription,
-
-            materialReturnItemId:
-              item.id,
-
-            returnedByPersonId:
-              details.materialReturn
-                .returnedByPersonId,
-          },
-        });
-    }
-
     const postedAt =
       new Date();
 
-    const posted =
+    const transactionResult =
       await this
         .stockLedgerRepository
-        .updateMaterialReturnStatus(
-          id,
-          {
-            status:
+        .withTransaction(
+          async (transaction) => {
+            const details =
+              await transaction
+                .lockMaterialReturnById(
+                  id,
+                );
+
+            if (!details) {
+              throw new NotFoundException(
+                `Inventory Material Return not found: ${id}`,
+              );
+            }
+
+            if (
+              details.materialReturn
+                .status !==
               InventoryMaterialReturnStatus
-                .POSTED,
+                .DRAFT
+            ) {
+              throw new BadRequestException(
+                `Only DRAFT Material Returns can be posted; current status is ${details.materialReturn.status}`,
+              );
+            }
 
-            postedByPersonId:
-              dto.postedByPersonId,
+            if (!details.items.length) {
+              throw new BadRequestException(
+                'Material Return has no items',
+              );
+            }
 
-            postedAt,
+            if (
+              details.materialReturn
+                .materialIssueId
+            ) {
+              await transaction
+                .acquireLock(
+                  [
+                    'inventory-material-return',
+                    details.materialReturn
+                      .materialIssueId,
+                  ].join(':'),
+                );
 
-            updatedAt:
-              postedAt,
+              const originalIssue =
+                await transaction
+                  .lockMaterialIssueById(
+                    details.materialReturn
+                      .materialIssueId,
+                  );
+
+              if (!originalIssue) {
+                throw new NotFoundException(
+                  `Inventory Material Issue not found: ${details.materialReturn.materialIssueId}`,
+                );
+              }
+
+              if (
+                originalIssue.materialIssue
+                  .status !==
+                InventoryMaterialIssueStatus
+                  .POSTED
+              ) {
+                throw new BadRequestException(
+                  'Returns can only reference a POSTED Material Issue',
+                );
+              }
+
+              if (
+                originalIssue.materialIssue
+                  .propertyId !==
+                details.materialReturn
+                  .propertyId
+              ) {
+                throw new BadRequestException(
+                  'The original Material Issue belongs to another property',
+                );
+              }
+
+              if (
+                originalIssue.materialIssue
+                  .storeId !==
+                details.materialReturn
+                  .storeId
+              ) {
+                throw new BadRequestException(
+                  'The original Material Issue belongs to another store',
+                );
+              }
+
+              for (
+                const item
+                of details.items
+              ) {
+                const originalLine =
+                  originalIssue.items.find(
+                    (line) =>
+                      line.itemId ===
+                        item.itemId &&
+                      (
+                        line.binLocationId ??
+                        undefined
+                      ) ===
+                        (
+                          item.binLocationId ??
+                          undefined
+                        ),
+                  );
+
+                if (!originalLine) {
+                  throw new BadRequestException(
+                    'The returned item and bin were not present on the original Material Issue',
+                  );
+                }
+
+                const alreadyReturned =
+                  await transaction
+                    .getPostedMaterialReturnQuantity(
+                      originalIssue
+                        .materialIssue.id,
+
+                      item.itemId,
+
+                      item.binLocationId,
+                    );
+
+                if (
+                  alreadyReturned +
+                    item.quantity >
+                  originalLine.quantity
+                ) {
+                  throw new BadRequestException(
+                    'Material Return quantity exceeds the remaining issued quantity',
+                  );
+                }
+              }
+            }
+
+            for (
+              const item
+              of details.items
+            ) {
+              await transaction
+                .postMovement({
+                  movementType:
+                    InventoryStockMovementType
+                      .RECEIPT,
+
+                  itemId:
+                    item.itemId,
+
+                  storeId:
+                    details.materialReturn
+                      .storeId,
+
+                  binLocationId:
+                    item.binLocationId,
+
+                  quantityDelta:
+                    Math.abs(
+                      item.quantity,
+                    ),
+
+                  unitCost:
+                    item.unitCost,
+
+                  sourceType:
+                    'inventory.material_return',
+
+                  sourceId:
+                    details.materialReturn.id,
+
+                  sourceLineId:
+                    item.id,
+
+                  referenceNumber:
+                    details.materialReturn
+                      .returnNumber,
+
+                  idempotencyKey:
+                    [
+                      'inventory-material-return',
+                      details.materialReturn.id,
+                      item.id,
+                    ].join(':'),
+
+                  correlationId:
+                    details.materialReturn
+                      .materialIssueId ??
+                    details.materialReturn.id,
+
+                  movementDate:
+                    details.materialReturn
+                      .returnDate,
+
+                  postedByPersonId:
+                    dto.postedByPersonId,
+
+                  remarks:
+                    item.remarks ??
+                    details.materialReturn
+                      .remarks,
+
+                  metadata: {
+                    materialReturnId:
+                      details.materialReturn.id,
+
+                    returnNumber:
+                      details.materialReturn
+                        .returnNumber,
+
+                    materialIssueId:
+                      details.materialReturn
+                        .materialIssueId,
+
+                    propertyId:
+                      details.materialReturn
+                        .propertyId,
+
+                    storeId:
+                      details.materialReturn
+                        .storeId,
+
+                    reasonCode:
+                      details.materialReturn
+                        .reasonCode,
+
+                    reasonDescription:
+                      details.materialReturn
+                        .reasonDescription,
+
+                    materialReturnItemId:
+                      item.id,
+
+                    returnedByPersonId:
+                      details.materialReturn
+                        .returnedByPersonId,
+                  },
+                });
+            }
+
+            const posted =
+              await transaction
+                .updateMaterialReturnStatus(
+                  id,
+                  {
+                    status:
+                      InventoryMaterialReturnStatus
+                        .POSTED,
+
+                    postedByPersonId:
+                      dto.postedByPersonId,
+
+                    postedAt,
+
+                    updatedAt:
+                      postedAt,
+                  },
+                );
+
+            if (!posted) {
+              throw new NotFoundException(
+                `Inventory Material Return not found: ${id}`,
+              );
+            }
+
+            return {
+              posted,
+              itemCount:
+                details.items.length,
+            };
           },
         );
-
-    if (!posted) {
-      throw new NotFoundException(
-        `Inventory Material Return not found: ${id}`,
-      );
-    }
 
     await this.publishAndAudit(
       INVENTORY_EVENTS
         .MATERIAL_RETURN_POSTED,
-      posted.id,
+      transactionResult.posted.id,
       {
         materialReturnId:
-          posted.id,
+          transactionResult.posted.id,
 
         returnNumber:
-          posted.returnNumber,
+          transactionResult
+            .posted.returnNumber,
 
         materialIssueId:
-          posted.materialIssueId,
+          transactionResult
+            .posted.materialIssueId,
 
         propertyId:
-          posted.propertyId,
+          transactionResult
+            .posted.propertyId,
 
         storeId:
-          posted.storeId,
+          transactionResult
+            .posted.storeId,
 
         reasonCode:
-          posted.reasonCode,
+          transactionResult
+            .posted.reasonCode,
 
         itemCount:
-          details.items.length,
+          transactionResult.itemCount,
 
         actorPersonId:
           dto.postedByPersonId,

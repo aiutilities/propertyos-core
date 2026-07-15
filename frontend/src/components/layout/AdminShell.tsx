@@ -107,6 +107,10 @@ const navGroups: NavGroup[] = [
         href: "/procurement/goods-receipts",
       },
       {
+        label: "Invoice Matching",
+        href: "/procurement/invoice-matches",
+      },
+      {
         label: "Vendors",
         href: "/vendors",
       },

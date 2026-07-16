@@ -406,6 +406,128 @@ export async function loadDocumentationNavigation(): Promise<
     );
 }
 
+function normalizeRelatedReference(
+  value: string,
+): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(
+      /\\/g,
+      "/",
+    )
+    .replace(
+      /\.md$/i,
+      "",
+    )
+    .replace(
+      /[_\s]+/g,
+      "-",
+    )
+    .replace(
+      /^\/docs\//,
+      "",
+    )
+    .replace(
+      /^docs\//,
+      "",
+    );
+}
+
+function resolveRelatedDocuments(
+  references: string[],
+  navigation: DocumentationNavigationItem[],
+): {
+  related: DocumentationNavigationItem[];
+  unresolved: string[];
+} {
+  const resolved =
+    new Map<
+      string,
+      DocumentationNavigationItem
+    >();
+
+  const unresolved:
+    string[] = [];
+
+  for (
+    const reference
+    of references
+  ) {
+    const normalized =
+      normalizeRelatedReference(
+        reference,
+      );
+
+    if (!normalized) {
+      continue;
+    }
+
+    const matches =
+      navigation.filter(
+        (item) => {
+          const fullSlug =
+            item.slug.join("/");
+
+          const lastSlug =
+            item.slug[
+              item.slug.length -
+                1
+            ] ?? "";
+
+          const relativePath =
+            item.relativePath
+              .replace(
+                /\.md$/i,
+                "",
+              )
+              .toLowerCase()
+              .replace(
+                /_/g,
+                "-",
+              );
+
+          return (
+            fullSlug ===
+              normalized ||
+            lastSlug ===
+              normalized ||
+            relativePath ===
+              normalized
+          );
+        },
+      );
+
+    if (
+      matches.length ===
+      1
+    ) {
+      const match =
+        matches[0];
+
+      resolved.set(
+        match.href,
+        match,
+      );
+
+      continue;
+    }
+
+    unresolved.push(
+      reference,
+    );
+  }
+
+  return {
+    related:
+      Array.from(
+        resolved.values(),
+      ),
+
+    unresolved,
+  };
+}
+
 function buildBreadcrumbs(
   slug: string[],
   title: string,
@@ -564,6 +686,12 @@ export async function loadDocumentationDocument(
           href,
       );
 
+    const relationships =
+      resolveRelatedDocuments(
+        parsed.metadata.related,
+        navigation,
+      );
+
     return {
       title,
 
@@ -605,6 +733,12 @@ export async function loadDocumentationDocument(
           slug,
           title,
         ),
+
+      related:
+        relationships.related,
+
+      unresolvedRelated:
+        relationships.unresolved,
 
       previous:
         position > 0

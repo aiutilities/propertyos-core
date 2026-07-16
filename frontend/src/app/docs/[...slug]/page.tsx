@@ -19,6 +19,10 @@ import {
 } from "@/components/documentation/DocumentationMetadata";
 
 import {
+  RelatedDocuments,
+} from "@/components/documentation/RelatedDocuments";
+
+import {
   listDocumentationItems,
   loadDocumentationDocument,
   loadDocumentationNavigation,
@@ -153,6 +157,15 @@ export default async function DocumentationDocumentPage({
       <MarkdownRenderer
         source={
           document.source
+        }
+      />
+
+      <RelatedDocuments
+        related={
+          document.related
+        }
+        unresolved={
+          document.unresolvedRelated
         }
       />
     </DocumentationShell>

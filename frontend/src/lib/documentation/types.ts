@@ -52,6 +52,9 @@ export type DocumentationDocument = {
 
   breadcrumbs: DocumentationBreadcrumb[];
 
+  related: DocumentationNavigationItem[];
+  unresolvedRelated: string[];
+
   previous?: DocumentationNavigationItem;
   next?: DocumentationNavigationItem;
 };

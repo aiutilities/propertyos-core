@@ -223,6 +223,10 @@ const navGroups: NavGroup[] = [
     label: "Platform",
     items: [
       {
+        label: "Documentation",
+        href: "/docs",
+      },
+      {
         label: "Plugins",
         href: "/plugins",
       },
@@ -270,6 +274,10 @@ function getSectionTitle(
   pathname: string,
 ) {
   const sections = [
+    {
+  prefix: "/docs",
+  title: "Documentation",
+    },
     {
       prefix:
         "/resident/reservations",

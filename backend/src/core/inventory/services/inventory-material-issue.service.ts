@@ -167,6 +167,24 @@ export class InventoryMaterialIssueService {
       }
 
       if (
+        item.isBatchTracked &&
+        !dtoItem.batchId
+      ) {
+        throw new BadRequestException(
+          `batchId is required for batch-tracked Inventory item: ${item.id}`,
+        );
+      }
+
+      if (
+        !item.isBatchTracked &&
+        dtoItem.batchId
+      ) {
+        throw new BadRequestException(
+          `batchId cannot be used for an Inventory item that is not batch tracked: ${item.id}`,
+        );
+      }
+
+      if (
         dtoItem.binLocationId
       ) {
         const bin =
@@ -195,6 +213,8 @@ export class InventoryMaterialIssueService {
         dtoItem.itemId,
         dtoItem.binLocationId ??
           'STORE',
+        dtoItem.batchId ??
+          'NO_BATCH',
       ].join(':');
 
       if (
@@ -222,6 +242,9 @@ export class InventoryMaterialIssueService {
 
         binLocationId:
           dtoItem.binLocationId,
+
+        batchId:
+          dtoItem.batchId,
 
         quantity,
 
@@ -464,6 +487,9 @@ export class InventoryMaterialIssueService {
                   binLocationId:
                     item.binLocationId,
 
+                  batchId:
+                    item.batchId,
+
                   quantityDelta:
                     -Math.abs(
                       item.quantity,
@@ -533,6 +559,9 @@ export class InventoryMaterialIssueService {
 
                     materialIssueItemId:
                       item.id,
+
+                    batchId:
+                      item.batchId,
 
                     requestedByPersonId:
                       details.materialIssue

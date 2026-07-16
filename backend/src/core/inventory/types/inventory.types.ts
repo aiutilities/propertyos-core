@@ -470,6 +470,7 @@ export interface InventoryMaterialIssueItem {
   materialIssueId: string;
   itemId: string;
   binLocationId?: string;
+  batchId?: string;
   quantity: number;
   unitCost: number;
   remarks?: string;

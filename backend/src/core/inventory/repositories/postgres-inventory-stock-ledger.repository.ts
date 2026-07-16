@@ -2120,6 +2120,7 @@ export class PostgresInventoryStockLedgerRepository
             material_issue_id,
             item_id,
             bin_location_id,
+            batch_id,
             quantity,
             unit_cost,
             remarks,
@@ -2128,7 +2129,7 @@ export class PostgresInventoryStockLedgerRepository
             updated_at
           )
           VALUES (
-            $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+            $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11
           )
           `,
           [
@@ -2136,6 +2137,8 @@ export class PostgresInventoryStockLedgerRepository
             item.materialIssueId,
             item.itemId,
             item.binLocationId ??
+              null,
+            item.batchId ??
               null,
             item.quantity,
             item.unitCost,
@@ -4742,6 +4745,10 @@ export class PostgresInventoryStockLedgerRepository
 
       binLocationId:
         row.bin_location_id ??
+        undefined,
+
+      batchId:
+        row.batch_id ??
         undefined,
 
       quantity:

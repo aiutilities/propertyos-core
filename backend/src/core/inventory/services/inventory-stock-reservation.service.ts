@@ -87,6 +87,24 @@ export class InventoryStockReservationService {
       );
     }
 
+    if (
+      item.isBatchTracked &&
+      !dto.batchId
+    ) {
+      throw new BadRequestException(
+        `batchId is required for batch-tracked Inventory item: ${item.id}`,
+      );
+    }
+
+    if (
+      !item.isBatchTracked &&
+      dto.batchId
+    ) {
+      throw new BadRequestException(
+        `batchId cannot be used for an Inventory item that is not batch tracked: ${item.id}`,
+      );
+    }
+
     const store =
       await this.inventoryService
         .getStore(dto.storeId);
@@ -157,6 +175,9 @@ export class InventoryStockReservationService {
         binLocationId:
           dto.binLocationId,
 
+        batchId:
+          dto.batchId,
+
         quantity,
 
         fulfilledQuantity:
@@ -218,6 +239,9 @@ export class InventoryStockReservationService {
 
         binLocationId:
           reservation.binLocationId,
+
+        batchId:
+          reservation.batchId,
 
         quantityDelta:
           0,
@@ -342,6 +366,7 @@ export class InventoryStockReservationService {
       itemId?: string;
       storeId?: string;
       binLocationId?: string;
+      batchId?: string;
       sourceType?: string;
       sourceId?: string;
       status?: string;
@@ -365,6 +390,9 @@ export class InventoryStockReservationService {
 
         binLocationId:
           filters.binLocationId,
+
+        batchId:
+          filters.batchId,
 
         sourceType:
           filters.sourceType,
@@ -443,6 +471,10 @@ export class InventoryStockReservationService {
           binLocationId:
             reservation
               .binLocationId,
+
+          batchId:
+            reservation
+              .batchId,
 
           quantityDelta:
             0,
@@ -647,6 +679,10 @@ export class InventoryStockReservationService {
             reservation
               .binLocationId,
 
+          batchId:
+            reservation
+              .batchId,
+
           quantityDelta:
             -delta,
 
@@ -841,6 +877,10 @@ export class InventoryStockReservationService {
           reservation
             .binLocationId,
 
+        batchId:
+          reservation
+            .batchId,
+
         quantityDelta:
           0,
 
@@ -879,6 +919,9 @@ export class InventoryStockReservationService {
         metadata: {
           reservationId:
             reservation.id,
+
+          batchId:
+            reservation.batchId,
 
           expiredQuantity:
             remaining,
@@ -946,6 +989,9 @@ export class InventoryStockReservationService {
 
         storeId:
           updated.storeId,
+
+        batchId:
+          updated.batchId,
 
         expiredQuantity:
           remaining,

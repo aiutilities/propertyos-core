@@ -67,6 +67,9 @@ export class InventoryStockReservationController {
     @Query('binLocationId')
     binLocationId?: string,
 
+    @Query('batchId')
+    batchId?: string,
+
     @Query('sourceType')
     sourceType?: string,
 
@@ -82,6 +85,7 @@ export class InventoryStockReservationController {
           itemId,
           storeId,
           binLocationId,
+          batchId,
           sourceType,
           sourceId,
           status,

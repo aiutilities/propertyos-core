@@ -204,6 +204,7 @@ export interface InventoryStockReservation {
   itemId: string;
   storeId: string;
   binLocationId?: string;
+  batchId?: string;
   quantity: number;
   fulfilledQuantity: number;
   releasedQuantity: number;

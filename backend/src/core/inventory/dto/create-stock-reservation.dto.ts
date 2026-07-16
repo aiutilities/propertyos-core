@@ -19,6 +19,10 @@ export class CreateStockReservationDto {
   @IsUUID()
   binLocationId?: string;
 
+  @IsOptional()
+  @IsUUID()
+  batchId?: string;
+
   @IsNumber()
   @Min(0.000001)
   quantity!: number;

@@ -716,6 +716,7 @@ export class PostgresInventoryStockLedgerRepository
       itemId?: string;
       storeId?: string;
       binLocationId?: string;
+      batchId?: string;
       sourceType?: string;
       sourceId?: string;
       status?: string;
@@ -760,6 +761,13 @@ export class PostgresInventoryStockLedgerRepository
       addCondition(
         'bin_location_id',
         filters.binLocationId,
+      );
+    }
+
+    if (filters.batchId) {
+      addCondition(
+        'batch_id',
+        filters.batchId,
       );
     }
 
@@ -825,6 +833,7 @@ export class PostgresInventoryStockLedgerRepository
           item_id,
           store_id,
           bin_location_id,
+          batch_id,
           quantity,
           fulfilled_quantity,
           released_quantity,
@@ -845,9 +854,9 @@ export class PostgresInventoryStockLedgerRepository
           updated_at
         )
         VALUES (
-          $1,$2,$3,$4,$5,$6,$7,$8,$9,
-          $10,$11,$12,$13,$14,$15,$16,
-          $17,$18,$19,$20,$21,$22,$23
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,
+          $11,$12,$13,$14,$15,$16,$17,$18,
+          $19,$20,$21,$22,$23,$24
         )
         RETURNING *
         `,
@@ -857,6 +866,8 @@ export class PostgresInventoryStockLedgerRepository
           reservation.itemId,
           reservation.storeId,
           reservation.binLocationId ??
+            null,
+          reservation.batchId ??
             null,
           reservation.quantity,
           reservation.fulfilledQuantity,
@@ -4325,65 +4336,94 @@ export class PostgresInventoryStockLedgerRepository
     row: any,
   ): InventoryStockReservation {
     return {
-      id: row.id,
+      id:
+        row.id,
+
       reservationNumber:
         row.reservation_number,
+
       itemId:
         row.item_id,
+
       storeId:
         row.store_id,
+
       binLocationId:
         row.bin_location_id ??
         undefined,
+
+      batchId:
+        row.batch_id ??
+        undefined,
+
       quantity:
-        Number(row.quantity),
+        Number(
+          row.quantity,
+        ),
+
       fulfilledQuantity:
         Number(
           row.fulfilled_quantity,
         ),
+
       releasedQuantity:
         Number(
           row.released_quantity,
         ),
+
       status:
         row.status as
           InventoryReservationStatus,
+
       sourceType:
         row.source_type,
+
       sourceId:
         row.source_id ??
         undefined,
+
       referenceNumber:
         row.reference_number ??
         undefined,
+
       reservedForPersonId:
         row.reserved_for_person_id ??
         undefined,
+
       createdByPersonId:
         row.created_by_person_id ??
         undefined,
+
       releasedByPersonId:
         row.released_by_person_id ??
         undefined,
+
       fulfilledByPersonId:
         row.fulfilled_by_person_id ??
         undefined,
+
       expiresAt:
         row.expires_at ??
         undefined,
+
       releasedAt:
         row.released_at ??
         undefined,
+
       fulfilledAt:
         row.fulfilled_at ??
         undefined,
+
       remarks:
         row.remarks ??
         undefined,
+
       metadata:
         row.metadata ?? {},
+
       createdAt:
         row.created_at,
+
       updatedAt:
         row.updated_at,
     };

@@ -198,6 +198,7 @@ export interface InventoryStockLedgerRepository {
       itemId?: string;
       storeId?: string;
       binLocationId?: string;
+      batchId?: string;
       sourceType?: string;
       sourceId?: string;
       status?: string;

@@ -23,6 +23,9 @@ describe(
     const binLocationId =
       '33333333-3333-4333-8333-333333333333';
 
+    const batchId =
+      '66666666-6666-4666-8666-666666666666';
+
     const actorId =
       '44444444-4444-4444-8444-444444444444';
 
@@ -60,6 +63,9 @@ describe(
               ) => ({
                 id,
                 isActive:
+                  true,
+
+                isBatchTracked:
                   true,
               }),
             ),
@@ -253,6 +259,7 @@ describe(
             itemId,
             storeId,
             binLocationId,
+            batchId,
             quantity,
 
             sourceType:
@@ -321,6 +328,8 @@ describe(
 
             binLocationId,
 
+            batchId,
+
             quantityDelta:
               0,
 
@@ -328,6 +337,82 @@ describe(
               10,
           }),
         );
+      },
+    );
+
+    it(
+      'requires batchId for a batch-tracked Inventory item',
+      async () => {
+        await expect(
+          service.createReservation({
+            itemId,
+            storeId,
+            binLocationId,
+
+            quantity:
+              2,
+
+            sourceType:
+              'maintenance.work_order',
+
+            sourceId,
+
+            createdByPersonId:
+              actorId,
+          }),
+        ).rejects.toThrow(
+          'batchId is required for batch-tracked Inventory item',
+        );
+
+        expect(
+          stockLedgerRepository
+            .postMovement,
+        ).not.toHaveBeenCalled();
+      },
+    );
+
+    it(
+      'rejects batchId for a non-batch-tracked Inventory item',
+      async () => {
+        inventoryService
+          .getItem
+          .mockResolvedValueOnce({
+            id:
+              itemId,
+
+            isActive:
+              true,
+
+            isBatchTracked:
+              false,
+          });
+
+        await expect(
+          service.createReservation({
+            itemId,
+            storeId,
+            binLocationId,
+            batchId,
+
+            quantity:
+              2,
+
+            sourceType:
+              'maintenance.work_order',
+
+            sourceId,
+
+            createdByPersonId:
+              actorId,
+          }),
+        ).rejects.toThrow(
+          'batchId cannot be used for an Inventory item that is not batch tracked',
+        );
+
+        expect(
+          stockLedgerRepository
+            .postMovement,
+        ).not.toHaveBeenCalled();
       },
     );
 
@@ -377,6 +462,8 @@ describe(
             movementType:
               InventoryStockMovementType
                 .ISSUE,
+
+            batchId,
 
             quantityDelta:
               -4,
@@ -558,6 +645,8 @@ describe(
             movementType:
               InventoryStockMovementType
                 .RESERVATION_RELEASE,
+
+            batchId,
 
             quantityDelta:
               0,

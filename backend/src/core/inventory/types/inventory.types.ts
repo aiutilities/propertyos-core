@@ -563,3 +563,64 @@ export interface InventoryBatchBalance {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export enum InventoryBatchAllocationStrategy {
+  MANUAL = 'MANUAL',
+  FIFO = 'FIFO',
+  FEFO = 'FEFO',
+}
+
+export interface InventoryBatchAvailability {
+  batchId: string;
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+
+  batchNumber: string;
+  manufacturerBatchNumber?: string;
+
+  manufactureDate?: Date;
+  expiryDate?: Date;
+
+  batchStatus:
+    InventoryBatchStatus;
+
+  quantityOnHand: number;
+  reservedQuantity: number;
+  availableQuantity: number;
+  averageUnitCost: number;
+
+  lastMovementAt?: Date;
+  batchCreatedAt: Date;
+}
+
+export interface InventoryBatchAllocationLine {
+  batchId: string;
+  batchNumber: string;
+  binLocationId?: string;
+
+  manufactureDate?: Date;
+  expiryDate?: Date;
+
+  availableQuantity: number;
+  allocatedQuantity: number;
+  averageUnitCost: number;
+}
+
+export interface InventoryBatchAllocationResult {
+  itemId: string;
+  storeId: string;
+  binLocationId?: string;
+
+  strategy:
+    InventoryBatchAllocationStrategy;
+
+  requestedQuantity: number;
+  allocatedQuantity: number;
+  shortageQuantity: number;
+
+  fullyAllocated: boolean;
+
+  allocations:
+    InventoryBatchAllocationLine[];
+}

@@ -69,6 +69,10 @@ import {
 } from './repositories/inventory-batch.repository';
 
 import {
+  INVENTORY_BATCH_ALLOCATION_REPOSITORY,
+} from './repositories/inventory-batch-allocation.repository';
+
+import {
   INVENTORY_REPOSITORY,
 } from './repositories/inventory.repository';
 
@@ -81,6 +85,10 @@ import {
 } from './repositories/postgres-inventory-batch.repository';
 
 import {
+  PostgresInventoryBatchAllocationRepository,
+} from './repositories/postgres-inventory-batch-allocation.repository';
+
+import {
   PostgresInventoryRepository,
 } from './repositories/postgres-inventory.repository';
 
@@ -91,6 +99,10 @@ import {
 import {
   InventoryBatchService,
 } from './services/inventory-batch.service';
+
+import {
+  InventoryBatchAllocationService,
+} from './services/inventory-batch-allocation.service';
 
 import {
   InventoryService,
@@ -145,6 +157,7 @@ import {
   providers: [
     PostgresInventoryRepository,
     PostgresInventoryBatchRepository,
+    PostgresInventoryBatchAllocationRepository,
     PostgresInventoryStockLedgerRepository,
 
     {
@@ -165,6 +178,14 @@ import {
 
     {
       provide:
+        INVENTORY_BATCH_ALLOCATION_REPOSITORY,
+
+      useExisting:
+        PostgresInventoryBatchAllocationRepository,
+    },
+
+    {
+      provide:
         INVENTORY_STOCK_LEDGER_REPOSITORY,
 
       useExisting:
@@ -173,6 +194,7 @@ import {
 
     InventoryService,
     InventoryBatchService,
+    InventoryBatchAllocationService,
     InventoryStockAdjustmentService,
     InventoryStockTransferService,
     InventoryStockReservationService,
@@ -186,12 +208,15 @@ import {
   exports: [
     INVENTORY_REPOSITORY,
     INVENTORY_BATCH_REPOSITORY,
+    INVENTORY_BATCH_ALLOCATION_REPOSITORY,
     INVENTORY_STOCK_LEDGER_REPOSITORY,
     PostgresInventoryRepository,
     PostgresInventoryBatchRepository,
+    PostgresInventoryBatchAllocationRepository,
     PostgresInventoryStockLedgerRepository,
     InventoryService,
     InventoryBatchService,
+    InventoryBatchAllocationService,
     InventoryStockAdjustmentService,
   ],
 })

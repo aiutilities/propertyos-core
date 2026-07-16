@@ -1603,6 +1603,7 @@ export class PostgresInventoryStockLedgerRepository
             material_return_id,
             item_id,
             bin_location_id,
+            batch_id,
             quantity,
             unit_cost,
             remarks,
@@ -1611,7 +1612,7 @@ export class PostgresInventoryStockLedgerRepository
             updated_at
           )
           VALUES (
-            $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+            $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11
           )
           `,
           [
@@ -1619,6 +1620,8 @@ export class PostgresInventoryStockLedgerRepository
             item.materialReturnId,
             item.itemId,
             item.binLocationId ??
+              null,
+            item.batchId ??
               null,
             item.quantity,
             item.unitCost,
@@ -1765,6 +1768,7 @@ export class PostgresInventoryStockLedgerRepository
     materialIssueId: string,
     itemId: string,
     binLocationId?: string,
+    batchId?: string,
   ): Promise<number> {
     const client =
       await this.pool.connect();
@@ -1776,6 +1780,7 @@ export class PostgresInventoryStockLedgerRepository
           materialIssueId,
           itemId,
           binLocationId,
+          batchId,
         );
     } finally {
       client.release();
@@ -1787,6 +1792,7 @@ export class PostgresInventoryStockLedgerRepository
     materialIssueId: string,
     itemId: string,
     binLocationId?: string,
+    batchId?: string,
   ): Promise<number> {
     const result =
       await client.query(
@@ -1810,11 +1816,20 @@ export class PostgresInventoryStockLedgerRepository
               AND $3::UUID IS NULL
             )
           )
+          AND (
+            item.batch_id = $4
+            OR (
+              item.batch_id IS NULL
+              AND $4::UUID IS NULL
+            )
+          )
         `,
         [
           materialIssueId,
           itemId,
           binLocationId ??
+            null,
+          batchId ??
             null,
         ],
       );
@@ -4631,6 +4646,10 @@ export class PostgresInventoryStockLedgerRepository
 
       binLocationId:
         row.bin_location_id ??
+        undefined,
+
+      batchId:
+        row.batch_id ??
         undefined,
 
       quantity:

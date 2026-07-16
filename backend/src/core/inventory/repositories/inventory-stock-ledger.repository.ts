@@ -103,6 +103,7 @@ export interface InventoryStockLedgerTransaction {
     materialIssueId: string,
     itemId: string,
     binLocationId?: string,
+    batchId?: string,
   ): Promise<number>;
 
   postMovement(
@@ -358,6 +359,7 @@ export interface InventoryStockLedgerRepository {
     materialIssueId: string,
     itemId: string,
     binLocationId?: string,
+    batchId?: string,
   ): Promise<number>;
 
   updateMaterialReturnStatus(

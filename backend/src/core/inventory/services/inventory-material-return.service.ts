@@ -219,6 +219,24 @@ export class InventoryMaterialReturnService {
       }
 
       if (
+        item.isBatchTracked &&
+        !dtoItem.batchId
+      ) {
+        throw new BadRequestException(
+          `batchId is required for batch-tracked Inventory item: ${item.id}`,
+        );
+      }
+
+      if (
+        !item.isBatchTracked &&
+        dtoItem.batchId
+      ) {
+        throw new BadRequestException(
+          `batchId cannot be used for an Inventory item that is not batch tracked: ${item.id}`,
+        );
+      }
+
+      if (
         dtoItem.binLocationId
       ) {
         const bin =
@@ -247,6 +265,8 @@ export class InventoryMaterialReturnService {
         dtoItem.itemId,
         dtoItem.binLocationId ??
           'STORE',
+        dtoItem.batchId ??
+          'NO_BATCH',
       ].join(':');
 
       if (
@@ -276,12 +296,20 @@ export class InventoryMaterialReturnService {
                 (
                   dtoItem.binLocationId ??
                   undefined
+                ) &&
+              (
+                line.batchId ??
+                undefined
+              ) ===
+                (
+                  dtoItem.batchId ??
+                  undefined
                 ),
           );
 
         if (!originalLine) {
           throw new BadRequestException(
-            'The returned item and bin were not present on the original Material Issue',
+            'The returned item, bin and Batch were not present on the original Material Issue',
           );
         }
 
@@ -295,6 +323,8 @@ export class InventoryMaterialReturnService {
               dtoItem.itemId,
 
               dtoItem.binLocationId,
+
+              dtoItem.batchId,
             );
 
         if (
@@ -319,6 +349,9 @@ export class InventoryMaterialReturnService {
 
         binLocationId:
           dtoItem.binLocationId,
+
+        batchId:
+          dtoItem.batchId,
 
         quantity,
 
@@ -627,12 +660,20 @@ export class InventoryMaterialReturnService {
                         (
                           item.binLocationId ??
                           undefined
-                        ),
+                        ) &&
+              (
+                line.batchId ??
+                undefined
+              ) ===
+                (
+                  item.batchId ??
+                  undefined
+                ),
                   );
 
                 if (!originalLine) {
                   throw new BadRequestException(
-                    'The returned item and bin were not present on the original Material Issue',
+                    'The returned item, bin and Batch were not present on the original Material Issue',
                   );
                 }
 
@@ -645,6 +686,8 @@ export class InventoryMaterialReturnService {
                       item.itemId,
 
                       item.binLocationId,
+
+                      item.batchId,
                     );
 
                 if (
@@ -678,6 +721,9 @@ export class InventoryMaterialReturnService {
 
                   binLocationId:
                     item.binLocationId,
+
+                  batchId:
+                    item.batchId,
 
                   quantityDelta:
                     Math.abs(
@@ -754,6 +800,9 @@ export class InventoryMaterialReturnService {
 
                     materialReturnItemId:
                       item.id,
+
+                    batchId:
+                      item.batchId,
 
                     returnedByPersonId:
                       details.materialReturn
@@ -1005,12 +1054,20 @@ export class InventoryMaterialReturnService {
               (
                 item.binLocationId ??
                 undefined
-              ),
+              ) &&
+              (
+                line.batchId ??
+                undefined
+              ) ===
+                (
+                  item.batchId ??
+                  undefined
+                ),
         );
 
       if (!originalLine) {
         throw new BadRequestException(
-          'The returned item and bin were not present on the original Material Issue',
+          'The returned item, bin and Batch were not present on the original Material Issue',
         );
       }
 
@@ -1024,6 +1081,8 @@ export class InventoryMaterialReturnService {
             item.itemId,
 
             item.binLocationId,
+
+            item.batchId,
           );
 
       if (

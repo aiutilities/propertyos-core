@@ -35,6 +35,9 @@ describe(
     const binId =
       '44444444-4444-4444-8444-444444444444';
 
+    const batchId =
+      'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+
     const personId =
       '55555555-5555-4555-8555-555555555555';
 
@@ -134,6 +137,9 @@ describe(
 
                 isActive:
                   true,
+
+                isBatchTracked:
+                  true,
               }),
 
           getBinLocation:
@@ -223,6 +229,8 @@ describe(
             binLocationId:
               binId,
 
+            batchId,
+
             quantity:
               5,
 
@@ -268,6 +276,8 @@ describe(
 
             binLocationId:
               binId,
+
+            batchId,
 
             quantity:
               2,
@@ -336,6 +346,8 @@ describe(
 
             binLocationId:
               binId,
+
+            batchId,
 
             quantity:
               2,
@@ -417,6 +429,7 @@ describe(
           materialIssueId,
           itemId,
           binId,
+          batchId,
         );
 
         expect(
@@ -535,7 +548,7 @@ describe(
               createDto(),
             ),
         ).rejects.toThrow(
-          'The returned item and bin were not present on the original Material Issue',
+          'The returned item, bin and Batch were not present on the original Material Issue',
         );
       },
     );
@@ -681,6 +694,8 @@ describe(
                 .RECEIPT,
 
             itemId,
+
+            batchId,
             storeId,
 
             binLocationId:

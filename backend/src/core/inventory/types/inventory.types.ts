@@ -514,6 +514,7 @@ export interface InventoryMaterialReturnItem {
   materialReturnId: string;
   itemId: string;
   binLocationId?: string;
+  batchId?: string;
   quantity: number;
   unitCost: number;
   remarks?: string;

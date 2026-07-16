@@ -4,8 +4,11 @@ import {
 
 import {
   ArrayMinSize,
+  ArrayNotEmpty,
   IsArray,
+  IsBoolean,
   IsDateString,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -13,6 +16,38 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
+
+import {
+  InventoryBatchAllocationStrategy,
+} from '../types/inventory.types';
+
+export class MaterialReturnBatchAllocationDto {
+  @IsEnum(
+    InventoryBatchAllocationStrategy,
+  )
+  strategy!:
+    InventoryBatchAllocationStrategy;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsUUID(
+    undefined,
+    {
+      each:
+        true,
+    },
+  )
+  manualBatchIds?: string[];
+
+  @IsOptional()
+  @Type(
+    () =>
+      Boolean,
+  )
+  @IsBoolean()
+  strict?: boolean;
+}
 
 export class CreateMaterialReturnItemDto {
   @IsUUID()
@@ -25,6 +60,15 @@ export class CreateMaterialReturnItemDto {
   @IsOptional()
   @IsUUID()
   batchId?: string;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(
+    () =>
+      MaterialReturnBatchAllocationDto,
+  )
+  allocation?:
+    MaterialReturnBatchAllocationDto;
 
   @IsNumber()
   @Min(0.000001)

@@ -20,6 +20,7 @@ describe(
 
     let repository: any;
     let inventoryService: any;
+    let batchService: any;
     let eventBus: any;
     let auditService: any;
 
@@ -155,6 +156,11 @@ describe(
               }),
         };
 
+        batchService = {
+          getByIds:
+            jest.fn(),
+        };
+
         eventBus = {
           publish:
             jest.fn()
@@ -175,6 +181,7 @@ describe(
           new InventoryMaterialReturnService(
             repository,
             inventoryService,
+            batchService,
             eventBus,
             auditService,
           );

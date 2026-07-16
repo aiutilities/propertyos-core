@@ -33,12 +33,19 @@ import {
 } from '../repositories/inventory-stock-ledger.repository';
 
 import {
+  InventoryBatch,
+  InventoryBatchAllocationStrategy,
+  InventoryMaterialIssueItem,
   InventoryMaterialIssueStatus,
   InventoryMaterialReturn,
   InventoryMaterialReturnItem,
   InventoryMaterialReturnStatus,
   InventoryStockMovementType,
 } from '../types/inventory.types';
+
+import {
+  InventoryBatchService,
+} from './inventory-batch.service';
 
 import {
   InventoryService,
@@ -55,6 +62,9 @@ export class InventoryMaterialReturnService {
 
     private readonly inventoryService:
       InventoryService,
+
+    private readonly batchService:
+      InventoryBatchService,
 
     private readonly eventBus:
       EventBusService,
@@ -157,6 +167,13 @@ export class InventoryMaterialReturnService {
       }
     }
 
+    const expandedDtoItems =
+      await this
+        .expandAllocatedItems(
+          dto,
+          originalIssue,
+        );
+
     const now =
       new Date();
 
@@ -172,7 +189,7 @@ export class InventoryMaterialReturnService {
 
     for (
       const dtoItem
-      of dto.items
+      of expandedDtoItems
     ) {
       const quantity =
         Number(
@@ -473,6 +490,467 @@ export class InventoryMaterialReturnService {
     );
 
     return created;
+  }
+
+  private async expandAllocatedItems(
+    dto:
+      CreateMaterialReturnDto,
+
+    originalIssue?: {
+      materialIssue: {
+        id: string;
+      };
+
+      items:
+        InventoryMaterialIssueItem[];
+    },
+  ): Promise<
+    CreateMaterialReturnDto['items']
+  > {
+    const expanded:
+      CreateMaterialReturnDto['items'] =
+      [];
+
+    for (
+      const item
+      of dto.items
+    ) {
+      if (
+        item.batchId &&
+        item.allocation
+      ) {
+        throw new BadRequestException(
+          'Material Return item cannot contain both batchId and allocation',
+        );
+      }
+
+      if (!item.allocation) {
+        expanded.push(
+          item,
+        );
+
+        continue;
+      }
+
+      if (!originalIssue) {
+        throw new BadRequestException(
+          'Automatic Material Return Batch allocation requires a linked Material Issue',
+        );
+      }
+
+      const strategy =
+        item.allocation
+          .strategy;
+
+      const manualBatchIds =
+        Array.from(
+          new Set(
+            (
+              item.allocation
+                .manualBatchIds ??
+              []
+            )
+              .map(
+                (id) =>
+                  id.trim(),
+              )
+              .filter(Boolean),
+          ),
+        );
+
+      if (
+        strategy ===
+          InventoryBatchAllocationStrategy
+            .MANUAL &&
+        manualBatchIds.length === 0
+      ) {
+        throw new BadRequestException(
+          'manualBatchIds are required for MANUAL Material Return allocation',
+        );
+      }
+
+      if (
+        strategy !==
+          InventoryBatchAllocationStrategy
+            .MANUAL &&
+        manualBatchIds.length > 0
+      ) {
+        throw new BadRequestException(
+          'manualBatchIds can only be used with MANUAL Material Return allocation',
+        );
+      }
+
+      const originalLines =
+        originalIssue.items
+          .filter(
+            (line) =>
+              line.itemId ===
+                item.itemId &&
+              (
+                line.binLocationId ??
+                undefined
+              ) ===
+                (
+                  item.binLocationId ??
+                  undefined
+                ) &&
+              Boolean(
+                line.batchId,
+              ),
+          );
+
+      if (
+        originalLines.length === 0
+      ) {
+        throw new BadRequestException(
+          'No Batch-specific original Material Issue lines are available for automatic return allocation',
+        );
+      }
+
+      const issuedBatchIds =
+        originalLines.map(
+          (line) =>
+            line.batchId!,
+        );
+
+      if (
+        strategy ===
+        InventoryBatchAllocationStrategy
+          .MANUAL
+      ) {
+        const issuedSet =
+          new Set(
+            issuedBatchIds,
+          );
+
+        const invalid =
+          manualBatchIds.filter(
+            (batchId) =>
+              !issuedSet.has(
+                batchId,
+              ),
+          );
+
+        if (invalid.length > 0) {
+          throw new BadRequestException(
+            `Selected Material Return Batches were not present on the original Material Issue: ${invalid.join(', ')}`,
+          );
+        }
+      }
+
+      const batches =
+        await this.batchService
+          .getByIds(
+            issuedBatchIds,
+          );
+
+      const batchById =
+        new Map(
+          batches.map(
+            (batch) => [
+              batch.id,
+              batch,
+            ],
+          ),
+        );
+
+      const candidates = [];
+
+      for (
+        const originalLine
+        of originalLines
+      ) {
+        const alreadyReturned =
+          await this
+            .stockLedgerRepository
+            .getPostedMaterialReturnQuantity(
+              originalIssue
+                .materialIssue.id,
+
+              originalLine.itemId,
+
+              originalLine
+                .binLocationId,
+
+              originalLine.batchId,
+            );
+
+        const remainingQuantity =
+          this.roundQuantity(
+            Math.max(
+              0,
+              originalLine.quantity -
+              alreadyReturned,
+            ),
+          );
+
+        if (
+          remainingQuantity <= 0
+        ) {
+          continue;
+        }
+
+        candidates.push({
+          originalLine,
+
+          batch:
+            batchById.get(
+              originalLine
+                .batchId!,
+            )!,
+
+          remainingQuantity,
+        });
+      }
+
+      const ordered =
+        this.orderReturnCandidates(
+          candidates,
+          strategy,
+          manualBatchIds,
+        );
+
+      let remaining =
+        this.roundQuantity(
+          Number(
+            item.quantity,
+          ),
+        );
+
+      for (
+        const candidate
+        of ordered
+      ) {
+        if (remaining <= 0) {
+          break;
+        }
+
+        const allocatedQuantity =
+          this.roundQuantity(
+            Math.min(
+              remaining,
+              candidate
+                .remainingQuantity,
+            ),
+          );
+
+        if (
+          allocatedQuantity <= 0
+        ) {
+          continue;
+        }
+
+        expanded.push({
+          itemId:
+            item.itemId,
+
+          binLocationId:
+            candidate
+              .originalLine
+              .binLocationId,
+
+          batchId:
+            candidate
+              .originalLine
+              .batchId,
+
+          quantity:
+            allocatedQuantity,
+
+          unitCost:
+            item.unitCost,
+
+          remarks:
+            item.remarks,
+        });
+
+        remaining =
+          this.roundQuantity(
+            remaining -
+            allocatedQuantity,
+          );
+      }
+
+      const strict =
+        item.allocation
+          .strict !== false;
+
+      if (
+        strict &&
+        remaining > 0
+      ) {
+        throw new BadRequestException(
+          `Material Return Batch allocation could not satisfy the requested quantity; shortage: ${remaining}`,
+        );
+      }
+
+      if (
+        !strict &&
+        remaining ===
+          Number(item.quantity)
+      ) {
+        throw new BadRequestException(
+          'Material Return Batch allocation found no remaining returnable quantity',
+        );
+      }
+    }
+
+    return expanded;
+  }
+
+  private orderReturnCandidates<
+    T extends {
+      batch:
+        InventoryBatch;
+    },
+  >(
+    candidates: T[],
+
+    strategy:
+      InventoryBatchAllocationStrategy,
+
+    manualBatchIds:
+      string[],
+  ): T[] {
+    const ordered =
+      [...candidates];
+
+    if (
+      strategy ===
+      InventoryBatchAllocationStrategy
+        .MANUAL
+    ) {
+      const positions =
+        new Map(
+          manualBatchIds.map(
+            (
+              id,
+              index,
+            ) => [
+              id,
+              index,
+            ],
+          ),
+        );
+
+      return ordered
+        .filter(
+          (candidate) =>
+            positions.has(
+              candidate.batch.id,
+            ),
+        )
+        .sort(
+          (
+            left,
+            right,
+          ) =>
+            positions.get(
+              left.batch.id,
+            )! -
+            positions.get(
+              right.batch.id,
+            )!,
+        );
+    }
+
+    return ordered.sort(
+      (
+        left,
+        right,
+      ) => {
+        if (
+          strategy ===
+          InventoryBatchAllocationStrategy
+            .FEFO
+        ) {
+          const expiry =
+            this.compareOptionalDates(
+              left.batch
+                .expiryDate,
+              right.batch
+                .expiryDate,
+            );
+
+          if (expiry !== 0) {
+            return expiry;
+          }
+        }
+
+        const manufacture =
+          this.compareOptionalDates(
+            left.batch
+              .manufactureDate,
+            right.batch
+              .manufactureDate,
+          );
+
+        if (manufacture !== 0) {
+          return manufacture;
+        }
+
+        if (
+          strategy ===
+          InventoryBatchAllocationStrategy
+            .FIFO
+        ) {
+          const expiry =
+            this.compareOptionalDates(
+              left.batch
+                .expiryDate,
+              right.batch
+                .expiryDate,
+            );
+
+          if (expiry !== 0) {
+            return expiry;
+          }
+        }
+
+        return (
+          left.batch
+            .createdAt
+            .getTime() -
+          right.batch
+            .createdAt
+            .getTime()
+        );
+      },
+    );
+  }
+
+  private compareOptionalDates(
+    left?: Date,
+    right?: Date,
+  ): number {
+    if (
+      left &&
+      right
+    ) {
+      return (
+        left.getTime() -
+        right.getTime()
+      );
+    }
+
+    if (left) {
+      return -1;
+    }
+
+    if (right) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  private roundQuantity(
+    value: number,
+  ): number {
+    return Number(
+      Number(value)
+        .toFixed(6),
+    );
   }
 
   async getMaterialReturn(

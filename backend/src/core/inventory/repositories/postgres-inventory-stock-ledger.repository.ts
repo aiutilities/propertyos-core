@@ -108,12 +108,14 @@ export class PostgresInventoryStockLedgerRepository
               materialIssueId,
               itemId,
               binLocationId,
+              batchId,
             ) =>
               this.getPostedMaterialReturnQuantityWithClient(
                 client,
                 materialIssueId,
                 itemId,
                 binLocationId,
+                batchId,
               ),
 
           postMovement:

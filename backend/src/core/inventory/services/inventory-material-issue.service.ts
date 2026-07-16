@@ -33,11 +33,16 @@ import {
 } from '../repositories/inventory-stock-ledger.repository';
 
 import {
+  InventoryBatchAllocationStrategy,
   InventoryMaterialIssue,
   InventoryMaterialIssueItem,
   InventoryMaterialIssueStatus,
   InventoryStockMovementType,
 } from '../types/inventory.types';
+
+import {
+  InventoryBatchAllocationService,
+} from './inventory-batch-allocation.service';
 
 import {
   InventoryService,
@@ -54,6 +59,9 @@ export class InventoryMaterialIssueService {
 
     private readonly inventoryService:
       InventoryService,
+
+    private readonly batchAllocationService:
+      InventoryBatchAllocationService,
 
     private readonly eventBus:
       EventBusService,
@@ -108,6 +116,13 @@ export class InventoryMaterialIssueService {
     const now =
       new Date();
 
+    const expandedDtoItems =
+      await this
+        .expandAllocatedItems(
+          dto,
+          issueDate,
+        );
+
     const materialIssueId =
       randomUUID();
 
@@ -120,7 +135,7 @@ export class InventoryMaterialIssueService {
 
     for (
       const dtoItem
-      of dto.items
+      of expandedDtoItems
     ) {
       const quantity =
         Number(
@@ -359,6 +374,127 @@ export class InventoryMaterialIssueService {
     );
 
     return created;
+  }
+
+  private async expandAllocatedItems(
+    dto:
+      CreateMaterialIssueDto,
+
+    issueDate: Date,
+  ): Promise<
+    CreateMaterialIssueDto['items']
+  > {
+    const expanded:
+      CreateMaterialIssueDto['items'] =
+      [];
+
+    for (
+      const item
+      of dto.items
+    ) {
+      if (
+        item.batchId &&
+        item.allocation
+      ) {
+        throw new BadRequestException(
+          'Material Issue item cannot contain both batchId and allocation',
+        );
+      }
+
+      if (!item.allocation) {
+        expanded.push(
+          item,
+        );
+
+        continue;
+      }
+
+      const strategy =
+        item.allocation
+          .strategy;
+
+      if (
+        strategy ===
+          InventoryBatchAllocationStrategy
+            .MANUAL &&
+        !item.allocation
+          .manualBatchIds
+          ?.length
+      ) {
+        throw new BadRequestException(
+          'manualBatchIds are required for MANUAL Material Issue allocation',
+        );
+      }
+
+      if (
+        strategy !==
+          InventoryBatchAllocationStrategy
+            .MANUAL &&
+        item.allocation
+          .manualBatchIds
+          ?.length
+      ) {
+        throw new BadRequestException(
+          'manualBatchIds can only be used with MANUAL Material Issue allocation',
+        );
+      }
+
+      const allocation =
+        await this.batchAllocationService
+          .allocate({
+            itemId:
+              item.itemId,
+
+            storeId:
+              dto.storeId,
+
+            binLocationId:
+              item.binLocationId,
+
+            quantity:
+              item.quantity,
+
+            strategy,
+
+            manualBatchIds:
+              item.allocation
+                .manualBatchIds,
+
+            asOf:
+              issueDate,
+
+            strict:
+              true,
+          });
+
+      for (
+        const line
+        of allocation.allocations
+      ) {
+        expanded.push({
+          itemId:
+            item.itemId,
+
+          binLocationId:
+            line.binLocationId ??
+            item.binLocationId,
+
+          batchId:
+            line.batchId,
+
+          quantity:
+            line.allocatedQuantity,
+
+          unitCost:
+            item.unitCost,
+
+          remarks:
+            item.remarks,
+        });
+      }
+    }
+
+    return expanded;
   }
 
   async getMaterialIssue(

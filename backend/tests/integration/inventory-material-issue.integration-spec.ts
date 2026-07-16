@@ -19,6 +19,9 @@ describe(
 
     let repository: any;
     let inventoryService: any;
+    let batchAllocationService:
+      any;
+
     let eventBus: any;
     let auditService: any;
 
@@ -132,6 +135,11 @@ describe(
               }),
         };
 
+        batchAllocationService = {
+          allocate:
+            jest.fn(),
+        };
+
         eventBus = {
           publish:
             jest.fn()
@@ -152,6 +160,7 @@ describe(
           new InventoryMaterialIssueService(
             repository,
             inventoryService,
+            batchAllocationService,
             eventBus,
             auditService,
           );

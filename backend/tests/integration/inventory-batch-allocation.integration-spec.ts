@@ -59,6 +59,28 @@ describe(
                 isBatchTracked:
                   true,
               }),
+
+          findStoreById:
+            jest.fn()
+              .mockResolvedValue({
+                id:
+                  storeId,
+
+                isActive:
+                  true,
+              }),
+
+          findBinLocationById:
+            jest.fn()
+              .mockResolvedValue({
+                id:
+                  binLocationId,
+
+                storeId,
+
+                isActive:
+                  true,
+              }),
         };
 
         service =

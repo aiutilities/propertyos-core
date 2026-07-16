@@ -37,3 +37,4 @@ export * from './cancel-material-issue.dto';
 export * from './create-material-return.dto';
 export * from './post-material-return.dto';
 export * from './cancel-material-return.dto';
+export * from './allocate-inventory-batches.dto';

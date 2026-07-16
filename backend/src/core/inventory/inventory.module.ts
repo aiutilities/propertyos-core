@@ -47,6 +47,10 @@ import {
 } from './controllers/inventory-stock-reservation.controller';
 
 import {
+  InventoryBatchAllocationController,
+} from './controllers/inventory-batch-allocation.controller';
+
+import {
   InventoryCycleCountController,
 } from './controllers/inventory-cycle-count.controller';
 
@@ -149,6 +153,7 @@ import {
     InventoryStockAdjustmentController,
     InventoryStockTransferController,
     InventoryStockReservationController,
+    InventoryBatchAllocationController,
     InventoryCycleCountController,
     InventoryMaterialIssueController,
     InventoryMaterialReturnController,

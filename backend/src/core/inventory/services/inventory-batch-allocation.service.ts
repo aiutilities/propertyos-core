@@ -33,6 +33,8 @@ export interface AllocateInventoryBatchesInput {
   manualBatchIds?: string[];
 
   asOf?: Date;
+
+  strict?: boolean;
 }
 
 @Injectable()
@@ -89,6 +91,53 @@ export class InventoryBatchAllocationService {
       throw new BadRequestException(
         'Inventory Batch allocation cannot be used for an item that is not batch tracked',
       );
+    }
+
+    const store =
+      await this.inventoryRepository
+        .findStoreById(
+          input.storeId,
+        );
+
+    if (!store) {
+      throw new NotFoundException(
+        'Inventory store was not found',
+      );
+    }
+
+    if (!store.isActive) {
+      throw new BadRequestException(
+        'Inventory Batch allocation cannot be performed for an inactive Inventory store',
+      );
+    }
+
+    if (input.binLocationId) {
+      const bin =
+        await this.inventoryRepository
+          .findBinLocationById(
+            input.binLocationId,
+          );
+
+      if (!bin) {
+        throw new NotFoundException(
+          'Inventory bin location was not found',
+        );
+      }
+
+      if (!bin.isActive) {
+        throw new BadRequestException(
+          'Inventory Batch allocation cannot use an inactive Inventory bin location',
+        );
+      }
+
+      if (
+        bin.storeId !==
+        store.id
+      ) {
+        throw new BadRequestException(
+          'Inventory bin location does not belong to the selected store',
+        );
+      }
     }
 
     const manualBatchIds =
@@ -202,29 +251,41 @@ export class InventoryBatchAllocationService {
         ),
       );
 
-    return {
-      itemId:
-        input.itemId,
+    const result:
+      InventoryBatchAllocationResult = {
+        itemId:
+          input.itemId,
 
-      storeId:
-        input.storeId,
+        storeId:
+          input.storeId,
 
-      binLocationId:
-        input.binLocationId,
+        binLocationId:
+          input.binLocationId,
 
-      strategy,
+        strategy,
 
-      requestedQuantity,
+        requestedQuantity,
 
-      allocatedQuantity,
+        allocatedQuantity,
 
-      shortageQuantity,
+        shortageQuantity,
 
-      fullyAllocated:
-        shortageQuantity === 0,
+        fullyAllocated:
+          shortageQuantity === 0,
 
-      allocations,
-    };
+        allocations,
+      };
+
+    if (
+      input.strict === true &&
+      !result.fullyAllocated
+    ) {
+      throw new BadRequestException(
+        `Inventory Batch allocation could not satisfy the requested quantity; shortage: ${result.shortageQuantity}`,
+      );
+    }
+
+    return result;
   }
 
   private requirePositiveQuantity(

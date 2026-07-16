@@ -15,6 +15,10 @@ import {
 } from "@/components/documentation/MarkdownRenderer";
 
 import {
+  DocumentationMetadata,
+} from "@/components/documentation/DocumentationMetadata";
+
+import {
   listDocumentationItems,
   loadDocumentationDocument,
   loadDocumentationNavigation,
@@ -128,6 +132,12 @@ export default async function DocumentationDocumentPage({
             }
           </p>
         )}
+
+        <DocumentationMetadata
+          metadata={
+            document.metadata
+          }
+        />
 
         <p className="documentation-source-path">
           Source:{" "}

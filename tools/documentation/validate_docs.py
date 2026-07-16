@@ -35,7 +35,36 @@ def validate_markdown(path: Path):
         errors.append("Empty document")
         return errors
 
-    if not lines[0].startswith("# "):
+    first_content_index = 0
+
+    if lines and lines[0].strip() == "---":
+        try:
+            closing_index = next(
+                index
+                for index, line in enumerate(
+                    lines[1:],
+                    start=1,
+                )
+                if line.strip() == "---"
+            )
+
+            first_content_index = closing_index + 1
+        except StopIteration:
+            errors.append(
+                "Front matter is missing a closing delimiter"
+            )
+            return errors
+
+    first_content = next(
+        (
+            line
+            for line in lines[first_content_index:]
+            if line.strip()
+        ),
+        "",
+    )
+
+    if not first_content.startswith("# "):
         errors.append("Missing H1 heading")
 
     if not text.endswith("\n"):

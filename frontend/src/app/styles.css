@@ -3059,7 +3059,7 @@ input {
 }
 
 .documentation-page-grid {
-  align-items: start;
+  align-items: flex-start;
   display: grid;
   gap: 34px;
   grid-template-columns: minmax(0, 900px) 230px;
@@ -3531,4 +3531,83 @@ input {
   font-size: 13px;
   line-height: 1.55;
   margin: 0;
+}
+
+/* Documentation metadata */
+
+.documentation-metadata {
+  align-items: flex-start;
+  border-top: 1px solid #e3e6ee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 24px;
+  padding-top: 20px;
+}
+
+.documentation-metadata-item {
+  display: grid;
+  gap: 6px;
+}
+
+.documentation-metadata-item > span,
+.documentation-metadata-tags > span {
+  color: #747c8e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.documentation-metadata-item > strong {
+  color: #303644;
+  font-size: 14px;
+}
+
+.documentation-status {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 12px !important;
+  padding: 5px 9px;
+}
+
+.documentation-status-approved {
+  background: #e6f4ea;
+  color: #176b39 !important;
+}
+
+.documentation-status-draft {
+  background: #fff4ce;
+  color: #7a5600 !important;
+}
+
+.documentation-status-review {
+  background: #e8f0fe;
+  color: #274f9d !important;
+}
+
+.documentation-status-deprecated {
+  background: #fce8e6;
+  color: #9d1010 !important;
+}
+
+.documentation-metadata-tags {
+  display: grid;
+  gap: 8px;
+}
+
+.documentation-metadata-tags > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.documentation-tag {
+  background: #eef0ff;
+  border: 1px solid #d9ddff;
+  border-radius: 999px;
+  color: #4557ff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 9px;
 }

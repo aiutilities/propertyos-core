@@ -1,3 +1,7 @@
+import type {
+  DocumentationMetadata,
+} from "./metadata";
+
 export type DocumentationCategory =
   | "architecture"
   | "deployment"
@@ -37,6 +41,7 @@ export type DocumentationDocument = {
   title: string;
   description?: string;
   category: DocumentationCategory;
+  metadata: DocumentationMetadata;
 
   slug: string[];
   href: string;
@@ -55,6 +60,10 @@ export type DocumentationSearchEntry = {
   title: string;
   description?: string;
   category: DocumentationCategory;
+  version?: string;
+  status?: DocumentationMetadata["status"];
+  owner?: string;
+  tags: string[];
   href: string;
   relativePath: string;
   content: string;

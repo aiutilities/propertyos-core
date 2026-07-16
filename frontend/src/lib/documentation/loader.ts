@@ -22,6 +22,10 @@ import {
   removeMarkdownFormatting,
 } from "./markdown";
 
+import {
+  parseDocumentationSource,
+} from "./metadata";
+
 import type {
   DocumentationBreadcrumb,
   DocumentationCategory,
@@ -248,6 +252,11 @@ async function createNavigationItem(
       "utf-8",
     );
 
+  const parsed =
+    parseDocumentationSource(
+      source,
+    );
+
   const slug =
     relativePathToSlug(
       relativePath,
@@ -262,8 +271,9 @@ async function createNavigationItem(
 
   return {
     title:
+      parsed.metadata.title ??
       extractDocumentTitle(
-        source,
+        parsed.content,
         fallbackTitle,
       ),
 
@@ -440,45 +450,45 @@ function buildBreadcrumbs(
   return breadcrumbs;
 }
 
-function resolveDocumentPath(
+async function resolveDocumentPath(
   slug: string[],
-): string {
+): Promise<string> {
   ensureSafeSlug(
     slug,
   );
 
-  const relativePath =
-    `${slug.join(
-      path.sep,
-    )}.md`;
+  const requestedSlug =
+    slug.join("/");
 
-  const absolutePath =
-    path.resolve(
-      DOCUMENTATION_ROOT,
-      relativePath,
-    );
+  const files =
+    await collectMarkdownFiles();
 
-  const relativeFromRoot =
-    path.relative(
-      DOCUMENTATION_ROOT,
-      absolutePath,
-    );
-
-  if (
-    relativeFromRoot
-      .startsWith(
-        "..",
-      ) ||
-    path.isAbsolute(
-      relativeFromRoot,
-    )
+  for (
+    const absolutePath
+    of files
   ) {
-    throw new Error(
-      "Documentation path escapes the documentation root",
-    );
+    const relativePath =
+      path.relative(
+        DOCUMENTATION_ROOT,
+        absolutePath,
+      );
+
+    const candidateSlug =
+      relativePathToSlug(
+        relativePath,
+      ).join("/");
+
+    if (
+      candidateSlug ===
+      requestedSlug
+    ) {
+      return absolutePath;
+    }
   }
 
-  return absolutePath;
+  throw new Error(
+    `Documentation document not found: ${requestedSlug}`,
+  );
 }
 
 export async function documentationExists(
@@ -486,7 +496,7 @@ export async function documentationExists(
 ): Promise<boolean> {
   try {
     const absolutePath =
-      resolveDocumentPath(
+      await resolveDocumentPath(
         slug,
       );
 
@@ -507,7 +517,7 @@ export async function loadDocumentationDocument(
 > {
   try {
     const absolutePath =
-      resolveDocumentPath(
+      await resolveDocumentPath(
         slug,
       );
 
@@ -517,6 +527,11 @@ export async function loadDocumentationDocument(
         "utf-8",
       );
 
+    const parsed =
+      parseDocumentationSource(
+        source,
+      );
+
     const relativePath =
       path.relative(
         DOCUMENTATION_ROOT,
@@ -524,8 +539,9 @@ export async function loadDocumentationDocument(
       );
 
     const title =
+      parsed.metadata.title ??
       extractDocumentTitle(
-        source,
+        parsed.content,
         formatLabel(
           path.basename(
             absolutePath,
@@ -552,14 +568,18 @@ export async function loadDocumentationDocument(
       title,
 
       description:
+        parsed.metadata.description ??
         extractDescription(
-          source,
+          parsed.content,
         ),
 
       category:
         categoryFromRelativePath(
           relativePath,
         ),
+
+      metadata:
+        parsed.metadata,
 
       slug,
 
@@ -572,11 +592,12 @@ export async function loadDocumentationDocument(
           )
           .join("/"),
 
-      source,
+      source:
+        parsed.content,
 
       headings:
         extractHeadings(
-          source,
+          parsed.content,
         ),
 
       breadcrumbs:
@@ -630,19 +651,38 @@ export async function buildDocumentationSearchIndex(): Promise<
             "utf-8",
           );
 
+        const parsed =
+          parseDocumentationSource(
+            source,
+          );
+
         return {
           title:
+            parsed.metadata.title ??
             item.title,
 
           description:
+            parsed.metadata.description ??
             extractDescription(
-              source,
+              parsed.content,
             ),
 
           category:
             categoryFromRelativePath(
               item.relativePath,
             ),
+
+          version:
+            parsed.metadata.version,
+
+          status:
+            parsed.metadata.status,
+
+          owner:
+            parsed.metadata.owner,
+
+          tags:
+            parsed.metadata.tags,
 
           href:
             item.href,
@@ -652,7 +692,7 @@ export async function buildDocumentationSearchIndex(): Promise<
 
           content:
             removeMarkdownFormatting(
-              source,
+              parsed.content,
             ),
         };
       },

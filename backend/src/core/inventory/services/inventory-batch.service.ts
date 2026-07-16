@@ -63,6 +63,59 @@ export class InventoryBatchService {
       InventoryRepository,
   ) {}
 
+  async getByIds(
+    ids: string[],
+  ): Promise<
+    InventoryBatch[]
+  > {
+    const normalized =
+      Array.from(
+        new Set(
+          ids
+            .map(
+              (id) =>
+                id.trim(),
+            )
+            .filter(Boolean),
+        ),
+      );
+
+    if (normalized.length === 0) {
+      return [];
+    }
+
+    const batches =
+      await this.batchRepository
+        .findByIds(
+          normalized,
+        );
+
+    if (
+      batches.length !==
+      normalized.length
+    ) {
+      const found =
+        new Set(
+          batches.map(
+            (batch) =>
+              batch.id,
+          ),
+        );
+
+      const missing =
+        normalized.filter(
+          (id) =>
+            !found.has(id),
+        );
+
+      throw new NotFoundException(
+        `Inventory Batch not found: ${missing.join(', ')}`,
+      );
+    }
+
+    return batches;
+  }
+
   async resolveOrCreate(
     input: ResolveInventoryBatchInput,
   ): Promise<InventoryBatch> {

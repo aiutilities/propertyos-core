@@ -79,6 +79,65 @@ export class PostgresInventoryBatchRepository
       : null;
   }
 
+  async findByIds(
+    ids: string[],
+  ): Promise<
+    InventoryBatch[]
+  > {
+    const normalized =
+      Array.from(
+        new Set(
+          ids
+            .map(
+              (id) =>
+                id.trim(),
+            )
+            .filter(Boolean),
+        ),
+      );
+
+    if (normalized.length === 0) {
+      return [];
+    }
+
+    const result =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM inventory_batches
+        WHERE id =
+          ANY($1::UUID[])
+        `,
+        [
+          normalized,
+        ],
+      );
+
+    const byId =
+      new Map(
+        result.rows.map(
+          (row) => [
+            row.id,
+            this.mapBatch(
+              row,
+            ),
+          ],
+        ),
+      );
+
+    return normalized
+      .map(
+        (id) =>
+          byId.get(id),
+      )
+      .filter(
+        (
+          batch,
+        ): batch is InventoryBatch =>
+          Boolean(batch),
+      );
+  }
+
   async create(
     batch: InventoryBatch,
   ): Promise<InventoryBatch> {

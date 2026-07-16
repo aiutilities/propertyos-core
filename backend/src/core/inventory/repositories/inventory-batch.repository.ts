@@ -21,6 +21,12 @@ export interface InventoryBatchRepository {
     InventoryBatch | null
   >;
 
+  findByIds(
+    ids: string[],
+  ): Promise<
+    InventoryBatch[]
+  >;
+
   create(
     batch: InventoryBatch,
   ): Promise<InventoryBatch>;

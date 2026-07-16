@@ -1,19 +1,30 @@
 import Link from "next/link";
 
 import {
-  loadDocumentationNavigation,
-} from "@/lib/documentation";
+  DocumentationSearch,
+} from "@/components/documentation/DocumentationSearch";
 
 import {
   DocumentationShell,
 } from "@/components/documentation/DocumentationShell";
 
+import {
+  buildDocumentationSearchIndex,
+  loadDocumentationNavigation,
+} from "@/lib/documentation";
+
 export const dynamic =
   "force-static";
 
 export default async function DocumentationPage() {
-  const navigation =
-    await loadDocumentationNavigation();
+  const [
+    navigation,
+    searchEntries,
+  ] =
+    await Promise.all([
+      loadDocumentationNavigation(),
+      buildDocumentationSearchIndex(),
+    ]);
 
   const documentCount =
     navigation.reduce(
@@ -51,6 +62,12 @@ export default async function DocumentationPage() {
           </p>
         </div>
       </div>
+
+      <DocumentationSearch
+        entries={
+          searchEntries
+        }
+      />
 
       <section className="documentation-hero-card">
         <div>

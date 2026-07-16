@@ -3453,3 +3453,82 @@ input {
     padding: 22px;
   }
 }
+
+/* Documentation search */
+
+.documentation-search {
+  background: white;
+  border: 1px solid #e1e5ef;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 22px;
+}
+
+.documentation-search > input {
+  border: 1px solid #d7dce7;
+  border-radius: 12px;
+  font: inherit;
+  padding: 14px 16px;
+  width: 100%;
+}
+
+.documentation-search > input:focus {
+  border-color: #7f8cff;
+  box-shadow:
+    0 0 0 3px
+    rgba(69, 87, 255, 0.12);
+  outline: 0;
+}
+
+.documentation-search-results {
+  border-top: 1px solid #e8ebf2;
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.documentation-search-results > p {
+  color: #747c8e;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.documentation-search-results ul {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.documentation-search-results li a {
+  border: 1px solid #e3e6ee;
+  border-radius: 13px;
+  display: grid;
+  gap: 7px;
+  padding: 15px;
+}
+
+.documentation-search-results li a:hover {
+  border-color: #9ba6ff;
+  box-shadow:
+    0 8px 24px
+    rgba(50, 61, 109, 0.07);
+}
+
+.documentation-search-results strong {
+  color: #252a35;
+}
+
+.documentation-search-results small {
+  color: #4557ff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.documentation-search-results li p {
+  color: #687084;
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+}

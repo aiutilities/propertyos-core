@@ -21,7 +21,9 @@
     "knowledge:controllers:regex": "cd .. && python3 -m tools.knowledge_engine.controller_cli --engine regex --output generated/knowledge/controllers.regex.json",
     "knowledge:controllers:parity": "cd .. && python3 tests/knowledge_engine/compare_controller_manifests.py",
     "knowledge:architecture": "cd .. && python3 -m tools.knowledge_engine.architecture_cli",
-    "knowledge:ir": "cd .. && python3 -m tools.knowledge_engine.repository_ir_cli"
+    "knowledge:ir": "cd .. && python3 -m tools.knowledge_engine.repository_ir_cli",
+    "knowledge:dependencies:ast": "NODE_PATH=./node_modules ts-node --project tools/knowledge-engine/tsconfig.json tools/knowledge-engine/module-dependency-extractor.ts .. ../generated/knowledge/module-dependencies.ast.json",
+    "knowledge:dependencies": "cd .. && python3 -m tools.knowledge_engine.dependency_graph_cli"
   },
   "keywords": [],
   "author": "",

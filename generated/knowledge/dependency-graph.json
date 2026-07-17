@@ -1,0 +1,3409 @@
+{
+  "externalDependencies": [],
+  "generator": "propertyos-module-dependency-graph",
+  "integrity": {
+    "duplicateEdgeCount": 0,
+    "selfDependencies": [],
+    "unresolvedReferences": [],
+    "valid": true
+  },
+  "internalDependencies": [
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 21,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "CredentialModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->credential",
+      "importedClassName": "CredentialModule",
+      "selfDependency": false,
+      "source": {
+        "line": 22,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "credential",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 25,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 23,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 24,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "access-control",
+      "id": "access-control->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 26,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AgreementModule",
+      "fromModuleId": "admin",
+      "id": "admin->agreement",
+      "importedClassName": "AgreementModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "agreement",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "InvoiceModule",
+      "fromModuleId": "admin",
+      "id": "admin->invoice",
+      "importedClassName": "InvoiceModule",
+      "selfDependency": false,
+      "source": {
+        "line": 23,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "invoice",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "admin",
+      "id": "admin->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 17,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PropertyModule",
+      "fromModuleId": "admin",
+      "id": "admin->property",
+      "importedClassName": "PropertyModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "property",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "ReceiptModule",
+      "fromModuleId": "admin",
+      "id": "admin->receipt",
+      "importedClassName": "ReceiptModule",
+      "selfDependency": false,
+      "source": {
+        "line": 22,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "receipt",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "RentModule",
+      "fromModuleId": "admin",
+      "id": "admin->rent",
+      "importedClassName": "RentModule",
+      "selfDependency": false,
+      "source": {
+        "line": 21,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "rent",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "TenantModule",
+      "fromModuleId": "admin",
+      "id": "admin->tenant",
+      "importedClassName": "TenantModule",
+      "selfDependency": false,
+      "source": {
+        "line": 19,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "toModuleId": "tenant",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "agreement",
+      "id": "agreement->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "agreement",
+      "id": "agreement->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "agreement",
+      "id": "agreement->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 19,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "agreement",
+      "id": "agreement->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 21,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "ai",
+      "id": "ai->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 9,
+        "path": "backend/src/core/ai/ai.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "audit",
+      "id": "audit->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/audit/audit.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "audit",
+      "id": "audit->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/audit/audit.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "audit",
+      "id": "audit->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/audit/audit.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "auth",
+      "id": "auth->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 10,
+        "path": "backend/src/core/auth/auth.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "bootstrap",
+      "id": "bootstrap->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 8,
+        "path": "backend/src/core/bootstrap/bootstrap.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "communications",
+      "id": "communications->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 62,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "communications",
+      "id": "communications->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 63,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "communications",
+      "id": "communications->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 66,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "communications",
+      "id": "communications->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 64,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "communications",
+      "id": "communications->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 65,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SchedulerModule",
+      "fromModuleId": "communications",
+      "id": "communications->scheduler",
+      "importedClassName": "SchedulerModule",
+      "selfDependency": false,
+      "source": {
+        "line": 68,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "scheduler",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "communications",
+      "id": "communications->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 67,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "configuration",
+      "id": "configuration->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 8,
+        "path": "backend/src/core/configuration/configuration.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "credential",
+      "id": "credential->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/credential/credential.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "credential",
+      "id": "credential->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/credential/credential.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "credential",
+      "id": "credential->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/credential/credential.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "database:database",
+      "id": "database:database->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 5,
+        "path": "backend/src/database/database.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "distribution",
+      "id": "distribution->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 9,
+        "path": "backend/src/core/distribution/distribution.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "document",
+      "id": "document->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 12,
+        "path": "backend/src/core/document/document.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "document",
+      "id": "document->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 12,
+        "path": "backend/src/core/document/document.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "document",
+      "id": "document->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 12,
+        "path": "backend/src/core/document/document.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "eventbus",
+      "id": "eventbus->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 8,
+        "path": "backend/src/core/eventbus/eventbus.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "facility",
+      "id": "facility->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 24,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "facility",
+      "id": "facility->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 25,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "facility",
+      "id": "facility->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 29,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "facility",
+      "id": "facility->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 26,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "facility",
+      "id": "facility->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 27,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "facility",
+      "id": "facility->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 28,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "facility",
+      "id": "facility->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 30,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "WorkflowModule",
+      "fromModuleId": "facility",
+      "id": "facility->workflow",
+      "importedClassName": "WorkflowModule",
+      "selfDependency": false,
+      "source": {
+        "line": 31,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "toModuleId": "workflow",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "forms",
+      "id": "forms->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 13,
+        "path": "backend/src/core/forms/forms.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "forms",
+      "id": "forms->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 13,
+        "path": "backend/src/core/forms/forms.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "ConfigurationModule",
+      "fromModuleId": "health",
+      "id": "health->configuration",
+      "importedClassName": "ConfigurationModule",
+      "selfDependency": false,
+      "source": {
+        "line": 17,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "configuration",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "health",
+      "id": "health->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 16,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "health",
+      "id": "health->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 19,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "MetricsModule",
+      "fromModuleId": "health",
+      "id": "health->metrics",
+      "importedClassName": "MetricsModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "metrics",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "health",
+      "id": "health->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SchedulerModule",
+      "fromModuleId": "health",
+      "id": "health->scheduler",
+      "importedClassName": "SchedulerModule",
+      "selfDependency": false,
+      "source": {
+        "line": 22,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "scheduler",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "StorageModule",
+      "fromModuleId": "health",
+      "id": "health->storage",
+      "importedClassName": "StorageModule",
+      "selfDependency": false,
+      "source": {
+        "line": 23,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "storage",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "WorkflowModule",
+      "fromModuleId": "health",
+      "id": "health->workflow",
+      "importedClassName": "WorkflowModule",
+      "selfDependency": false,
+      "source": {
+        "line": 21,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "toModuleId": "workflow",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 32,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 33,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 34,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 35,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 36,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SchedulerModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->scheduler",
+      "importedClassName": "SchedulerModule",
+      "selfDependency": false,
+      "source": {
+        "line": 38,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "scheduler",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "helpdesk",
+      "id": "helpdesk->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 37,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "identity",
+      "id": "identity->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/identity/identity.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "integration",
+      "id": "integration->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 10,
+        "path": "backend/src/core/integration/integration.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "inventory",
+      "id": "inventory->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 145,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "inventory",
+      "id": "inventory->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 144,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "inventory",
+      "id": "inventory->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 143,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "inventory",
+      "id": "inventory->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 146,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "inventory",
+      "id": "inventory->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 147,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "inventory",
+      "id": "inventory->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 148,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "invoice",
+      "id": "invoice->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "invoice",
+      "id": "invoice->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "invoice",
+      "id": "invoice->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 28,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 29,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 31,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 32,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 30,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 33,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SchedulerModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->scheduler",
+      "importedClassName": "SchedulerModule",
+      "selfDependency": false,
+      "source": {
+        "line": 35,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "scheduler",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 34,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "WorkflowModule",
+      "fromModuleId": "maintenance",
+      "id": "maintenance->workflow",
+      "importedClassName": "WorkflowModule",
+      "selfDependency": false,
+      "source": {
+        "line": 36,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "toModuleId": "workflow",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "metrics",
+      "id": "metrics->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/metrics/metrics.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "metrics",
+      "id": "metrics->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/metrics/metrics.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "notification",
+      "id": "notification->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 16,
+        "path": "backend/src/core/notification/notification.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "notification",
+      "id": "notification->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 16,
+        "path": "backend/src/core/notification/notification.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "notification",
+      "id": "notification->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 16,
+        "path": "backend/src/core/notification/notification.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "notification",
+      "id": "notification->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 16,
+        "path": "backend/src/core/notification/notification.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "plugin",
+      "id": "plugin->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 47,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "plugin",
+      "id": "plugin->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 45,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "plugin",
+      "id": "plugin->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 46,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "plugin",
+      "id": "plugin->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 48,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "StorageModule",
+      "fromModuleId": "plugin",
+      "id": "plugin->storage",
+      "importedClassName": "StorageModule",
+      "selfDependency": false,
+      "source": {
+        "line": 49,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "toModuleId": "storage",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "plugin:visitor",
+      "id": "plugin:visitor->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "plugin:visitor",
+      "id": "plugin:visitor->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "plugin:visitor",
+      "id": "plugin:visitor->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 19,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "NotificationModule",
+      "fromModuleId": "plugin:visitor",
+      "id": "plugin:visitor->notification",
+      "importedClassName": "NotificationModule",
+      "selfDependency": false,
+      "source": {
+        "line": 23,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "toModuleId": "notification",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SchedulerModule",
+      "fromModuleId": "plugin:visitor",
+      "id": "plugin:visitor->scheduler",
+      "importedClassName": "SchedulerModule",
+      "selfDependency": false,
+      "source": {
+        "line": 21,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "toModuleId": "scheduler",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "plugin:visitor",
+      "id": "plugin:visitor->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 22,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "procurement",
+      "id": "procurement->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 167,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "procurement",
+      "id": "procurement->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 168,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "procurement",
+      "id": "procurement->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 172,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "procurement",
+      "id": "procurement->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 169,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "InventoryModule",
+      "fromModuleId": "procurement",
+      "id": "procurement->inventory",
+      "importedClassName": "InventoryModule",
+      "selfDependency": false,
+      "source": {
+        "line": 170,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "toModuleId": "inventory",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "procurement",
+      "id": "procurement->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 171,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "property",
+      "id": "property->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 17,
+        "path": "backend/src/core/property/property.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "property",
+      "id": "property->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 17,
+        "path": "backend/src/core/property/property.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "property",
+      "id": "property->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 17,
+        "path": "backend/src/core/property/property.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "receipt",
+      "id": "receipt->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "receipt",
+      "id": "receipt->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "receipt",
+      "id": "receipt->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 11,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "rent",
+      "id": "rent->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/rent/rent.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "rent",
+      "id": "rent->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/core/rent/rent.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "rent",
+      "id": "rent->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 19,
+        "path": "backend/src/core/rent/rent.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "rent",
+      "id": "rent->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 21,
+        "path": "backend/src/core/rent/rent.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "report",
+      "id": "report->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 12,
+        "path": "backend/src/core/report/report.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "report",
+      "id": "report->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 12,
+        "path": "backend/src/core/report/report.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 60,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 61,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 64,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 62,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 63,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SchedulerModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->scheduler",
+      "importedClassName": "SchedulerModule",
+      "selfDependency": false,
+      "source": {
+        "line": 66,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "scheduler",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 65,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "WorkflowModule",
+      "fromModuleId": "reservation",
+      "id": "reservation->workflow",
+      "importedClassName": "WorkflowModule",
+      "selfDependency": false,
+      "source": {
+        "line": 67,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "toModuleId": "workflow",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "scheduler",
+      "id": "scheduler->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 16,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "scheduler",
+      "id": "scheduler->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "scheduler",
+      "id": "scheduler->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 17,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PlatformModule",
+      "fromModuleId": "scheduler",
+      "id": "scheduler->platform",
+      "importedClassName": "PlatformModule",
+      "selfDependency": false,
+      "source": {
+        "line": 20,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "toModuleId": "platform",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "ReportModule",
+      "fromModuleId": "scheduler",
+      "id": "scheduler->report",
+      "importedClassName": "ReportModule",
+      "selfDependency": false,
+      "source": {
+        "line": 19,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "toModuleId": "report",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "search",
+      "id": "search->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 10,
+        "path": "backend/src/core/search/search.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "search",
+      "id": "search->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 10,
+        "path": "backend/src/core/search/search.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "staff",
+      "id": "staff->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 22,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "staff",
+      "id": "staff->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 23,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "staff",
+      "id": "staff->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 27,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "staff",
+      "id": "staff->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 24,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "staff",
+      "id": "staff->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 25,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "staff",
+      "id": "staff->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 26,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "staff",
+      "id": "staff->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 28,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "ConfigurationModule",
+      "fromModuleId": "storage",
+      "id": "storage->configuration",
+      "importedClassName": "ConfigurationModule",
+      "selfDependency": false,
+      "source": {
+        "line": 15,
+        "path": "backend/src/core/storage/storage.module.ts"
+      },
+      "toModuleId": "configuration",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "storage",
+      "id": "storage->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 15,
+        "path": "backend/src/core/storage/storage.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "storage",
+      "id": "storage->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 15,
+        "path": "backend/src/core/storage/storage.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "tenant",
+      "id": "tenant->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 14,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "tenant",
+      "id": "tenant->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 14,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "tenant",
+      "id": "tenant->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 14,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "tenant",
+      "id": "tenant->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 14,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "theme",
+      "id": "theme->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 13,
+        "path": "backend/src/core/theme/theme.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "ConfigurationModule",
+      "fromModuleId": "upload",
+      "id": "upload->configuration",
+      "importedClassName": "ConfigurationModule",
+      "selfDependency": false,
+      "source": {
+        "line": 8,
+        "path": "backend/src/core/upload/upload.module.ts"
+      },
+      "toModuleId": "configuration",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "StorageModule",
+      "fromModuleId": "upload",
+      "id": "upload->storage",
+      "importedClassName": "StorageModule",
+      "selfDependency": false,
+      "source": {
+        "line": 8,
+        "path": "backend/src/core/upload/upload.module.ts"
+      },
+      "toModuleId": "storage",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 22,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 23,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 27,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 24,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 25,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 26,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "vehicle",
+      "id": "vehicle->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 28,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuditModule",
+      "fromModuleId": "vendor",
+      "id": "vendor->audit",
+      "importedClassName": "AuditModule",
+      "selfDependency": false,
+      "source": {
+        "line": 47,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "toModuleId": "audit",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "AuthModule",
+      "fromModuleId": "vendor",
+      "id": "vendor->auth",
+      "importedClassName": "AuthModule",
+      "selfDependency": false,
+      "source": {
+        "line": 48,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "toModuleId": "auth",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PostgresModule",
+      "fromModuleId": "vendor",
+      "id": "vendor->database:postgres",
+      "importedClassName": "PostgresModule",
+      "selfDependency": false,
+      "source": {
+        "line": 51,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "toModuleId": "database:postgres",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "vendor",
+      "id": "vendor->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 49,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "vendor",
+      "id": "vendor->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 50,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "DatabaseModule",
+      "fromModuleId": "workflow",
+      "id": "workflow->database:database",
+      "importedClassName": "DatabaseModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "toModuleId": "database:database",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "EventBusModule",
+      "fromModuleId": "workflow",
+      "id": "workflow->eventbus",
+      "importedClassName": "EventBusModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "toModuleId": "eventbus",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "IdentityModule",
+      "fromModuleId": "workflow",
+      "id": "workflow->identity",
+      "importedClassName": "IdentityModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "toModuleId": "identity",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "PluginModule",
+      "fromModuleId": "workflow",
+      "id": "workflow->plugin",
+      "importedClassName": "PluginModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "toModuleId": "plugin",
+      "type": "MODULE_IMPORTS_MODULE"
+    },
+    {
+      "expression": "SearchModule",
+      "fromModuleId": "workflow",
+      "id": "workflow->search",
+      "importedClassName": "SearchModule",
+      "selfDependency": false,
+      "source": {
+        "line": 18,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "toModuleId": "search",
+      "type": "MODULE_IMPORTS_MODULE"
+    }
+  ],
+  "nodes": [
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "configuration",
+      "className": "ConfigModule",
+      "id": "configuration:config",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Config",
+      "outboundDependencyCount": 0,
+      "outboundModuleIds": [],
+      "physicalLocation": "configuration",
+      "source": {
+        "line": null,
+        "path": "backend/src/config/config.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AccessControlModule",
+      "id": "access-control",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Access Control",
+      "outboundDependencyCount": 7,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "credential",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AdminModule",
+      "id": "admin",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Admin",
+      "outboundDependencyCount": 7,
+      "outboundModuleIds": [
+        "agreement",
+        "invoice",
+        "plugin",
+        "property",
+        "receipt",
+        "rent",
+        "tenant"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/admin/admin.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "AgreementModule",
+      "id": "agreement",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "admin"
+      ],
+      "name": "Agreement",
+      "outboundDependencyCount": 4,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AiModule",
+      "id": "ai",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Ai",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "eventbus"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/ai/ai.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AuditModule",
+      "id": "audit",
+      "inboundDependencyCount": 11,
+      "inboundModuleIds": [
+        "access-control",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "name": "Audit",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/audit/audit.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AuthModule",
+      "id": "auth",
+      "inboundDependencyCount": 11,
+      "inboundModuleIds": [
+        "access-control",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "name": "Auth",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/auth/auth.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AuthorizationModule",
+      "id": "authorization",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Authorization",
+      "outboundDependencyCount": 0,
+      "outboundModuleIds": [],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/authorization/authorization.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "BootstrapModule",
+      "id": "bootstrap",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Bootstrap",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/bootstrap/bootstrap.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "CommunicationsModule",
+      "id": "communications",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Communications",
+      "outboundDependencyCount": 7,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/communications/communications.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "ConfigurationModule",
+      "id": "configuration",
+      "inboundDependencyCount": 3,
+      "inboundModuleIds": [
+        "health",
+        "storage",
+        "upload"
+      ],
+      "name": "Configuration",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "database:database"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/configuration/configuration.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "CredentialModule",
+      "id": "credential",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "access-control"
+      ],
+      "name": "Credential",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/credential/credential.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "DistributionModule",
+      "id": "distribution",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Distribution",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "eventbus"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/distribution/distribution.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "DocumentModule",
+      "id": "document",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Document",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/document/document.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "EventBusModule",
+      "id": "eventbus",
+      "inboundDependencyCount": 31,
+      "inboundModuleIds": [
+        "access-control",
+        "agreement",
+        "ai",
+        "audit",
+        "communications",
+        "credential",
+        "distribution",
+        "document",
+        "facility",
+        "forms",
+        "health",
+        "helpdesk",
+        "integration",
+        "inventory",
+        "invoice",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "receipt",
+        "rent",
+        "reservation",
+        "scheduler",
+        "search",
+        "staff",
+        "tenant",
+        "theme",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "name": "Eventbus",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "database:postgres"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/eventbus/eventbus.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "FacilityModule",
+      "id": "facility",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Facility",
+      "outboundDependencyCount": 8,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "workflow"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/facility/facility.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "FormsModule",
+      "id": "forms",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Forms",
+      "outboundDependencyCount": 2,
+      "outboundModuleIds": [
+        "database:database",
+        "eventbus"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/forms/forms.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "HealthModule",
+      "id": "health",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Health",
+      "outboundDependencyCount": 8,
+      "outboundModuleIds": [
+        "configuration",
+        "database:database",
+        "eventbus",
+        "metrics",
+        "plugin",
+        "scheduler",
+        "storage",
+        "workflow"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/health/health.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "HelpdeskModule",
+      "id": "helpdesk",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Helpdesk",
+      "outboundDependencyCount": 7,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "IdentityModule",
+      "id": "identity",
+      "inboundDependencyCount": 23,
+      "inboundModuleIds": [
+        "agreement",
+        "audit",
+        "auth",
+        "bootstrap",
+        "credential",
+        "facility",
+        "invoice",
+        "maintenance",
+        "metrics",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "property",
+        "receipt",
+        "rent",
+        "report",
+        "scheduler",
+        "search",
+        "staff",
+        "storage",
+        "tenant",
+        "vehicle",
+        "workflow"
+      ],
+      "name": "Identity",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "database:postgres"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/identity/identity.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "IntegrationModule",
+      "id": "integration",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Integration",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "eventbus"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/integration/integration.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "InventoryModule",
+      "id": "inventory",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "procurement"
+      ],
+      "name": "Inventory",
+      "outboundDependencyCount": 6,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "InvoiceModule",
+      "id": "invoice",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "admin"
+      ],
+      "name": "Invoice",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "database:database",
+        "eventbus",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "MaintenanceModule",
+      "id": "maintenance",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Maintenance",
+      "outboundDependencyCount": 9,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "scheduler",
+        "search",
+        "workflow"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "MetricsModule",
+      "id": "metrics",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "health"
+      ],
+      "name": "Metrics",
+      "outboundDependencyCount": 2,
+      "outboundModuleIds": [
+        "database:postgres",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/metrics/metrics.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "NotificationModule",
+      "id": "notification",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "plugin:visitor"
+      ],
+      "name": "Notification",
+      "outboundDependencyCount": 4,
+      "outboundModuleIds": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "plugin"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/notification/notification.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "PlatformModule",
+      "id": "platform",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "scheduler"
+      ],
+      "name": "Platform",
+      "outboundDependencyCount": 0,
+      "outboundModuleIds": [],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/platform/platform.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "PluginModule",
+      "id": "plugin",
+      "inboundDependencyCount": 15,
+      "inboundModuleIds": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "name": "Plugin",
+      "outboundDependencyCount": 5,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search",
+        "storage"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ProcurementModule",
+      "id": "procurement",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Procurement",
+      "outboundDependencyCount": 6,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "inventory",
+        "plugin"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "PropertyModule",
+      "id": "property",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "admin"
+      ],
+      "name": "Property",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "database:postgres",
+        "identity",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/property/property.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ReceiptModule",
+      "id": "receipt",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "admin"
+      ],
+      "name": "Receipt",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "RentModule",
+      "id": "rent",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "admin"
+      ],
+      "name": "Rent",
+      "outboundDependencyCount": 4,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/rent/rent.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ReportModule",
+      "id": "report",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "scheduler"
+      ],
+      "name": "Report",
+      "outboundDependencyCount": 2,
+      "outboundModuleIds": [
+        "database:database",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/report/report.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ReservationModule",
+      "id": "reservation",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Reservation",
+      "outboundDependencyCount": 8,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search",
+        "workflow"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "SchedulerModule",
+      "id": "scheduler",
+      "inboundDependencyCount": 6,
+      "inboundModuleIds": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation"
+      ],
+      "name": "Scheduler",
+      "outboundDependencyCount": 5,
+      "outboundModuleIds": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "platform",
+        "report"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "SearchModule",
+      "id": "search",
+      "inboundDependencyCount": 17,
+      "inboundModuleIds": [
+        "access-control",
+        "agreement",
+        "communications",
+        "document",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "plugin",
+        "plugin:visitor",
+        "property",
+        "rent",
+        "reservation",
+        "staff",
+        "tenant",
+        "vehicle",
+        "workflow"
+      ],
+      "name": "Search",
+      "outboundDependencyCount": 2,
+      "outboundModuleIds": [
+        "eventbus",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/search/search.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "StaffModule",
+      "id": "staff",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Staff",
+      "outboundDependencyCount": 7,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/staff/staff.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "StorageModule",
+      "id": "storage",
+      "inboundDependencyCount": 3,
+      "inboundModuleIds": [
+        "health",
+        "plugin",
+        "upload"
+      ],
+      "name": "Storage",
+      "outboundDependencyCount": 3,
+      "outboundModuleIds": [
+        "configuration",
+        "database:database",
+        "identity"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/storage/storage.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "TenantModule",
+      "id": "tenant",
+      "inboundDependencyCount": 1,
+      "inboundModuleIds": [
+        "admin"
+      ],
+      "name": "Tenant",
+      "outboundDependencyCount": 4,
+      "outboundModuleIds": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "ThemeModule",
+      "id": "theme",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Theme",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "eventbus"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/theme/theme.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "UploadModule",
+      "id": "upload",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Upload",
+      "outboundDependencyCount": 2,
+      "outboundModuleIds": [
+        "configuration",
+        "storage"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/upload/upload.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "VehicleModule",
+      "id": "vehicle",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Vehicle",
+      "outboundDependencyCount": 7,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "VendorModule",
+      "id": "vendor",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Vendor",
+      "outboundDependencyCount": 5,
+      "outboundModuleIds": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "WorkflowModule",
+      "id": "workflow",
+      "inboundDependencyCount": 4,
+      "inboundModuleIds": [
+        "facility",
+        "health",
+        "maintenance",
+        "reservation"
+      ],
+      "name": "Workflow",
+      "outboundDependencyCount": 5,
+      "outboundModuleIds": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "database",
+      "className": "DatabaseModule",
+      "id": "database:database",
+      "inboundDependencyCount": 10,
+      "inboundModuleIds": [
+        "configuration",
+        "forms",
+        "health",
+        "invoice",
+        "notification",
+        "report",
+        "scheduler",
+        "storage",
+        "tenant",
+        "workflow"
+      ],
+      "name": "Database",
+      "outboundDependencyCount": 1,
+      "outboundModuleIds": [
+        "database:postgres"
+      ],
+      "physicalLocation": "database",
+      "source": {
+        "line": null,
+        "path": "backend/src/database/database.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "database",
+      "className": "PostgresModule",
+      "id": "database:postgres",
+      "inboundDependencyCount": 24,
+      "inboundModuleIds": [
+        "access-control",
+        "agreement",
+        "audit",
+        "communications",
+        "credential",
+        "database:database",
+        "document",
+        "eventbus",
+        "facility",
+        "helpdesk",
+        "identity",
+        "inventory",
+        "maintenance",
+        "metrics",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "property",
+        "receipt",
+        "rent",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "name": "Postgres",
+      "outboundDependencyCount": 0,
+      "outboundModuleIds": [],
+      "physicalLocation": "database",
+      "source": {
+        "line": null,
+        "path": "backend/src/database/postgres/postgres.module.ts"
+      }
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "plugin",
+      "className": "VisitorModule",
+      "id": "plugin:visitor",
+      "inboundDependencyCount": 0,
+      "inboundModuleIds": [],
+      "name": "Visitor",
+      "outboundDependencyCount": 6,
+      "outboundModuleIds": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "notification",
+        "scheduler",
+        "search"
+      ],
+      "physicalLocation": "plugin",
+      "source": {
+        "line": null,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      }
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "sources": {
+    "architecture": "generated/knowledge/architecture-intelligence.json",
+    "moduleDependencies": "generated/knowledge/module-dependencies.ast.json",
+    "modules": "generated/knowledge/modules.json"
+  },
+  "summary": {
+    "duplicateEdgeCount": 0,
+    "externalDependencyCount": 0,
+    "integrityIssueCount": 0,
+    "internalDependencyCount": 170,
+    "moduleCount": 47,
+    "roleDependencyCounts": {
+      "business->business": 1,
+      "business->database": 16,
+      "business->platform": 73,
+      "database->database": 1,
+      "platform->business": 6,
+      "platform->database": 16,
+      "platform->platform": 51,
+      "plugin->database": 1,
+      "plugin->platform": 5
+    },
+    "selfDependencyCount": 0,
+    "unresolvedReferenceCount": 0
+  }
+}

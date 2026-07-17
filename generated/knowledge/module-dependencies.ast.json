@@ -1,0 +1,2127 @@
+{
+  "schemaVersion": "1.0.0",
+  "generator": "propertyos-typescript-module-dependency-extractor",
+  "moduleCount": 47,
+  "importReferenceCount": 170,
+  "modules": [
+    {
+      "className": "ConfigModule",
+      "source": {
+        "path": "backend/src/config/config.module.ts",
+        "line": 8
+      },
+      "imports": []
+    },
+    {
+      "className": "AccessControlModule",
+      "source": {
+        "path": "backend/src/core/access-control/access-control.module.ts",
+        "line": 40
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 21
+          }
+        },
+        {
+          "className": "CredentialModule",
+          "expression": "CredentialModule",
+          "sourcePath": "backend/src/core/credential/credential.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 22
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 23
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 24
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 25
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/access-control/access-control.module.ts",
+            "line": 26
+          }
+        }
+      ]
+    },
+    {
+      "className": "AdminModule",
+      "source": {
+        "path": "backend/src/core/admin/admin.module.ts",
+        "line": 29
+      },
+      "imports": [
+        {
+          "className": "AgreementModule",
+          "expression": "AgreementModule",
+          "sourcePath": "backend/src/core/agreement/agreement.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "InvoiceModule",
+          "expression": "InvoiceModule",
+          "sourcePath": "backend/src/core/invoice/invoice.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 23
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 17
+          }
+        },
+        {
+          "className": "PropertyModule",
+          "expression": "PropertyModule",
+          "sourcePath": "backend/src/core/property/property.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "ReceiptModule",
+          "expression": "ReceiptModule",
+          "sourcePath": "backend/src/core/receipt/receipt.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 22
+          }
+        },
+        {
+          "className": "RentModule",
+          "expression": "RentModule",
+          "sourcePath": "backend/src/core/rent/rent.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 21
+          }
+        },
+        {
+          "className": "TenantModule",
+          "expression": "TenantModule",
+          "sourcePath": "backend/src/core/tenant/tenant.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 19
+          }
+        }
+      ]
+    },
+    {
+      "className": "AgreementModule",
+      "source": {
+        "path": "backend/src/core/agreement/agreement.module.ts",
+        "line": 34
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/agreement/agreement.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/agreement/agreement.module.ts",
+            "line": 19
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/agreement/agreement.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/agreement/agreement.module.ts",
+            "line": 21
+          }
+        }
+      ]
+    },
+    {
+      "className": "AiModule",
+      "source": {
+        "path": "backend/src/core/ai/ai.module.ts",
+        "line": 14
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/ai/ai.module.ts",
+            "line": 9
+          }
+        }
+      ]
+    },
+    {
+      "className": "AuditModule",
+      "source": {
+        "path": "backend/src/core/audit/audit.module.ts",
+        "line": 16
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/audit/audit.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/audit/audit.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/audit/audit.module.ts",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "className": "AuthModule",
+      "source": {
+        "path": "backend/src/core/auth/auth.module.ts",
+        "line": 20
+      },
+      "imports": [
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/auth/auth.module.ts",
+            "line": 10
+          }
+        }
+      ]
+    },
+    {
+      "className": "AuthorizationModule",
+      "source": {
+        "path": "backend/src/core/authorization/authorization.module.ts",
+        "line": 8
+      },
+      "imports": []
+    },
+    {
+      "className": "BootstrapModule",
+      "source": {
+        "path": "backend/src/core/bootstrap/bootstrap.module.ts",
+        "line": 12
+      },
+      "imports": [
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/bootstrap/bootstrap.module.ts",
+            "line": 8
+          }
+        }
+      ]
+    },
+    {
+      "className": "CommunicationsModule",
+      "source": {
+        "path": "backend/src/core/communications/communications.module.ts",
+        "line": 90
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 62
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 63
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 64
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 65
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 66
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 68
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/communications/communications.module.ts",
+            "line": 67
+          }
+        }
+      ]
+    },
+    {
+      "className": "ConfigurationModule",
+      "source": {
+        "path": "backend/src/core/configuration/configuration.module.ts",
+        "line": 13
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/configuration/configuration.module.ts",
+            "line": 8
+          }
+        }
+      ]
+    },
+    {
+      "className": "CredentialModule",
+      "source": {
+        "path": "backend/src/core/credential/credential.module.ts",
+        "line": 22
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/credential/credential.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/credential/credential.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/credential/credential.module.ts",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "className": "DistributionModule",
+      "source": {
+        "path": "backend/src/core/distribution/distribution.module.ts",
+        "line": 14
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/distribution/distribution.module.ts",
+            "line": 9
+          }
+        }
+      ]
+    },
+    {
+      "className": "DocumentModule",
+      "source": {
+        "path": "backend/src/core/document/document.module.ts",
+        "line": 21
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/document/document.module.ts",
+            "line": 12
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/document/document.module.ts",
+            "line": 12
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/document/document.module.ts",
+            "line": 12
+          }
+        }
+      ]
+    },
+    {
+      "className": "EventBusModule",
+      "source": {
+        "path": "backend/src/core/eventbus/eventbus.module.ts",
+        "line": 18
+      },
+      "imports": [
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/eventbus/eventbus.module.ts",
+            "line": 8
+          }
+        }
+      ]
+    },
+    {
+      "className": "FacilityModule",
+      "source": {
+        "path": "backend/src/core/facility/facility.module.ts",
+        "line": 51
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 24
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 25
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 26
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 27
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 28
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 29
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 30
+          }
+        },
+        {
+          "className": "WorkflowModule",
+          "expression": "WorkflowModule",
+          "sourcePath": "backend/src/core/workflow/workflow.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/facility/facility.module.ts",
+            "line": 31
+          }
+        }
+      ]
+    },
+    {
+      "className": "FormsModule",
+      "source": {
+        "path": "backend/src/core/forms/forms.module.ts",
+        "line": 25
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/forms/forms.module.ts",
+            "line": 13
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/forms/forms.module.ts",
+            "line": 13
+          }
+        }
+      ]
+    },
+    {
+      "className": "HealthModule",
+      "source": {
+        "path": "backend/src/core/health/health.module.ts",
+        "line": 28
+      },
+      "imports": [
+        {
+          "className": "ConfigurationModule",
+          "expression": "ConfigurationModule",
+          "sourcePath": "backend/src/core/configuration/configuration.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 17
+          }
+        },
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 16
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 19
+          }
+        },
+        {
+          "className": "MetricsModule",
+          "expression": "MetricsModule",
+          "sourcePath": "backend/src/core/metrics/metrics.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 22
+          }
+        },
+        {
+          "className": "StorageModule",
+          "expression": "StorageModule",
+          "sourcePath": "backend/src/core/storage/storage.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 23
+          }
+        },
+        {
+          "className": "WorkflowModule",
+          "expression": "WorkflowModule",
+          "sourcePath": "backend/src/core/workflow/workflow.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/health/health.module.ts",
+            "line": 21
+          }
+        }
+      ]
+    },
+    {
+      "className": "HelpdeskModule",
+      "source": {
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+        "line": 62
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 32
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 33
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 35
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 36
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 34
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 38
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 37
+          }
+        }
+      ]
+    },
+    {
+      "className": "IdentityModule",
+      "source": {
+        "path": "backend/src/core/identity/identity.module.ts",
+        "line": 22
+      },
+      "imports": [
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/identity/identity.module.ts",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "className": "IntegrationModule",
+      "source": {
+        "path": "backend/src/core/integration/integration.module.ts",
+        "line": 20
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/integration/integration.module.ts",
+            "line": 10
+          }
+        }
+      ]
+    },
+    {
+      "className": "InventoryModule",
+      "source": {
+        "path": "backend/src/core/inventory/inventory.module.ts",
+        "line": 228
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/inventory/inventory.module.ts",
+            "line": 145
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/inventory/inventory.module.ts",
+            "line": 144
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/inventory/inventory.module.ts",
+            "line": 146
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/inventory/inventory.module.ts",
+            "line": 147
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/inventory/inventory.module.ts",
+            "line": 143
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/inventory/inventory.module.ts",
+            "line": 148
+          }
+        }
+      ]
+    },
+    {
+      "className": "InvoiceModule",
+      "source": {
+        "path": "backend/src/core/invoice/invoice.module.ts",
+        "line": 22
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/invoice/invoice.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/invoice/invoice.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/invoice/invoice.module.ts",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "className": "MaintenanceModule",
+      "source": {
+        "path": "backend/src/core/maintenance/maintenance.module.ts",
+        "line": 61
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 28
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 29
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 32
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 30
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 33
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 31
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 35
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 34
+          }
+        },
+        {
+          "className": "WorkflowModule",
+          "expression": "WorkflowModule",
+          "sourcePath": "backend/src/core/workflow/workflow.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/maintenance/maintenance.module.ts",
+            "line": 36
+          }
+        }
+      ]
+    },
+    {
+      "className": "MetricsModule",
+      "source": {
+        "path": "backend/src/core/metrics/metrics.module.ts",
+        "line": 22
+      },
+      "imports": [
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/metrics/metrics.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/metrics/metrics.module.ts",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "className": "NotificationModule",
+      "source": {
+        "path": "backend/src/core/notification/notification.module.ts",
+        "line": 33
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/notification/notification.module.ts",
+            "line": 16
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/notification/notification.module.ts",
+            "line": 16
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/notification/notification.module.ts",
+            "line": 16
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/notification/notification.module.ts",
+            "line": 16
+          }
+        }
+      ]
+    },
+    {
+      "className": "PlatformModule",
+      "source": {
+        "path": "backend/src/core/platform/platform.module.ts",
+        "line": 8
+      },
+      "imports": []
+    },
+    {
+      "className": "PluginModule",
+      "source": {
+        "path": "backend/src/core/plugin/plugin.module.ts",
+        "line": 107
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/plugin/plugin.module.ts",
+            "line": 45
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/plugin/plugin.module.ts",
+            "line": 46
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/plugin/plugin.module.ts",
+            "line": 47
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/plugin/plugin.module.ts",
+            "line": 48
+          }
+        },
+        {
+          "className": "StorageModule",
+          "expression": "StorageModule",
+          "sourcePath": "backend/src/core/storage/storage.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/plugin/plugin.module.ts",
+            "line": 49
+          }
+        }
+      ]
+    },
+    {
+      "className": "ProcurementModule",
+      "source": {
+        "path": "backend/src/core/procurement/procurement.module.ts",
+        "line": 267
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/procurement/procurement.module.ts",
+            "line": 167
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/procurement/procurement.module.ts",
+            "line": 168
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/procurement/procurement.module.ts",
+            "line": 169
+          }
+        },
+        {
+          "className": "InventoryModule",
+          "expression": "InventoryModule",
+          "sourcePath": "backend/src/core/inventory/inventory.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/procurement/procurement.module.ts",
+            "line": 170
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/procurement/procurement.module.ts",
+            "line": 171
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/procurement/procurement.module.ts",
+            "line": 172
+          }
+        }
+      ]
+    },
+    {
+      "className": "PropertyModule",
+      "source": {
+        "path": "backend/src/core/property/property.module.ts",
+        "line": 29
+      },
+      "imports": [
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/property/property.module.ts",
+            "line": 17
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/property/property.module.ts",
+            "line": 17
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/property/property.module.ts",
+            "line": 17
+          }
+        }
+      ]
+    },
+    {
+      "className": "ReceiptModule",
+      "source": {
+        "path": "backend/src/core/receipt/receipt.module.ts",
+        "line": 22
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/receipt/receipt.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/receipt/receipt.module.ts",
+            "line": 11
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/receipt/receipt.module.ts",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "className": "RentModule",
+      "source": {
+        "path": "backend/src/core/rent/rent.module.ts",
+        "line": 34
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/rent/rent.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/rent/rent.module.ts",
+            "line": 19
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/rent/rent.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/rent/rent.module.ts",
+            "line": 21
+          }
+        }
+      ]
+    },
+    {
+      "className": "ReportModule",
+      "source": {
+        "path": "backend/src/core/report/report.module.ts",
+        "line": 24
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/report/report.module.ts",
+            "line": 12
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/report/report.module.ts",
+            "line": 12
+          }
+        }
+      ]
+    },
+    {
+      "className": "ReservationModule",
+      "source": {
+        "path": "backend/src/core/reservation/reservation.module.ts",
+        "line": 91
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 60
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 61
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 62
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 63
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 64
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 66
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 65
+          }
+        },
+        {
+          "className": "WorkflowModule",
+          "expression": "WorkflowModule",
+          "sourcePath": "backend/src/core/workflow/workflow.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/reservation/reservation.module.ts",
+            "line": 67
+          }
+        }
+      ]
+    },
+    {
+      "className": "SchedulerModule",
+      "source": {
+        "path": "backend/src/core/scheduler/scheduler.module.ts",
+        "line": 36
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/scheduler/scheduler.module.ts",
+            "line": 16
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/scheduler/scheduler.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/scheduler/scheduler.module.ts",
+            "line": 17
+          }
+        },
+        {
+          "className": "PlatformModule",
+          "expression": "PlatformModule",
+          "sourcePath": "backend/src/core/platform/platform.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/scheduler/scheduler.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "ReportModule",
+          "expression": "ReportModule",
+          "sourcePath": "backend/src/core/report/report.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/scheduler/scheduler.module.ts",
+            "line": 19
+          }
+        }
+      ]
+    },
+    {
+      "className": "SearchModule",
+      "source": {
+        "path": "backend/src/core/search/search.module.ts",
+        "line": 15
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/search/search.module.ts",
+            "line": 10
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/search/search.module.ts",
+            "line": 10
+          }
+        }
+      ]
+    },
+    {
+      "className": "StaffModule",
+      "source": {
+        "path": "backend/src/core/staff/staff.module.ts",
+        "line": 46
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 22
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 23
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 24
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 25
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 26
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 27
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/staff/staff.module.ts",
+            "line": 28
+          }
+        }
+      ]
+    },
+    {
+      "className": "StorageModule",
+      "source": {
+        "path": "backend/src/core/storage/storage.module.ts",
+        "line": 28
+      },
+      "imports": [
+        {
+          "className": "ConfigurationModule",
+          "expression": "ConfigurationModule",
+          "sourcePath": "backend/src/core/configuration/configuration.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/storage/storage.module.ts",
+            "line": 15
+          }
+        },
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/storage/storage.module.ts",
+            "line": 15
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/storage/storage.module.ts",
+            "line": 15
+          }
+        }
+      ]
+    },
+    {
+      "className": "TenantModule",
+      "source": {
+        "path": "backend/src/core/tenant/tenant.module.ts",
+        "line": 26
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/tenant/tenant.module.ts",
+            "line": 14
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/tenant/tenant.module.ts",
+            "line": 14
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/tenant/tenant.module.ts",
+            "line": 14
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/tenant/tenant.module.ts",
+            "line": 14
+          }
+        }
+      ]
+    },
+    {
+      "className": "ThemeModule",
+      "source": {
+        "path": "backend/src/core/theme/theme.module.ts",
+        "line": 18
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/theme/theme.module.ts",
+            "line": 13
+          }
+        }
+      ]
+    },
+    {
+      "className": "UploadModule",
+      "source": {
+        "path": "backend/src/core/upload/upload.module.ts",
+        "line": 13
+      },
+      "imports": [
+        {
+          "className": "ConfigurationModule",
+          "expression": "ConfigurationModule",
+          "sourcePath": "backend/src/core/configuration/configuration.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/upload/upload.module.ts",
+            "line": 8
+          }
+        },
+        {
+          "className": "StorageModule",
+          "expression": "StorageModule",
+          "sourcePath": "backend/src/core/storage/storage.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/upload/upload.module.ts",
+            "line": 8
+          }
+        }
+      ]
+    },
+    {
+      "className": "VehicleModule",
+      "source": {
+        "path": "backend/src/core/vehicle/vehicle.module.ts",
+        "line": 46
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 22
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 23
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 24
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 25
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 26
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 27
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vehicle/vehicle.module.ts",
+            "line": 28
+          }
+        }
+      ]
+    },
+    {
+      "className": "VendorModule",
+      "source": {
+        "path": "backend/src/core/vendor/vendor.module.ts",
+        "line": 73
+      },
+      "imports": [
+        {
+          "className": "AuditModule",
+          "expression": "AuditModule",
+          "sourcePath": "backend/src/core/audit/audit.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vendor/vendor.module.ts",
+            "line": 47
+          }
+        },
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vendor/vendor.module.ts",
+            "line": 48
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vendor/vendor.module.ts",
+            "line": 49
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vendor/vendor.module.ts",
+            "line": 50
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/vendor/vendor.module.ts",
+            "line": 51
+          }
+        }
+      ]
+    },
+    {
+      "className": "WorkflowModule",
+      "source": {
+        "path": "backend/src/core/workflow/workflow.module.ts",
+        "line": 32
+      },
+      "imports": [
+        {
+          "className": "DatabaseModule",
+          "expression": "DatabaseModule",
+          "sourcePath": "backend/src/database/database.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/workflow/workflow.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/workflow/workflow.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/workflow/workflow.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/workflow/workflow.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/workflow/workflow.module.ts",
+            "line": 18
+          }
+        }
+      ]
+    },
+    {
+      "className": "DatabaseModule",
+      "source": {
+        "path": "backend/src/database/database.module.ts",
+        "line": 8
+      },
+      "imports": [
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/database/database.module.ts",
+            "line": 5
+          }
+        }
+      ]
+    },
+    {
+      "className": "PostgresModule",
+      "source": {
+        "path": "backend/src/database/postgres/postgres.module.ts",
+        "line": 9
+      },
+      "imports": []
+    },
+    {
+      "className": "VisitorModule",
+      "source": {
+        "path": "backend/src/plugins/visitor/visitor.module.ts",
+        "line": 37
+      },
+      "imports": [
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/plugins/visitor/visitor.module.ts",
+            "line": 20
+          }
+        },
+        {
+          "className": "IdentityModule",
+          "expression": "IdentityModule",
+          "sourcePath": "backend/src/core/identity/identity.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/plugins/visitor/visitor.module.ts",
+            "line": 19
+          }
+        },
+        {
+          "className": "NotificationModule",
+          "expression": "NotificationModule",
+          "sourcePath": "backend/src/core/notification/notification.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/plugins/visitor/visitor.module.ts",
+            "line": 23
+          }
+        },
+        {
+          "className": "PostgresModule",
+          "expression": "PostgresModule",
+          "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/plugins/visitor/visitor.module.ts",
+            "line": 18
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/plugins/visitor/visitor.module.ts",
+            "line": 21
+          }
+        },
+        {
+          "className": "SearchModule",
+          "expression": "SearchModule",
+          "sourcePath": "backend/src/core/search/search.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/plugins/visitor/visitor.module.ts",
+            "line": 22
+          }
+        }
+      ]
+    }
+  ]
+}

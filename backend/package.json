@@ -27,7 +27,8 @@
     "knowledge:impact": "cd .. && python3 -m tools.knowledge_engine.impact_analysis_cli",
     "knowledge:docs:modules": "cd .. && python3 -m tools.knowledge_engine.module_documentation_cli",
     "knowledge:repository:verify": "cd .. && python3 -m tools.knowledge_engine.repository_api_cli",
-    "knowledge:query": "cd .. && python3 -m tools.knowledge_engine.query_cli"
+    "knowledge:query": "cd .. && python3 -m tools.knowledge_engine.query_cli",
+    "knowledge:context": "cd .. && python3 -m tools.knowledge_engine.context_cli"
   },
   "keywords": [],
   "author": "",

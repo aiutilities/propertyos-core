@@ -1,0 +1,1096 @@
+{
+  "generator": "propertyos-architecture-intelligence",
+  "modules": [
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "configuration",
+      "className": "ConfigModule",
+      "componentCount": 1,
+      "expectedLocation": "configuration",
+      "id": "configuration:config",
+      "name": "Config",
+      "physicalLocation": "configuration",
+      "rationale": "Configuration modules belong in the configuration layer.",
+      "source": {
+        "line": null,
+        "path": "backend/src/config/config.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AccessControlModule",
+      "componentCount": 4,
+      "expectedLocation": "core",
+      "id": "access-control",
+      "name": "Access Control",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AdminModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "admin",
+      "name": "Admin",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "AgreementModule",
+      "componentCount": 3,
+      "expectedLocation": "plugin",
+      "id": "agreement",
+      "name": "Agreement",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AiModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "ai",
+      "name": "Ai",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/ai/ai.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AuditModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "audit",
+      "name": "Audit",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/audit/audit.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AuthModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "auth",
+      "name": "Auth",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/auth/auth.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "AuthorizationModule",
+      "componentCount": 1,
+      "expectedLocation": "core",
+      "id": "authorization",
+      "name": "Authorization",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/authorization/authorization.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "BootstrapModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "bootstrap",
+      "name": "Bootstrap",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/bootstrap/bootstrap.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "CommunicationsModule",
+      "componentCount": 5,
+      "expectedLocation": "plugin",
+      "id": "communications",
+      "name": "Communications",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "ConfigurationModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "configuration",
+      "name": "Configuration",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/configuration/configuration.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "CredentialModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "credential",
+      "name": "Credential",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/credential/credential.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "DistributionModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "distribution",
+      "name": "Distribution",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/distribution/distribution.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "DocumentModule",
+      "componentCount": 3,
+      "expectedLocation": "core",
+      "id": "document",
+      "name": "Document",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/document/document.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "EventBusModule",
+      "componentCount": 1,
+      "expectedLocation": "core",
+      "id": "eventbus",
+      "name": "Eventbus",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/eventbus/eventbus.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "FacilityModule",
+      "componentCount": 5,
+      "expectedLocation": "plugin",
+      "id": "facility",
+      "name": "Facility",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "FormsModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "forms",
+      "name": "Forms",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/forms/forms.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "HealthModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "health",
+      "name": "Health",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "HelpdeskModule",
+      "componentCount": 5,
+      "expectedLocation": "plugin",
+      "id": "helpdesk",
+      "name": "Helpdesk",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "IdentityModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "identity",
+      "name": "Identity",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/identity/identity.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "IntegrationModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "integration",
+      "name": "Integration",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/integration/integration.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "InventoryModule",
+      "componentCount": 19,
+      "expectedLocation": "plugin",
+      "id": "inventory",
+      "name": "Inventory",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "InvoiceModule",
+      "componentCount": 2,
+      "expectedLocation": "plugin",
+      "id": "invoice",
+      "name": "Invoice",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "MaintenanceModule",
+      "componentCount": 6,
+      "expectedLocation": "plugin",
+      "id": "maintenance",
+      "name": "Maintenance",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "MetricsModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "metrics",
+      "name": "Metrics",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/metrics/metrics.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "NotificationModule",
+      "componentCount": 4,
+      "expectedLocation": "core",
+      "id": "notification",
+      "name": "Notification",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/notification/notification.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "PlatformModule",
+      "componentCount": 0,
+      "expectedLocation": "core",
+      "id": "platform",
+      "name": "Platform",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/platform/platform.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "PluginModule",
+      "componentCount": 22,
+      "expectedLocation": "core",
+      "id": "plugin",
+      "name": "Plugin",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ProcurementModule",
+      "componentCount": 18,
+      "expectedLocation": "plugin",
+      "id": "procurement",
+      "name": "Procurement",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "PropertyModule",
+      "componentCount": 3,
+      "expectedLocation": "core",
+      "id": "property",
+      "name": "Property",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/property/property.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ReceiptModule",
+      "componentCount": 2,
+      "expectedLocation": "plugin",
+      "id": "receipt",
+      "name": "Receipt",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "RentModule",
+      "componentCount": 3,
+      "expectedLocation": "plugin",
+      "id": "rent",
+      "name": "Rent",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/rent/rent.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ReportModule",
+      "componentCount": 3,
+      "expectedLocation": "plugin",
+      "id": "report",
+      "name": "Report",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/report/report.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "ReservationModule",
+      "componentCount": 6,
+      "expectedLocation": "plugin",
+      "id": "reservation",
+      "name": "Reservation",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "SchedulerModule",
+      "componentCount": 3,
+      "expectedLocation": "core",
+      "id": "scheduler",
+      "name": "Scheduler",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "SearchModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "search",
+      "name": "Search",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/search/search.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "StaffModule",
+      "componentCount": 4,
+      "expectedLocation": "plugin",
+      "id": "staff",
+      "name": "Staff",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "StorageModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "storage",
+      "name": "Storage",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/storage/storage.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "TenantModule",
+      "componentCount": 3,
+      "expectedLocation": "plugin",
+      "id": "tenant",
+      "name": "Tenant",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "ThemeModule",
+      "componentCount": 5,
+      "expectedLocation": "core",
+      "id": "theme",
+      "name": "Theme",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/theme/theme.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "UploadModule",
+      "componentCount": 2,
+      "expectedLocation": "core",
+      "id": "upload",
+      "name": "Upload",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/upload/upload.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "VehicleModule",
+      "componentCount": 4,
+      "expectedLocation": "plugin",
+      "id": "vehicle",
+      "name": "Vehicle",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "className": "VendorModule",
+      "componentCount": 3,
+      "expectedLocation": "plugin",
+      "id": "vendor",
+      "name": "Vendor",
+      "physicalLocation": "core",
+      "rationale": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "className": "WorkflowModule",
+      "componentCount": 4,
+      "expectedLocation": "core",
+      "id": "workflow",
+      "name": "Workflow",
+      "physicalLocation": "core",
+      "rationale": "The module provides shared platform infrastructure.",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "database",
+      "className": "DatabaseModule",
+      "componentCount": 0,
+      "expectedLocation": "database",
+      "id": "database:database",
+      "name": "Database",
+      "physicalLocation": "database",
+      "rationale": "Database modules belong in the database layer.",
+      "source": {
+        "line": null,
+        "path": "backend/src/database/database.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "database",
+      "className": "PostgresModule",
+      "componentCount": 1,
+      "expectedLocation": "database",
+      "id": "database:postgres",
+      "name": "Postgres",
+      "physicalLocation": "database",
+      "rationale": "Database modules belong in the database layer.",
+      "source": {
+        "line": null,
+        "path": "backend/src/database/postgres/postgres.module.ts"
+      },
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "plugin",
+      "className": "VisitorModule",
+      "componentCount": 4,
+      "expectedLocation": "plugin",
+      "id": "plugin:visitor",
+      "name": "Visitor",
+      "physicalLocation": "plugin",
+      "rationale": "The module is physically implemented as a plugin.",
+      "source": {
+        "line": null,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "violationCode": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "agreement",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "communications",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "facility",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "helpdesk",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "inventory",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "invoice",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "maintenance",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "procurement",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "receipt",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "rent",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "report",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "reservation",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "staff",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "tenant",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "vehicle",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    },
+    {
+      "action": "Assess dependencies, database migrations, public contracts, events, and UI coupling before moving this module from core into a plugin.",
+      "moduleId": "vendor",
+      "priority": "architecture-migration",
+      "targetLocation": "plugin"
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "sources": {
+    "architectureBoundary": "architecture/004-Core-vs-Plugin-Boundaries.md",
+    "modules": "generated/knowledge/modules.json",
+    "policy": "tools/knowledge_engine/architecture_policy.py"
+  },
+  "summary": {
+    "alignedModuleCount": 31,
+    "alignmentStatusCounts": {
+      "aligned": 31,
+      "violation": 16
+    },
+    "architecturalRoleCounts": {
+      "business": 16,
+      "configuration": 1,
+      "database": 2,
+      "platform": 27,
+      "plugin": 1
+    },
+    "architectureHealthScore": 65.96,
+    "classifiedModuleCount": 47,
+    "moduleCount": 47,
+    "physicalLocationCounts": {
+      "configuration": 1,
+      "core": 43,
+      "database": 2,
+      "plugin": 1
+    },
+    "unclassifiedModuleCount": 0,
+    "violationCount": 16
+  },
+  "violations": [
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "agreement",
+      "moduleName": "Agreement",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "communications",
+      "moduleName": "Communications",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/communications/communications.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "facility",
+      "moduleName": "Facility",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/facility/facility.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "helpdesk",
+      "moduleName": "Helpdesk",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "inventory",
+      "moduleName": "Inventory",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "invoice",
+      "moduleName": "Invoice",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "maintenance",
+      "moduleName": "Maintenance",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "procurement",
+      "moduleName": "Procurement",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "receipt",
+      "moduleName": "Receipt",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "rent",
+      "moduleName": "Rent",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/rent/rent.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "report",
+      "moduleName": "Report",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/report/report.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "reservation",
+      "moduleName": "Reservation",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "staff",
+      "moduleName": "Staff",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/staff/staff.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "tenant",
+      "moduleName": "Tenant",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "vehicle",
+      "moduleName": "Vehicle",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      }
+    },
+    {
+      "architecturalRole": "business",
+      "code": "BUSINESS_MODULE_IN_CORE",
+      "expectedLocation": "plugin",
+      "message": "Business-specific functionality should be implemented as a plugin rather than core.",
+      "moduleId": "vendor",
+      "moduleName": "Vendor",
+      "physicalLocation": "core",
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      }
+    }
+  ]
+}

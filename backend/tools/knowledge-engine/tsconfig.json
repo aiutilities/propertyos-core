@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../../dist-tools/knowledge-engine",
+    "noEmit": false,
+    "strict": true,
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": [
+    "./*.ts"
+  ]
+}

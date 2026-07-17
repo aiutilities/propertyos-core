@@ -1,9 +1,24 @@
 {
+  "componentCount": 179,
   "generator": "propertyos-knowledge-engine",
   "moduleCount": 47,
   "modules": [
     {
       "className": "ConfigModule",
+      "componentCount": 1,
+      "components": [
+        {
+          "className": "ConfigService",
+          "id": "configuration:config:service:config",
+          "kind": "service",
+          "moduleId": "configuration:config",
+          "name": "Config Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/config/config.service.ts"
+          }
+        }
+      ],
       "controllers": [],
       "id": "configuration:config",
       "kind": "configuration",
@@ -18,6 +33,53 @@
     },
     {
       "className": "AccessControlModule",
+      "componentCount": 4,
+      "components": [
+        {
+          "className": "AccessControlBootstrapService",
+          "id": "access-control:bootstrap-service:access-control-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "access-control",
+          "name": "Access Control Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/access-control/bootstrap/access-control-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "AccessControlController",
+          "id": "access-control:controller:access-control",
+          "kind": "controller",
+          "moduleId": "access-control",
+          "name": "Access Control Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/access-control/controllers/access-control.controller.ts"
+          }
+        },
+        {
+          "className": "AccessControlSearchProviderService",
+          "id": "access-control:search-provider:access-control-search-provider",
+          "kind": "search-provider",
+          "moduleId": "access-control",
+          "name": "Access Control Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/access-control/access-control-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "AccessControlService",
+          "id": "access-control:service:access-control",
+          "kind": "service",
+          "moduleId": "access-control",
+          "name": "Access Control Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/access-control/services/access-control.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "AccessControlController"
       ],
@@ -36,6 +98,31 @@
     },
     {
       "className": "AdminModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "AdminController",
+          "id": "admin:controller:admin",
+          "kind": "controller",
+          "moduleId": "admin",
+          "name": "Admin Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/admin/controllers/admin.controller.ts"
+          }
+        },
+        {
+          "className": "AdminService",
+          "id": "admin:service:admin",
+          "kind": "service",
+          "moduleId": "admin",
+          "name": "Admin Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/admin/services/admin.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "AdminController"
       ],
@@ -52,6 +139,42 @@
     },
     {
       "className": "AgreementModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "AgreementController",
+          "id": "agreement:controller:agreement",
+          "kind": "controller",
+          "moduleId": "agreement",
+          "name": "Agreement Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/agreement/controllers/agreement.controller.ts"
+          }
+        },
+        {
+          "className": "AgreementSearchProviderService",
+          "id": "agreement:search-provider:agreement-search-provider",
+          "kind": "search-provider",
+          "moduleId": "agreement",
+          "name": "Agreement Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/agreement/agreement-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "AgreementService",
+          "id": "agreement:service:agreement",
+          "kind": "service",
+          "moduleId": "agreement",
+          "name": "Agreement Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/agreement/services/agreement.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "AgreementController"
       ],
@@ -69,6 +192,31 @@
     },
     {
       "className": "AiModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "AiController",
+          "id": "ai:controller:ai",
+          "kind": "controller",
+          "moduleId": "ai",
+          "name": "Ai Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/ai/controllers/ai.controller.ts"
+          }
+        },
+        {
+          "className": "AiService",
+          "id": "ai:service:ai",
+          "kind": "service",
+          "moduleId": "ai",
+          "name": "Ai Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/ai/services/ai.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "AiController"
       ],
@@ -85,6 +233,31 @@
     },
     {
       "className": "AuditModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "AuditController",
+          "id": "audit:controller:audit",
+          "kind": "controller",
+          "moduleId": "audit",
+          "name": "Audit Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/audit/controllers/audit.controller.ts"
+          }
+        },
+        {
+          "className": "AuditService",
+          "id": "audit:service:audit",
+          "kind": "service",
+          "moduleId": "audit",
+          "name": "Audit Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/audit/audit.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "AuditController"
       ],
@@ -101,6 +274,31 @@
     },
     {
       "className": "AuthModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "AuthController",
+          "id": "auth:controller:auth",
+          "kind": "controller",
+          "moduleId": "auth",
+          "name": "Auth Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/auth/auth.controller.ts"
+          }
+        },
+        {
+          "className": "AuthService",
+          "id": "auth:service:auth",
+          "kind": "service",
+          "moduleId": "auth",
+          "name": "Auth Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/auth/services/auth.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "AuthController"
       ],
@@ -117,6 +315,20 @@
     },
     {
       "className": "AuthorizationModule",
+      "componentCount": 1,
+      "components": [
+        {
+          "className": "AuthorizationService",
+          "id": "authorization:service:authorization",
+          "kind": "service",
+          "moduleId": "authorization",
+          "name": "Authorization Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/authorization/services/authorization.service.ts"
+          }
+        }
+      ],
       "controllers": [],
       "id": "authorization",
       "kind": "core",
@@ -131,6 +343,31 @@
     },
     {
       "className": "BootstrapModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "BootstrapService",
+          "id": "bootstrap:bootstrap-service:bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "bootstrap",
+          "name": "Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/bootstrap/services/bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "BootstrapController",
+          "id": "bootstrap:controller:bootstrap",
+          "kind": "controller",
+          "moduleId": "bootstrap",
+          "name": "Bootstrap Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/bootstrap/controllers/bootstrap.controller.ts"
+          }
+        }
+      ],
       "controllers": [
         "BootstrapController"
       ],
@@ -147,6 +384,64 @@
     },
     {
       "className": "CommunicationsModule",
+      "componentCount": 5,
+      "components": [
+        {
+          "className": "CommunicationsBootstrapService",
+          "id": "communications:bootstrap-service:communications-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "communications",
+          "name": "Communications Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "CommunicationsController",
+          "id": "communications:controller:communications",
+          "kind": "controller",
+          "moduleId": "communications",
+          "name": "Communications Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/communications/controllers/communications.controller.ts"
+          }
+        },
+        {
+          "className": "CommunicationsSchedulerService",
+          "id": "communications:scheduler-service:communications-scheduler",
+          "kind": "scheduler-service",
+          "moduleId": "communications",
+          "name": "Communications Scheduler Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/communications/services/communications-scheduler.service.ts"
+          }
+        },
+        {
+          "className": "CommunicationsSearchProviderService",
+          "id": "communications:search-provider:communications-search-provider",
+          "kind": "search-provider",
+          "moduleId": "communications",
+          "name": "Communications Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/communications/communications-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "CommunicationsService",
+          "id": "communications:service:communications",
+          "kind": "service",
+          "moduleId": "communications",
+          "name": "Communications Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/communications/services/communications.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "CommunicationsController"
       ],
@@ -166,6 +461,31 @@
     },
     {
       "className": "ConfigurationModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "ConfigurationController",
+          "id": "configuration:controller:configuration",
+          "kind": "controller",
+          "moduleId": "configuration",
+          "name": "Configuration Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/configuration/controllers/configuration.controller.ts"
+          }
+        },
+        {
+          "className": "ConfigurationService",
+          "id": "configuration:service:configuration",
+          "kind": "service",
+          "moduleId": "configuration",
+          "name": "Configuration Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/configuration/services/configuration.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "ConfigurationController"
       ],
@@ -182,6 +502,31 @@
     },
     {
       "className": "CredentialModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "CredentialController",
+          "id": "credential:controller:credential",
+          "kind": "controller",
+          "moduleId": "credential",
+          "name": "Credential Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/credential/controllers/credential.controller.ts"
+          }
+        },
+        {
+          "className": "CredentialService",
+          "id": "credential:service:credential",
+          "kind": "service",
+          "moduleId": "credential",
+          "name": "Credential Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/credential/services/credential.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "CredentialController"
       ],
@@ -198,6 +543,31 @@
     },
     {
       "className": "DistributionModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "DistributionController",
+          "id": "distribution:controller:distribution",
+          "kind": "controller",
+          "moduleId": "distribution",
+          "name": "Distribution Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/distribution/controllers/distribution.controller.ts"
+          }
+        },
+        {
+          "className": "DistributionService",
+          "id": "distribution:service:distribution",
+          "kind": "service",
+          "moduleId": "distribution",
+          "name": "Distribution Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/distribution/services/distribution.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "DistributionController"
       ],
@@ -214,6 +584,42 @@
     },
     {
       "className": "DocumentModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "DocumentController",
+          "id": "document:controller:document",
+          "kind": "controller",
+          "moduleId": "document",
+          "name": "Document Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/document/controllers/document.controller.ts"
+          }
+        },
+        {
+          "className": "DocumentSearchProviderService",
+          "id": "document:search-provider:document-search-provider",
+          "kind": "search-provider",
+          "moduleId": "document",
+          "name": "Document Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/document/document-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "DocumentService",
+          "id": "document:service:document",
+          "kind": "service",
+          "moduleId": "document",
+          "name": "Document Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/document/services/document.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "DocumentController"
       ],
@@ -231,6 +637,20 @@
     },
     {
       "className": "EventBusModule",
+      "componentCount": 1,
+      "components": [
+        {
+          "className": "EventBusService",
+          "id": "eventbus:service:eventbus",
+          "kind": "service",
+          "moduleId": "eventbus",
+          "name": "Event Bus Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/eventbus/services/eventbus.service.ts"
+          }
+        }
+      ],
       "controllers": [],
       "id": "eventbus",
       "kind": "core",
@@ -245,6 +665,64 @@
     },
     {
       "className": "FacilityModule",
+      "componentCount": 5,
+      "components": [
+        {
+          "className": "FacilityBootstrapService",
+          "id": "facility:bootstrap-service:facility-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "facility",
+          "name": "Facility Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "FacilityWorkflowBootstrapService",
+          "id": "facility:bootstrap-service:facility-workflow-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "facility",
+          "name": "Facility Workflow Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "FacilityController",
+          "id": "facility:controller:facility",
+          "kind": "controller",
+          "moduleId": "facility",
+          "name": "Facility Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/facility/controllers/facility.controller.ts"
+          }
+        },
+        {
+          "className": "FacilitySearchProviderService",
+          "id": "facility:search-provider:facility-search-provider",
+          "kind": "search-provider",
+          "moduleId": "facility",
+          "name": "Facility Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/facility/facility-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "FacilityService",
+          "id": "facility:service:facility",
+          "kind": "service",
+          "moduleId": "facility",
+          "name": "Facility Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/facility/services/facility.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "FacilityController"
       ],
@@ -264,6 +742,31 @@
     },
     {
       "className": "FormsModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "FormsController",
+          "id": "forms:controller:forms",
+          "kind": "controller",
+          "moduleId": "forms",
+          "name": "Forms Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/forms/controllers/forms.controller.ts"
+          }
+        },
+        {
+          "className": "FormsService",
+          "id": "forms:service:forms",
+          "kind": "service",
+          "moduleId": "forms",
+          "name": "Forms Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/forms/services/forms.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "FormsController"
       ],
@@ -280,6 +783,31 @@
     },
     {
       "className": "HealthModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "HealthController",
+          "id": "health:controller:health",
+          "kind": "controller",
+          "moduleId": "health",
+          "name": "Health Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/health/health.controller.ts"
+          }
+        },
+        {
+          "className": "HealthService",
+          "id": "health:service:health",
+          "kind": "service",
+          "moduleId": "health",
+          "name": "Health Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/health/health.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "HealthController"
       ],
@@ -287,8 +815,7 @@
       "kind": "core",
       "name": "Health",
       "services": [
-        "HealthService",
-        "PluginLoaderService"
+        "HealthService"
       ],
       "source": {
         "line": null,
@@ -297,6 +824,64 @@
     },
     {
       "className": "HelpdeskModule",
+      "componentCount": 5,
+      "components": [
+        {
+          "className": "HelpdeskBootstrapService",
+          "id": "helpdesk:bootstrap-service:helpdesk-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "helpdesk",
+          "name": "Helpdesk Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "HelpdeskController",
+          "id": "helpdesk:controller:helpdesk",
+          "kind": "controller",
+          "moduleId": "helpdesk",
+          "name": "Helpdesk Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts"
+          }
+        },
+        {
+          "className": "HelpdeskSearchProviderService",
+          "id": "helpdesk:search-provider:helpdesk-search-provider",
+          "kind": "search-provider",
+          "moduleId": "helpdesk",
+          "name": "Helpdesk Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "HelpdeskService",
+          "id": "helpdesk:service:helpdesk",
+          "kind": "service",
+          "moduleId": "helpdesk",
+          "name": "Helpdesk Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/helpdesk/services/helpdesk.service.ts"
+          }
+        },
+        {
+          "className": "HelpdeskSlaService",
+          "id": "helpdesk:service:helpdesk-sla",
+          "kind": "service",
+          "moduleId": "helpdesk",
+          "name": "Helpdesk Sla Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "HelpdeskController"
       ],
@@ -316,6 +901,31 @@
     },
     {
       "className": "IdentityModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "IdentityController",
+          "id": "identity:controller:identity",
+          "kind": "controller",
+          "moduleId": "identity",
+          "name": "Identity Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/identity/controllers/identity.controller.ts"
+          }
+        },
+        {
+          "className": "IdentityService",
+          "id": "identity:service:identity",
+          "kind": "service",
+          "moduleId": "identity",
+          "name": "Identity Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/identity/services/identity.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "IdentityController"
       ],
@@ -332,6 +942,31 @@
     },
     {
       "className": "IntegrationModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "IntegrationController",
+          "id": "integration:controller:integration",
+          "kind": "controller",
+          "moduleId": "integration",
+          "name": "Integration Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/integration/controllers/integration.controller.ts"
+          }
+        },
+        {
+          "className": "IntegrationService",
+          "id": "integration:service:integration",
+          "kind": "service",
+          "moduleId": "integration",
+          "name": "Integration Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/integration/services/integration.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "IntegrationController"
       ],
@@ -348,6 +983,218 @@
     },
     {
       "className": "InventoryModule",
+      "componentCount": 19,
+      "components": [
+        {
+          "className": "InventoryBootstrapService",
+          "id": "inventory:bootstrap-service:inventory-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "inventory",
+          "name": "Inventory Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/bootstrap/inventory-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "InventoryController",
+          "id": "inventory:controller:inventory",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryBatchAllocationController",
+          "id": "inventory:controller:inventory-batch-allocation",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Batch Allocation Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryCycleCountController",
+          "id": "inventory:controller:inventory-cycle-count",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Cycle Count Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryMaterialIssueController",
+          "id": "inventory:controller:inventory-material-issue",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Material Issue Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryMaterialReturnController",
+          "id": "inventory:controller:inventory-material-return",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Material Return Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryStockAdjustmentController",
+          "id": "inventory:controller:inventory-stock-adjustment",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Stock Adjustment Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryStockReservationController",
+          "id": "inventory:controller:inventory-stock-reservation",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Stock Reservation Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts"
+          }
+        },
+        {
+          "className": "InventoryStockTransferController",
+          "id": "inventory:controller:inventory-stock-transfer",
+          "kind": "controller",
+          "moduleId": "inventory",
+          "name": "Inventory Stock Transfer Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts"
+          }
+        },
+        {
+          "className": "InventorySearchProviderService",
+          "id": "inventory:search-provider:inventory-search-provider",
+          "kind": "search-provider",
+          "moduleId": "inventory",
+          "name": "Inventory Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/inventory-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "InventoryService",
+          "id": "inventory:service:inventory",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory.service.ts"
+          }
+        },
+        {
+          "className": "InventoryBatchService",
+          "id": "inventory:service:inventory-batch",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Batch Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-batch.service.ts"
+          }
+        },
+        {
+          "className": "InventoryBatchAllocationService",
+          "id": "inventory:service:inventory-batch-allocation",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Batch Allocation Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts"
+          }
+        },
+        {
+          "className": "InventoryCycleCountService",
+          "id": "inventory:service:inventory-cycle-count",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Cycle Count Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-cycle-count.service.ts"
+          }
+        },
+        {
+          "className": "InventoryMaterialIssueService",
+          "id": "inventory:service:inventory-material-issue",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Material Issue Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-material-issue.service.ts"
+          }
+        },
+        {
+          "className": "InventoryMaterialReturnService",
+          "id": "inventory:service:inventory-material-return",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Material Return Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-material-return.service.ts"
+          }
+        },
+        {
+          "className": "InventoryStockAdjustmentService",
+          "id": "inventory:service:inventory-stock-adjustment",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Stock Adjustment Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts"
+          }
+        },
+        {
+          "className": "InventoryStockReservationService",
+          "id": "inventory:service:inventory-stock-reservation",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Stock Reservation Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts"
+          }
+        },
+        {
+          "className": "InventoryStockTransferService",
+          "id": "inventory:service:inventory-stock-transfer",
+          "kind": "service",
+          "moduleId": "inventory",
+          "name": "Inventory Stock Transfer Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "InventoryBatchAllocationController",
         "InventoryController",
@@ -381,6 +1228,31 @@
     },
     {
       "className": "InvoiceModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "InvoiceController",
+          "id": "invoice:controller:invoice",
+          "kind": "controller",
+          "moduleId": "invoice",
+          "name": "Invoice Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/invoice/controllers/invoice.controller.ts"
+          }
+        },
+        {
+          "className": "InvoiceService",
+          "id": "invoice:service:invoice",
+          "kind": "service",
+          "moduleId": "invoice",
+          "name": "Invoice Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/invoice/services/invoice.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "InvoiceController"
       ],
@@ -397,6 +1269,75 @@
     },
     {
       "className": "MaintenanceModule",
+      "componentCount": 6,
+      "components": [
+        {
+          "className": "MaintenanceBootstrapService",
+          "id": "maintenance:bootstrap-service:maintenance-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "maintenance",
+          "name": "Maintenance Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "MaintenanceWorkflowBootstrapService",
+          "id": "maintenance:bootstrap-service:maintenance-workflow-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "maintenance",
+          "name": "Maintenance Workflow Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "MaintenanceController",
+          "id": "maintenance:controller:maintenance",
+          "kind": "controller",
+          "moduleId": "maintenance",
+          "name": "Maintenance Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+          }
+        },
+        {
+          "className": "MaintenanceSearchProviderService",
+          "id": "maintenance:search-provider:maintenance-search-provider",
+          "kind": "search-provider",
+          "moduleId": "maintenance",
+          "name": "Maintenance Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/maintenance/maintenance-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "MaintenanceService",
+          "id": "maintenance:service:maintenance",
+          "kind": "service",
+          "moduleId": "maintenance",
+          "name": "Maintenance Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/maintenance/services/maintenance.service.ts"
+          }
+        },
+        {
+          "className": "MaintenanceSlaService",
+          "id": "maintenance:service:maintenance-sla",
+          "kind": "service",
+          "moduleId": "maintenance",
+          "name": "Maintenance Sla Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/maintenance/services/maintenance-sla.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "MaintenanceController"
       ],
@@ -417,6 +1358,31 @@
     },
     {
       "className": "MetricsModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "MetricsController",
+          "id": "metrics:controller:metrics",
+          "kind": "controller",
+          "moduleId": "metrics",
+          "name": "Metrics Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/metrics/controllers/metrics.controller.ts"
+          }
+        },
+        {
+          "className": "MetricsService",
+          "id": "metrics:service:metrics",
+          "kind": "service",
+          "moduleId": "metrics",
+          "name": "Metrics Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/metrics/services/metrics.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "MetricsController"
       ],
@@ -433,6 +1399,53 @@
     },
     {
       "className": "NotificationModule",
+      "componentCount": 4,
+      "components": [
+        {
+          "className": "NotificationBootstrapService",
+          "id": "notification:bootstrap-service:notification-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "notification",
+          "name": "Notification Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/notification/bootstrap/notification-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "NotificationController",
+          "id": "notification:controller:notification",
+          "kind": "controller",
+          "moduleId": "notification",
+          "name": "Notification Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/notification/controllers/notification.controller.ts"
+          }
+        },
+        {
+          "className": "NotificationService",
+          "id": "notification:service:notification",
+          "kind": "service",
+          "moduleId": "notification",
+          "name": "Notification Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/notification/services/notification.service.ts"
+          }
+        },
+        {
+          "className": "NotificationDispatcherService",
+          "id": "notification:service:notification-dispatcher",
+          "kind": "service",
+          "moduleId": "notification",
+          "name": "Notification Dispatcher Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/notification/services/notification-dispatcher.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "NotificationController"
       ],
@@ -451,6 +1464,8 @@
     },
     {
       "className": "PlatformModule",
+      "componentCount": 0,
+      "components": [],
       "controllers": [],
       "id": "platform",
       "kind": "core",
@@ -463,6 +1478,251 @@
     },
     {
       "className": "PluginModule",
+      "componentCount": 22,
+      "components": [
+        {
+          "className": "PermissionBootstrapService",
+          "id": "plugin:bootstrap-service:permission-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "plugin",
+          "name": "Permission Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/bootstrap/permission-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "PluginController",
+          "id": "plugin:controller:plugin",
+          "kind": "controller",
+          "moduleId": "plugin",
+          "name": "Plugin Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/controllers/plugin.controller.ts"
+          }
+        },
+        {
+          "className": "PluginInstallerController",
+          "id": "plugin:controller:plugin-installer",
+          "kind": "controller",
+          "moduleId": "plugin",
+          "name": "Plugin Installer Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/controllers/plugin-installer.controller.ts"
+          }
+        },
+        {
+          "className": "PluginMarketplaceController",
+          "id": "plugin:controller:plugin-marketplace",
+          "kind": "controller",
+          "moduleId": "plugin",
+          "name": "Plugin Marketplace Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts"
+          }
+        },
+        {
+          "className": "PluginPackageController",
+          "id": "plugin:controller:plugin-package",
+          "kind": "controller",
+          "moduleId": "plugin",
+          "name": "Plugin Package Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts"
+          }
+        },
+        {
+          "className": "PluginSearchProviderService",
+          "id": "plugin:search-provider:plugin-search-provider",
+          "kind": "search-provider",
+          "moduleId": "plugin",
+          "name": "Plugin Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/plugin-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "PluginService",
+          "id": "plugin:service:plugin",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/services/plugin.service.ts"
+          }
+        },
+        {
+          "className": "PluginDependencyResolverService",
+          "id": "plugin:service:plugin-dependency-resolver",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Dependency Resolver Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/dependency/plugin-dependency-resolver.service.ts"
+          }
+        },
+        {
+          "className": "PluginDiscoveryService",
+          "id": "plugin:service:plugin-discovery",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Discovery Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/discovery/plugin-discovery.service.ts"
+          }
+        },
+        {
+          "className": "PluginInstallationManifestService",
+          "id": "plugin:service:plugin-installation-manifest",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Installation Manifest Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/manifest/plugin-installation-manifest.service.ts"
+          }
+        },
+        {
+          "className": "PluginInstallationRollbackService",
+          "id": "plugin:service:plugin-installation-rollback",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Installation Rollback Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/rollback/plugin-installation-rollback.service.ts"
+          }
+        },
+        {
+          "className": "PluginInstallerService",
+          "id": "plugin:service:plugin-installer",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Installer Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/services/plugin-installer.service.ts"
+          }
+        },
+        {
+          "className": "PluginLifecycleService",
+          "id": "plugin:service:plugin-lifecycle",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Lifecycle Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/lifecycle/plugin-lifecycle.service.ts"
+          }
+        },
+        {
+          "className": "PluginLoaderService",
+          "id": "plugin:service:plugin-loader",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Loader Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/loader/plugin-loader.service.ts"
+          }
+        },
+        {
+          "className": "PluginMarketplaceService",
+          "id": "plugin:service:plugin-marketplace",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Marketplace Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/marketplace/services/plugin-marketplace.service.ts"
+          }
+        },
+        {
+          "className": "PluginMigrationRunnerService",
+          "id": "plugin:service:plugin-migration-runner",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Migration Runner Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/migration/plugin-migration-runner.service.ts"
+          }
+        },
+        {
+          "className": "PluginPackageService",
+          "id": "plugin:service:plugin-package",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Package Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/package/services/plugin-package.service.ts"
+          }
+        },
+        {
+          "className": "PluginPackageArchiveService",
+          "id": "plugin:service:plugin-package-archive",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Package Archive Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/package/archive/plugin-package-archive.service.ts"
+          }
+        },
+        {
+          "className": "PluginPackageExtractorService",
+          "id": "plugin:service:plugin-package-extractor",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Package Extractor Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/archive/plugin-package-extractor.service.ts"
+          }
+        },
+        {
+          "className": "PluginPackageValidatorService",
+          "id": "plugin:service:plugin-package-validator",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Package Validator Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/validator/plugin-package-validator.service.ts"
+          }
+        },
+        {
+          "className": "PluginSignatureVerifierService",
+          "id": "plugin:service:plugin-signature-verifier",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Signature Verifier Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/signature/plugin-signature-verifier.service.ts"
+          }
+        },
+        {
+          "className": "PluginZipExtractorService",
+          "id": "plugin:service:plugin-zip-extractor",
+          "kind": "service",
+          "moduleId": "plugin",
+          "name": "Plugin Zip Extractor Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "PluginController",
         "PluginInstallerController",
@@ -483,6 +1743,7 @@
         "PluginLoaderService",
         "PluginMarketplaceService",
         "PluginMigrationRunnerService",
+        "PluginPackageArchiveService",
         "PluginPackageExtractorService",
         "PluginPackageService",
         "PluginPackageValidatorService",
@@ -498,6 +1759,207 @@
     },
     {
       "className": "ProcurementModule",
+      "componentCount": 18,
+      "components": [
+        {
+          "className": "ProcurementBootstrapService",
+          "id": "procurement:bootstrap-service:procurement-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "procurement",
+          "name": "Procurement Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/bootstrap/procurement-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementGoodsReceiptController",
+          "id": "procurement:controller:procurement-goods-receipt",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Goods Receipt Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementInvoiceMatchController",
+          "id": "procurement:controller:procurement-invoice-match",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Invoice Match Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementPaymentRequestController",
+          "id": "procurement:controller:procurement-payment-request",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Payment Request Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementPurchaseOrderController",
+          "id": "procurement:controller:procurement-purchase-order",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Purchase Order Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementQuotationController",
+          "id": "procurement:controller:procurement-quotation",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Quotation Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementQuotationComparisonController",
+          "id": "procurement:controller:procurement-quotation-comparison",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Quotation Comparison Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementRfqController",
+          "id": "procurement:controller:procurement-rfq",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Procurement Rfq Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts"
+          }
+        },
+        {
+          "className": "PurchaseRequestController",
+          "id": "procurement:controller:purchase-request",
+          "kind": "controller",
+          "moduleId": "procurement",
+          "name": "Purchase Request Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/controllers/purchase-request.controller.ts"
+          }
+        },
+        {
+          "className": "ProcurementGoodsReceiptService",
+          "id": "procurement:service:procurement-goods-receipt",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Goods Receipt Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementInventoryPostingService",
+          "id": "procurement:service:procurement-inventory-posting",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Inventory Posting Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementInvoiceMatchService",
+          "id": "procurement:service:procurement-invoice-match",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Invoice Match Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-invoice-match.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementPaymentRequestService",
+          "id": "procurement:service:procurement-payment-request",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Payment Request Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-payment-request.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementPurchaseOrderService",
+          "id": "procurement:service:procurement-purchase-order",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Purchase Order Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-purchase-order.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementQuotationService",
+          "id": "procurement:service:procurement-quotation",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Quotation Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-quotation.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementQuotationComparisonService",
+          "id": "procurement:service:procurement-quotation-comparison",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Quotation Comparison Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts"
+          }
+        },
+        {
+          "className": "ProcurementRfqService",
+          "id": "procurement:service:procurement-rfq",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Procurement Rfq Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/procurement-rfq.service.ts"
+          }
+        },
+        {
+          "className": "PurchaseRequestService",
+          "id": "procurement:service:purchase-request",
+          "kind": "service",
+          "moduleId": "procurement",
+          "name": "Purchase Request Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/procurement/services/purchase-request.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "ProcurementGoodsReceiptController",
         "ProcurementInvoiceMatchController",
@@ -530,6 +1992,42 @@
     },
     {
       "className": "PropertyModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "PropertyController",
+          "id": "property:controller:property",
+          "kind": "controller",
+          "moduleId": "property",
+          "name": "Property Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/property/controllers/property.controller.ts"
+          }
+        },
+        {
+          "className": "PropertySearchProviderService",
+          "id": "property:search-provider:property-search-provider",
+          "kind": "search-provider",
+          "moduleId": "property",
+          "name": "Property Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/property/property-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "PropertyService",
+          "id": "property:service:property",
+          "kind": "service",
+          "moduleId": "property",
+          "name": "Property Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/property/services/property.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "PropertyController"
       ],
@@ -547,6 +2045,31 @@
     },
     {
       "className": "ReceiptModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "ReceiptController",
+          "id": "receipt:controller:receipt",
+          "kind": "controller",
+          "moduleId": "receipt",
+          "name": "Receipt Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/receipt/controllers/receipt.controller.ts"
+          }
+        },
+        {
+          "className": "ReceiptService",
+          "id": "receipt:service:receipt",
+          "kind": "service",
+          "moduleId": "receipt",
+          "name": "Receipt Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/receipt/services/receipt.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "ReceiptController"
       ],
@@ -563,6 +2086,42 @@
     },
     {
       "className": "RentModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "RentController",
+          "id": "rent:controller:rent",
+          "kind": "controller",
+          "moduleId": "rent",
+          "name": "Rent Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/rent/controllers/rent.controller.ts"
+          }
+        },
+        {
+          "className": "RentSearchProviderService",
+          "id": "rent:search-provider:rent-search-provider",
+          "kind": "search-provider",
+          "moduleId": "rent",
+          "name": "Rent Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/rent/rent-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "RentService",
+          "id": "rent:service:rent",
+          "kind": "service",
+          "moduleId": "rent",
+          "name": "Rent Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/rent/services/rent.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "RentController"
       ],
@@ -580,6 +2139,42 @@
     },
     {
       "className": "ReportModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "ReportController",
+          "id": "report:controller:report",
+          "kind": "controller",
+          "moduleId": "report",
+          "name": "Report Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/report/controllers/report.controller.ts"
+          }
+        },
+        {
+          "className": "ReportService",
+          "id": "report:service:report",
+          "kind": "service",
+          "moduleId": "report",
+          "name": "Report Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/report/services/report.service.ts"
+          }
+        },
+        {
+          "className": "ReportExportService",
+          "id": "report:service:report-export",
+          "kind": "service",
+          "moduleId": "report",
+          "name": "Report Export Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/report/services/report-export.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "ReportController"
       ],
@@ -597,6 +2192,75 @@
     },
     {
       "className": "ReservationModule",
+      "componentCount": 6,
+      "components": [
+        {
+          "className": "ReservationBootstrapService",
+          "id": "reservation:bootstrap-service:reservation-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "reservation",
+          "name": "Reservation Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "ReservationWorkflowBootstrapService",
+          "id": "reservation:bootstrap-service:reservation-workflow-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "reservation",
+          "name": "Reservation Workflow Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "ReservationController",
+          "id": "reservation:controller:reservation",
+          "kind": "controller",
+          "moduleId": "reservation",
+          "name": "Reservation Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/reservation/controllers/reservation.controller.ts"
+          }
+        },
+        {
+          "className": "ReservationSchedulerService",
+          "id": "reservation:scheduler-service:reservation-scheduler",
+          "kind": "scheduler-service",
+          "moduleId": "reservation",
+          "name": "Reservation Scheduler Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/reservation/services/reservation-scheduler.service.ts"
+          }
+        },
+        {
+          "className": "ReservationSearchProviderService",
+          "id": "reservation:search-provider:reservation-search-provider",
+          "kind": "search-provider",
+          "moduleId": "reservation",
+          "name": "Reservation Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/reservation/reservation-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "ReservationService",
+          "id": "reservation:service:reservation",
+          "kind": "service",
+          "moduleId": "reservation",
+          "name": "Reservation Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/reservation/services/reservation.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "ReservationController"
       ],
@@ -617,6 +2281,42 @@
     },
     {
       "className": "SchedulerModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "SchedulerController",
+          "id": "scheduler:controller:scheduler",
+          "kind": "controller",
+          "moduleId": "scheduler",
+          "name": "Scheduler Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/scheduler/controllers/scheduler.controller.ts"
+          }
+        },
+        {
+          "className": "SchedulerService",
+          "id": "scheduler:scheduler-service:scheduler",
+          "kind": "scheduler-service",
+          "moduleId": "scheduler",
+          "name": "Scheduler Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/scheduler/services/scheduler.service.ts"
+          }
+        },
+        {
+          "className": "SchedulerWorkerService",
+          "id": "scheduler:scheduler-service:scheduler-worker",
+          "kind": "scheduler-service",
+          "moduleId": "scheduler",
+          "name": "Scheduler Worker Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/scheduler/services/scheduler-worker.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "SchedulerController"
       ],
@@ -634,6 +2334,31 @@
     },
     {
       "className": "SearchModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "SearchController",
+          "id": "search:controller:search",
+          "kind": "controller",
+          "moduleId": "search",
+          "name": "Search Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/search/controllers/search.controller.ts"
+          }
+        },
+        {
+          "className": "SearchService",
+          "id": "search:service:search",
+          "kind": "service",
+          "moduleId": "search",
+          "name": "Search Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/search/services/search.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "SearchController"
       ],
@@ -650,6 +2375,53 @@
     },
     {
       "className": "StaffModule",
+      "componentCount": 4,
+      "components": [
+        {
+          "className": "StaffBootstrapService",
+          "id": "staff:bootstrap-service:staff-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "staff",
+          "name": "Staff Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/staff/bootstrap/staff-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "StaffController",
+          "id": "staff:controller:staff",
+          "kind": "controller",
+          "moduleId": "staff",
+          "name": "Staff Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/staff/controllers/staff.controller.ts"
+          }
+        },
+        {
+          "className": "StaffSearchProviderService",
+          "id": "staff:search-provider:staff-search-provider",
+          "kind": "search-provider",
+          "moduleId": "staff",
+          "name": "Staff Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/staff/staff-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "StaffService",
+          "id": "staff:service:staff",
+          "kind": "service",
+          "moduleId": "staff",
+          "name": "Staff Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/staff/services/staff.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "StaffController"
       ],
@@ -668,6 +2440,31 @@
     },
     {
       "className": "StorageModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "StorageController",
+          "id": "storage:controller:storage",
+          "kind": "controller",
+          "moduleId": "storage",
+          "name": "Storage Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/storage/controllers/storage.controller.ts"
+          }
+        },
+        {
+          "className": "StorageService",
+          "id": "storage:service:storage",
+          "kind": "service",
+          "moduleId": "storage",
+          "name": "Storage Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/storage/services/storage.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "StorageController"
       ],
@@ -684,6 +2481,42 @@
     },
     {
       "className": "TenantModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "TenantController",
+          "id": "tenant:controller:tenant",
+          "kind": "controller",
+          "moduleId": "tenant",
+          "name": "Tenant Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/tenant/controllers/tenant.controller.ts"
+          }
+        },
+        {
+          "className": "TenantSearchProviderService",
+          "id": "tenant:search-provider:tenant-search-provider",
+          "kind": "search-provider",
+          "moduleId": "tenant",
+          "name": "Tenant Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/tenant/tenant-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "TenantService",
+          "id": "tenant:service:tenant",
+          "kind": "service",
+          "moduleId": "tenant",
+          "name": "Tenant Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/tenant/services/tenant.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "TenantController"
       ],
@@ -701,6 +2534,64 @@
     },
     {
       "className": "ThemeModule",
+      "componentCount": 5,
+      "components": [
+        {
+          "className": "ThemeController",
+          "id": "theme:controller:theme",
+          "kind": "controller",
+          "moduleId": "theme",
+          "name": "Theme Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/theme/controllers/theme.controller.ts"
+          }
+        },
+        {
+          "className": "ThemePackageController",
+          "id": "theme:controller:theme-package",
+          "kind": "controller",
+          "moduleId": "theme",
+          "name": "Theme Package Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts"
+          }
+        },
+        {
+          "className": "ThemeService",
+          "id": "theme:service:theme",
+          "kind": "service",
+          "moduleId": "theme",
+          "name": "Theme Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/theme/services/theme.service.ts"
+          }
+        },
+        {
+          "className": "ThemePackageService",
+          "id": "theme:service:theme-package",
+          "kind": "service",
+          "moduleId": "theme",
+          "name": "Theme Package Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/theme/package/services/theme-package.service.ts"
+          }
+        },
+        {
+          "className": "ThemePackageArchiveService",
+          "id": "theme:service:theme-package-archive",
+          "kind": "service",
+          "moduleId": "theme",
+          "name": "Theme Package Archive Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/theme/package/archive/theme-package-archive.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "ThemeController",
         "ThemePackageController"
@@ -720,6 +2611,31 @@
     },
     {
       "className": "UploadModule",
+      "componentCount": 2,
+      "components": [
+        {
+          "className": "UploadController",
+          "id": "upload:controller:upload",
+          "kind": "controller",
+          "moduleId": "upload",
+          "name": "Upload Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/upload/controllers/upload.controller.ts"
+          }
+        },
+        {
+          "className": "UploadService",
+          "id": "upload:service:upload",
+          "kind": "service",
+          "moduleId": "upload",
+          "name": "Upload Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/upload/services/upload.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "UploadController"
       ],
@@ -736,6 +2652,53 @@
     },
     {
       "className": "VehicleModule",
+      "componentCount": 4,
+      "components": [
+        {
+          "className": "VehicleBootstrapService",
+          "id": "vehicle:bootstrap-service:vehicle-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "vehicle",
+          "name": "Vehicle Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "VehicleController",
+          "id": "vehicle:controller:vehicle",
+          "kind": "controller",
+          "moduleId": "vehicle",
+          "name": "Vehicle Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vehicle/controllers/vehicle.controller.ts"
+          }
+        },
+        {
+          "className": "VehicleSearchProviderService",
+          "id": "vehicle:search-provider:vehicle-search-provider",
+          "kind": "search-provider",
+          "moduleId": "vehicle",
+          "name": "Vehicle Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vehicle/vehicle-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "VehicleService",
+          "id": "vehicle:service:vehicle",
+          "kind": "service",
+          "moduleId": "vehicle",
+          "name": "Vehicle Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vehicle/services/vehicle.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "VehicleController"
       ],
@@ -754,6 +2717,42 @@
     },
     {
       "className": "VendorModule",
+      "componentCount": 3,
+      "components": [
+        {
+          "className": "VendorBootstrapService",
+          "id": "vendor:bootstrap-service:vendor-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "vendor",
+          "name": "Vendor Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vendor/bootstrap/vendor-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "VendorController",
+          "id": "vendor:controller:vendor",
+          "kind": "controller",
+          "moduleId": "vendor",
+          "name": "Vendor Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vendor/controllers/vendor.controller.ts"
+          }
+        },
+        {
+          "className": "VendorService",
+          "id": "vendor:service:vendor",
+          "kind": "service",
+          "moduleId": "vendor",
+          "name": "Vendor Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/vendor/services/vendor.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "VendorController"
       ],
@@ -771,6 +2770,53 @@
     },
     {
       "className": "WorkflowModule",
+      "componentCount": 4,
+      "components": [
+        {
+          "className": "WorkflowBootstrapService",
+          "id": "workflow:bootstrap-service:workflow-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "workflow",
+          "name": "Workflow Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/workflow/bootstrap/workflow-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "WorkflowController",
+          "id": "workflow:controller:workflow",
+          "kind": "controller",
+          "moduleId": "workflow",
+          "name": "Workflow Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/workflow/controllers/workflow.controller.ts"
+          }
+        },
+        {
+          "className": "WorkflowSearchProviderService",
+          "id": "workflow:search-provider:workflow-search-provider",
+          "kind": "search-provider",
+          "moduleId": "workflow",
+          "name": "Workflow Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/workflow/workflow-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "WorkflowService",
+          "id": "workflow:service:workflow",
+          "kind": "service",
+          "moduleId": "workflow",
+          "name": "Workflow Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/core/workflow/services/workflow.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "WorkflowController"
       ],
@@ -789,6 +2835,8 @@
     },
     {
       "className": "DatabaseModule",
+      "componentCount": 0,
+      "components": [],
       "controllers": [],
       "id": "database:database",
       "kind": "database",
@@ -801,6 +2849,20 @@
     },
     {
       "className": "PostgresModule",
+      "componentCount": 1,
+      "components": [
+        {
+          "className": "PostgresShutdownService",
+          "id": "database:postgres:service:postgres-shutdown",
+          "kind": "service",
+          "moduleId": "database:postgres",
+          "name": "Postgres Shutdown Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/database/postgres/postgres-shutdown.service.ts"
+          }
+        }
+      ],
       "controllers": [],
       "id": "database:postgres",
       "kind": "database",
@@ -815,6 +2877,53 @@
     },
     {
       "className": "VisitorModule",
+      "componentCount": 4,
+      "components": [
+        {
+          "className": "VisitorNotificationBootstrapService",
+          "id": "plugin:visitor:bootstrap-service:visitor-notification-bootstrap",
+          "kind": "bootstrap-service",
+          "moduleId": "plugin:visitor",
+          "name": "Visitor Notification Bootstrap Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/plugins/visitor/bootstrap/visitor-notification-bootstrap.service.ts"
+          }
+        },
+        {
+          "className": "VisitorController",
+          "id": "plugin:visitor:controller:visitor",
+          "kind": "controller",
+          "moduleId": "plugin:visitor",
+          "name": "Visitor Controller",
+          "source": {
+            "line": null,
+            "path": "backend/src/plugins/visitor/visitor.controller.ts"
+          }
+        },
+        {
+          "className": "VisitorSearchProviderService",
+          "id": "plugin:visitor:search-provider:visitor-search-provider",
+          "kind": "search-provider",
+          "moduleId": "plugin:visitor",
+          "name": "Visitor Search Provider Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/plugins/visitor/visitor-search-provider.service.ts"
+          }
+        },
+        {
+          "className": "VisitorService",
+          "id": "plugin:visitor:service:visitor",
+          "kind": "service",
+          "moduleId": "plugin:visitor",
+          "name": "Visitor Service",
+          "source": {
+            "line": null,
+            "path": "backend/src/plugins/visitor/visitor.service.ts"
+          }
+        }
+      ],
       "controllers": [
         "VisitorController"
       ],
@@ -832,5 +2941,5 @@
       }
     }
   ],
-  "schemaVersion": "1.0.0"
+  "schemaVersion": "1.1.0"
 }

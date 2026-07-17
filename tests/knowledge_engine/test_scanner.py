@@ -12,11 +12,22 @@ from tools.knowledge_engine.writer import KnowledgeWriter
 class RepositoryScannerTest(unittest.TestCase):
     def setUp(self) -> None:
         self.repository_root = Path(__file__).resolve().parents[2]
+        self.manifest = RepositoryScanner(
+            self.repository_root
+        ).scan()
 
-    def test_discovers_expected_core_modules(self) -> None:
-        manifest = RepositoryScanner(self.repository_root).scan()
+    def module(self, module_id: str):
+        for module in self.manifest.modules:
+            if module.id == module_id:
+                return module
 
-        module_ids = {module.id for module in manifest.modules}
+        self.fail(f"Module not found: {module_id}")
+
+    def test_discovers_expected_modules(self) -> None:
+        module_ids = {
+            module.id
+            for module in self.manifest.modules
+        }
 
         self.assertIn("inventory", module_ids)
         self.assertIn("procurement", module_ids)
@@ -25,53 +36,203 @@ class RepositoryScannerTest(unittest.TestCase):
         self.assertIn("plugin:visitor", module_ids)
 
     def test_ignores_legacy_duplicate_backend_tree(self) -> None:
-        manifest = RepositoryScanner(self.repository_root).scan()
-
-        paths = [module.source.path for module in manifest.modules]
-
-        self.assertFalse(
-            any(path.startswith("backend/backend/") for path in paths)
-        )
-
-    def test_modules_are_sorted_deterministically(self) -> None:
-        manifest = RepositoryScanner(self.repository_root).scan()
-
-        actual = [
-            (module.kind, module.id, module.source.path)
-            for module in manifest.modules
+        module_paths = [
+            module.source.path
+            for module in self.manifest.modules
         ]
 
-        self.assertEqual(actual, sorted(actual))
+        component_paths = [
+            component.source.path
+            for module in self.manifest.modules
+            for component in module.components
+        ]
+
+        all_paths = module_paths + component_paths
+
+        self.assertFalse(
+            any(
+                path.startswith("backend/backend/")
+                for path in all_paths
+            )
+        )
+
+    def test_discovers_inventory_components(self) -> None:
+        inventory = self.module("inventory")
+
+        component_kinds = {
+            component.kind
+            for component in inventory.components
+        }
+
+        component_classes = {
+            component.class_name
+            for component in inventory.components
+        }
+
+        self.assertIn("controller", component_kinds)
+        self.assertIn("service", component_kinds)
+        self.assertIn("bootstrap-service", component_kinds)
+        self.assertIn("search-provider", component_kinds)
+
+        self.assertIn(
+            "InventoryController",
+            component_classes,
+        )
+
+        self.assertIn(
+            "InventoryService",
+            component_classes,
+        )
+
+        self.assertIn(
+            "InventoryBootstrapService",
+            component_classes,
+        )
+
+        #
+        # Accept either naming convention:
+        # InventorySearchProvider
+        # InventorySearchProviderService
+        #
+        self.assertTrue(
+            any(
+                name.startswith("InventorySearchProvider")
+                for name in component_classes
+            ),
+            f"Search provider not found: {sorted(component_classes)}",
+        )
+
+    def test_component_records_include_source_paths(self) -> None:
+        inventory = self.module("inventory")
+
+        for component in inventory.components:
+            self.assertEqual(
+                component.module_id,
+                "inventory",
+            )
+            self.assertTrue(
+                component.source.path.startswith(
+                    "backend/src/core/inventory/"
+                )
+            )
+            self.assertTrue(
+                component.source.path.endswith(".ts")
+            )
+
+    def test_components_have_unique_source_ownership(self) -> None:
+        component_paths = [
+            component.source.path
+            for module in self.manifest.modules
+            for component in module.components
+        ]
+
+        self.assertEqual(
+            len(component_paths),
+            len(set(component_paths)),
+        )
+
+    def test_legacy_controller_and_service_arrays_remain(self) -> None:
+        inventory = self.module("inventory")
+
+        self.assertIn(
+            "InventoryController",
+            inventory.controllers,
+        )
+
+        self.assertIn(
+            "InventoryService",
+            inventory.services,
+        )
+
+    def test_modules_and_components_are_sorted(self) -> None:
+        actual_modules = [
+            (
+                module.kind,
+                module.id,
+                module.source.path,
+            )
+            for module in self.manifest.modules
+        ]
+
+        self.assertEqual(
+            actual_modules,
+            sorted(actual_modules),
+        )
+
+        for module in self.manifest.modules:
+            actual_components = [
+                (
+                    component.kind,
+                    component.id,
+                    component.source.path,
+                )
+                for component in module.components
+            ]
+
+            self.assertEqual(
+                actual_components,
+                sorted(actual_components),
+            )
 
     def test_repeated_writes_are_identical(self) -> None:
-        scanner = RepositoryScanner(self.repository_root)
-        manifest = scanner.scan()
+        scanner = RepositoryScanner(
+            self.repository_root
+        )
 
-        with tempfile.TemporaryDirectory() as temporary_directory:
-            output_directory = Path(temporary_directory)
-            writer = KnowledgeWriter(output_directory)
+        with tempfile.TemporaryDirectory() as directory:
+            writer = KnowledgeWriter(Path(directory))
 
-            output_file = writer.write_modules(manifest)
-            first_content = output_file.read_bytes()
+            first_file = writer.write_modules(
+                scanner.scan()
+            )
+            first_content = first_file.read_bytes()
 
-            output_file = writer.write_modules(scanner.scan())
-            second_content = output_file.read_bytes()
+            second_file = writer.write_modules(
+                scanner.scan()
+            )
+            second_content = second_file.read_bytes()
 
-        self.assertEqual(first_content, second_content)
+        self.assertEqual(
+            first_content,
+            second_content,
+        )
 
     def test_generated_document_is_valid_json(self) -> None:
-        manifest = RepositoryScanner(self.repository_root).scan()
-
-        with tempfile.TemporaryDirectory() as temporary_directory:
+        with tempfile.TemporaryDirectory() as directory:
             output_file = KnowledgeWriter(
-                Path(temporary_directory)
-            ).write_modules(manifest)
+                Path(directory)
+            ).write_modules(self.manifest)
 
-            document = json.loads(output_file.read_text(encoding="utf-8"))
+            document = json.loads(
+                output_file.read_text(
+                    encoding="utf-8"
+                )
+            )
 
-        self.assertEqual(document["schemaVersion"], "1.0.0")
-        self.assertEqual(document["moduleCount"], len(document["modules"]))
-        self.assertGreater(document["moduleCount"], 0)
+        self.assertEqual(
+            document["schemaVersion"],
+            "1.1.0",
+        )
+
+        self.assertEqual(
+            document["moduleCount"],
+            len(document["modules"]),
+        )
+
+        self.assertGreater(
+            document["componentCount"],
+            0,
+        )
+
+        calculated_component_count = sum(
+            module["componentCount"]
+            for module in document["modules"]
+        )
+
+        self.assertEqual(
+            document["componentCount"],
+            calculated_component_count,
+        )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,47 @@
+{
+  "description": "Generated PropertyOS repository-backed contract facade.",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./audit": {
+      "default": "./src/audit/index.ts",
+      "types": "./src/audit/index.ts"
+    },
+    "./auth": {
+      "default": "./src/auth/index.ts",
+      "types": "./src/auth/index.ts"
+    },
+    "./database-postgres": {
+      "default": "./src/database-postgres/index.ts",
+      "types": "./src/database-postgres/index.ts"
+    },
+    "./eventbus": {
+      "default": "./src/eventbus/index.ts",
+      "types": "./src/eventbus/index.ts"
+    },
+    "./plugin": {
+      "default": "./src/plugin/index.ts",
+      "types": "./src/plugin/index.ts"
+    },
+    "./scheduler": {
+      "default": "./src/scheduler/index.ts",
+      "types": "./src/scheduler/index.ts"
+    },
+    "./search": {
+      "default": "./src/search/index.ts",
+      "types": "./src/search/index.ts"
+    }
+  },
+  "name": "@propertyos/core-contracts",
+  "private": true,
+  "propertyos": {
+    "generated": true,
+    "publishable": false,
+    "sourceStrategy": "repository-reexport"
+  },
+  "sideEffects": false,
+  "types": "./src/index.ts",
+  "version": "0.1.0"
+}

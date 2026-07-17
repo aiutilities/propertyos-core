@@ -1,0 +1,5 @@
+/* This file is generated. Do not edit manually. */
+
+export { PluginModule } from "../../../../../backend/src/core/plugin/plugin.module";
+export { PluginNotificationRegistry } from "../../../../../backend/src/core/plugin/registries/plugin-notification.registry";
+export { PluginPermissionRegistry } from "../../../../../backend/src/core/plugin/registries/plugin-permission.registry";

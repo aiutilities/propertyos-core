@@ -1,0 +1,2927 @@
+{
+  "architectureMigrationRisks": [
+    {
+      "blastRadius": 1,
+      "criticalityTier": "high",
+      "directDependencyCount": 6,
+      "directDependentCount": 1,
+      "moduleId": "inventory",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 33.5,
+      "routeCount": 65,
+      "transitiveDependentCount": 1
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "high",
+      "directDependencyCount": 6,
+      "directDependentCount": 0,
+      "moduleId": "procurement",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 29.1,
+      "routeCount": 65,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 7,
+      "criticalityTier": "medium",
+      "directDependencyCount": 2,
+      "directDependentCount": 1,
+      "moduleId": "report",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 23.2,
+      "routeCount": 6,
+      "transitiveDependentCount": 7
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "medium",
+      "directDependencyCount": 8,
+      "directDependentCount": 0,
+      "moduleId": "reservation",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 22.1,
+      "routeCount": 18,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "medium",
+      "directDependencyCount": 9,
+      "directDependentCount": 0,
+      "moduleId": "maintenance",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 21.75,
+      "routeCount": 9,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "medium",
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "moduleId": "helpdesk",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 20.35,
+      "routeCount": 17,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "high",
+      "directDependencyCount": 5,
+      "directDependentCount": 0,
+      "moduleId": "vendor",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 20.25,
+      "routeCount": 40,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "medium",
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "moduleId": "communications",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 20.2,
+      "routeCount": 16,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "low",
+      "directDependencyCount": 8,
+      "directDependentCount": 0,
+      "moduleId": "facility",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 19.45,
+      "routeCount": 9,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "medium",
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "moduleId": "staff",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 18.0,
+      "routeCount": 10,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 0,
+      "criticalityTier": "low",
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "moduleId": "vehicle",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 17.7,
+      "routeCount": 8,
+      "transitiveDependentCount": 0
+    },
+    {
+      "blastRadius": 1,
+      "criticalityTier": "low",
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "moduleId": "tenant",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 16.75,
+      "routeCount": 5,
+      "transitiveDependentCount": 1
+    },
+    {
+      "blastRadius": 1,
+      "criticalityTier": "low",
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "moduleId": "rent",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 16.4,
+      "routeCount": 5,
+      "transitiveDependentCount": 1
+    },
+    {
+      "blastRadius": 1,
+      "criticalityTier": "low",
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "moduleId": "agreement",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 16.25,
+      "routeCount": 4,
+      "transitiveDependentCount": 1
+    },
+    {
+      "blastRadius": 1,
+      "criticalityTier": "low",
+      "directDependencyCount": 3,
+      "directDependentCount": 1,
+      "moduleId": "invoice",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 14.85,
+      "routeCount": 3,
+      "transitiveDependentCount": 1
+    },
+    {
+      "blastRadius": 1,
+      "criticalityTier": "low",
+      "directDependencyCount": 3,
+      "directDependentCount": 1,
+      "moduleId": "receipt",
+      "recommendation": "Introduce stable contracts and dependency inversion before moving this business module from core into the plugin layer.",
+      "riskScore": 14.5,
+      "routeCount": 3,
+      "transitiveDependentCount": 1
+    }
+  ],
+  "criticalModuleIds": [
+    "eventbus",
+    "database:postgres",
+    "identity",
+    "database:database"
+  ],
+  "generator": "propertyos-module-impact-analysis",
+  "highImpactModuleIds": [
+    "eventbus",
+    "database:postgres",
+    "identity",
+    "search",
+    "plugin",
+    "database:database",
+    "audit",
+    "auth",
+    "storage",
+    "configuration",
+    "inventory",
+    "procurement",
+    "vendor"
+  ],
+  "isolatedModuleIds": [
+    "authorization",
+    "configuration:config"
+  ],
+  "leafModuleIds": [
+    "access-control",
+    "admin",
+    "ai",
+    "authorization",
+    "bootstrap",
+    "communications",
+    "configuration:config",
+    "distribution",
+    "document",
+    "facility",
+    "forms",
+    "health",
+    "helpdesk",
+    "integration",
+    "maintenance",
+    "plugin:visitor",
+    "procurement",
+    "reservation",
+    "staff",
+    "theme",
+    "upload",
+    "vehicle",
+    "vendor"
+  ],
+  "methodology": {
+    "blastRadiusDefinition": "Number of unique transitive dependents.",
+    "changeDirection": "A change to a dependency can affect all modules that directly or transitively depend on it.",
+    "dependencySurfaceDefinition": "Number of unique transitive dependencies.",
+    "riskScoreFactors": [
+      "direct dependents",
+      "transitive dependents",
+      "direct dependencies",
+      "transitive dependencies",
+      "route count",
+      "component count",
+      "architecture violation"
+    ]
+  },
+  "modules": [
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 33,
+      "className": "EventBusModule",
+      "componentCount": 1,
+      "controllerCount": 0,
+      "criticalityTier": "critical",
+      "dependencySurface": 1,
+      "directDependencies": [
+        "database:postgres"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 31,
+      "directDependents": [
+        "access-control",
+        "agreement",
+        "ai",
+        "audit",
+        "communications",
+        "credential",
+        "distribution",
+        "document",
+        "facility",
+        "forms",
+        "health",
+        "helpdesk",
+        "integration",
+        "inventory",
+        "invoice",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "receipt",
+        "rent",
+        "reservation",
+        "scheduler",
+        "search",
+        "staff",
+        "tenant",
+        "theme",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [
+        "admin",
+        "property"
+      ],
+      "moduleId": "eventbus",
+      "name": "Eventbus",
+      "physicalLocation": "core",
+      "riskScore": 144.1,
+      "routeCount": 0,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/eventbus/eventbus.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres"
+      ],
+      "transitiveDependencyCount": 1,
+      "transitiveDependentCount": 33,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "agreement",
+        "ai",
+        "audit",
+        "communications",
+        "credential",
+        "distribution",
+        "document",
+        "facility",
+        "forms",
+        "health",
+        "helpdesk",
+        "integration",
+        "inventory",
+        "invoice",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "property",
+        "receipt",
+        "rent",
+        "reservation",
+        "scheduler",
+        "search",
+        "staff",
+        "tenant",
+        "theme",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "database",
+      "blastRadius": 43,
+      "className": "PostgresModule",
+      "componentCount": 1,
+      "controllerCount": 0,
+      "criticalityTier": "critical",
+      "dependencySurface": 0,
+      "directDependencies": [],
+      "directDependencyCount": 0,
+      "directDependentCount": 24,
+      "directDependents": [
+        "access-control",
+        "agreement",
+        "audit",
+        "communications",
+        "credential",
+        "database:database",
+        "document",
+        "eventbus",
+        "facility",
+        "helpdesk",
+        "identity",
+        "inventory",
+        "maintenance",
+        "metrics",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "property",
+        "receipt",
+        "rent",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [
+        "admin",
+        "ai",
+        "auth",
+        "bootstrap",
+        "configuration",
+        "distribution",
+        "forms",
+        "health",
+        "integration",
+        "invoice",
+        "notification",
+        "report",
+        "scheduler",
+        "search",
+        "storage",
+        "tenant",
+        "theme",
+        "upload",
+        "workflow"
+      ],
+      "moduleId": "database:postgres",
+      "name": "Postgres",
+      "physicalLocation": "database",
+      "riskScore": 136.75,
+      "routeCount": 0,
+      "source": {
+        "line": null,
+        "path": "backend/src/database/postgres/postgres.module.ts"
+      },
+      "transitiveDependencies": [],
+      "transitiveDependencyCount": 0,
+      "transitiveDependentCount": 43,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "agreement",
+        "ai",
+        "audit",
+        "auth",
+        "bootstrap",
+        "communications",
+        "configuration",
+        "credential",
+        "database:database",
+        "distribution",
+        "document",
+        "eventbus",
+        "facility",
+        "forms",
+        "health",
+        "helpdesk",
+        "identity",
+        "integration",
+        "inventory",
+        "invoice",
+        "maintenance",
+        "metrics",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "property",
+        "receipt",
+        "rent",
+        "report",
+        "reservation",
+        "scheduler",
+        "search",
+        "staff",
+        "storage",
+        "tenant",
+        "theme",
+        "upload",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 34,
+      "className": "IdentityModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "critical",
+      "dependencySurface": 1,
+      "directDependencies": [
+        "database:postgres"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 23,
+      "directDependents": [
+        "agreement",
+        "audit",
+        "auth",
+        "bootstrap",
+        "credential",
+        "facility",
+        "invoice",
+        "maintenance",
+        "metrics",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "property",
+        "receipt",
+        "rent",
+        "report",
+        "scheduler",
+        "search",
+        "staff",
+        "storage",
+        "tenant",
+        "vehicle",
+        "workflow"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "document",
+        "health",
+        "helpdesk",
+        "inventory",
+        "procurement",
+        "reservation",
+        "upload",
+        "vendor"
+      ],
+      "moduleId": "identity",
+      "name": "Identity",
+      "physicalLocation": "core",
+      "riskScore": 124.55,
+      "routeCount": 18,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/identity/identity.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres"
+      ],
+      "transitiveDependencyCount": 1,
+      "transitiveDependentCount": 34,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "agreement",
+        "audit",
+        "auth",
+        "bootstrap",
+        "communications",
+        "credential",
+        "document",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "invoice",
+        "maintenance",
+        "metrics",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "property",
+        "receipt",
+        "rent",
+        "report",
+        "reservation",
+        "scheduler",
+        "search",
+        "staff",
+        "storage",
+        "tenant",
+        "upload",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 22,
+      "className": "SearchModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "high",
+      "dependencySurface": 3,
+      "directDependencies": [
+        "eventbus",
+        "identity"
+      ],
+      "directDependencyCount": 2,
+      "directDependentCount": 17,
+      "directDependents": [
+        "access-control",
+        "agreement",
+        "communications",
+        "document",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "plugin",
+        "plugin:visitor",
+        "property",
+        "rent",
+        "reservation",
+        "staff",
+        "tenant",
+        "vehicle",
+        "workflow"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [
+        "admin",
+        "health",
+        "notification",
+        "procurement",
+        "vendor"
+      ],
+      "moduleId": "search",
+      "name": "Search",
+      "physicalLocation": "core",
+      "riskScore": 87.85,
+      "routeCount": 2,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/search/search.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "transitiveDependencyCount": 3,
+      "transitiveDependentCount": 22,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "agreement",
+        "communications",
+        "document",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "property",
+        "rent",
+        "reservation",
+        "staff",
+        "tenant",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 16,
+      "className": "PluginModule",
+      "componentCount": 22,
+      "controllerCount": 4,
+      "criticalityTier": "high",
+      "dependencySurface": 7,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search",
+        "storage"
+      ],
+      "directDependencyCount": 5,
+      "directDependentCount": 15,
+      "directDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "indirectDependencies": [
+        "configuration",
+        "database:database"
+      ],
+      "indirectDependents": [
+        "plugin:visitor"
+      ],
+      "moduleId": "plugin",
+      "name": "Plugin",
+      "physicalLocation": "core",
+      "riskScore": 85.1,
+      "routeCount": 21,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/plugin/plugin.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 7,
+      "transitiveDependentCount": 16,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "plugin:visitor",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "database",
+      "blastRadius": 25,
+      "className": "DatabaseModule",
+      "componentCount": 0,
+      "controllerCount": 0,
+      "criticalityTier": "critical",
+      "dependencySurface": 1,
+      "directDependencies": [
+        "database:postgres"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 10,
+      "directDependents": [
+        "configuration",
+        "forms",
+        "health",
+        "invoice",
+        "notification",
+        "report",
+        "scheduler",
+        "storage",
+        "tenant",
+        "workflow"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "reservation",
+        "staff",
+        "upload",
+        "vehicle",
+        "vendor"
+      ],
+      "moduleId": "database:database",
+      "name": "Database",
+      "physicalLocation": "database",
+      "riskScore": 68.85,
+      "routeCount": 0,
+      "source": {
+        "line": null,
+        "path": "backend/src/database/database.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres"
+      ],
+      "transitiveDependencyCount": 1,
+      "transitiveDependentCount": 25,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "configuration",
+        "facility",
+        "forms",
+        "health",
+        "helpdesk",
+        "inventory",
+        "invoice",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "report",
+        "reservation",
+        "scheduler",
+        "staff",
+        "storage",
+        "tenant",
+        "upload",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 11,
+      "className": "AuditModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "high",
+      "dependencySurface": 3,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 11,
+      "directDependents": [
+        "access-control",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "audit",
+      "name": "Audit",
+      "physicalLocation": "core",
+      "riskScore": 54.35,
+      "routeCount": 2,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/audit/audit.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "transitiveDependencyCount": 3,
+      "transitiveDependentCount": 11,
+      "transitiveDependents": [
+        "access-control",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 11,
+      "className": "AuthModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "high",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "identity"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 11,
+      "directDependents": [
+        "access-control",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "auth",
+      "name": "Auth",
+      "physicalLocation": "core",
+      "riskScore": 51.85,
+      "routeCount": 1,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/auth/auth.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "identity"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 11,
+      "transitiveDependents": [
+        "access-control",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 18,
+      "className": "StorageModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "high",
+      "dependencySurface": 4,
+      "directDependencies": [
+        "configuration",
+        "database:database",
+        "identity"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 3,
+      "directDependents": [
+        "health",
+        "plugin",
+        "upload"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "plugin:visitor",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "moduleId": "storage",
+      "name": "Storage",
+      "physicalLocation": "core",
+      "riskScore": 41.5,
+      "routeCount": 4,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/storage/storage.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "identity"
+      ],
+      "transitiveDependencyCount": 4,
+      "transitiveDependentCount": 18,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "reservation",
+        "staff",
+        "upload",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 19,
+      "className": "ConfigurationModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "high",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "database:database"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 3,
+      "directDependents": [
+        "health",
+        "storage",
+        "upload"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "reservation",
+        "staff",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "moduleId": "configuration",
+      "name": "Configuration",
+      "physicalLocation": "core",
+      "riskScore": 40.45,
+      "routeCount": 5,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/configuration/configuration.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:database",
+        "database:postgres"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 19,
+      "transitiveDependents": [
+        "access-control",
+        "admin",
+        "communications",
+        "facility",
+        "health",
+        "helpdesk",
+        "inventory",
+        "maintenance",
+        "notification",
+        "plugin",
+        "plugin:visitor",
+        "procurement",
+        "reservation",
+        "staff",
+        "storage",
+        "upload",
+        "vehicle",
+        "vendor",
+        "workflow"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 6,
+      "className": "SchedulerModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 6,
+      "directDependencies": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "platform",
+        "report"
+      ],
+      "directDependencyCount": 5,
+      "directDependentCount": 6,
+      "directDependents": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "scheduler",
+      "name": "Scheduler",
+      "physicalLocation": "core",
+      "riskScore": 35.6,
+      "routeCount": 5,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/scheduler/scheduler.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "platform",
+        "report"
+      ],
+      "transitiveDependencyCount": 6,
+      "transitiveDependentCount": 6,
+      "transitiveDependents": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 1,
+      "className": "InventoryModule",
+      "componentCount": 19,
+      "controllerCount": 8,
+      "criticalityTier": "high",
+      "dependencySurface": 10,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "search"
+      ],
+      "directDependencyCount": 6,
+      "directDependentCount": 1,
+      "directDependents": [
+        "procurement"
+      ],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "inventory",
+      "name": "Inventory",
+      "physicalLocation": "core",
+      "riskScore": 33.5,
+      "routeCount": 65,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/inventory/inventory.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 10,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "procurement"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "ProcurementModule",
+      "componentCount": 18,
+      "controllerCount": 8,
+      "criticalityTier": "high",
+      "dependencySurface": 11,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "inventory",
+        "plugin"
+      ],
+      "directDependencyCount": 6,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "search",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "procurement",
+      "name": "Procurement",
+      "physicalLocation": "core",
+      "riskScore": 29.1,
+      "routeCount": 65,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/procurement/procurement.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "inventory",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 11,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 4,
+      "className": "WorkflowModule",
+      "componentCount": 4,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 8,
+      "directDependencies": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "directDependencyCount": 5,
+      "directDependentCount": 4,
+      "directDependents": [
+        "facility",
+        "health",
+        "maintenance",
+        "reservation"
+      ],
+      "indirectDependencies": [
+        "configuration",
+        "database:postgres",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "workflow",
+      "name": "Workflow",
+      "physicalLocation": "core",
+      "riskScore": 28.45,
+      "routeCount": 11,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/workflow/workflow.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 8,
+      "transitiveDependentCount": 4,
+      "transitiveDependents": [
+        "facility",
+        "health",
+        "maintenance",
+        "reservation"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 7,
+      "className": "ReportModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 3,
+      "directDependencies": [
+        "database:database",
+        "identity"
+      ],
+      "directDependencyCount": 2,
+      "directDependentCount": 1,
+      "directDependents": [
+        "scheduler"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation"
+      ],
+      "moduleId": "report",
+      "name": "Report",
+      "physicalLocation": "core",
+      "riskScore": 23.2,
+      "routeCount": 6,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/report/report.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:database",
+        "database:postgres",
+        "identity"
+      ],
+      "transitiveDependencyCount": 3,
+      "transitiveDependentCount": 7,
+      "transitiveDependents": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation",
+        "scheduler"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "ReservationModule",
+      "componentCount": 6,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 14,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search",
+        "workflow"
+      ],
+      "directDependencyCount": 8,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "platform",
+        "report",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "reservation",
+      "name": "Reservation",
+      "physicalLocation": "core",
+      "riskScore": 22.1,
+      "routeCount": 18,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/reservation/reservation.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "platform",
+        "plugin",
+        "report",
+        "scheduler",
+        "search",
+        "storage",
+        "workflow"
+      ],
+      "transitiveDependencyCount": 14,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "MaintenanceModule",
+      "componentCount": 6,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 14,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "scheduler",
+        "search",
+        "workflow"
+      ],
+      "directDependencyCount": 9,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "platform",
+        "report",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "maintenance",
+      "name": "Maintenance",
+      "physicalLocation": "core",
+      "riskScore": 21.75,
+      "routeCount": 9,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/maintenance/maintenance.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "platform",
+        "plugin",
+        "report",
+        "scheduler",
+        "search",
+        "storage",
+        "workflow"
+      ],
+      "transitiveDependencyCount": 14,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "HelpdeskModule",
+      "componentCount": 5,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 13,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search"
+      ],
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "platform",
+        "report",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "helpdesk",
+      "name": "Helpdesk",
+      "physicalLocation": "core",
+      "riskScore": 20.35,
+      "routeCount": 17,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/helpdesk/helpdesk.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "platform",
+        "plugin",
+        "report",
+        "scheduler",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 13,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "VendorModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "high",
+      "dependencySurface": 10,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin"
+      ],
+      "directDependencyCount": 5,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "search",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "vendor",
+      "name": "Vendor",
+      "physicalLocation": "core",
+      "riskScore": 20.25,
+      "routeCount": 40,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vendor/vendor.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 10,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "CommunicationsModule",
+      "componentCount": 5,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 13,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search"
+      ],
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "platform",
+        "report",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "communications",
+      "name": "Communications",
+      "physicalLocation": "core",
+      "riskScore": 20.2,
+      "routeCount": 16,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/communications/communications.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "platform",
+        "plugin",
+        "report",
+        "scheduler",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 13,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "FacilityModule",
+      "componentCount": 5,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 11,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "workflow"
+      ],
+      "directDependencyCount": 8,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "facility",
+      "name": "Facility",
+      "physicalLocation": "core",
+      "riskScore": 19.45,
+      "routeCount": 9,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/facility/facility.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage",
+        "workflow"
+      ],
+      "transitiveDependencyCount": 11,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "StaffModule",
+      "componentCount": 4,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 10,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "staff",
+      "name": "Staff",
+      "physicalLocation": "core",
+      "riskScore": 18.0,
+      "routeCount": 10,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/staff/staff.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 10,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 0,
+      "className": "VehicleModule",
+      "componentCount": 4,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 10,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "vehicle",
+      "name": "Vehicle",
+      "physicalLocation": "core",
+      "riskScore": 17.7,
+      "routeCount": 8,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/vehicle/vehicle.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 10,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 1,
+      "className": "TenantModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 5,
+      "directDependencies": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "directDependents": [
+        "admin"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "tenant",
+      "name": "Tenant",
+      "physicalLocation": "core",
+      "riskScore": 16.75,
+      "routeCount": 5,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/tenant/tenant.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "transitiveDependencyCount": 5,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "admin"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 1,
+      "className": "RentModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 4,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "directDependents": [
+        "admin"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "rent",
+      "name": "Rent",
+      "physicalLocation": "core",
+      "riskScore": 16.4,
+      "routeCount": 5,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/rent/rent.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "transitiveDependencyCount": 4,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "admin"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 1,
+      "className": "AgreementModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 4,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "directDependents": [
+        "admin"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "agreement",
+      "name": "Agreement",
+      "physicalLocation": "core",
+      "riskScore": 16.25,
+      "routeCount": 4,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/agreement/agreement.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "transitiveDependencyCount": 4,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "admin"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 1,
+      "className": "InvoiceModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 4,
+      "directDependencies": [
+        "database:database",
+        "eventbus",
+        "identity"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 1,
+      "directDependents": [
+        "admin"
+      ],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "invoice",
+      "name": "Invoice",
+      "physicalLocation": "core",
+      "riskScore": 14.85,
+      "routeCount": 3,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/invoice/invoice.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "transitiveDependencyCount": 4,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "admin"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "violation",
+      "architecturalRole": "business",
+      "blastRadius": 1,
+      "className": "ReceiptModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 3,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 1,
+      "directDependents": [
+        "admin"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "receipt",
+      "name": "Receipt",
+      "physicalLocation": "core",
+      "riskScore": 14.5,
+      "routeCount": 3,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/receipt/receipt.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "transitiveDependencyCount": 3,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "admin"
+      ],
+      "violationCode": "BUSINESS_MODULE_IN_CORE"
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "AccessControlModule",
+      "componentCount": 4,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 11,
+      "directDependencies": [
+        "audit",
+        "auth",
+        "credential",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "search"
+      ],
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "identity",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "access-control",
+      "name": "Access Control",
+      "physicalLocation": "core",
+      "riskScore": 13.65,
+      "routeCount": 12,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/access-control/access-control.module.ts"
+      },
+      "transitiveDependencies": [
+        "audit",
+        "auth",
+        "configuration",
+        "credential",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 11,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "HealthModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 13,
+      "directDependencies": [
+        "configuration",
+        "database:database",
+        "eventbus",
+        "metrics",
+        "plugin",
+        "scheduler",
+        "storage",
+        "workflow"
+      ],
+      "directDependencyCount": 8,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres",
+        "identity",
+        "platform",
+        "report",
+        "search"
+      ],
+      "indirectDependents": [],
+      "moduleId": "health",
+      "name": "Health",
+      "physicalLocation": "core",
+      "riskScore": 13.65,
+      "routeCount": 4,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/health/health.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "metrics",
+        "platform",
+        "plugin",
+        "report",
+        "scheduler",
+        "search",
+        "storage",
+        "workflow"
+      ],
+      "transitiveDependencyCount": 13,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 7,
+      "className": "PlatformModule",
+      "componentCount": 0,
+      "controllerCount": 0,
+      "criticalityTier": "medium",
+      "dependencySurface": 0,
+      "directDependencies": [],
+      "directDependencyCount": 0,
+      "directDependentCount": 1,
+      "directDependents": [
+        "scheduler"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation"
+      ],
+      "moduleId": "platform",
+      "name": "Platform",
+      "physicalLocation": "core",
+      "riskScore": 13.5,
+      "routeCount": 0,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/platform/platform.module.ts"
+      },
+      "transitiveDependencies": [],
+      "transitiveDependencyCount": 0,
+      "transitiveDependentCount": 7,
+      "transitiveDependents": [
+        "communications",
+        "health",
+        "helpdesk",
+        "maintenance",
+        "plugin:visitor",
+        "reservation",
+        "scheduler"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "plugin",
+      "blastRadius": 0,
+      "className": "VisitorModule",
+      "componentCount": 4,
+      "controllerCount": 1,
+      "criticalityTier": "medium",
+      "dependencySurface": 12,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "notification",
+        "scheduler",
+        "search"
+      ],
+      "directDependencyCount": 6,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "platform",
+        "plugin",
+        "report",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "plugin:visitor",
+      "name": "Visitor",
+      "physicalLocation": "plugin",
+      "riskScore": 13.3,
+      "routeCount": 14,
+      "source": {
+        "line": null,
+        "path": "backend/src/plugins/visitor/visitor.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "notification",
+        "platform",
+        "plugin",
+        "report",
+        "scheduler",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 12,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "AdminModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 14,
+      "directDependencies": [
+        "agreement",
+        "invoice",
+        "plugin",
+        "property",
+        "receipt",
+        "rent",
+        "tenant"
+      ],
+      "directDependencyCount": 7,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "admin",
+      "name": "Admin",
+      "physicalLocation": "core",
+      "riskScore": 13.0,
+      "routeCount": 4,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/admin/admin.module.ts"
+      },
+      "transitiveDependencies": [
+        "agreement",
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "invoice",
+        "plugin",
+        "property",
+        "receipt",
+        "rent",
+        "search",
+        "storage",
+        "tenant"
+      ],
+      "transitiveDependencyCount": 14,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 1,
+      "className": "NotificationModule",
+      "componentCount": 4,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 8,
+      "directDependencies": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "plugin"
+      ],
+      "directDependencyCount": 4,
+      "directDependentCount": 1,
+      "directDependents": [
+        "plugin:visitor"
+      ],
+      "indirectDependencies": [
+        "configuration",
+        "database:postgres",
+        "search",
+        "storage"
+      ],
+      "indirectDependents": [],
+      "moduleId": "notification",
+      "name": "Notification",
+      "physicalLocation": "core",
+      "riskScore": 12.6,
+      "routeCount": 2,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/notification/notification.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "storage"
+      ],
+      "transitiveDependencyCount": 8,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "plugin:visitor"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 1,
+      "className": "PropertyModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 4,
+      "directDependencies": [
+        "database:postgres",
+        "identity",
+        "search"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 1,
+      "directDependents": [
+        "admin"
+      ],
+      "indirectDependencies": [
+        "eventbus"
+      ],
+      "indirectDependents": [],
+      "moduleId": "property",
+      "name": "Property",
+      "physicalLocation": "core",
+      "riskScore": 10.85,
+      "routeCount": 8,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/property/property.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "transitiveDependencyCount": 4,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "admin"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 1,
+      "className": "CredentialModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 3,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 1,
+      "directDependents": [
+        "access-control"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "credential",
+      "name": "Credential",
+      "physicalLocation": "core",
+      "riskScore": 9.95,
+      "routeCount": 6,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/credential/credential.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "transitiveDependencyCount": 3,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "access-control"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 1,
+      "className": "MetricsModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "database:postgres",
+        "identity"
+      ],
+      "directDependencyCount": 2,
+      "directDependentCount": 1,
+      "directDependents": [
+        "health"
+      ],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "metrics",
+      "name": "Metrics",
+      "physicalLocation": "core",
+      "riskScore": 8.3,
+      "routeCount": 4,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/metrics/metrics.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "identity"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 1,
+      "transitiveDependents": [
+        "health"
+      ],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "DocumentModule",
+      "componentCount": 3,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 4,
+      "directDependencies": [
+        "database:postgres",
+        "eventbus",
+        "search"
+      ],
+      "directDependencyCount": 3,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "identity"
+      ],
+      "indirectDependents": [],
+      "moduleId": "document",
+      "name": "Document",
+      "physicalLocation": "core",
+      "riskScore": 6.2,
+      "routeCount": 7,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/document/document.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "transitiveDependencyCount": 4,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "FormsModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 3,
+      "directDependencies": [
+        "database:database",
+        "eventbus"
+      ],
+      "directDependencyCount": 2,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "forms",
+      "name": "Forms",
+      "physicalLocation": "core",
+      "riskScore": 4.6,
+      "routeCount": 7,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/forms/forms.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:database",
+        "database:postgres",
+        "eventbus"
+      ],
+      "transitiveDependencyCount": 3,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "ThemeModule",
+      "componentCount": 5,
+      "controllerCount": 2,
+      "criticalityTier": "medium",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "eventbus"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "theme",
+      "name": "Theme",
+      "physicalLocation": "core",
+      "riskScore": 4.45,
+      "routeCount": 10,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/theme/theme.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "UploadModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 5,
+      "directDependencies": [
+        "configuration",
+        "storage"
+      ],
+      "directDependencyCount": 2,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:database",
+        "database:postgres",
+        "identity"
+      ],
+      "indirectDependents": [],
+      "moduleId": "upload",
+      "name": "Upload",
+      "physicalLocation": "core",
+      "riskScore": 4.4,
+      "routeCount": 1,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/upload/upload.module.ts"
+      },
+      "transitiveDependencies": [
+        "configuration",
+        "database:database",
+        "database:postgres",
+        "identity",
+        "storage"
+      ],
+      "transitiveDependencyCount": 5,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "DistributionModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "eventbus"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "distribution",
+      "name": "Distribution",
+      "physicalLocation": "core",
+      "riskScore": 3.25,
+      "routeCount": 7,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/distribution/distribution.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "IntegrationModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "eventbus"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "integration",
+      "name": "Integration",
+      "physicalLocation": "core",
+      "riskScore": 3.25,
+      "routeCount": 7,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/integration/integration.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "AiModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "eventbus"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "ai",
+      "name": "Ai",
+      "physicalLocation": "core",
+      "riskScore": 2.5,
+      "routeCount": 2,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/ai/ai.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "eventbus"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "BootstrapModule",
+      "componentCount": 2,
+      "controllerCount": 1,
+      "criticalityTier": "low",
+      "dependencySurface": 2,
+      "directDependencies": [
+        "identity"
+      ],
+      "directDependencyCount": 1,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [
+        "database:postgres"
+      ],
+      "indirectDependents": [],
+      "moduleId": "bootstrap",
+      "name": "Bootstrap",
+      "physicalLocation": "core",
+      "riskScore": 2.5,
+      "routeCount": 2,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/bootstrap/bootstrap.module.ts"
+      },
+      "transitiveDependencies": [
+        "database:postgres",
+        "identity"
+      ],
+      "transitiveDependencyCount": 2,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "platform",
+      "blastRadius": 0,
+      "className": "AuthorizationModule",
+      "componentCount": 1,
+      "controllerCount": 0,
+      "criticalityTier": "low",
+      "dependencySurface": 0,
+      "directDependencies": [],
+      "directDependencyCount": 0,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "authorization",
+      "name": "Authorization",
+      "physicalLocation": "core",
+      "riskScore": 0.25,
+      "routeCount": 0,
+      "source": {
+        "line": null,
+        "path": "backend/src/core/authorization/authorization.module.ts"
+      },
+      "transitiveDependencies": [],
+      "transitiveDependencyCount": 0,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    },
+    {
+      "alignmentStatus": "aligned",
+      "architecturalRole": "configuration",
+      "blastRadius": 0,
+      "className": "ConfigModule",
+      "componentCount": 1,
+      "controllerCount": 0,
+      "criticalityTier": "low",
+      "dependencySurface": 0,
+      "directDependencies": [],
+      "directDependencyCount": 0,
+      "directDependentCount": 0,
+      "directDependents": [],
+      "indirectDependencies": [],
+      "indirectDependents": [],
+      "moduleId": "configuration:config",
+      "name": "Config",
+      "physicalLocation": "configuration",
+      "riskScore": 0.25,
+      "routeCount": 0,
+      "source": {
+        "line": null,
+        "path": "backend/src/config/config.module.ts"
+      },
+      "transitiveDependencies": [],
+      "transitiveDependencyCount": 0,
+      "transitiveDependentCount": 0,
+      "transitiveDependents": [],
+      "violationCode": null
+    }
+  ],
+  "rootModuleIds": [
+    "authorization",
+    "configuration:config",
+    "database:postgres",
+    "platform"
+  ],
+  "schemaVersion": "1.0.0",
+  "sources": {
+    "dependencyGraph": "generated/knowledge/dependency-graph.json",
+    "repositoryIr": "generated/knowledge/repository.ir.json"
+  },
+  "summary": {
+    "architectureMigrationRiskCount": 16,
+    "averageRiskScore": 29.03,
+    "criticalModuleCount": 4,
+    "criticalityTierCounts": {
+      "critical": 4,
+      "high": 9,
+      "low": 22,
+      "medium": 12
+    },
+    "highImpactModuleCount": 13,
+    "highestRiskScore": 144.1,
+    "isolatedModuleCount": 2,
+    "leafModuleCount": 23,
+    "moduleCount": 47,
+    "rootModuleCount": 4
+  }
+}

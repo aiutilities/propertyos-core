@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 
 from pathlib import Path
@@ -230,8 +231,11 @@ class ContractManifestGenerator:
 
         references = tuple(
             sorted(
-                self._platform_references(
-                    analysis
+                self._contract_references(
+                    analysis=analysis,
+                    package_name=(
+                        request.package_name
+                    ),
                 ),
                 key=self._reference_key,
             )
@@ -360,10 +364,18 @@ class ContractManifestGenerator:
             valid=not ordered_issues,
         )
 
-    @staticmethod
-    def _platform_references(
+    def _contract_references(
+        self,
         analysis: PluginImportAnalysis,
+        package_name: str,
     ) -> Iterable[ImportReference]:
+        module_roots = (
+            self._contract_module_roots(
+                analysis=analysis,
+                package_name=package_name,
+            )
+        )
+
         for file in analysis.files:
             for reference in file.imports:
                 if (
@@ -371,6 +383,253 @@ class ContractManifestGenerator:
                     == "platform-contract"
                 ):
                     yield reference
+                    continue
+
+                if not (
+                    reference.classification
+                    == "propertyos-package"
+                    and reference.original_specifier
+                    == package_name
+                ):
+                    continue
+
+                for symbol in sorted(
+                    set(
+                        reference.imported_symbols
+                    )
+                ):
+                    recovered = (
+                        self._recover_package_symbol(
+                            reference=reference,
+                            symbol=symbol,
+                            package_name=(
+                                package_name
+                            ),
+                            module_roots=(
+                                module_roots
+                            ),
+                        )
+                    )
+
+                    if recovered:
+                        yield from recovered
+                    else:
+                        yield ImportReference(
+                            source_file=(
+                                reference.source_file
+                            ),
+                            line=reference.line,
+                            column=(
+                                reference.column
+                            ),
+                            syntax=(
+                                reference.syntax
+                            ),
+                            imported_symbols=(
+                                (symbol,)
+                            ),
+                            original_specifier=(
+                                package_name
+                            ),
+                            classification=(
+                                "platform-contract"
+                            ),
+                            resolution_status=(
+                                "unresolved"
+                            ),
+                            resolved_path="",
+                            target_module="",
+                            proposed_specifier=(
+                                package_name
+                            ),
+                            rewrite_required=False,
+                            reason=(
+                                "Rewritten platform "
+                                "contract symbol could "
+                                "not be recovered from "
+                                "the extraction report."
+                            ),
+                        )
+
+    def _contract_module_roots(
+        self,
+        analysis: PluginImportAnalysis,
+        package_name: str,
+    ) -> Tuple[
+        Tuple[str, str],
+        ...,
+    ]:
+        report_path = (
+            self._repository_root
+            / analysis.workspace_path
+            / "extraction-report.json"
+        ).resolve()
+
+        try:
+            report_path.relative_to(
+                self._repository_root
+            )
+        except ValueError:
+            return ()
+
+        if not report_path.is_file():
+            return ()
+
+        try:
+            report = json.loads(
+                report_path.read_text(
+                    encoding="utf-8"
+                )
+            )
+        except (
+            json.JSONDecodeError,
+            UnicodeDecodeError,
+        ):
+            return ()
+
+        roots = set()
+
+        for contract in report.get(
+            "contracts",
+            [],
+        ):
+            if (
+                contract.get(
+                    "targetPackage"
+                )
+                != package_name
+            ):
+                continue
+
+            if (
+                contract.get("type")
+                != "platform-contract"
+            ):
+                continue
+
+            module_id = str(
+                contract.get(
+                    "sourceModule",
+                    "",
+                )
+            ).strip()
+
+            module_root = str(
+                contract.get(
+                    "moduleRoot",
+                    "",
+                )
+            ).strip()
+
+            if module_id and module_root:
+                roots.add(
+                    (
+                        module_id,
+                        module_root,
+                    )
+                )
+
+        return tuple(sorted(roots))
+
+    def _recover_package_symbol(
+        self,
+        reference: ImportReference,
+        symbol: str,
+        package_name: str,
+        module_roots: Tuple[
+            Tuple[str, str],
+            ...,
+        ],
+    ) -> Tuple[
+        ImportReference,
+        ...,
+    ]:
+        matches = []
+
+        for module_id, module_root in (
+            module_roots
+        ):
+            root = self._absolute_path(
+                module_root
+            )
+
+            try:
+                root.relative_to(
+                    self._repository_root
+                )
+            except ValueError:
+                continue
+
+            if not root.is_dir():
+                continue
+
+            for source_file in sorted(
+                root.rglob("*.ts")
+            ):
+                try:
+                    content = (
+                        source_file.read_text(
+                            encoding="utf-8"
+                        )
+                    )
+                except UnicodeDecodeError:
+                    continue
+
+                if (
+                    self._export_kind(
+                        content=content,
+                        symbol=symbol,
+                    )
+                    is None
+                ):
+                    continue
+
+                matches.append(
+                    (
+                        module_id,
+                        self._display_path(
+                            source_file
+                        ),
+                    )
+                )
+
+        return tuple(
+            ImportReference(
+                source_file=(
+                    reference.source_file
+                ),
+                line=reference.line,
+                column=reference.column,
+                syntax=reference.syntax,
+                imported_symbols=(
+                    (symbol,)
+                ),
+                original_specifier=(
+                    package_name
+                ),
+                classification=(
+                    "platform-contract"
+                ),
+                resolution_status=(
+                    "resolved-package"
+                ),
+                resolved_path=(
+                    source_path
+                ),
+                target_module=module_id,
+                proposed_specifier=(
+                    package_name
+                ),
+                rewrite_required=False,
+                reason=(
+                    "Rewritten platform contract "
+                    "symbol was recovered from "
+                    "extraction provenance."
+                ),
+            )
+            for module_id, source_path
+            in sorted(set(matches))
+        )
 
     @staticmethod
     def _reference_key(

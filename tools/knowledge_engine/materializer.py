@@ -835,6 +835,13 @@ class StagedPluginMaterializer:
                         contract
                         .source_module
                     ),
+                    "moduleRoot": (
+                        Path(
+                            self.repository.module(
+                                contract.source_module
+                            ).source.path
+                        ).parent.as_posix()
+                    ),
                     "targetPackage": (
                         contract
                         .target_package

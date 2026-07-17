@@ -3,6 +3,20 @@ from __future__ import annotations
 import unittest
 
 import tempfile
+import json
+
+from tools.knowledge_engine.contract_manifest_cli import (
+    build_parser,
+)
+from tools.knowledge_engine.contract_manifest_formatter import (
+    contract_manifest_to_dict,
+)
+from tools.knowledge_engine.contract_manifest_formatter import (
+    format_contract_manifest_json,
+)
+from tools.knowledge_engine.contract_manifest_formatter import (
+    format_contract_manifest_markdown,
+)
 
 from pathlib import Path
 
@@ -614,6 +628,285 @@ class ContractManifestGeneratorTest(
                 1,
             )
 
+    def test_post_rewrite_package_import_recovers_contract_provenance(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as value:
+            root = Path(value)
+
+            source = (
+                root
+                / "backend/src/core/audit/"
+                "audit.service.ts"
+            )
+
+            source.parent.mkdir(
+                parents=True
+            )
+
+            source.write_text(
+                "export class AuditService {}\n",
+                encoding="utf-8",
+            )
+
+            workspace = (
+                root
+                / "generated/plugin-staging/"
+                "helpdesk"
+            )
+
+            workspace.mkdir(
+                parents=True
+            )
+
+            (
+                workspace
+                / "extraction-report.json"
+            ).write_text(
+                json.dumps(
+                    {
+                        "contracts": [
+                            {
+                                "type": (
+                                    "platform-contract"
+                                ),
+                                "sourceModule": (
+                                    "audit"
+                                ),
+                                "moduleRoot": (
+                                    "backend/src/core/"
+                                    "audit"
+                                ),
+                                "targetPackage": (
+                                    "@propertyos/"
+                                    "core-contracts"
+                                ),
+                            }
+                        ]
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            rewritten = ImportReference(
+                source_file=(
+                    "src/helpdesk.service.ts"
+                ),
+                line=1,
+                column=1,
+                syntax="named-import",
+                imported_symbols=(
+                    "AuditService",
+                ),
+                original_specifier=(
+                    "@propertyos/"
+                    "core-contracts"
+                ),
+                classification=(
+                    "propertyos-package"
+                ),
+                resolution_status=(
+                    "resolved-package"
+                ),
+                resolved_path="",
+                target_module="",
+                proposed_specifier=(
+                    "@propertyos/"
+                    "core-contracts"
+                ),
+                rewrite_required=False,
+                reason=(
+                    "PropertyOS package import."
+                ),
+            )
+
+            result = (
+                ContractManifestGenerator(
+                    repository_root=root
+                ).generate(
+                    self._portfolio(
+                        (rewritten,)
+                    ),
+                    self._request(),
+                )
+            )
+
+            manifest = result.manifests[0]
+
+            self.assertTrue(
+                manifest.valid
+            )
+
+            self.assertEqual(
+                manifest.symbol_count,
+                1,
+            )
+
+            export = (
+                manifest.packages[0]
+                .modules[0]
+                .exports[0]
+            )
+
+            self.assertEqual(
+                export.symbol,
+                "AuditService",
+            )
+
+            self.assertEqual(
+                export.target_module,
+                "audit",
+            )
+
+            self.assertEqual(
+                export.source_path,
+                (
+                    "backend/src/core/audit/"
+                    "audit.service.ts"
+                ),
+            )
+
+            self.assertEqual(
+                export.export_kind,
+                "class",
+            )
+
+    def test_pre_and_post_rewrite_manifests_match(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as value:
+            root = Path(value)
+
+            source = (
+                root
+                / "backend/src/core/audit/"
+                "audit.service.ts"
+            )
+
+            source.parent.mkdir(
+                parents=True
+            )
+
+            source.write_text(
+                "export class AuditService {}\n",
+                encoding="utf-8",
+            )
+
+            workspace = (
+                root
+                / "generated/plugin-staging/"
+                "helpdesk"
+            )
+
+            workspace.mkdir(
+                parents=True
+            )
+
+            (
+                workspace
+                / "extraction-report.json"
+            ).write_text(
+                json.dumps(
+                    {
+                        "contracts": [
+                            {
+                                "type": (
+                                    "platform-contract"
+                                ),
+                                "sourceModule": (
+                                    "audit"
+                                ),
+                                "moduleRoot": (
+                                    "backend/src/core/"
+                                    "audit"
+                                ),
+                                "targetPackage": (
+                                    "@propertyos/"
+                                    "core-contracts"
+                                ),
+                            }
+                        ]
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            pre_rewrite = self._reference(
+                (
+                    "backend/src/core/audit/"
+                    "audit.service.ts"
+                ),
+                ("AuditService",),
+            )
+
+            post_rewrite = ImportReference(
+                source_file=(
+                    "src/helpdesk.service.ts"
+                ),
+                line=1,
+                column=1,
+                syntax="named-import",
+                imported_symbols=(
+                    "AuditService",
+                ),
+                original_specifier=(
+                    "@propertyos/"
+                    "core-contracts"
+                ),
+                classification=(
+                    "propertyos-package"
+                ),
+                resolution_status=(
+                    "resolved-package"
+                ),
+                resolved_path="",
+                target_module="",
+                proposed_specifier=(
+                    "@propertyos/"
+                    "core-contracts"
+                ),
+                rewrite_required=False,
+                reason=(
+                    "PropertyOS package import."
+                ),
+            )
+
+            generator = (
+                ContractManifestGenerator(
+                    repository_root=root
+                )
+            )
+
+            before = generator.generate(
+                self._portfolio(
+                    (pre_rewrite,)
+                ),
+                self._request(),
+            )
+
+            after = generator.generate(
+                self._portfolio(
+                    (post_rewrite,)
+                ),
+                self._request(),
+            )
+
+            self.assertEqual(
+                before.manifests[0].packages,
+                after.manifests[0].packages,
+            )
+
+            self.assertEqual(
+                before.summary,
+                after.summary,
+            )
+
     def test_non_platform_imports_are_ignored(
         self,
     ) -> None:
@@ -779,6 +1072,245 @@ class ContractManifestGeneratorTest(
                         mode="unsupported"
                     ),
                 )
+
+
+class ContractManifestFormatterTest(
+    unittest.TestCase
+):
+    def _portfolio(
+        self,
+    ) -> ContractManifestPortfolio:
+        export = ContractExport(
+            symbol="AuditService",
+            source_path=(
+                "backend/src/core/audit/"
+                "audit.service.ts"
+            ),
+            export_kind="class",
+            target_module="audit",
+            package_name=(
+                "@propertyos/core-contracts"
+            ),
+        )
+
+        return ContractManifestPortfolio(
+            schema_version="1.0.0",
+            request=ContractManifestRequest(
+                mode="module",
+                module_id="helpdesk",
+            ),
+            manifests=(
+                PluginContractManifest(
+                    module_id="helpdesk",
+                    plugin_id="helpdesk",
+                    workspace_path=(
+                        "generated/plugin-staging/"
+                        "helpdesk"
+                    ),
+                    packages=(
+                        ContractPackage(
+                            package_name=(
+                                "@propertyos/"
+                                "core-contracts"
+                            ),
+                            version="0.1.0",
+                            modules=(
+                                ContractModule(
+                                    module_id="audit",
+                                    exports=(
+                                        export,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    issues=(),
+                    valid=True,
+                ),
+            ),
+            summary={
+                "manifestCount": 1,
+                "validManifestCount": 1,
+                "invalidManifestCount": 0,
+                "packageCount": 1,
+                "moduleCount": 1,
+                "symbolCount": 1,
+                "issueCount": 0,
+                "unresolvedSymbolCount": 0,
+                "duplicateSymbolCount": 0,
+            },
+        )
+
+    def test_dictionary_uses_camel_case(
+        self,
+    ) -> None:
+        value = contract_manifest_to_dict(
+            self._portfolio()
+        )
+
+        self.assertEqual(
+            value["schemaVersion"],
+            "1.0.0",
+        )
+
+        self.assertEqual(
+            value["request"]["moduleId"],
+            "helpdesk",
+        )
+
+        manifest = value["manifests"][0]
+
+        self.assertEqual(
+            manifest["symbolCount"],
+            1,
+        )
+
+        export = (
+            manifest["packages"][0]
+            ["modules"][0]
+            ["exports"][0]
+        )
+
+        self.assertEqual(
+            export["sourcePath"],
+            (
+                "backend/src/core/audit/"
+                "audit.service.ts"
+            ),
+        )
+
+        self.assertEqual(
+            export["exportKind"],
+            "class",
+        )
+
+    def test_json_is_valid_and_deterministic(
+        self,
+    ) -> None:
+        portfolio = self._portfolio()
+
+        first = format_contract_manifest_json(
+            portfolio
+        )
+
+        second = format_contract_manifest_json(
+            portfolio
+        )
+
+        self.assertEqual(first, second)
+
+        value = json.loads(first)
+
+        self.assertEqual(
+            value["summary"]["symbolCount"],
+            1,
+        )
+
+        self.assertTrue(
+            first.endswith("\n")
+        )
+
+    def test_markdown_contains_contract_table(
+        self,
+    ) -> None:
+        output = (
+            format_contract_manifest_markdown(
+                self._portfolio()
+            )
+        )
+
+        self.assertIn(
+            "# PropertyOS Contract Manifest",
+            output,
+        )
+
+        self.assertIn(
+            "## Plugin: helpdesk",
+            output,
+        )
+
+        self.assertIn(
+            "### Package: "
+            "@propertyos/core-contracts",
+            output,
+        )
+
+        self.assertIn(
+            "#### Module: audit",
+            output,
+        )
+
+        self.assertIn(
+            "`AuditService`",
+            output,
+        )
+
+        self.assertIn(
+            "`class`",
+            output,
+        )
+
+
+class ContractManifestCliTest(
+    unittest.TestCase
+):
+    def test_parser_accepts_module_request(
+        self,
+    ) -> None:
+        arguments = build_parser().parse_args(
+            [
+                "--format",
+                "markdown",
+                "--package-version",
+                "0.2.0",
+                "module",
+                "helpdesk",
+            ]
+        )
+
+        self.assertEqual(
+            arguments.mode,
+            "module",
+        )
+
+        self.assertEqual(
+            arguments.module_id,
+            "helpdesk",
+        )
+
+        self.assertEqual(
+            arguments.format,
+            "markdown",
+        )
+
+        self.assertEqual(
+            arguments.package_version,
+            "0.2.0",
+        )
+
+    def test_parser_defaults_are_stable(
+        self,
+    ) -> None:
+        arguments = build_parser().parse_args(
+            [
+                "candidates",
+            ]
+        )
+
+        self.assertEqual(
+            arguments.package_name,
+            "@propertyos/core-contracts",
+        )
+
+        self.assertEqual(
+            arguments.package_version,
+            "0.1.0",
+        )
+
+        self.assertEqual(
+            arguments.format,
+            "json",
+        )
 
 
 if __name__ == "__main__":

@@ -333,6 +333,60 @@ class MaterializerTest(unittest.TestCase):
                 first,
             )
 
+    def test_extraction_report_contracts_include_module_roots(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            dir=REPOSITORY_ROOT
+        ) as directory:
+            portfolio = self._materializer(
+                Path(directory) / "stage"
+            ).materialize(
+                MaterializationRequest(
+                    mode="module",
+                    module_id="helpdesk",
+                )
+            )
+
+            workspace = (
+                REPOSITORY_ROOT
+                / portfolio.plugins[0]
+                .workspace_path
+            )
+
+            report = json.loads(
+                (
+                    workspace
+                    / "extraction-report.json"
+                ).read_text(
+                    encoding="utf-8"
+                )
+            )
+
+            contracts = {
+                contract["sourceModule"]:
+                contract
+                for contract
+                in report["contracts"]
+            }
+
+            self.assertEqual(
+                contracts["audit"][
+                    "moduleRoot"
+                ],
+                "backend/src/core/audit",
+            )
+
+            self.assertEqual(
+                contracts[
+                    "database:postgres"
+                ]["moduleRoot"],
+                (
+                    "backend/src/database/"
+                    "postgres"
+                ),
+            )
+
     def test_invalid_limit_fails(
         self,
     ) -> None:

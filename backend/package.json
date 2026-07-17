@@ -20,7 +20,8 @@
     "knowledge:controllers": "cd .. && python3 -m tools.knowledge_engine.controller_cli",
     "knowledge:controllers:regex": "cd .. && python3 -m tools.knowledge_engine.controller_cli --engine regex --output generated/knowledge/controllers.regex.json",
     "knowledge:controllers:parity": "cd .. && python3 tests/knowledge_engine/compare_controller_manifests.py",
-    "knowledge:architecture": "cd .. && python3 -m tools.knowledge_engine.architecture_cli"
+    "knowledge:architecture": "cd .. && python3 -m tools.knowledge_engine.architecture_cli",
+    "knowledge:ir": "cd .. && python3 -m tools.knowledge_engine.repository_ir_cli"
   },
   "keywords": [],
   "author": "",

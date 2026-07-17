@@ -16,7 +16,10 @@
     "start:scheduler": "ts-node src/scheduler-worker.ts",
     "start:scheduler:prod": "node dist/scheduler-worker.js",
     "knowledge:controllers:ast": "NODE_PATH=./node_modules ts-node --project tools/knowledge-engine/tsconfig.json tools/knowledge-engine/controller-ast-extractor.ts .. ../generated/knowledge/controllers.ast.json",
-    "knowledge:controllers:ast:typecheck": "tsc --project tools/knowledge-engine/tsconfig.json --noEmit"
+    "knowledge:controllers:ast:typecheck": "tsc --project tools/knowledge-engine/tsconfig.json --noEmit",
+    "knowledge:controllers": "cd .. && python3 -m tools.knowledge_engine.controller_cli",
+    "knowledge:controllers:regex": "cd .. && python3 -m tools.knowledge_engine.controller_cli --engine regex --output generated/knowledge/controllers.regex.json",
+    "knowledge:controllers:parity": "cd .. && python3 tests/knowledge_engine/compare_controller_manifests.py"
   },
   "keywords": [],
   "author": "",

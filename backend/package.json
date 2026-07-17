@@ -30,7 +30,8 @@
     "knowledge:query": "cd .. && python3 -m tools.knowledge_engine.query_cli",
     "knowledge:context": "cd .. && python3 -m tools.knowledge_engine.context_cli",
     "knowledge:migration": "cd .. && python3 -m tools.knowledge_engine.migration_cli",
-    "knowledge:blueprint": "cd .. && python3 -m tools.knowledge_engine.blueprint_cli"
+    "knowledge:blueprint": "cd .. && python3 -m tools.knowledge_engine.blueprint_cli",
+    "knowledge:blueprint:validate": "cd .. && python3 -m tools.knowledge_engine.blueprint_validation_cli"
   },
   "keywords": [],
   "author": "",

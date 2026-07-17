@@ -170,7 +170,7 @@ class ImportAnalyzerTest(
                 )
             )
 
-    def test_incomplete_staging_reports_unresolved_imports(
+    def test_incomplete_staging_resolves_against_repository(
         self,
     ) -> None:
         with tempfile.TemporaryDirectory(
@@ -196,17 +196,31 @@ class ImportAnalyzerTest(
                 == "unresolved-relative"
             ]
 
+            resolved_original = [
+                reference
+                for file in analysis.files
+                for reference
+                in file.imports
+                if reference.resolution_status
+                == "resolved-original"
+            ]
+
             self.assertEqual(
-                55,
+                0,
                 len(unresolved),
             )
 
             self.assertEqual(
-                55,
+                48,
+                len(resolved_original),
+            )
+
+            self.assertEqual(
+                0,
                 analysis.unresolved_count,
             )
 
-            self.assertFalse(
+            self.assertTrue(
                 analysis.valid
             )
 
@@ -236,13 +250,22 @@ class ImportAnalyzerTest(
             ]
 
             self.assertEqual(
-                57,
+                48,
                 len(rewrites),
             )
 
             self.assertEqual(
-                57,
+                48,
                 analysis.rewrite_count,
+            )
+
+            self.assertTrue(
+                all(
+                    reference.resolution_status
+                    == "resolved-original"
+                    for reference
+                    in rewrites
+                )
             )
 
             self.assertTrue(
@@ -251,6 +274,41 @@ class ImportAnalyzerTest(
                     for reference
                     in rewrites
                 )
+            )
+
+    def test_compound_typescript_filenames_resolve(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            dir=REPOSITORY_ROOT
+        ) as directory:
+            root = Path(directory)
+
+            expected = (
+                root
+                / "create-ticket.dto.ts"
+            )
+
+            expected.write_text(
+                "export class CreateTicketDto {}\n",
+                encoding="utf-8",
+            )
+
+            candidate = (
+                root
+                / "create-ticket.dto"
+            )
+
+            resolved = (
+                StagedImportAnalyzer
+                ._resolve_typescript(
+                    candidate
+                )
+            )
+
+            self.assertEqual(
+                expected.resolve(),
+                resolved,
             )
 
     def test_analysis_does_not_modify_staged_files(
@@ -505,3 +563,72 @@ class ImportAnalyzerTest(
 
 if __name__ == "__main__":
     unittest.main()
+
+class ImportAnalyzerModuleOwnershipTest(
+    unittest.TestCase
+):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.repository = Repository.load(
+            REPOSITORY_ROOT
+        )
+
+        cls.analyzer = StagedImportAnalyzer(
+            repository=cls.repository,
+            repository_root=REPOSITORY_ROOT,
+            staging_root=(
+                REPOSITORY_ROOT
+                / "generated/plugin-staging"
+            ),
+        )
+
+    def test_module_owner_resolves_internal_file(
+        self,
+    ) -> None:
+        path = (
+            REPOSITORY_ROOT
+            / "backend/src/core/auth/guards/"
+            "jwt-auth.guard.ts"
+        )
+
+        self.assertEqual(
+            "auth",
+            self.analyzer._module_for_path(
+                path
+            ),
+        )
+
+    def test_module_owner_resolves_barrel_file(
+        self,
+    ) -> None:
+        path = (
+            REPOSITORY_ROOT
+            / "backend/src/core/search/index.ts"
+        )
+
+        self.assertEqual(
+            "search",
+            self.analyzer._module_for_path(
+                path
+            ),
+        )
+
+    def test_deepest_module_root_wins(
+        self,
+    ) -> None:
+        path = (
+            REPOSITORY_ROOT
+            / "backend/src/database/postgres/"
+            "postgres.module.ts"
+        )
+
+        owner = (
+            self.analyzer._module_for_path(
+                path
+            )
+        )
+
+        self.assertEqual(
+            "database:postgres",
+            owner,
+        )

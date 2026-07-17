@@ -943,13 +943,17 @@ class StagedImportAnalyzer:
         path: Path,
     ) -> Optional[str]:
         try:
-            relative = path.relative_to(
+            relative_path = path.relative_to(
                 self.repository_root
-            ).as_posix()
+            )
         except ValueError:
             return None
 
-        matches = []
+        relative = (
+            relative_path.as_posix()
+        )
+
+        exact_matches = []
 
         for module in (
             self.repository.modules
@@ -974,14 +978,56 @@ class StagedImportAnalyzer:
             }
 
             if relative in module_paths:
-                matches.append(
+                exact_matches.append(
                     module.id
                 )
 
-        if not matches:
+        if exact_matches:
+            return sorted(
+                exact_matches
+            )[0]
+
+        directory_matches = []
+
+        for module in (
+            self.repository.modules
+        ):
+            source_path = Path(
+                module.source.path
+            )
+
+            if not source_path.parts:
+                continue
+
+            module_root = (
+                source_path.parent
+            )
+
+            try:
+                relative_path.relative_to(
+                    module_root
+                )
+            except ValueError:
+                continue
+
+            directory_matches.append(
+                (
+                    len(module_root.parts),
+                    module.id,
+                )
+            )
+
+        if not directory_matches:
             return None
 
-        return sorted(matches)[0]
+        directory_matches.sort(
+            key=lambda item: (
+                -item[0],
+                item[1],
+            )
+        )
+
+        return directory_matches[0][1]
 
     def _relative_to_staged_target(
         self,
@@ -1054,8 +1100,14 @@ class StagedImportAnalyzer:
     ) -> Optional[Path]:
         candidates = [
             candidate,
-            candidate.with_suffix(".ts"),
+            Path(str(candidate) + ".ts"),
+            Path(str(candidate) + ".tsx"),
+            Path(str(candidate) + ".mts"),
+            Path(str(candidate) + ".cts"),
             candidate / "index.ts",
+            candidate / "index.tsx",
+            candidate / "index.mts",
+            candidate / "index.cts",
         ]
 
         for value in candidates:

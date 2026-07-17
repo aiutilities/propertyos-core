@@ -24,7 +24,8 @@
     "knowledge:ir": "cd .. && python3 -m tools.knowledge_engine.repository_ir_cli",
     "knowledge:dependencies:ast": "NODE_PATH=./node_modules ts-node --project tools/knowledge-engine/tsconfig.json tools/knowledge-engine/module-dependency-extractor.ts .. ../generated/knowledge/module-dependencies.ast.json",
     "knowledge:dependencies": "cd .. && python3 -m tools.knowledge_engine.dependency_graph_cli",
-    "knowledge:impact": "cd .. && python3 -m tools.knowledge_engine.impact_analysis_cli"
+    "knowledge:impact": "cd .. && python3 -m tools.knowledge_engine.impact_analysis_cli",
+    "knowledge:docs:modules": "cd .. && python3 -m tools.knowledge_engine.module_documentation_cli"
   },
   "keywords": [],
   "author": "",

@@ -31,7 +31,8 @@
     "knowledge:context": "cd .. && python3 -m tools.knowledge_engine.context_cli",
     "knowledge:migration": "cd .. && python3 -m tools.knowledge_engine.migration_cli",
     "knowledge:blueprint": "cd .. && python3 -m tools.knowledge_engine.blueprint_cli",
-    "knowledge:blueprint:validate": "cd .. && python3 -m tools.knowledge_engine.blueprint_validation_cli"
+    "knowledge:blueprint:validate": "cd .. && python3 -m tools.knowledge_engine.blueprint_validation_cli",
+    "knowledge:materialize": "cd .. && python3 -m tools.knowledge_engine.materialization_cli"
   },
   "keywords": [],
   "author": "",

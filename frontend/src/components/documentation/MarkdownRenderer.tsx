@@ -7,6 +7,10 @@ import ReactMarkdown, {
 import remarkGfm from "remark-gfm";
 
 import {
+  MermaidDiagram,
+} from "./MermaidDiagram";
+
+import {
   createHeadingId,
 } from "@/lib/documentation";
 
@@ -264,6 +268,35 @@ const components:
       children,
       ...props
     }) {
+      const language =
+        className
+          ?.replace(
+            "language-",
+            "",
+          )
+          .trim()
+          .toLowerCase();
+
+      if (
+        language ===
+        "mermaid"
+      ) {
+        return (
+          <span className="documentation-mermaid-container">
+            <MermaidDiagram
+              source={
+                String(
+                  children,
+                ).replace(
+                  /\n$/,
+                  "",
+                )
+              }
+            />
+          </span>
+        );
+      }
+
       const isBlock =
         Boolean(
           className,

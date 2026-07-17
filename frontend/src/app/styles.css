@@ -3711,3 +3711,83 @@ input {
     flex-direction: column;
   }
 }
+
+/* Mermaid diagrams */
+
+.documentation-code-block:has(
+  .documentation-mermaid-container
+) {
+  background: transparent;
+  border-radius: 0;
+  color: inherit;
+  overflow: visible;
+  padding: 0;
+  white-space: normal;
+}
+
+.documentation-mermaid-container {
+  display: block;
+  margin: 28px 0;
+  white-space: normal;
+}
+
+.documentation-mermaid {
+  align-items: center;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(69, 87, 255, 0.035),
+      rgba(126, 87, 194, 0.025)
+    ),
+    white;
+  border: 1px solid #e1e5ef;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  min-height: 180px;
+  overflow-x: auto;
+  padding: 24px;
+  width: 100%;
+}
+
+.documentation-mermaid svg {
+  height: auto;
+  max-width: 100%;
+}
+
+.documentation-mermaid-loading {
+  align-items: center;
+  background: #f7f8fb;
+  border: 1px dashed #cfd5e2;
+  border-radius: 16px;
+  color: #687084;
+  display: flex;
+  justify-content: center;
+  min-height: 180px;
+  padding: 24px;
+}
+
+.documentation-mermaid-error {
+  background: #fff1f1;
+  border: 1px solid #ffcaca;
+  border-radius: 16px;
+  color: #8e1717;
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+}
+
+.documentation-mermaid-error > span {
+  line-height: 1.5;
+}
+
+.documentation-mermaid-error code {
+  background: #fff;
+  border: 1px solid #f1c5c5;
+  border-radius: 10px;
+  color: #5f2020;
+  display: block;
+  overflow-x: auto;
+  padding: 14px;
+  white-space: pre;
+}

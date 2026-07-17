@@ -2,7 +2,7 @@
 
 PropertyOS documentation is maintained as version-controlled Markdown alongside the source code.
 
-**Indexed documents:** 5
+**Indexed documents:** 6
 
 ## Start Here
 
@@ -26,6 +26,12 @@ Swagger/OpenAPI remains the authoritative generated API reference and is exposed
 General documentation and standards.
 
 - [PropertyOS Documentation Standards](STANDARDS.md)
+
+### Architecture
+
+Platform and cross-domain architecture.
+
+- [PropertyOS Platform Architecture](architecture/ARCHITECTURE.md)
 
 ### Development
 

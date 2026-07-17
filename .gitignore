@@ -1,1 +1,4 @@
 generated/plugin-staging/
+
+# Local Python virtual environment
+.venv/

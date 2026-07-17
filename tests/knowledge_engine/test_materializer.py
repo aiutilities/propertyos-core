@@ -98,6 +98,70 @@ class MaterializerTest(unittest.TestCase):
                 .copied_file_count,
             )
 
+    def test_generated_tsconfig_extends_backend_config(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            dir=REPOSITORY_ROOT
+        ) as directory:
+            output_root = (
+                Path(directory)
+                / "stage"
+            )
+
+            portfolio = self._materializer(
+                output_root
+            ).materialize(
+                MaterializationRequest(
+                    mode="module",
+                    module_id="helpdesk",
+                )
+            )
+
+            self.assertEqual(
+                portfolio.summary[
+                    "invalidPluginCount"
+                ],
+                0,
+            )
+
+            tsconfig_path = (
+                output_root
+                / "helpdesk"
+                / "tsconfig.json"
+            )
+
+            tsconfig = json.loads(
+                tsconfig_path.read_text(
+                    encoding="utf-8"
+                )
+            )
+
+            self.assertEqual(
+                tsconfig["extends"],
+                "../../../backend/tsconfig.json",
+            )
+
+            resolved = (
+                tsconfig_path.parent
+                / tsconfig["extends"]
+            ).resolve()
+
+            expected = (
+                REPOSITORY_ROOT
+                / "backend"
+                / "tsconfig.json"
+            ).resolve()
+
+            self.assertEqual(
+                resolved,
+                expected,
+            )
+
+            self.assertTrue(
+                resolved.is_file()
+            )
+
     def test_six_metadata_files_are_generated(
         self,
     ) -> None:

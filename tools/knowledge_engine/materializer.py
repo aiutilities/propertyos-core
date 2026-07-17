@@ -773,7 +773,7 @@ class StagedPluginMaterializer:
 
         tsconfig = {
             "extends": (
-                "../../backend/tsconfig.json"
+                "../../../backend/tsconfig.json"
             ),
             "compilerOptions": {
                 "rootDir": "src",

@@ -1,0 +1,493 @@
+{
+  "invalidManifestCount": 0,
+  "issueCount": 0,
+  "issues": {},
+  "manifests": {
+    "agreement": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "agreement",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "AgreementModule",
+      "name": "Agreement",
+      "package": "@propertyos/plugin-agreement",
+      "permissions": [
+        "'agreement.create'",
+        "'agreement.read'"
+      ],
+      "platformCapabilities": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 4,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "communications": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "communications",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "CommunicationsModule",
+      "name": "Communications",
+      "package": "@propertyos/plugin-communications",
+      "permissions": [
+        "COMMUNICATIONS_PERMISSIONS.ARCHIVE",
+        "COMMUNICATIONS_PERMISSIONS.CREATE",
+        "COMMUNICATIONS_PERMISSIONS.MANAGE",
+        "COMMUNICATIONS_PERMISSIONS.PUBLISH",
+        "COMMUNICATIONS_PERMISSIONS.READ",
+        "COMMUNICATIONS_PERMISSIONS.READ_RECEIPTS"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 16,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "facility": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "facility",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "FacilityModule",
+      "name": "Facility",
+      "package": "@propertyos/plugin-facility",
+      "permissions": [
+        "FACILITY_PERMISSIONS.CREATE",
+        "FACILITY_PERMISSIONS.MANAGE",
+        "FACILITY_PERMISSIONS.READ"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search",
+        "workflow"
+      ],
+      "provider": "PropertyOS",
+      "routes": 9,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "helpdesk": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "helpdesk",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "HelpdeskModule",
+      "name": "Helpdesk",
+      "package": "@propertyos/plugin-helpdesk",
+      "permissions": [
+        "HELPDESK_PERMISSIONS.ASSIGN",
+        "HELPDESK_PERMISSIONS.COMMENT",
+        "HELPDESK_PERMISSIONS.CREATE",
+        "HELPDESK_PERMISSIONS.MANAGE",
+        "HELPDESK_PERMISSIONS.READ",
+        "HELPDESK_PERMISSIONS.RESOLVE"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 17,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "inventory": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 8,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "inventory",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "InventoryModule",
+      "name": "Inventory",
+      "package": "@propertyos/plugin-inventory",
+      "permissions": [
+        "INVENTORY_PERMISSIONS.ADJUST",
+        "INVENTORY_PERMISSIONS.CONFIGURE",
+        "INVENTORY_PERMISSIONS.COUNT",
+        "INVENTORY_PERMISSIONS.ISSUE",
+        "INVENTORY_PERMISSIONS.ITEMS",
+        "INVENTORY_PERMISSIONS.MANAGE",
+        "INVENTORY_PERMISSIONS.READ",
+        "INVENTORY_PERMISSIONS.RETURN",
+        "INVENTORY_PERMISSIONS.STOCK",
+        "INVENTORY_PERMISSIONS.STORES",
+        "INVENTORY_PERMISSIONS.TRANSFER"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 65,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "invoice": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "invoice",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "InvoiceModule",
+      "name": "Invoice",
+      "package": "@propertyos/plugin-invoice",
+      "permissions": [
+        "'invoice.create'",
+        "'invoice.read'"
+      ],
+      "platformCapabilities": [
+        "database:database",
+        "eventbus",
+        "identity"
+      ],
+      "provider": "PropertyOS",
+      "routes": 3,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "maintenance": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "maintenance",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "MaintenanceModule",
+      "name": "Maintenance",
+      "package": "@propertyos/plugin-maintenance",
+      "permissions": [
+        "MAINTENANCE_PERMISSIONS.CREATE",
+        "MAINTENANCE_PERMISSIONS.MANAGE",
+        "MAINTENANCE_PERMISSIONS.READ"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "scheduler",
+        "search",
+        "workflow"
+      ],
+      "provider": "PropertyOS",
+      "routes": 9,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "procurement": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 8,
+      "dependencies": [
+        "Inventory@0.1.0"
+      ],
+      "entrypoint": "dist/index.js",
+      "id": "procurement",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "ProcurementModule",
+      "name": "Procurement",
+      "package": "@propertyos/plugin-procurement",
+      "permissions": [
+        "PROCUREMENT_PERMISSIONS.APPROVE",
+        "PROCUREMENT_PERMISSIONS.CREATE",
+        "PROCUREMENT_PERMISSIONS.GOODS_RECEIPT",
+        "PROCUREMENT_PERMISSIONS.INVOICE_MATCH",
+        "PROCUREMENT_PERMISSIONS.MANAGE",
+        "PROCUREMENT_PERMISSIONS.PAYMENT_REQUEST",
+        "PROCUREMENT_PERMISSIONS.PURCHASE_ORDER",
+        "PROCUREMENT_PERMISSIONS.QUOTATION",
+        "PROCUREMENT_PERMISSIONS.READ",
+        "PROCUREMENT_PERMISSIONS.RFQ",
+        "PROCUREMENT_PERMISSIONS.UPDATE"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin"
+      ],
+      "provider": "PropertyOS",
+      "routes": 65,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "receipt": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "receipt",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "ReceiptModule",
+      "name": "Receipt",
+      "package": "@propertyos/plugin-receipt",
+      "permissions": [
+        "Permissions.RECEIPT_CREATE",
+        "Permissions.RECEIPT_READ"
+      ],
+      "platformCapabilities": [
+        "database:postgres",
+        "eventbus",
+        "identity"
+      ],
+      "provider": "PropertyOS",
+      "routes": 3,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "rent": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "rent",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "RentModule",
+      "name": "Rent",
+      "package": "@propertyos/plugin-rent",
+      "permissions": [
+        "'rent.create'",
+        "'rent.read'"
+      ],
+      "platformCapabilities": [
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 5,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "report": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "report",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "ReportModule",
+      "name": "Report",
+      "package": "@propertyos/plugin-report",
+      "permissions": [
+        "Permissions.REPORT_READ"
+      ],
+      "platformCapabilities": [
+        "database:database",
+        "identity"
+      ],
+      "provider": "PropertyOS",
+      "routes": 6,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "reservation": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "reservation",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "ReservationModule",
+      "name": "Reservation",
+      "package": "@propertyos/plugin-reservation",
+      "permissions": [
+        "RESERVATION_PERMISSIONS.APPROVE",
+        "RESERVATION_PERMISSIONS.CANCEL",
+        "RESERVATION_PERMISSIONS.CREATE",
+        "RESERVATION_PERMISSIONS.MANAGE",
+        "RESERVATION_PERMISSIONS.READ",
+        "RESERVATION_PERMISSIONS.UPDATE"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin",
+        "scheduler",
+        "search",
+        "workflow"
+      ],
+      "provider": "PropertyOS",
+      "routes": 18,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "staff": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "staff",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "StaffModule",
+      "name": "Staff",
+      "package": "@propertyos/plugin-staff",
+      "permissions": [
+        "STAFF_PERMISSIONS.CREATE",
+        "STAFF_PERMISSIONS.MANAGE",
+        "STAFF_PERMISSIONS.READ",
+        "STAFF_PERMISSIONS.SECURITY"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 10,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "tenant": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "tenant",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "TenantModule",
+      "name": "Tenant",
+      "package": "@propertyos/plugin-tenant",
+      "permissions": [
+        "Permissions.TENANT_CREATE",
+        "Permissions.TENANT_READ"
+      ],
+      "platformCapabilities": [
+        "database:database",
+        "eventbus",
+        "identity",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 5,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "vehicle": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "vehicle",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "VehicleModule",
+      "name": "Vehicle",
+      "package": "@propertyos/plugin-vehicle",
+      "permissions": [
+        "VEHICLE_PERMISSIONS.CREATE",
+        "VEHICLE_PERMISSIONS.MANAGE",
+        "VEHICLE_PERMISSIONS.READ",
+        "VEHICLE_PERMISSIONS.SECURITY"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "identity",
+        "plugin",
+        "search"
+      ],
+      "provider": "PropertyOS",
+      "routes": 8,
+      "type": "business",
+      "version": "0.1.0"
+    },
+    "vendor": {
+      "author": "PropertyOS",
+      "bootstrap": "dist/index.js",
+      "controllers": 1,
+      "dependencies": [],
+      "entrypoint": "dist/index.js",
+      "id": "vendor",
+      "minimumPlatformVersion": "0.1.0",
+      "moduleClass": "VendorModule",
+      "name": "Vendor",
+      "package": "@propertyos/plugin-vendor",
+      "permissions": [
+        "VENDOR_PERMISSIONS.COMPLIANCE",
+        "VENDOR_PERMISSIONS.CONTRACTS",
+        "VENDOR_PERMISSIONS.CREATE",
+        "VENDOR_PERMISSIONS.MANAGE",
+        "VENDOR_PERMISSIONS.RATINGS",
+        "VENDOR_PERMISSIONS.READ",
+        "VENDOR_PERMISSIONS.UPDATE",
+        "VENDOR_PERMISSIONS.WORK_ORDERS"
+      ],
+      "platformCapabilities": [
+        "audit",
+        "auth",
+        "database:postgres",
+        "eventbus",
+        "plugin"
+      ],
+      "provider": "PropertyOS",
+      "routes": 40,
+      "type": "business",
+      "version": "0.1.0"
+    }
+  },
+  "moduleCount": 16,
+  "validManifestCount": 16
+}

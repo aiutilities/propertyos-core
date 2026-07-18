@@ -1,0 +1,198 @@
+{
+  "issueCount": 48,
+  "issues": [
+    {
+      "issue": "missing required provider",
+      "moduleId": "agreement"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "agreement"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "agreement"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "communications"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "communications"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "communications"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "facility"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "facility"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "facility"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "helpdesk"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "helpdesk"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "helpdesk"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "inventory"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "inventory"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "inventory"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "invoice"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "invoice"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "invoice"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "maintenance"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "maintenance"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "maintenance"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "procurement"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "procurement"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "procurement"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "receipt"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "receipt"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "receipt"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "rent"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "rent"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "rent"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "report"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "report"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "report"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "reservation"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "reservation"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "reservation"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "staff"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "staff"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "staff"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "tenant"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "tenant"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "tenant"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "vehicle"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "vehicle"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "vehicle"
+    },
+    {
+      "issue": "missing required provider",
+      "moduleId": "vendor"
+    },
+    {
+      "issue": "entrypoint is not dist/index.js",
+      "moduleId": "vendor"
+    },
+    {
+      "issue": "platform capabilities are encoded as plugin dependencies",
+      "moduleId": "vendor"
+    }
+  ],
+  "moduleCount": 16
+}

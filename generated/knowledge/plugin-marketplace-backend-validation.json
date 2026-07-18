@@ -1,0 +1,606 @@
+{
+  "schemaVersion": "1.0.0",
+  "summary": {
+    "bundleCount": 16,
+    "passedCount": 16,
+    "failedCount": 0,
+    "issueCount": 0,
+    "successful": true
+  },
+  "bundles": [
+    {
+      "bundleName": "propertyos-plugin-agreement-0.1.0.zip",
+      "sha256": "2ca58fbbef8052ba038f148883076761c0f8beebf38d91498d14f0e3bc81ab89",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "agreement",
+          "name": "Agreement",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-communications-0.1.0.zip",
+      "sha256": "07e8198b4f2f173efcf43ec4fc84e1b6334f2efbac4d1e2d766a4812185734ad",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "communications",
+          "name": "Communications",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-facility-0.1.0.zip",
+      "sha256": "9ba8ea401ef7adb08972f030e1f3f02a3b5b89b5d496536e75b5da227271ac7f",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "facility",
+          "name": "Facility",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-helpdesk-0.1.0.zip",
+      "sha256": "147ae4a3b7adad3e175c46035d0cb76da8184a7273d97cbea3c9c59cc36e9102",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "helpdesk",
+          "name": "Helpdesk",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-inventory-0.1.0.zip",
+      "sha256": "e6cfa769828ccdc5910d4927b4d1bfee3e19eb4625cf1e7cf21220cf8bd41b8d",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "inventory",
+          "name": "Inventory",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-invoice-0.1.0.zip",
+      "sha256": "00f2e6f4c9f13f9d87b3ca8efa1d3043c52496708d2c9b4bfad1e4fc4809b76e",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "invoice",
+          "name": "Invoice",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-maintenance-0.1.0.zip",
+      "sha256": "0e16e6cbfaf4d1bf5a466e31f86173485a90bb583849bfe63c4c49d948d423d2",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "maintenance",
+          "name": "Maintenance",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-procurement-0.1.0.zip",
+      "sha256": "ef47d47fd872e5db71bd1f88399f1bb5259fc6a34451ef0bc3a6db8d06b97e48",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "procurement",
+          "name": "Procurement",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": [
+            "Inventory"
+          ]
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-receipt-0.1.0.zip",
+      "sha256": "ae7e4442b6bfc2a3213c3caaa9d5c0eba001e72b8fd670d02b9576aa8e559e9b",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "receipt",
+          "name": "Receipt",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-rent-0.1.0.zip",
+      "sha256": "59ecd43a863f2da8bb016062f3274ee3a5190c0fb7b2159a3541a6bf505931e2",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "rent",
+          "name": "Rent",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-report-0.1.0.zip",
+      "sha256": "bb039d9d7f9d88d85ab71c01ad8e45615af6c8d407c3ee576b6d79a55fe57e96",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "report",
+          "name": "Report",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-reservation-0.1.0.zip",
+      "sha256": "0afcb730c892a20bd18a9433e2836409e7cb22cd6a15bbedacedf3124d958c2c",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "reservation",
+          "name": "Reservation",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-staff-0.1.0.zip",
+      "sha256": "abe081dcfaffc7b65bc4e06629147b0a8f93a629e6fe985976fc843843403e76",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "staff",
+          "name": "Staff",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-tenant-0.1.0.zip",
+      "sha256": "6d073012366e968b944d7b7a275a39bbe0d852e137d86ff324702fe19d74653b",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "tenant",
+          "name": "Tenant",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-vehicle-0.1.0.zip",
+      "sha256": "ec5ccbcaaa3f3cd20dadf1e654f5f71f1e68d2f559642d47da0d4fdac1b8f32c",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "vehicle",
+          "name": "Vehicle",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    },
+    {
+      "bundleName": "propertyos-plugin-vendor-0.1.0.zip",
+      "sha256": "a17a15d7a4ed8ff3cb8bffab3a4616f91402ce9918285f636c27c1c6cce1632d",
+      "issues": [],
+      "stages": {
+        "discovery": {
+          "passed": true
+        },
+        "manifest": {
+          "passed": true,
+          "id": "vendor",
+          "name": "Vendor",
+          "version": "0.1.0",
+          "provider": "PropertyOS"
+        },
+        "signature": {
+          "passed": true,
+          "errors": []
+        },
+        "package": {
+          "passed": true,
+          "method": "validate",
+          "errors": []
+        },
+        "dependencies": {
+          "passed": true,
+          "errors": [],
+          "missing": [],
+          "installed": []
+        },
+        "entrypoint": {
+          "passed": true,
+          "entrypoint": "dist/index.js"
+        }
+      },
+      "passed": true
+    }
+  ]
+}

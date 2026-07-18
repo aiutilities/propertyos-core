@@ -8,6 +8,8 @@ export interface PluginManifest {
   description?: string;
   enabled?: boolean;
   bootstrap?: string;
+  entrypoint?: string;
+  moduleClass?: string;
 
   permissions?: unknown[];
   workflows?: unknown[];

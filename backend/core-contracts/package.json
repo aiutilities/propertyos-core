@@ -1,0 +1,13 @@
+{
+  "name": "@propertyos/core-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PropertyOS host runtime contract bridge",
+  "main": "./index.js",
+  "files": [
+    "index.js"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

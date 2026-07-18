@@ -45,6 +45,7 @@
     "@nestjs/platform-express": "^11.1.27",
     "@nestjs/swagger": "^11.4.5",
     "@nestjs/throttler": "^6.5.0",
+    "@propertyos/core-contracts": "file:./core-contracts",
     "@types/semver": "^7.7.1",
     "adm-zip": "^0.5.18",
     "class-transformer": "^0.5.1",

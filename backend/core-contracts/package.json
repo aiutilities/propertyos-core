@@ -5,9 +5,11 @@
   "description": "PropertyOS host runtime contract bridge",
   "main": "./index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "engines": {
     "node": ">=20"
-  }
+  },
+  "types": "./index.d.ts"
 }

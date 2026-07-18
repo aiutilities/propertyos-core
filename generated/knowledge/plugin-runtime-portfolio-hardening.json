@@ -1,0 +1,81 @@
+{
+  "contracts": {
+    "paginationQueryFields": [
+      "page",
+      "limit",
+      "search",
+      "sortBy",
+      "sortOrder"
+    ],
+    "runtimeJavaScriptBridge": true,
+    "runtimeTypeScriptBridge": true,
+    "selfContainedDeclarations": true,
+    "standaloneReportBuild": "passing"
+  },
+  "generatedAt": "2026-07-18T21:00:33.263951+00:00",
+  "hardening": {
+    "archiveChecksumsValid": true,
+    "archiveEntriesSorted": true,
+    "permanentInstallations": 0,
+    "safeArchivePaths": true,
+    "sourceArtifactHashesCurrent": true,
+    "tgzDeterministic": true,
+    "zipDeterministic": true
+  },
+  "portfolio": {
+    "approvedExternalModules": 16,
+    "marketplaceBundleCount": 16,
+    "packageArtifactCount": 16,
+    "stagedModules": [
+      "agreement",
+      "communications",
+      "facility",
+      "helpdesk",
+      "inventory",
+      "invoice",
+      "maintenance",
+      "procurement",
+      "receipt",
+      "rent",
+      "report",
+      "reservation",
+      "staff",
+      "tenant",
+      "vehicle",
+      "vendor"
+    ],
+    "stagedWorkspaceCount": 16,
+    "verifiedMarketplaceBundleCount": 16,
+    "verifiedPackageCount": 16
+  },
+  "publication": {
+    "reason": "Installer lifecycle, signing, publication security, deployment rollout, and production operations remain in the next phase.",
+    "status": "safely-deferred"
+  },
+  "runtime": {
+    "duplicateInventoryIdentity": false,
+    "missingRouteCount": 0,
+    "procurementDependency": {
+      "dependencyPluginId": "inventory",
+      "duplicateModuleIdentity": false,
+      "packageName": "@propertyos/plugin-inventory",
+      "sharedModuleIdentity": true
+    },
+    "registeredRouteCount": 16,
+    "sharedInventoryIdentity": true
+  },
+  "schemaVersion": "1.0.0",
+  "successful": true,
+  "trialBoundary": {
+    "end": "Sprint 12",
+    "reached": true,
+    "start": "Sprint 11D"
+  },
+  "validation": {
+    "backendBuild": "passing",
+    "backendTestSuites": 86,
+    "backendTests": 647,
+    "backendTypecheck": "passing",
+    "knowledgeEngineTests": 378
+  }
+}

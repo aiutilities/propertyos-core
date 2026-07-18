@@ -201,12 +201,13 @@ describe(
         const result =
           await pool.query(
             `
-            SELECT pg_get_constraintdef(
-              oid
-            ) AS definition
-            FROM pg_constraint
-            WHERE conname =
-              'uq_inventory_material_issue_item'
+            SELECT indexdef AS definition
+            FROM pg_indexes
+            WHERE schemaname = 'public'
+              AND tablename =
+                'inventory_material_issue_items'
+              AND indexname =
+                'uq_inventory_material_issue_item'
             `,
           );
 
@@ -234,6 +235,18 @@ describe(
           definition,
         ).toContain(
           'bin_location_id',
+        );
+
+        expect(
+          definition,
+        ).toContain(
+          'batch_id',
+        );
+
+        expect(
+          definition,
+        ).toContain(
+          'COALESCE',
         );
       },
     );

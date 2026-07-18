@@ -95,19 +95,9 @@
       "className": "AdminModule",
       "source": {
         "path": "backend/src/core/admin/admin.module.ts",
-        "line": 21
+        "line": 19
       },
       "imports": [
-        {
-          "className": "AgreementModule",
-          "expression": "AgreementModule",
-          "sourcePath": "backend/src/core/agreement/agreement.module.ts",
-          "external": false,
-          "source": {
-            "path": "backend/src/core/admin/admin.module.ts",
-            "line": 15
-          }
-        },
         {
           "className": "PluginModule",
           "expression": "PluginModule",
@@ -115,7 +105,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 13
+            "line": 12
           }
         },
         {
@@ -125,7 +115,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 14
+            "line": 13
           }
         }
       ]
@@ -134,7 +124,7 @@
       "className": "AgreementModule",
       "source": {
         "path": "backend/src/core/agreement/agreement.module.ts",
-        "line": 34
+        "line": 38
       },
       "imports": [
         {
@@ -144,7 +134,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/agreement/agreement.module.ts",
-            "line": 20
+            "line": 22
           }
         },
         {
@@ -154,7 +144,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/agreement/agreement.module.ts",
-            "line": 19
+            "line": 21
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/agreement/agreement.module.ts",
+            "line": 24
           }
         },
         {
@@ -164,7 +164,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/agreement/agreement.module.ts",
-            "line": 18
+            "line": 20
           }
         },
         {
@@ -174,7 +174,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/agreement/agreement.module.ts",
-            "line": 21
+            "line": 23
           }
         }
       ]

@@ -174,12 +174,12 @@ describe(
           () =>
             resolveRuntimeBusinessModules({
               externalPluginIds: [
-                'agreement',
+                'inventory',
               ],
               runtimeRoot: root,
             }),
         ).toThrow(
-          /AgreementModule is imported by AdminModule/,
+          /InventoryModule is imported by ProcurementModule/,
         );
       },
     );

@@ -21,6 +21,18 @@ describe(
           new PluginDashboardRegistry();
 
         dashboardRegistry.register(
+          'agreement',
+          [
+            {
+              contribute:
+                async () => ({
+                  activeLeases: 1,
+                }),
+            },
+          ],
+        );
+
+        dashboardRegistry.register(
           'tenant',
           [
             {
@@ -116,14 +128,6 @@ describe(
                   zones: 3,
                   spaces: 10,
                 }),
-            } as never,
-            {
-              listAgreements:
-                async () => [
-                  {
-                    status: 'ACTIVE',
-                  },
-                ],
             } as never,
           );
 

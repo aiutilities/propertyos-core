@@ -4,6 +4,7 @@ import { PostgresModule } from '../../database/postgres/postgres.module';
 import { IdentityModule } from '../identity/identity.module';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { SearchModule } from '../search';
+import { PluginModule } from '../plugin/plugin.module';
 
 import { AgreementController } from './controllers/agreement.controller';
 import {
@@ -12,6 +13,7 @@ import {
 } from './services/agreement.service';
 import { PostgresAgreementRepository } from './repositories/postgres-agreement.repository';
 import { AgreementSearchProviderService } from './agreement-search-provider.service';
+import { AgreementDashboardContributorService } from './services/agreement-dashboard-contributor.service';
 
 @Module({
   imports: [
@@ -19,11 +21,13 @@ import { AgreementSearchProviderService } from './agreement-search-provider.serv
     IdentityModule,
     EventBusModule,
     SearchModule,
+    PluginModule,
   ],
   controllers: [AgreementController],
   providers: [
     AgreementService,
     AgreementSearchProviderService,
+    AgreementDashboardContributorService,
     {
       provide: AGREEMENT_REPOSITORY,
       useClass: PostgresAgreementRepository,

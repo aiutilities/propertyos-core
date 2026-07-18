@@ -1,5 +1,4 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { AgreementService } from '../../agreement/services/agreement.service';
 import { PropertyService } from '../../property/services/property.service';
 import { PluginService } from '../../plugin/services/plugin.service';
 import { PluginPermissionRegistry } from '../../plugin/registries/plugin-permission.registry';
@@ -29,7 +28,6 @@ export class AdminService implements OnModuleInit {
     private readonly searchRegistry: PluginSearchRegistry,
     private readonly dashboardRegistry: PluginDashboardRegistry,
     private readonly propertyService: PropertyService,
-    private readonly agreementService: AgreementService,
   ) {}
 
   onModuleInit(): void {
@@ -41,7 +39,7 @@ export class AdminService implements OnModuleInit {
     const [
       portfolio,
       tenantMetrics,
-      agreements,
+      agreementMetrics,
       rentMetrics,
       receiptMetrics,
       invoiceMetrics,
@@ -49,7 +47,7 @@ export class AdminService implements OnModuleInit {
     ] = await Promise.all([
       this.propertyService.getPortfolioCounts(),
       this.dashboardRegistry.collect('tenant'),
-      this.agreementService.listAgreements(),
+      this.dashboardRegistry.collect('agreement'),
       this.dashboardRegistry.collect('rent'),
       this.dashboardRegistry.collect('receipt'),
       this.dashboardRegistry.collect('invoice'),
@@ -63,10 +61,6 @@ export class AdminService implements OnModuleInit {
     const failedPlugins = plugins.filter(
       (plugin) => plugin.status === 'FAILED',
     );
-
-    const activeLeases = agreements.filter(
-      (agreement) => agreement.status === 'ACTIVE',
-    ).length;
 
     const vacantSpaces = Math.max(
       portfolio.spaces -
@@ -105,7 +99,8 @@ export class AdminService implements OnModuleInit {
           tenantMetrics.tenants ?? 0,
         activeTenants:
           tenantMetrics.activeTenants ?? 0,
-        activeLeases,
+        activeLeases:
+          agreementMetrics.activeLeases ?? 0,
         rentLedgers:
           rentMetrics.rentLedgers ?? 0,
         currentMonthExpectedRent:

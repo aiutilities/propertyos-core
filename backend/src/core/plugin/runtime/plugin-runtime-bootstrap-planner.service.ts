@@ -43,6 +43,7 @@ export interface PluginRuntimeBootstrapPlan {
 
 const SAFE_EXTERNAL_PLUGIN_IDS =
   new Set([
+    'agreement',
     'communications',
     'facility',
     'helpdesk',
@@ -60,9 +61,6 @@ const SAFE_EXTERNAL_PLUGIN_IDS =
 
 const MONOLITH_BLOCKERS:
   Record<string, string[]> = {
-    agreement: [
-      'AgreementModule is imported by AdminModule.',
-    ],
     inventory: [
       'InventoryModule is imported by ProcurementModule.',
     ],

@@ -302,10 +302,6 @@ describe(
 
     it.each([
       [
-        'agreement',
-        'AdminModule',
-      ],
-      [
         'inventory',
         'ProcurementModule',
       ],

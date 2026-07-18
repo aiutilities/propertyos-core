@@ -10,6 +10,13 @@
   },
   "modules": [
     {
+      "moduleClass": "AgreementModule",
+      "pluginId": "agreement",
+      "responseStatus": 401,
+      "route": "/api/v1/agreements",
+      "routeRegistered": true
+    },
+    {
       "moduleClass": "CommunicationsModule",
       "pluginId": "communications",
       "responseStatus": 401,
@@ -104,8 +111,8 @@
   "schemaVersion": "1.0.0",
   "summary": {
     "missingRouteCount": 0,
-    "moduleCount": 13,
-    "registeredRouteCount": 13,
+    "moduleCount": 14,
+    "registeredRouteCount": 14,
     "successful": true
   }
 }

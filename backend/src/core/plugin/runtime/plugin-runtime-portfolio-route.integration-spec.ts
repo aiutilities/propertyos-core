@@ -33,6 +33,19 @@ const PLUGINS:
   PluginFixture[] = [
     {
       pluginId:
+        'agreement',
+      moduleClass:
+        'AgreementModule',
+      controllerClass:
+        'AgreementController',
+      controllerPrefix:
+        'agreements',
+      methodPath: '',
+      requestPath:
+        '/api/v1/agreements',
+    },
+    {
+      pluginId:
         'communications',
       moduleClass:
         'CommunicationsModule',
@@ -353,7 +366,7 @@ describe(
     });
 
     it(
-      'registers all thirteen external plugin routes',
+      'registers all fourteen external plugin routes',
       async () => {
         const requested =
           PLUGINS.map(
@@ -382,7 +395,7 @@ describe(
           new Set(
             externalModules,
           ).size,
-        ).toBe(13);
+        ).toBe(14);
 
         const testingModule =
           await Test

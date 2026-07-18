@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 
 import { AgreementModule } from '../agreement/agreement.module';
-import { InvoiceModule } from '../invoice/invoice.module';
 import { PluginModule } from '../plugin/plugin.module';
 import { PropertyModule } from '../property/property.module';
 import { RentModule } from '../rent/rent.module';
@@ -18,7 +17,6 @@ import { AdminService } from './services/admin.service';
     TenantModule,
     AgreementModule,
     RentModule,
-    InvoiceModule,
   ],
   controllers: [AdminController],
   providers: [AdminService, AdminMenuRegistry, AdminWidgetRegistry],

@@ -152,6 +152,40 @@ describe(
     );
 
     it(
+      'plans Invoice as a safe external plugin',
+      () => {
+        writePlugin(
+          'invoice',
+          'InvoiceModule',
+        );
+
+        const plan =
+          planner.plan(
+            ['invoice'],
+            root,
+          );
+
+        expect(
+          plan.readyToBootstrap,
+        ).toBe(true);
+
+        expect(
+          plan.readyPluginIds,
+        ).toEqual([
+          'invoice',
+        ]);
+
+        expect(
+          plan.candidates[0]
+            .runtime
+            ?.moduleClassName,
+        ).toBe(
+          'InvoiceModule',
+        );
+      },
+    );
+
+    it(
       'plans Receipt as a safe external plugin',
       () => {
         writePlugin(
@@ -276,7 +310,7 @@ describe(
         'ProcurementModule',
       ],
       [
-        'invoice',
+        'rent',
         'AdminModule',
       ],
       [

@@ -1,6 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AgreementService } from '../../agreement/services/agreement.service';
-import { InvoiceService } from '../../invoice/services/invoice.service';
 import { PropertyService } from '../../property/services/property.service';
 import { RentService } from '../../rent/services/rent.service';
 import { TenantService } from '../../tenant/services/tenant.service';
@@ -35,7 +34,6 @@ export class AdminService implements OnModuleInit {
     private readonly tenantService: TenantService,
     private readonly agreementService: AgreementService,
     private readonly rentService: RentService,
-    private readonly invoiceService: InvoiceService,
   ) {}
 
   onModuleInit(): void {
@@ -51,7 +49,7 @@ export class AdminService implements OnModuleInit {
       agreements,
       rentLedgers,
       receiptMetrics,
-      invoices,
+      invoiceMetrics,
       plugins,
     ] = await Promise.all([
       this.propertyService.getPortfolioCounts(),
@@ -60,7 +58,7 @@ export class AdminService implements OnModuleInit {
       this.agreementService.listAgreements(),
       this.rentService.listRentLedgers(),
       this.dashboardRegistry.collect('receipt'),
-      this.invoiceService.findAll(),
+      this.dashboardRegistry.collect('invoice'),
       this.pluginService.list(),
     ]);
 
@@ -126,10 +124,6 @@ export class AdminService implements OnModuleInit {
           )
         : 0;
 
-    const overdueInvoices = invoices.filter(
-      (invoice) => invoice.status === 'OVERDUE',
-    ).length;
-
     return {
       platform: {
         name: 'PropertyOS',
@@ -152,8 +146,8 @@ export class AdminService implements OnModuleInit {
         outstandingRent,
         collectionPercentage,
         receipts: receiptMetrics.receipts ?? 0,
-        invoices: invoices.length,
-        overdueInvoices,
+        invoices: invoiceMetrics.invoices ?? 0,
+        overdueInvoices: invoiceMetrics.overdueInvoices ?? 0,
       },
       plugins: {
         installed: plugins.length,

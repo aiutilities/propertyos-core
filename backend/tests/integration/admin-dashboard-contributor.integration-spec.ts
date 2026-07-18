@@ -32,6 +32,19 @@ describe(
           ],
         );
 
+        dashboardRegistry.register(
+          'invoice',
+          [
+            {
+              contribute:
+                async () => ({
+                  invoices: 5,
+                  overdueInvoices: 2,
+                }),
+            },
+          ],
+        );
+
         const listRegistry = {
           list: () => [],
         };
@@ -94,10 +107,6 @@ describe(
               listRentLedgers:
                 async () => [],
             } as never,
-            {
-              findAll:
-                async () => [],
-            } as never,
           );
 
         const dashboard =
@@ -109,7 +118,11 @@ describe(
 
         expect(
           dashboard.business.invoices,
-        ).toBe(0);
+        ).toBe(5);
+
+        expect(
+          dashboard.business.overdueInvoices,
+        ).toBe(2);
 
         expect(
           dashboard.business.tenants,

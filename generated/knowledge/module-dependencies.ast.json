@@ -95,7 +95,7 @@
       "className": "AdminModule",
       "source": {
         "path": "backend/src/core/admin/admin.module.ts",
-        "line": 27
+        "line": 25
       },
       "imports": [
         {
@@ -105,17 +105,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 19
-          }
-        },
-        {
-          "className": "InvoiceModule",
-          "expression": "InvoiceModule",
-          "sourcePath": "backend/src/core/invoice/invoice.module.ts",
-          "external": false,
-          "source": {
-            "path": "backend/src/core/admin/admin.module.ts",
-            "line": 21
+            "line": 18
           }
         },
         {
@@ -125,7 +115,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 16
+            "line": 15
           }
         },
         {
@@ -135,7 +125,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 17
+            "line": 16
           }
         },
         {
@@ -145,7 +135,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 20
+            "line": 19
           }
         },
         {
@@ -155,7 +145,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 18
+            "line": 17
           }
         }
       ]
@@ -924,7 +914,7 @@
       "className": "InvoiceModule",
       "source": {
         "path": "backend/src/core/invoice/invoice.module.ts",
-        "line": 22
+        "line": 30
       },
       "imports": [
         {
@@ -934,7 +924,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/invoice/invoice.module.ts",
-            "line": 11
+            "line": 14
           }
         },
         {
@@ -944,7 +934,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/invoice/invoice.module.ts",
-            "line": 11
+            "line": 16
           }
         },
         {
@@ -954,7 +944,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/invoice/invoice.module.ts",
-            "line": 11
+            "line": 15
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/invoice/invoice.module.ts",
+            "line": 17
           }
         }
       ]

@@ -46,6 +46,7 @@ const SAFE_EXTERNAL_PLUGIN_IDS =
     'communications',
     'facility',
     'helpdesk',
+    'invoice',
     'maintenance',
     'receipt',
     'reservation',
@@ -62,9 +63,6 @@ const MONOLITH_BLOCKERS:
     ],
     inventory: [
       'InventoryModule is imported by ProcurementModule.',
-    ],
-    invoice: [
-      'InvoiceModule is imported by AdminModule.',
     ],
     procurement: [
       'ProcurementModule requires the external Inventory plugin package.',

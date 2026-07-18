@@ -73,6 +73,19 @@ const PLUGINS:
     },
     {
       pluginId:
+        'invoice',
+      moduleClass:
+        'InvoiceModule',
+      controllerClass:
+        'InvoiceController',
+      controllerPrefix:
+        'invoices',
+      methodPath: '',
+      requestPath:
+        '/api/v1/invoices',
+    },
+    {
+      pluginId:
         'maintenance',
       moduleClass:
         'MaintenanceModule',
@@ -314,7 +327,7 @@ describe(
     });
 
     it(
-      'registers all ten external plugin routes',
+      'registers all eleven external plugin routes',
       async () => {
         const requested =
           PLUGINS.map(
@@ -343,7 +356,7 @@ describe(
           new Set(
             externalModules,
           ).size,
-        ).toBe(10);
+        ).toBe(11);
 
         const testingModule =
           await Test

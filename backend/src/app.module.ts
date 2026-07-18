@@ -13,13 +13,9 @@ import { EventBusModule } from "./core/eventbus/eventbus.module";
 import { IdentityModule } from "./core/identity/identity.module";
 import { NotificationModule } from "./core/notification/notification.module";
 import { PropertyModule } from "./core/property/property.module";
-import { TenantModule } from "./core/tenant/tenant.module";
-import { AgreementModule } from "./core/agreement/agreement.module";
-import { RentModule } from "./core/rent/rent.module";
-import { ReceiptModule } from "./core/receipt";
-import { InvoiceModule } from "./core/invoice";
 import { WorkflowModule } from "./core/workflow";
 import { PluginModule } from "./core/plugin";
+import { resolveRuntimeBusinessModules } from "./core/plugin/runtime/plugin-runtime-bootstrap";
 import { AdminModule } from "./core/admin";
 import { ThemeModule } from "./core/theme";
 import { CredentialModule } from "./core/credential";
@@ -35,12 +31,6 @@ import { UploadModule } from "./core/upload";
 import { SchedulerModule } from "./core/scheduler";
 import { HealthModule } from "./core/health/health.module";
 import { MetricsModule } from "./core/metrics";
-import { MaintenanceModule } from "./core/maintenance";
-import { FacilityModule } from "./core/facility";
-import { InventoryModule } from "./core/inventory";
-import { VehicleModule } from "./core/vehicle";
-import { StaffModule } from "./core/staff";
-import { ReportModule } from "./core/report";
 import { BootstrapModule } from "./core/bootstrap/bootstrap.module";
 
 import { PlatformModule } from "./core/platform";
@@ -48,11 +38,8 @@ import { GlobalExceptionFilter } from "./core/platform/filters/global-exception.
 import { RequestIdMiddleware } from "./core/platform/middleware/request-id.middleware";
 import { RequestLoggingMiddleware } from "./core/platform/middleware/request-logging.middleware";
 import { VisitorModule } from "./plugins/visitor/visitor.module";
-import { ReservationModule } from "./core/reservation";
-import { HelpdeskModule } from "./core/helpdesk";
-import { CommunicationsModule } from "./core/communications";
-import { VendorModule } from "./core/vendor";
-import { ProcurementModule } from "./core/procurement";
+
+const runtimeBusinessModules = resolveRuntimeBusinessModules();
 
 @Module({
   imports: [
@@ -74,11 +61,11 @@ import { ProcurementModule } from "./core/procurement";
     IdentityModule,
     NotificationModule,
     PropertyModule,
-    TenantModule,
-    AgreementModule,
-    RentModule,
-    ReceiptModule,
-    InvoiceModule,
+    runtimeBusinessModules.tenant,
+    runtimeBusinessModules.agreement,
+    runtimeBusinessModules.rent,
+    runtimeBusinessModules.receipt,
+    runtimeBusinessModules.invoice,
     WorkflowModule,
     PluginModule,
     AdminModule,
@@ -96,17 +83,17 @@ import { ProcurementModule } from "./core/procurement";
     SchedulerModule,
     HealthModule,
     MetricsModule,
-    MaintenanceModule,
-    FacilityModule,
-    InventoryModule,
-    VehicleModule,
-    StaffModule,
-    ReportModule,
-    ReservationModule,
-    HelpdeskModule,
-    CommunicationsModule,
-    VendorModule,
-    ProcurementModule,
+    runtimeBusinessModules.maintenance,
+    runtimeBusinessModules.facility,
+    runtimeBusinessModules.inventory,
+    runtimeBusinessModules.vehicle,
+    runtimeBusinessModules.staff,
+    runtimeBusinessModules.report,
+    runtimeBusinessModules.reservation,
+    runtimeBusinessModules.helpdesk,
+    runtimeBusinessModules.communications,
+    runtimeBusinessModules.vendor,
+    runtimeBusinessModules.procurement,
     BootstrapModule,
 
     VisitorModule,

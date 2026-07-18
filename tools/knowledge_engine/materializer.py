@@ -25,6 +25,9 @@ from .materialization_models import (
     MaterializedFile,
     MaterializedPlugin,
 )
+from .plugin_workspace_generator import (
+    PluginWorkspaceGenerator,
+)
 from .repository_api import Repository
 
 
@@ -169,6 +172,15 @@ class StagedPluginMaterializer:
             PluginBlueprintValidator(
                 repository,
                 self.repository_root,
+            )
+        )
+
+        self.workspace_generator = (
+            PluginWorkspaceGenerator(
+                repository=repository,
+                repository_root=(
+                    self.repository_root
+                ),
             )
         )
 
@@ -686,230 +698,16 @@ class StagedPluginMaterializer:
             ...,
         ],
     ) -> Dict[str, bytes]:
-        module_file = next(
-            (
-                file
-                for file in blueprint.files
-                if file.file_kind
-                == "module"
-            ),
-            None,
-        )
-
-        if module_file is None:
-            raise MaterializationError(
-                "Blueprint contains no module file."
-            )
-
-        module_target = PurePosixPath(
-            module_file.target_path
-        )
-
-        plugin_target_root = (
-            PurePosixPath(
-                blueprint.target_root
+        return (
+            self.workspace_generator.generate(
+                blueprint=blueprint,
+                copied_files=copied_files,
+                workspace=(
+                    self.output_root
+                    / blueprint.module_id
+                ),
             )
         )
-
-        module_relative = (
-            module_target.relative_to(
-                plugin_target_root
-            )
-        )
-
-        module_import = (
-            "./"
-            + module_relative
-            .with_suffix("")
-            .as_posix()
-            .removeprefix("src/")
-        )
-
-        index_content = (
-            f"export {{ {blueprint.manifest['moduleClass']} }} "
-            f"from '{module_import}';\n"
-        ).encode("utf-8")
-
-        plugin_manifest = dict(
-            blueprint.manifest
-        )
-
-        plugin_manifest[
-            "materialization"
-        ] = {
-            "mode": "staged-copy",
-            "sourceModule": (
-                blueprint.module_id
-            ),
-            "targetRoot": (
-                blueprint.target_root
-            ),
-        }
-
-        package_json = {
-            "name": blueprint.package_name,
-            "version": (
-                blueprint.manifest[
-                    "version"
-                ]
-            ),
-            "private": True,
-            "main": "dist/index.js",
-            "types": "dist/index.d.ts",
-            "scripts": {
-                "build": (
-                    "tsc -p tsconfig.json"
-                ),
-                "typecheck": (
-                    "tsc -p tsconfig.json "
-                    "--noEmit"
-                ),
-            },
-            "peerDependencies": {
-                "@nestjs/common": "*",
-                "@nestjs/core": "*",
-            },
-        }
-
-        tsconfig = {
-            "extends": (
-                "../../../backend/tsconfig.json"
-            ),
-            "compilerOptions": {
-                "rootDir": "src",
-                "outDir": "dist",
-                "declaration": True,
-                "composite": False,
-            },
-            "include": [
-                "src/**/*.ts"
-            ],
-        }
-
-        copied_report = [
-            {
-                "sourcePath": (
-                    file.source_path
-                ),
-                "stagedPath": (
-                    file.staged_path
-                ),
-                "fileKind": (
-                    file.file_kind
-                ),
-                "sha256": (
-                    file.staged_sha256
-                ),
-                "sizeBytes": (
-                    file.size_bytes
-                ),
-            }
-            for file in copied_files
-        ]
-
-        extraction_report = {
-            "schemaVersion": "1.0.0",
-            "moduleId": blueprint.module_id,
-            "pluginId": blueprint.plugin_id,
-            "packageName": (
-                blueprint.package_name
-            ),
-            "migrationTier": (
-                blueprint.migration_tier
-            ),
-            "migrationScore": (
-                blueprint.migration_score
-            ),
-            "copiedFileCount": len(
-                copied_files
-            ),
-            "files": copied_report,
-            "contracts": [
-                {
-                    "type": (
-                        contract
-                        .contract_type
-                    ),
-                    "name": contract.name,
-                    "sourceModule": (
-                        contract
-                        .source_module
-                    ),
-                    "moduleRoot": (
-                        Path(
-                            self.repository.module(
-                                contract.source_module
-                            ).source.path
-                        ).parent.as_posix()
-                    ),
-                    "targetPackage": (
-                        contract
-                        .target_package
-                    ),
-                    "reason": (
-                        contract.reason
-                    ),
-                }
-                for contract
-                in blueprint.contracts
-            ],
-            "dependentUpdates": list(
-                blueprint
-                .dependent_updates
-            ),
-            "warnings": list(
-                blueprint.warnings
-            ),
-        }
-
-        readme = (
-            f"# {blueprint.manifest['name']} Plugin\n"
-            "\n"
-            "This workspace was generated by the "
-            "PropertyOS Knowledge Engine.\n"
-            "\n"
-            "## Status\n"
-            "\n"
-            "- Materialization mode: staged copy\n"
-            "- Runtime registration: disabled\n"
-            "- Core source deletion: not performed\n"
-            "- Import rewriting: not performed\n"
-            "\n"
-            "## Source Module\n"
-            "\n"
-            f"`{blueprint.module_id}`\n"
-            "\n"
-            "## Package\n"
-            "\n"
-            f"`{blueprint.package_name}`\n"
-            "\n"
-            "## Next Step\n"
-            "\n"
-            "Review contracts and imports before "
-            "promoting this staged workspace into "
-            "the runtime plugin directory.\n"
-        ).encode("utf-8")
-
-        return {
-            "README.md": readme,
-            "extraction-report.json": (
-                _json_bytes(
-                    extraction_report
-                )
-            ),
-            "package.json": (
-                _json_bytes(package_json)
-            ),
-            "plugin.json": (
-                _json_bytes(
-                    plugin_manifest
-                )
-            ),
-            "src/index.ts": index_content,
-            "tsconfig.json": (
-                _json_bytes(tsconfig)
-            ),
-        }
 
     def _verify_materialized_files(
         self,

@@ -16,6 +16,9 @@ from tools.knowledge_engine.materializer import (
     MaterializationError,
     StagedPluginMaterializer,
 )
+from tools.knowledge_engine.plugin_workspace_generator import (
+    PluginWorkspaceGenerator,
+)
 from tools.knowledge_engine.repository_api import (
     Repository,
 )
@@ -42,6 +45,21 @@ class MaterializerTest(unittest.TestCase):
             ),
             output_root=output_root,
         )
+
+    def test_materializer_uses_workspace_generator(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            dir=REPOSITORY_ROOT
+        ) as directory:
+            materializer = self._materializer(
+                Path(directory) / "stage"
+            )
+
+            self.assertIsInstance(
+                materializer.workspace_generator,
+                PluginWorkspaceGenerator,
+            )
 
     def test_helpdesk_workspace_is_created(
         self,

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 from typing import Dict, Tuple
 
@@ -11,6 +12,9 @@ from .blueprint_models import (
 from .materialization_models import (
     MaterializedFile,
 )
+from .import_analyzer import (
+    NODE_BUILTINS,
+)
 from .repository_api import Repository
 
 
@@ -18,6 +22,41 @@ class PluginWorkspaceGenerationError(
     ValueError
 ):
     pass
+
+
+_PACKAGE_SPECIFIER_PATTERN = re.compile(
+    r"""(?:from\s+|require\(\s*)"""
+    r"""['"]([^'"]+)['"]"""
+)
+
+
+_CROSS_MODULE_IMPORT_PATTERN = re.compile(
+    r"""
+    import
+    \s+
+    (?P<body>[^;]*?)
+    \s+
+    from
+    \s*
+    ['"]
+    (?P<specifier>[^'"]+)
+    ['"]
+    \s*;
+    """,
+    re.VERBOSE,
+)
+
+
+def _package_root(
+    specifier: str,
+) -> str:
+    if specifier.startswith("@"):
+        parts = specifier.split("/")
+
+        if len(parts) >= 2:
+            return "/".join(parts[:2])
+
+    return specifier.split("/", 1)[0]
 
 
 def _json_bytes(
@@ -130,9 +169,14 @@ class PluginWorkspaceGenerator:
         )
 
         index_content = (
-            f"export {{ "
-            f"{blueprint.manifest['moduleClass']} "
-            f"}} from '{module_import}';\n"
+            (
+                f"export {{ "
+                f"{blueprint.manifest['moduleClass']} "
+                f"}} from '{module_import}';\n"
+            )
+            + self._plugin_contract_surface(
+                blueprint
+            )
         ).encode("utf-8")
 
         plugin_manifest = dict(
@@ -257,6 +301,83 @@ class PluginWorkspaceGenerator:
             in development_packages
         }
 
+        for package in (
+            self._external_packages(
+                blueprint
+            )
+        ):
+            if package in dependencies:
+                continue
+
+            if package in backend_dependencies:
+                dependencies[package] = (
+                    self._required_version(
+                        package=package,
+                        source=(
+                            backend_dependencies
+                        ),
+                        section="dependencies",
+                    )
+                )
+
+            elif package in (
+                backend_dev_dependencies
+            ):
+                dev_dependencies[package] = (
+                    self._required_version(
+                        package=package,
+                        source=(
+                            backend_dev_dependencies
+                        ),
+                        section=(
+                            "devDependencies"
+                        ),
+                    )
+                )
+
+            else:
+                raise (
+                    PluginWorkspaceGenerationError(
+                        "Imported external package "
+                        f"{package} is not declared "
+                        "by the backend package."
+                    )
+                )
+
+            type_package = (
+                self._type_package(package)
+            )
+
+            if (
+                type_package
+                in backend_dev_dependencies
+            ):
+                dev_dependencies[
+                    type_package
+                ] = self._required_version(
+                    package=type_package,
+                    source=(
+                        backend_dev_dependencies
+                    ),
+                    section="devDependencies",
+                )
+
+        for contract in blueprint.contracts:
+            if (
+                contract.contract_type
+                != "plugin-contract"
+            ):
+                continue
+
+            dependencies[
+                contract.target_package
+            ] = self._plugin_dependency(
+                workspace=workspace,
+                package_name=(
+                    contract.target_package
+                ),
+            )
+
         return {
             "name": blueprint.package_name,
             "version": (
@@ -293,6 +414,402 @@ class PluginWorkspaceGenerator:
                 ),
             },
         }
+
+    def _plugin_contract_surface(
+        self,
+        blueprint: PluginBlueprint,
+    ) -> str:
+        """
+        Expose symbols imported across plugin module
+        boundaries through the owning plugin's public
+        entry point.
+
+        The source backend remains authoritative. This
+        method does not modify backend barrels or infer
+        exports from rewritten package imports.
+        """
+        module_root = self._module_root(
+            blueprint.module_id
+        )
+
+        source_root = (
+            self.repository_root
+            / "backend"
+            / "src"
+        )
+
+        exports: dict[
+            tuple[str, bool],
+            set[str],
+        ] = {}
+
+        for consumer in sorted(
+            source_root.rglob("*.ts")
+        ):
+            try:
+                consumer.relative_to(
+                    module_root
+                )
+            except ValueError:
+                pass
+            else:
+                continue
+
+            try:
+                content = consumer.read_text(
+                    encoding="utf-8"
+                )
+            except (
+                OSError,
+                UnicodeDecodeError,
+            ):
+                continue
+
+            for match in (
+                _CROSS_MODULE_IMPORT_PATTERN
+                .finditer(content)
+            ):
+                specifier = match.group(
+                    "specifier"
+                )
+
+                source_file = (
+                    self._resolve_typescript_import(
+                        consumer=consumer,
+                        specifier=specifier,
+                    )
+                )
+
+                if source_file is None:
+                    continue
+
+                try:
+                    source_file.relative_to(
+                        module_root
+                    )
+                except ValueError:
+                    continue
+
+                for symbol in (
+                    self._named_import_symbols(
+                        match.group("body")
+                    )
+                ):
+                    if symbol == (
+                        blueprint.manifest[
+                            "moduleClass"
+                        ]
+                    ):
+                        continue
+
+                    declaration = (
+                        self._symbol_declaration(
+                            module_root=module_root,
+                            preferred_file=(
+                                source_file
+                            ),
+                            symbol=symbol,
+                        )
+                    )
+
+                    if declaration is None:
+                        continue
+
+                    declaration_file, type_only = (
+                        declaration
+                    )
+
+                    relative = (
+                        declaration_file
+                        .relative_to(module_root)
+                        .with_suffix("")
+                        .as_posix()
+                    )
+
+                    exports.setdefault(
+                        (relative, type_only),
+                        set(),
+                    ).add(symbol)
+
+        lines = []
+
+        for (
+            relative,
+            type_only,
+        ), symbols in sorted(
+            exports.items(),
+            key=lambda item: (
+                item[0][0],
+                item[0][1],
+            ),
+        ):
+            keyword = (
+                "export type"
+                if type_only
+                else "export"
+            )
+
+            lines.append(
+                f"{keyword} {{ "
+                + ", ".join(sorted(symbols))
+                + f" }} from './{relative}';"
+            )
+
+        if not lines:
+            return ""
+
+        return "".join(
+            f"{line}\n"
+            for line in lines
+        )
+
+    def _module_root(
+        self,
+        module_id: str,
+    ) -> Path:
+        module = self.repository.module(
+            module_id
+        )
+
+        root = Path(module.source.path)
+
+        if not root.is_absolute():
+            root = (
+                self.repository_root
+                / root
+            )
+
+        root = root.resolve()
+
+        if root.is_file():
+            root = root.parent
+
+        return root
+
+    @staticmethod
+    def _named_import_symbols(
+        body: str,
+    ) -> Tuple[str, ...]:
+        match = re.search(
+            r"\{([\s\S]*?)\}",
+            body,
+        )
+
+        if match is None:
+            return ()
+
+        symbols = set()
+
+        for item in match.group(1).split(","):
+            item = item.strip()
+
+            if not item:
+                continue
+
+            item = re.sub(
+                r"^type\s+",
+                "",
+                item,
+            ).strip()
+
+            if " as " in item:
+                item = item.split(
+                    " as ",
+                    1,
+                )[0].strip()
+
+            if re.fullmatch(
+                r"[A-Za-z_$][\w$]*",
+                item,
+            ):
+                symbols.add(item)
+
+        return tuple(sorted(symbols))
+
+    @staticmethod
+    def _resolve_typescript_import(
+        consumer: Path,
+        specifier: str,
+    ) -> Path | None:
+        if not specifier.startswith("."):
+            return None
+
+        base = (
+            consumer.parent
+            / specifier
+        )
+
+        candidates = (
+            base,
+            Path(str(base) + ".ts"),
+            base / "index.ts",
+        )
+
+        for candidate in candidates:
+            candidate = candidate.resolve()
+
+            if candidate.is_file():
+                return candidate
+
+        return None
+
+    def _symbol_declaration(
+        self,
+        module_root: Path,
+        preferred_file: Path,
+        symbol: str,
+    ) -> tuple[Path, bool] | None:
+        direct = self._declaration_kind(
+            preferred_file,
+            symbol,
+        )
+
+        if direct is not None:
+            return preferred_file, direct
+
+        matches = []
+
+        for source_file in sorted(
+            module_root.rglob("*.ts")
+        ):
+            kind = self._declaration_kind(
+                source_file,
+                symbol,
+            )
+
+            if kind is not None:
+                matches.append(
+                    (source_file, kind)
+                )
+
+        if len(matches) != 1:
+            return None
+
+        return matches[0]
+
+    @staticmethod
+    def _declaration_kind(
+        source_file: Path,
+        symbol: str,
+    ) -> bool | None:
+        try:
+            content = source_file.read_text(
+                encoding="utf-8"
+            )
+        except (
+            OSError,
+            UnicodeDecodeError,
+        ):
+            return None
+
+        escaped = re.escape(symbol)
+
+        type_pattern = re.compile(
+            r"\bexport\s+(?:declare\s+)?"
+            r"(?:interface|type)\s+"
+            + escaped
+            + r"\b"
+        )
+
+        if type_pattern.search(content):
+            return True
+
+        value_pattern = re.compile(
+            r"\bexport\s+(?:default\s+)?"
+            r"(?:declare\s+)?"
+            r"(?:abstract\s+)?"
+            r"(?:class|const|let|var|function|"
+            r"enum|namespace)\s+"
+            + escaped
+            + r"\b"
+        )
+
+        if value_pattern.search(content):
+            return False
+
+        return None
+
+    def _external_packages(
+        self,
+        blueprint: PluginBlueprint,
+    ) -> Tuple[str, ...]:
+        module = self.repository.module(
+            blueprint.module_id
+        )
+
+        module_root = Path(
+            module.source.path
+        )
+
+        if not module_root.is_absolute():
+            module_root = (
+                self.repository_root
+                / module_root
+            )
+
+        if module_root.is_file():
+            module_root = module_root.parent
+
+        packages = set()
+
+        for source_file in sorted(
+            module_root.rglob("*.ts")
+        ):
+            try:
+                content = source_file.read_text(
+                    encoding="utf-8"
+                )
+            except (
+                OSError,
+                UnicodeDecodeError,
+            ):
+                continue
+
+            for specifier in (
+                _PACKAGE_SPECIFIER_PATTERN
+                .findall(content)
+            ):
+                if specifier.startswith(
+                    (
+                        ".",
+                        "/",
+                        "node:",
+                        "@propertyos/",
+                    )
+                ):
+                    continue
+
+                package = _package_root(
+                    specifier
+                )
+
+                if (
+                    package
+                    and package
+                    not in NODE_BUILTINS
+                ):
+                    packages.add(package)
+
+        return tuple(sorted(packages))
+
+    @staticmethod
+    def _type_package(
+        package: str,
+    ) -> str:
+        if package.startswith("@"):
+            scope, name = package.split(
+                "/",
+                1,
+            )
+
+            return (
+                "@types/"
+                + scope.removeprefix("@")
+                + "__"
+                + name
+            )
+
+        return "@types/" + package
 
     def _backend_package_json(
         self,
@@ -362,6 +879,62 @@ class PluginWorkspaceGenerator:
             )
 
         return version
+
+    def _plugin_dependency(
+        self,
+        workspace: Path | None,
+        package_name: str,
+    ) -> str:
+        prefix = "@propertyos/plugin-"
+
+        if not package_name.startswith(
+            prefix
+        ):
+            raise (
+                PluginWorkspaceGenerationError(
+                    "Unsupported plugin contract "
+                    f"package: {package_name}"
+                )
+            )
+
+        plugin_id = package_name[
+            len(prefix):
+        ]
+
+        if not plugin_id:
+            raise (
+                PluginWorkspaceGenerationError(
+                    "Plugin contract package has "
+                    "no plugin ID."
+                )
+            )
+
+        if workspace is None:
+            workspace = (
+                self.repository_root
+                / "generated"
+                / "plugin-staging"
+                / "_placeholder"
+            )
+
+        resolved_workspace = (
+            workspace.resolve()
+        )
+
+        target_workspace = (
+            resolved_workspace.parent
+            / plugin_id
+        ).resolve()
+
+        relative = os.path.relpath(
+            target_workspace,
+            resolved_workspace,
+        )
+
+        return (
+            "file:"
+            + Path(relative).as_posix()
+        )
 
     def _contract_dependency(
         self,

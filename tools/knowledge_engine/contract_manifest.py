@@ -746,22 +746,64 @@ class ContractManifestGenerator:
         )
 
         if export_kind is None:
-            issues.append(
-                ContractManifestIssue(
-                    code="UNRESOLVED_SYMBOL",
-                    message=(
-                        "No exported TypeScript "
-                        f"declaration was found for "
-                        f"{symbol}."
-                    ),
-                    module_id=(
-                        reference.target_module
-                    ),
+            declarations = (
+                self._declarations_below(
+                    source_file=source_file,
                     symbol=symbol,
-                    source_path=source_path,
                 )
             )
-            return None
+
+            if len(declarations) == 1:
+                (
+                    source_file,
+                    export_kind,
+                ) = declarations[0]
+
+                source_path = (
+                    self._display_path(
+                        source_file
+                    )
+                )
+
+            elif len(declarations) > 1:
+                issues.append(
+                    ContractManifestIssue(
+                        code=(
+                            "AMBIGUOUS_SYMBOL"
+                        ),
+                        message=(
+                            "Multiple exported "
+                            "TypeScript declarations "
+                            f"were found below the "
+                            f"resolved barrel for "
+                            f"{symbol}."
+                        ),
+                        module_id=(
+                            reference.target_module
+                        ),
+                        symbol=symbol,
+                        source_path=source_path,
+                    )
+                )
+                return None
+
+            else:
+                issues.append(
+                    ContractManifestIssue(
+                        code="UNRESOLVED_SYMBOL",
+                        message=(
+                            "No exported TypeScript "
+                            "declaration was found for "
+                            f"{symbol}."
+                        ),
+                        module_id=(
+                            reference.target_module
+                        ),
+                        symbol=symbol,
+                        source_path=source_path,
+                    )
+                )
+                return None
 
         return ContractExport(
             symbol=symbol,
@@ -772,6 +814,61 @@ class ContractManifestGenerator:
             ),
             package_name=package_name,
         )
+
+    def _declarations_below(
+        self,
+        source_file: Path,
+        symbol: str,
+    ) -> Tuple[
+        Tuple[Path, str],
+        ...,
+    ]:
+        """
+        Resolve a symbol imported through a
+        TypeScript barrel.
+
+        The backend already typechecks, so a symbol
+        imported from a barrel must be publicly
+        reachable. This search locates its unique
+        exported declaration below the barrel's
+        directory without encoding module-specific
+        paths in the contract generator.
+        """
+
+        matches = []
+
+        for candidate in sorted(
+            source_file.parent.rglob("*.ts")
+        ):
+            if candidate == source_file:
+                continue
+
+            try:
+                content = candidate.read_text(
+                    encoding="utf-8"
+                )
+            except (
+                OSError,
+                UnicodeDecodeError,
+            ):
+                continue
+
+            export_kind = self._export_kind(
+                content=content,
+                symbol=symbol,
+            )
+
+            if export_kind is None:
+                continue
+
+            matches.append(
+                (
+                    candidate.resolve(),
+                    export_kind,
+                )
+            )
+
+        return tuple(matches)
 
     @staticmethod
     def _export_kind(

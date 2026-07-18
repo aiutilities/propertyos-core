@@ -49,6 +49,7 @@
     "adm-zip": "^0.5.18",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
+    "express": "^5.2.1",
     "helmet": "^8.2.0",
     "pdfkit": "^0.19.1",
     "pg": "^8.22.0",
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@nestjs/testing": "^11.1.27",
+    "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.0.1",
     "@types/pdfkit": "^0.17.6",

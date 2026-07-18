@@ -286,7 +286,7 @@ class ModuleExtractionPortfolio:
             command=(
                 self.npm_executable,
                 "run",
-                "typecheck",
+                "build",
             ),
             workspace=workspace,
             skipped_detail=(

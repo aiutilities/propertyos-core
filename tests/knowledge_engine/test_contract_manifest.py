@@ -1313,5 +1313,190 @@ class ContractManifestCliTest(
         )
 
 
+
+
+class ContractManifestBarrelResolutionTest(
+    unittest.TestCase
+):
+    def _reference(
+        self,
+        resolved_path: str,
+        symbol: str,
+    ) -> ImportReference:
+        return ImportReference(
+            source_file=(
+                "generated/plugin-staging/"
+                "example/src/example.ts"
+            ),
+            line=1,
+            column=1,
+            syntax="named-import",
+            imported_symbols=(symbol,),
+            original_specifier=(
+                "../../platform"
+            ),
+            classification=(
+                "platform-contract"
+            ),
+            resolution_status=(
+                "resolved-original"
+            ),
+            resolved_path=resolved_path,
+            target_module="platform",
+            proposed_specifier=(
+                "@propertyos/core-contracts"
+            ),
+            rewrite_required=True,
+            reason="Platform contract.",
+        )
+
+    def test_resolves_unique_declaration_below_barrel(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+
+            barrel = (
+                root
+                / "backend"
+                / "src"
+                / "core"
+                / "platform"
+                / "index.ts"
+            )
+
+            declaration = (
+                barrel.parent
+                / "dto"
+                / "pagination-query.dto.ts"
+            )
+
+            declaration.parent.mkdir(
+                parents=True
+            )
+
+            barrel.write_text(
+                (
+                    "export * from "
+                    "'./dto/pagination-query.dto';\n"
+                ),
+                encoding="utf-8",
+            )
+
+            declaration.write_text(
+                (
+                    "export class "
+                    "PaginationQueryDto {}\n"
+                ),
+                encoding="utf-8",
+            )
+
+            issues = []
+
+            export = ContractManifestGenerator(
+                repository_root=root
+            )._resolve_export(
+                reference=self._reference(
+                    resolved_path=(
+                        barrel.relative_to(
+                            root
+                        ).as_posix()
+                    ),
+                    symbol=(
+                        "PaginationQueryDto"
+                    ),
+                ),
+                symbol="PaginationQueryDto",
+                package_name=(
+                    "@propertyos/core-contracts"
+                ),
+                issues=issues,
+            )
+
+            self.assertEqual([], issues)
+            self.assertIsNotNone(export)
+
+            self.assertEqual(
+                (
+                    declaration.relative_to(
+                        root
+                    ).as_posix()
+                ),
+                export.source_path,
+            )
+
+            self.assertEqual(
+                "class",
+                export.export_kind,
+            )
+
+    def test_rejects_ambiguous_declarations_below_barrel(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+
+            barrel = (
+                root
+                / "backend"
+                / "src"
+                / "core"
+                / "platform"
+                / "index.ts"
+            )
+
+            barrel.parent.mkdir(
+                parents=True
+            )
+
+            barrel.write_text(
+                "export * from './one';\n",
+                encoding="utf-8",
+            )
+
+            for name in ("one.ts", "two.ts"):
+                (
+                    barrel.parent
+                    / name
+                ).write_text(
+                    (
+                        "export class "
+                        "DuplicateContract {}\n"
+                    ),
+                    encoding="utf-8",
+                )
+
+            issues = []
+
+            export = ContractManifestGenerator(
+                repository_root=root
+            )._resolve_export(
+                reference=self._reference(
+                    resolved_path=(
+                        barrel.relative_to(
+                            root
+                        ).as_posix()
+                    ),
+                    symbol=(
+                        "DuplicateContract"
+                    ),
+                ),
+                symbol="DuplicateContract",
+                package_name=(
+                    "@propertyos/core-contracts"
+                ),
+                issues=issues,
+            )
+
+            self.assertIsNone(export)
+            self.assertEqual(
+                1,
+                len(issues),
+            )
+            self.assertEqual(
+                "AMBIGUOUS_SYMBOL",
+                issues[0].code,
+            )
+
 if __name__ == "__main__":
     unittest.main()

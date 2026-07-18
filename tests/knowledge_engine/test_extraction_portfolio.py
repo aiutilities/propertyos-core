@@ -124,6 +124,15 @@ class ModuleExtractionPortfolioTest(
             len(runner.calls),
         )
 
+        self.assertEqual(
+            (
+                "npm-test",
+                "run",
+                "build",
+            ),
+            runner.calls[-1][0],
+        )
+
     def test_failure_blocks_downstream_stages(
         self,
     ) -> None:

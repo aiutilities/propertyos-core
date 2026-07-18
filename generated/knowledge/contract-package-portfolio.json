@@ -1,0 +1,520 @@
+{
+  "generation": {
+    "issues": [],
+    "packages": [
+      {
+        "fileCount": 14,
+        "files": [
+          {
+            "fileKind": "package-metadata",
+            "path": "package.json",
+            "sha256": "a2498d6cbefbdff925099daa69a38165a08c115705992c70faea7caa7b3eb188",
+            "sizeBytes": 1689,
+            "written": true
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/audit/index.ts",
+            "sha256": "c0733abacb631d21b37e3a9904712afe3a3c172214a4e5e5981f50a976e5fff2",
+            "sizeBytes": 219,
+            "written": false
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/auth/index.ts",
+            "sha256": "fb2702c4d5781ecdbb44bb350517e1695c5bdaba5ce66679e39263244b23846f",
+            "sizeBytes": 523,
+            "written": true
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/database-database/index.ts",
+            "sha256": "f8a015f190920a1abebf91ca2a4d251ecdc5583ade8b287b2e9536f440a76af0",
+            "sizeBytes": 139,
+            "written": true
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/database-postgres/index.ts",
+            "sha256": "ee6345c79cdbccd0e276c062f94e05e6175b5c230344b37d0030e3d777a11f29",
+            "sizeBytes": 241,
+            "written": false
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/eventbus/index.ts",
+            "sha256": "8ad3c0a35c15ac054402a9511441f5ef57f0cc1180ff84beebaea1665445095c",
+            "sizeBytes": 246,
+            "written": false
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/identity/index.ts",
+            "sha256": "b8aad94a3112504094440dd5a064e394c54f87509bc6b72bc76f528dfc1130bf",
+            "sizeBytes": 144,
+            "written": true
+          },
+          {
+            "fileKind": "root-entrypoint",
+            "path": "src/index.ts",
+            "sha256": "db1a6ec463f5b4eb9f5e25a4a110558031bb29c6d7c579e29399b0ba2a0ba547",
+            "sizeBytes": 369,
+            "written": true
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/platform/index.ts",
+            "sha256": "ea12c68a6adb9b735b0e53fea40ee065ed8915f1b337a766e8f7a0adb2c9ea03",
+            "sizeBytes": 417,
+            "written": true
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/plugin/index.ts",
+            "sha256": "a1844ce84968563bde1fbd4942724dfdc29ce0026d8a782048c126f43ca4966c",
+            "sizeBytes": 501,
+            "written": true
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/scheduler/index.ts",
+            "sha256": "bf2741ef57239d57e302e46a3fe72faa620ee852e7600be9bd86edd9d81e3c0a",
+            "sizeBytes": 503,
+            "written": false
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/search/index.ts",
+            "sha256": "6805a83938a326310f61f4bc00d26968b0d89df49898c8106432b987c336557d",
+            "sizeBytes": 386,
+            "written": false
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/workflow/index.ts",
+            "sha256": "4b69a58cfc548d20ea5feaea16390e39dd47b8fe2bec7f1e63ec25ac5725dca8",
+            "sizeBytes": 246,
+            "written": true
+          },
+          {
+            "fileKind": "typescript-config",
+            "path": "tsconfig.json",
+            "sha256": "85849204633810dca97b3669a4effbf9280dd9d77b8eb5fabcafb4af05c564f8",
+            "sizeBytes": 259,
+            "written": false
+          }
+        ],
+        "packageDirectory": "generated/contracts/core-contracts",
+        "packageName": "@propertyos/core-contracts",
+        "publishable": false,
+        "sourceStrategy": "repository-reexport",
+        "valid": true,
+        "version": "0.1.0",
+        "writtenFileCount": 8
+      }
+    ],
+    "request": {
+      "apply": true,
+      "overwrite": true
+    },
+    "schemaVersion": "1.0.0",
+    "summary": {
+      "fileCount": 14,
+      "invalidPackageCount": 0,
+      "issueCount": 0,
+      "packageCount": 1,
+      "validPackageCount": 1,
+      "writtenFileCount": 8
+    },
+    "valid": true
+  },
+  "layout": {
+    "issues": [],
+    "packages": [
+      {
+        "fileCount": 14,
+        "files": [
+          {
+            "fileKind": "package-metadata",
+            "path": "package.json"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/audit/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/auth/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/database-database/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/database-postgres/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/eventbus/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/identity/index.ts"
+          },
+          {
+            "fileKind": "root-entrypoint",
+            "path": "src/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/platform/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/plugin/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/scheduler/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/search/index.ts"
+          },
+          {
+            "fileKind": "module-entrypoint",
+            "path": "src/workflow/index.ts"
+          },
+          {
+            "fileKind": "typescript-config",
+            "path": "tsconfig.json"
+          }
+        ],
+        "moduleCount": 11,
+        "modules": [
+          {
+            "directoryName": "audit",
+            "entrypointPath": "src/audit/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "audit",
+                "sourcePath": "backend/src/core/audit/audit.module.ts",
+                "symbol": "AuditModule"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "audit",
+                "sourcePath": "backend/src/core/audit/audit.service.ts",
+                "symbol": "AuditService"
+              }
+            ],
+            "moduleId": "audit",
+            "symbolCount": 2
+          },
+          {
+            "directoryName": "auth",
+            "entrypointPath": "src/auth/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "auth",
+                "sourcePath": "backend/src/core/auth/auth.module.ts",
+                "symbol": "AuthModule"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "auth",
+                "sourcePath": "backend/src/core/auth/guards/jwt-auth.guard.ts",
+                "symbol": "JwtAuthGuard"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "auth",
+                "sourcePath": "backend/src/core/auth/guards/permission.guard.ts",
+                "symbol": "PermissionGuard"
+              },
+              {
+                "exportKind": "value",
+                "moduleId": "auth",
+                "sourcePath": "backend/src/core/auth/constants/permissions.ts",
+                "symbol": "Permissions"
+              },
+              {
+                "exportKind": "value",
+                "moduleId": "auth",
+                "sourcePath": "backend/src/core/auth/decorators/require-permission.decorator.ts",
+                "symbol": "RequirePermission"
+              }
+            ],
+            "moduleId": "auth",
+            "symbolCount": 5
+          },
+          {
+            "directoryName": "database-database",
+            "entrypointPath": "src/database-database/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "database:database",
+                "sourcePath": "backend/src/database/database.module.ts",
+                "symbol": "DatabaseModule"
+              }
+            ],
+            "moduleId": "database:database",
+            "symbolCount": 1
+          },
+          {
+            "directoryName": "database-postgres",
+            "entrypointPath": "src/database-postgres/index.ts",
+            "exports": [
+              {
+                "exportKind": "value",
+                "moduleId": "database:postgres",
+                "sourcePath": "backend/src/database/postgres/postgres.types.ts",
+                "symbol": "POSTGRES_POOL"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "database:postgres",
+                "sourcePath": "backend/src/database/postgres/postgres.module.ts",
+                "symbol": "PostgresModule"
+              }
+            ],
+            "moduleId": "database:postgres",
+            "symbolCount": 2
+          },
+          {
+            "directoryName": "eventbus",
+            "entrypointPath": "src/eventbus/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "eventbus",
+                "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+                "symbol": "EventBusModule"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "eventbus",
+                "sourcePath": "backend/src/core/eventbus/services/eventbus.service.ts",
+                "symbol": "EventBusService"
+              }
+            ],
+            "moduleId": "eventbus",
+            "symbolCount": 2
+          },
+          {
+            "directoryName": "identity",
+            "entrypointPath": "src/identity/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "identity",
+                "sourcePath": "backend/src/core/identity/identity.module.ts",
+                "symbol": "IdentityModule"
+              }
+            ],
+            "moduleId": "identity",
+            "symbolCount": 1
+          },
+          {
+            "directoryName": "platform",
+            "entrypointPath": "src/platform/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "platform",
+                "sourcePath": "backend/src/core/platform/repositories/base-postgres.repository.ts",
+                "symbol": "BasePostgresRepository"
+              },
+              {
+                "exportKind": "interface",
+                "moduleId": "platform",
+                "sourcePath": "backend/src/core/platform/dto/paginated-response.dto.ts",
+                "symbol": "PaginatedResponseDto"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "platform",
+                "sourcePath": "backend/src/core/platform/dto/pagination-query.dto.ts",
+                "symbol": "PaginationQueryDto"
+              },
+              {
+                "exportKind": "function",
+                "moduleId": "platform",
+                "sourcePath": "backend/src/core/platform/dto/pagination-query.dto.ts",
+                "symbol": "normalizePagination"
+              }
+            ],
+            "moduleId": "platform",
+            "symbolCount": 4
+          },
+          {
+            "directoryName": "plugin",
+            "entrypointPath": "src/plugin/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+                "symbol": "PluginModule"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/registries/plugin-notification.registry.ts",
+                "symbol": "PluginNotificationRegistry"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/registries/plugin-permission.registry.ts",
+                "symbol": "PluginPermissionRegistry"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/registries/plugin-workflow.registry.ts",
+                "symbol": "PluginWorkflowRegistry"
+              }
+            ],
+            "moduleId": "plugin",
+            "symbolCount": 4
+          },
+          {
+            "directoryName": "scheduler",
+            "entrypointPath": "src/scheduler/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "scheduler",
+                "sourcePath": "backend/src/core/scheduler/registries/scheduler-handler.registry.ts",
+                "symbol": "SchedulerHandlerRegistry"
+              },
+              {
+                "exportKind": "interface",
+                "moduleId": "scheduler",
+                "sourcePath": "backend/src/core/scheduler/types/scheduler.types.ts",
+                "symbol": "SchedulerJob"
+              },
+              {
+                "exportKind": "interface",
+                "moduleId": "scheduler",
+                "sourcePath": "backend/src/core/scheduler/types/scheduler.types.ts",
+                "symbol": "SchedulerJobHandler"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "scheduler",
+                "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+                "symbol": "SchedulerModule"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "scheduler",
+                "sourcePath": "backend/src/core/scheduler/services/scheduler.service.ts",
+                "symbol": "SchedulerService"
+              }
+            ],
+            "moduleId": "scheduler",
+            "symbolCount": 5
+          },
+          {
+            "directoryName": "search",
+            "entrypointPath": "src/search/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "search",
+                "sourcePath": "backend/src/core/search/search.module.ts",
+                "symbol": "SearchModule"
+              },
+              {
+                "exportKind": "interface",
+                "moduleId": "search",
+                "sourcePath": "backend/src/core/search/types/search.types.ts",
+                "symbol": "SearchProvider"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "search",
+                "sourcePath": "backend/src/core/search/registries/search-provider.registry.ts",
+                "symbol": "SearchProviderRegistry"
+              },
+              {
+                "exportKind": "interface",
+                "moduleId": "search",
+                "sourcePath": "backend/src/core/search/types/search.types.ts",
+                "symbol": "SearchQuery"
+              },
+              {
+                "exportKind": "interface",
+                "moduleId": "search",
+                "sourcePath": "backend/src/core/search/types/search.types.ts",
+                "symbol": "SearchResult"
+              }
+            ],
+            "moduleId": "search",
+            "symbolCount": 5
+          },
+          {
+            "directoryName": "workflow",
+            "entrypointPath": "src/workflow/index.ts",
+            "exports": [
+              {
+                "exportKind": "class",
+                "moduleId": "workflow",
+                "sourcePath": "backend/src/core/workflow/workflow.module.ts",
+                "symbol": "WorkflowModule"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "workflow",
+                "sourcePath": "backend/src/core/workflow/services/workflow.service.ts",
+                "symbol": "WorkflowService"
+              }
+            ],
+            "moduleId": "workflow",
+            "symbolCount": 2
+          }
+        ],
+        "packageDirectory": "generated/contracts/core-contracts",
+        "packageName": "@propertyos/core-contracts",
+        "publishable": false,
+        "rootEntrypointPath": "src/index.ts",
+        "sourceStrategy": "repository-reexport",
+        "symbolCount": 33,
+        "version": "0.1.0"
+      }
+    ],
+    "request": {
+      "outputRoot": "generated/contracts",
+      "packageName": "@propertyos/core-contracts",
+      "sourceStrategy": "repository-reexport"
+    },
+    "schemaVersion": "1.0.0",
+    "summary": {
+      "fileCount": 14,
+      "issueCount": 0,
+      "moduleCount": 11,
+      "packageCount": 1,
+      "publishablePackageCount": 0,
+      "repositoryBackedPackageCount": 1,
+      "symbolCount": 33
+    },
+    "valid": true
+  },
+  "schemaVersion": "1.0.0",
+  "summary": {
+    "fileCount": 14,
+    "generationIssueCount": 0,
+    "layoutIssueCount": 0,
+    "moduleCount": 11,
+    "packageCount": 1,
+    "symbolCount": 33,
+    "valid": true,
+    "writtenFileCount": 8
+  }
+}

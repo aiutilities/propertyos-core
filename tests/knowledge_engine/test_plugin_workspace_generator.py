@@ -302,5 +302,333 @@ class PluginWorkspaceGeneratorTest(
         )
 
 
+
+
+class PluginWorkspaceExternalDependencyTest(
+    unittest.TestCase
+):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.repository = Repository.load(
+            REPOSITORY_ROOT
+        )
+
+    def _package(
+        self,
+        module_id: str,
+    ) -> dict:
+        portfolio = (
+            PluginBlueprintGenerator(
+                self.repository
+            ).generate(
+                BlueprintRequest(
+                    mode="module",
+                    module_id=module_id,
+                )
+            )
+        )
+
+        blueprint = (
+            portfolio.blueprints[0]
+        )
+
+        content = PluginWorkspaceGenerator(
+            repository=self.repository,
+            repository_root=(
+                REPOSITORY_ROOT
+            ),
+        ).generate(
+            blueprint=blueprint,
+            copied_files=(),
+            workspace=(
+                REPOSITORY_ROOT
+                / "generated"
+                / "plugin-staging"
+                / module_id
+            ),
+        )
+
+        return json.loads(
+            content[
+                "package.json"
+            ].decode("utf-8")
+        )
+
+    def test_inventory_infers_validation_packages(
+        self,
+    ) -> None:
+        package = self._package(
+            "inventory"
+        )
+
+        backend = json.loads(
+            (
+                REPOSITORY_ROOT
+                / "backend"
+                / "package.json"
+            ).read_text(
+                encoding="utf-8"
+            )
+        )
+
+        for dependency in (
+            "class-transformer",
+            "class-validator",
+        ):
+            self.assertEqual(
+                backend["dependencies"][
+                    dependency
+                ],
+                package["dependencies"][
+                    dependency
+                ],
+            )
+
+    def test_report_infers_express_types(
+        self,
+    ) -> None:
+        package = self._package(
+            "report"
+        )
+
+        backend = json.loads(
+            (
+                REPOSITORY_ROOT
+                / "backend"
+                / "package.json"
+            ).read_text(
+                encoding="utf-8"
+            )
+        )
+
+        self.assertEqual(
+            backend["dependencies"][
+                "express"
+            ],
+            package["dependencies"][
+                "express"
+            ],
+        )
+
+        self.assertEqual(
+            backend["devDependencies"][
+                "@types/express"
+            ],
+            package["devDependencies"][
+                "@types/express"
+            ],
+        )
+
+        self.assertEqual(
+            backend["dependencies"][
+                "class-validator"
+            ],
+            package["dependencies"][
+                "class-validator"
+            ],
+        )
+
+
+
+class PluginWorkspacePluginDependencyTest(
+    unittest.TestCase
+):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.repository = Repository.load(
+            REPOSITORY_ROOT
+        )
+
+    def test_procurement_links_inventory_workspace(
+        self,
+    ) -> None:
+        portfolio = (
+            PluginBlueprintGenerator(
+                self.repository
+            ).generate(
+                BlueprintRequest(
+                    mode="module",
+                    module_id="procurement",
+                )
+            )
+        )
+
+        blueprint = (
+            portfolio.blueprints[0]
+        )
+
+        workspace = (
+            REPOSITORY_ROOT
+            / "generated"
+            / "plugin-staging"
+            / "procurement"
+        )
+
+        content = PluginWorkspaceGenerator(
+            repository=self.repository,
+            repository_root=(
+                REPOSITORY_ROOT
+            ),
+        ).generate(
+            blueprint=blueprint,
+            copied_files=(),
+            workspace=workspace,
+        )
+
+        package = json.loads(
+            content[
+                "package.json"
+            ].decode("utf-8")
+        )
+
+        dependency = package[
+            "dependencies"
+        ][
+            "@propertyos/plugin-inventory"
+        ]
+
+        self.assertTrue(
+            dependency.startswith("file:")
+        )
+
+        relative = dependency.removeprefix(
+            "file:"
+        )
+
+        self.assertEqual(
+            (
+                REPOSITORY_ROOT
+                / "generated"
+                / "plugin-staging"
+                / "inventory"
+            ).resolve(),
+            (
+                workspace
+                / relative
+            ).resolve(),
+        )
+
+    def test_non_dependent_plugin_has_no_inventory_link(
+        self,
+    ) -> None:
+        portfolio = (
+            PluginBlueprintGenerator(
+                self.repository
+            ).generate(
+                BlueprintRequest(
+                    mode="module",
+                    module_id="helpdesk",
+                )
+            )
+        )
+
+        content = PluginWorkspaceGenerator(
+            repository=self.repository,
+            repository_root=(
+                REPOSITORY_ROOT
+            ),
+        ).generate(
+            blueprint=(
+                portfolio.blueprints[0]
+            ),
+            copied_files=(),
+            workspace=(
+                REPOSITORY_ROOT
+                / "generated"
+                / "plugin-staging"
+                / "helpdesk"
+            ),
+        )
+
+        package = json.loads(
+            content[
+                "package.json"
+            ].decode("utf-8")
+        )
+
+        self.assertNotIn(
+            "@propertyos/plugin-inventory",
+            package["dependencies"],
+        )
+
+class PluginWorkspaceContractSurfaceTest(
+    unittest.TestCase
+):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.repository = Repository.load(
+            REPOSITORY_ROOT
+        )
+
+    def _inventory_index(self) -> str:
+        portfolio = (
+            PluginBlueprintGenerator(
+                self.repository
+            ).generate(
+                BlueprintRequest(
+                    mode="module",
+                    module_id="inventory",
+                )
+            )
+        )
+
+        content = PluginWorkspaceGenerator(
+            repository=self.repository,
+            repository_root=(
+                REPOSITORY_ROOT
+            ),
+        ).generate(
+            blueprint=(
+                portfolio.blueprints[0]
+            ),
+            copied_files=(),
+            workspace=(
+                REPOSITORY_ROOT
+                / "generated"
+                / "plugin-staging"
+                / "inventory"
+            ),
+        )
+
+        return content[
+            "src/index.ts"
+        ].decode("utf-8")
+
+    def test_inventory_exposes_procurement_contract(
+        self,
+    ) -> None:
+        index = self._inventory_index()
+
+        self.assertIn(
+            "export { "
+            "INVENTORY_STOCK_LEDGER_REPOSITORY"
+            " } from './repositories/"
+            "inventory-stock-ledger.repository';",
+            index,
+        )
+        self.assertIn(
+            "InventoryBatchService",
+            index,
+        )
+        self.assertIn(
+            "InventoryStockMovementType",
+            index,
+        )
+
+    def test_inventory_uses_type_only_contract_exports(
+        self,
+    ) -> None:
+        index = self._inventory_index()
+
+        self.assertIn(
+            "export type { "
+            "InventoryStockLedgerRepository, "
+            "PostInventoryMovementResult"
+            " } from './repositories/"
+            "inventory-stock-ledger.repository';",
+            index,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

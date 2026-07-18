@@ -13,6 +13,10 @@
       "default": "./src/auth/index.ts",
       "types": "./src/auth/index.ts"
     },
+    "./database-database": {
+      "default": "./src/database-database/index.ts",
+      "types": "./src/database-database/index.ts"
+    },
     "./database-postgres": {
       "default": "./src/database-postgres/index.ts",
       "types": "./src/database-postgres/index.ts"
@@ -20,6 +24,14 @@
     "./eventbus": {
       "default": "./src/eventbus/index.ts",
       "types": "./src/eventbus/index.ts"
+    },
+    "./identity": {
+      "default": "./src/identity/index.ts",
+      "types": "./src/identity/index.ts"
+    },
+    "./platform": {
+      "default": "./src/platform/index.ts",
+      "types": "./src/platform/index.ts"
     },
     "./plugin": {
       "default": "./src/plugin/index.ts",
@@ -32,6 +44,10 @@
     "./search": {
       "default": "./src/search/index.ts",
       "types": "./src/search/index.ts"
+    },
+    "./workflow": {
+      "default": "./src/workflow/index.ts",
+      "types": "./src/workflow/index.ts"
     }
   },
   "name": "@propertyos/core-contracts",

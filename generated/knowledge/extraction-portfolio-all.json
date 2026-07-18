@@ -1,0 +1,1456 @@
+{
+  "modules": [
+    {
+      "errors": [],
+      "moduleId": "receipt",
+      "packageName": "@propertyos/plugin-receipt",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "receipt"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07371691600000001,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "receipt"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06730575,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "receipt"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08299512499999998,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "receipt has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/receipt"
+    },
+    {
+      "errors": [],
+      "moduleId": "invoice",
+      "packageName": "@propertyos/plugin-invoice",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "invoice"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.067475917,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "invoice"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.062983958,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "invoice"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07811141699999996,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "invoice has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/invoice"
+    },
+    {
+      "errors": [],
+      "moduleId": "vehicle",
+      "packageName": "@propertyos/plugin-vehicle",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "vehicle"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07298574999999996,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "vehicle"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07743366699999998,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "vehicle"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08291245800000002,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/vehicle"
+    },
+    {
+      "errors": [],
+      "moduleId": "agreement",
+      "packageName": "@propertyos/plugin-agreement",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "agreement"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06883358299999998,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "agreement"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06075666600000007,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "agreement"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08079712499999991,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "agreement has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/agreement"
+    },
+    {
+      "errors": [],
+      "moduleId": "rent",
+      "packageName": "@propertyos/plugin-rent",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "rent"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06803195799999995,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "rent"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06971612500000002,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "rent"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07834545800000003,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "rent has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/rent"
+    },
+    {
+      "errors": [],
+      "moduleId": "staff",
+      "packageName": "@propertyos/plugin-staff",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "staff"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06895445899999997,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "staff"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07676445799999998,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "staff"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08332104200000012,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/staff"
+    },
+    {
+      "errors": [],
+      "moduleId": "tenant",
+      "packageName": "@propertyos/plugin-tenant",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "tenant"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06861466600000021,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "tenant"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06426404200000002,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "tenant"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.0762569999999998,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "tenant has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/tenant"
+    },
+    {
+      "errors": [],
+      "moduleId": "facility",
+      "packageName": "@propertyos/plugin-facility",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "facility"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07013024999999984,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "facility"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08257358300000006,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "facility"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.09422887499999999,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/facility"
+    },
+    {
+      "errors": [],
+      "moduleId": "maintenance",
+      "packageName": "@propertyos/plugin-maintenance",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "maintenance"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07083895799999995,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "maintenance"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08719941599999981,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "maintenance"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.10749062500000006,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/maintenance"
+    },
+    {
+      "errors": [],
+      "moduleId": "communications",
+      "packageName": "@propertyos/plugin-communications",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "communications"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07053216700000009,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "communications"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08387433400000033,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "communications"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.11005637499999965,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/communications"
+    },
+    {
+      "errors": [],
+      "moduleId": "helpdesk",
+      "packageName": "@propertyos/plugin-helpdesk",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "helpdesk"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07619158399999959,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "helpdesk"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08300933300000013,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "helpdesk"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.10903970800000007,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/helpdesk"
+    },
+    {
+      "errors": [],
+      "moduleId": "report",
+      "packageName": "@propertyos/plugin-report",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "report"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06828383300000018,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "report"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06936874999999976,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "report"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08263241600000004,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "report has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/report"
+    },
+    {
+      "errors": [],
+      "moduleId": "reservation",
+      "packageName": "@propertyos/plugin-reservation",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "reservation"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.07087929199999987,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "reservation"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.09483808400000004,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "reservation"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.11845562500000018,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/reservation"
+    },
+    {
+      "errors": [],
+      "moduleId": "vendor",
+      "packageName": "@propertyos/plugin-vendor",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "vendor"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.06869024999999995,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "vendor"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08998887499999997,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "vendor"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.11112058299999994,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "vendor exposes 40 routes; perform route-parity validation in batches."
+      ],
+      "workspace": "generated/plugin-staging/vendor"
+    },
+    {
+      "errors": [],
+      "moduleId": "inventory",
+      "packageName": "@propertyos/plugin-inventory",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "inventory"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.08600633300000027,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "inventory"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.16139041600000015,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "inventory"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.2155315830000002,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "inventory exposes 65 routes; perform route-parity validation in batches.",
+        "inventory has 1 direct dependent module(s)."
+      ],
+      "workspace": "generated/plugin-staging/inventory"
+    },
+    {
+      "errors": [],
+      "moduleId": "procurement",
+      "packageName": "@propertyos/plugin-procurement",
+      "stages": [
+        {
+          "detail": "Extraction blueprint generated.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "blueprint",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.materialization_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--output-root",
+            "generated/plugin-staging",
+            "--overwrite",
+            "module",
+            "procurement"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.09093737499999976,
+          "exitCode": 0,
+          "stage": "materialization",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.dependency_closure_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "--overwrite",
+            "module",
+            "procurement"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.16959291699999968,
+          "exitCode": 0,
+          "stage": "closure",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/.venv/bin/python",
+            "-m",
+            "tools.knowledge_engine.import_rewrite_cli",
+            "--repository-root",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core",
+            "--staging-root",
+            "generated/plugin-staging",
+            "--apply",
+            "module",
+            "procurement"
+          ],
+          "detail": "Command completed successfully.",
+          "durationSeconds": 0.23966575000000034,
+          "exitCode": 0,
+          "stage": "rewrite",
+          "status": "passed"
+        },
+        {
+          "detail": "Dependency installation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "install",
+          "status": "skipped"
+        },
+        {
+          "detail": "TypeScript compilation skipped.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "compile",
+          "status": "skipped"
+        }
+      ],
+      "status": "passed",
+      "warnings": [
+        "procurement directly depends on business module(s): inventory",
+        "procurement exposes 65 routes; perform route-parity validation in batches."
+      ],
+      "workspace": "generated/plugin-staging/procurement"
+    }
+  ],
+  "summary": {
+    "blockedCount": 0,
+    "failedCount": 0,
+    "moduleCount": 16,
+    "passedCount": 16,
+    "pendingCount": 0,
+    "successful": true
+  }
+}

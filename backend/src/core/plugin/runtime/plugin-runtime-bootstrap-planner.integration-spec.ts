@@ -302,11 +302,11 @@ describe(
 
     it.each([
       [
+        'procurement',
         'inventory',
-        'ProcurementModule',
       ],
     ])(
-      'blocks %s because it remains a monolith dependency',
+      'blocks %s when its external dependency is missing',
       (
         pluginId,
         consumer,

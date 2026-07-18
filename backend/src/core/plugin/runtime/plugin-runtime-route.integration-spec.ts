@@ -72,6 +72,21 @@ describe(
       writeFileSync(
         join(
           pluginRoot,
+          'package.json',
+        ),
+        JSON.stringify({
+          name:
+            '@propertyos/plugin-helpdesk',
+          version:
+            '0.1.0',
+          main:
+            'dist/index.js',
+        }),
+      );
+
+      writeFileSync(
+        join(
+          pluginRoot,
           'dist',
           'index.js',
         ),

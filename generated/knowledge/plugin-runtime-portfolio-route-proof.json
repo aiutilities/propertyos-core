@@ -38,6 +38,13 @@
       "routeRegistered": true
     },
     {
+      "moduleClass": "InventoryModule",
+      "pluginId": "inventory",
+      "responseStatus": 401,
+      "route": "/api/v1/inventory/units",
+      "routeRegistered": true
+    },
+    {
       "moduleClass": "InvoiceModule",
       "pluginId": "invoice",
       "responseStatus": 401,
@@ -49,6 +56,13 @@
       "pluginId": "maintenance",
       "responseStatus": 401,
       "route": "/api/v1/maintenance",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "ProcurementModule",
+      "pluginId": "procurement",
+      "responseStatus": 401,
+      "route": "/api/v1/procurement/categories",
       "routeRegistered": true
     },
     {
@@ -108,11 +122,19 @@
       "routeRegistered": true
     }
   ],
+  "runtimeDependencies": {
+    "procurement": {
+      "dependencyPluginId": "inventory",
+      "duplicateModuleIdentity": false,
+      "packageName": "@propertyos/plugin-inventory",
+      "sharedModuleIdentity": true
+    }
+  },
   "schemaVersion": "1.0.0",
   "summary": {
     "missingRouteCount": 0,
-    "moduleCount": 14,
-    "registeredRouteCount": 14,
+    "moduleCount": 16,
+    "registeredRouteCount": 16,
     "successful": true
   }
 }

@@ -99,6 +99,20 @@ const PLUGINS:
     },
     {
       pluginId:
+        'inventory',
+      moduleClass:
+        'InventoryModule',
+      controllerClass:
+        'InventoryController',
+      controllerPrefix:
+        '/inventory',
+      methodPath:
+        'units',
+      requestPath:
+        '/api/v1/inventory/units',
+    },
+    {
+      pluginId:
         'maintenance',
       moduleClass:
         'MaintenanceModule',
@@ -109,6 +123,20 @@ const PLUGINS:
       methodPath: '',
       requestPath:
         '/api/v1/maintenance',
+    },
+    {
+      pluginId:
+        'procurement',
+      moduleClass:
+        'ProcurementModule',
+      controllerClass:
+        'PurchaseRequestController',
+      controllerPrefix:
+        '/procurement',
+      methodPath:
+        'categories',
+      requestPath:
+        '/api/v1/procurement/categories',
     },
     {
       pluginId:
@@ -275,6 +303,20 @@ describe(
         writeFileSync(
           join(
             pluginRoot,
+            'package.json',
+          ),
+          JSON.stringify({
+            name:
+              `@propertyos/plugin-${plugin.pluginId}`,
+            version: '0.1.0',
+            main:
+              'dist/index.js',
+          }),
+        );
+
+        writeFileSync(
+          join(
+            pluginRoot,
             'dist',
             'index.js',
           ),
@@ -319,11 +361,27 @@ describe(
               list,
             );
 
+            ${
+              plugin.pluginId ===
+                'procurement'
+                ? `const {
+                    InventoryModule,
+                  } = require(
+                    '@propertyos/plugin-inventory',
+                  );`
+                : ''
+            }
+
             class ${plugin.moduleClass} {}
 
             Reflect.defineMetadata(
               'imports',
-              [],
+              ${
+                plugin.pluginId ===
+                  'procurement'
+                  ? '[InventoryModule]'
+                  : '[]'
+              },
               ${plugin.moduleClass},
             );
 
@@ -366,7 +424,7 @@ describe(
     });
 
     it(
-      'registers all fourteen external plugin routes',
+      'registers all sixteen external plugin routes',
       async () => {
         const requested =
           PLUGINS.map(
@@ -395,7 +453,44 @@ describe(
           new Set(
             externalModules,
           ).size,
-        ).toBe(14);
+        ).toBe(16);
+
+        const inventoryPackage =
+          require(
+            join(
+              root,
+              'node_modules',
+              '@propertyos',
+              'plugin-inventory',
+            ),
+          );
+
+        const procurementImports =
+          Reflect.getMetadata(
+            'imports',
+            modules.procurement,
+          ) as unknown[];
+
+        expect(
+          inventoryPackage
+            .InventoryModule,
+        ).toBe(
+          modules.inventory,
+        );
+
+        expect(
+          procurementImports,
+        ).toContain(
+          modules.inventory,
+        );
+
+        expect(
+          procurementImports.filter(
+            (moduleReference) =>
+              moduleReference ===
+                modules.inventory,
+          ),
+        ).toHaveLength(1);
 
         const testingModule =
           await Test

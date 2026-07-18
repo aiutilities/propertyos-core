@@ -85,6 +85,21 @@ describe(
         writeFileSync(
           join(
             pluginRoot,
+            'package.json',
+          ),
+          JSON.stringify({
+            name:
+              '@propertyos/plugin-helpdesk',
+            version:
+              '0.1.0',
+            main:
+              'dist/index.js',
+          }),
+        );
+
+        writeFileSync(
+          join(
+            pluginRoot,
             'dist',
             'index.js',
           ),
@@ -168,18 +183,18 @@ describe(
     );
 
     it(
-      'rejects a monolith-dependent external module',
+      'rejects Procurement without external Inventory',
       () => {
         expect(
           () =>
             resolveRuntimeBusinessModules({
               externalPluginIds: [
-                'inventory',
+                'procurement',
               ],
               runtimeRoot: root,
             }),
         ).toThrow(
-          /InventoryModule is imported by ProcurementModule/,
+          /dependencies must also be requested: inventory/,
         );
       },
     );

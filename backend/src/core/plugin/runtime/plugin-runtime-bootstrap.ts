@@ -20,6 +20,7 @@ import { VendorModule } from '../../vendor';
 
 import { PluginRuntimeBootstrapPlannerService } from './plugin-runtime-bootstrap-planner.service';
 import { PluginRuntimeModuleLoaderService } from './plugin-runtime-module-loader.service';
+import { PluginRuntimePackageLinkerService } from './plugin-runtime-package-linker.service';
 
 export const BUSINESS_PLUGIN_IDS = [
   'tenant',
@@ -145,6 +146,16 @@ export function resolveRuntimeBusinessModules(
     );
   }
 
+  const runtimeRoot =
+    options.runtimeRoot ??
+      defaultPluginRuntimeRoot();
+
+  new PluginRuntimePackageLinkerService()
+    .prepare(
+      runtimeRoot,
+      externalPluginIds,
+    );
+
   const planner =
     new PluginRuntimeBootstrapPlannerService(
       new PluginRuntimeModuleLoaderService(),
@@ -152,8 +163,7 @@ export function resolveRuntimeBusinessModules(
 
   const plan = planner.plan(
     externalPluginIds,
-    options.runtimeRoot ??
-      defaultPluginRuntimeRoot(),
+    runtimeRoot,
   );
 
   if (!plan.readyToBootstrap) {

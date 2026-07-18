@@ -48,7 +48,9 @@ const SAFE_EXTERNAL_PLUGIN_IDS =
     'facility',
     'helpdesk',
     'invoice',
+    'inventory',
     'maintenance',
+    'procurement',
     'receipt',
     'rent',
     'reservation',
@@ -59,14 +61,17 @@ const SAFE_EXTERNAL_PLUGIN_IDS =
     'vendor',
   ]);
 
+const EXTERNAL_PLUGIN_DEPENDENCIES:
+  Readonly<
+    Record<string, readonly string[]>
+  > = {
+    procurement: [
+      'inventory',
+    ],
+  };
+
 const MONOLITH_BLOCKERS:
   Record<string, string[]> = {
-    inventory: [
-      'InventoryModule is imported by ProcurementModule.',
-    ],
-    procurement: [
-      'ProcurementModule requires the external Inventory plugin package.',
-    ],
   };
 
 @Injectable()
@@ -95,6 +100,9 @@ export class PluginRuntimeBootstrapPlannerService {
           this.candidate(
             pluginId,
             discovered,
+            new Set(
+              requested,
+            ),
           ),
       );
 
@@ -145,7 +153,36 @@ export class PluginRuntimeBootstrapPlannerService {
           manifest: PluginManifest;
         }
       >,
+    requested:
+      ReadonlySet<string>,
   ): PluginRuntimeBootstrapCandidate {
+    const dependencies =
+      EXTERNAL_PLUGIN_DEPENDENCIES[
+        pluginId
+      ] ?? [];
+
+    const missingDependencies =
+      dependencies.filter(
+        (dependency) =>
+          !requested.has(
+            dependency,
+          ),
+      );
+
+    if (
+      missingDependencies.length > 0
+    ) {
+      return {
+        pluginId,
+        status: 'BLOCKED',
+        reasons: [
+          `External plugin dependencies must ` +
+            `also be requested: ` +
+            `${missingDependencies.join(', ')}`,
+        ],
+      };
+    }
+
     const blockers =
       MONOLITH_BLOCKERS[
         pluginId

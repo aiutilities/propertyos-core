@@ -2,3 +2,6 @@ generated/plugin-staging/
 
 # Local Python virtual environment
 .venv/
+
+# Reproducible Knowledge Engine package artifacts
+generated/plugin-artifacts/

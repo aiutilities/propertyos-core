@@ -1,0 +1,916 @@
+{
+  "artifacts": [
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-agreement-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 21,
+      "filename": "propertyos-plugin-agreement-0.1.0.tgz",
+      "integrity": "sha512-k8HBJhO6nLyxFNcNXtAgGKAGPbI9nfcybBfNT32aYhC6PBnpKrsfiQjWZBW+DLIy/QVgTkagmtzofECD6pbuPw==",
+      "moduleId": "agreement",
+      "packageName": "@propertyos/plugin-agreement",
+      "pluginId": "agreement",
+      "sha256": "08e88e4b28a3a8529bdda6aca24cd8f1b3d2c7fcd0d978ae4ab521838ad825cd",
+      "shasum": "9eee161a6bbef4ba840cd3bb561c3a7f713233f8",
+      "sizeBytes": 5579,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-agreement@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.486076708,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.37658000000000014,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 28030,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/agreement"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-communications-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 43,
+      "filename": "propertyos-plugin-communications-0.1.0.tgz",
+      "integrity": "sha512-I7auRfZC0FrDkNZfVP+ekj3uDBkfui+hn51gXQHatfwnKVTgjy7eoCsHHVmY08nPbcBEh1PDiSg9rx29beQGyQ==",
+      "moduleId": "communications",
+      "packageName": "@propertyos/plugin-communications",
+      "pluginId": "communications",
+      "sha256": "b7a94bec325d500f6068eb09073e08b380aaa40d64ae3ad69cb1efb5a01ba2f2",
+      "shasum": "c8d10445c1ee9e6e743b218c855b4a0d97492ca8",
+      "sizeBytes": 15262,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-communications@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.154403667,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.23723391599999966,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 104457,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/communications"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-facility-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 37,
+      "filename": "propertyos-plugin-facility-0.1.0.tgz",
+      "integrity": "sha512-MZtjor0aGqOFXxwUd2xNOEUw8gKPXe71l6OWt4q6xDI1orNmJPkgzb8my2rBe+7in4nxcMCoDniwEds3MWeJ9g==",
+      "moduleId": "facility",
+      "packageName": "@propertyos/plugin-facility",
+      "pluginId": "facility",
+      "sha256": "26badc81cbc911b9b6c4044868d5dcfa48ab6123e4e415bb39e1b2c0c49f6d71",
+      "shasum": "051b4d4bfc88efce1ac1a6f6bd73f5bb011caa39",
+      "sizeBytes": 12067,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-facility@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1224793329999998,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.23766554200000023,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 70656,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/facility"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-helpdesk-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 47,
+      "filename": "propertyos-plugin-helpdesk-0.1.0.tgz",
+      "integrity": "sha512-e7qwG11vszc1l0ssXeNxP3MM7FRs7NluWsmxjqTPRg/hkcjwlAJPBh1YuYZ9cieAR/kDdVkgkYBiDEzsMD4LmA==",
+      "moduleId": "helpdesk",
+      "packageName": "@propertyos/plugin-helpdesk",
+      "pluginId": "helpdesk",
+      "sha256": "9b4ef52c3be9214e94c811af8452de720e912d69a33ff1cc0df4b878da70ca81",
+      "shasum": "56173039ff91bacae81838c8c573fe31b56f6731",
+      "sizeBytes": 15508,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-helpdesk@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1300145000000006,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.24340037500000022,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 104625,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/helpdesk"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-inventory-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 145,
+      "filename": "propertyos-plugin-inventory-0.1.0.tgz",
+      "integrity": "sha512-zNQbPF65sSQ1C+OAdb6xr+LE70qGMMu/nTqSsKblE8L8M34RHn9d9vmxPqyQSVSWm6B7eIPY9zkRHByb+2rlfw==",
+      "moduleId": "inventory",
+      "packageName": "@propertyos/plugin-inventory",
+      "pluginId": "inventory",
+      "sha256": "215af3417878799f808268bc6f5c838f0707c9349791f8d4ce17502e46d0e6ec",
+      "shasum": "fd3d297c3c3ace287e81af508633e00aba879712",
+      "sizeBytes": 62026,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-inventory@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.437344833,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.26150158300000026,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 542754,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/inventory"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-invoice-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 19,
+      "filename": "propertyos-plugin-invoice-0.1.0.tgz",
+      "integrity": "sha512-LkzbtB3L/tlcuvYk69urwe97AhLpdV0EF9VHxU53hPyuIJ7OscE7tx+vRf2sPwaKHOSXSTVsHUtZ+C6gyh40mQ==",
+      "moduleId": "invoice",
+      "packageName": "@propertyos/plugin-invoice",
+      "pluginId": "invoice",
+      "sha256": "6f3ac32f2821925e9b42863962df10ba6f6ba34d0880e2d4269c11063e14939b",
+      "shasum": "bba348dfeb9f75cf5db6fae6a9801f3ba412de9b",
+      "sizeBytes": 4751,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-invoice@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.0670139170000006,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.2233765409999986,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 21268,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/invoice"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-maintenance-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 43,
+      "filename": "propertyos-plugin-maintenance-0.1.0.tgz",
+      "integrity": "sha512-/nyFHmMr9g66Tp58UC4sAphZx8JRSFySlqO3sU9Q+DzR+4hLAJW1wD0Jt7NT2ZZc0dDHObn8VNEm4HucgTng+Q==",
+      "moduleId": "maintenance",
+      "packageName": "@propertyos/plugin-maintenance",
+      "pluginId": "maintenance",
+      "sha256": "0e726e57f5604e1ad3acc678a1e8924a090000a130f0ecdc85444c7ca3c353a1",
+      "shasum": "8cc1c6cfed830760bf65b42b7363f8d99a64f48a",
+      "sizeBytes": 13055,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-maintenance@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1325121659999997,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.22845529200000136,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 84280,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/maintenance"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-procurement-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 137,
+      "filename": "propertyos-plugin-procurement-0.1.0.tgz",
+      "integrity": "sha512-TidniamxHoJ9XoHHqCAZkJj2zxoBa6aVDoLwNqk5r0H84X0cnb44T9WNCzdWcwL3QTM8zwax9AJrf5J9jOyQAw==",
+      "moduleId": "procurement",
+      "packageName": "@propertyos/plugin-procurement",
+      "pluginId": "procurement",
+      "sha256": "c4848cb4ff0468339ea015ce2ab4f8b97ffacef66faf679725424e45174a16a7",
+      "shasum": "eabd9080c09075167364b93eb759ffc3d824acd4",
+      "sizeBytes": 52006,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-procurement@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.4308166670000002,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.2632939160000003,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 464984,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/procurement"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-receipt-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 19,
+      "filename": "propertyos-plugin-receipt-0.1.0.tgz",
+      "integrity": "sha512-LwE4JHBlGNXV0CnY4BY6T5KL4z4IYAjVUqTc5IntBiclG/m6Q9GYO2YmnQjdEo++NRLJrqGL2xBVp6PHLiIQZA==",
+      "moduleId": "receipt",
+      "packageName": "@propertyos/plugin-receipt",
+      "pluginId": "receipt",
+      "sha256": "b31e4a6ac3975eaec95d35f75e730ab8399f7187498f1d931736a11154cb5a6e",
+      "shasum": "d627152dc689a9eaa1cca0a2969b4b677143554b",
+      "sizeBytes": 4455,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-receipt@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.0908716250000001,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.21656374999999883,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 19461,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/receipt"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-rent-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 25,
+      "filename": "propertyos-plugin-rent-0.1.0.tgz",
+      "integrity": "sha512-epi7kL7/VBuQUNbswmChpp0GtBPGFMWKAwvqEh6i85sjiRZHNPsUz8klqvNqM6UhwYpZkS9x/JPvhj/E1p/HyQ==",
+      "moduleId": "rent",
+      "packageName": "@propertyos/plugin-rent",
+      "pluginId": "rent",
+      "sha256": "79c7ff15c74e0390e3826967d4ab4c47a610a044e282bab02317c9bd72865ab3",
+      "shasum": "b2939b8b7381dcd9bd7835914172460d7b1f48b2",
+      "sizeBytes": 6447,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-rent@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.086190084,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.2227855829999985,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 32084,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/rent"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-report-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 27,
+      "filename": "propertyos-plugin-report-0.1.0.tgz",
+      "integrity": "sha512-PUozHJTw8cwMTkhHXMrU/oqipmpR2Fk/J6sOwTDdrA4yzyGDrfCyOQ9/ScAJlbCGw/6aA6rsxXaZy/wjclDdlA==",
+      "moduleId": "report",
+      "packageName": "@propertyos/plugin-report",
+      "pluginId": "report",
+      "sha256": "0611172438bda38fedf24a9a2ec47e6ab70d564eab56cf1853e993ed2488a88a",
+      "shasum": "49cc953050fa7af4fb948dcbdd5f848bb461dc1b",
+      "sizeBytes": 9731,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-report@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1087184159999985,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.22143862499999756,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 58096,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/report"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-reservation-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 55,
+      "filename": "propertyos-plugin-reservation-0.1.0.tgz",
+      "integrity": "sha512-Nq0WK52fHwetTyfesQ+Pme7VPd10t+68hlqvD1lfr/00yv2hZg7VtmiBxpK2nIir/v87jJ7/mFF2FdWY0sIBVg==",
+      "moduleId": "reservation",
+      "packageName": "@propertyos/plugin-reservation",
+      "pluginId": "reservation",
+      "sha256": "6aaf4355465a974097eda6d83fb3e6c082c20eec3ce09230df8d6c8a3cb3a5c1",
+      "shasum": "7459dffa87eebe4f97f960378417ad05c6e7855c",
+      "sizeBytes": 20475,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-reservation@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1843951669999981,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.24946458299999819,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 139351,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/reservation"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-staff-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 31,
+      "filename": "propertyos-plugin-staff-0.1.0.tgz",
+      "integrity": "sha512-RngiGi+nZNkXOA2USduRoGwbYdg/goB993+AELA4cvA9hl3lSOTsNcJ8O3MmTp1K7FMm9W62QwBEwoM7fKgEuw==",
+      "moduleId": "staff",
+      "packageName": "@propertyos/plugin-staff",
+      "pluginId": "staff",
+      "sha256": "2aaf6a3b0ad02fa5579dd98750fe37900c8724e3f5df981781627ec9d0e6f615",
+      "shasum": "ad9b967d4cd51e8d14af8ecf361b1b1203f56050",
+      "sizeBytes": 10483,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-staff@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1502962500000002,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.25963224999999923,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 58841,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/staff"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-tenant-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 23,
+      "filename": "propertyos-plugin-tenant-0.1.0.tgz",
+      "integrity": "sha512-RngYERgPZsEtimC6OXHu+LAB6jGyh24mrJDkYJXo+Osl8BbHSEaTIHYMsuPIIa22nTDzW+TLABZIwy8tR/UKbA==",
+      "moduleId": "tenant",
+      "packageName": "@propertyos/plugin-tenant",
+      "pluginId": "tenant",
+      "sha256": "34192dcfa3c343265a0620597e1baf176c27ee2667d15e5aa07aa043813a862a",
+      "shasum": "8f821691b4c998cac8821df105a9b5bea8eea03c",
+      "sizeBytes": 5800,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-tenant@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.0711280829999978,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.22006304099999952,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 28979,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/tenant"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-vehicle-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 31,
+      "filename": "propertyos-plugin-vehicle-0.1.0.tgz",
+      "integrity": "sha512-Q2w/7AHUrOx/aM4L9HZ3bfUXFg9K+oae8KXLJGNkZo2FxUuQQOPtpUAj9NDy5TmOxsjz3uDZrZ08zuyzCazKKQ==",
+      "moduleId": "vehicle",
+      "packageName": "@propertyos/plugin-vehicle",
+      "pluginId": "vehicle",
+      "sha256": "b05b8b5862c63d8c2140230c140ca4febb76810124027e38e084d8f363606e22",
+      "shasum": "10f30f2f449402e87a3238f40dc1e35d04f5041c",
+      "sizeBytes": 9546,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-vehicle@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.0719879589999977,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.23712379099999836,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 53231,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/vehicle"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-vendor-0.1.0.tgz",
+      "errors": [],
+      "fileCount": 49,
+      "filename": "propertyos-plugin-vendor-0.1.0.tgz",
+      "integrity": "sha512-DuX+swNSQMhRzRNgKSkYcx4sxER9VlodbOjgla83YGU/KT9l8oFhzWcAXXhxRqqyCAjaKndHYHUeMg1kSMSXlg==",
+      "moduleId": "vendor",
+      "packageName": "@propertyos/plugin-vendor",
+      "pluginId": "vendor",
+      "sha256": "9c7da18382eae49002694e9442df99836d943142a9cad057565bcc9992129779",
+      "shasum": "aeef03c68b200fa189aa1bc8929131f0df4db70c",
+      "sizeBytes": 23822,
+      "stages": [
+        {
+          "command": [
+            "npm",
+            "run",
+            "build"
+          ],
+          "detail": "> @propertyos/plugin-vendor@0.1.0 build\n> tsc -p tsconfig.json",
+          "durationSeconds": 1.1603566669999985,
+          "exitCode": 0,
+          "stage": "build",
+          "status": "passed"
+        },
+        {
+          "command": [
+            "npm",
+            "pack",
+            "--json",
+            "--ignore-scripts",
+            "--pack-destination",
+            "/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/generated/plugin-artifacts"
+          ],
+          "detail": "Package archive created.",
+          "durationSeconds": 0.2501917920000025,
+          "exitCode": 0,
+          "stage": "pack",
+          "status": "passed"
+        },
+        {
+          "command": [],
+          "detail": "Artifact metadata and checksum verified.",
+          "durationSeconds": 0.0,
+          "exitCode": null,
+          "stage": "verify",
+          "status": "passed"
+        }
+      ],
+      "status": "passed",
+      "unpackedSizeBytes": 175115,
+      "version": "0.1.0",
+      "warnings": [],
+      "workspace": "generated/plugin-staging/vendor"
+    }
+  ],
+  "request": {
+    "artifactRoot": "generated/plugin-artifacts",
+    "moduleIds": [
+      "agreement",
+      "communications",
+      "facility",
+      "helpdesk",
+      "inventory",
+      "invoice",
+      "maintenance",
+      "procurement",
+      "receipt",
+      "rent",
+      "report",
+      "reservation",
+      "staff",
+      "tenant",
+      "vehicle",
+      "vendor"
+    ],
+    "overwrite": true
+  },
+  "schemaVersion": "1.0.0",
+  "summary": {
+    "blockedCount": 0,
+    "failedCount": 0,
+    "moduleCount": 16,
+    "passedCount": 16,
+    "pendingCount": 0,
+    "successful": true,
+    "totalSizeBytes": 271013
+  }
+}

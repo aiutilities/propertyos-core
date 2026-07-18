@@ -21,6 +21,20 @@ describe(
           new PluginDashboardRegistry();
 
         dashboardRegistry.register(
+          'tenant',
+          [
+            {
+              contribute:
+                async () => ({
+                  tenants: 2,
+                  activeTenants: 4,
+                  occupiedSpaces: 6,
+                }),
+            },
+          ],
+        );
+
+        dashboardRegistry.register(
           'rent',
           [
             {
@@ -104,18 +118,6 @@ describe(
                 }),
             } as never,
             {
-              getOccupancyCounts:
-                async () => ({
-                  occupiedSpaces: 6,
-                  activeTenants: 4,
-                }),
-              listTenants:
-                async () => [
-                  {},
-                  {},
-                ],
-            } as never,
-            {
               listAgreements:
                 async () => [
                   {
@@ -162,6 +164,23 @@ describe(
         expect(
           dashboard.business.overdueInvoices,
         ).toBe(2);
+
+        expect(
+          dashboard.business.occupiedSpaces,
+        ).toBe(6);
+
+        expect(
+          dashboard.business.vacantSpaces,
+        ).toBe(4);
+
+        expect(
+          dashboard.business
+            .occupancyPercentage,
+        ).toBe(60);
+
+        expect(
+          dashboard.business.activeTenants,
+        ).toBe(4);
 
         expect(
           dashboard.business.tenants,

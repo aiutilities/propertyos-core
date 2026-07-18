@@ -80,6 +80,13 @@
       "routeRegistered": true
     },
     {
+      "moduleClass": "TenantModule",
+      "pluginId": "tenant",
+      "responseStatus": 401,
+      "route": "/api/v1/tenants",
+      "routeRegistered": true
+    },
+    {
       "moduleClass": "VehicleModule",
       "pluginId": "vehicle",
       "responseStatus": 401,
@@ -97,8 +104,8 @@
   "schemaVersion": "1.0.0",
   "summary": {
     "missingRouteCount": 0,
-    "moduleCount": 12,
-    "registeredRouteCount": 12,
+    "moduleCount": 13,
+    "registeredRouteCount": 13,
     "successful": true
   }
 }

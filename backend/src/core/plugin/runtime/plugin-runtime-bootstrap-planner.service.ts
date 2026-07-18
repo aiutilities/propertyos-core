@@ -53,6 +53,7 @@ const SAFE_EXTERNAL_PLUGIN_IDS =
     'reservation',
     'report',
     'staff',
+    'tenant',
     'vehicle',
     'vendor',
   ]);
@@ -67,9 +68,6 @@ const MONOLITH_BLOCKERS:
     ],
     procurement: [
       'ProcurementModule requires the external Inventory plugin package.',
-    ],
-    tenant: [
-      'TenantModule is imported by AdminModule.',
     ],
   };
 

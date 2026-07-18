@@ -165,6 +165,19 @@ const PLUGINS:
     },
     {
       pluginId:
+        'tenant',
+      moduleClass:
+        'TenantModule',
+      controllerClass:
+        'TenantController',
+      controllerPrefix:
+        '/tenants',
+      methodPath: '',
+      requestPath:
+        '/api/v1/tenants',
+    },
+    {
+      pluginId:
         'vehicle',
       moduleClass:
         'VehicleModule',
@@ -340,7 +353,7 @@ describe(
     });
 
     it(
-      'registers all twelve external plugin routes',
+      'registers all thirteen external plugin routes',
       async () => {
         const requested =
           PLUGINS.map(
@@ -369,7 +382,7 @@ describe(
           new Set(
             externalModules,
           ).size,
-        ).toBe(12);
+        ).toBe(13);
 
         const testingModule =
           await Test

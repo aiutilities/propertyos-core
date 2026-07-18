@@ -95,7 +95,7 @@
       "className": "AdminModule",
       "source": {
         "path": "backend/src/core/admin/admin.module.ts",
-        "line": 23
+        "line": 21
       },
       "imports": [
         {
@@ -105,7 +105,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 17
+            "line": 15
           }
         },
         {
@@ -115,7 +115,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 14
+            "line": 13
           }
         },
         {
@@ -125,17 +125,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 15
-          }
-        },
-        {
-          "className": "TenantModule",
-          "expression": "TenantModule",
-          "sourcePath": "backend/src/core/tenant/tenant.module.ts",
-          "external": false,
-          "source": {
-            "path": "backend/src/core/admin/admin.module.ts",
-            "line": 16
+            "line": 14
           }
         }
       ]
@@ -1747,7 +1737,7 @@
       "className": "TenantModule",
       "source": {
         "path": "backend/src/core/tenant/tenant.module.ts",
-        "line": 26
+        "line": 35
       },
       "imports": [
         {
@@ -1757,7 +1747,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/tenant/tenant.module.ts",
-            "line": 14
+            "line": 17
           }
         },
         {
@@ -1767,7 +1757,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/tenant/tenant.module.ts",
-            "line": 14
+            "line": 19
           }
         },
         {
@@ -1777,7 +1767,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/tenant/tenant.module.ts",
-            "line": 14
+            "line": 18
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/tenant/tenant.module.ts",
+            "line": 21
           }
         },
         {
@@ -1787,7 +1787,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/tenant/tenant.module.ts",
-            "line": 14
+            "line": 20
           }
         }
       ]

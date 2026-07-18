@@ -309,10 +309,6 @@ describe(
         'inventory',
         'ProcurementModule',
       ],
-      [
-        'tenant',
-        'AdminModule',
-      ],
     ])(
       'blocks %s because it remains a monolith dependency',
       (

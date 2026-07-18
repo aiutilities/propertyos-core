@@ -1,7 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AgreementService } from '../../agreement/services/agreement.service';
 import { PropertyService } from '../../property/services/property.service';
-import { TenantService } from '../../tenant/services/tenant.service';
 import { PluginService } from '../../plugin/services/plugin.service';
 import { PluginPermissionRegistry } from '../../plugin/registries/plugin-permission.registry';
 import { PluginWorkflowRegistry } from '../../plugin/registries/plugin-workflow.registry';
@@ -30,7 +29,6 @@ export class AdminService implements OnModuleInit {
     private readonly searchRegistry: PluginSearchRegistry,
     private readonly dashboardRegistry: PluginDashboardRegistry,
     private readonly propertyService: PropertyService,
-    private readonly tenantService: TenantService,
     private readonly agreementService: AgreementService,
   ) {}
 
@@ -42,8 +40,7 @@ export class AdminService implements OnModuleInit {
   async getDashboard(): Promise<AdminDashboardSummary> {
     const [
       portfolio,
-      occupancy,
-      tenants,
+      tenantMetrics,
       agreements,
       rentMetrics,
       receiptMetrics,
@@ -51,8 +48,7 @@ export class AdminService implements OnModuleInit {
       plugins,
     ] = await Promise.all([
       this.propertyService.getPortfolioCounts(),
-      this.tenantService.getOccupancyCounts(),
-      this.tenantService.listTenants(),
+      this.dashboardRegistry.collect('tenant'),
       this.agreementService.listAgreements(),
       this.dashboardRegistry.collect('rent'),
       this.dashboardRegistry.collect('receipt'),
@@ -73,7 +69,8 @@ export class AdminService implements OnModuleInit {
     ).length;
 
     const vacantSpaces = Math.max(
-      portfolio.spaces - occupancy.occupiedSpaces,
+      portfolio.spaces -
+        (tenantMetrics.occupiedSpaces ?? 0),
       0,
     );
 
@@ -81,7 +78,10 @@ export class AdminService implements OnModuleInit {
       portfolio.spaces > 0
         ? Number(
             (
-              (occupancy.occupiedSpaces / portfolio.spaces) *
+              (
+                (tenantMetrics.occupiedSpaces ?? 0) /
+                portfolio.spaces
+              ) *
               100
             ).toFixed(2),
           )
@@ -97,11 +97,14 @@ export class AdminService implements OnModuleInit {
         properties: portfolio.properties,
         zones: portfolio.zones,
         spaces: portfolio.spaces,
-        occupiedSpaces: occupancy.occupiedSpaces,
+        occupiedSpaces:
+          tenantMetrics.occupiedSpaces ?? 0,
         vacantSpaces,
         occupancyPercentage,
-        tenants: tenants.length,
-        activeTenants: occupancy.activeTenants,
+        tenants:
+          tenantMetrics.tenants ?? 0,
+        activeTenants:
+          tenantMetrics.activeTenants ?? 0,
         activeLeases,
         rentLedgers:
           rentMetrics.rentLedgers ?? 0,

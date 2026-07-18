@@ -1,0 +1,604 @@
+{
+  "packages": [
+    {
+      "artifactPath": null,
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Core contract package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "non-publishable-package",
+          "dependency": "",
+          "message": "Core contract package is marked non-publishable.",
+          "severity": "error"
+        },
+        {
+          "code": "repository-backed-source",
+          "dependency": "",
+          "message": "Core contracts re-export repository source files.",
+          "severity": "error"
+        },
+        {
+          "code": "missing-artifact",
+          "dependency": "",
+          "message": "No standalone core-contract artifact exists.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [],
+      "integrity": "",
+      "kind": "core-contract",
+      "marketplaceId": "",
+      "order": 0,
+      "packageName": "@propertyos/core-contracts",
+      "private": true,
+      "publishable": false,
+      "sha256": "",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-agreement-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-k8HBJhO6nLyxFNcNXtAgGKAGPbI9nfcybBfNT32aYhC6PBnpKrsfiQjWZBW+DLIy/QVgTkagmtzofECD6pbuPw==",
+      "kind": "plugin",
+      "marketplaceId": "agreement",
+      "order": 1,
+      "packageName": "@propertyos/plugin-agreement",
+      "private": true,
+      "publishable": true,
+      "sha256": "08e88e4b28a3a8529bdda6aca24cd8f1b3d2c7fcd0d978ae4ab521838ad825cd",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-communications-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-I7auRfZC0FrDkNZfVP+ekj3uDBkfui+hn51gXQHatfwnKVTgjy7eoCsHHVmY08nPbcBEh1PDiSg9rx29beQGyQ==",
+      "kind": "plugin",
+      "marketplaceId": "communications",
+      "order": 2,
+      "packageName": "@propertyos/plugin-communications",
+      "private": true,
+      "publishable": true,
+      "sha256": "b7a94bec325d500f6068eb09073e08b380aaa40d64ae3ad69cb1efb5a01ba2f2",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-facility-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-MZtjor0aGqOFXxwUd2xNOEUw8gKPXe71l6OWt4q6xDI1orNmJPkgzb8my2rBe+7in4nxcMCoDniwEds3MWeJ9g==",
+      "kind": "plugin",
+      "marketplaceId": "facility",
+      "order": 3,
+      "packageName": "@propertyos/plugin-facility",
+      "private": true,
+      "publishable": true,
+      "sha256": "26badc81cbc911b9b6c4044868d5dcfa48ab6123e4e415bb39e1b2c0c49f6d71",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-helpdesk-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-e7qwG11vszc1l0ssXeNxP3MM7FRs7NluWsmxjqTPRg/hkcjwlAJPBh1YuYZ9cieAR/kDdVkgkYBiDEzsMD4LmA==",
+      "kind": "plugin",
+      "marketplaceId": "helpdesk",
+      "order": 4,
+      "packageName": "@propertyos/plugin-helpdesk",
+      "private": true,
+      "publishable": true,
+      "sha256": "9b4ef52c3be9214e94c811af8452de720e912d69a33ff1cc0df4b878da70ca81",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-inventory-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-zNQbPF65sSQ1C+OAdb6xr+LE70qGMMu/nTqSsKblE8L8M34RHn9d9vmxPqyQSVSWm6B7eIPY9zkRHByb+2rlfw==",
+      "kind": "plugin",
+      "marketplaceId": "inventory",
+      "order": 5,
+      "packageName": "@propertyos/plugin-inventory",
+      "private": true,
+      "publishable": true,
+      "sha256": "215af3417878799f808268bc6f5c838f0707c9349791f8d4ce17502e46d0e6ec",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-invoice-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-LkzbtB3L/tlcuvYk69urwe97AhLpdV0EF9VHxU53hPyuIJ7OscE7tx+vRf2sPwaKHOSXSTVsHUtZ+C6gyh40mQ==",
+      "kind": "plugin",
+      "marketplaceId": "invoice",
+      "order": 6,
+      "packageName": "@propertyos/plugin-invoice",
+      "private": true,
+      "publishable": true,
+      "sha256": "6f3ac32f2821925e9b42863962df10ba6f6ba34d0880e2d4269c11063e14939b",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-maintenance-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-/nyFHmMr9g66Tp58UC4sAphZx8JRSFySlqO3sU9Q+DzR+4hLAJW1wD0Jt7NT2ZZc0dDHObn8VNEm4HucgTng+Q==",
+      "kind": "plugin",
+      "marketplaceId": "maintenance",
+      "order": 7,
+      "packageName": "@propertyos/plugin-maintenance",
+      "private": true,
+      "publishable": true,
+      "sha256": "0e726e57f5604e1ad3acc678a1e8924a090000a130f0ecdc85444c7ca3c353a1",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-receipt-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-LwE4JHBlGNXV0CnY4BY6T5KL4z4IYAjVUqTc5IntBiclG/m6Q9GYO2YmnQjdEo++NRLJrqGL2xBVp6PHLiIQZA==",
+      "kind": "plugin",
+      "marketplaceId": "receipt",
+      "order": 8,
+      "packageName": "@propertyos/plugin-receipt",
+      "private": true,
+      "publishable": true,
+      "sha256": "b31e4a6ac3975eaec95d35f75e730ab8399f7187498f1d931736a11154cb5a6e",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-rent-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-epi7kL7/VBuQUNbswmChpp0GtBPGFMWKAwvqEh6i85sjiRZHNPsUz8klqvNqM6UhwYpZkS9x/JPvhj/E1p/HyQ==",
+      "kind": "plugin",
+      "marketplaceId": "rent",
+      "order": 9,
+      "packageName": "@propertyos/plugin-rent",
+      "private": true,
+      "publishable": true,
+      "sha256": "79c7ff15c74e0390e3826967d4ab4c47a610a044e282bab02317c9bd72865ab3",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-report-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-PUozHJTw8cwMTkhHXMrU/oqipmpR2Fk/J6sOwTDdrA4yzyGDrfCyOQ9/ScAJlbCGw/6aA6rsxXaZy/wjclDdlA==",
+      "kind": "plugin",
+      "marketplaceId": "report",
+      "order": 10,
+      "packageName": "@propertyos/plugin-report",
+      "private": true,
+      "publishable": true,
+      "sha256": "0611172438bda38fedf24a9a2ec47e6ab70d564eab56cf1853e993ed2488a88a",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-reservation-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-Nq0WK52fHwetTyfesQ+Pme7VPd10t+68hlqvD1lfr/00yv2hZg7VtmiBxpK2nIir/v87jJ7/mFF2FdWY0sIBVg==",
+      "kind": "plugin",
+      "marketplaceId": "reservation",
+      "order": 11,
+      "packageName": "@propertyos/plugin-reservation",
+      "private": true,
+      "publishable": true,
+      "sha256": "6aaf4355465a974097eda6d83fb3e6c082c20eec3ce09230df8d6c8a3cb3a5c1",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-staff-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-RngiGi+nZNkXOA2USduRoGwbYdg/goB993+AELA4cvA9hl3lSOTsNcJ8O3MmTp1K7FMm9W62QwBEwoM7fKgEuw==",
+      "kind": "plugin",
+      "marketplaceId": "staff",
+      "order": 12,
+      "packageName": "@propertyos/plugin-staff",
+      "private": true,
+      "publishable": true,
+      "sha256": "2aaf6a3b0ad02fa5579dd98750fe37900c8724e3f5df981781627ec9d0e6f615",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-tenant-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-RngYERgPZsEtimC6OXHu+LAB6jGyh24mrJDkYJXo+Osl8BbHSEaTIHYMsuPIIa22nTDzW+TLABZIwy8tR/UKbA==",
+      "kind": "plugin",
+      "marketplaceId": "tenant",
+      "order": 13,
+      "packageName": "@propertyos/plugin-tenant",
+      "private": true,
+      "publishable": true,
+      "sha256": "34192dcfa3c343265a0620597e1baf176c27ee2667d15e5aa07aa043813a862a",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-vehicle-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-Q2w/7AHUrOx/aM4L9HZ3bfUXFg9K+oae8KXLJGNkZo2FxUuQQOPtpUAj9NDy5TmOxsjz3uDZrZ08zuyzCazKKQ==",
+      "kind": "plugin",
+      "marketplaceId": "vehicle",
+      "order": 14,
+      "packageName": "@propertyos/plugin-vehicle",
+      "private": true,
+      "publishable": true,
+      "sha256": "b05b8b5862c63d8c2140230c140ca4febb76810124027e38e084d8f363606e22",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-vendor-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-DuX+swNSQMhRzRNgKSkYcx4sxER9VlodbOjgla83YGU/KT9l8oFhzWcAXXhxRqqyCAjaKndHYHUeMg1kSMSXlg==",
+      "kind": "plugin",
+      "marketplaceId": "vendor",
+      "order": 15,
+      "packageName": "@propertyos/plugin-vendor",
+      "private": true,
+      "publishable": true,
+      "sha256": "9c7da18382eae49002694e9442df99836d943142a9cad057565bcc9992129779",
+      "status": "blocked",
+      "version": "0.1.0"
+    },
+    {
+      "artifactPath": "generated/plugin-artifacts/propertyos-plugin-procurement-0.1.0.tgz",
+      "blockers": [
+        {
+          "code": "private-package",
+          "dependency": "",
+          "message": "Plugin package is marked private.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/core-contracts",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        },
+        {
+          "code": "dependency-blocked",
+          "dependency": "@propertyos/plugin-inventory",
+          "message": "Publication dependency is blocked.",
+          "severity": "error"
+        }
+      ],
+      "dependencies": [
+        {
+          "packageName": "@propertyos/core-contracts",
+          "version": "0.1.0"
+        },
+        {
+          "packageName": "@propertyos/plugin-inventory",
+          "version": "0.1.0"
+        }
+      ],
+      "integrity": "sha512-TidniamxHoJ9XoHHqCAZkJj2zxoBa6aVDoLwNqk5r0H84X0cnb44T9WNCzdWcwL3QTM8zwax9AJrf5J9jOyQAw==",
+      "kind": "plugin",
+      "marketplaceId": "procurement",
+      "order": 16,
+      "packageName": "@propertyos/plugin-procurement",
+      "private": true,
+      "publishable": true,
+      "sha256": "c4848cb4ff0468339ea015ce2ab4f8b97ffacef66faf679725424e45174a16a7",
+      "status": "blocked",
+      "version": "0.1.0"
+    }
+  ],
+  "registry": {
+    "access": "public",
+    "authenticated": false,
+    "tag": "latest",
+    "url": "https://registry.npmjs.org/"
+  },
+  "registryBlockers": [
+    {
+      "code": "registry-authentication-required",
+      "dependency": "",
+      "message": "Registry authentication is required before publication.",
+      "severity": "error"
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "summary": {
+    "blockedCount": 17,
+    "blockerCount": 38,
+    "packageCount": 17,
+    "readyCount": 0,
+    "readyToPublish": false
+  }
+}

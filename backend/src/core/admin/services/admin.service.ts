@@ -2,7 +2,6 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AgreementService } from '../../agreement/services/agreement.service';
 import { InvoiceService } from '../../invoice/services/invoice.service';
 import { PropertyService } from '../../property/services/property.service';
-import { ReceiptService } from '../../receipt/services/receipt.service';
 import { RentService } from '../../rent/services/rent.service';
 import { TenantService } from '../../tenant/services/tenant.service';
 import { PluginService } from '../../plugin/services/plugin.service';
@@ -13,6 +12,7 @@ import { PluginDocumentRegistry } from '../../plugin/registries/plugin-document.
 import { PluginConfigurationRegistry } from '../../plugin/registries/plugin-configuration.registry';
 import { PluginSchedulerRegistry } from '../../plugin/registries/plugin-scheduler.registry';
 import { PluginSearchRegistry } from '../../plugin/registries/plugin-search.registry';
+import { PluginDashboardRegistry } from '../../plugin/registries/plugin-dashboard.registry';
 import { AdminMenuRegistry } from '../registries/admin-menu.registry';
 import { AdminWidgetRegistry } from '../registries/admin-widget.registry';
 import { AdminDashboardSummary } from '../types/admin.types';
@@ -30,11 +30,11 @@ export class AdminService implements OnModuleInit {
     private readonly configurationRegistry: PluginConfigurationRegistry,
     private readonly schedulerRegistry: PluginSchedulerRegistry,
     private readonly searchRegistry: PluginSearchRegistry,
+    private readonly dashboardRegistry: PluginDashboardRegistry,
     private readonly propertyService: PropertyService,
     private readonly tenantService: TenantService,
     private readonly agreementService: AgreementService,
     private readonly rentService: RentService,
-    private readonly receiptService: ReceiptService,
     private readonly invoiceService: InvoiceService,
   ) {}
 
@@ -50,7 +50,7 @@ export class AdminService implements OnModuleInit {
       tenants,
       agreements,
       rentLedgers,
-      receipts,
+      receiptMetrics,
       invoices,
       plugins,
     ] = await Promise.all([
@@ -59,7 +59,7 @@ export class AdminService implements OnModuleInit {
       this.tenantService.listTenants(),
       this.agreementService.listAgreements(),
       this.rentService.listRentLedgers(),
-      this.receiptService.findAll(),
+      this.dashboardRegistry.collect('receipt'),
       this.invoiceService.findAll(),
       this.pluginService.list(),
     ]);
@@ -151,7 +151,7 @@ export class AdminService implements OnModuleInit {
         currentMonthCollectedRent,
         outstandingRent,
         collectionPercentage,
-        receipts: receipts.length,
+        receipts: receiptMetrics.receipts ?? 0,
         invoices: invoices.length,
         overdueInvoices,
       },

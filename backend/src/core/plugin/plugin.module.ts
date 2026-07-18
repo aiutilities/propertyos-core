@@ -38,6 +38,7 @@ import { PluginDocumentRegistry } from './registries/plugin-document.registry';
 import { PluginConfigurationRegistry } from './registries/plugin-configuration.registry';
 import { PluginSchedulerRegistry } from './registries/plugin-scheduler.registry';
 import { PluginSearchRegistry } from './registries/plugin-search.registry';
+import { PluginDashboardRegistry } from './registries/plugin-dashboard.registry';
 import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.service';
 import { PluginPackageService } from './package/services/plugin-package.service';
 import { PluginMarketplaceService } from './marketplace/services/plugin-marketplace.service';
@@ -91,6 +92,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
     PluginConfigurationRegistry,
     PluginSchedulerRegistry,
     PluginSearchRegistry,
+    PluginDashboardRegistry,
     PermissionBootstrapService,
     PluginPackageService,
     PluginMarketplaceService,
@@ -108,6 +110,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
     PluginConfigurationRegistry,
     PluginSchedulerRegistry,
     PluginSearchRegistry,
+    PluginDashboardRegistry,
     PermissionBootstrapService,
     PluginPackageService,
     PluginMarketplaceService,

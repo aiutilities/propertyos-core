@@ -95,7 +95,7 @@
       "className": "AdminModule",
       "source": {
         "path": "backend/src/core/admin/admin.module.ts",
-        "line": 29
+        "line": 27
       },
       "imports": [
         {
@@ -105,7 +105,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 20
+            "line": 19
           }
         },
         {
@@ -115,7 +115,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 23
+            "line": 21
           }
         },
         {
@@ -125,7 +125,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 17
+            "line": 16
           }
         },
         {
@@ -135,17 +135,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 18
-          }
-        },
-        {
-          "className": "ReceiptModule",
-          "expression": "ReceiptModule",
-          "sourcePath": "backend/src/core/receipt/receipt.module.ts",
-          "external": false,
-          "source": {
-            "path": "backend/src/core/admin/admin.module.ts",
-            "line": 22
+            "line": 17
           }
         },
         {
@@ -155,7 +145,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 21
+            "line": 20
           }
         },
         {
@@ -165,7 +155,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 19
+            "line": 18
           }
         }
       ]
@@ -1158,7 +1148,7 @@
       "className": "PluginModule",
       "source": {
         "path": "backend/src/core/plugin/plugin.module.ts",
-        "line": 116
+        "line": 119
       },
       "imports": [
         {
@@ -1168,7 +1158,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 48
+            "line": 49
           }
         },
         {
@@ -1178,7 +1168,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 49
+            "line": 50
           }
         },
         {
@@ -1188,7 +1178,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 50
+            "line": 51
           }
         },
         {
@@ -1198,7 +1188,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 51
+            "line": 52
           }
         },
         {
@@ -1208,7 +1198,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 52
+            "line": 53
           }
         }
       ]
@@ -1325,7 +1315,7 @@
       "className": "ReceiptModule",
       "source": {
         "path": "backend/src/core/receipt/receipt.module.ts",
-        "line": 22
+        "line": 30
       },
       "imports": [
         {
@@ -1335,7 +1325,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/receipt/receipt.module.ts",
-            "line": 11
+            "line": 16
           }
         },
         {
@@ -1345,7 +1335,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/receipt/receipt.module.ts",
-            "line": 11
+            "line": 15
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/receipt/receipt.module.ts",
+            "line": 17
           }
         },
         {
@@ -1355,7 +1355,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/receipt/receipt.module.ts",
-            "line": 11
+            "line": 14
           }
         }
       ]

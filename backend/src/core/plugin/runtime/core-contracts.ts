@@ -42,6 +42,13 @@ export {
   PluginNotificationRegistry,
 } from '../registries/plugin-notification.registry';
 export {
+  PluginDashboardRegistry,
+} from '../registries/plugin-dashboard.registry';
+export type {
+  PluginDashboardContributor,
+  PluginDashboardMetrics,
+} from '../registries/plugin-dashboard.registry';
+export {
   PluginPermissionRegistry,
 } from '../registries/plugin-permission.registry';
 export {

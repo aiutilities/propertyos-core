@@ -30,6 +30,7 @@ describe(
           'BasePostgresRepository',
           'PluginModule',
           'PluginNotificationRegistry',
+          'PluginDashboardRegistry',
           'PluginPermissionRegistry',
           'PluginWorkflowRegistry',
           'SchedulerHandlerRegistry',

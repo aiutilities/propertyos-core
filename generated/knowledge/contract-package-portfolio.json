@@ -71,16 +71,16 @@
           {
             "fileKind": "module-entrypoint",
             "path": "src/plugin/index.ts",
-            "sha256": "a1844ce84968563bde1fbd4942724dfdc29ce0026d8a782048c126f43ca4966c",
-            "sizeBytes": 501,
-            "written": false
+            "sha256": "eb64b7618b5c97a9cacab5fa22d3967f2315a0608a32f9ac93ed32008c28bd64",
+            "sizeBytes": 776,
+            "written": true
           },
           {
             "fileKind": "module-entrypoint",
             "path": "src/scheduler/index.ts",
             "sha256": "986252e03a2a877af68f7065295db2aa2cb19400bd0a9bd616b9de56e9bd8628",
             "sizeBytes": 787,
-            "written": true
+            "written": false
           },
           {
             "fileKind": "module-entrypoint",
@@ -356,6 +356,24 @@
             "entrypointPath": "src/plugin/index.ts",
             "exports": [
               {
+                "exportKind": "interface",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/registries/plugin-dashboard.registry.ts",
+                "symbol": "PluginDashboardContributor"
+              },
+              {
+                "exportKind": "type",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/registries/plugin-dashboard.registry.ts",
+                "symbol": "PluginDashboardMetrics"
+              },
+              {
+                "exportKind": "class",
+                "moduleId": "plugin",
+                "sourcePath": "backend/src/core/plugin/registries/plugin-dashboard.registry.ts",
+                "symbol": "PluginDashboardRegistry"
+              },
+              {
                 "exportKind": "class",
                 "moduleId": "plugin",
                 "sourcePath": "backend/src/core/plugin/plugin.module.ts",
@@ -381,7 +399,7 @@
               }
             ],
             "moduleId": "plugin",
-            "symbolCount": 4
+            "symbolCount": 7
           },
           {
             "directoryName": "scheduler",
@@ -509,7 +527,7 @@
         "publishable": false,
         "rootEntrypointPath": "src/index.ts",
         "sourceStrategy": "repository-reexport",
-        "symbolCount": 37,
+        "symbolCount": 40,
         "version": "0.1.0"
       }
     ],
@@ -526,7 +544,7 @@
       "packageCount": 1,
       "publishablePackageCount": 0,
       "repositoryBackedPackageCount": 1,
-      "symbolCount": 37
+      "symbolCount": 40
     },
     "valid": true
   },
@@ -537,7 +555,7 @@
     "layoutIssueCount": 0,
     "moduleCount": 11,
     "packageCount": 1,
-    "symbolCount": 37,
+    "symbolCount": 40,
     "valid": true,
     "writtenFileCount": 1
   }

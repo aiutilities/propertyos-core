@@ -310,10 +310,6 @@ describe(
         'ProcurementModule',
       ],
       [
-        'rent',
-        'AdminModule',
-      ],
-      [
         'tenant',
         'AdminModule',
       ],

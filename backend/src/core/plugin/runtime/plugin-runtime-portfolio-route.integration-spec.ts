@@ -112,6 +112,19 @@ const PLUGINS:
     },
     {
       pluginId:
+        'rent',
+      moduleClass:
+        'RentModule',
+      controllerClass:
+        'RentController',
+      controllerPrefix:
+        'rent-ledgers',
+      methodPath: '',
+      requestPath:
+        '/api/v1/rent-ledgers',
+    },
+    {
+      pluginId:
         'reservation',
       moduleClass:
         'ReservationModule',
@@ -327,7 +340,7 @@ describe(
     });
 
     it(
-      'registers all eleven external plugin routes',
+      'registers all twelve external plugin routes',
       async () => {
         const requested =
           PLUGINS.map(
@@ -356,7 +369,7 @@ describe(
           new Set(
             externalModules,
           ).size,
-        ).toBe(11);
+        ).toBe(12);
 
         const testingModule =
           await Test

@@ -21,6 +21,26 @@ describe(
           new PluginDashboardRegistry();
 
         dashboardRegistry.register(
+          'rent',
+          [
+            {
+              contribute:
+                async () => ({
+                  rentLedgers: 4,
+                  currentMonthExpectedRent:
+                    20000,
+                  currentMonthCollectedRent:
+                    15000,
+                  outstandingRent:
+                    7000,
+                  collectionPercentage:
+                    75,
+                }),
+            },
+          ],
+        );
+
+        dashboardRegistry.register(
           'receipt',
           [
             {
@@ -103,14 +123,33 @@ describe(
                   },
                 ],
             } as never,
-            {
-              listRentLedgers:
-                async () => [],
-            } as never,
           );
 
         const dashboard =
           await service.getDashboard();
+
+        expect(
+          dashboard.business.rentLedgers,
+        ).toBe(4);
+
+        expect(
+          dashboard.business
+            .currentMonthExpectedRent,
+        ).toBe(20000);
+
+        expect(
+          dashboard.business
+            .currentMonthCollectedRent,
+        ).toBe(15000);
+
+        expect(
+          dashboard.business.outstandingRent,
+        ).toBe(7000);
+
+        expect(
+          dashboard.business
+            .collectionPercentage,
+        ).toBe(75);
 
         expect(
           dashboard.business.receipts,

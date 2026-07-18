@@ -3,7 +3,6 @@ import { Module } from '@nestjs/common';
 import { AgreementModule } from '../agreement/agreement.module';
 import { PluginModule } from '../plugin/plugin.module';
 import { PropertyModule } from '../property/property.module';
-import { RentModule } from '../rent/rent.module';
 import { TenantModule } from '../tenant/tenant.module';
 import { AdminController } from './controllers/admin.controller';
 import { AdminMenuRegistry } from './registries/admin-menu.registry';
@@ -16,7 +15,6 @@ import { AdminService } from './services/admin.service';
     PropertyModule,
     TenantModule,
     AgreementModule,
-    RentModule,
   ],
   controllers: [AdminController],
   providers: [AdminService, AdminMenuRegistry, AdminWidgetRegistry],

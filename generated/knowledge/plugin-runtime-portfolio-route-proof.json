@@ -52,10 +52,10 @@
       "routeRegistered": true
     },
     {
-      "moduleClass": "ReservationModule",
-      "pluginId": "reservation",
+      "moduleClass": "RentModule",
+      "pluginId": "rent",
       "responseStatus": 401,
-      "route": "/api/v1/reservations",
+      "route": "/api/v1/rent-ledgers",
       "routeRegistered": true
     },
     {
@@ -63,6 +63,13 @@
       "pluginId": "report",
       "responseStatus": 401,
       "route": "/api/v1/reports/rent-collection",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "ReservationModule",
+      "pluginId": "reservation",
+      "responseStatus": 401,
+      "route": "/api/v1/reservations",
       "routeRegistered": true
     },
     {
@@ -90,8 +97,8 @@
   "schemaVersion": "1.0.0",
   "summary": {
     "missingRouteCount": 0,
-    "moduleCount": 11,
-    "registeredRouteCount": 11,
+    "moduleCount": 12,
+    "registeredRouteCount": 12,
     "successful": true
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AgreementService } from '../../agreement/services/agreement.service';
 import { PropertyService } from '../../property/services/property.service';
-import { RentService } from '../../rent/services/rent.service';
 import { TenantService } from '../../tenant/services/tenant.service';
 import { PluginService } from '../../plugin/services/plugin.service';
 import { PluginPermissionRegistry } from '../../plugin/registries/plugin-permission.registry';
@@ -33,7 +32,6 @@ export class AdminService implements OnModuleInit {
     private readonly propertyService: PropertyService,
     private readonly tenantService: TenantService,
     private readonly agreementService: AgreementService,
-    private readonly rentService: RentService,
   ) {}
 
   onModuleInit(): void {
@@ -47,7 +45,7 @@ export class AdminService implements OnModuleInit {
       occupancy,
       tenants,
       agreements,
-      rentLedgers,
+      rentMetrics,
       receiptMetrics,
       invoiceMetrics,
       plugins,
@@ -56,7 +54,7 @@ export class AdminService implements OnModuleInit {
       this.tenantService.getOccupancyCounts(),
       this.tenantService.listTenants(),
       this.agreementService.listAgreements(),
-      this.rentService.listRentLedgers(),
+      this.dashboardRegistry.collect('rent'),
       this.dashboardRegistry.collect('receipt'),
       this.dashboardRegistry.collect('invoice'),
       this.pluginService.list(),
@@ -74,31 +72,6 @@ export class AdminService implements OnModuleInit {
       (agreement) => agreement.status === 'ACTIVE',
     ).length;
 
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1;
-
-    const currentMonthLedgers = rentLedgers.filter(
-      (ledger) =>
-        ledger.periodYear === currentYear &&
-        ledger.periodMonth === currentMonth,
-    );
-
-    const currentMonthExpectedRent = currentMonthLedgers.reduce(
-      (total, ledger) => total + Number(ledger.rentAmount ?? 0),
-      0,
-    );
-
-    const currentMonthCollectedRent = currentMonthLedgers.reduce(
-      (total, ledger) => total + Number(ledger.amountPaid ?? 0),
-      0,
-    );
-
-    const outstandingRent = rentLedgers.reduce(
-      (total, ledger) => total + Number(ledger.balanceAmount ?? 0),
-      0,
-    );
-
     const vacantSpaces = Math.max(
       portfolio.spaces - occupancy.occupiedSpaces,
       0,
@@ -109,16 +82,6 @@ export class AdminService implements OnModuleInit {
         ? Number(
             (
               (occupancy.occupiedSpaces / portfolio.spaces) *
-              100
-            ).toFixed(2),
-          )
-        : 0;
-
-    const collectionPercentage =
-      currentMonthExpectedRent > 0
-        ? Number(
-            (
-              (currentMonthCollectedRent / currentMonthExpectedRent) *
               100
             ).toFixed(2),
           )
@@ -140,11 +103,16 @@ export class AdminService implements OnModuleInit {
         tenants: tenants.length,
         activeTenants: occupancy.activeTenants,
         activeLeases,
-        rentLedgers: rentLedgers.length,
-        currentMonthExpectedRent,
-        currentMonthCollectedRent,
-        outstandingRent,
-        collectionPercentage,
+        rentLedgers:
+          rentMetrics.rentLedgers ?? 0,
+        currentMonthExpectedRent:
+          rentMetrics.currentMonthExpectedRent ?? 0,
+        currentMonthCollectedRent:
+          rentMetrics.currentMonthCollectedRent ?? 0,
+        outstandingRent:
+          rentMetrics.outstandingRent ?? 0,
+        collectionPercentage:
+          rentMetrics.collectionPercentage ?? 0,
         receipts: receiptMetrics.receipts ?? 0,
         invoices: invoiceMetrics.invoices ?? 0,
         overdueInvoices: invoiceMetrics.overdueInvoices ?? 0,

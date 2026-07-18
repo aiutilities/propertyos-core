@@ -95,7 +95,7 @@
       "className": "AdminModule",
       "source": {
         "path": "backend/src/core/admin/admin.module.ts",
-        "line": 25
+        "line": 23
       },
       "imports": [
         {
@@ -105,7 +105,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 18
+            "line": 17
           }
         },
         {
@@ -115,7 +115,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 15
+            "line": 14
           }
         },
         {
@@ -125,17 +125,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 16
-          }
-        },
-        {
-          "className": "RentModule",
-          "expression": "RentModule",
-          "sourcePath": "backend/src/core/rent/rent.module.ts",
-          "external": false,
-          "source": {
-            "path": "backend/src/core/admin/admin.module.ts",
-            "line": 19
+            "line": 15
           }
         },
         {
@@ -145,7 +135,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 17
+            "line": 16
           }
         }
       ]
@@ -1364,7 +1354,7 @@
       "className": "RentModule",
       "source": {
         "path": "backend/src/core/rent/rent.module.ts",
-        "line": 34
+        "line": 38
       },
       "imports": [
         {
@@ -1374,7 +1364,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/rent/rent.module.ts",
-            "line": 20
+            "line": 22
           }
         },
         {
@@ -1384,7 +1374,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/rent/rent.module.ts",
-            "line": 19
+            "line": 21
+          }
+        },
+        {
+          "className": "PluginModule",
+          "expression": "PluginModule",
+          "sourcePath": "backend/src/core/plugin/plugin.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/rent/rent.module.ts",
+            "line": 24
           }
         },
         {
@@ -1394,7 +1394,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/rent/rent.module.ts",
-            "line": 18
+            "line": 20
           }
         },
         {
@@ -1404,7 +1404,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/rent/rent.module.ts",
-            "line": 21
+            "line": 23
           }
         }
       ]

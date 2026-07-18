@@ -1,0 +1,76 @@
+{
+  "isolation": {
+    "databasePool": "fake",
+    "developmentServerModified": false,
+    "hostPermissionBootstrap": true,
+    "hostWorkflowBootstrap": true,
+    "listeningPortCreated": false,
+    "permanentInstallationCreated": false,
+    "pluginBootstrapProviders": 11
+  },
+  "modules": [
+    {
+      "moduleClass": "CommunicationsModule",
+      "pluginId": "communications",
+      "responseStatus": 401,
+      "route": "/api/v1/communications",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "FacilityModule",
+      "pluginId": "facility",
+      "responseStatus": 401,
+      "route": "/api/v1/facilities/categories",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "HelpdeskModule",
+      "pluginId": "helpdesk",
+      "responseStatus": 401,
+      "route": "/api/v1/helpdesk",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "MaintenanceModule",
+      "pluginId": "maintenance",
+      "responseStatus": 401,
+      "route": "/api/v1/maintenance",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "ReservationModule",
+      "pluginId": "reservation",
+      "responseStatus": 401,
+      "route": "/api/v1/reservations",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "StaffModule",
+      "pluginId": "staff",
+      "responseStatus": 401,
+      "route": "/api/v1/staff",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "VehicleModule",
+      "pluginId": "vehicle",
+      "responseStatus": 401,
+      "route": "/api/v1/vehicles",
+      "routeRegistered": true
+    },
+    {
+      "moduleClass": "VendorModule",
+      "pluginId": "vendor",
+      "responseStatus": 401,
+      "route": "/api/v1/vendors",
+      "routeRegistered": true
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "summary": {
+    "missingRouteCount": 0,
+    "moduleCount": 8,
+    "registeredRouteCount": 8,
+    "successful": true
+  }
+}

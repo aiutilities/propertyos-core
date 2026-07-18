@@ -3,6 +3,12 @@
 export { SchedulerHandlerRegistry } from "../../../../../backend/src/core/scheduler/registries/scheduler-handler.registry";
 export { SchedulerModule } from "../../../../../backend/src/core/scheduler/scheduler.module";
 export { SchedulerService } from "../../../../../backend/src/core/scheduler/services/scheduler.service";
+export { REPORT_EXPORT_JOB_TYPE } from "../../../../../backend/src/core/scheduler/types/report-export-job.types";
+export type {
+  ReportExportJobPayload,
+  ScheduledReportFormat,
+  ScheduledReportType,
+} from "../../../../../backend/src/core/scheduler/types/report-export-job.types";
 export type {
   SchedulerJob,
   SchedulerJobHandler,

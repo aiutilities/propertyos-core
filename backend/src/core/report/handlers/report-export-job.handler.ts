@@ -5,20 +5,20 @@ import {
 } from '@nestjs/common';
 
 import { EventBusService } from '../../eventbus/services/eventbus.service';
-import { ReportExportService } from '../../report/services/report-export.service';
-import { OutstandingRentQueryDto } from '../../report/dto/outstanding-rent-query.dto';
-import { RentCollectionQueryDto } from '../../report/dto/rent-collection-query.dto';
-import { SchedulerHandlerRegistry } from '../registries/scheduler-handler.registry';
+import { ReportExportService } from '../services/report-export.service';
+import { OutstandingRentQueryDto } from '../dto/outstanding-rent-query.dto';
+import { RentCollectionQueryDto } from '../dto/rent-collection-query.dto';
+import { SchedulerHandlerRegistry } from '../../scheduler/registries/scheduler-handler.registry';
 import {
   REPORT_EXPORT_JOB_TYPE,
   ReportExportJobPayload,
   ScheduledReportFormat,
   ScheduledReportType,
-} from '../types/report-export-job.types';
+} from '../../scheduler/types/report-export-job.types';
 import {
   SchedulerJob,
   SchedulerJobHandler,
-} from '../types/scheduler.types';
+} from '../../scheduler/types/scheduler.types';
 
 @Injectable()
 export class ReportExportJobHandler

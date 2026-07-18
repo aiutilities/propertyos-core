@@ -82,3 +82,13 @@ export {
 export {
   WorkflowModule,
 } from '../../workflow/workflow.module';
+
+export {
+  REPORT_EXPORT_JOB_TYPE,
+} from '../../scheduler/types/report-export-job.types';
+
+export type {
+  ReportExportJobPayload,
+  ScheduledReportFormat,
+  ScheduledReportType,
+} from '../../scheduler/types/report-export-job.types';

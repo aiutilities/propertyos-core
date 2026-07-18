@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "generator": "propertyos-typescript-module-dependency-extractor",
   "moduleCount": 47,
-  "importReferenceCount": 170,
+  "importReferenceCount": 171,
   "modules": [
     {
       "className": "ConfigModule",
@@ -1413,7 +1413,7 @@
       "className": "ReportModule",
       "source": {
         "path": "backend/src/core/report/report.module.ts",
-        "line": 24
+        "line": 33
       },
       "imports": [
         {
@@ -1423,7 +1423,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/report/report.module.ts",
-            "line": 12
+            "line": 16
+          }
+        },
+        {
+          "className": "EventBusModule",
+          "expression": "EventBusModule",
+          "sourcePath": "backend/src/core/eventbus/eventbus.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/report/report.module.ts",
+            "line": 18
           }
         },
         {
@@ -1433,7 +1443,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/report/report.module.ts",
-            "line": 12
+            "line": 17
+          }
+        },
+        {
+          "className": "SchedulerModule",
+          "expression": "SchedulerModule",
+          "sourcePath": "backend/src/core/scheduler/scheduler.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/report/report.module.ts",
+            "line": 19
           }
         }
       ]
@@ -1531,7 +1551,7 @@
       "className": "SchedulerModule",
       "source": {
         "path": "backend/src/core/scheduler/scheduler.module.ts",
-        "line": 36
+        "line": 32
       },
       "imports": [
         {
@@ -1541,7 +1561,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/scheduler/scheduler.module.ts",
-            "line": 16
+            "line": 14
           }
         },
         {
@@ -1551,7 +1571,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/scheduler/scheduler.module.ts",
-            "line": 18
+            "line": 16
           }
         },
         {
@@ -1561,7 +1581,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/scheduler/scheduler.module.ts",
-            "line": 17
+            "line": 15
           }
         },
         {
@@ -1571,17 +1591,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/scheduler/scheduler.module.ts",
-            "line": 20
-          }
-        },
-        {
-          "className": "ReportModule",
-          "expression": "ReportModule",
-          "sourcePath": "backend/src/core/report/report.module.ts",
-          "external": false,
-          "source": {
-            "path": "backend/src/core/scheduler/scheduler.module.ts",
-            "line": 19
+            "line": 17
           }
         }
       ]

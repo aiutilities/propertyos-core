@@ -99,6 +99,20 @@ const PLUGINS:
     },
     {
       pluginId:
+        'report',
+      moduleClass:
+        'ReportModule',
+      controllerClass:
+        'ReportController',
+      controllerPrefix:
+        'reports',
+      methodPath:
+        'rent-collection',
+      requestPath:
+        '/api/v1/reports/rent-collection',
+    },
+    {
+      pluginId:
         'staff',
       moduleClass:
         'StaffModule',
@@ -287,7 +301,7 @@ describe(
     });
 
     it(
-      'registers all eight external plugin routes',
+      'registers all nine external plugin routes',
       async () => {
         const requested =
           PLUGINS.map(
@@ -316,7 +330,7 @@ describe(
           new Set(
             externalModules,
           ).size,
-        ).toBe(8);
+        ).toBe(9);
 
         const testingModule =
           await Test

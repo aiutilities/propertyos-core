@@ -152,6 +152,40 @@ describe(
     );
 
     it(
+      'plans Report as a safe external plugin',
+      () => {
+        writePlugin(
+          'report',
+          'ReportModule',
+        );
+
+        const plan =
+          planner.plan(
+            ['report'],
+            root,
+          );
+
+        expect(
+          plan.readyToBootstrap,
+        ).toBe(true);
+
+        expect(
+          plan.readyPluginIds,
+        ).toEqual([
+          'report',
+        ]);
+
+        expect(
+          plan.candidates[0]
+            .runtime
+            ?.moduleClassName,
+        ).toBe(
+          'ReportModule',
+        );
+      },
+    );
+
+    it(
       'normalizes and deduplicates requests',
       () => {
         writePlugin(
@@ -208,8 +242,8 @@ describe(
         'ProcurementModule',
       ],
       [
-        'report',
-        'SchedulerModule',
+        'receipt',
+        'AdminModule',
       ],
       [
         'tenant',

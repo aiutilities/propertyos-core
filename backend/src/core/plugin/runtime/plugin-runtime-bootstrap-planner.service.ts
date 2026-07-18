@@ -48,6 +48,7 @@ const SAFE_EXTERNAL_PLUGIN_IDS =
     'helpdesk',
     'maintenance',
     'reservation',
+    'report',
     'staff',
     'vehicle',
     'vendor',
@@ -72,9 +73,6 @@ const MONOLITH_BLOCKERS:
     ],
     rent: [
       'RentModule is imported by AdminModule.',
-    ],
-    report: [
-      'ReportModule is imported by SchedulerModule.',
     ],
     tenant: [
       'TenantModule is imported by AdminModule.',

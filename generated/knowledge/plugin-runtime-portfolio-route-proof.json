@@ -45,6 +45,13 @@
       "routeRegistered": true
     },
     {
+      "moduleClass": "ReportModule",
+      "pluginId": "report",
+      "responseStatus": 401,
+      "route": "/api/v1/reports/rent-collection",
+      "routeRegistered": true
+    },
+    {
       "moduleClass": "StaffModule",
       "pluginId": "staff",
       "responseStatus": 401,
@@ -69,8 +76,8 @@
   "schemaVersion": "1.0.0",
   "summary": {
     "missingRouteCount": 0,
-    "moduleCount": 8,
-    "registeredRouteCount": 8,
+    "moduleCount": 9,
+    "registeredRouteCount": 9,
     "successful": true
   }
 }

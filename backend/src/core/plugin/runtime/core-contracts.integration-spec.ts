@@ -35,6 +35,7 @@ describe(
           'SchedulerHandlerRegistry',
           'SchedulerModule',
           'SchedulerService',
+          'REPORT_EXPORT_JOB_TYPE',
           'SearchProviderRegistry',
           'SearchModule',
           'WorkflowService',

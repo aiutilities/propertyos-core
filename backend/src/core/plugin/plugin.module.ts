@@ -30,6 +30,7 @@ import { PluginLifecycleService } from './lifecycle/plugin-lifecycle.service';
 import { PluginLoaderService } from './loader/plugin-loader.service';
 import { PluginRuntimeModuleLoaderService } from './runtime/plugin-runtime-module-loader.service';
 import { PluginRuntimeActivationGuardService } from './runtime/plugin-runtime-activation-guard.service';
+import { PluginRuntimeBootstrapPlannerService } from './runtime/plugin-runtime-bootstrap-planner.service';
 import { PluginWorkflowRegistry } from './registries/plugin-workflow.registry';
 import { PluginPermissionRegistry } from './registries/plugin-permission.registry';
 import { PluginNotificationRegistry } from './registries/plugin-notification.registry';
@@ -82,6 +83,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
     PluginLoaderService,
     PluginRuntimeModuleLoaderService,
     PluginRuntimeActivationGuardService,
+    PluginRuntimeBootstrapPlannerService,
     PluginWorkflowRegistry,
     PluginPermissionRegistry,
     PluginNotificationRegistry,
@@ -98,6 +100,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
     PluginLoaderService,
     PluginRuntimeModuleLoaderService,
     PluginRuntimeActivationGuardService,
+    PluginRuntimeBootstrapPlannerService,
     PluginWorkflowRegistry,
     PluginPermissionRegistry,
     PluginNotificationRegistry,

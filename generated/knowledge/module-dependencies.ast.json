@@ -1158,7 +1158,7 @@
       "className": "PluginModule",
       "source": {
         "path": "backend/src/core/plugin/plugin.module.ts",
-        "line": 113
+        "line": 116
       },
       "imports": [
         {
@@ -1168,7 +1168,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 47
+            "line": 48
           }
         },
         {
@@ -1178,7 +1178,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 48
+            "line": 49
           }
         },
         {
@@ -1188,7 +1188,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 49
+            "line": 50
           }
         },
         {
@@ -1198,7 +1198,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 50
+            "line": 51
           }
         },
         {
@@ -1208,7 +1208,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 51
+            "line": 52
           }
         }
       ]

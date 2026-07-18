@@ -1,0 +1,17 @@
+{
+  "controllerCount": 1,
+  "databaseMode": "fake-pool",
+  "developmentServerModified": false,
+  "listeningPortCreated": false,
+  "moduleClass": "HelpdeskModule",
+  "nestApplicationClosed": true,
+  "nestApplicationInitialized": true,
+  "permanentInstallationCreated": false,
+  "permissionBootstrapMode": "isolated",
+  "pluginId": "helpdesk",
+  "requestedRoute": "/api/v1/helpdesk",
+  "responseStatus": 401,
+  "routeRegistered": true,
+  "schemaVersion": "1.0.0",
+  "usesExternalIdentity": true
+}

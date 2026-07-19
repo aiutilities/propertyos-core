@@ -75,6 +75,16 @@ function authorization(
       '2026-07-19T16:05:00.000Z',
     expectedEvidenceSha256:
       plan.evidenceSha256,
+    environmentClass:
+      'STAGING',
+    backupEvidenceId:
+      'backup-evidence-001',
+    schemaAcceptanceEvidenceId:
+      'schema-acceptance-001',
+    fingerprintConfirmed:
+      true,
+    privateKeyOfflineAttested:
+      true,
   };
 }
 
@@ -333,6 +343,71 @@ describe('PropertyOS trust bootstrap executor', () => {
       ),
     ).rejects.toThrow(
       'PLUGIN_TRUST_BOOTSTRAP_EVIDENCE_MISMATCH',
+    );
+
+    expect(test.pool.connect)
+      .not.toHaveBeenCalled();
+  });
+
+  it('requires independent fingerprint confirmation', async () => {
+    const desired = input();
+    const approval =
+      authorization(desired);
+    approval.fingerprintConfirmed =
+      false;
+
+    const test = harness();
+
+    await expect(
+      test.executor.execute(
+        desired,
+        approval,
+      ),
+    ).rejects.toThrow(
+      'PLUGIN_TRUST_BOOTSTRAP_FINGERPRINT_CONFIRMATION_REQUIRED',
+    );
+
+    expect(test.pool.connect)
+      .not.toHaveBeenCalled();
+  });
+
+  it('requires backup and schema acceptance evidence', async () => {
+    const desired = input();
+    const approval =
+      authorization(desired);
+    approval.backupEvidenceId = '';
+
+    const test = harness();
+
+    await expect(
+      test.executor.execute(
+        desired,
+        approval,
+      ),
+    ).rejects.toThrow(
+      'PLUGIN_TRUST_BOOTSTRAP_DEPLOYMENT_EVIDENCE_REQUIRED',
+    );
+
+    expect(test.pool.connect)
+      .not.toHaveBeenCalled();
+  });
+
+  it('requires offline private-key attestation', async () => {
+    const desired = input();
+    const approval =
+      authorization(desired);
+    approval.privateKeyOfflineAttested =
+      false;
+
+    const test = harness();
+
+    await expect(
+      test.executor.execute(
+        desired,
+        approval,
+      ),
+    ).rejects.toThrow(
+      'PLUGIN_TRUST_BOOTSTRAP_OFFLINE_KEY_ATTESTATION_REQUIRED',
     );
 
     expect(test.pool.connect)

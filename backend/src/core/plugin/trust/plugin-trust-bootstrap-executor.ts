@@ -25,6 +25,11 @@ export interface TrustBootstrapAuthorization {
   approvedBy: string;
   approvedAt: string;
   expectedEvidenceSha256: string;
+  environmentClass: 'ISOLATED' | 'STAGING';
+  backupEvidenceId: string;
+  schemaAcceptanceEvidenceId: string;
+  fingerprintConfirmed: boolean;
+  privateKeyOfflineAttested: boolean;
 }
 
 export interface TrustBootstrapExecutionResult {
@@ -111,6 +116,16 @@ export class PluginTrustBootstrapExecutor {
           authorization.approvedBy,
         approvedAt:
           authorization.approvedAt,
+        environmentClass:
+          authorization.environmentClass,
+        backupEvidenceId:
+          authorization.backupEvidenceId,
+        schemaAcceptanceEvidenceId:
+          authorization.schemaAcceptanceEvidenceId,
+        fingerprintConfirmed:
+          authorization.fingerprintConfirmed,
+        privateKeyOfflineAttested:
+          authorization.privateKeyOfflineAttested,
         environmentId:
           input.environmentId,
         evidenceSha256:
@@ -414,6 +429,38 @@ export class PluginTrustBootstrapExecutor {
     ) {
       throw new ForbiddenException(
         'PLUGIN_TRUST_BOOTSTRAP_APPROVAL_INVALID',
+      );
+    }
+
+    if (
+      authorization.environmentClass !==
+        'ISOLATED' &&
+      authorization.environmentClass !==
+        'STAGING'
+    ) {
+      throw new ForbiddenException(
+        'PLUGIN_TRUST_BOOTSTRAP_ENVIRONMENT_FORBIDDEN',
+      );
+    }
+
+    if (
+      !authorization.backupEvidenceId.trim() ||
+      !authorization.schemaAcceptanceEvidenceId.trim()
+    ) {
+      throw new ForbiddenException(
+        'PLUGIN_TRUST_BOOTSTRAP_DEPLOYMENT_EVIDENCE_REQUIRED',
+      );
+    }
+
+    if (!authorization.fingerprintConfirmed) {
+      throw new ForbiddenException(
+        'PLUGIN_TRUST_BOOTSTRAP_FINGERPRINT_CONFIRMATION_REQUIRED',
+      );
+    }
+
+    if (!authorization.privateKeyOfflineAttested) {
+      throw new ForbiddenException(
+        'PLUGIN_TRUST_BOOTSTRAP_OFFLINE_KEY_ATTESTATION_REQUIRED',
       );
     }
 

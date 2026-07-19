@@ -85,3 +85,25 @@ Actual registration requires:
 - Atomic publisher/key audit events.
 
 The planner alone never grants execution authorization.
+
+## Executor authorization contract
+
+The atomic executor remains unavailable through HTTP and package scripts.
+
+A caller must provide all of the following before invoking it in code:
+
+- Environment class ISOLATED or STAGING.
+- Backup evidence identifier.
+- Schema acceptance evidence identifier.
+- Independent public-key fingerprint confirmation.
+- Attestation that private signing material remains offline.
+- Named operator and different named approver.
+- Approval identifier and timestamp.
+- Exact desired-state evidence SHA-256.
+
+Production bootstrap is intentionally outside the Phase 13D2 authorization
+type. Adding production execution requires a separately reviewed Phase 13E
+operational decision.
+
+The executor records the authorization and evidence identifiers in immutable
+publisher and key registration audit metadata.

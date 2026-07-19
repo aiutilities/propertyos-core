@@ -1,0 +1,99 @@
+{
+  "artifacts": {
+    "databaseBaseline": {
+      "sha256": "176a64de2b4bc920ea899e058e1a0e64b320c6db59a094e19482d713844ee040",
+      "sizeBytes": 1855
+    },
+    "databaseDump": {
+      "sha256": "517da1ec61d7451aefccca40d3a7f5100791bc3af24e7d473a37916464388ca8",
+      "sizeBytes": 4422631
+    },
+    "isolatedRestore": {
+      "sha256": "31bc8743a3d79bd1402de574cd633cf3fdc6a1a92583d729dd00694c83646b2e",
+      "sizeBytes": 196
+    },
+    "migrationExecution": {
+      "sha256": "f1cb2cc357368e106ba6c6fa191a76bc954a184f784bd05c698ea9ecfab142f8",
+      "sizeBytes": 2470
+    },
+    "pluginStorageBackup": {
+      "sha256": "ef2320d41762baa6aadd8830bef529f549cf3589621f862c202a4d83ca8dd7f5",
+      "sizeBytes": 105
+    },
+    "recoveryAcceptance": {
+      "sha256": "da25ffe048279dfcb1b3bc5a9b4cb11d5e559d49f22b750f3ef3dc5f4de57d0c",
+      "sizeBytes": 340
+    },
+    "restoreList": {
+      "sha256": "bce6d8fa2bf3873843f4d9eb9c0e74ca97887c7cdb947c02215338e41795011f",
+      "sizeBytes": 98869
+    },
+    "schemaAcceptance": {
+      "sha256": "d704207f16695c18d88c42c1ceb7e3ee5690e1899ea726315df8f7165b23c3cc",
+      "sizeBytes": 133161
+    },
+    "storageEvidence": {
+      "sha256": "f58da96020a15ff6abcd52149f5186b030c72fea13a1cbc5ec13143e028f5e2e",
+      "sizeBytes": 244
+    },
+    "uploadsBackup": {
+      "sha256": "45effffc48c590696f10a087bfe34da6403199de77f2f8a78a76f7af81a62dc5",
+      "sizeBytes": 105
+    }
+  },
+  "backup": {
+    "dumpReadable": true,
+    "format": "POSTGRES_CUSTOM",
+    "serverMajorVersion": 16,
+    "storageArchivesReadable": true
+  },
+  "controlledExecution": {
+    "appliedMigrationCount": 12,
+    "approvalId": "phase-13d3-isolated-exercise",
+    "approverId": "anandnataraj",
+    "evidenceSha256": "bed2658f47b172aa0df606e2eb02228e768b76dbbe6e6aeae9060382ac9c85bf",
+    "migrationRange": "037-048",
+    "operatorId": "chatgpt-agent",
+    "postMigrationState": "1|49|12",
+    "transactionStrategy": "ATOMIC_CONTROLLED_RANGE"
+  },
+  "isolatedRestore": {
+    "container": "propertyos-phase-13d3-postgres",
+    "database": "propertyos_restore_exercise",
+    "preMigrationState": "1|37|0"
+  },
+  "phase": "13D3",
+  "recoveryExercise": {
+    "controlledTargetObjectsAbsent": true,
+    "database": "propertyos_recovery_exercise",
+    "recoveredState": "1|37|0",
+    "sourceAndRecoveryFingerprintsMatch": true
+  },
+  "safety": {
+    "productionExecutionAllowed": false,
+    "sourceDatabaseMutated": false,
+    "sourceServicesRestarted": false,
+    "sourceState": {
+      "controlledMigrationCount": 0,
+      "corePluginCount": 1,
+      "schemaMigrationCount": 37
+    }
+  },
+  "schemaAcceptance": {
+    "corePluginCountStable": true,
+    "missing": {
+      "columns": [],
+      "constraints": [],
+      "functions": [],
+      "indexes": [],
+      "migrations": [],
+      "relations": [],
+      "triggers": []
+    },
+    "status": "ACCEPTED"
+  },
+  "schemaVersion": 1,
+  "sourceCommit": "b5605d75f08deb17f31b79b548cd877f849d16c7",
+  "sourceReleaseTag": "v2.9.45-phase-13d3c-schema-evidence-inspector",
+  "status": "PASSED"
+}

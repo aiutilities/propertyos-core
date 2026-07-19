@@ -1,3 +1,28 @@
+export type PluginPublisherTargetStatus =
+  | 'ACTIVE'
+  | 'SUSPENDED'
+  | 'REVOKED';
+
+export interface TransitionPluginPublisher {
+  publisherId: string;
+  targetStatus: PluginPublisherTargetStatus;
+  actorId: string;
+  reason: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface PluginPublisherTransitionResult {
+  publisherId: string;
+  fromStatus:
+    PluginPublisherTargetStatus;
+  status:
+    PluginPublisherTargetStatus;
+  quarantinedPublicationIds: string[];
+  quarantinedPublicationCount: number;
+  revokedKeyIds: string[];
+  revokedKeyCount: number;
+}
+
 export interface RegisterPluginPublisher {
   publisherId: string;
   displayName: string;

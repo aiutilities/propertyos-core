@@ -39,6 +39,9 @@ import {
 import {
   RegisterPluginPublisherKeyDto,
 } from './register-plugin-publisher-key.dto';
+import {
+  TransitionPluginPublisherDto,
+} from './transition-plugin-publisher.dto';
 
 @ApiTags('Plugin Publisher Trust')
 @ApiBearerAuth('JWT')
@@ -107,6 +110,31 @@ export class PluginPublisherTrustController {
               dto.validUntil,
             )
           : undefined,
+      metadata:
+        dto.metadata,
+    });
+  }
+
+  @Post(':publisherId/transition')
+  @RequirePermission(
+    Permissions.PLUGIN_MANAGE,
+  )
+  transitionPublisher(
+    @Param('publisherId')
+    publisherId: string,
+    @Body()
+    dto: TransitionPluginPublisherDto,
+    @CurrentUser()
+    user: AuthTokenPayload,
+  ) {
+    return this.lifecycle.transitionPublisher({
+      publisherId,
+      targetStatus:
+        dto.targetStatus,
+      actorId:
+        user.sub,
+      reason:
+        dto.reason,
       metadata:
         dto.metadata,
     });

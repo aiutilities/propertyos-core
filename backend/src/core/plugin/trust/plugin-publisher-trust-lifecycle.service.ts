@@ -17,11 +17,14 @@ import {
 } from '../../../database/postgres';
 import {
   PluginPublisherKeyRevocationResult,
+  PluginPublisherTransitionResult,
+  PluginPublisherTargetStatus,
   RegisteredPluginPublisher,
   RegisteredPluginPublisherKey,
   RegisterPluginPublisher,
   RegisterPluginPublisherKey,
   RevokePluginPublisherKey,
+  TransitionPluginPublisher,
 } from './plugin-publisher-trust-lifecycle.types';
 import {
   canonicalizePluginPublicKey,
@@ -320,6 +323,291 @@ export class PluginPublisherTrustLifecycleService {
     }
   }
 
+  async transitionPublisher(
+    input: TransitionPluginPublisher,
+  ): Promise<PluginPublisherTransitionResult> {
+    this.validatePublisherTransition(
+      input,
+    );
+
+    const client =
+      await this.pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      const currentResult =
+        await client.query(
+          `
+          SELECT
+            id,
+            status,
+            revoked_at
+          FROM plugin_publishers
+          WHERE id = $1
+          FOR UPDATE
+          `,
+          [
+            input.publisherId,
+          ],
+        );
+
+      const current =
+        currentResult.rows[0];
+
+      if (!current) {
+        throw new NotFoundException(
+          'PLUGIN_PUBLISHER_NOT_FOUND',
+        );
+      }
+
+      const fromStatus =
+        current.status as
+          PluginPublisherTargetStatus;
+
+      this.assertPublisherTransition(
+        fromStatus,
+        input.targetStatus,
+      );
+
+      const result =
+        await client.query(
+          `
+          UPDATE plugin_publishers
+          SET
+            status = $2,
+            revoked_at =
+              CASE
+                WHEN $2 = 'REVOKED'
+                THEN NOW()
+                ELSE revoked_at
+              END,
+            revocation_reason =
+              CASE
+                WHEN $2 = 'REVOKED'
+                THEN $3
+                ELSE revocation_reason
+              END,
+            updated_at = NOW()
+          WHERE id = $1
+            AND status = $4
+          RETURNING
+            id,
+            status
+          `,
+          [
+            input.publisherId,
+            input.targetStatus,
+            input.reason.trim(),
+            fromStatus,
+          ],
+        );
+
+      if (!result.rows[0]) {
+        throw new ConflictException(
+          'PLUGIN_PUBLISHER_CONCURRENT_TRANSITION',
+        );
+      }
+
+      let revokedKeyIds:
+        string[] = [];
+
+      if (
+        input.targetStatus ===
+          'REVOKED'
+      ) {
+        const keys =
+          await client.query(
+            `
+            UPDATE plugin_publisher_keys
+            SET
+              status = 'REVOKED',
+              revoked_at = NOW(),
+              revocation_reason = $2
+            WHERE publisher_id = $1
+              AND status = 'ACTIVE'
+              AND revoked_at IS NULL
+            RETURNING key_id
+            `,
+            [
+              input.publisherId,
+              input.reason.trim(),
+            ],
+          );
+
+        revokedKeyIds =
+          keys.rows.map(
+            (row) =>
+              String(
+                row.key_id,
+              ),
+          );
+      }
+
+      let publicationIds:
+        string[] = [];
+
+      if (
+        input.targetStatus ===
+          'SUSPENDED' ||
+        input.targetStatus ===
+          'REVOKED'
+      ) {
+        const publications =
+          await client.query(
+            `
+            UPDATE plugin_publications
+            SET
+              status = 'QUARANTINED',
+              quarantined_by = $2,
+              quarantined_at = NOW(),
+              quarantine_reason = $3,
+              updated_at = NOW()
+            WHERE publisher_id = $1
+              AND status = 'APPROVED'
+            RETURNING id
+            `,
+            [
+              input.publisherId,
+              input.actorId,
+              this.publisherQuarantineReason(
+                input.targetStatus,
+                input.reason,
+              ),
+            ],
+          );
+
+        publicationIds =
+          publications.rows.map(
+            (row) =>
+              String(
+                row.id,
+              ),
+          );
+
+        for (
+          const publicationId
+          of publicationIds
+        ) {
+          await client.query(
+            `
+            INSERT INTO
+              plugin_publication_security_events (
+                id,
+                publication_id,
+                event_type,
+                from_status,
+                to_status,
+                actor_id,
+                reason,
+                metadata
+              )
+            VALUES (
+              $1,
+              $2,
+              'QUARANTINED',
+              'APPROVED',
+              'QUARANTINED',
+              $3,
+              $4,
+              $5::jsonb
+            )
+            `,
+            [
+              randomUUID(),
+              publicationId,
+              input.actorId,
+              this.publisherQuarantineReason(
+                input.targetStatus,
+                input.reason,
+              ),
+              JSON.stringify({
+                ...input.metadata,
+                source:
+                  'publisher-status-transition',
+                publisherId:
+                  input.publisherId,
+                publisherStatus:
+                  input.targetStatus,
+              }),
+            ],
+          );
+        }
+      }
+
+      const eventType =
+        this.publisherEventType(
+          input.targetStatus,
+        );
+
+      await client.query(
+        `
+        INSERT INTO
+          plugin_publisher_trust_security_events (
+            id,
+            publisher_id,
+            event_type,
+            actor_id,
+            reason,
+            metadata
+          )
+        VALUES (
+          $1,
+          $2,
+          $3,
+          $4,
+          $5,
+          $6::jsonb
+        )
+        `,
+        [
+          randomUUID(),
+          input.publisherId,
+          eventType,
+          input.actorId,
+          input.reason.trim(),
+          JSON.stringify({
+            ...input.metadata,
+            fromStatus,
+            toStatus:
+              input.targetStatus,
+            quarantinedPublicationIds:
+              publicationIds,
+            quarantinedPublicationCount:
+              publicationIds.length,
+            revokedKeyIds,
+            revokedKeyCount:
+              revokedKeyIds.length,
+            automaticRuntimeDeactivation:
+              false,
+          }),
+        ],
+      );
+
+      await client.query('COMMIT');
+
+      return {
+        publisherId:
+          input.publisherId,
+        fromStatus,
+        status:
+          input.targetStatus,
+        quarantinedPublicationIds:
+          publicationIds,
+        quarantinedPublicationCount:
+          publicationIds.length,
+        revokedKeyIds,
+        revokedKeyCount:
+          revokedKeyIds.length,
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
   async revokeKey(
     input: RevokePluginPublisherKey,
   ): Promise<PluginPublisherKeyRevocationResult> {
@@ -561,6 +849,116 @@ export class PluginPublisherTrustLifecycleService {
             publicationIds.length,
         }),
       ],
+    );
+  }
+
+  private validatePublisherTransition(
+    input: TransitionPluginPublisher,
+  ): void {
+    this.assertIdentifier(
+      input.publisherId,
+      'publisher ID',
+    );
+
+    if (
+      ![
+        'ACTIVE',
+        'SUSPENDED',
+        'REVOKED',
+      ].includes(
+        input.targetStatus,
+      )
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_PUBLISHER_TARGET_STATUS_INVALID',
+      );
+    }
+
+    this.assertActor(
+      input.actorId,
+    );
+
+    if (
+      !input.reason ||
+      !input.reason.trim() ||
+      input.reason.trim().length > 2000
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_PUBLISHER_TRANSITION_REASON_INVALID',
+      );
+    }
+
+    this.assertMetadata(
+      input.metadata,
+    );
+  }
+
+  private assertPublisherTransition(
+    fromStatus:
+      PluginPublisherTargetStatus,
+    targetStatus:
+      PluginPublisherTargetStatus,
+  ): void {
+    const transitions:
+      Record<
+        PluginPublisherTargetStatus,
+        PluginPublisherTargetStatus[]
+      > = {
+        ACTIVE: [
+          'SUSPENDED',
+          'REVOKED',
+        ],
+        SUSPENDED: [
+          'ACTIVE',
+          'REVOKED',
+        ],
+        REVOKED: [],
+      };
+
+    if (
+      !transitions[
+        fromStatus
+      ].includes(
+        targetStatus,
+      )
+    ) {
+      throw new ConflictException(
+        `PLUGIN_PUBLISHER_TRANSITION_INVALID:${fromStatus}->${targetStatus}`,
+      );
+    }
+  }
+
+  private publisherEventType(
+    status:
+      PluginPublisherTargetStatus,
+  ):
+    | 'PUBLISHER_SUSPENDED'
+    | 'PUBLISHER_REACTIVATED'
+    | 'PUBLISHER_REVOKED' {
+    if (
+      status === 'SUSPENDED'
+    ) {
+      return 'PUBLISHER_SUSPENDED';
+    }
+
+    if (
+      status === 'ACTIVE'
+    ) {
+      return 'PUBLISHER_REACTIVATED';
+    }
+
+    return 'PUBLISHER_REVOKED';
+  }
+
+  private publisherQuarantineReason(
+    status:
+      'SUSPENDED' |
+      'REVOKED',
+    reason: string,
+  ): string {
+    return (
+      `Publisher ${status.toLowerCase()}: ` +
+      reason.trim()
     );
   }
 

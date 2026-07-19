@@ -47,6 +47,7 @@ describe(
           const method of [
             'registerPublisher',
             'registerKey',
+            'transitionPublisher',
             'revokeKey',
           ] as const
         ) {
@@ -174,6 +175,61 @@ describe(
             undefined,
           metadata: {
             fingerprintSha256:
+              'attacker-controlled',
+          },
+        });
+      },
+    );
+
+    it(
+      'derives publisher transition actor from the token',
+      async () => {
+        const lifecycle = {
+          transitionPublisher:
+            jest.fn(
+              async (input) => input,
+            ),
+        };
+
+        const controller =
+          new PluginPublisherTrustController(
+            lifecycle as unknown as
+              PluginPublisherTrustLifecycleService,
+          );
+
+        await controller.transitionPublisher(
+          'propertyos',
+          {
+            targetStatus:
+              'REVOKED',
+            reason:
+              'Publisher compromise',
+            metadata: {
+              actorId:
+                'attacker-controlled',
+            },
+            actorId:
+              'attacker-controlled',
+          } as any,
+          {
+            sub:
+              'security-person-1',
+          } as any,
+        );
+
+        expect(
+          lifecycle.transitionPublisher,
+        ).toHaveBeenCalledWith({
+          publisherId:
+            'propertyos',
+          targetStatus:
+            'REVOKED',
+          actorId:
+            'security-person-1',
+          reason:
+            'Publisher compromise',
+          metadata: {
+            actorId:
               'attacker-controlled',
           },
         });

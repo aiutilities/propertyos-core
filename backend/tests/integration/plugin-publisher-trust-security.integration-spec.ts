@@ -99,6 +99,27 @@ describe(
     );
 
     it(
+      'rejects unauthenticated publisher transitions before database access',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/plugin-publishers/propertyos/transition',
+          )
+          .send({
+            targetStatus:
+              'REVOKED',
+            reason:
+              'Injected revocation',
+            actorId:
+              'attacker-controlled',
+          })
+          .expect(401);
+      },
+    );
+
+    it(
       'rejects unauthenticated key revocation before database access',
       async () => {
         await request(

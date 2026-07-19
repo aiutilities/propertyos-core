@@ -10,7 +10,13 @@ import { PluginPackageExtractorService } from '../archive/plugin-package-extract
 import { PluginDiscoveryService } from '../discovery/plugin-discovery.service';
 import { PluginInstallationRollbackService } from '../rollback/plugin-installation-rollback.service';
 import { PluginDependencyResolverService } from '../dependency/plugin-dependency-resolver.service';
-import { InstallPluginPackageDto } from '../dto/install-plugin-package.dto';
+interface InternalPluginInstallationRequest {
+  packagePath?: string;
+  storageObjectId?: string;
+  autoEnable?: boolean;
+  overwrite?: boolean;
+  metadata?: Record<string, unknown>;
+}
 import { PluginMigrationRunnerService } from '../migration/plugin-migration-runner.service';
 import { PluginPackageValidatorService } from '../validator/plugin-package-validator.service';
 import { PluginInstallationManifestService } from '../manifest/plugin-installation-manifest.service';
@@ -40,7 +46,7 @@ export class PluginInstallerService {
   ) {}
 
   async install(
-    dto: InstallPluginPackageDto,
+    dto: InternalPluginInstallationRequest,
   ): Promise<PluginInstallationResult> {
     const materializedPackage =
       await this.resolvePackage(dto);
@@ -109,7 +115,7 @@ export class PluginInstallerService {
   }
 
   private async performInstall(
-    dto: InstallPluginPackageDto,
+    dto: InternalPluginInstallationRequest,
     materializedPackage: {
       path: string;
       temporary: boolean;
@@ -338,8 +344,74 @@ export class PluginInstallerService {
       .digest('hex');
   }
 
+  private assertTrustedPluginUpload(
+    storageObject: {
+      originalName?: string;
+      mimeType?: string;
+      sizeBytes: number;
+      entityType?: string;
+      metadata: Record<string, unknown>;
+    },
+  ): void {
+    const acceptedMimeTypes =
+      new Set([
+        'application/zip',
+        'application/x-zip-compressed',
+      ]);
+
+    if (
+      storageObject.entityType !==
+        'PLUGIN_PACKAGE'
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPLOAD_ENTITY_TYPE_INVALID',
+      );
+    }
+
+    if (
+      storageObject.metadata?.purpose !==
+        'plugin-installation'
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPLOAD_PURPOSE_INVALID',
+      );
+    }
+
+    if (
+      !storageObject.originalName
+        ?.toLowerCase()
+        .endsWith('.zip')
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPLOAD_FILENAME_INVALID',
+      );
+    }
+
+    if (
+      !storageObject.mimeType ||
+      !acceptedMimeTypes.has(
+        storageObject.mimeType
+          .toLowerCase(),
+      )
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPLOAD_MIME_TYPE_INVALID',
+      );
+    }
+
+    if (
+      storageObject.sizeBytes <= 0 ||
+      storageObject.sizeBytes >
+        100 * 1024 * 1024
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPLOAD_SIZE_INVALID',
+      );
+    }
+  }
+
   private async resolvePackage(
-    dto: InstallPluginPackageDto,
+    dto: InternalPluginInstallationRequest,
   ): Promise<{ path: string; temporary: boolean }> {
     if (dto.packagePath) {
       return {
@@ -354,9 +426,34 @@ export class PluginInstallerService {
       );
     }
 
-    const content = await this.storageService.getContent(
-      dto.storageObjectId,
+    const storageObject =
+      await this.storageService.getObject(
+        dto.storageObjectId,
+      );
+
+    this.assertTrustedPluginUpload(
+      storageObject,
     );
+
+    const content =
+      await this.storageService.getContent(
+        dto.storageObjectId,
+      );
+
+    const contentChecksum =
+      createHash('sha256')
+        .update(content)
+        .digest('hex');
+
+    if (
+      !storageObject.checksum ||
+      storageObject.checksum !==
+        contentChecksum
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPLOAD_CHECKSUM_MISMATCH',
+      );
+    }
 
     const uploadDirectory = join(
       process.cwd(),

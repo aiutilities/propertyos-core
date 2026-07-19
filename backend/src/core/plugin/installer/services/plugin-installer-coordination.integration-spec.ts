@@ -226,6 +226,8 @@ describe(
 
       const storageService =
         overrides.storageService ?? {
+          getObject:
+            jest.fn(),
           getContent:
             jest.fn(),
         };
@@ -429,6 +431,37 @@ describe(
         };
 
         const storageService = {
+          getObject:
+            jest.fn(
+              async () => ({
+                id:
+                  'storage-object-1',
+                provider:
+                  'local',
+                objectKey:
+                  'plugin-packages/stored.zip',
+                originalName:
+                  'stored.zip',
+                mimeType:
+                  'application/zip',
+                sizeBytes:
+                  content.length,
+                checksum:
+                  createHash('sha256')
+                    .update(content)
+                    .digest('hex'),
+                entityType:
+                  'PLUGIN_PACKAGE',
+                metadata: {
+                  purpose:
+                    'plugin-installation',
+                },
+                createdAt:
+                  new Date(),
+                updatedAt:
+                  new Date(),
+              }),
+            ),
           getContent:
             jest.fn(
               async () =>
@@ -671,6 +704,255 @@ describe(
               ),
           }),
         );
+      },
+    );
+
+    it(
+      'rejects storage objects not designated as plugin packages',
+      async () => {
+        const content =
+          Buffer.from(
+            'untrusted-content',
+          );
+
+        const storageService = {
+          getObject:
+            jest.fn(
+              async () => ({
+                originalName:
+                  'untrusted.zip',
+                mimeType:
+                  'application/zip',
+                sizeBytes:
+                  content.length,
+                checksum:
+                  createHash('sha256')
+                    .update(content)
+                    .digest('hex'),
+                entityType:
+                  'DOCUMENT',
+                metadata: {
+                  purpose:
+                    'plugin-installation',
+                },
+              }),
+            ),
+          getContent:
+            jest.fn(
+              async () =>
+                content,
+            ),
+        };
+
+        const coordinator = {
+          coordinate:
+            jest.fn(),
+        };
+
+        const {
+          service,
+        } = createService({
+          storageService,
+          coordinator,
+        });
+
+        await expect(
+          service.install({
+            storageObjectId:
+              'untrusted-object',
+          }),
+        ).rejects.toThrow(
+          'PLUGIN_UPLOAD_ENTITY_TYPE_INVALID',
+        );
+
+        expect(
+          storageService.getContent,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          coordinator.coordinate,
+        ).not.toHaveBeenCalled();
+      },
+    );
+
+    it(
+      'rejects stored content whose checksum differs from metadata',
+      async () => {
+        const content =
+          Buffer.from(
+            'tampered-content',
+          );
+
+        const storageService = {
+          getObject:
+            jest.fn(
+              async () => ({
+                originalName:
+                  'tampered.zip',
+                mimeType:
+                  'application/zip',
+                sizeBytes:
+                  content.length,
+                checksum:
+                  'f'.repeat(64),
+                entityType:
+                  'PLUGIN_PACKAGE',
+                metadata: {
+                  purpose:
+                    'plugin-installation',
+                },
+              }),
+            ),
+          getContent:
+            jest.fn(
+              async () =>
+                content,
+            ),
+        };
+
+        const coordinator = {
+          coordinate:
+            jest.fn(),
+        };
+
+        const {
+          service,
+        } = createService({
+          storageService,
+          coordinator,
+        });
+
+        await expect(
+          service.install({
+            storageObjectId:
+              'tampered-object',
+          }),
+        ).rejects.toThrow(
+          'PLUGIN_UPLOAD_CHECKSUM_MISMATCH',
+        );
+
+        expect(
+          coordinator.coordinate,
+        ).not.toHaveBeenCalled();
+      },
+    );
+
+    it.each([
+      [
+        'purpose',
+        {
+          originalName:
+            'plugin.zip',
+          mimeType:
+            'application/zip',
+          sizeBytes:
+            10,
+          checksum:
+            'a'.repeat(64),
+          entityType:
+            'PLUGIN_PACKAGE',
+          metadata: {
+            purpose:
+              'document-storage',
+          },
+        },
+        'PLUGIN_UPLOAD_PURPOSE_INVALID',
+      ],
+      [
+        'filename',
+        {
+          originalName:
+            'plugin.txt',
+          mimeType:
+            'application/zip',
+          sizeBytes:
+            10,
+          checksum:
+            'a'.repeat(64),
+          entityType:
+            'PLUGIN_PACKAGE',
+          metadata: {
+            purpose:
+              'plugin-installation',
+          },
+        },
+        'PLUGIN_UPLOAD_FILENAME_INVALID',
+      ],
+      [
+        'MIME type',
+        {
+          originalName:
+            'plugin.zip',
+          mimeType:
+            'text/plain',
+          sizeBytes:
+            10,
+          checksum:
+            'a'.repeat(64),
+          entityType:
+            'PLUGIN_PACKAGE',
+          metadata: {
+            purpose:
+              'plugin-installation',
+          },
+        },
+        'PLUGIN_UPLOAD_MIME_TYPE_INVALID',
+      ],
+      [
+        'size',
+        {
+          originalName:
+            'plugin.zip',
+          mimeType:
+            'application/zip',
+          sizeBytes:
+            0,
+          checksum:
+            'a'.repeat(64),
+          entityType:
+            'PLUGIN_PACKAGE',
+          metadata: {
+            purpose:
+              'plugin-installation',
+          },
+        },
+        'PLUGIN_UPLOAD_SIZE_INVALID',
+      ],
+    ])(
+      'rejects invalid upload %s metadata',
+      async (
+        _description,
+        object,
+        expectedError,
+      ) => {
+        const storageService = {
+          getObject:
+            jest.fn(
+              async () =>
+                object,
+            ),
+          getContent:
+            jest.fn(),
+        };
+
+        const {
+          service,
+        } = createService({
+          storageService,
+        });
+
+        await expect(
+          service.install({
+            storageObjectId:
+              'invalid-object',
+          }),
+        ).rejects.toThrow(
+          expectedError,
+        );
+
+        expect(
+          storageService.getContent,
+        ).not.toHaveBeenCalled();
       },
     );
   },

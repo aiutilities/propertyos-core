@@ -47,14 +47,26 @@ export class StorageService {
     return this.repository.list();
   }
 
-  async getContent(id: string): Promise<Buffer> {
-    const object = await this.repository.findById(id);
+  async getObject(id: string): Promise<StorageObject> {
+    const object =
+      await this.repository.findById(id);
 
     if (!object) {
-      throw new NotFoundException(`Storage object not found: ${id}`);
+      throw new NotFoundException(
+        `Storage object not found: ${id}`,
+      );
     }
 
-    return this.getProvider(object.provider).get(object.objectKey);
+    return object;
+  }
+
+  async getContent(id: string): Promise<Buffer> {
+    const object =
+      await this.getObject(id);
+
+    return this
+      .getProvider(object.provider)
+      .get(object.objectKey);
   }
 
   async delete(id: string): Promise<void> {

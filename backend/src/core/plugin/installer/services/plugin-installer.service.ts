@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventBusService } from '../../../eventbus/services/eventbus.service';
 import { StorageService } from '../../../storage';
-import { randomUUID } from 'crypto';
-import { mkdir, rm, writeFile } from 'fs/promises';
+import { createHash, randomUUID } from 'crypto';
+import { mkdir, readFile, rm, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { PluginService } from '../../services/plugin.service';
 import { PluginPackageService } from '../../package/services/plugin-package.service';
@@ -15,6 +15,10 @@ import { PluginMigrationRunnerService } from '../migration/plugin-migration-runn
 import { PluginPackageValidatorService } from '../validator/plugin-package-validator.service';
 import { PluginInstallationManifestService } from '../manifest/plugin-installation-manifest.service';
 import { PluginInstallationResult } from '../types/plugin-installer.types';
+import {
+  PluginInstallationConflictError,
+  PluginInstallationCoordinatorService,
+} from '../coordination/plugin-installation-coordinator.service';
 
 @Injectable()
 export class PluginInstallerService {
@@ -22,6 +26,7 @@ export class PluginInstallerService {
 
   constructor(
     private readonly extractor: PluginPackageExtractorService,
+    private readonly coordinator: PluginInstallationCoordinatorService,
     private readonly discovery: PluginDiscoveryService,
     private readonly rollbackService: PluginInstallationRollbackService,
     private readonly validator: PluginPackageValidatorService,
@@ -37,14 +42,87 @@ export class PluginInstallerService {
   async install(
     dto: InstallPluginPackageDto,
   ): Promise<PluginInstallationResult> {
-    const materializedPackage = await this.resolvePackage(dto);
+    const materializedPackage =
+      await this.resolvePackage(dto);
 
+    const requestKey =
+      await this.hashPackage(
+        materializedPackage.path,
+      );
+
+    try {
+      const coordinated =
+        await this.coordinator.coordinate(
+          requestKey,
+          () =>
+            this.performInstall(
+              dto,
+              materializedPackage,
+              requestKey,
+            ),
+          (result) =>
+            result.success,
+        );
+
+      return {
+        ...coordinated.value,
+        requestKey,
+        replayed:
+          coordinated.replayed,
+        messages:
+          coordinated.replayed
+            ? [
+                ...coordinated.value.messages,
+                'Installation result replayed from completed attempt',
+              ]
+            : coordinated.value.messages,
+      };
+    } catch (error) {
+      if (
+        error instanceof
+          PluginInstallationConflictError
+      ) {
+        return {
+          success: false,
+          stage: 'FAILED',
+          requestKey,
+          replayed: false,
+          messages: [
+            error.message,
+          ],
+          error:
+            'PLUGIN_INSTALLATION_IN_PROGRESS',
+        };
+      }
+
+      throw error;
+    } finally {
+      if (materializedPackage.temporary) {
+        await rm(
+          materializedPackage.path,
+          {
+            force: true,
+          },
+        );
+      }
+    }
+  }
+
+  private async performInstall(
+    dto: InstallPluginPackageDto,
+    materializedPackage: {
+      path: string;
+      temporary: boolean;
+    },
+    requestKey: string,
+  ): Promise<PluginInstallationResult> {
     await this.eventBus.publish(
       'plugin.installation.started',
       this.eventSource,
       {
         packagePath: materializedPackage.path,
         storageObjectId: dto.storageObjectId,
+        requestKey,
         autoEnable: dto.autoEnable,
         overwrite: dto.overwrite,
         metadata: dto.metadata ?? {},
@@ -53,6 +131,7 @@ export class PluginInstallerService {
 
     let extractedPath: string | undefined;
     let migrationResult: { executed: string[]; skipped: string[] } | undefined;
+    let installationCompleted = false;
 
     try {
       extractedPath = await this.extractor.extract(materializedPackage.path);
@@ -126,12 +205,15 @@ export class PluginInstallerService {
         await this.pluginService.activate(installation.plugin.id);
       }
 
+      installationCompleted = true;
+
       await this.eventBus.publish(
         'plugin.installation.completed',
         this.eventSource,
         {
           packagePath: materializedPackage.path,
           storageObjectId: dto.storageObjectId,
+          requestKey,
           pluginRoot,
           pluginId: installation.plugin.id,
           packageId: pluginPackage.id,
@@ -162,10 +244,6 @@ export class PluginInstallerService {
         await this.migrationRunner.rollback(migrationResult.executed);
       }
 
-      if (extractedPath) {
-        this.rollbackService.rollback(extractedPath);
-      }
-
       const message = error instanceof Error ? error.message : 'Unknown plugin installation error';
 
       await this.eventBus.publish(
@@ -174,6 +252,7 @@ export class PluginInstallerService {
         {
           packagePath: materializedPackage.path,
           storageObjectId: dto.storageObjectId,
+          requestKey,
           extractedPath,
           error: message,
         },
@@ -186,10 +265,26 @@ export class PluginInstallerService {
         error: 'PLUGIN_INSTALLATION_FAILED',
       };
     } finally {
-      if (materializedPackage.temporary) {
-        await rm(materializedPackage.path, { force: true });
+      if (
+        extractedPath &&
+        installationCompleted === false
+      ) {
+        this.rollbackService.rollback(
+          extractedPath,
+        );
       }
     }
+  }
+
+  private async hashPackage(
+    packagePath: string,
+  ): Promise<string> {
+    const content =
+      await readFile(packagePath);
+
+    return createHash('sha256')
+      .update(content)
+      .digest('hex');
   }
 
   private async resolvePackage(

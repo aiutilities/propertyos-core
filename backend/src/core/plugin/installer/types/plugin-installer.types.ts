@@ -24,6 +24,8 @@ export interface PluginInstallationResult {
   stage: PluginInstallationStage;
   manifest?: PluginManifest;
   installedPluginId?: string;
+  requestKey?: string;
+  replayed?: boolean;
   messages: string[];
   error?: string;
 }

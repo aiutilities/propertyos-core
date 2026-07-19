@@ -1,3 +1,4 @@
+import { PluginInstallationCoordinatorService } from './installer/coordination/plugin-installation-coordinator.service';
 import { PluginInstallationRollbackService } from './installer/rollback/plugin-installation-rollback.service';
 import { PluginDiscoveryService } from './installer/discovery/plugin-discovery.service';
 import { PluginZipExtractorService } from './installer/extractor/plugin-zip-extractor.service';
@@ -62,6 +63,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
   providers: [
     PluginSearchProviderService,
     PluginInstallerService,
+    PluginInstallationCoordinatorService,
     PluginPackageExtractorService,
     PluginZipExtractorService,
     PluginDiscoveryService,
@@ -101,6 +103,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
   ],
   exports: [
     PluginService,
+    PluginInstallationCoordinatorService,
     PluginLoaderService,
     PluginRuntimeModuleLoaderService,
     PluginRuntimeActivationGuardService,

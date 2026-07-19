@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
   createHash,
-  createPublicKey,
   verify as verifySignature,
 } from 'crypto';
 import {
@@ -20,6 +19,9 @@ import {
 import {
   PluginPublisherTrustService,
 } from '../../trust/plugin-publisher-trust.service';
+import {
+  canonicalizePluginPublicKey,
+} from '../../trust/plugin-public-key-policy';
 import {
   PluginSigningAlgorithm,
 } from '../../trust/plugin-publisher-trust.types';
@@ -538,19 +540,9 @@ export class PluginSignatureVerifierService {
   private fingerprintPublicKey(
     publicKeyPem: string,
   ): string {
-    const publicKey =
-      createPublicKey(
-        publicKeyPem,
-      );
-    const der =
-      publicKey.export({
-        type: 'spki',
-        format: 'der',
-      });
-
-    return createHash('sha256')
-      .update(der)
-      .digest('hex');
+    return canonicalizePluginPublicKey(
+      publicKeyPem,
+    ).fingerprintSha256;
   }
 
   private comparePaths(

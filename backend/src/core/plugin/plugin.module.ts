@@ -45,6 +45,7 @@ import { PermissionBootstrapService } from './bootstrap/permission-bootstrap.ser
 import { PluginPackageService } from './package/services/plugin-package.service';
 import { PluginMarketplaceService } from './marketplace/services/plugin-marketplace.service';
 import { PluginSearchProviderService } from './plugin-search-provider.service';
+import { PluginPublisherTrustService } from './trust/plugin-publisher-trust.service';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
   ],
   providers: [
     PluginSearchProviderService,
+    PluginPublisherTrustService,
     PluginInstallerService,
     PluginInstallationCoordinatorService,
     PluginPackageExtractorService,
@@ -103,6 +105,7 @@ import { PluginSearchProviderService } from './plugin-search-provider.service';
   ],
   exports: [
     PluginService,
+    PluginPublisherTrustService,
     PluginInstallationCoordinatorService,
     PluginLoaderService,
     PluginRuntimeModuleLoaderService,

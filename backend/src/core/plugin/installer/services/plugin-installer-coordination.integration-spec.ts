@@ -562,6 +562,192 @@ describe(
     );
 
     it(
+      'stops an untrusted package before registration, migration, installation, or activation',
+      async () => {
+        const packagePath =
+          join(
+            workspace,
+            'untrusted-signature.zip',
+          );
+
+        writeFileSync(
+          packagePath,
+          'untrusted-signature-package',
+        );
+
+        const validator = {
+          validate:
+            jest.fn(
+              async (
+                _pluginRoot: string,
+                _manifest: unknown,
+              ) => [
+                'Plugin publisher key is not trusted or active: attacker/release-key',
+              ],
+            ),
+        };
+
+        const pluginPackageService = {
+          register:
+            jest.fn(
+              () => ({
+                id: 'package-1',
+                status: 'VALID',
+                validationErrors: [],
+                validationWarnings: [],
+              }),
+            ),
+        };
+
+        const dependencyResolver = {
+          validateDependencies:
+            jest.fn(
+              async () => ({
+                valid: true,
+                errors: [],
+                missing: [],
+                installed: [],
+              }),
+            ),
+        };
+
+        const migrationRunner = {
+          run:
+            jest.fn(
+              async () => ({
+                executed: [],
+                skipped: [],
+              }),
+            ),
+          rollback:
+            jest.fn(
+              async (
+                _migrationNames:
+                  string[],
+                _pluginRoot?:
+                  string,
+                _pluginName?:
+                  string,
+              ) => undefined,
+            ),
+        };
+
+        const pluginService = {
+          installedPlugins:
+            jest.fn(
+              async () => [],
+            ),
+          install:
+            jest.fn(
+              async () => ({
+                success: true,
+                plugin: {
+                  id: 'plugin-1',
+                },
+              }),
+            ),
+          activate:
+            jest.fn(
+              async (
+                _pluginId: string,
+              ) => ({
+                success: true,
+              }),
+            ),
+        };
+
+        const rollbackService = {
+          rollback:
+            jest.fn(
+              async (
+                _pluginRoot: string,
+              ) => undefined,
+            ),
+        };
+
+        const {
+          service,
+        } = createService({
+          validator,
+          pluginPackageService,
+          dependencyResolver,
+          migrationRunner,
+          pluginService,
+          rollbackService,
+        });
+
+        const result =
+          await service.install({
+            packagePath,
+          });
+
+        expect(result).toEqual(
+          expect.objectContaining({
+            success: false,
+            stage: 'FAILED',
+            error:
+              'PLUGIN_VALIDATION_FAILED',
+            messages: [
+              'Plugin publisher key is not trusted or active: attacker/release-key',
+            ],
+          }),
+        );
+
+        expect(
+          validator.validate,
+        ).toHaveBeenCalledWith(
+          join(
+            workspace,
+            'extracted-plugin',
+          ),
+          expect.objectContaining({
+            name:
+              'test-plugin',
+            version:
+              '1.0.0',
+          }),
+        );
+
+        expect(
+          pluginPackageService.register,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          pluginService.installedPlugins,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          dependencyResolver.validateDependencies,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          migrationRunner.run,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          migrationRunner.rollback,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          pluginService.install,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          pluginService.activate,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          rollbackService.rollback,
+        ).toHaveBeenCalledWith(
+          join(
+            workspace,
+            'extracted-plugin',
+          ),
+        );
+      },
+    );
+
+    it(
       'reports manual recovery and preserves history after a post-migration failure',
       async () => {
         const packagePath =

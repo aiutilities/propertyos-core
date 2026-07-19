@@ -56,7 +56,11 @@ export class PluginPackageValidatorService {
       errors.push('Plugin dependencies must be an array');
     }
 
-    errors.push(...this.signatureVerifier.verify(pluginRoot));
+    errors.push(
+      ...await this.signatureVerifier.verify(
+        pluginRoot,
+      ),
+    );
 
     return errors;
   }

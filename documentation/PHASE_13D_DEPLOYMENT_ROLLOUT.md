@@ -158,3 +158,19 @@ but applyAuthorized must remain false until backup evidence and the isolated
 restore exercise are complete.
 
 No migration may be skipped or manually inserted into schema_migrations.
+
+## Phase 13D1 readiness outcome
+
+Phase 13D1 establishes four independent controls:
+
+1. Immutable SHA-256 and dependency validation for migrations 037 through 048.
+2. Read-only comparison of repository and database migration inventories.
+3. Backup and isolated-restore evidence validation that never grants apply
+   authorization.
+4. Post-migration schema acceptance for tables, columns, indexes, constraints,
+   functions, triggers, migration records, and core plugin row-count stability.
+
+Technical readiness does not authorize migration execution. The next permitted
+activity is environment trust bootstrap or isolated rollout preparation. The
+running PropertyOS database must remain unchanged until an explicit migration
+authorization gate is reached.

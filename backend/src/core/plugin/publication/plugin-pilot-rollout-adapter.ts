@@ -544,13 +544,22 @@ export class PluginPilotRolloutAdapter
           activated_at,
           deactivated_at
         FROM core_plugins
-        WHERE manifest->>'id' = $1
+        WHERE
+          manifest
+            ->'installationProvenance'
+            ->>'pluginId' = $1
+          OR manifest->>'id' = $1
           OR name = $1
         ORDER BY
           CASE
-            WHEN manifest->>'id' = $1
+            WHEN
+              manifest
+                ->'installationProvenance'
+                ->>'pluginId' = $1
             THEN 0
-            ELSE 1
+            WHEN manifest->>'id' = $1
+            THEN 1
+            ELSE 2
           END
         LIMIT 1
         `,
@@ -634,8 +643,19 @@ export class PluginPilotRolloutAdapter
     manifest:
       Record<string, unknown>,
   ): string {
-    return this.string(
-      manifest.id,
+    const provenance =
+      this.record(
+        manifest
+          .installationProvenance,
+      );
+
+    return (
+      this.string(
+        provenance.pluginId,
+      ) ||
+      this.string(
+        manifest.id,
+      )
     );
   }
 

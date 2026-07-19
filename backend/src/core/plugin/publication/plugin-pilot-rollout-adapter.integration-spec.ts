@@ -84,7 +84,6 @@ function harness(
     'propertyos_phase_13d4_pilot';
 
   const pilotManifest = {
-    id: input.pluginId,
     name:
       'propertyos-phase13d4-pilot',
     version: input.version,
@@ -188,7 +187,10 @@ function harness(
 
       if (
         text.includes(
-          "WHERE manifest->>'id'",
+          "->'installationProvenance'",
+        ) &&
+        text.includes(
+          'LIMIT 1',
         )
       ) {
         return {

@@ -6,11 +6,14 @@ export type MarketplacePluginStatus =
   | 'INCOMPATIBLE';
 
 export interface MarketplacePluginVersion {
+  publicationId: string;
   version: string;
   releasedAt: Date;
   minimumPlatformVersion: string;
-  downloadUrl?: string;
-  checksum?: string;
+  checksum: string;
+  integrityChecksum: string;
+  publisherKeyId: string;
+  artifactStorageObjectId: string;
   changelog?: string;
 }
 

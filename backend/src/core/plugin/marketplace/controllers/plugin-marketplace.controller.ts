@@ -1,44 +1,60 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { RegisterMarketplacePluginDto } from '../dto/register-marketplace-plugin.dto';
-import { SearchMarketplaceDto } from '../dto/search-marketplace.dto';
-import { PluginMarketplaceService } from '../services/plugin-marketplace.service';
+import {
+  ApiTags,
+} from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
+import {
+  SearchMarketplaceDto,
+} from '../dto/search-marketplace.dto';
+import {
+  PluginMarketplaceService,
+} from '../services/plugin-marketplace.service';
 
 @ApiTags('Plugin Marketplace')
-@ApiBearerAuth('JWT')
 @Controller('plugin-marketplace')
 export class PluginMarketplaceController {
-  constructor(private readonly service: PluginMarketplaceService) {}
-
-  @Post()
-  register(@Body() dto: RegisterMarketplacePluginDto) {
-    return {
-      success: true,
-      data: this.service.register(dto),
-    };
-  }
+  constructor(
+    private readonly service:
+      PluginMarketplaceService,
+  ) {}
 
   @Get()
-  list() {
+  async list() {
     return {
       success: true,
-      data: this.service.list(),
+      data:
+        await this.service.list(),
     };
   }
 
   @Post('search')
-  search(@Body() dto: SearchMarketplaceDto) {
+  async search(
+    @Body()
+    dto: SearchMarketplaceDto,
+  ) {
     return {
       success: true,
-      data: this.service.search(dto),
+      data:
+        await this.service.search(
+          dto,
+        ),
     };
   }
 
   @Get(':id')
-  get(@Param('id') id: string) {
+  async get(
+    @Param('id')
+    id: string,
+  ) {
     return {
       success: true,
-      data: this.service.get(id),
+      data:
+        await this.service.get(id),
     };
   }
 }

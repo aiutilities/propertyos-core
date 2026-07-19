@@ -562,6 +562,10 @@ describe(
               async (
                 _migrationNames:
                   string[],
+                _pluginRoot?:
+                  string,
+                _pluginName?:
+                  string,
               ) => {
                 throw new Error(
                   [
@@ -633,9 +637,16 @@ describe(
 
         expect(
           migrationRunner.rollback,
-        ).toHaveBeenCalledWith([
-          'plugins/example/001-create-table.sql',
-        ]);
+        ).toHaveBeenCalledWith(
+          [
+            'plugins/example/001-create-table.sql',
+          ],
+          join(
+            workspace,
+            'extracted-plugin',
+          ),
+          'test-plugin',
+        );
 
         expect(
           rollbackService.rollback,

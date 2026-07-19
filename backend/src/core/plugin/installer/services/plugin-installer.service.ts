@@ -130,16 +130,31 @@ export class PluginInstallerService {
     );
 
     let extractedPath: string | undefined;
+    let pluginRoot: string | undefined;
+    let migrationPluginName: string | undefined;
     let migrationResult: { executed: string[]; skipped: string[] } | undefined;
     let installationCompleted = false;
 
     try {
       extractedPath = await this.extractor.extract(materializedPackage.path);
-      const pluginRoot = this.discovery.discover(extractedPath);
+      pluginRoot =
+        this.discovery.discover(
+          extractedPath,
+        );
 
-      const manifest = this.manifestService.discover(pluginRoot);
+      const manifest =
+        this.manifestService.discover(
+          pluginRoot,
+        );
 
-      const validationErrors = await this.validator.validate(pluginRoot, manifest);
+      migrationPluginName =
+        manifest.name;
+
+      const validationErrors =
+        await this.validator.validate(
+          pluginRoot,
+          manifest,
+        );
 
       if (validationErrors.length) {
         return {
@@ -195,7 +210,12 @@ export class PluginInstallerService {
         };
       }
 
-      migrationResult = await this.migrationRunner.run(pluginRoot, manifest.name);
+      migrationResult =
+        await this.migrationRunner.run(
+          pluginRoot,
+          manifest.name,
+          manifest.version,
+        );
 
       const installation = await this.pluginService.install({
         manifest: this.manifestService.toInstalledManifest(manifest),
@@ -252,6 +272,8 @@ export class PluginInstallerService {
         try {
           await this.migrationRunner.rollback(
             migrationResult.executed,
+            pluginRoot,
+            migrationPluginName,
           );
         } catch (rollbackError) {
           migrationRollbackError =

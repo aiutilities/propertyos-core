@@ -97,8 +97,8 @@ export class PluginPublicationGovernanceService {
             $2,
             $3,
             $4,
-            $5,
-            $6,
+            $5::varchar(100),
+            $6::varchar(150),
             $7,
             $8,
             $9,
@@ -109,8 +109,10 @@ export class PluginPublicationGovernanceService {
           INNER JOIN plugin_publisher_keys signing_key
             ON signing_key.publisher_id =
               publisher.id
-          WHERE publisher.id = $5
-            AND signing_key.key_id = $6
+          WHERE publisher.id =
+              $5::varchar(100)
+            AND signing_key.key_id =
+              $6::varchar(150)
             AND publisher.status = 'ACTIVE'
             AND signing_key.status = 'ACTIVE'
             AND publisher.revoked_at IS NULL
@@ -254,10 +256,10 @@ export class PluginPublicationGovernanceService {
           `
           UPDATE plugin_publications
           SET
-            status = $2,
+            status = $2::varchar(30),
             reviewed_by =
               CASE
-                WHEN $2 IN (
+                WHEN $2::varchar(30) IN (
                   'APPROVED',
                   'REJECTED'
                 )
@@ -266,7 +268,7 @@ export class PluginPublicationGovernanceService {
               END,
             reviewed_at =
               CASE
-                WHEN $2 IN (
+                WHEN $2::varchar(30) IN (
                   'APPROVED',
                   'REJECTED'
                 )
@@ -275,7 +277,7 @@ export class PluginPublicationGovernanceService {
               END,
             decision_reason =
               CASE
-                WHEN $2 IN (
+                WHEN $2::varchar(30) IN (
                   'APPROVED',
                   'REJECTED'
                 )
@@ -284,52 +286,52 @@ export class PluginPublicationGovernanceService {
               END,
             quarantined_by =
               CASE
-                WHEN $2 = 'QUARANTINED'
+                WHEN $2::varchar(30) = 'QUARANTINED'
                 THEN $3
-                WHEN $2 = 'APPROVED'
+                WHEN $2::varchar(30) = 'APPROVED'
                   AND status = 'QUARANTINED'
                 THEN NULL
                 ELSE quarantined_by
               END,
             quarantined_at =
               CASE
-                WHEN $2 = 'QUARANTINED'
+                WHEN $2::varchar(30) = 'QUARANTINED'
                 THEN NOW()
-                WHEN $2 = 'APPROVED'
+                WHEN $2::varchar(30) = 'APPROVED'
                   AND status = 'QUARANTINED'
                 THEN NULL
                 ELSE quarantined_at
               END,
             quarantine_reason =
               CASE
-                WHEN $2 = 'QUARANTINED'
+                WHEN $2::varchar(30) = 'QUARANTINED'
                 THEN $4
-                WHEN $2 = 'APPROVED'
+                WHEN $2::varchar(30) = 'APPROVED'
                   AND status = 'QUARANTINED'
                 THEN NULL
                 ELSE quarantine_reason
               END,
             revoked_by =
               CASE
-                WHEN $2 = 'REVOKED'
+                WHEN $2::varchar(30) = 'REVOKED'
                 THEN $3
                 ELSE revoked_by
               END,
             revoked_at =
               CASE
-                WHEN $2 = 'REVOKED'
+                WHEN $2::varchar(30) = 'REVOKED'
                 THEN NOW()
                 ELSE revoked_at
               END,
             revocation_reason =
               CASE
-                WHEN $2 = 'REVOKED'
+                WHEN $2::varchar(30) = 'REVOKED'
                 THEN $4
                 ELSE revocation_reason
               END,
             updated_at = NOW()
           WHERE id = $1
-            AND status = $5
+            AND status = $5::varchar(30)
           RETURNING *
           `,
           [

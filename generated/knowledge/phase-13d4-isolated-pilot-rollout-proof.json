@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "scope": "PHASE_13D4_ISOLATED_PILOT_ACCEPTANCE",
+  "status": "ACCEPTED",
+  "executedGitCommit": "4d92e90377a8232e52c4550ee21e72f03490831f",
+  "sourceDatabaseTouched": false,
+  "productionAllowed": false,
+  "environment": {
+    "class": "ISOLATED",
+    "id": "phase-13d4-isolated",
+    "database": "propertyos_phase_13d4_pilot"
+  },
+  "pilot": {
+    "pluginId": "propertyos.phase13d4-pilot",
+    "version": "1.0.0",
+    "publisherId": "propertyos",
+    "keyId": "pilot-key-2026",
+    "finalPublicationStatus": "REVOKED",
+    "revocationBoundary": "DISTRIBUTION_ONLY",
+    "runtimeContainmentTriggered": false,
+    "approvedDiscoveryVerified": true,
+    "quarantineRemovalVerified": true,
+    "releaseRestorationVerified": true,
+    "provenanceVerified": true,
+    "runtimeUnchangedAfterRevocation": true,
+    "unrelatedPluginStateUnchanged": true
+  },
+  "artifact": {
+    "sha256": "a8b23c5ba0a9bce078ab405e7610dde029cd85f3678899005034d58528dee457",
+    "integritySha256": "4a4fd6e12417d1f79f54291cb5f7c948230fc19fb720e88843595856e5cb3acb",
+    "keyFingerprintSha256": "4e49ea98864435f83b04acd9e6df120bc5f93d59fb198d74c7fb72bd6fa03261"
+  },
+  "persistedEvidence": {
+    "state": "2|49|1|1|1|5|2",
+    "eventSequence": "SUBMITTED>APPROVED>QUARANTINED>QUARANTINE_RELEASED>REVOKED",
+    "publication": "propertyos.phase13d4-pilot|1.0.0|REVOKED|propertyos|pilot-key-2026|a8b23c5ba0a9bce078ab405e7610dde029cd85f3678899005034d58528dee457|4a4fd6e12417d1f79f54291cb5f7c948230fc19fb720e88843595856e5cb3acb",
+    "pluginState": "1|1"
+  },
+  "runnerEvidenceSha256": "cc65187306159d079d3ad968c396f522bdc6e6f705ee85dfec09ef6644097948",
+  "recovery": {
+    "dumpSha256": "c5f555b87ef051c84d69a79494ddace86ecf45ca13f6b769cf93aa276f81c3f5",
+    "completed": true,
+    "recoveredState": "1|49|0|0|0|0|0"
+  }
+}

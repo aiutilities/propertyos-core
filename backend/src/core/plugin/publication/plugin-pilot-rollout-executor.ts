@@ -60,6 +60,16 @@ export interface PilotSignatureObservation {
   integritySha256: string;
 }
 
+export interface PilotMarketplacePublication {
+  publicationId: string;
+  pluginId: string;
+  version: string;
+  publisherId: string;
+  artifactSha256: string;
+  integritySha256: string;
+  verified: true;
+}
+
 export interface PluginPilotRolloutPorts {
   inspectTrust(
     input: PluginPilotRolloutInput,
@@ -86,8 +96,8 @@ export interface PluginPilotRolloutPorts {
     metadata: Record<string, unknown>;
   }): Promise<PluginPublication>;
 
-  listApprovedPublications():
-    Promise<PluginPublication[]>;
+  listMarketplacePublications():
+    Promise<PilotMarketplacePublication[]>;
 
   installApprovedPublication(input: {
     publicationId: string;
@@ -705,15 +715,16 @@ export class PluginPilotRolloutExecutor {
     publicationId: string,
     expected: boolean,
   ): Promise<void> {
-    const approved =
+    const marketplace =
       await this.ports
-        .listApprovedPublications();
+        .listMarketplacePublications();
 
     const discovered =
-      approved.some(
+      marketplace.some(
         (publication) =>
-          publication.id ===
-          publicationId,
+          publication.publicationId ===
+          publicationId &&
+          publication.verified === true,
       );
 
     if (discovered !== expected) {

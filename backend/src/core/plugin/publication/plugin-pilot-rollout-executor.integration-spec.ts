@@ -187,7 +187,7 @@ class FakePilotPorts
     );
   }
 
-  async listApprovedPublications() {
+  async listMarketplacePublications() {
     this.calls.push(
       `discover:${this.publicationStatus}`,
     );
@@ -195,10 +195,21 @@ class FakePilotPorts
     return this.publicationStatus ===
       'APPROVED'
       ? [
-          publication(
-            this.input,
-            'APPROVED',
-          ),
+          {
+            publicationId:
+              PUBLICATION_ID,
+            pluginId:
+              this.input.pluginId,
+            version:
+              this.input.version,
+            publisherId:
+              this.input.publisherId,
+            artifactSha256:
+              this.input.artifactSha256,
+            integritySha256:
+              this.input.integritySha256,
+            verified: true as const,
+          },
         ]
       : [];
   }

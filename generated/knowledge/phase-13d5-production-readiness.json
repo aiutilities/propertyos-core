@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "scope": "PHASE_13D5_PRODUCTION_READINESS",
+  "status": "READY_FOR_EXPLICIT_AUTHORIZATION",
+  "technicalPreflight": "READY",
+  "productionExecutionCompleted": false,
+  "productionExecutionAuthorized": false,
+  "databaseMutated": false,
+  "sourceState": "1|37|0",
+  "controlledMigrationRange": {
+    "first": 37,
+    "last": 48,
+    "count": 12
+  },
+  "prerequisites": {
+    "isolatedMigrationRollout": "ACCEPTED",
+    "isolatedRecoveryExercise": "PASSED",
+    "isolatedPilotLifecycle": "ACCEPTED",
+    "distributionRevocation": "VERIFIED",
+    "runtimeContainmentTriggered": false,
+    "unrelatedPluginStateUnchanged": true
+  },
+  "phase13d4": {
+    "commit": "625749f622015e8dc459519b0ad98991ff240a83",
+    "tag": "v2.9.57-phase-13d4-isolated-pilot-acceptance",
+    "proofSha256": "c0c3294fe649220632fbab1f364c84646b33e44aa6d749fcca5393fd212463ae"
+  },
+  "preflightEvidenceSha256": "41f33714ebe6d22c2cd9828041dba8012bb67442046d13e1bd101e0b21dde2f0",
+  "remainingAuthorization": {
+    "explicitProductionApprovalRequired": true,
+    "currentApprovalPresent": false,
+    "freshCommitBoundBackupRequired": true,
+    "maintenanceWindowRequired": true,
+    "operatorApproverSeparationRequired": true
+  }
+}

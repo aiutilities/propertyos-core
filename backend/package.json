@@ -9,6 +9,7 @@
     "dev": "ts-node src/main.ts",
     "migrate": "ts-node src/database/runner/migration-runner.ts",
     "migrate:preflight:static": "ts-node src/database/runner/migration-readiness-cli.ts",
+    "migrate:preflight": "ts-node src/database/runner/migration-database-preflight-cli.ts",
     "test": "jest",
     "test:integration": "jest --runInBand",
     "typecheck": "tsc --noEmit",

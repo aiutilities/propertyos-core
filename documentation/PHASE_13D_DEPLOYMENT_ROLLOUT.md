@@ -132,3 +132,26 @@ publications. They do not automatically deactivate a running plugin.
 
 Phase 13D pilot testing must preserve this boundary. Automatic runtime
 containment requires a separate Phase 13E operational decision.
+
+## Observed development database baseline
+
+The Phase 13D1 read-only preflight found 49 repository migration files and 37
+applied migration records. Twelve migrations are pending.
+
+The pending set is:
+
+- 037 material issue.
+- 038 material return.
+- 039 inventory batch foundation.
+- 040 procurement batch receipt integration.
+- 041 material issue batch support.
+- 042 material return batch support.
+- 043 stock reservation batch support.
+- 044 through 048 plugin trust and publication rollout.
+
+Migrations 037 through 043 are unexpected prerequisites for the planned 044
+through 048 rollout. The deployment preflight must remain BLOCKED until these
+seven migrations have been reviewed, backed up, restored, and exercised in an
+isolated environment.
+
+No migration may be skipped or manually inserted into schema_migrations.

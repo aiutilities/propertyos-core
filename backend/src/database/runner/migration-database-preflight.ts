@@ -1,6 +1,6 @@
 import { QueryResult } from 'pg';
 import {
-  CONTROLLED_PLUGIN_TRUST_MIGRATIONS,
+  CONTROLLED_DEPLOYMENT_MIGRATIONS,
 } from './migration-readiness';
 
 export interface ReadOnlyQueryExecutor {
@@ -165,7 +165,7 @@ export async function runDatabasePreflight(
       repositoryMigrationNames,
     );
     const controlledSet = new Set(
-      CONTROLLED_PLUGIN_TRUST_MIGRATIONS.map(
+      CONTROLLED_DEPLOYMENT_MIGRATIONS.map(
         (migration) => migration.name,
       ),
     );

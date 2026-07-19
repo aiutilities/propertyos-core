@@ -5,7 +5,7 @@ import {
 } from '@jest/globals';
 import {
   buildMigrationReadinessReport,
-  CONTROLLED_PLUGIN_TRUST_MIGRATIONS,
+  CONTROLLED_DEPLOYMENT_MIGRATIONS,
   migrationSha256,
 } from './migration-readiness';
 import {
@@ -15,7 +15,7 @@ import {
 
 describe('Phase 13D migration readiness', () => {
   const controlledNames =
-    CONTROLLED_PLUGIN_TRUST_MIGRATIONS.map(
+    CONTROLLED_DEPLOYMENT_MIGRATIONS.map(
       (migration) => migration.name,
     );
 
@@ -35,7 +35,7 @@ describe('Phase 13D migration readiness', () => {
     expect(report.databaseTouched).toBe(false);
     expect(report.applyAuthorized).toBe(false);
     expect(report.errors).toEqual([]);
-    expect(report.migrations).toHaveLength(5);
+    expect(report.migrations).toHaveLength(12);
     expect(
       report.migrations.every(
         (migration) => migration.ready,
@@ -45,6 +45,13 @@ describe('Phase 13D migration readiness', () => {
 
   it('pins the required rollout order', () => {
     expect(controlledNames).toEqual([
+      'core/037-create-core-inventory-material-issue.sql',
+      'core/038-create-core-inventory-material-return.sql',
+      'core/039-create-core-inventory-batch-foundation.sql',
+      'core/040-add-procurement-batch-receipt-integration.sql',
+      'core/041-add-inventory-material-issue-batch.sql',
+      'core/042-add-inventory-material-return-batch.sql',
+      'core/043-add-inventory-stock-reservation-batch.sql',
       'core/044-create-plugin-installation-attempts.sql',
       'core/045-add-plugin-migration-integrity.sql',
       'core/046-create-plugin-publisher-trust.sql',

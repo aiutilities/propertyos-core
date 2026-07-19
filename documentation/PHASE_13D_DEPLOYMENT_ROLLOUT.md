@@ -149,9 +149,12 @@ The pending set is:
 - 043 stock reservation batch support.
 - 044 through 048 plugin trust and publication rollout.
 
-Migrations 037 through 043 are unexpected prerequisites for the planned 044
-through 048 rollout. The deployment preflight must remain BLOCKED until these
-seven migrations have been reviewed, backed up, restored, and exercised in an
-isolated environment.
+Migrations 037 through 043 were discovered as prerequisites for the planned
+044 through 048 rollout. Their dependency order and SHA-256 digests are now
+included in the controlled readiness manifest.
+
+Technical preflight may report READY for the combined 037 through 048 range,
+but applyAuthorized must remain false until backup evidence and the isolated
+restore exercise are complete.
 
 No migration may be skipped or manually inserted into schema_migrations.

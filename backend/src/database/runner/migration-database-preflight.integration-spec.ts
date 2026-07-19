@@ -12,7 +12,7 @@ import {
   runDatabasePreflight,
 } from './migration-database-preflight';
 import {
-  CONTROLLED_PLUGIN_TRUST_MIGRATIONS,
+  CONTROLLED_DEPLOYMENT_MIGRATIONS,
 } from './migration-readiness';
 
 function result<T extends Record<string, unknown>>(
@@ -28,7 +28,7 @@ function result<T extends Record<string, unknown>>(
 }
 
 const controlledNames =
-  CONTROLLED_PLUGIN_TRUST_MIGRATIONS.map(
+  CONTROLLED_DEPLOYMENT_MIGRATIONS.map(
     (migration) => migration.name,
   );
 

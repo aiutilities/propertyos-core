@@ -252,6 +252,9 @@ describe(
         coordinator,
         rollbackService,
         validator,
+        migrationRunner,
+        pluginService,
+        eventBus,
         storageService,
       };
     };
@@ -521,6 +524,141 @@ describe(
             workspace,
             'extracted-plugin',
           ),
+        );
+      },
+    );
+
+    it(
+      'reports manual recovery and preserves history after a post-migration failure',
+      async () => {
+        const packagePath =
+          join(
+            workspace,
+            'migration-failure.zip',
+          );
+
+        writeFileSync(
+          packagePath,
+          'migration-failure-plugin',
+        );
+
+        const rollbackService = {
+          rollback:
+            jest.fn(),
+        };
+
+        const migrationRunner = {
+          run:
+            jest.fn(
+              async () => ({
+                executed: [
+                  'plugins/example/001-create-table.sql',
+                ],
+                skipped: [],
+              }),
+            ),
+          rollback:
+            jest.fn(
+              async (
+                _migrationNames:
+                  string[],
+              ) => {
+                throw new Error(
+                  [
+                    'PLUGIN_MIGRATION_ROLLBACK_UNAVAILABLE:',
+                    'schema migration history was preserved',
+                  ].join(' '),
+                );
+              },
+            ),
+        };
+
+        const pluginService = {
+          installedPlugins:
+            jest.fn(
+              async () => [],
+            ),
+          install:
+            jest.fn(
+              async () => {
+                throw new Error(
+                  'plugin registration failed',
+                );
+              },
+            ),
+          activate:
+            jest.fn(),
+        };
+
+        const eventBus = {
+          publish:
+            jest.fn(
+              async (
+                _eventName: string,
+                _source: string,
+                _payload: unknown,
+              ) => undefined,
+            ),
+        };
+
+        const {
+          service,
+        } = createService({
+          rollbackService,
+          migrationRunner,
+          pluginService,
+          eventBus,
+        });
+
+        const result =
+          await service.install({
+            packagePath,
+          });
+
+        expect(result).toEqual(
+          expect.objectContaining({
+            success: false,
+            stage: 'FAILED',
+            error:
+              'PLUGIN_MIGRATION_ROLLBACK_UNAVAILABLE',
+            messages:
+              expect.arrayContaining([
+                'plugin registration failed',
+                expect.stringContaining(
+                  'schema migration history was preserved',
+                ),
+              ]),
+          }),
+        );
+
+        expect(
+          migrationRunner.rollback,
+        ).toHaveBeenCalledWith([
+          'plugins/example/001-create-table.sql',
+        ]);
+
+        expect(
+          rollbackService.rollback,
+        ).toHaveBeenCalledWith(
+          join(
+            workspace,
+            'extracted-plugin',
+          ),
+        );
+
+        expect(
+          eventBus.publish,
+        ).toHaveBeenCalledWith(
+          'plugin.installation.failed',
+          'core.plugin.installer',
+          expect.objectContaining({
+            requiresManualRecovery:
+              true,
+            migrationRollbackError:
+              expect.stringContaining(
+                'PLUGIN_MIGRATION_ROLLBACK_UNAVAILABLE',
+              ),
+          }),
         );
       },
     );

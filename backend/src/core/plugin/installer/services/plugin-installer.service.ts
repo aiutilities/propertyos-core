@@ -240,11 +240,26 @@ export class PluginInstallerService {
         ],
       };
     } catch (error) {
-      if (migrationResult?.executed.length) {
-        await this.migrationRunner.rollback(migrationResult.executed);
-      }
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unknown plugin installation error';
 
-      const message = error instanceof Error ? error.message : 'Unknown plugin installation error';
+      let migrationRollbackError:
+        string | undefined;
+
+      if (migrationResult?.executed.length) {
+        try {
+          await this.migrationRunner.rollback(
+            migrationResult.executed,
+          );
+        } catch (rollbackError) {
+          migrationRollbackError =
+            rollbackError instanceof Error
+              ? rollbackError.message
+              : 'Unknown migration rollback error';
+        }
+      }
 
       await this.eventBus.publish(
         'plugin.installation.failed',
@@ -255,14 +270,28 @@ export class PluginInstallerService {
           requestKey,
           extractedPath,
           error: message,
+          migrationRollbackError,
+          requiresManualRecovery:
+            migrationRollbackError !== undefined,
         },
       );
 
       return {
         success: false,
         stage: 'FAILED',
-        messages: [message],
-        error: 'PLUGIN_INSTALLATION_FAILED',
+        messages:
+          migrationRollbackError
+            ? [
+                message,
+                migrationRollbackError,
+              ]
+            : [
+                message,
+              ],
+        error:
+          migrationRollbackError
+            ? 'PLUGIN_MIGRATION_ROLLBACK_UNAVAILABLE'
+            : 'PLUGIN_INSTALLATION_FAILED',
       };
     } finally {
       if (

@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { PlatformEventNames } from '../../platform';
 import { PluginEntity } from '../entities/plugin.entity';
 import { RollbackPluginDto } from '../dto/rollback-plugin.dto';
 import { UpgradePluginDto } from '../dto/upgrade-plugin.dto';
+import semver from 'semver';
 
 export interface PluginLifecycleResult {
   success: boolean;
@@ -64,6 +65,12 @@ export class PluginLifecycleService {
     plugin: PluginEntity,
     dto: UpgradePluginDto,
   ): Promise<Partial<PluginEntity>> {
+    this.assertValidVersionTransition(
+      plugin.version,
+      dto.version,
+      'UPGRADE',
+    );
+
     const nextManifest = dto.manifest ?? {
       ...plugin.manifest,
       version: dto.version,
@@ -89,6 +96,12 @@ export class PluginLifecycleService {
     plugin: PluginEntity,
     dto: RollbackPluginDto,
   ): Promise<Partial<PluginEntity>> {
+    this.assertValidVersionTransition(
+      plugin.version,
+      dto.targetVersion,
+      'ROLLBACK',
+    );
+
     const nextManifest = {
       ...plugin.manifest,
       version: dto.targetVersion,
@@ -108,6 +121,45 @@ export class PluginLifecycleService {
       status: 'INSTALLED',
       deactivatedAt: new Date(),
     };
+  }
+
+  private assertValidVersionTransition(
+    currentVersion: string,
+    targetVersion: string,
+    operation: 'UPGRADE' | 'ROLLBACK',
+  ): void {
+    if (
+      !semver.valid(currentVersion) ||
+      !semver.valid(targetVersion)
+    ) {
+      throw new BadRequestException(
+        `PLUGIN_${operation}_VERSION_INVALID`,
+      );
+    }
+
+    if (
+      operation === 'UPGRADE' &&
+      !semver.gt(
+        targetVersion,
+        currentVersion,
+      )
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_UPGRADE_VERSION_MUST_INCREASE',
+      );
+    }
+
+    if (
+      operation === 'ROLLBACK' &&
+      !semver.lt(
+        targetVersion,
+        currentVersion,
+      )
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_ROLLBACK_VERSION_MUST_DECREASE',
+      );
+    }
   }
 
   buildResult(

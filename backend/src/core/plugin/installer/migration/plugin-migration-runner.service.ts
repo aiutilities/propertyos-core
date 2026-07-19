@@ -54,12 +54,18 @@ export class PluginMigrationRunnerService {
   }
 
   async rollback(migrationNames: string[]): Promise<void> {
-    for (const name of migrationNames) {
-      await this.pool.query(
-        'DELETE FROM schema_migrations WHERE name = $1',
-        [name],
-      );
+    if (migrationNames.length === 0) {
+      return;
     }
+
+    throw new Error(
+      [
+        'PLUGIN_MIGRATION_ROLLBACK_UNAVAILABLE:',
+        'executed migrations have no verified down migrations;',
+        'schema migration history was preserved for manual recovery;',
+        `migrations=${migrationNames.join(',')}`,
+      ].join(' '),
+    );
   }
 
   private loadPluginMigrations(pluginRoot?: string, pluginName?: string) {

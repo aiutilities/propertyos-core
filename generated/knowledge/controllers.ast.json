@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "controllerCount": 59,
-  "routeCount": 449,
+  "controllerCount": 62,
+  "routeCount": 457,
   "controllers": [
     {
       "id": "access-control:access-control",
@@ -4689,7 +4689,10 @@
       "moduleId": "plugin",
       "className": "PluginInstallerController",
       "basePath": "/plugin-installer",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 1,
       "routes": [
@@ -4702,18 +4705,20 @@
           "path": "install",
           "fullPath": "/plugin-installer/install",
           "handler": "install",
-          "handlerLine": 15,
-          "permissions": [],
+          "handlerLine": 47,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/installer/controllers/plugin-installer.controller.ts",
-            "line": 14
+            "line": 43
           }
         }
       ],
       "source": {
         "path": "backend/src/core/plugin/installer/controllers/plugin-installer.controller.ts",
-        "line": 8
+        "line": 32
       }
     },
     {
@@ -4722,8 +4727,8 @@
       "className": "PluginMarketplaceController",
       "basePath": "/plugin-marketplace",
       "guards": [],
-      "bearerAuth": true,
-      "routeCount": 4,
+      "bearerAuth": false,
+      "routeCount": 3,
       "routes": [
         {
           "id": "plugin:plugin-marketplace:get:list:/plugin-marketplace",
@@ -4734,29 +4739,12 @@
           "path": "",
           "fullPath": "/plugin-marketplace",
           "handler": "list",
-          "handlerLine": 22,
+          "handlerLine": 27,
           "permissions": [],
-          "bearerAuth": true,
+          "bearerAuth": false,
           "source": {
             "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 21
-          }
-        },
-        {
-          "id": "plugin:plugin-marketplace:post:register:/plugin-marketplace",
-          "controllerId": "plugin:plugin-marketplace",
-          "controllerClassName": "PluginMarketplaceController",
-          "moduleId": "plugin",
-          "httpMethod": "POST",
-          "path": "",
-          "fullPath": "/plugin-marketplace",
-          "handler": "register",
-          "handlerLine": 14,
-          "permissions": [],
-          "bearerAuth": true,
-          "source": {
-            "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 13
+            "line": 26
           }
         },
         {
@@ -4768,12 +4756,12 @@
           "path": ":id",
           "fullPath": "/plugin-marketplace/:id",
           "handler": "get",
-          "handlerLine": 38,
+          "handlerLine": 50,
           "permissions": [],
-          "bearerAuth": true,
+          "bearerAuth": false,
           "source": {
             "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 37
+            "line": 49
           }
         },
         {
@@ -4785,18 +4773,18 @@
           "path": "search",
           "fullPath": "/plugin-marketplace/search",
           "handler": "search",
-          "handlerLine": 30,
+          "handlerLine": 36,
           "permissions": [],
-          "bearerAuth": true,
+          "bearerAuth": false,
           "source": {
             "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 29
+            "line": 35
           }
         }
       ],
       "source": {
         "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-        "line": 9
+        "line": 19
       }
     },
     {
@@ -4880,6 +4868,231 @@
       "source": {
         "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts",
         "line": 8
+      }
+    },
+    {
+      "id": "plugin:plugin-publication-governance",
+      "moduleId": "plugin",
+      "className": "PluginPublicationGovernanceController",
+      "basePath": "/plugin-publications",
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
+      "bearerAuth": true,
+      "routeCount": 4,
+      "routes": [
+        {
+          "id": "plugin:plugin-publication-governance:post:submit:/plugin-publications",
+          "controllerId": "plugin:plugin-publication-governance",
+          "controllerClassName": "PluginPublicationGovernanceController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": "",
+          "fullPath": "/plugin-publications",
+          "handler": "submit",
+          "handlerLine": 63,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/publication/plugin-publication-governance.controller.ts",
+            "line": 59
+          }
+        },
+        {
+          "id": "plugin:plugin-publication-governance:get:get:/plugin-publications/:id",
+          "controllerId": "plugin:plugin-publication-governance",
+          "controllerClassName": "PluginPublicationGovernanceController",
+          "moduleId": "plugin",
+          "httpMethod": "GET",
+          "path": ":id",
+          "fullPath": "/plugin-publications/:id",
+          "handler": "get",
+          "handlerLine": 122,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/publication/plugin-publication-governance.controller.ts",
+            "line": 118
+          }
+        },
+        {
+          "id": "plugin:plugin-publication-governance:get:events:/plugin-publications/:id/events",
+          "controllerId": "plugin:plugin-publication-governance",
+          "controllerClassName": "PluginPublicationGovernanceController",
+          "moduleId": "plugin",
+          "httpMethod": "GET",
+          "path": ":id/events",
+          "fullPath": "/plugin-publications/:id/events",
+          "handler": "events",
+          "handlerLine": 109,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/publication/plugin-publication-governance.controller.ts",
+            "line": 105
+          }
+        },
+        {
+          "id": "plugin:plugin-publication-governance:post:transition:/plugin-publications/:id/transition",
+          "controllerId": "plugin:plugin-publication-governance",
+          "controllerClassName": "PluginPublicationGovernanceController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": ":id/transition",
+          "fullPath": "/plugin-publications/:id/transition",
+          "handler": "transition",
+          "handlerLine": 83,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/publication/plugin-publication-governance.controller.ts",
+            "line": 79
+          }
+        }
+      ],
+      "source": {
+        "path": "backend/src/core/plugin/publication/plugin-publication-governance.controller.ts",
+        "line": 46
+      }
+    },
+    {
+      "id": "plugin:plugin-publication-installation",
+      "moduleId": "plugin",
+      "className": "PluginPublicationInstallationController",
+      "basePath": "/plugin-publication-installer",
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
+      "bearerAuth": true,
+      "routeCount": 1,
+      "routes": [
+        {
+          "id": "plugin:plugin-publication-installation:post:install:/plugin-publication-installer/:publicationId/install",
+          "controllerId": "plugin:plugin-publication-installation",
+          "controllerClassName": "PluginPublicationInstallationController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": ":publicationId/install",
+          "fullPath": "/plugin-publication-installer/:publicationId/install",
+          "handler": "install",
+          "handlerLine": 54,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/publication/plugin-publication-installation.controller.ts",
+            "line": 50
+          }
+        }
+      ],
+      "source": {
+        "path": "backend/src/core/plugin/publication/plugin-publication-installation.controller.ts",
+        "line": 39
+      }
+    },
+    {
+      "id": "plugin:plugin-publisher-trust",
+      "moduleId": "plugin",
+      "className": "PluginPublisherTrustController",
+      "basePath": "/plugin-publishers",
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
+      "bearerAuth": true,
+      "routeCount": 4,
+      "routes": [
+        {
+          "id": "plugin:plugin-publisher-trust:post:registerPublisher:/plugin-publishers",
+          "controllerId": "plugin:plugin-publisher-trust",
+          "controllerClassName": "PluginPublisherTrustController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": "",
+          "fullPath": "/plugin-publishers",
+          "handler": "registerPublisher",
+          "handlerLine": 63,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/trust/plugin-publisher-trust.controller.ts",
+            "line": 59
+          }
+        },
+        {
+          "id": "plugin:plugin-publisher-trust:post:registerKey:/plugin-publishers/:publisherId/keys",
+          "controllerId": "plugin:plugin-publisher-trust",
+          "controllerClassName": "PluginPublisherTrustController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": ":publisherId/keys",
+          "fullPath": "/plugin-publishers/:publisherId/keys",
+          "handler": "registerKey",
+          "handlerLine": 85,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/trust/plugin-publisher-trust.controller.ts",
+            "line": 81
+          }
+        },
+        {
+          "id": "plugin:plugin-publisher-trust:post:revokeKey:/plugin-publishers/:publisherId/keys/:keyId/revoke",
+          "controllerId": "plugin:plugin-publisher-trust",
+          "controllerClassName": "PluginPublisherTrustController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": ":publisherId/keys/:keyId/revoke",
+          "fullPath": "/plugin-publishers/:publisherId/keys/:keyId/revoke",
+          "handler": "revokeKey",
+          "handlerLine": 147,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/trust/plugin-publisher-trust.controller.ts",
+            "line": 143
+          }
+        },
+        {
+          "id": "plugin:plugin-publisher-trust:post:transitionPublisher:/plugin-publishers/:publisherId/transition",
+          "controllerId": "plugin:plugin-publisher-trust",
+          "controllerClassName": "PluginPublisherTrustController",
+          "moduleId": "plugin",
+          "httpMethod": "POST",
+          "path": ":publisherId/transition",
+          "fullPath": "/plugin-publishers/:publisherId/transition",
+          "handler": "transitionPublisher",
+          "handlerLine": 122,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/plugin/trust/plugin-publisher-trust.controller.ts",
+            "line": 118
+          }
+        }
+      ],
+      "source": {
+        "path": "backend/src/core/plugin/trust/plugin-publisher-trust.controller.ts",
+        "line": 48
       }
     },
     {

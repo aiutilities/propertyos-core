@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "milestone": "PHASE_13C",
+  "title": "Approved plugin publication installation and controlled lifecycle proof",
+  "generatedAt": "2026-07-19T13:36:24Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "validatedHead": "e432f107e88f5e9b7b032bc923821f51a846130e"
+  },
+  "controls": {
+    "approvedPublicationOnly": true,
+    "trustedProvenanceDerivedServerSide": true,
+    "artifactDigestVerified": true,
+    "integrityDigestVerified": true,
+    "publisherAndKeyIdentityVerified": true,
+    "atomicInstallationProvenance": true,
+    "clientCannotSupplyTrustedProvenance": true,
+    "migrationUpgradeRollbackUninstallCovered": true,
+    "runtimeRouteRegistrationCovered": true,
+    "publisherRevocationQuarantinesDistribution": true,
+    "publisherRevocationDoesNotAutoDeactivateRuntime": true
+  },
+  "validation": {
+    "backendTestSuitesPassed": 108,
+    "backendTestsPassed": 775,
+    "knowledgeEngineTestsPassed": 384,
+    "backendTypecheckPassed": true,
+    "backendBuildPassed": true,
+    "controllerCount": 62,
+    "routeCount": 457,
+    "httpMethodCounts": {
+      "GET": 203,
+      "POST": 216,
+      "PATCH": 35,
+      "DELETE": 3
+    }
+  },
+  "environmentSafety": {
+    "liveCorePluginRows": 1,
+    "liveInstallationsMutated": false,
+    "migrationsApplied": {
+      "044": false,
+      "045": false,
+      "046": false,
+      "047": false,
+      "048": false
+    },
+    "servicesRestarted": false
+  },
+  "releaseStatus": {
+    "phase13C": "COMPLETE",
+    "nextPhase": "13D_DEPLOYMENT_ROLLOUT"
+  }
+}

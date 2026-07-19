@@ -39,13 +39,13 @@ class ControllerScannerTest(unittest.TestCase):
     def test_discovers_all_controller_files(self) -> None:
         self.assertEqual(
             self.manifest.controller_count,
-            59,
+            62,
         )
 
     def test_discovers_expected_route_count(self) -> None:
         self.assertEqual(
             self.manifest.route_count,
-            449,
+            457,
         )
 
     def test_discovers_http_method_counts(self) -> None:
@@ -55,8 +55,8 @@ class ControllerScannerTest(unittest.TestCase):
             for route in controller.routes
         )
 
-        self.assertEqual(counts["GET"], 201)
-        self.assertEqual(counts["POST"], 210)
+        self.assertEqual(counts["GET"], 203)
+        self.assertEqual(counts["POST"], 216)
         self.assertEqual(counts["PATCH"], 35)
         self.assertEqual(counts["DELETE"], 3)
 

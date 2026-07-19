@@ -508,6 +508,8 @@ export class PluginInstallerService {
       entityType?: string;
       metadata: Record<string, unknown>;
     },
+    approvedPublicationProvenance:
+      boolean,
   ): void {
     const acceptedMimeTypes =
       new Set([
@@ -524,10 +526,18 @@ export class PluginInstallerService {
       );
     }
 
-    if (
-      storageObject.metadata?.purpose !==
-        'plugin-installation'
-    ) {
+    const purpose =
+      storageObject.metadata?.purpose;
+    const acceptedPurpose =
+      purpose ===
+        'plugin-installation' ||
+      (
+        approvedPublicationProvenance &&
+        purpose ===
+          'plugin-publication'
+      );
+
+    if (!acceptedPurpose) {
       throw new BadRequestException(
         'PLUGIN_UPLOAD_PURPOSE_INVALID',
       );
@@ -589,6 +599,7 @@ export class PluginInstallerService {
 
     this.assertTrustedPluginUpload(
       storageObject,
+      dto.provenance !== undefined,
     );
 
     const content =

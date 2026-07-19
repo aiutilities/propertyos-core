@@ -1141,5 +1141,170 @@ describe(
         ).not.toHaveBeenCalled();
       },
     );
+    it(
+      'accepts an immutable publication artifact only with server-derived provenance',
+      async () => {
+        const content =
+          Buffer.from(
+            'approved-publication-package',
+          );
+        const artifactSha256 =
+          createHash('sha256')
+            .update(content)
+            .digest('hex');
+
+        const storageService = {
+          getObject:
+            jest.fn(
+              async () => ({
+                originalName:
+                  'approved-plugin.zip',
+                mimeType:
+                  'application/zip',
+                sizeBytes:
+                  content.length,
+                checksum:
+                  artifactSha256,
+                entityType:
+                  'PLUGIN_PACKAGE',
+                metadata: {
+                  purpose:
+                    'plugin-publication',
+                },
+              }),
+            ),
+          getContent:
+            jest.fn(
+              async () =>
+                content,
+            ),
+        };
+
+        const {
+          service,
+          pluginService,
+        } = createService({
+          storageService,
+        });
+
+        const result =
+          await service.install({
+            storageObjectId:
+              'approved-publication-object',
+            autoEnable: true,
+            provenance: {
+              publicationId:
+                '22222222-2222-4222-8222-222222222222',
+              pluginId:
+                'test-plugin',
+              version: '1.0.0',
+              publisherId:
+                'PropertyOS',
+              keyId:
+                'pilot-key-2026',
+              artifactStorageObjectId:
+                'approved-publication-object',
+              artifactSha256,
+              integritySha256:
+                'b'.repeat(64),
+            },
+          });
+
+        expect(result).toMatchObject({
+          success: true,
+          stage: 'COMPLETE',
+          installedPluginId:
+            'plugin-1',
+        });
+
+        expect(
+          (
+            pluginService as {
+              install: unknown;
+            }
+          ).install,
+        ).toHaveBeenCalledWith({
+          manifest:
+            expect.objectContaining({
+              installationProvenance:
+                expect.objectContaining({
+                  publicationId:
+                    '22222222-2222-4222-8222-222222222222',
+                  artifactStorageObjectId:
+                    'approved-publication-object',
+                  artifactSha256,
+                  integritySha256:
+                    'b'.repeat(64),
+                }),
+            }),
+        });
+      },
+    );
+
+    it(
+      'rejects a publication artifact without server-derived provenance',
+      async () => {
+        const content =
+          Buffer.from(
+            'publication-package-without-provenance',
+          );
+
+        const storageService = {
+          getObject:
+            jest.fn(
+              async () => ({
+                originalName:
+                  'publication-plugin.zip',
+                mimeType:
+                  'application/zip',
+                sizeBytes:
+                  content.length,
+                checksum:
+                  createHash('sha256')
+                    .update(content)
+                    .digest('hex'),
+                entityType:
+                  'PLUGIN_PACKAGE',
+                metadata: {
+                  purpose:
+                    'plugin-publication',
+                },
+              }),
+            ),
+          getContent:
+            jest.fn(),
+        };
+
+        const coordinator = {
+          coordinate:
+            jest.fn(),
+        };
+
+        const {
+          service,
+        } = createService({
+          storageService,
+          coordinator,
+        });
+
+        await expect(
+          service.install({
+            storageObjectId:
+              'publication-object',
+          }),
+        ).rejects.toThrow(
+          'PLUGIN_UPLOAD_PURPOSE_INVALID',
+        );
+
+        expect(
+          storageService.getContent,
+        ).not.toHaveBeenCalled();
+
+        expect(
+          coordinator.coordinate,
+        ).not.toHaveBeenCalled();
+      },
+    );
+
   },
 );

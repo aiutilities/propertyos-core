@@ -11,6 +11,7 @@
     "migrate:preflight:static": "ts-node src/database/runner/migration-readiness-cli.ts",
     "migrate:preflight": "ts-node src/database/runner/migration-database-preflight-cli.ts",
     "trust-bootstrap:plan": "ts-node src/core/plugin/trust/plugin-trust-bootstrap-cli.ts",
+    "pilot-rollout:isolated": "ts-node src/core/plugin/publication/plugin-pilot-rollout-cli.ts",
     "test": "jest",
     "test:integration": "jest --runInBand",
     "typecheck": "tsc --noEmit",

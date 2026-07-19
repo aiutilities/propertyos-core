@@ -46,6 +46,8 @@ import { PluginPackageService } from './package/services/plugin-package.service'
 import { PluginMarketplaceService } from './marketplace/services/plugin-marketplace.service';
 import { PluginSearchProviderService } from './plugin-search-provider.service';
 import { PluginPublisherTrustService } from './trust/plugin-publisher-trust.service';
+import { PluginPublisherTrustLifecycleService } from './trust/plugin-publisher-trust-lifecycle.service';
+import { PluginPublisherTrustController } from './trust/plugin-publisher-trust.controller';
 import { PluginPublicationGovernanceService } from './publication/plugin-publication-governance.service';
 import { PluginPublicationAdmissionService } from './publication/plugin-publication-admission.service';
 import { PluginPublicationGovernanceController } from './publication/plugin-publication-governance.controller';
@@ -64,10 +66,12 @@ import { PluginPublicationGovernanceController } from './publication/plugin-publ
     PluginMarketplaceController,
     PluginInstallerController,
     PluginPublicationGovernanceController,
+    PluginPublisherTrustController,
   ],
   providers: [
     PluginSearchProviderService,
     PluginPublisherTrustService,
+    PluginPublisherTrustLifecycleService,
     PluginPublicationGovernanceService,
     PluginPublicationAdmissionService,
     PluginInstallerService,
@@ -112,6 +116,7 @@ import { PluginPublicationGovernanceController } from './publication/plugin-publ
   exports: [
     PluginService,
     PluginPublisherTrustService,
+    PluginPublisherTrustLifecycleService,
     PluginPublicationGovernanceService,
     PluginPublicationAdmissionService,
     PluginInstallationCoordinatorService,

@@ -51,6 +51,8 @@ import { PluginPublisherTrustController } from './trust/plugin-publisher-trust.c
 import { PluginPublicationGovernanceService } from './publication/plugin-publication-governance.service';
 import { PluginPublicationAdmissionService } from './publication/plugin-publication-admission.service';
 import { PluginPublicationGovernanceController } from './publication/plugin-publication-governance.controller';
+import { PluginPublicationInstallationService } from './publication/plugin-publication-installation.service';
+import { PluginPublicationInstallationController } from './publication/plugin-publication-installation.controller';
 
 @Module({
   imports: [
@@ -66,6 +68,7 @@ import { PluginPublicationGovernanceController } from './publication/plugin-publ
     PluginMarketplaceController,
     PluginInstallerController,
     PluginPublicationGovernanceController,
+    PluginPublicationInstallationController,
     PluginPublisherTrustController,
   ],
   providers: [
@@ -74,6 +77,7 @@ import { PluginPublicationGovernanceController } from './publication/plugin-publ
     PluginPublisherTrustLifecycleService,
     PluginPublicationGovernanceService,
     PluginPublicationAdmissionService,
+    PluginPublicationInstallationService,
     PluginInstallerService,
     PluginInstallationCoordinatorService,
     PluginPackageExtractorService,
@@ -119,6 +123,7 @@ import { PluginPublicationGovernanceController } from './publication/plugin-publ
     PluginPublisherTrustLifecycleService,
     PluginPublicationGovernanceService,
     PluginPublicationAdmissionService,
+    PluginPublicationInstallationService,
     PluginInstallationCoordinatorService,
     PluginLoaderService,
     PluginRuntimeModuleLoaderService,

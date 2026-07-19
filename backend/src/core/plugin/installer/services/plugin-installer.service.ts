@@ -16,11 +16,16 @@ interface InternalPluginInstallationRequest {
   autoEnable?: boolean;
   overwrite?: boolean;
   metadata?: Record<string, unknown>;
+  provenance?:
+    PluginInstallationProvenance;
 }
 import { PluginMigrationRunnerService } from '../migration/plugin-migration-runner.service';
 import { PluginPackageValidatorService } from '../validator/plugin-package-validator.service';
 import { PluginInstallationManifestService } from '../manifest/plugin-installation-manifest.service';
-import { PluginInstallationResult } from '../types/plugin-installer.types';
+import {
+  PluginInstallationProvenance,
+  PluginInstallationResult,
+} from '../types/plugin-installer.types';
 import {
   PluginInstallationConflictError,
   PluginInstallationCoordinatorService,
@@ -172,6 +177,13 @@ export class PluginInstallerService {
         };
       }
 
+      const installationProvenance =
+        this.validateInstallationProvenance(
+          dto,
+          manifest,
+          requestKey,
+        );
+
       const pluginPackage = this.pluginPackageService.register({
         packageName: manifest.name,
         version: manifest.version,
@@ -223,9 +235,22 @@ export class PluginInstallerService {
           manifest.version,
         );
 
-      const installation = await this.pluginService.install({
-        manifest: this.manifestService.toInstalledManifest(manifest),
-      });
+      const installedManifest = {
+        ...this.manifestService.toInstalledManifest(
+          manifest,
+        ),
+        ...(installationProvenance
+          ? {
+              installationProvenance,
+            }
+          : {}),
+      };
+
+      const installation =
+        await this.pluginService.install({
+          manifest:
+            installedManifest,
+        });
 
       if (dto.autoEnable !== false) {
         await this.pluginService.activate(installation.plugin.id);
@@ -243,6 +268,21 @@ export class PluginInstallerService {
           pluginRoot,
           pluginId: installation.plugin.id,
           packageId: pluginPackage.id,
+          publicationId:
+            installationProvenance
+              ?.publicationId,
+          publisherId:
+            installationProvenance
+              ?.publisherId,
+          keyId:
+            installationProvenance
+              ?.keyId,
+          artifactSha256:
+            installationProvenance
+              ?.artifactSha256,
+          integritySha256:
+            installationProvenance
+              ?.integritySha256,
           autoEnabled: dto.autoEnable !== false,
         },
       );
@@ -262,6 +302,9 @@ export class PluginInstallerService {
           `Migrations executed: ${migrationResult.executed.length}`,
           `Migrations skipped: ${migrationResult.skipped.length}`,
           'Plugin installed',
+          installationProvenance
+            ? 'Approved publication provenance persisted'
+            : 'Direct trusted installation recorded without publication provenance',
           dto.autoEnable !== false ? 'Plugin activated' : 'Plugin left inactive',
         ],
       };
@@ -331,6 +374,119 @@ export class PluginInstallerService {
         );
       }
     }
+  }
+
+  private validateInstallationProvenance(
+    dto: InternalPluginInstallationRequest,
+    manifest: {
+      id: string;
+      name: string;
+      version: string;
+      provider?: string;
+    },
+    requestKey: string,
+  ): PluginInstallationProvenance | undefined {
+    const provenance =
+      dto.provenance;
+
+    if (!provenance) {
+      return undefined;
+    }
+
+    const shaPattern =
+      /^[a-f0-9]{64}$/;
+
+    if (
+      !dto.storageObjectId ||
+      provenance.artifactStorageObjectId !==
+        dto.storageObjectId
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_INSTALLATION_PROVENANCE_STORAGE_MISMATCH',
+      );
+    }
+
+    if (
+      provenance.pluginId !==
+        manifest.id ||
+      provenance.version !==
+        manifest.version ||
+      provenance.publisherId !==
+        manifest.provider
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_INSTALLATION_PROVENANCE_MANIFEST_MISMATCH',
+      );
+    }
+
+    if (
+      provenance.artifactSha256 !==
+        requestKey
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_INSTALLATION_PROVENANCE_ARTIFACT_MISMATCH',
+      );
+    }
+
+    if (
+      !shaPattern.test(
+        provenance.artifactSha256,
+      ) ||
+      !shaPattern.test(
+        provenance.integritySha256,
+      )
+    ) {
+      throw new BadRequestException(
+        'PLUGIN_INSTALLATION_PROVENANCE_CHECKSUM_INVALID',
+      );
+    }
+
+    for (
+      const [
+        label,
+        value,
+      ] of [
+        [
+          'publication ID',
+          provenance.publicationId,
+        ],
+        [
+          'key ID',
+          provenance.keyId,
+        ],
+      ]
+    ) {
+      if (
+        typeof value !== 'string' ||
+        !value.trim() ||
+        value.length > 150
+      ) {
+        throw new BadRequestException(
+          `Invalid installation provenance ${label}`,
+        );
+      }
+    }
+
+    return {
+      publicationId:
+        provenance.publicationId,
+      pluginId:
+        provenance.pluginId,
+      version:
+        provenance.version,
+      publisherId:
+        provenance.publisherId,
+      keyId:
+        provenance.keyId,
+      artifactStorageObjectId:
+        provenance.artifactStorageObjectId,
+      artifactSha256:
+        provenance.artifactSha256,
+      integritySha256:
+        provenance.integritySha256,
+      verifiedAt:
+        new Date().toISOString(),
+    };
   }
 
   private async hashPackage(

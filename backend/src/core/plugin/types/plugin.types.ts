@@ -1,3 +1,7 @@
+import {
+  PluginInstallationProvenance,
+} from '../installer/types/plugin-installer.types';
+
 export type PluginStatus =
   | 'INSTALLED'
   | 'ACTIVE'
@@ -11,4 +15,6 @@ export interface PluginManifest {
   description?: string;
   author?: string;
   minPlatformVersion?: string;
+  installationProvenance?:
+    PluginInstallationProvenance;
 }

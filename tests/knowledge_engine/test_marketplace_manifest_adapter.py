@@ -114,7 +114,7 @@ class MarketplaceManifestAdapterTest(
         )
 
         self.assertEqual(
-            "PropertyOS",
+            "propertyos",
             adapted["provider"],
         )
         self.assertEqual(

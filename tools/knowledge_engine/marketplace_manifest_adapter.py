@@ -78,7 +78,7 @@ class MarketplaceManifestAdapter:
             str,
             MarketplacePluginIdentity,
         ],
-        provider: str = "PropertyOS",
+        provider: str = "propertyos",
         minimum_platform_version: str = (
             "0.1.0"
         ),

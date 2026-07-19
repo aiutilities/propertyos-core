@@ -8,3 +8,8 @@ generated/plugin-artifacts/
 
 # Reproducible Knowledge Engine marketplace bundles
 generated/plugin-bundles/
+
+# Offline plugin-signing private material
+*.private.pem
+*.private.key
+generated/plugin-signed-bundles/

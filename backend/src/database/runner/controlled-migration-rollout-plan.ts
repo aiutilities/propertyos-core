@@ -33,6 +33,10 @@ export interface ControlledRolloutPlan {
   executionAuthorized: boolean;
   transactionStrategy:
     'ATOMIC_CONTROLLED_RANGE';
+  approvalId: string;
+  gitCommit: string;
+  targetEnvironmentId: string;
+  targetDatabaseName: string;
   migrations: string[];
   evidenceSha256: string | null;
   errors: string[];
@@ -217,6 +221,14 @@ export function buildControlledRolloutPlan(
       status === 'READY',
     transactionStrategy:
       'ATOMIC_CONTROLLED_RANGE',
+    approvalId:
+      request.approvalId,
+    gitCommit:
+      request.gitCommit,
+    targetEnvironmentId:
+      request.targetEnvironmentId,
+    targetDatabaseName:
+      request.targetDatabaseName,
     migrations,
     evidenceSha256,
     errors,

@@ -43,17 +43,140 @@ describe(
           PermissionGuard,
         ]);
 
-        const permission =
-          Reflect.getMetadata(
-            REQUIRED_PERMISSION_KEY,
-            PluginPublisherTrustController
-              .prototype
-              .revokeKey,
+        for (
+          const method of [
+            'registerPublisher',
+            'registerKey',
+            'revokeKey',
+          ] as const
+        ) {
+          expect(
+            Reflect.getMetadata(
+              REQUIRED_PERMISSION_KEY,
+              PluginPublisherTrustController
+                .prototype[method],
+            ),
+          ).toBe(
+            Permissions.PLUGIN_MANAGE,
+          );
+        }
+      },
+    );
+
+    it(
+      'derives publisher registration actor from the token',
+      async () => {
+        const lifecycle = {
+          registerPublisher:
+            jest.fn(
+              async (input) => input,
+            ),
+        };
+
+        const controller =
+          new PluginPublisherTrustController(
+            lifecycle as unknown as
+              PluginPublisherTrustLifecycleService,
           );
 
-        expect(permission).toBe(
-          Permissions.PLUGIN_MANAGE,
+        await controller.registerPublisher(
+          {
+            publisherId:
+              'propertyos',
+            displayName:
+              'PropertyOS',
+            metadata: {
+              actorId:
+                'attacker-controlled',
+            },
+            actorId:
+              'attacker-controlled',
+          } as any,
+          {
+            sub:
+              'security-person-1',
+          } as any,
         );
+
+        expect(
+          lifecycle.registerPublisher,
+        ).toHaveBeenCalledWith({
+          publisherId:
+            'propertyos',
+          displayName:
+            'PropertyOS',
+          actorId:
+            'security-person-1',
+          metadata: {
+            actorId:
+              'attacker-controlled',
+          },
+        });
+      },
+    );
+
+    it(
+      'derives key registration evidence instead of accepting a fingerprint',
+      async () => {
+        const lifecycle = {
+          registerKey:
+            jest.fn(
+              async (input) => input,
+            ),
+        };
+
+        const controller =
+          new PluginPublisherTrustController(
+            lifecycle as unknown as
+              PluginPublisherTrustLifecycleService,
+          );
+
+        await controller.registerKey(
+          'propertyos',
+          {
+            keyId:
+              'release-2027',
+            publicKeyPem:
+              'PUBLIC KEY DATA',
+            validFrom:
+              '2027-01-01T00:00:00.000Z',
+            metadata: {
+              fingerprintSha256:
+                'attacker-controlled',
+            },
+            fingerprintSha256:
+              'attacker-controlled',
+            privateKey:
+              'attacker-controlled',
+          } as any,
+          {
+            sub:
+              'security-person-1',
+          } as any,
+        );
+
+        expect(
+          lifecycle.registerKey,
+        ).toHaveBeenCalledWith({
+          publisherId:
+            'propertyos',
+          keyId:
+            'release-2027',
+          publicKeyPem:
+            'PUBLIC KEY DATA',
+          actorId:
+            'security-person-1',
+          validFrom:
+            new Date(
+              '2027-01-01T00:00:00.000Z',
+            ),
+          validUntil:
+            undefined,
+          metadata: {
+            fingerprintSha256:
+              'attacker-controlled',
+          },
+        });
       },
     );
 

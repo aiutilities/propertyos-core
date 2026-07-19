@@ -57,6 +57,48 @@ describe(
     );
 
     it(
+      'rejects unauthenticated publisher registration before database access',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/plugin-publishers',
+          )
+          .send({
+            publisherId:
+              'propertyos',
+            displayName:
+              'PropertyOS',
+          })
+          .expect(401);
+      },
+    );
+
+    it(
+      'rejects unauthenticated key registration before database access',
+      async () => {
+        await request(
+          app.getHttpServer(),
+        )
+          .post(
+            '/api/v1/plugin-publishers/propertyos/keys',
+          )
+          .send({
+            keyId:
+              'release-2027',
+            publicKeyPem:
+              'attacker-controlled',
+            fingerprintSha256:
+              'attacker-controlled',
+            privateKey:
+              'attacker-controlled',
+          })
+          .expect(401);
+      },
+    );
+
+    it(
       'rejects unauthenticated key revocation before database access',
       async () => {
         await request(

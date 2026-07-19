@@ -33,6 +33,12 @@ import {
 import {
   RevokePluginPublisherKeyDto,
 } from './revoke-plugin-publisher-key.dto';
+import {
+  RegisterPluginPublisherDto,
+} from './register-plugin-publisher.dto';
+import {
+  RegisterPluginPublisherKeyDto,
+} from './register-plugin-publisher-key.dto';
 
 @ApiTags('Plugin Publisher Trust')
 @ApiBearerAuth('JWT')
@@ -46,6 +52,65 @@ export class PluginPublisherTrustController {
     private readonly lifecycle:
       PluginPublisherTrustLifecycleService,
   ) {}
+
+  @Post()
+  @RequirePermission(
+    Permissions.PLUGIN_MANAGE,
+  )
+  registerPublisher(
+    @Body()
+    dto: RegisterPluginPublisherDto,
+    @CurrentUser()
+    user: AuthTokenPayload,
+  ) {
+    return this.lifecycle.registerPublisher({
+      publisherId:
+        dto.publisherId,
+      displayName:
+        dto.displayName,
+      actorId:
+        user.sub,
+      metadata:
+        dto.metadata,
+    });
+  }
+
+  @Post(':publisherId/keys')
+  @RequirePermission(
+    Permissions.PLUGIN_MANAGE,
+  )
+  registerKey(
+    @Param('publisherId')
+    publisherId: string,
+    @Body()
+    dto: RegisterPluginPublisherKeyDto,
+    @CurrentUser()
+    user: AuthTokenPayload,
+  ) {
+    return this.lifecycle.registerKey({
+      publisherId,
+      keyId:
+        dto.keyId,
+      publicKeyPem:
+        dto.publicKeyPem,
+      actorId:
+        user.sub,
+      validFrom:
+        dto.validFrom
+          ? new Date(
+              dto.validFrom,
+            )
+          : undefined,
+      validUntil:
+        dto.validUntil
+          ? new Date(
+              dto.validUntil,
+            )
+          : undefined,
+      metadata:
+        dto.metadata,
+    });
+  }
 
   @Post(':publisherId/keys/:keyId/revoke')
   @RequirePermission(

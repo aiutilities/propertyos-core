@@ -118,6 +118,41 @@ describe(
     );
 
     it(
+      'rejects valid private-key material without deriving a public key',
+      () => {
+        const {
+          privateKey,
+        } =
+          generateKeyPairSync(
+            'rsa',
+            {
+              modulusLength:
+                2048,
+            },
+          );
+
+        const privateKeyPem =
+          String(
+            privateKey.export({
+              type:
+                'pkcs8',
+              format:
+                'pem',
+            }),
+          );
+
+        expect(
+          () =>
+            canonicalizePluginPublicKey(
+              privateKeyPem,
+            ),
+        ).toThrow(
+          'PLUGIN_PUBLISHER_PRIVATE_KEY_FORBIDDEN',
+        );
+      },
+    );
+
+    it(
       'rejects an elliptic-curve key',
       () => {
         const {
@@ -184,7 +219,6 @@ describe(
     it.each([
       '',
       'not a public key',
-      '-----BEGIN PRIVATE KEY-----\ninvalid\n-----END PRIVATE KEY-----',
     ])(
       'rejects malformed public key material',
       (value) => {

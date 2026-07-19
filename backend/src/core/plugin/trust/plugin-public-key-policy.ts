@@ -23,6 +23,16 @@ export function canonicalizePluginPublicKey(
     );
   }
 
+  if (
+    /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(
+      publicKeyPem,
+    )
+  ) {
+    throw new Error(
+      'PLUGIN_PUBLISHER_PRIVATE_KEY_FORBIDDEN',
+    );
+  }
+
   let key: KeyObject;
 
   try {

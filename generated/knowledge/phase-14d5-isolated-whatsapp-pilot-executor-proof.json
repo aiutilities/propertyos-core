@@ -1,0 +1,51 @@
+{
+  "status": "ACCEPTED",
+  "scope": "PHASE_14D5_ISOLATED_WHATSAPP_PILOT_EXECUTOR_ACCEPTANCE",
+  "candidateCommit": "bc0b42a60daed23b51425d5a77f67dde5c73c1a4",
+  "generatedAt": "2026-07-20T06:51:28.872Z",
+  "environment": "ISOLATED_LOOPBACK",
+  "networkBoundary": "LOOPBACK_ONLY",
+  "externalNetworkContacted": false,
+  "liveWhatsAppContacted": false,
+  "applicationWired": false,
+  "databaseMutated": false,
+  "sourceState": "1|37|0",
+  "acceptance": {
+    "governedChainVerified": true,
+    "realLoopbackHttpBoundaryVerified": true,
+    "atomicReservationVerified": true,
+    "exactlyOnceDeliveryVerified": true,
+    "duplicateDeliveryPrevented": true,
+    "ambiguousDeliveryReconciliationVerified": true,
+    "payloadMinimizationVerified": true,
+    "endpointSubstitutionDigestBound": true
+  },
+  "validation": {
+    "testSuitesPassed": 6,
+    "testsPassed": 61,
+    "typecheckPassed": true,
+    "buildPassed": true
+  },
+  "artifacts": [
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-pilot-delivery-executor.ts",
+      "sha256": "92a39c38320da271ab3bb5bdfd4a0f20313db609625f8ced4e3661cf3def1982"
+    },
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-pilot-delivery-exposure-policy.ts",
+      "sha256": "2a72ebe0271583feab96a05859b88c044f3dc52fbaf4e36a6fb1841855ea0e29"
+    },
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-pilot-isolated-substitution-adapter.ts",
+      "sha256": "ed77ba559692c7cb56d98a51dc2b538e5682e6b748e9f9f5b1c235e2f9c74adb"
+    },
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-webhook-notification.provider.ts",
+      "sha256": "a6e005c3e236ab44b42b5e16ce4b5d4feb3c9e169df2ee5ad2d81d4abff5d018"
+    },
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-pilot-isolated-executor-exercise.integration-spec.ts",
+      "sha256": "c794d3ca308daabc76c73ef64d8109eae7bbd0b1f9dfd5da3342d956c103dde2"
+    }
+  ]
+}

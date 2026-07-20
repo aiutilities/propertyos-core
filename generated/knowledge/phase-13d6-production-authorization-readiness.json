@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "scope": "PHASE_13D6_PRODUCTION_AUTHORIZATION_READINESS",
+  "status": "READY_FOR_EXPLICIT_LIVE_AUTHORIZATION",
+  "candidateCommit": "144515bcf1d7d387a286cc8f46c61ebbd6f25535",
+  "candidateTag": "v2.9.62-phase-13d6d-runner-exposure-policy",
+  "sourceState": "1|37|0",
+  "controlledMigrationRange": {
+    "first": 37,
+    "last": 48,
+    "count": 12
+  },
+  "checkpoints": {
+    "phase13d6a": {
+      "commit": "65b52f24f271c1808fb45d388ef2352ce62d0006",
+      "tag": "v2.9.59-phase-13d6a-production-authorization",
+      "status": "COMPLETED"
+    },
+    "phase13d6b": {
+      "commit": "6f20004b909714e7fc80e8d63a90ca1b56c9b3a7",
+      "tag": "v2.9.60-phase-13d6b-operational-runbook",
+      "status": "COMPLETED"
+    },
+    "phase13d6c": {
+      "commit": "6d91adec7af4cd641fa064e84671b2a86d374d5e",
+      "tag": "v2.9.61-phase-13d6c-execution-request-seal",
+      "status": "COMPLETED"
+    },
+    "phase13d6d": {
+      "commit": "144515bcf1d7d387a286cc8f46c61ebbd6f25535",
+      "tag": "v2.9.62-phase-13d6d-runner-exposure-policy",
+      "status": "COMPLETED"
+    }
+  },
+  "controls": {
+    "productionAuthorization": {
+      "path": "backend/src/database/runner/production-rollout-authorization.ts",
+      "sha256": "a131154f7db275e9f775b0ec34fa3e5705a1fb4b3788253bc4a50df9db14e6ff"
+    },
+    "operationalRunbook": {
+      "path": "backend/src/database/runner/production-operational-runbook.ts",
+      "sha256": "a67afad81e785cfcb08502daa2f2fc7b3c5e2cfd3529697f3ff2a5b4e0ca1ef9"
+    },
+    "executionRequestSeal": {
+      "path": "backend/src/database/runner/production-rollout-execution-request.ts",
+      "sha256": "a3d0f22c378324a66192c714844634f03a3861553d49d6b71c8bb5ad2f69d962"
+    },
+    "runnerExposurePolicy": {
+      "path": "backend/src/database/runner/production-runner-exposure-policy.ts",
+      "sha256": "80fb22dd31794e37ad2e1130aad1e18cc4565e1ca99f5886c4a51fe67e9fb405"
+    },
+    "operatorDocumentation": {
+      "path": "documentation/PHASE_13D6_PRODUCTION_OPERATIONAL_RUNBOOK.md",
+      "sha256": "0068b1574b9abc5c0e118238722d535b64f8480432fd9e0966fd2813090c76a4"
+    }
+  },
+  "safetyState": {
+    "productionAuthorizationMaterialized": false,
+    "executionRequestMaterialized": false,
+    "liveInvocationAuthorizationPresent": false,
+    "runnerExposed": false,
+    "runnerInvocationAuthorized": false,
+    "executionStarted": false,
+    "databaseMutated": false
+  },
+  "remainingRequirements": {
+    "freshCommitBoundBackupRequired": true,
+    "currentTechnicalPreflightRequired": true,
+    "namedOperatorRequired": true,
+    "separateNamedApproverRequired": true,
+    "maintenanceWindowRequired": true,
+    "recoveryOwnerRequired": true,
+    "incidentOwnerRequired": true,
+    "targetDatabaseIdentityLockRequired": true,
+    "separateLiveInvocationAuthorizationRequired": true
+  },
+  "conclusion": "Phase 13D6 controls are implementation-ready. Live production execution remains prohibited until separately and explicitly authorized."
+}

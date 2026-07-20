@@ -7,6 +7,10 @@ import {
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { InAppNotificationProvider } from '../providers/in-app-notification.provider';
 import { MockWhatsAppNotificationProvider } from '../providers/mock-whatsapp-notification.provider';
+import {
+  currentWhatsAppEnvironmentClass,
+  resolveWhatsAppProviderSelection,
+} from '../providers/whatsapp-provider-selection';
 import { NotificationProviderRegistry } from '../registries/notification-provider.registry';
 import { NotificationMessage } from '../types/notification.types';
 import { NotificationService } from './notification.service';
@@ -29,8 +33,46 @@ export class NotificationDispatcherService
   ) {}
 
   onModuleInit(): void {
-    this.registry.register(this.mockWhatsAppProvider);
-    this.registry.register(this.inAppProvider);
+    const whatsappSelection =
+      resolveWhatsAppProviderSelection({
+        environmentClass:
+          currentWhatsAppEnvironmentClass(
+            process.env.NODE_ENV,
+          ),
+        configuredProvider:
+          process.env.WHATSAPP_PROVIDER,
+      });
+
+    if (
+      whatsappSelection.status ===
+      'BLOCKED'
+    ) {
+      throw new Error(
+        `WHATSAPP_PROVIDER_SELECTION_BLOCKED: ` +
+          whatsappSelection.errors.join(
+            '; ',
+          ),
+      );
+    }
+
+    if (whatsappSelection.mockAllowed) {
+      this.registry.register(
+        this.mockWhatsAppProvider,
+      );
+    }
+
+    if (
+      whatsappSelection.mode ===
+      'WEBHOOK'
+    ) {
+      throw new Error(
+        'WHATSAPP_WEBHOOK_PROVIDER_NOT_IMPLEMENTED',
+      );
+    }
+
+    this.registry.register(
+      this.inAppProvider,
+    );
   }
 
   async dispatch(

@@ -208,3 +208,30 @@ authorize production execution.
 The next permitted engineering activity is a separately reviewed,
 fail-closed production execution-request gate. Live production execution
 still requires explicit human authorization.
+
+## Phase 13D6D runner-exposure decision
+
+The founding specifications require explicit human approval for production,
+but they do not require an automatically exposed production migration runner.
+
+PropertyOS therefore keeps production execution disabled by default.
+
+The runner-exposure policy may confirm eligibility only when:
+
+- A valid execution-request seal exists.
+- Separate live invocation authorization is present.
+- Live authorization evidence has a valid identifier and SHA-256.
+- Evaluation occurs inside the approved maintenance window.
+- Operator, approver, recovery owner, and incident owner are present.
+- Production database and commit identities are locked.
+- Backup and technical preflight evidence are reconfirmed.
+
+An eligible decision still reports:
+
+- `runnerExposed: false`
+- `runnerInvocationAuthorized: false`
+- `invocationPerformed: false`
+- `databaseMutated: false`
+
+Actual runner exposure and invocation remain a separate, explicitly authorized
+future operation.

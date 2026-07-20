@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC
+  "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.propertyos.incident-monitor</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__MONITOR_SCRIPT__</string>
+  </array>
+
+  <key>StartInterval</key>
+  <integer>60</integer>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>__HOME__</string>
+    <key>PROPERTYOS_MONITOR_BASE_URL</key>
+    <string>http://127.0.0.1:3001</string>
+    <key>PROPERTYOS_MONITOR_FAILURE_THRESHOLD</key>
+    <string>2</string>
+    <key>PROPERTYOS_MONITOR_TIMEOUT_SECONDS</key>
+    <string>5</string>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>__LOG_DIR__/launchd.stdout.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>__LOG_DIR__/launchd.stderr.log</string>
+</dict>
+</plist>

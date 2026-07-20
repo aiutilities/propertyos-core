@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "phase": "15C2F",
+  "title": "Active health-contract API replacement acceptance",
+  "recordedAt": "2026-07-20T10:24:26.293Z",
+  "authorization": {
+    "explicitAuthorizationRecorded": true,
+    "authorizedAction": "HEALTH_CONTRACT_IMAGE_BUILD_AND_ACTIVE_API_REPLACEMENT",
+    "migrationsAuthorized": false,
+    "whatsappConfigurationAuthorized": false,
+    "executorInvocationAuthorized": false,
+    "externalMessagingAuthorized": false
+  },
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "sourceCommit": "1e3f57d262597fa75596b5ae6060482cb764e064",
+    "repositoryCleanBeforeEvidence": true
+  },
+  "acceptedImage": {
+    "tag": "propertyos-api:phase15c2f-1e3f57d2",
+    "imageId": "sha256:aee73e4ae1587e00363244b39c27c5f0ffb27267287129aa97c6129e468cb99b",
+    "revision": "1e3f57d262597fa75596b5ae6060482cb764e064",
+    "reproducibleBuildAccepted": true,
+    "invalidProductionSecretRejected": true,
+    "readinessHealthcheckEmbedded": true,
+    "readinessHealthcheckPath": "/api/v1/health/ready"
+  },
+  "activeRuntime": {
+    "containerName": "propertyos-api",
+    "containerId": "ed01e2d41f77af2201eb727d0b1bc9f4e891e35acdb7492d3c8022626064c1bf",
+    "running": true,
+    "dockerHealth": "healthy",
+    "readinessHttpStatus": 200,
+    "readinessStatus": "ok",
+    "metricsRoutesPresent": true,
+    "metricsRoutesProtected": true,
+    "authenticationSecretRotatedAgain": false,
+    "persistentUploadVolumePreserved": true,
+    "persistentPluginVolumePreserved": true
+  },
+  "monitoring": {
+    "owner": "Anand Nataraj",
+    "channel": "LOCAL_MACOS_NOTIFICATION_AND_PROTECTED_LOG",
+    "launchAgentLabel": "com.propertyos.incident-monitor",
+    "loaded": true,
+    "failureThreshold": 2,
+    "automaticRemediationEnabled": false,
+    "externalAlertsEnabled": false
+  },
+  "rollback": {
+    "containerName": "propertyos-api-phase15c2f-rollback",
+    "image": "propertyos-api:phase15c2c-eb5cb9a2",
+    "running": false,
+    "restartPolicy": "no",
+    "retained": true,
+    "olderStaleRollbackRetired": true
+  },
+  "databaseSafety": {
+    "sourceStateBefore": "1|37|0",
+    "sourceStateAfter": "1|37|0",
+    "recordedMigrationCount": 37,
+    "controlledMigrationRange": "037-049",
+    "controlledMigrationCount": 13,
+    "controlledMigrationsApplied": 0,
+    "databaseMutated": false
+  },
+  "prohibitions": {
+    "migrationsApplied": false,
+    "whatsappConfigured": false,
+    "executorInvoked": false,
+    "externalEndpointContacted": false,
+    "externalAlertSent": false,
+    "externalMessageSent": false
+  },
+  "status": {
+    "phase15C2F": "COMPLETE",
+    "phase15C2": "PENDING_CLOSURE_ASSESSMENT",
+    "activeApiAccepted": true,
+    "liveWhatsappAuthorized": false
+  }
+}

@@ -34,5 +34,8 @@ USER node
 
 EXPOSE 3000
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
+  CMD node -e "fetch('http://127.0.0.1:3000/api/v1/health/ready').then(async r=>{const b=await r.json();process.exit(r.ok&&b.status==='ok'?0:1)}).catch(()=>process.exit(1))"
+
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "dist/main.js"]

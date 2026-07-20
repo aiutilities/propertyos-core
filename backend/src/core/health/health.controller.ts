@@ -1,5 +1,6 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { HealthService } from './health.service';
 
 @ApiTags('Health')
@@ -19,8 +20,24 @@ export class HealthController {
   }
 
   @Get('ready')
-  getReadiness() {
-    return this.healthService.getReadiness();
+  async getReadiness(
+    @Res({
+      passthrough: true,
+    })
+    response: Response,
+  ) {
+    const readiness =
+      await this.healthService.getReadiness();
+
+    if (
+      readiness.status !== 'ok'
+    ) {
+      response.status(
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
+
+    return readiness;
   }
 
   @Get('database')

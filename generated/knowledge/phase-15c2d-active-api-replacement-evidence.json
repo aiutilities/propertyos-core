@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "phase": "15C2D",
+  "evidenceType": "ACTIVE_SECRET_ROTATION_AND_API_REPLACEMENT",
+  "generatedAt": "2026-07-20T09:54:53.100Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "head": "aad9c672dbe82aad9d6d595eec79f9f1e17ad13e",
+    "tag": "v2.9.91-phase-15c2c-isolated-image-acceptance",
+    "cleanBeforeEvidenceCreation": true
+  },
+  "authorization": {
+    "literalAuthorization": "AUTHORIZE PHASE 15C2D ACTIVE SECRET ROTATION AND API REPLACEMENT",
+    "secretRotationAuthorized": true,
+    "activeApiReplacementAuthorized": true,
+    "migrationAuthorized": false,
+    "whatsappConfigurationAuthorized": false,
+    "executorInvocationAuthorized": false,
+    "externalMessageAuthorized": false
+  },
+  "secretRotation": {
+    "completed": true,
+    "generatedLength": 64,
+    "minimumRequiredLength": 32,
+    "activeLengthSatisfied": true,
+    "persistedEnvironmentFile": "backend/.env",
+    "persistedEnvironmentFileMode": "600",
+    "protectedPreRotationBackupCreated": true,
+    "secretValueRecorded": false,
+    "secretHashRecorded": false,
+    "existingJwtSessionsInvalidated": true
+  },
+  "activeRuntime": {
+    "containerName": "propertyos-api",
+    "containerId": "9306c6552efa5d27fe5e9bb1c7de62d1e1ff6cd013deb361cc4087794cccd6c5",
+    "image": "propertyos-api:phase15c2c-eb5cb9a2",
+    "imageId": "sha256:7637ff6fd1309678b40f5233342a7b93ba5d857eb6ade9754312c32657c40b71",
+    "sourceRevision": "eb5cb9a20270e380d4031038185351eb4975a05d",
+    "startedAt": "2026-07-20T09:53:04.694977553Z",
+    "restartPolicy": "unless-stopped",
+    "running": true
+  },
+  "rollbackRuntime": {
+    "containerName": "propertyos-api-phase15c2d-rollback",
+    "previousStartedAt": "2026-07-15T04:19:34.444528334Z",
+    "retained": true,
+    "running": false,
+    "restartPolicy": "no",
+    "networkConnected": false
+  },
+  "endpointAcceptance": {
+    "health": {
+      "path": "/api/v1/health",
+      "httpStatus": 200
+    },
+    "metrics": [
+      {
+        "path": "/api/v1/metrics",
+        "httpStatus": 401
+      },
+      {
+        "path": "/api/v1/metrics/runtime",
+        "httpStatus": 401
+      },
+      {
+        "path": "/api/v1/metrics/samples",
+        "httpStatus": 401
+      },
+      {
+        "path": "/api/v1/metrics/prometheus",
+        "httpStatus": 401
+      }
+    ],
+    "metricsPresent": true,
+    "metricsProtected": true,
+    "processStableAfterMetricsProbes": true
+  },
+  "storage": {
+    "uploadVolume": "backend_propertyos_upload_data",
+    "pluginVolume": "backend_propertyos_plugin_data",
+    "volumesPreserved": true
+  },
+  "sourceDatabase": {
+    "before": "1|37|0",
+    "after": "1|37|0",
+    "mutated": false,
+    "migrationsApplied": false
+  },
+  "externalSafety": {
+    "whatsappConfigured": false,
+    "executorExposed": false,
+    "executorInvoked": false,
+    "externalEndpointContacted": false,
+    "externalMessageSent": false
+  },
+  "remainingBlockers": [
+    "INCIDENT_RESPONSE_CHANNEL_NOT_CONFIGURED",
+    "PRODUCTION_MONITORING_ALERTS_NOT_CONFIGURED",
+    "WHATSAPP_PILOT_CONFIGURATION_NOT_PRESENT",
+    "LIVE_PILOT_AUTHORIZATION_ABSENT",
+    "CONTROLLED_MIGRATIONS_037_049_UNAUTHORIZED"
+  ],
+  "conclusion": {
+    "status": "ACTIVE_API_REPLACEMENT_ACCEPTED",
+    "phase15C2DComplete": true,
+    "phase15C2Complete": false,
+    "activeApiAccepted": true,
+    "productionMigrationsAuthorized": false,
+    "controlledPilotAuthorized": false
+  }
+}

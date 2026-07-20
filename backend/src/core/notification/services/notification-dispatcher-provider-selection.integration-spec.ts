@@ -6,6 +6,8 @@ import {
   jest,
 } from '@jest/globals';
 
+import type { WhatsAppWebhookConfiguration } from '../providers/whatsapp-webhook-configuration';
+
 import { NotificationDispatcherService } from './notification-dispatcher.service';
 
 describe(
@@ -51,6 +53,28 @@ describe(
         send: jest.fn(),
       };
 
+      const webhookWhatsAppProvider = {
+        name: 'whatsapp-webhook',
+        channel: 'WHATSAPP',
+        send: jest.fn(),
+        validateConfiguration:
+          jest.fn(
+            (): WhatsAppWebhookConfiguration => ({
+              status: 'READY',
+              scope:
+                'PROPERTYOS_WHATSAPP_WEBHOOK_CONFIGURATION',
+              environmentClass:
+                'PRODUCTION',
+              webhookUrl:
+                'https://automation.example.com/propertyos/whatsapp',
+              webhookToken:
+                'phase-14b3-test-token-000000000000',
+              timeoutMs: 5000,
+              errors: [],
+            }),
+          ),
+      };
+
       const inAppProvider = {
         name: 'in-app',
         channel: 'IN_APP',
@@ -63,6 +87,7 @@ describe(
           {} as never,
           {} as never,
           mockWhatsAppProvider as never,
+          webhookWhatsAppProvider as never,
           inAppProvider as never,
         );
 
@@ -70,6 +95,7 @@ describe(
         subject,
         registry,
         mockWhatsAppProvider,
+        webhookWhatsAppProvider,
         inAppProvider,
       };
     }
@@ -143,7 +169,7 @@ describe(
     );
 
     it(
-      'fails closed while the selected real provider is not yet implemented',
+      'registers the validated webhook and in-app providers in production',
       () => {
         process.env.NODE_ENV = 'production';
         process.env.WHATSAPP_PROVIDER =
@@ -152,12 +178,58 @@ describe(
         const {
           subject,
           registry,
+          webhookWhatsAppProvider,
+          inAppProvider,
         } = createSubject();
+
+        subject.onModuleInit();
+
+        expect(
+          webhookWhatsAppProvider
+            .validateConfiguration,
+        ).toHaveBeenCalledTimes(1);
+
+        expect(
+          registry.register.mock.calls,
+        ).toEqual([
+          [webhookWhatsAppProvider],
+          [inAppProvider],
+        ]);
+      },
+    );
+
+    it(
+      'fails closed without partial registration when webhook configuration is blocked',
+      () => {
+        process.env.NODE_ENV = 'production';
+        process.env.WHATSAPP_PROVIDER =
+          'webhook';
+
+        const {
+          subject,
+          registry,
+          webhookWhatsAppProvider,
+        } = createSubject();
+
+        webhookWhatsAppProvider
+          .validateConfiguration
+          .mockReturnValue({
+            status: 'BLOCKED',
+            scope:
+              'PROPERTYOS_WHATSAPP_WEBHOOK_CONFIGURATION',
+            environmentClass:
+              'PRODUCTION',
+            timeoutMs: 10000,
+            errors: [
+              'WhatsApp webhook URL is required',
+              'WhatsApp webhook token is required',
+            ],
+          });
 
         expect(() =>
           subject.onModuleInit(),
         ).toThrow(
-          'WHATSAPP_WEBHOOK_PROVIDER_NOT_IMPLEMENTED',
+          'WHATSAPP_WEBHOOK_CONFIGURATION_BLOCKED: WhatsApp webhook URL is required; WhatsApp webhook token is required',
         );
 
         expect(

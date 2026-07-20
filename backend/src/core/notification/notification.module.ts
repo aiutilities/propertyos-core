@@ -10,6 +10,7 @@ import { NotificationBootstrapService } from './bootstrap/notification-bootstrap
 import { NotificationDispatcherService } from './services/notification-dispatcher.service';
 import { NotificationProviderRegistry } from './registries/notification-provider.registry';
 import { MockWhatsAppNotificationProvider } from './providers/mock-whatsapp-notification.provider';
+import { WhatsAppWebhookNotificationProvider } from './providers/whatsapp-webhook-notification.provider';
 import { InAppNotificationProvider } from './providers/in-app-notification.provider';
 
 @Module({
@@ -22,6 +23,7 @@ import { InAppNotificationProvider } from './providers/in-app-notification.provi
     NotificationDispatcherService,
     NotificationProviderRegistry,
     MockWhatsAppNotificationProvider,
+    WhatsAppWebhookNotificationProvider,
     InAppNotificationProvider,
   ],
   exports: [

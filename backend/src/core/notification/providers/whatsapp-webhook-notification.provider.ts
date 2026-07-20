@@ -109,7 +109,7 @@ export class WhatsAppWebhookNotificationProvider
   readonly name = 'whatsapp-webhook';
   readonly channel = 'WHATSAPP' as const;
 
-  private resolveConfiguration():
+  validateConfiguration():
     WhatsAppWebhookConfiguration {
     return resolveWhatsAppWebhookConfiguration({
       environmentClass:
@@ -130,7 +130,7 @@ export class WhatsAppWebhookNotificationProvider
     notification: NotificationMessage,
   ): Promise<NotificationDeliveryResult> {
     const configuration =
-      this.resolveConfiguration();
+      this.validateConfiguration();
 
     if (
       configuration.status ===

@@ -7,6 +7,7 @@ import {
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { InAppNotificationProvider } from '../providers/in-app-notification.provider';
 import { MockWhatsAppNotificationProvider } from '../providers/mock-whatsapp-notification.provider';
+import { WhatsAppWebhookNotificationProvider } from '../providers/whatsapp-webhook-notification.provider';
 import {
   currentWhatsAppEnvironmentClass,
   resolveWhatsAppProviderSelection,
@@ -29,6 +30,8 @@ export class NotificationDispatcherService
     private readonly eventBus: EventBusService,
     private readonly mockWhatsAppProvider:
       MockWhatsAppNotificationProvider,
+    private readonly webhookWhatsAppProvider:
+      WhatsAppWebhookNotificationProvider,
     private readonly inAppProvider: InAppNotificationProvider,
   ) {}
 
@@ -65,8 +68,21 @@ export class NotificationDispatcherService
       whatsappSelection.mode ===
       'WEBHOOK'
     ) {
-      throw new Error(
-        'WHATSAPP_WEBHOOK_PROVIDER_NOT_IMPLEMENTED',
+      const webhookConfiguration =
+        this.webhookWhatsAppProvider
+          .validateConfiguration();
+
+      if (
+        webhookConfiguration.status ===
+        'BLOCKED'
+      ) {
+        throw new Error(
+          `WHATSAPP_WEBHOOK_CONFIGURATION_BLOCKED: ${webhookConfiguration.errors.join('; ')}`,
+        );
+      }
+
+      this.registry.register(
+        this.webhookWhatsAppProvider,
       );
     }
 

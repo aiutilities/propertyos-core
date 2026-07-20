@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "phase": "15C2",
+  "title": "Production configuration and monitoring readiness closure",
+  "recordedAt": "2026-07-20T10:33:41.868Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "closureBaseCommit": "ff603e738904ba9360cccf151b7285140ed49291",
+    "closureBaseTag": "v2.9.95-phase-15c2f-active-health-contract",
+    "repositoryCleanBeforeClosure": true
+  },
+  "originalBlockerResolution": {
+    "RUNNING_CONTAINER_IS_ORPHANED_AND_STALE": {
+      "resolved": true,
+      "resolution": "Replaced by a commit-bound accepted API image."
+    },
+    "CURRENT_ENVIRONMENT_VALIDATION_ABSENT_FROM_RUNTIME": {
+      "resolved": true,
+      "resolution": "Current production environment validation is active."
+    },
+    "AUTH_SECRET_MINIMUM_LENGTH_NOT_SATISFIED": {
+      "resolved": true,
+      "resolution": "Production authentication secret was securely rotated."
+    },
+    "CURRENT_METRICS_CONTROLLER_ABSENT_FROM_RUNTIME": {
+      "resolved": true,
+      "resolution": "Metrics routes are active and authorization protected."
+    },
+    "INCIDENT_RESPONSE_CHANNEL_NOT_CONFIGURED": {
+      "resolved": true,
+      "resolution": "Local incident monitoring is owned by Anand Nataraj."
+    }
+  },
+  "requiredActionResolution": {
+    "AUTHORIZE_AND_PERFORM_CONTROLLED_AUTH_SECRET_ROTATION": true,
+    "BUILD_A_COMMIT_BOUND_API_IMAGE": true,
+    "REPLACE_RUNTIME_USING_THE_COMMIT_BOUND_IMAGE": true,
+    "VERIFY_FAIL_CLOSED_ENVIRONMENT_VALIDATION_AT_STARTUP": true,
+    "VERIFY_AUTHENTICATED_METRICS_ROUTES": true,
+    "CONFIGURE_MONITORING_ALERTS_AND_INCIDENT_CHANNEL": true,
+    "REPEAT_SOURCE_DATABASE_SAFETY_VERIFICATION": true
+  },
+  "activeRuntime": {
+    "containerName": "propertyos-api",
+    "containerId": "ed01e2d41f77af2201eb727d0b1bc9f4e891e35acdb7492d3c8022626064c1bf",
+    "image": "propertyos-api:phase15c2f-1e3f57d2",
+    "revision": "1e3f57d262597fa75596b5ae6060482cb764e064",
+    "running": true,
+    "dockerHealth": "healthy",
+    "readinessPath": "/api/v1/health/ready",
+    "readinessHttpStatus": 200,
+    "readinessStatus": "ok",
+    "metricsRoutesPresent": true,
+    "metricsRoutesProtected": true
+  },
+  "monitoring": {
+    "owner": "Anand Nataraj",
+    "channel": "LOCAL_MACOS_NOTIFICATION_AND_PROTECTED_LOG",
+    "launchAgentLabel": "com.propertyos.incident-monitor",
+    "launchAgentLoaded": true,
+    "latestRecordedStatus": "ok",
+    "liveHttpStatus": 200,
+    "readyHttpStatus": 200,
+    "failureThreshold": 2,
+    "automaticRemediationEnabled": false,
+    "externalAlertsEnabled": false
+  },
+  "rollback": {
+    "containerName": "propertyos-api-phase15c2f-rollback",
+    "running": false,
+    "restartPolicy": "no",
+    "retained": true
+  },
+  "databaseSafety": {
+    "sourceStateBefore": "1|37|0",
+    "sourceStateAfter": "1|37|0",
+    "recordedMigrationCount": 37,
+    "controlledMigrationRange": "037-049",
+    "controlledMigrationCount": 13,
+    "controlledMigrationsApplied": 0,
+    "databaseMutated": false
+  },
+  "scopeBoundary": {
+    "whatsappConfigurationRequiredFor15C2Closure": false,
+    "whatsappConfigurationDeferredTo": "PHASE_15D",
+    "productionMigrationAuthorizationDeferredTo": "PHASE_15C3",
+    "livePilotAuthorizationPresent": false,
+    "executorExposureAuthorized": false,
+    "externalMessagingAuthorized": false,
+    "multiModelAiOrchestrationImplemented": false,
+    "multiModelAiOrchestrationDeferredTo": "PHASE_16"
+  },
+  "prohibitions": {
+    "migrationsApplied": false,
+    "whatsappConfigured": false,
+    "executorExposed": false,
+    "executorInvoked": false,
+    "externalEndpointContacted": false,
+    "externalAlertSent": false,
+    "externalMessageSent": false
+  },
+  "status": {
+    "phase15C2": "COMPLETE",
+    "productionConfigurationAndMonitoringReady": true,
+    "phase15C3MigrationAuthorization": "NOT_STARTED",
+    "phase15DControlledPilot": "NOT_AUTHORIZED",
+    "phase16MultiModelAiOrchestration": "OUTSTANDING"
+  }
+}

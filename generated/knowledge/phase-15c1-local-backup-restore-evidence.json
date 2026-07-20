@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "scope": "PHASE_15C1_LOCAL_PILOT_SOURCE_BACKUP_RESTORE_REHEARSAL",
+  "status": "VALID_LOCAL_REHEARSAL",
+  "productionAuthorizationGranted": false,
+  "databaseMutationAuthorized": false,
+  "migrationApplyAuthorized": false,
+  "liveAuthorizationPresent": false,
+  "externalMessageSent": false,
+  "environmentId": "propertyos-local-pilot-source",
+  "capturedAt": "2026-07-20T08:15:37Z",
+  "gitCommit": "16e8a868bf367131310c0001ff013c0b71859a0c",
+  "releaseTag": "v2.9.86-phase-15b3-pilot-plan",
+  "sourceState": "1|37|0",
+  "database": {
+    "name": "propertyos",
+    "serverMajorVersion": 16,
+    "migrationCount": 37,
+    "corePluginCount": 1,
+    "publicTableCount": 130
+  },
+  "dump": {
+    "format": "POSTGRES_CUSTOM",
+    "path": "/Users/anandnataraj/aiutilities/PropertyOS/backups/phase15c1-20260720T081533Z/propertyos-postgres.dump",
+    "sha256": "43f96d06892f8d7ceb7f994f4ee524d01e83faf87716585417d4f3c982f15c12",
+    "sizeBytes": 4761598,
+    "restoreListVerified": true
+  },
+  "storage": {
+    "evidenceReference": "/Users/anandnataraj/aiutilities/PropertyOS/backups/phase15c1-20260720T081533Z/backup-manifest.txt",
+    "verified": true,
+    "uploads": {
+      "path": "/Users/anandnataraj/aiutilities/PropertyOS/backups/phase15c1-20260720T081533Z/propertyos-uploads.tar.gz",
+      "sha256": "a3f9d782301a290d909a0e5002199ca56af087234a0a00d2596b25626c098a9e",
+      "sizeBytes": 87,
+      "fileCount": 0,
+      "archiveReadable": true
+    },
+    "installedPlugins": {
+      "path": "/Users/anandnataraj/aiutilities/PropertyOS/backups/phase15c1-20260720T081533Z/propertyos-installed-plugins.tar.gz",
+      "sha256": "8b365acff58b8922216246106511b33a4aa3d3629ddef7f2ea8af5f097683551",
+      "sizeBytes": 86,
+      "fileCount": 0,
+      "archiveReadable": true
+    }
+  },
+  "controlledPendingMigrations": [
+    "core/037-create-core-inventory-material-issue.sql",
+    "core/038-create-core-inventory-material-return.sql",
+    "core/039-create-core-inventory-batch-foundation.sql",
+    "core/040-add-procurement-batch-receipt-integration.sql",
+    "core/041-add-inventory-material-issue-batch.sql",
+    "core/042-add-inventory-material-return-batch.sql",
+    "core/043-add-inventory-stock-reservation-batch.sql",
+    "core/044-create-plugin-installation-attempts.sql",
+    "core/045-add-plugin-migration-integrity.sql",
+    "core/046-create-plugin-publisher-trust.sql",
+    "core/047-create-plugin-publication-governance.sql",
+    "core/048-create-plugin-trust-security-events.sql",
+    "core/049-correct-access-event-credential-reference.sql"
+  ],
+  "isolatedRestore": {
+    "environmentId": "propertyos_phase15c1_restore",
+    "completedAt": "2026-07-20T08:15:37Z",
+    "verified": true,
+    "restoredSourceState": "1|37|0",
+    "publicTableCount": 130,
+    "temporaryDatabaseRemoved": true
+  },
+  "limitations": [
+    "This evidence covers the local pilot source environment, not production.",
+    "The runtime upload volume contained zero files at capture time.",
+    "The installed-plugin volume contained zero files at capture time.",
+    "No controlled migration was applied to the source database."
+  ]
+}

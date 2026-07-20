@@ -23,10 +23,10 @@
 
 ## Phase 15 final operational gates
 
-- [ ] Phase 15D private/local provider configuration sealed
-- [ ] Exactly one WhatsApp pilot delivery attempt executed
-- [ ] Provider outcome reconciled without automatic retry
-- [ ] Recipient and credential material excluded from evidence
+- [x] Phase 15D private/local provider configuration sealed
+- [x] Exactly one local-development webhook attempt executed
+- [x] Local workflow error reconciled without automatic retry
+- [x] Recipient and credential material excluded from evidence
 - [ ] Phase 15D evidence committed and tagged
 - [ ] Final Phase 15 closure regression passed
 - [ ] Final Phase 15 closure evidence committed and tagged

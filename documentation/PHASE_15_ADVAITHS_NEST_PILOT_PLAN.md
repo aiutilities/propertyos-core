@@ -22,10 +22,14 @@ Current verified state:
 - Phase 15C2 production configuration readiness: complete
 - Phase 15C3 controlled source migrations: complete
 - Phase 15E1 consolidated regression: complete
-- Phase 15D one-message pilot: parked as the final operational sprint
-- WhatsApp delivery attempt used: false
-- External WhatsApp message sent: false
-- Phase 15 overall status: incomplete pending Phase 15D and final closure
+- Phase 15D local-development delivery rehearsal: complete and reconciled
+- Local webhook delivery attempts authorized: 1
+- Local webhook delivery attempts used: 1
+- Local rehearsal outcome: failed closed
+- Automatic retry performed: false
+- Real WhatsApp message sent: false
+- Real WPPConnect pilot: deferred
+- Phase 15 overall status: incomplete pending final closure
 
 Technical readiness does not authorize message delivery or broader commercial
 production.
@@ -246,6 +250,37 @@ Verified results:
 
 Phase 15D remains the final operational sprint. Phase 15 closure evidence and
 the final release checkpoint may be created only after Phase 15D is reconciled.
+
+### Phase 15D — Local-development delivery rehearsal
+
+The final operational sprint was explicitly narrowed from a real external
+WhatsApp delivery to a local n8n development rehearsal.
+
+Controls applied:
+
+- The recipient was entered privately and stored only in protected artifacts.
+- A dedicated Header Auth protected n8n workflow was created.
+- The request, configuration, workflow, recipient, message, and endpoint were
+  digest-bound.
+- Exactly one local invocation was authorized.
+- The attempt was reserved before the webhook was contacted.
+- Automatic retry was disabled.
+
+Outcome:
+
+- One local webhook attempt was performed.
+- n8n recorded the execution as an error because the published execution did
+  not find a usable Respond to Webhook node.
+- The attempt was consumed.
+- No retry was performed.
+- No real WhatsApp message was sent.
+- The source database remained `1|50|13`.
+- The failure was reconciled and closed fail-safe.
+- The real WPPConnect delivery pilot remains deferred and requires a new,
+  separately authorized future phase.
+
+This outcome closes the Phase 15D development exercise but is not evidence of
+successful WhatsApp delivery.
 
 ## Phase 16 reminder
 

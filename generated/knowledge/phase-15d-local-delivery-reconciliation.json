@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "phase": "15D",
+  "title": "Local-development delivery reconciliation",
+  "status": "COMPLETE_FAILED_CLOSED",
+  "reconciledAt": "2026-07-20T19:38:12Z",
+  "repository": {
+    "checkpointCommit": "b724653a4629a33a179373e9de4fe7a1c9298398",
+    "branch": "feature/v3-documentation"
+  },
+  "governance": {
+    "mode": "SOLO_FOUNDER_CONTROLLED",
+    "accountableOwner": "anand-nataraj",
+    "explicitOneTimeInvocationConfirmed": true,
+    "maximumAttempts": 1,
+    "attemptsUsed": 1,
+    "attemptsRemaining": 0,
+    "automaticRetryPermitted": false,
+    "automaticRetryPerformed": false
+  },
+  "localAdapter": {
+    "workflowName": "PropertyOS Phase 15D Local Delivery Adapter",
+    "publishedBeforeInvocation": true,
+    "headerAuthenticationConfigured": true,
+    "nodeCount": 3,
+    "webhookContacted": true
+  },
+  "outcome": {
+    "classification": "LOCAL_WORKFLOW_EXECUTION_ERROR",
+    "failureCode": "N8N_RESPOND_TO_WEBHOOK_NODE_NOT_AVAILABLE_IN_PUBLISHED_EXECUTION",
+    "n8nExecutionIds": [28, 29],
+    "n8nExecutionStatus": "error",
+    "localAcknowledgementReceived": false,
+    "realWhatsAppMessageSent": false,
+    "realWppConnectPilotDeferred": true,
+    "responseSha256": "0c8c13a32e5d1fed1347d9490c024f9c6d22aaaac508f3d9482a80684be01e88",
+    "payloadSha256": "61be2c080d8f26862ad69bfd7c6d2bcdcbbc9ec4d8ce8bf7d60caa7160cea30e",
+    "privateLedgerSha256": "dafcb86e233a5f1d78a93d9f3041c7af5a2cae5bb440b24df32af46a979f653b"
+  },
+  "safety": {
+    "recipientRecordedInEvidence": false,
+    "messageContentRecordedInEvidence": false,
+    "endpointRecordedInEvidence": false,
+    "tokenRecordedInEvidence": false,
+    "sourceStateBefore": "1|50|13",
+    "sourceStateAfter": "1|50|13",
+    "sourceDatabaseMutated": false,
+    "activePropertyOsApiChanged": false
+  },
+  "boundaries": {
+    "phase15DDevelopmentExercise": "COMPLETE",
+    "successfulWhatsAppDeliveryProven": false,
+    "commercialProductionAuthorized": false,
+    "realExternalPilotRequiresNewAuthorization": true,
+    "phase15FinalClosureRequired": true,
+    "phase16MultiModelAi": "OUTSTANDING"
+  },
+  "nextStatus": "PHASE_15_FINAL_CLOSURE"
+}

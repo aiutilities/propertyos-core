@@ -1,0 +1,49 @@
+{
+  "status": "ACCEPTED",
+  "scope": "PHASE_14C_ISOLATED_WHATSAPP_WEBHOOK_ACCEPTANCE",
+  "candidateCommit": "18add27f16e526fd709f91cf3851a7fa071c25ce",
+  "generatedAt": "2026-07-20T05:42:08.147Z",
+  "environment": "ISOLATED_LOOPBACK",
+  "networkBoundary": "LOOPBACK_ONLY",
+  "externalNetworkContacted": false,
+  "liveWhatsAppContacted": false,
+  "databaseMutated": false,
+  "sourceState": "1|37|0",
+  "acceptance": {
+    "realHttpBoundaryExercised": true,
+    "bearerAuthenticationVerified": true,
+    "e164NormalizationVerified": true,
+    "payloadMinimizationVerified": true,
+    "successAcknowledgementVerified": true,
+    "remoteRejectionSanitized": true,
+    "invalidAcknowledgementRejected": true
+  },
+  "validation": {
+    "testSuitesPassed": 4,
+    "testsPassed": 40,
+    "typecheckPassed": true,
+    "buildPassed": true
+  },
+  "artifacts": [
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-webhook-configuration.ts",
+      "sha256": "4cf443f2335ab9ee6fba22dc60e282af05ec9b165c9e3bd9e1ffdb8d63ac2b04"
+    },
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-webhook-notification.provider.ts",
+      "sha256": "a6e005c3e236ab44b42b5e16ce4b5d4feb3c9e169df2ee5ad2d81d4abff5d018"
+    },
+    {
+      "path": "backend/src/core/notification/services/notification-dispatcher.service.ts",
+      "sha256": "ace5a9f0dc3b9a11179040c349f4895237bea21c36ef9c4fe7eed45fb81923ce"
+    },
+    {
+      "path": "backend/src/core/notification/notification.module.ts",
+      "sha256": "1ad56c7ff009032c70fc007ab6c3d52d002a8dfb02243f510130a8c5a3ed14c3"
+    },
+    {
+      "path": "backend/src/core/notification/providers/whatsapp-webhook-isolated-exercise.integration-spec.ts",
+      "sha256": "69c2a91c712216b1e4c5fe2f28dbb09c11dbe65c601b3f8c1b95bb3b903ea2be"
+    }
+  ]
+}

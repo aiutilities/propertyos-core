@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "phase": "15C3",
+  "title": "Controlled source migration execution and reconciliation closure",
+  "recordedAt": "2026-07-20T15:18:14.809Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "executionCommit": "32ec19af061db8734cba6a87416f7868d084cbec",
+    "executionTag": "v2.9.99-phase-15c3c-isolated-executor-acceptance",
+    "repositoryCleanBeforeEvidence": true
+  },
+  "authorization": {
+    "mode": "SOLO_FOUNDER_CONTROLLED",
+    "accountableOwnerId": "anand-nataraj",
+    "founderPilotOnly": true,
+    "commercialProductionAllowed": false,
+    "preparationSha256": "0941c87d8a0a4316289339db6ea758fbefef4321e5437ae77c49ba110cb7bf0b",
+    "coolingOffMinutesSatisfied": 15,
+    "explicitFinalConfirmationRecorded": true,
+    "authorizationEvidenceSha256": "b3412618478b8a254480ec5e8e13ec957b1c455d19cd30724a678e3ed673475f",
+    "authorizedAt": "2026-07-20T15:11:34Z",
+    "expiresAt": "2026-07-20T15:41:34.000Z"
+  },
+  "backup": {
+    "cutoverBackupPath": "/Users/anandnataraj/aiutilities/PropertyOS/backups/phase15c3-preparation-20260720T145452Z/source-invocation-20260720T151130Z/propertyos-pre-invocation.dump",
+    "cutoverBackupSha256": "d5eefbe8396b67b0f6cf56fbd857ad1a25e728efc69357b7e09f73e5236fccd5",
+    "catalogReadable": true,
+    "isolatedRestoreVerified": true,
+    "restoredState": "1|37|0"
+  },
+  "execution": {
+    "targetEnvironmentId": "advaiths-nest-source",
+    "targetDatabaseName": "propertyos",
+    "migrationRange": "037-049",
+    "migrationCount": 13,
+    "firstMigration": "core/037-create-core-inventory-material-issue.sql",
+    "lastMigration": "core/049-correct-access-event-credential-reference.sql",
+    "migrationSetSha256": "fe2f31fb77109a87a65a7f8859c6e7949ad166debc2fce8392abc67d95b9b1d0",
+    "transactionStrategy": "ATOMIC_CONTROLLED_RANGE",
+    "atomicCommitCompleted": true,
+    "duplicateRetryPerformed": false
+  },
+  "databaseAcceptance": {
+    "sourceStateBefore": "1|37|0",
+    "sourceStateAfter": "1|50|13",
+    "runtimeCredentialReference": "access_credentials",
+    "legacyCredentialReference": "credentials",
+    "controlledTargetRelationCount": 6,
+    "controlledMigrationsRecorded": 13
+  },
+  "runtimeReconciliation": {
+    "initialDockerHealthWaitTimedOut": true,
+    "classification": "TRANSIENT_POST_RESTART_HEALTH_TIMING",
+    "migrationFailure": false,
+    "databaseRestoreRequired": false,
+    "migrationRetryRequired": false,
+    "migrationRetryForbidden": true,
+    "activeApiRunning": true,
+    "dockerHealth": "healthy",
+    "readinessHttpStatus": 200,
+    "readinessStatus": "ok",
+    "postgresHealth": "healthy",
+    "incidentMonitorLoaded": true,
+    "latestMonitorStatus": "ok"
+  },
+  "validation": {
+    "postMigrationRegressionsPassed": true,
+    "backupDigestReverified": true,
+    "schemaAcceptancePassed": true,
+    "repositoryClean": true
+  },
+  "boundaries": {
+    "whatsappConfigured": false,
+    "whatsappExecutorExposed": false,
+    "whatsappExecutorInvoked": false,
+    "externalEndpointContacted": false,
+    "externalAlertSent": false,
+    "externalMessageSent": false,
+    "broaderCommercialProductionAuthorized": false,
+    "independentHumanReviewBeforeCommercialProductionRequired": true
+  },
+  "status": {
+    "phase15C3": "COMPLETE",
+    "sourceMigrationsApplied": true,
+    "sourceDatabaseReady": true,
+    "nextPhase": "PHASE_15D_CONTROLLED_PILOT",
+    "phase15DLiveAuthorizationPresent": false
+  }
+}

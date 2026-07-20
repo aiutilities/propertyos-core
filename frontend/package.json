@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start -p 3002",
     "typecheck": "tsc --noEmit",
-    "audit:procurement": "node ../scripts/audit-procurement-frontend.mjs"
+    "audit:procurement": "node ../scripts/audit-procurement-frontend.mjs",
+    "test:pilot": "node --test tests/pilot-frontend-contract.test.mjs"
   },
   "dependencies": {
     "mermaid": "^11.16.0",

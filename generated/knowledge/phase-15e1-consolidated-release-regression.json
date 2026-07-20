@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "phase": "15E1",
+  "title": "Consolidated release regression",
+  "status": "COMPLETE",
+  "verifiedAt": "2026-07-20T16:27:50Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "checkpointCommit": "3a393b8ee9eac9d7a08b1eeb63a9fc1b1e082832",
+    "cleanBefore": true,
+    "cleanAfter": true
+  },
+  "backend": {
+    "testSuitesPassed": 167,
+    "testSuitesTotal": 167,
+    "testsPassed": 1261,
+    "testsTotal": 1261,
+    "snapshots": 0,
+    "typecheckPassed": true,
+    "buildPassed": true
+  },
+  "frontend": {
+    "pilotContractsPassed": 4,
+    "pilotContractsTotal": 4,
+    "typecheckPassed": true,
+    "productionBuildPassed": true,
+    "generatedPages": 150
+  },
+  "runtime": {
+    "activeApiHealthy": true,
+    "readinessHttpStatus": 200,
+    "incidentMonitorLoaded": true,
+    "incidentOwner": "Anand Nataraj"
+  },
+  "database": {
+    "sourceStateBefore": "1|50|13",
+    "sourceStateAfter": "1|50|13",
+    "controlledMigrationsApplied": 13,
+    "mutationDuringRegression": false
+  },
+  "phaseBoundaries": {
+    "phase15C3": "COMPLETE",
+    "phase15D": "PARKED_AS_FINAL_OPERATIONAL_SPRINT",
+    "phase15E1": "COMPLETE",
+    "phase15E2": "NOT_STARTED",
+    "phase15Complete": false,
+    "phase16MultiModelAi": "OUTSTANDING"
+  },
+  "deliverySafety": {
+    "recipientRecorded": false,
+    "providerTokenRecorded": false,
+    "endpointContacted": false,
+    "deliveryAttemptUsed": false,
+    "externalMessageSent": false
+  },
+  "nextStatus": "PHASE_15E2_RELEASE_READINESS"
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "phase": "15C3C",
+  "title": "Isolated solo-founder production migration executor acceptance",
+  "recordedAt": "2026-07-20T13:27:39.096Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "sourceCommit": "acd02a4d91c07a83ddea2642e4cec347652cfa11",
+    "sourceTag": "v2.9.98-phase-15c3b-solo-migration-executor",
+    "repositoryClean": true
+  },
+  "governance": {
+    "mode": "SOLO_FOUNDER_CONTROLLED",
+    "policyVersion": 1,
+    "accountableOwnerId": "anand-nataraj",
+    "founderPilotOnly": true,
+    "commercialProductionAllowed": false,
+    "futureSeparationOfDutiesRequired": true,
+    "independentHumanReviewBeforeCommercialProduction": true
+  },
+  "isolatedExecution": {
+    "realExecutorUsed": true,
+    "restoredBaseline": "1|37|0",
+    "finalState": "1|50|13",
+    "controlledMigrationRange": "037-049",
+    "controlledMigrationCount": 13,
+    "firstMigration": "core/037-create-core-inventory-material-issue.sql",
+    "lastMigration": "core/049-correct-access-event-credential-reference.sql",
+    "migrationSetSha256": "fe2f31fb77109a87a65a7f8859c6e7949ad166debc2fce8392abc67d95b9b1d0",
+    "transactionStrategy": "ATOMIC_CONTROLLED_RANGE",
+    "atomicExecutionVerified": true,
+    "advisoryLockUsed": true,
+    "targetIdentityVerified": true,
+    "baselineLockVerified": true,
+    "duplicateInvocationPrevented": true,
+    "authorizationEvidenceSha256": "59bfbd8ade14a1de7b7fcf8c7a7093e016efb6de4319d827487d876a2a66d5ba"
+  },
+  "schemaAcceptance": {
+    "accessEventCredentialReference": "access_credentials",
+    "legacyCredentialReferencePreserved": true,
+    "controlledTargetRelationCount": 6,
+    "controlledTargetRelationsPresent": true
+  },
+  "cleanup": {
+    "temporaryHarnessRemoved": true,
+    "temporaryDatabaseRemoved": true,
+    "sourceDatabaseStatePreserved": true
+  },
+  "sourceSafety": {
+    "stateBefore": "1|37|0",
+    "stateAfter": "1|37|0",
+    "controlledMigrationsApplied": 0,
+    "databaseMutated": false
+  },
+  "authorizationBoundary": {
+    "sourceRunnerExposed": false,
+    "sourceInvocationPerformed": false,
+    "finalDigestBoundConfirmationRequired": true,
+    "freshBackupRequiredBeforeSourceInvocation": true,
+    "maintenanceModeRequired": true,
+    "whatsappConfigurationAuthorized": false,
+    "externalMessagingAuthorized": false
+  },
+  "status": {
+    "phase15C3C": "COMPLETE",
+    "isolatedExecutorAccepted": true,
+    "sourceMigrationStatus": "AWAITING_PREPARATION_AND_FINAL_CONFIRMATION"
+  }
+}

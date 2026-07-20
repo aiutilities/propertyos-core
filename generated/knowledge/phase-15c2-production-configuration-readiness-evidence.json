@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "phase": "15C2",
+  "evidenceType": "PRODUCTION_CONFIGURATION_AND_MONITORING_READINESS",
+  "generatedAt": "2026-07-20T08:22:15.056Z",
+  "repository": {
+    "branch": "feature/v3-documentation",
+    "head": "0d015a78dcf6de12fe17534b35905e1c7b530b58",
+    "cleanBeforeEvidenceCreation": true
+  },
+  "sourceDatabase": {
+    "state": "1|37|0",
+    "corePlugins": 1,
+    "recordedMigrations": 37,
+    "controlledMigrationRange": "037-049",
+    "controlledMigrationsApplied": 0,
+    "mutatedDuringInspection": false
+  },
+  "runtime": {
+    "nodeEnvironment": "production",
+    "apiContainerCreatedAt": "2026-07-09T13:01:58.936806138Z",
+    "apiContainerStartedAt": "2026-07-15T04:19:34.444528334Z",
+    "containerImageAvailableLocally": false,
+    "classification": "ORPHANED_STALE_RUNTIME",
+    "currentAuthValidationCompiled": false,
+    "currentMetricsControllerCompiled": false,
+    "pilotCandidateAcceptable": false
+  },
+  "authentication": {
+    "secretPresent": true,
+    "minimumLengthRequired": 32,
+    "minimumLengthSatisfied": false,
+    "secretValueRecorded": false,
+    "secretHashRecorded": false,
+    "rotationAuthorized": false
+  },
+  "databaseConfiguration": {
+    "hostPresent": true,
+    "portValid": true,
+    "databasePresent": true,
+    "userPresent": true,
+    "passwordPresent": true,
+    "passwordValueRecorded": false
+  },
+  "httpConfiguration": {
+    "portValid": true,
+    "corsOriginPresent": true,
+    "rateLimitTtlValid": true,
+    "rateLimitMaximumValid": true
+  },
+  "scheduler": {
+    "explicitEnvironmentOverridesPresent": false,
+    "defaultsAvailable": true,
+    "pollIntervalMsDefault": 30000,
+    "batchSizeDefault": 20,
+    "staleAfterMsDefault": 300000,
+    "retryBaseDelayMsDefault": 30000,
+    "maximumRetryDelayMsDefault": 300000,
+    "readinessBlocker": false
+  },
+  "storage": {
+    "configured": true,
+    "exists": true,
+    "readable": true
+  },
+  "monitoring": {
+    "healthEndpoint": {
+      "path": "/api/v1/health",
+      "httpStatus": 200,
+      "healthy": true
+    },
+    "metricsEndpoints": [
+      {
+        "path": "/api/v1/metrics",
+        "httpStatus": 404
+      },
+      {
+        "path": "/api/v1/metrics/runtime",
+        "httpStatus": 404
+      },
+      {
+        "path": "/api/v1/metrics/samples",
+        "httpStatus": 404
+      },
+      {
+        "path": "/api/v1/metrics/prometheus",
+        "httpStatus": 404
+      }
+    ],
+    "expectedUnauthenticatedMetricsStatus": [
+      401,
+      403
+    ],
+    "metricsAvailableInRuntime": false
+  },
+  "incidentResponse": {
+    "configured": false,
+    "configuredKeyCount": 0,
+    "channelValueRecorded": false
+  },
+  "whatsapp": {
+    "providerConfigured": false,
+    "webhookUrlConfigured": false,
+    "webhookTokenConfigured": false,
+    "tokenValueRecorded": false,
+    "executorInvoked": false,
+    "externalEndpointContacted": false,
+    "externalMessageSent": false
+  },
+  "blockers": [
+    "RUNNING_CONTAINER_IS_ORPHANED_AND_STALE",
+    "CURRENT_ENVIRONMENT_VALIDATION_ABSENT_FROM_RUNTIME",
+    "AUTH_SECRET_MINIMUM_LENGTH_NOT_SATISFIED",
+    "CURRENT_METRICS_CONTROLLER_ABSENT_FROM_RUNTIME",
+    "INCIDENT_RESPONSE_CHANNEL_NOT_CONFIGURED"
+  ],
+  "requiredActions": [
+    "AUTHORIZE_AND_PERFORM_CONTROLLED_AUTH_SECRET_ROTATION",
+    "BUILD_A_COMMIT_BOUND_API_IMAGE",
+    "REPLACE_RUNTIME_USING_THE_COMMIT_BOUND_IMAGE",
+    "VERIFY_FAIL_CLOSED_ENVIRONMENT_VALIDATION_AT_STARTUP",
+    "VERIFY_AUTHENTICATED_METRICS_ROUTES",
+    "CONFIGURE_MONITORING_ALERTS_AND_INCIDENT_CHANNEL",
+    "REPEAT_SOURCE_DATABASE_SAFETY_VERIFICATION"
+  ],
+  "authorization": {
+    "productionConfigurationMutationAuthorized": false,
+    "serviceRestartAuthorized": false,
+    "migrationAuthorized": false,
+    "whatsappLiveAuthorizationPresent": false
+  },
+  "conclusion": {
+    "status": "NOT_READY_FAIL_CLOSED",
+    "phase15C2Complete": false,
+    "productionDeploymentAuthorized": false,
+    "controlledPilotAuthorized": false
+  }
+}

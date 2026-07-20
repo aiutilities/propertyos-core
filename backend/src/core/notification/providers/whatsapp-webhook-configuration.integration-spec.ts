@@ -7,6 +7,7 @@ import {
 import {
   DEFAULT_WHATSAPP_WEBHOOK_TIMEOUT_MS,
   resolveWhatsAppWebhookConfiguration,
+  whatsappWebhookConfigurationEvidenceSha256,
 } from './whatsapp-webhook-configuration';
 
 describe(
@@ -207,6 +208,107 @@ describe(
         expect(configuration.errors).toContain(
           'WhatsApp webhook timeout must be an integer between 100 and 60000 milliseconds',
         );
+      },
+    );
+
+    it(
+      'produces deterministic configuration evidence without exposing the token',
+      () => {
+        const secret =
+          'phase-14d3-secret-token-000000000000';
+
+        const configuration =
+          resolveWhatsAppWebhookConfiguration({
+            environmentClass:
+              'PRODUCTION',
+            webhookUrl:
+              'https://automation.example.com/propertyos/whatsapp',
+            webhookToken: secret,
+            timeoutMs: '5000',
+          });
+
+        const first =
+          whatsappWebhookConfigurationEvidenceSha256(
+            configuration,
+          );
+        const second =
+          whatsappWebhookConfigurationEvidenceSha256(
+            configuration,
+          );
+
+        expect(first).toMatch(
+          /^[a-f0-9]{64}$/,
+        );
+        expect(second).toBe(first);
+        expect(first).not.toContain(
+          secret,
+        );
+      },
+    );
+
+    it.each([
+      'webhookUrl',
+      'webhookToken',
+      'timeoutMs',
+    ] as const)(
+      'changes configuration evidence when %s changes',
+      (field) => {
+        const baseInput = {
+          environmentClass:
+            'PRODUCTION' as const,
+          webhookUrl:
+            'https://automation.example.com/propertyos/whatsapp',
+          webhookToken:
+            'phase-14d3-base-token-00000000000000',
+          timeoutMs: '5000',
+        };
+
+        const changedInput = {
+          ...baseInput,
+          [field]:
+            field === 'webhookUrl'
+              ? 'https://automation.example.com/propertyos/changed'
+              : field ===
+                    'webhookToken'
+                ? 'phase-14d3-other-token-0000000000000'
+                : '6000',
+        };
+
+        const first =
+          whatsappWebhookConfigurationEvidenceSha256(
+            resolveWhatsAppWebhookConfiguration(
+              baseInput,
+            ),
+          );
+
+        const second =
+          whatsappWebhookConfigurationEvidenceSha256(
+            resolveWhatsAppWebhookConfiguration(
+              changedInput,
+            ),
+          );
+
+        expect(second).not.toBe(first);
+      },
+    );
+
+    it(
+      'does not produce evidence for blocked configuration',
+      () => {
+        const configuration =
+          resolveWhatsAppWebhookConfiguration({
+            environmentClass:
+              'PRODUCTION',
+            webhookUrl:
+              'http://automation.example.com/webhook',
+            webhookToken: 'short',
+          });
+
+        expect(
+          whatsappWebhookConfigurationEvidenceSha256(
+            configuration,
+          ),
+        ).toBeNull();
       },
     );
 

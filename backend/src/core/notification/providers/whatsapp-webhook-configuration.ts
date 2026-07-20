@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { WhatsAppEnvironmentClass } from './whatsapp-provider-selection';
 
 export const DEFAULT_WHATSAPP_WEBHOOK_TIMEOUT_MS =
@@ -119,6 +121,42 @@ function validateWebhookUrl(
   }
 
   return parsed.toString();
+}
+
+export function whatsappWebhookConfigurationEvidenceSha256(
+  configuration: WhatsAppWebhookConfiguration,
+): string | null {
+  if (
+    configuration.status !== 'READY' ||
+    !configuration.webhookUrl ||
+    !configuration.webhookToken
+  ) {
+    return null;
+  }
+
+  const tokenSha256 = createHash(
+    'sha256',
+  )
+    .update(
+      configuration.webhookToken,
+      'utf8',
+    )
+    .digest('hex');
+
+  return createHash('sha256')
+    .update(
+      JSON.stringify({
+        environmentClass:
+          configuration.environmentClass,
+        timeoutMs:
+          configuration.timeoutMs,
+        tokenSha256,
+        webhookUrl:
+          configuration.webhookUrl,
+      }),
+      'utf8',
+    )
+    .digest('hex');
 }
 
 export function resolveWhatsAppWebhookConfiguration(

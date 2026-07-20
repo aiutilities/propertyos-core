@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "phase": "15",
+  "evidenceType": "DEVELOPMENT_MILESTONE_CLOSURE",
+  "recordedAt": "2026-07-20T20:00:00.334Z",
+  "sourceCheckpoint": {
+    "commit": "51e30cbb158382516aba1449158b70d23ddf5116",
+    "tag": "v2.10.3-phase-15d-local-rehearsal-reconciliation"
+  },
+  "closure": {
+    "status": "COMPLETE",
+    "classification": "DEVELOPMENT_MILESTONE_COMPLETE_WITH_DEFERRED_EXTERNAL_DELIVERY",
+    "commercialProductionAuthorized": false
+  },
+  "completedWork": {
+    "phase15A": true,
+    "phase15B": true,
+    "phase15C1": true,
+    "phase15C2": true,
+    "phase15C3": true,
+    "phase15D": "COMPLETE_FAILED_CLOSED",
+    "phase15E1": true,
+    "phase15E2": true
+  },
+  "database": {
+    "state": "1|50|13",
+    "controlledRange": "037-049",
+    "controlledMigrationCount": 13,
+    "mutationDuringClosure": false
+  },
+  "runtime": {
+    "activeApiHealthy": true,
+    "readinessContractActive": true,
+    "localIncidentMonitorLoaded": true,
+    "incidentOwner": "Anand Nataraj"
+  },
+  "delivery": {
+    "attemptsAuthorized": 1,
+    "attemptsUsed": 1,
+    "attemptsRemaining": 0,
+    "automaticRetryAllowed": false,
+    "retryPerformed": false,
+    "localAcknowledgementReceived": false,
+    "realWhatsAppMessageSent": false,
+    "externalWppConnectPilot": "DEFERRED_REQUIRES_SEPARATE_FUTURE_AUTHORIZATION"
+  },
+  "governance": {
+    "mode": "SOLO_FOUNDER_CONTROLLED",
+    "futureTeamMode": "SEPARATION_OF_DUTIES",
+    "independentHumanReviewRequiredBeforeCommercialProduction": true
+  },
+  "boundaries": {
+    "webhookContactDuringClosure": false,
+    "externalEndpointContactDuringClosure": false,
+    "externalMessageDuringClosure": false,
+    "phase16Complete": false
+  },
+  "predecessorEvidence": {
+    "phase15C1Sha256": "03407d84ae615950854a85433b4f3745894cb3109af1be677f5bfcfc96095419",
+    "phase15C2Sha256": "3b1da8445ea28e57b60204d5d782ffe5fcc177151d0e7199d1eb75f5be1228f8",
+    "phase15C3Sha256": "297f66ee7b44a5e024d67e7e5e6b4b6b632357871106554f5743b0aa60c8abef",
+    "phase15E1Sha256": "0aa541e8c06495a63f3f55faf02c6730c8a9c1523071a0b9b5f58f5028a3f862",
+    "phase15E2Sha256": "7337e0e11776e5187cf329ce2907fe71fc3079612fc5953c81ac39c74e0601bd",
+    "phase15DSha256": "be03fae8345b4e3ebfa13f71f5f3ff5eac85d332498d1cad005e91f6390fc54e"
+  },
+  "documentation": {
+    "phasePlanSha256": "44c9df6697835b6cc12b5a2d3bdecec97a1698a9c4c7dacc58e4421a2e4b3fb3",
+    "releaseChecklistSha256": "412194f5a2d6f4bcfcfa17646c18ed3370d8fccd01298fac2e8afdf47139ca66"
+  }
+}

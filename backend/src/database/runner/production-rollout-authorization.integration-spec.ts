@@ -125,7 +125,7 @@ describe(
       expect(first.runnerExposed).toBe(false);
       expect(first.executionStarted).toBe(false);
       expect(first.databaseMutated).toBe(false);
-      expect(first.migrations).toHaveLength(12);
+      expect(first.migrations).toHaveLength(13);
       expect(first.authorizationEvidenceSha256)
         .toMatch(/^[a-f0-9]{64}$/);
     });

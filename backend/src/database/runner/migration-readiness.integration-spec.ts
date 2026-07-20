@@ -25,7 +25,7 @@ describe('Phase 13D migration readiness', () => {
     );
   }
 
-  it('accepts immutable migrations 044 through 048', () => {
+  it('accepts governed migrations through 049', () => {
     const report = buildMigrationReadinessReport(
       controlledMigrations(),
       '2026-07-19T00:00:00.000Z',
@@ -35,7 +35,7 @@ describe('Phase 13D migration readiness', () => {
     expect(report.databaseTouched).toBe(false);
     expect(report.applyAuthorized).toBe(false);
     expect(report.errors).toEqual([]);
-    expect(report.migrations).toHaveLength(12);
+    expect(report.migrations).toHaveLength(13);
     expect(
       report.migrations.every(
         (migration) => migration.ready,
@@ -57,6 +57,7 @@ describe('Phase 13D migration readiness', () => {
       'core/046-create-plugin-publisher-trust.sql',
       'core/047-create-plugin-publication-governance.sql',
       'core/048-create-plugin-trust-security-events.sql',
+      'core/049-correct-access-event-credential-reference.sql',
     ]);
   });
 

@@ -177,10 +177,26 @@ export const CONTROLLED_PLUGIN_TRUST_MIGRATIONS:
   },
 ] as const;
 
+export const ACCESS_CONTROL_CORRECTIVE_MIGRATIONS:
+  readonly ControlledMigrationDefinition[] = [
+  {
+    name: 'core/049-correct-access-event-credential-reference.sql',
+    sha256:
+      '83ecdc2f9eb18af52eb4805252584cdfa1ccf59cdecf0c91469b718eacac6845',
+    dependsOn: [],
+    transactional: true,
+    reversible: false,
+    recovery: 'BACKUP_RESTORE',
+    purpose:
+      'Preserve legacy identity credential references and bind access events to access credentials',
+  },
+] as const;
+
 export const CONTROLLED_DEPLOYMENT_MIGRATIONS:
   readonly ControlledMigrationDefinition[] = [
   ...INVENTORY_PREREQUISITE_MIGRATIONS,
   ...CONTROLLED_PLUGIN_TRUST_MIGRATIONS,
+  ...ACCESS_CONTROL_CORRECTIVE_MIGRATIONS,
 ] as const;
 
 export function migrationSha256(sql: string): string {

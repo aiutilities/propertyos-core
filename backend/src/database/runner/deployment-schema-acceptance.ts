@@ -64,6 +64,8 @@ export const REQUIRED_SCHEMA_ACCEPTANCE = {
     'schema_migrations.plugin_name',
     'schema_migrations.plugin_version',
     'schema_migrations.reversible',
+    'access_events.identity_credential_id',
+    'access_events.credential_id',
   ],
   indexes: [
     'uq_inventory_batch_balance_location',
@@ -83,6 +85,8 @@ export const REQUIRED_SCHEMA_ACCEPTANCE = {
     'idx_plugin_publication_events_publication',
     'idx_plugin_publisher_trust_events_publisher',
     'idx_plugin_publisher_trust_events_key',
+    'idx_access_event_identity_credential',
+    'idx_access_event_access_credential',
   ],
   constraints: [
     'ck_inventory_material_issue_status',
@@ -101,6 +105,8 @@ export const REQUIRED_SCHEMA_ACCEPTANCE = {
     'chk_plugin_publication_integrity_sha256',
     'chk_plugin_publication_event_type',
     'chk_plugin_publisher_trust_event_type',
+    'access_events_identity_credential_id_fkey',
+    'access_events_credential_id_fkey',
   ],
   functions: [
     'prevent_plugin_publication_artifact_mutation',

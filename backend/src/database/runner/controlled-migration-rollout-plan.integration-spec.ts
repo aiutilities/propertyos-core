@@ -60,7 +60,7 @@ describe('Phase 13D controlled rollout plan', () => {
     expect(plan.transactionStrategy).toBe(
       'ATOMIC_CONTROLLED_RANGE',
     );
-    expect(plan.migrations).toHaveLength(12);
+    expect(plan.migrations).toHaveLength(13);
     expect(plan.evidenceSha256)
       .toMatch(/^[a-f0-9]{64}$/);
   });

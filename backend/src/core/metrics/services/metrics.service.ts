@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as os from 'os';
+import { ConsolePlatformLogger } from '../../platform/logging/console-platform.logger';
 import {
   CounterMetricInput,
   GaugeMetricInput,
@@ -16,6 +17,7 @@ export class MetricsService {
   constructor(
     @Inject(METRICS_REPOSITORY)
     private readonly repository: MetricsRepository = new InMemoryMetricsRepository(),
+    private readonly logger: ConsolePlatformLogger = new ConsolePlatformLogger(),
   ) {}
 
 
@@ -29,7 +31,7 @@ export class MetricsService {
     });
 
     this.samples.push(sample);
-    void this.repository.saveSample(sample);
+    this.persistSample(sample);
     return sample;
   }
 
@@ -43,7 +45,7 @@ export class MetricsService {
     });
 
     this.samples.push(sample);
-    void this.repository.saveSample(sample);
+    this.persistSample(sample);
     return sample;
   }
 
@@ -57,7 +59,7 @@ export class MetricsService {
     });
 
     this.samples.push(sample);
-    void this.repository.saveSample(sample);
+    this.persistSample(sample);
     return sample;
   }
 
@@ -184,6 +186,32 @@ export class MetricsService {
   async clear(): Promise<void> {
     this.samples.length = 0;
     await this.repository.clearSamples();
+  }
+
+  private persistSample(
+    sample: MetricSample,
+  ): void {
+    try {
+      void this.repository
+        .saveSample(sample)
+        .catch(() => {
+          this.logPersistenceFailure(sample);
+        });
+    } catch {
+      this.logPersistenceFailure(sample);
+    }
+  }
+
+  private logPersistenceFailure(
+    sample: MetricSample,
+  ): void {
+    this.logger.warn(
+      'metrics.sample.persistence_failed',
+      {
+        metricName: sample.name,
+        metricType: sample.type,
+      },
+    );
   }
 
   private createSample(input: {

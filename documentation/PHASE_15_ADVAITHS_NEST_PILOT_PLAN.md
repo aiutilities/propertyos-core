@@ -9,19 +9,26 @@ message.
 Phase 15 prepares and conducts the first controlled operational pilot at
 Advaith's Nest.
 
-Current state:
+Current verified state:
 
-- Repository checkpoint before Phase 15B3:
-  `a500ccd53b754aad0eb666a9d0f0cb3f5ad583f2`
-- Source database state: `1|37|0`
+- Repository checkpoint: `bca69616f2a8607ad50c26183c37c46474be34bd`
+- Source database state: `1|50|13`
 - Controlled migration range: `037–049`
 - Controlled migrations in the range: 13
-- Controlled migrations applied to the source database: 0
-- WhatsApp executor exposed: false
-- Explicit live authorization present: false
+- Controlled migrations applied atomically to the source database: 13
+- Active API readiness: healthy
+- Local incident monitoring: loaded
+- Incident owner: Anand Nataraj
+- Phase 15C2 production configuration readiness: complete
+- Phase 15C3 controlled source migrations: complete
+- Phase 15E1 consolidated regression: complete
+- Phase 15D one-message pilot: parked as the final operational sprint
+- WhatsApp delivery attempt used: false
 - External WhatsApp message sent: false
+- Phase 15 overall status: incomplete pending Phase 15D and final closure
 
-Pilot readiness is not live authorization.
+Technical readiness does not authorize message delivery or broader commercial
+production.
 
 ## Phase 15A audit conclusion
 
@@ -157,16 +164,20 @@ The first Advaith's Nest pilot is intentionally narrow:
 
 1. One consented recipient
 2. One approved visitor-related WhatsApp message
-3. One approved real HTTPS provider endpoint
-4. One securely supplied provider token
-5. One named operator
-6. One separate approver
-7. One separate reconciliation owner
-8. One execution request
+3. One configured provider endpoint appropriate to the selected pilot mode
+4. Provider credentials supplied only through protected local configuration
+5. One accountable operator: `anand-nataraj`
+6. One reconciliation owner: `anand-nataraj`
+7. Editable `SOLO_FOUNDER_CONTROLLED` governance for the founder-operated pilot
+8. A digest-bound, single-use execution request
 9. A maximum of one delivery attempt
 10. Post-delivery reconciliation before any further action
+11. Mandatory transition to `SEPARATION_OF_DUTIES` when the team expands
+12. Independent human review before broader commercial production
 
-The initial pilot does not require Inventory UI completion.
+The initial pilot does not require Inventory UI completion. Solo-founder
+governance is a temporary, explicit exception for the founder-operated
+Advaith's Nest pilot and must not be represented as independent approval.
 
 ## Explicitly deferred work
 
@@ -174,10 +185,67 @@ The following work remains outside the initial controlled pilot:
 
 - Inventory frontend
 - Broader frontend interaction and browser automation coverage
-- Production application of migrations 037–049
+- Additional production database migrations beyond the completed 037–049 range
 - General commercial rollout
 - Long-lived feature-branch merge and release
 - Multi-model AI orchestration
+
+## Completed operational preparation
+
+### Phase 15C1 — Backup and restore rehearsal
+
+Completed at:
+
+- Commit: `0d015a78dcf6de12fe17534b35905e1c7b530b58`
+- Tag: `v2.9.87-phase-15c1-backup-restore-rehearsal`
+
+A PostgreSQL custom-format backup and persistent-volume archives were
+checksummed, restored in isolation, and verified without changing the source
+database.
+
+### Phase 15C2 — Production configuration readiness
+
+Completed at:
+
+- Commit: `c32835c95563ddf8a93ecfb61a800310eca84c9e`
+- Tag: `v2.9.96-phase-15c2-production-configuration-closure`
+
+The active API now uses a commit-bound image, a rotated production secret,
+fail-closed readiness semantics, protected metrics routes, local incident
+monitoring owned by Anand Nataraj, and a stopped rollback asset.
+
+### Phase 15C3 — Controlled source migrations
+
+Completed at:
+
+- Commit: `3a393b8ee9eac9d7a08b1eeb63a9fc1b1e082832`
+- Tag: `v2.10.0-phase-15c3-source-migrations`
+
+Migrations 037–049 were applied once using the governed
+`ATOMIC_CONTROLLED_RANGE` executor. The database transitioned from `1|37|0`
+to `1|50|13`. Post-migration reconciliation confirmed the active API and
+incident monitor were healthy. Automatic retry is forbidden.
+
+### Phase 15E1 — Consolidated release regression
+
+Completed at:
+
+- Commit: `bca69616f2a8607ad50c26183c37c46474be34bd`
+- Tag: `v2.10.1-phase-15e1-consolidated-regression`
+
+Verified results:
+
+- 167 backend suites passed.
+- 1,261 backend tests passed.
+- Backend typecheck and build passed.
+- Frontend typecheck and production build passed.
+- Four frontend pilot contracts passed.
+- 150 frontend pages were generated.
+- Active API readiness and Docker health passed.
+- The source database remained `1|50|13`.
+
+Phase 15D remains the final operational sprint. Phase 15 closure evidence and
+the final release checkpoint may be created only after Phase 15D is reconciled.
 
 ## Phase 16 reminder
 
@@ -194,16 +262,23 @@ Planned providers:
 Phase 16 begins only after the operational pilot and stabilization unless the
 roadmap is explicitly changed.
 
-## Authorization boundary
+## Current authorization boundary
 
-Nothing in Phase 15A or Phase 15B authorizes:
+The controlled application of migrations 037–049 was separately authorized,
+executed once, reconciled, and closed in Phase 15C3. That authorization is
+consumed and does not authorize another migration invocation.
 
-- Applying migrations 037–049 to the source or production database
-- Exposing the WhatsApp executor
-- Supplying a live provider token
-- Contacting a real provider endpoint
+The completed Phase 15C and Phase 15E1 work does not authorize:
+
+- Exposing or invoking the WhatsApp executor
+- Supplying provider credentials outside protected local configuration
+- Contacting a provider endpoint
 - Sending a WhatsApp message
+- Performing more than one delivery attempt
 - Retrying an ambiguous delivery
-- Deploying to production
+- Broader commercial production
+- Declaring Phase 15 complete before Phase 15D reconciliation
+- Declaring Phase 16 multi-model AI orchestration complete
 
-Each live action requires its own explicit authorization and evidence.
+Phase 15D requires its own configuration seal, execution boundary, exactly-once
+attempt control, and permanent reconciliation evidence.

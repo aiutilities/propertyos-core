@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "policyId": "propertyos-production-approval",
+  "policyVersion": 1,
+  "mode": "SOLO_FOUNDER_CONTROLLED",
+  "accountableOwnerId": "anand-nataraj",
+  "minimumCoolingOffMinutes": 15,
+  "teamExpansionTransitionRequired": true,
+  "independentHumanReviewBeforeCommercialProduction": true,
+  "active": true,
+  "transitionGuidance": {
+    "futureMode": "SEPARATION_OF_DUTIES",
+    "trigger": "FIRST_ACCOUNTABLE_ENGINEERING_OR_OPERATIONS_TEAM_MEMBER_AVAILABLE",
+    "historicalEvidenceMutable": false,
+    "policyVersionIncrementRequired": true
+  },
+  "currentScope": {
+    "permitted": "ADVAITHS_NEST_FOUNDER_PILOT",
+    "commercialProductionPermitted": false
+  }
+}

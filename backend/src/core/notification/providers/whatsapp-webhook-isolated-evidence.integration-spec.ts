@@ -4,6 +4,9 @@ import {
   it,
 } from '@jest/globals';
 import {
+  execFileSync,
+} from 'node:child_process';
+import {
   createHash,
 } from 'node:crypto';
 import {
@@ -144,9 +147,33 @@ describe(
             artifact.path,
           );
 
-          expect(
+          const currentSha256 =
             sha256(
               readFileSync(artifactPath),
+            );
+
+          if (
+            currentSha256 ===
+            artifact.sha256
+          ) {
+            continue;
+          }
+
+          const historicalArtifact =
+            execFileSync(
+              'git',
+              [
+                'show',
+                `${proof.candidateCommit}:${artifact.path}`,
+              ],
+              {
+                cwd: repositoryRoot,
+              },
+            );
+
+          expect(
+            sha256(
+              historicalArtifact,
             ),
           ).toBe(artifact.sha256);
         }

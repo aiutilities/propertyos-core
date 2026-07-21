@@ -46,3 +46,6 @@ export * from './simulation/ai-provider-simulation.service';
 export * from './types/ai-provider-selection.types';
 export * from './errors/ai-provider-selection.error';
 export * from './routing/ai-provider-selection.service';
+export * from './types/ai-provider-failover.types';
+export * from './errors/ai-provider-failover.error';
+export * from './resilience/ai-provider-failover.service';

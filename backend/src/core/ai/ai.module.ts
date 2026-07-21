@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AiProviderFailoverService } from './resilience/ai-provider-failover.service';
 import { AiProviderSelectionService } from './routing/ai-provider-selection.service';
 import { AiProviderSimulationService } from './simulation/ai-provider-simulation.service';
 import { AiProviderActivationBoundaryService } from './activation/ai-provider-activation-boundary.service';
@@ -36,6 +37,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiController,
   ],
   providers: [
+    AiProviderFailoverService,
     AiProviderSelectionService,
     AiProviderSimulationService,
     AiProviderActivationBoundaryService,
@@ -72,6 +74,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiOrchestrationEvidenceService,
   ],
   exports: [
+    AiProviderFailoverService,
     AiProviderSelectionService,
     AiProviderSimulationService,
     AiProviderActivationBoundaryService,

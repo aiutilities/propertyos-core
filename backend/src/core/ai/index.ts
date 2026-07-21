@@ -65,3 +65,6 @@ export * from './dispatch/ai-prepared-request-dispatch-boundary.service';
 export * from './types/ai-dispatch-execution.types';
 export * from './errors/ai-dispatch-execution.error';
 export * from './dispatch/ai-dispatch-execution-coordinator.service';
+
+export * from './types/ai-execution-context.types';
+export * from './execution/ai-execution-context.service';

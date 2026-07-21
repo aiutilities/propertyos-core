@@ -8,6 +8,9 @@ import {
   AiDispatchExecutionCoordinatorService,
 } from '../dispatch/ai-dispatch-execution-coordinator.service';
 import {
+  AiExecutionContextService,
+} from '../execution/ai-execution-context.service';
+import {
   AiPreparedRequestDispatchBoundaryService,
 } from '../dispatch/ai-prepared-request-dispatch-boundary.service';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
@@ -48,6 +51,9 @@ export class AiOrchestratorService {
         new AiDispatchExecutionCoordinatorService(
           registry,
         ),
+    private readonly executionContext:
+      AiExecutionContextService =
+        new AiExecutionContextService(),
   ) {}
 
   async execute(
@@ -86,6 +92,8 @@ export class AiOrchestratorService {
           const response = await this.executeProvider({
             providerName,
             attempt,
+            correlationId,
+            startedAt,
             request,
             selectedModel:
               providerName === decision.providerName
@@ -200,6 +208,8 @@ export class AiOrchestratorService {
     options: {
       providerName: string;
       attempt: number;
+      correlationId: string;
+      startedAt: string;
       request:
         AiOrchestrationRequest;
       selectedModel?: string;
@@ -288,6 +298,38 @@ export class AiOrchestratorService {
         .maxOutputTokens ??
       1024;
 
+    const context =
+      this.executionContext.create({
+        tenantId:
+          options.request.tenantId,
+        correlationId:
+          options.correlationId,
+        attempt:
+          options.attempt,
+        capability:
+          options.request.capability,
+        classification:
+          options.request
+            .dataClassification,
+        executionMode:
+          options.request
+            .executionMode,
+        timeoutMs,
+        metadata: {
+          ...(options.request
+            .metadata ?? {}),
+          providerName:
+            options.providerName,
+          model,
+        },
+        timestamps: {
+          createdAt:
+            options.startedAt,
+          startedAt:
+            options.startedAt,
+        },
+      });
+
     const preparedRequest =
       this.requestPreparation.prepare({
         provider:
@@ -303,25 +345,29 @@ export class AiOrchestratorService {
             maximumOutputTokens,
         },
         metadata: {
-          ...(options.request
-            .metadata ?? {}),
+          ...context.metadata,
           propertyOsTenantId:
-            options.request.tenantId,
+            context.tenantId,
           propertyOsCapability:
-            options.request
-              .capability,
+            context.capability,
           propertyOsExecutionMode:
-            options.request
-              .executionMode,
+            context.executionMode,
           propertyOsDataClassification:
-            options.request
-              .dataClassification,
+            context.classification,
           propertyOsCorrelationId:
-            options.request
-              .correlationId,
+            context.correlationId,
+          propertyOsExecutionId:
+            context.executionId,
           propertyOsAttempt:
-            options.attempt,
+            context.attempt,
+          propertyOsTimeoutMs:
+            context.timeoutMs,
         },
+        requestId:
+          context.requestId,
+        preparedAt:
+          context.timestamps
+            .createdAt,
       });
 
     const protocol =
@@ -364,14 +410,21 @@ export class AiOrchestratorService {
           },
           metadata: {
             correlationId:
-              options.request
-                .correlationId,
+              context.correlationId,
             tenantId:
-              options.request
-                .tenantId,
+              context.tenantId,
+            executionId:
+              context.executionId,
+            attempt:
+              context.attempt,
+            capability:
+              context.capability,
+            dataClassification:
+              context.classification,
             executionMode:
-              options.request
-                .executionMode,
+              context.executionMode,
+            timeoutMs:
+              context.timeoutMs,
           },
         });
 
@@ -379,16 +432,7 @@ export class AiOrchestratorService {
       this.executionCoordinator
         .execute({
           envelope,
-          metadata: {
-            correlationId:
-              options.request
-                .correlationId,
-            tenantId:
-              options.request
-                .tenantId,
-            attempt:
-              options.attempt,
-          },
+          context,
         });
 
     const result =

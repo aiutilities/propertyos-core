@@ -18,6 +18,10 @@ import {
 } from '../registry/ai-provider.registry';
 
 import {
+  AiExecutionContext,
+} from '../types/ai-execution-context.types';
+
+import {
   AiPreparedRequestDispatchEnvelope,
 } from '../types/ai-prepared-request-dispatch.types';
 
@@ -156,6 +160,48 @@ describe(
           ...overrides,
         });
       };
+
+    const createExecutionContext =
+      (
+        overrides:
+          Partial<
+            AiExecutionContext
+          > = {},
+      ):
+        AiExecutionContext =>
+        Object.freeze({
+          tenantId:
+            'tenant-1',
+          requestId:
+            'airq_12345678',
+          correlationId:
+            'correlation-1',
+          executionId:
+            'execution-1',
+          attempt:
+            1,
+          capability:
+            'CHAT',
+          classification:
+            'INTERNAL',
+          executionMode:
+            'LIVE',
+          timeoutMs:
+            30_000,
+          timestamps:
+            Object.freeze({
+              createdAt:
+                '2026-07-21T00:00:00.000Z',
+              startedAt:
+                '2026-07-21T00:00:00.000Z',
+            }),
+          metadata:
+            Object.freeze({
+              source:
+                'orchestrator',
+            }),
+          ...overrides,
+        });
 
     const createResponse =
       (): AiResponse =>
@@ -300,6 +346,158 @@ describe(
             ),
         };
       };
+
+    it(
+      'uses execution identity from the immutable context',
+      async () => {
+        const {
+          service,
+        } =
+          createService();
+
+        const result =
+          await service.execute({
+            envelope:
+              createEnvelope(),
+            context:
+              createExecutionContext({
+                executionId:
+                  'execution-context-1',
+                timestamps:
+                  Object.freeze({
+                    createdAt:
+                      '2026-07-21T00:00:00.000Z',
+                    startedAt:
+                      '2026-07-21T00:00:01.000Z',
+                  }),
+              }),
+          });
+
+        expect(
+          result.executionId,
+        ).toBe(
+          'execution-context-1',
+        );
+
+        expect(
+          result.evidence.startedAt,
+        ).toBe(
+          '2026-07-21T00:00:01.000Z',
+        );
+      },
+    );
+
+    it(
+      'projects immutable execution context into result metadata',
+      async () => {
+        const {
+          service,
+        } =
+          createService();
+
+        const result =
+          await service.execute({
+            envelope:
+              createEnvelope(),
+            context:
+              createExecutionContext(),
+          });
+
+        expect(
+          result.metadata,
+        ).toEqual(
+          expect.objectContaining({
+            source:
+              'orchestrator',
+            tenantId:
+              'tenant-1',
+            requestId:
+              'airq_12345678',
+            correlationId:
+              'correlation-1',
+            executionId:
+              'execution-1',
+            attempt:
+              1,
+            capability:
+              'CHAT',
+            dataClassification:
+              'INTERNAL',
+            executionMode:
+              'LIVE',
+            timeoutMs:
+              30_000,
+          }),
+        );
+
+        expect(
+          Object.isFrozen(
+            result.metadata,
+          ),
+        ).toBe(true);
+      },
+    );
+
+    it(
+      'rejects a structurally invalid execution context',
+      async () => {
+        const {
+          service,
+        } =
+          createService();
+
+        await expect(
+          service.execute({
+            envelope:
+              createEnvelope(),
+            context:
+              createExecutionContext({
+                attempt:
+                  0,
+              }),
+          }),
+        ).rejects.toEqual(
+          expect.objectContaining({
+            code:
+              'AI_DISPATCH_EXECUTION_INVALID_CONTEXT',
+          }),
+        );
+      },
+    );
+
+    it(
+      'rejects a context whose request identity differs from the envelope',
+      async () => {
+        const {
+          service,
+        } =
+          createService();
+
+        await expect(
+          service.execute({
+            envelope:
+              createEnvelope(),
+            context:
+              createExecutionContext({
+                requestId:
+                  'airq_different',
+              }),
+          }),
+        ).rejects.toEqual(
+          expect.objectContaining({
+            code:
+              'AI_DISPATCH_EXECUTION_CONTEXT_MISMATCH',
+            details:
+              expect.objectContaining({
+                requestId:
+                  'airq_12345678',
+                contextRequestId:
+                  'airq_different',
+              }),
+          }),
+        );
+      },
+    );
 
     it(
       'executes a dispatch envelope through the registered provider',

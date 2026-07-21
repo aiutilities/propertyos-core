@@ -16,6 +16,11 @@ import {
   AiDispatchExecutionResult,
 } from '../types/ai-dispatch-execution.types';
 
+
+import {
+  AiExecutionContext,
+} from '../types/ai-execution-context.types';
+
 import {
   AiPreparedRequestDispatchEnvelope,
 } from '../types/ai-prepared-request-dispatch.types';
@@ -49,15 +54,26 @@ export class AiDispatchExecutionCoordinatorService {
         input.envelope,
       );
 
+    const context =
+      input.context === undefined
+        ? undefined
+        : this.validateContext(
+            input.context,
+            envelope,
+          );
+
     const executionId =
       this.resolveExecutionId(
-        input.executionId,
+        context?.executionId ??
+          input.executionId,
         envelope,
       );
 
     const startedAt =
       this.resolveTimestamp(
-        input.startedAt,
+        context?.timestamps
+          .startedAt ??
+          input.startedAt,
         'startedAt',
       );
 
@@ -159,12 +175,37 @@ export class AiDispatchExecutionCoordinatorService {
         new Date()
           .toISOString();
 
+      const metadataSource =
+        context === undefined
+          ? input.metadata
+          : {
+              ...context.metadata,
+              correlationId:
+                context.correlationId,
+              tenantId:
+                context.tenantId,
+              requestId:
+                context.requestId,
+              executionId:
+                context.executionId,
+              attempt:
+                context.attempt,
+              capability:
+                context.capability,
+              dataClassification:
+                context.classification,
+              executionMode:
+                context.executionMode,
+              timeoutMs:
+                context.timeoutMs,
+            };
+
       const metadata =
-        input.metadata === undefined
+        metadataSource === undefined
           ? undefined
           : this.deepFreeze(
               this.deepClone(
-                input.metadata,
+                metadataSource,
               ),
             );
 
@@ -228,6 +269,93 @@ export class AiDispatchExecutionCoordinatorService {
         },
       );
     }
+  }
+
+  private validateContext(
+    context:
+      AiExecutionContext,
+    envelope:
+      AiPreparedRequestDispatchEnvelope,
+  ): AiExecutionContext {
+    if (
+      !context ||
+      typeof context !== 'object' ||
+      typeof context.tenantId !==
+        'string' ||
+      !context.tenantId.trim() ||
+      typeof context.requestId !==
+        'string' ||
+      !context.requestId.trim() ||
+      typeof context.correlationId !==
+        'string' ||
+      !context.correlationId.trim() ||
+      typeof context.executionId !==
+        'string' ||
+      !context.executionId.trim() ||
+      !Number.isInteger(
+        context.attempt,
+      ) ||
+      context.attempt <= 0 ||
+      typeof context.timeoutMs !==
+        'number' ||
+      !Number.isInteger(
+        context.timeoutMs,
+      ) ||
+      context.timeoutMs <= 0 ||
+      !context.timestamps ||
+      typeof context.timestamps !==
+        'object' ||
+      typeof context.timestamps
+        .createdAt !== 'string' ||
+      typeof context.timestamps
+        .startedAt !== 'string' ||
+      Number.isNaN(
+        Date.parse(
+          context.timestamps
+            .createdAt,
+        ),
+      ) ||
+      Number.isNaN(
+        Date.parse(
+          context.timestamps
+            .startedAt,
+        ),
+      ) ||
+      !context.metadata ||
+      typeof context.metadata !==
+        'object'
+    ) {
+      throw new AiDispatchExecutionError(
+        'AI_DISPATCH_EXECUTION_INVALID_CONTEXT',
+        'A structurally valid execution context is required',
+      );
+    }
+
+    if (
+      context.requestId !==
+      envelope.requestId
+    ) {
+      throw new AiDispatchExecutionError(
+        'AI_DISPATCH_EXECUTION_CONTEXT_MISMATCH',
+        `Execution context request ${context.requestId} does not match dispatch request ${envelope.requestId}`,
+        {
+          executionId:
+            context.executionId,
+          dispatchId:
+            envelope.dispatchId,
+          requestId:
+            envelope.requestId,
+          contextRequestId:
+            context.requestId,
+          provider:
+            envelope.provider,
+          model:
+            envelope.model,
+        },
+      );
+    }
+
+    return context;
   }
 
   private validateEnvelope(

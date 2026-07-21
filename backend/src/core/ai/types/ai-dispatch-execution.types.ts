@@ -1,4 +1,8 @@
 import {
+  AiExecutionContext,
+} from './ai-execution-context.types';
+
+import {
   AiPreparedRequestDispatchEnvelope,
 } from './ai-prepared-request-dispatch.types';
 
@@ -13,8 +17,29 @@ export type AiDispatchExecutionOutcome =
 export interface AiDispatchExecutionInput {
   envelope:
     AiPreparedRequestDispatchEnvelope;
+
+  /**
+   * Canonical immutable execution identity.
+   *
+   * New orchestration callers should provide this field.
+   * The scalar fields below remain temporarily supported
+   * for compatibility with direct coordinator callers.
+   */
+  context?: AiExecutionContext;
+
+  /**
+   * @deprecated Use context.executionId.
+   */
   executionId?: string;
+
+  /**
+   * @deprecated Use context.timestamps.startedAt.
+   */
   startedAt?: string;
+
+  /**
+   * @deprecated Use context.metadata.
+   */
   metadata?:
     Readonly<Record<string, unknown>>;
 }

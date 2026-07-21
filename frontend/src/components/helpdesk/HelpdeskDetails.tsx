@@ -16,6 +16,7 @@ import {
   cancelHelpdeskTicket,
   closeHelpdeskTicket,
   draftHelpdeskAiReply,
+  retrieveHelpdeskKnowledge,
   escalateHelpdeskTicket,
   getHelpdeskTicket,
   reopenHelpdeskTicket,
@@ -26,6 +27,7 @@ import {
 
 import {
   HelpdeskAiReplySuggestion,
+  HelpdeskKnowledgeEvidence,
   HelpdeskStatus,
   HelpdeskTicket,
   HelpdeskVisibility,
@@ -187,6 +189,34 @@ export default function HelpdeskDetails({
     copyStatus,
     setCopyStatus,
   ] = useState("");
+
+
+  const [
+    knowledgeQuery,
+    setKnowledgeQuery,
+  ] = useState("");
+
+  const [
+    knowledgeLimit,
+    setKnowledgeLimit,
+  ] = useState("5");
+
+  const [
+    knowledgeBusy,
+    setKnowledgeBusy,
+  ] = useState(false);
+
+  const [
+    knowledgeError,
+    setKnowledgeError,
+  ] = useState("");
+
+  const [
+    knowledgeResults,
+    setKnowledgeResults,
+  ] = useState<
+    HelpdeskKnowledgeEvidence[]
+  >([]);
 
   const load =
     useCallback(async () => {
@@ -510,6 +540,41 @@ export default function HelpdeskDetails({
       );
     } finally {
       setAiReplyBusy(false);
+    }
+  }
+
+
+  async function retrieveKnowledge() {
+    if (!ticket) {
+      return
+    }
+
+    setKnowledgeBusy(true)
+    setKnowledgeError("")
+    setKnowledgeResults([])
+
+    try {
+      const result =
+        await retrieveHelpdeskKnowledge({
+          tenantId: aiTenantId.trim(),
+          query:
+            knowledgeQuery.trim() ||
+            ticket.title,
+          limit:
+            Number(knowledgeLimit),
+        })
+
+      setKnowledgeResults(
+        result.evidence,
+      )
+    } catch (caught) {
+      setKnowledgeError(
+        caught instanceof Error
+          ? caught.message
+          : "Unable to retrieve knowledge.",
+      )
+    } finally {
+      setKnowledgeBusy(false)
     }
   }
 
@@ -1135,6 +1200,127 @@ export default function HelpdeskDetails({
               </div>
             </article>
           ) : null}
+
+        <section className="panel stack-md">
+
+          <h2>Knowledge Search</h2>
+
+          <div className="form-grid">
+
+            <label>
+              Search
+              <input
+                value={knowledgeQuery}
+                onChange={(event)=>
+                  setKnowledgeQuery(
+                    event.target.value
+                  )
+                }
+                placeholder="Search policies, SOPs or KB"
+              />
+            </label>
+
+            <label>
+              Limit
+              <select
+                value={knowledgeLimit}
+                onChange={(event)=>
+                  setKnowledgeLimit(
+                    event.target.value
+                  )
+                }
+              >
+                <option>3</option>
+                <option>5</option>
+                <option>10</option>
+              </select>
+            </label>
+
+          </div>
+
+          <button
+            type="button"
+            disabled={
+              knowledgeBusy ||
+              !aiTenantId.trim()
+            }
+            onClick={()=>{
+              void retrieveKnowledge()
+            }}
+          >
+            {knowledgeBusy
+              ? "Searching..."
+              : "Search Knowledge"}
+          </button>
+
+          {knowledgeError ? (
+            <div className="error-state">
+              <p>{knowledgeError}</p>
+            </div>
+          ) : null}
+
+          {knowledgeResults.length ? (
+
+            <div className="stack-md">
+
+              {knowledgeResults.map(
+                (item)=>(
+                  <article
+                    key={item.id}
+                    className="subtle-card"
+                  >
+
+                    <strong>
+                      {item.title}
+                    </strong>
+
+                    <p>
+                      {item.description ??
+                        "No description available."}
+                    </p>
+
+                    <dl className="detail-list">
+
+                      <div>
+                        <dt>Score</dt>
+                        <dd>
+                          {item.score !==
+                          undefined
+                            ? `${Math.round(
+                                item.score *
+                                  100,
+                              )}%`
+                            : "Not provided"}
+                        </dd>
+                      </div>
+
+                      <div>
+                        <dt>Type</dt>
+                        <dd>
+                          {item.entityType}
+                        </dd>
+                      </div>
+
+                      <div>
+                        <dt>Source</dt>
+                        <dd>
+                          {item.providerName ??
+                            "Not specified"}
+                        </dd>
+                      </div>
+
+                    </dl>
+
+                  </article>
+                )
+              )}
+
+            </div>
+
+          ) : null}
+
+        </section>
+
         </section>
       ) : null}
 

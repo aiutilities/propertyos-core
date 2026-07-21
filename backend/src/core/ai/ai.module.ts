@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { EnvironmentAiProviderCredentialResolverService } from './credentials/environment-ai-provider-credential-resolver.service';
+import { AI_PROVIDER_CREDENTIAL_RESOLVER } from './contracts/ai-provider-credential-resolver.contract';
 import { AiProviderRuntimeConfigurationService } from './configuration/ai-provider-runtime-configuration.service';
 import { DiscoveryModule } from '@nestjs/core';
 import { EventBusModule } from '../eventbus/eventbus.module';
@@ -22,6 +24,13 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiController,
   ],
   providers: [
+    EnvironmentAiProviderCredentialResolverService,
+    {
+      provide:
+        AI_PROVIDER_CREDENTIAL_RESOLVER,
+      useExisting:
+        EnvironmentAiProviderCredentialResolverService,
+    },
     AiProviderRuntimeConfigurationService,
     AiService,
     AiOrchestratorService,
@@ -34,6 +43,8 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiOrchestrationEvidenceService,
   ],
   exports: [
+    EnvironmentAiProviderCredentialResolverService,
+    AI_PROVIDER_CREDENTIAL_RESOLVER,
     AiProviderRuntimeConfigurationService,
     AiService,
     AiOrchestratorService,

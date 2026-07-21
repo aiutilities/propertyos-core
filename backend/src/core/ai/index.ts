@@ -17,3 +17,6 @@ export * from './registration/ai-provider-registration.service';
 export * from './registration/ai-provider-registration-bootstrap.service';
 export * from './configuration/ai-provider-runtime-configuration.service';
 export * from './types/ai-provider-runtime-configuration.types';
+export * from './contracts/ai-provider-credential-resolver.contract';
+export * from './credentials/environment-ai-provider-credential-resolver.service';
+export * from './types/ai-provider-credential.types';

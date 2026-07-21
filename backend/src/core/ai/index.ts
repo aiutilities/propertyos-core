@@ -27,3 +27,6 @@ export * from './types/ai-provider-http-transport.types';
 export * from './errors/ai-provider-runtime.error';
 export * from './runtime/ai-provider-runtime.service';
 export * from './types/ai-provider-runtime.types';
+export * from './errors/openai-compatible-protocol.error';
+export * from './protocols/openai-compatible/openai-compatible-protocol.service';
+export * from './types/openai-compatible-protocol.types';

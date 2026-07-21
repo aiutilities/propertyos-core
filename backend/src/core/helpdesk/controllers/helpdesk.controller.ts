@@ -21,10 +21,12 @@ import { TransitionHelpdeskTicketDto } from '../dto/transition-helpdesk-ticket.d
 import { AddHelpdeskCommentDto } from '../dto/add-helpdesk-comment.dto';
 import { AddHelpdeskWorklogDto } from '../dto/add-helpdesk-worklog.dto';
 import { SubmitHelpdeskFeedbackDto } from '../dto/submit-helpdesk-feedback.dto';
+import { TriageHelpdeskTicketDto } from '../dto/triage-helpdesk-ticket.dto';
 import {
   HELPDESK_PERMISSIONS,
 } from '../helpdesk.constants';
 import { HelpdeskService } from '../services/helpdesk.service';
+import { HelpdeskAiTriageService } from '../services/helpdesk-ai-triage.service';
 import {
   HelpdeskChannel,
   HelpdeskPriority,
@@ -38,6 +40,7 @@ import {
 export class HelpdeskController {
   constructor(
     private readonly helpdeskService: HelpdeskService,
+    private readonly helpdeskAiTriageService: HelpdeskAiTriageService,
   ) {}
 
   @RequirePermission(HELPDESK_PERMISSIONS.CREATE)
@@ -98,6 +101,16 @@ export class HelpdeskController {
       await this.helpdeskService.getMetrics(
         propertyId,
       ),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.CREATE)
+  @Post('triage')
+  async triage(
+    @Body() dto: TriageHelpdeskTicketDto,
+  ) {
+    return this.success(
+      await this.helpdeskAiTriageService.triage(dto),
     );
   }
 

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { PostgresModule } from '../../database/postgres/postgres.module';
+import { AiModule } from '../ai';
 import { AuditModule } from '../audit/audit.module';
 import { AuthModule } from '../auth/auth.module';
 import { EventBusModule } from '../eventbus/eventbus.module';
@@ -19,6 +20,7 @@ import {
 } from './repositories/helpdesk.repository';
 import { PostgresHelpdeskRepository } from './repositories/postgres-helpdesk.repository';
 import { HelpdeskService } from './services/helpdesk.service';
+import { HelpdeskAiTriageService } from './services/helpdesk-ai-triage.service';
 import { HelpdeskSlaService } from './services/helpdesk-sla.service';
 import { HelpdeskSlaWarningJobHandler } from './handlers/helpdesk-sla-warning-job.handler';
 import { HelpdeskSlaBreachJobHandler } from './handlers/helpdesk-sla-breach-job.handler';
@@ -29,6 +31,7 @@ import {
 } from './helpdesk-search-provider.service';
 @Module({
   imports: [
+    AiModule,
     AuditModule,
     AuthModule,
     PostgresModule,
@@ -47,6 +50,7 @@ import {
     HelpdeskSlaWarningJobHandler,
     HelpdeskSlaBreachJobHandler,
     HelpdeskService,
+    HelpdeskAiTriageService,
     {
       provide: HELPDESK_REPOSITORY,
       useClass: PostgresHelpdeskRepository,
@@ -54,6 +58,7 @@ import {
   ],
   exports: [
     HelpdeskService,
+    HelpdeskAiTriageService,
     HelpdeskSlaService,
     HelpdeskSlaWarningJobHandler,
     HelpdeskSlaBreachJobHandler,

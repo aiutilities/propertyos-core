@@ -4,12 +4,24 @@ import {
   AiOrchestrationError,
   AiOrchestrationFailureCode,
 } from '../errors/ai-orchestration.error';
+import {
+  AiDispatchExecutionCoordinatorService,
+} from '../dispatch/ai-dispatch-execution-coordinator.service';
+import {
+  AiPreparedRequestDispatchBoundaryService,
+} from '../dispatch/ai-prepared-request-dispatch-boundary.service';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
+import {
+  AiRequestPreparationService,
+} from '../request/ai-request-preparation.service';
 import {
   AiOrchestrationAttempt,
   AiOrchestrationRequest,
   AiOrchestrationResult,
 } from '../types/ai-orchestration.types';
+import {
+  AiPreparedRequestDispatchProtocol,
+} from '../types/ai-prepared-request-dispatch.types';
 import { AiResponse } from '../types/ai.types';
 import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
@@ -19,9 +31,23 @@ export class AiOrchestratorService {
   private readonly defaultTimeoutMs = 30_000;
 
   constructor(
-    private readonly routingPolicy: AiRoutingPolicyService,
-    private readonly registry: AiProviderRegistry,
-    private readonly evidence: AiOrchestrationEvidenceService,
+    private readonly routingPolicy:
+      AiRoutingPolicyService,
+    private readonly registry:
+      AiProviderRegistry,
+    private readonly evidence:
+      AiOrchestrationEvidenceService,
+    private readonly requestPreparation:
+      AiRequestPreparationService =
+        new AiRequestPreparationService(),
+    private readonly dispatchBoundary:
+      AiPreparedRequestDispatchBoundaryService =
+        new AiPreparedRequestDispatchBoundaryService(),
+    private readonly executionCoordinator:
+      AiDispatchExecutionCoordinatorService =
+        new AiDispatchExecutionCoordinatorService(
+          registry,
+        ),
   ) {}
 
   async execute(
@@ -170,51 +196,276 @@ export class AiOrchestratorService {
     }
   }
 
-  private async executeProvider(options: {
-    providerName: string;
-    attempt: number;
-    request: AiOrchestrationRequest;
-    selectedModel?: string;
-  }): Promise<AiResponse> {
-    const provider = this.registry.get(options.providerName);
+  private async executeProvider(
+    options: {
+      providerName: string;
+      attempt: number;
+      request:
+        AiOrchestrationRequest;
+      selectedModel?: string;
+    },
+  ): Promise<AiResponse> {
+    const provider =
+      this.registry.get(
+        options.providerName,
+      );
 
     if (!provider) {
       throw new AiOrchestrationError({
-        code: 'PROVIDER_NOT_FOUND',
-        message: `AI provider not found: ${options.providerName}`,
-        retriable: true,
+        code:
+          'PROVIDER_NOT_FOUND',
+        message:
+          `AI provider not found: ${options.providerName}`,
+        retriable:
+          true,
         details: {
-          providerName: options.providerName,
-          attempt: options.attempt,
+          providerName:
+            options.providerName,
+          attempt:
+            options.attempt,
         },
       });
     }
 
-    const timeoutMs = options.request.timeoutMs ?? this.defaultTimeoutMs;
+    const timeoutMs =
+      options.request.timeoutMs ??
+      this.defaultTimeoutMs;
 
-    if (!Number.isInteger(timeoutMs) || timeoutMs <= 0) {
+    if (
+      !Number.isInteger(
+        timeoutMs,
+      ) ||
+      timeoutMs <= 0
+    ) {
       throw new AiOrchestrationError({
-        code: 'PROVIDER_EXECUTION_FAILED',
-        message: 'AI provider timeout must be a positive integer',
-        retriable: false,
+        code:
+          'PROVIDER_EXECUTION_FAILED',
+        message:
+          'AI provider timeout must be a positive integer',
+        retriable:
+          false,
         details: {
-          providerName: options.providerName,
-          attempt: options.attempt,
+          providerName:
+            options.providerName,
+          attempt:
+            options.attempt,
           timeoutMs,
         },
       });
     }
 
-    return this.withTimeout(
-      provider.generate({
-        ...options.request,
-        providerName: options.providerName,
-        model: options.selectedModel,
-      }),
-      timeoutMs,
-      options.providerName,
-      options.attempt,
-    );
+    const descriptor =
+      provider.getProvider();
+
+    const model =
+      options.selectedModel ??
+      descriptor.defaultModel ??
+      provider.manifest
+        .models[0]?.id;
+
+    if (!model) {
+      throw new AiOrchestrationError({
+        code:
+          'PROVIDER_EXECUTION_FAILED',
+        message:
+          `AI provider has no executable model: ${options.providerName}`,
+        retriable:
+          false,
+        details: {
+          providerName:
+            options.providerName,
+          attempt:
+            options.attempt,
+        },
+      });
+    }
+
+    const maximumOutputTokens =
+      options.request.maxTokens ??
+      options.request.tokenBudget
+        ?.maxOutputTokens ??
+      provider.manifest.limits
+        .maxOutputTokens ??
+      1024;
+
+    const preparedRequest =
+      this.requestPreparation.prepare({
+        provider:
+          options.providerName,
+        model,
+        messages:
+          options.request.messages,
+        generation: {
+          temperature:
+            options.request
+              .temperature,
+          maxOutputTokens:
+            maximumOutputTokens,
+        },
+        metadata: {
+          ...(options.request
+            .metadata ?? {}),
+          propertyOsTenantId:
+            options.request.tenantId,
+          propertyOsCapability:
+            options.request
+              .capability,
+          propertyOsExecutionMode:
+            options.request
+              .executionMode,
+          propertyOsDataClassification:
+            options.request
+              .dataClassification,
+          propertyOsCorrelationId:
+            options.request
+              .correlationId,
+          propertyOsAttempt:
+            options.attempt,
+        },
+      });
+
+    const protocol =
+      this.resolveDispatchProtocol(
+        options.providerName,
+        provider.manifest
+          .metadata,
+      );
+
+    const runtimeProvider =
+      this.resolveRuntimeProvider(
+        options.providerName,
+        provider.manifest
+          .metadata,
+      );
+
+    const envelope =
+      this.dispatchBoundary
+        .createEnvelope({
+          request:
+            preparedRequest,
+          target: {
+            provider:
+              options.providerName,
+            runtimeProvider,
+            protocol,
+            model,
+            enabled:
+              descriptor.status ===
+              'ACTIVE',
+            metadata: {
+              providerId:
+                descriptor.id,
+              providerDisplayName:
+                descriptor
+                  .displayName,
+              orchestrationAttempt:
+                options.attempt,
+            },
+          },
+          metadata: {
+            correlationId:
+              options.request
+                .correlationId,
+            tenantId:
+              options.request
+                .tenantId,
+            executionMode:
+              options.request
+                .executionMode,
+          },
+        });
+
+    const execution =
+      this.executionCoordinator
+        .execute({
+          envelope,
+          metadata: {
+            correlationId:
+              options.request
+                .correlationId,
+            tenantId:
+              options.request
+                .tenantId,
+            attempt:
+              options.attempt,
+          },
+        });
+
+    const result =
+      await this.withTimeout(
+        execution,
+        timeoutMs,
+        options.providerName,
+        options.attempt,
+      );
+
+    return result.response;
+  }
+
+  private resolveDispatchProtocol(
+    providerName:
+      string,
+    metadata:
+      Readonly<
+        Record<string, unknown>
+      >,
+  ): AiPreparedRequestDispatchProtocol {
+    const declaredProtocol =
+      metadata.protocol;
+
+    if (
+      typeof declaredProtocol ===
+        'string' &&
+      declaredProtocol.trim()
+    ) {
+      const normalized =
+        declaredProtocol
+          .trim()
+          .replace(
+            /[-\s]+/g,
+            '_',
+          )
+          .toUpperCase();
+
+      if (
+        normalized ===
+        'OPENAI_COMPATIBLE' ||
+        normalized ===
+        'ANTHROPIC_MESSAGES'
+      ) {
+        return normalized;
+      }
+    }
+
+    return providerName
+      .trim()
+      .toLowerCase() ===
+      'claude'
+      ? 'ANTHROPIC_MESSAGES'
+      : 'OPENAI_COMPATIBLE';
+  }
+
+  private resolveRuntimeProvider(
+    providerName:
+      string,
+    metadata:
+      Readonly<
+        Record<string, unknown>
+      >,
+  ): string {
+    const declaredRuntime =
+      metadata.runtimeProvider ??
+      metadata.runtime;
+
+    if (
+      typeof declaredRuntime ===
+        'string' &&
+      declaredRuntime.trim()
+    ) {
+      return declaredRuntime.trim();
+    }
+
+    return `${providerName.trim()}-runtime`;
   }
 
   private async withTimeout<T>(

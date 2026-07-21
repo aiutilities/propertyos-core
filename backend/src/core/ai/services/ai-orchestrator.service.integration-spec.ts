@@ -1,4 +1,13 @@
 import { describe, expect, it, jest } from '@jest/globals';
+import {
+  AiDispatchExecutionCoordinatorService,
+} from '../dispatch/ai-dispatch-execution-coordinator.service';
+import {
+  AiPreparedRequestDispatchBoundaryService,
+} from '../dispatch/ai-prepared-request-dispatch-boundary.service';
+import {
+  AiRequestPreparationService,
+} from '../request/ai-request-preparation.service';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiProviderPort } from '../contracts/ai-provider.contract';
 import {
@@ -161,9 +170,18 @@ describe('AiOrchestratorService', () => {
     } as unknown as EventBusService;
 
     return new AiOrchestratorService(
-      new AiRoutingPolicyService(registry),
+      new AiRoutingPolicyService(
+        registry,
+      ),
       registry,
-      new AiOrchestrationEvidenceService(eventBus),
+      new AiOrchestrationEvidenceService(
+        eventBus,
+      ),
+      new AiRequestPreparationService(),
+      new AiPreparedRequestDispatchBoundaryService(),
+      new AiDispatchExecutionCoordinatorService(
+        registry,
+      ),
     );
   }
 

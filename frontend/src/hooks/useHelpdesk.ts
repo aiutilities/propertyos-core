@@ -15,15 +15,21 @@ import {
   AddHelpdeskWorklogInput,
   AssignHelpdeskTicketInput,
   CreateHelpdeskTicketInput,
+  DraftHelpdeskAiReplyInput,
+  HelpdeskAiReplySuggestion,
+  HelpdeskAiTriageInput,
+  HelpdeskAiTriageResult,
   HelpdeskApiResponse,
   HelpdeskCategory,
   HelpdeskComment,
   HelpdeskFeedback,
+  HelpdeskKnowledgeRetrievalResult,
   HelpdeskListFilters,
   HelpdeskMetrics,
   HelpdeskTicket,
   HelpdeskWorklog,
   ResolveHelpdeskTicketInput,
+  RetrieveHelpdeskKnowledgeInput,
   SubmitHelpdeskFeedbackInput,
   TransitionHelpdeskTicketInput,
 } from "@/types/helpdesk";
@@ -379,6 +385,66 @@ export async function submitHelpdeskFeedback(
       >
     >(
       `/helpdesk/${id}/feedback`,
+      {
+        method: "POST",
+        body:
+          JSON.stringify(input),
+      },
+    );
+
+  return response.data;
+}
+
+export async function triageHelpdeskTicket(
+  input: HelpdeskAiTriageInput,
+): Promise<HelpdeskAiTriageResult> {
+  const response =
+    await apiRequest<
+      HelpdeskApiResponse<
+        HelpdeskAiTriageResult
+      >
+    >(
+      "/helpdesk/triage",
+      {
+        method: "POST",
+        body:
+          JSON.stringify(input),
+      },
+    );
+
+  return response.data;
+}
+
+export async function draftHelpdeskAiReply(
+  input: DraftHelpdeskAiReplyInput,
+): Promise<HelpdeskAiReplySuggestion> {
+  const response =
+    await apiRequest<
+      HelpdeskApiResponse<
+        HelpdeskAiReplySuggestion
+      >
+    >(
+      "/helpdesk/draft-reply",
+      {
+        method: "POST",
+        body:
+          JSON.stringify(input),
+      },
+    );
+
+  return response.data;
+}
+
+export async function retrieveHelpdeskKnowledge(
+  input: RetrieveHelpdeskKnowledgeInput,
+): Promise<HelpdeskKnowledgeRetrievalResult> {
+  const response =
+    await apiRequest<
+      HelpdeskApiResponse<
+        HelpdeskKnowledgeRetrievalResult
+      >
+    >(
+      "/helpdesk/retrieve-knowledge",
       {
         method: "POST",
         body:

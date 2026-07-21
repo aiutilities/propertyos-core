@@ -182,3 +182,77 @@ export interface HelpdeskApiResponse<T> {
   success: boolean;
   data: T;
 }
+
+export interface HelpdeskAiTriageInput {
+  tenantId: string;
+  title: string;
+  description: string;
+  categoryId?: string;
+  categoryName?: string;
+  priority?: HelpdeskPriority;
+  channel?: HelpdeskChannel;
+}
+
+export interface HelpdeskAiTriageResult {
+  suggestedPriority: HelpdeskPriority;
+  suggestedCategory?: string;
+  summary: string;
+  confidence: number;
+  reasons: string[];
+  correlationId: string;
+  providerName: string;
+  model?: string;
+}
+
+export interface DraftHelpdeskAiReplyInput {
+  tenantId: string;
+  ticketId: string;
+  subject: string;
+  customerMessage: string;
+  internalNotes?: string;
+  groundWithKnowledge?: boolean;
+  knowledgeEntityTypes?: string[];
+  knowledgeLimit?: number;
+}
+
+export type HelpdeskAiReplyTone =
+  | "professional"
+  | "friendly"
+  | "empathetic";
+
+export interface HelpdeskKnowledgeEvidence {
+  id: string;
+  entityType: string;
+  entityId: string;
+  title: string;
+  description?: string;
+  score?: number;
+  providerName?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface HelpdeskAiReplySuggestion {
+  subject: string;
+  reply: string;
+  confidence: number;
+  tone: HelpdeskAiReplyTone;
+  correlationId: string;
+  providerName: string;
+  model?: string;
+  grounded: boolean;
+  evidence: HelpdeskKnowledgeEvidence[];
+  evidenceCount: number;
+}
+
+export interface RetrieveHelpdeskKnowledgeInput {
+  tenantId: string;
+  query: string;
+  entityTypes?: string[];
+  limit?: number;
+}
+
+export interface HelpdeskKnowledgeRetrievalResult {
+  query: string;
+  evidence: HelpdeskKnowledgeEvidence[];
+  evidenceCount: number;
+}

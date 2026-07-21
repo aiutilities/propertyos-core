@@ -5,6 +5,9 @@ import {
   AiOrchestrationFailureCode,
 } from '../errors/ai-orchestration.error';
 import {
+  AiProviderFailoverError,
+} from '../errors/ai-provider-failover.error';
+import {
   AiDispatchExecutionCoordinatorService,
 } from '../dispatch/ai-dispatch-execution-coordinator.service';
 import {
@@ -15,6 +18,9 @@ import {
 } from '../dispatch/ai-prepared-request-dispatch-boundary.service';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
 import {
+  AiProviderFailoverService,
+} from '../resilience/ai-provider-failover.service';
+import {
   AiRequestPreparationService,
 } from '../request/ai-request-preparation.service';
 import {
@@ -22,6 +28,10 @@ import {
   AiOrchestrationRequest,
   AiOrchestrationResult,
 } from '../types/ai-orchestration.types';
+import {
+  AiProviderFailoverAttemptEvidence,
+  AiProviderFailoverFailureCode,
+} from '../types/ai-provider-failover.types';
 import {
   AiPreparedRequestDispatchProtocol,
 } from '../types/ai-prepared-request-dispatch.types';
@@ -54,17 +64,28 @@ export class AiOrchestratorService {
     private readonly executionContext:
       AiExecutionContextService =
         new AiExecutionContextService(),
+    private readonly failover:
+      AiProviderFailoverService =
+        new AiProviderFailoverService(),
   ) {}
 
   async execute(
     request: AiOrchestrationRequest,
   ): Promise<AiOrchestrationResult> {
-    const correlationId = request.correlationId?.trim() || randomUUID();
-    const attempts: AiOrchestrationAttempt[] = [];
+    const correlationId =
+      request.correlationId?.trim() ||
+      randomUUID();
+
+    const attempts:
+      AiOrchestrationAttempt[] = [];
+
     let decision;
 
     try {
-      decision = this.routingPolicy.decide(request);
+      decision =
+        this.routingPolicy.decide(
+          request,
+        );
 
       await this.evidence.recordRequested({
         correlationId,
@@ -72,136 +93,494 @@ export class AiOrchestratorService {
         decision,
       });
 
-      const providerNames = [
-        decision.providerName,
-        ...decision.fallbackProviderNames,
-      ];
+      const candidates =
+        this.createFailoverCandidates(
+          decision.providerName,
+          decision.model,
+          decision.fallbackProviderNames,
+          request,
+        );
 
-      const failures: Array<{
-        providerName: string;
-        code: AiOrchestrationFailureCode;
-        message: string;
-      }> = [];
+      const failures =
+        new Map<
+          number,
+          AiOrchestrationError
+        >();
 
-      for (const [index, providerName] of providerNames.entries()) {
-        const attempt = index + 1;
-        const startedAtDate = new Date();
-        const startedAt = startedAtDate.toISOString();
+      const result =
+        await this.failover.execute({
+          candidates,
+          maximumAttemptsPerProvider:
+            1,
+          retryDelayMs:
+            0,
+          retryableFailureCodes: [
+            'AI_PROVIDER_TIMEOUT',
+            'AI_PROVIDER_RATE_LIMITED',
+            'AI_PROVIDER_OUTAGE',
+          ],
+          execute:
+            async (
+              candidate,
+              context,
+            ) => {
+              try {
+                const response =
+                  await this.executeProvider({
+                    providerName:
+                      candidate.providerName,
+                    attempt:
+                      context
+                        .globalAttemptNumber,
+                    correlationId,
+                    startedAt:
+                      new Date()
+                        .toISOString(),
+                    request,
+                    selectedModel:
+                      candidate.model,
+                  });
 
-        try {
-          const response = await this.executeProvider({
-            providerName,
-            attempt,
-            correlationId,
-            startedAt,
-            request,
-            selectedModel:
-              providerName === decision.providerName
-                ? decision.model
-                : request.model,
-          });
+                this.assertTokenBudget(
+                  response,
+                  request,
+                  candidate.providerName,
+                  context
+                    .globalAttemptNumber,
+                );
 
-          this.assertTokenBudget(response, request, providerName, attempt);
+                return {
+                  status:
+                    'SUCCEEDED' as const,
+                  response,
+                };
+              } catch (error) {
+                const normalized =
+                  this.normalizeFailure(
+                    error,
+                    candidate.providerName,
+                    context
+                      .globalAttemptNumber,
+                  );
 
-          const completedAtDate = new Date();
-          const completedAttempt: AiOrchestrationAttempt = {
-            providerName,
-            attempt,
-            status: 'SUCCEEDED',
-            startedAt,
-            completedAt: completedAtDate.toISOString(),
-            durationMs: Math.max(
-              0,
-              completedAtDate.getTime() - startedAtDate.getTime(),
-            ),
-          };
+                failures.set(
+                  context.globalAttemptNumber,
+                  normalized,
+                );
 
-          attempts.push(completedAttempt);
+                /*
+                 * A fatal orchestration policy failure must stop the
+                 * whole operation, not merely move to another provider.
+                 *
+                 * Returning a typed fatal result causes the canonical
+                 * failover service to stop immediately while preserving
+                 * its generic provider-failover semantics.
+                 */
+                if (!normalized.retriable) {
+                  return {
+                    status:
+                      'FATAL' as const,
+                    error:
+                      normalized,
+                  };
+                }
 
-          const resolvedDecision = {
-            ...decision,
-            providerName,
-            model: response.model,
-          };
+                throw Object.assign(
+                  new Error(
+                    normalized.message,
+                  ),
+                  {
+                    code:
+                      this.toFailoverFailureCode(
+                        normalized,
+                      ),
+                  },
+                );
+              }
+            },
+        });
 
-          await this.evidence.recordSucceeded({
-            correlationId,
-            request,
-            decision: resolvedDecision,
-            response,
-            attempts,
-          });
+      attempts.push(
+        ...this.toOrchestrationAttempts(
+          result.evidence.attempts,
+          failures,
+        ),
+      );
 
-          return {
-            correlationId,
-            response,
-            decision: resolvedDecision,
-            attempts,
-          };
-        } catch (error) {
-          const completedAtDate = new Date();
-          const normalized = this.normalizeFailure(
-            error,
-            providerName,
-            attempt,
-          );
-
-          attempts.push({
-            providerName,
-            attempt,
-            status: 'FAILED',
-            failureCode: normalized.code,
-            startedAt,
-            completedAt: completedAtDate.toISOString(),
-            durationMs: Math.max(
-              0,
-              completedAtDate.getTime() - startedAtDate.getTime(),
-            ),
-          });
-
-          failures.push({
-            providerName,
-            code: normalized.code,
-            message: normalized.message,
-          });
-
-          if (!normalized.retriable) {
-            throw normalized;
-          }
-        }
+      if (
+        result.response.status ===
+        'FATAL'
+      ) {
+        throw result.response.error;
       }
 
-      throw new AiOrchestrationError({
-        code: 'ALL_PROVIDERS_FAILED',
-        message: 'All eligible AI providers failed',
-        retriable: false,
-        details: {
-          failures,
-        },
+      const response =
+        result.response.response;
+
+      const resolvedDecision = {
+        ...decision,
+        providerName:
+          result.providerName,
+        model:
+          response.model ??
+          result.model,
+      };
+
+      await this.evidence.recordSucceeded({
+        correlationId,
+        request,
+        decision:
+          resolvedDecision,
+        response,
+        attempts,
       });
+
+      return {
+        correlationId,
+        response,
+        decision:
+          resolvedDecision,
+        attempts,
+      };
     } catch (error) {
+      if (
+        error instanceof
+        AiProviderFailoverError
+      ) {
+        const failureMap =
+          this.collectFailoverFailures(
+            error.evidence.attempts,
+          );
+
+        attempts.splice(
+          0,
+          attempts.length,
+          ...this.toOrchestrationAttempts(
+            error.evidence.attempts,
+            failureMap,
+          ),
+        );
+
+        const exhausted =
+          new AiOrchestrationError({
+            code:
+              'ALL_PROVIDERS_FAILED',
+            message:
+              'All eligible AI providers failed',
+            retriable:
+              false,
+            details: {
+              failures:
+                error.evidence.attempts
+                  .filter(
+                    attempt =>
+                      attempt.outcome ===
+                      'FAILED',
+                  )
+                  .map(attempt => {
+                    const normalized =
+                      failureMap.get(
+                        attempt
+                          .globalAttemptNumber,
+                      );
+
+                    return {
+                      providerName:
+                        attempt.providerName,
+                      code:
+                        normalized?.code ??
+                        this.fromFailoverFailureCode(
+                          attempt.failureCode,
+                        ),
+                      message:
+                        normalized?.message ??
+                        'AI provider execution failed',
+                    };
+                  }),
+            },
+          });
+
+        await this.evidence.recordFailed({
+          correlationId,
+          request,
+          decision,
+          error:
+            exhausted,
+          attempts,
+        });
+
+        throw exhausted;
+      }
+
       const normalized =
-        error instanceof AiOrchestrationError
+        error instanceof
+        AiOrchestrationError
           ? error
           : new AiOrchestrationError({
-              code: 'PROVIDER_EXECUTION_FAILED',
+              code:
+                'PROVIDER_EXECUTION_FAILED',
               message:
                 error instanceof Error
                   ? error.message
                   : 'Unknown AI orchestration failure',
-              retriable: false,
+              retriable:
+                false,
             });
+
+      /*
+       * Fatal callback results are represented as successful failover
+       * termination internally. Ensure their public attempt remains
+       * a failed orchestration attempt.
+       */
+      if (
+        attempts.length > 0 &&
+        normalized.details.attempt
+      ) {
+        const matching =
+          attempts.find(
+            attempt =>
+              attempt.attempt ===
+              normalized
+                .details.attempt,
+          );
+
+        if (matching) {
+          matching.status =
+            'FAILED';
+          matching.failureCode =
+            normalized.code;
+        }
+      }
 
       await this.evidence.recordFailed({
         correlationId,
         request,
         decision,
-        error: normalized,
+        error:
+          normalized,
         attempts,
       });
 
       throw normalized;
     }
+  }
+
+  private createFailoverCandidates(
+    selectedProviderName:
+      string,
+    selectedModel:
+      string | undefined,
+    fallbackProviderNames:
+      readonly string[],
+    request:
+      AiOrchestrationRequest,
+  ): Array<{
+    providerName: string;
+    model: string;
+  }> {
+    return [
+      selectedProviderName,
+      ...fallbackProviderNames,
+    ].map(
+      (
+        providerName,
+        index,
+      ) => {
+        const provider =
+          this.registry.get(
+            providerName,
+          );
+
+        const model =
+          index === 0
+            ? selectedModel
+            : request.model ??
+              provider
+                ?.getProvider()
+                .defaultModel ??
+              provider
+                ?.manifest
+                .models[0]?.id;
+
+        if (!model?.trim()) {
+          throw new AiOrchestrationError({
+            code:
+              'PROVIDER_EXECUTION_FAILED',
+            message:
+              `AI provider has no executable model: ${providerName}`,
+            retriable:
+              false,
+            details: {
+              providerName,
+            },
+          });
+        }
+
+        return {
+          providerName,
+          model:
+            model.trim(),
+        };
+      },
+    );
+  }
+
+  private toFailoverFailureCode(
+    error:
+      AiOrchestrationError,
+  ): AiProviderFailoverFailureCode {
+    switch (error.code) {
+      case 'PROVIDER_TIMEOUT':
+        return 'AI_PROVIDER_TIMEOUT';
+
+      case 'PROVIDER_NOT_FOUND':
+        return 'AI_PROVIDER_OUTAGE';
+
+      case 'TOKEN_BUDGET_EXCEEDED':
+        return 'AI_PROVIDER_NON_RETRYABLE_FAILURE';
+
+      case 'PROVIDER_EXECUTION_FAILED':
+        return error.retriable
+          ? 'AI_PROVIDER_OUTAGE'
+          : 'AI_PROVIDER_NON_RETRYABLE_FAILURE';
+
+      case 'ALL_PROVIDERS_FAILED':
+        return 'AI_PROVIDER_NON_RETRYABLE_FAILURE';
+    }
+  }
+
+  private fromFailoverFailureCode(
+    code:
+      AiProviderFailoverFailureCode |
+      undefined,
+  ): AiOrchestrationFailureCode {
+    switch (code) {
+      case 'AI_PROVIDER_TIMEOUT':
+        return 'PROVIDER_TIMEOUT';
+
+      case 'AI_PROVIDER_RATE_LIMITED':
+      case 'AI_PROVIDER_OUTAGE':
+      case 'AI_PROVIDER_MALFORMED_RESPONSE':
+      case 'AI_PROVIDER_UNKNOWN_FAILURE':
+        return 'PROVIDER_EXECUTION_FAILED';
+
+      case 'AI_PROVIDER_NON_RETRYABLE_FAILURE':
+      default:
+        return 'PROVIDER_EXECUTION_FAILED';
+    }
+  }
+
+  private collectFailoverFailures(
+    evidence:
+      readonly AiProviderFailoverAttemptEvidence[],
+  ): Map<
+    number,
+    AiOrchestrationError
+  > {
+    return new Map(
+      evidence
+        .filter(
+          attempt =>
+            attempt.outcome ===
+            'FAILED',
+        )
+        .map(attempt => [
+          attempt.globalAttemptNumber,
+          new AiOrchestrationError({
+            code:
+              this.fromFailoverFailureCode(
+                attempt.failureCode,
+              ),
+            message:
+              'AI provider execution failed',
+            retriable:
+              Boolean(
+                attempt.retryable,
+              ),
+            details: {
+              providerName:
+                attempt.providerName,
+              attempt:
+                attempt
+                  .globalAttemptNumber,
+            },
+          }),
+        ]),
+    );
+  }
+
+  private toOrchestrationAttempts(
+    evidence:
+      readonly AiProviderFailoverAttemptEvidence[],
+    failures:
+      ReadonlyMap<
+        number,
+        AiOrchestrationError
+      >,
+  ): AiOrchestrationAttempt[] {
+    return evidence.map(
+      attempt => {
+        const failure =
+          failures.get(
+            attempt
+              .globalAttemptNumber,
+          );
+
+        const startedAtMs =
+          Date.parse(
+            attempt.startedAt,
+          );
+
+        const completedAtMs =
+          Date.parse(
+            attempt.completedAt,
+          );
+
+        return {
+          providerName:
+            attempt.providerName,
+          attempt:
+            attempt
+              .globalAttemptNumber,
+          status:
+            failure ||
+            attempt.outcome ===
+              'FAILED'
+              ? 'FAILED'
+              : 'SUCCEEDED',
+          ...(
+            failure ||
+            attempt.failureCode
+              ? {
+                  failureCode:
+                    failure?.code ??
+                    this
+                      .fromFailoverFailureCode(
+                        attempt.failureCode,
+                      ),
+                }
+              : {}
+          ),
+          startedAt:
+            attempt.startedAt,
+          completedAt:
+            attempt.completedAt,
+          durationMs:
+            Number.isFinite(
+              startedAtMs,
+            ) &&
+            Number.isFinite(
+              completedAtMs,
+            )
+              ? Math.max(
+                  0,
+                  completedAtMs -
+                    startedAtMs,
+                )
+              : 0,
+        };
+      },
+    );
   }
 
   private async executeProvider(

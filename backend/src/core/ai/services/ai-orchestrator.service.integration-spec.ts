@@ -26,6 +26,9 @@ import {
 } from '../types/ai.types';
 import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
 import { AiOrchestratorService } from './ai-orchestrator.service';
+import {
+  AiProviderFailoverService,
+} from '../resilience/ai-provider-failover.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
 
 class FakeAiProvider implements AiProviderPort {
@@ -182,8 +185,74 @@ describe('AiOrchestratorService', () => {
       new AiDispatchExecutionCoordinatorService(
         registry,
       ),
+      undefined,
+      new AiProviderFailoverService(),
     );
   }
+
+  it('delegates provider fallback execution to the canonical failover service', async () => {
+    const primary =
+      new FakeAiProvider(
+        'primary',
+        async () => ({
+          providerName:
+            'primary',
+          model:
+            'primary-model',
+          content:
+            'canonical response',
+        }),
+      );
+
+    const service =
+      createService(
+        primary,
+      );
+
+    const failover =
+      (
+        service as unknown as {
+          failover:
+            AiProviderFailoverService;
+        }
+      ).failover;
+
+    const execute =
+      jest.spyOn(
+        failover,
+        'execute',
+      );
+
+    await service.execute({
+      ...request,
+      fallbackProviderNames: [],
+    });
+
+    expect(execute)
+      .toHaveBeenCalledTimes(
+        1,
+      );
+
+    expect(execute)
+      .toHaveBeenCalledWith(
+        expect.objectContaining({
+          maximumAttemptsPerProvider:
+            1,
+          retryDelayMs:
+            0,
+          candidates: [
+            {
+              providerName:
+                'primary',
+              model:
+                'primary-model',
+            },
+          ],
+          execute:
+            expect.any(Function),
+        }),
+      );
+  });
 
   it('executes the selected provider and returns normalized evidence', async () => {
     const primary = new FakeAiProvider('primary', async () => ({

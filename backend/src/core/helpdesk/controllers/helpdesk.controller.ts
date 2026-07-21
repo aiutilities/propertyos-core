@@ -22,11 +22,13 @@ import { AddHelpdeskCommentDto } from '../dto/add-helpdesk-comment.dto';
 import { AddHelpdeskWorklogDto } from '../dto/add-helpdesk-worklog.dto';
 import { SubmitHelpdeskFeedbackDto } from '../dto/submit-helpdesk-feedback.dto';
 import { DraftHelpdeskReplyDto } from '../dto/draft-helpdesk-reply.dto';
+import { RetrieveHelpdeskKnowledgeDto } from '../dto/retrieve-helpdesk-knowledge.dto';
 import { TriageHelpdeskTicketDto } from '../dto/triage-helpdesk-ticket.dto';
 import {
   HELPDESK_PERMISSIONS,
 } from '../helpdesk.constants';
 import { HelpdeskService } from '../services/helpdesk.service';
+import { HelpdeskAiKnowledgeService } from '../services/helpdesk-ai-knowledge.service';
 import { HelpdeskAiReplyService } from '../services/helpdesk-ai-reply.service';
 import { HelpdeskAiTriageService } from '../services/helpdesk-ai-triage.service';
 import {
@@ -42,6 +44,7 @@ import {
 export class HelpdeskController {
   constructor(
     private readonly helpdeskService: HelpdeskService,
+    private readonly helpdeskAiKnowledgeService: HelpdeskAiKnowledgeService,
     private readonly helpdeskAiReplyService: HelpdeskAiReplyService,
     private readonly helpdeskAiTriageService: HelpdeskAiTriageService,
   ) {}
@@ -124,6 +127,18 @@ export class HelpdeskController {
   ) {
     return this.success(
       await this.helpdeskAiReplyService.draftReply(
+        dto,
+      ),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.READ)
+  @Post('retrieve-knowledge')
+  async retrieveKnowledge(
+    @Body() dto: RetrieveHelpdeskKnowledgeDto,
+  ) {
+    return this.success(
+      await this.helpdeskAiKnowledgeService.retrieve(
         dto,
       ),
     );

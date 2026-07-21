@@ -11,3 +11,6 @@ export * from './handlers/helpdesk-sla-breach-job.handler';
 export * from './types/helpdesk-ai-reply.types';
 export * from './dto/draft-helpdesk-reply.dto';
 export * from './services/helpdesk-ai-reply.service';
+export * from './dto/retrieve-helpdesk-knowledge.dto';
+export * from './services/helpdesk-ai-knowledge.service';
+export * from './types/helpdesk-ai-knowledge.types';

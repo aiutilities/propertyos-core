@@ -40,6 +40,7 @@ export const Permissions = {
 
   WORKFLOW_READ: 'workflow.read',
   WORKFLOW_CREATE: 'workflow.create',
+  AI_EXECUTE: 'ai.execute',
 
   SEARCH_READ: 'search.read',
 

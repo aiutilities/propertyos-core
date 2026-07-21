@@ -9,3 +9,4 @@ export * from './errors/ai-orchestration.error';
 export * from './services/ai-orchestrator.service';
 export * from './types/ai-orchestration-evidence.types';
 export * from './services/ai-orchestration-evidence.service';
+export * from './dto/orchestrate-ai-request.dto';

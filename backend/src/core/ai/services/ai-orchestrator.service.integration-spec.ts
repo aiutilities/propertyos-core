@@ -1,6 +1,11 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiProviderPort } from '../contracts/ai-provider.contract';
+import {
+  AI_PROVIDER_CONTRACT_VERSION,
+  AI_PROVIDER_MANIFEST_VERSION,
+  AiProviderManifest,
+} from '../manifest/ai-provider-manifest';
 import { AiOrchestrationError } from '../errors/ai-orchestration.error';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
 import { AiOrchestrationRequest } from '../types/ai-orchestration.types';
@@ -15,6 +20,87 @@ import { AiOrchestratorService } from './ai-orchestrator.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
 
 class FakeAiProvider implements AiProviderPort {
+  get manifest(): AiProviderManifest {
+    const descriptor =
+      this.getProvider();
+
+    const defaultModel =
+      descriptor.defaultModel ??
+      'fake-model';
+
+    return {
+      manifestVersion:
+        AI_PROVIDER_MANIFEST_VERSION,
+      provider: {
+        id:
+          `test.${this.name}`,
+        name:
+          this.name,
+        displayName:
+          this.displayName,
+        version:
+          '1.0.0',
+        vendor:
+          'PropertyOS Test Suite',
+        description:
+          'Deterministic provider fixture for AI orchestration tests',
+      },
+      compatibility: {
+        propertyOsVersion:
+          '^0.1.0',
+        aiContractVersion:
+          `^${AI_PROVIDER_CONTRACT_VERSION}`,
+      },
+      execution: {
+        supportedModes: [
+          'SIMULATED',
+          'ISOLATED',
+        ],
+      },
+      capabilities: [
+        ...this.capabilities,
+      ],
+      models: [
+        {
+          id:
+            defaultModel,
+          displayName:
+            `${this.displayName} Model`,
+          contextWindow:
+            8_192,
+          maxInputTokens:
+            6_144,
+          maxOutputTokens:
+            2_048,
+          supportsStreaming:
+            false,
+          supportsVision:
+            this.capabilities.includes(
+              'VISION',
+            ),
+          supportsToolCalling:
+            this.capabilities.includes(
+              'TOOL_CALLING',
+            ),
+        },
+      ],
+      limits: {
+        maxInputTokens:
+          6_144,
+        maxOutputTokens:
+          2_048,
+        maxTotalTokens:
+          8_192,
+      },
+      metadata: {
+        runtime:
+          'test',
+        liveExecution:
+          false,
+      },
+    };
+  }
+
   readonly displayName: string;
   readonly capabilities: AiCapability[] = ['CHAT'];
 

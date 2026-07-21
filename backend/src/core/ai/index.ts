@@ -12,3 +12,4 @@ export * from './services/ai-orchestration-evidence.service';
 export * from './dto/orchestrate-ai-request.dto';
 export * from './manifest/ai-provider-manifest';
 export * from './manifest/ai-provider-manifest.validator';
+export * from './discovery/ai-provider-discovery.service';

@@ -5,6 +5,7 @@ import { AiController } from './controllers/ai.controller';
 import { AiProviderDiscoveryService } from './discovery/ai-provider-discovery.service';
 import { MockAiProvider } from './providers/mock-ai.provider';
 import { AiProviderRegistry } from './registry/ai-provider.registry';
+import { AiProviderRegistrationBootstrapService } from './registration/ai-provider-registration-bootstrap.service';
 import { AiProviderRegistrationService } from './registration/ai-provider-registration.service';
 import { AiService } from './services/ai.service';
 import { AiOrchestrationEvidenceService } from './services/ai-orchestration-evidence.service';
@@ -26,6 +27,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiProviderRegistry,
     AiProviderDiscoveryService,
     AiProviderRegistrationService,
+    AiProviderRegistrationBootstrapService,
     MockAiProvider,
     AiOrchestrationEvidenceService,
   ],

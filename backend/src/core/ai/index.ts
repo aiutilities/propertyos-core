@@ -14,3 +14,4 @@ export * from './manifest/ai-provider-manifest';
 export * from './manifest/ai-provider-manifest.validator';
 export * from './discovery/ai-provider-discovery.service';
 export * from './registration/ai-provider-registration.service';
+export * from './registration/ai-provider-registration-bootstrap.service';

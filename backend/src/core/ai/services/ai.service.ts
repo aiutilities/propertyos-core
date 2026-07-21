@@ -1,23 +1,17 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { GenerateAiResponseDto } from '../dto/generate-ai-response.dto';
-import { MockAiProvider } from '../providers/mock-ai.provider';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
 import { AiProvider, AiResponse } from '../types/ai.types';
 
 @Injectable()
-export class AiService implements OnModuleInit {
+export class AiService {
   private readonly eventSource = 'core.ai';
 
   constructor(
     private readonly registry: AiProviderRegistry,
-    private readonly mockProvider: MockAiProvider,
     private readonly eventBus: EventBusService,
   ) {}
-
-  onModuleInit(): void {
-    this.registry.register(this.mockProvider);
-  }
 
   listProviders(): AiProvider[] {
     return this.registry.list().map((provider) => provider.getProvider());

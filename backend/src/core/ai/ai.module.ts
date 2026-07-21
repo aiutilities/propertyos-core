@@ -31,6 +31,7 @@ import { AiOrchestrationEvidenceService } from './services/ai-orchestration-evid
 import { AiOrchestratorService } from './services/ai-orchestrator.service';
 import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
 import { AiRequestPreparationService } from './request/ai-request-preparation.service';
+import { AiPreparedRequestDispatchBoundaryService } from './dispatch/ai-prepared-request-dispatch-boundary.service';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { AiRequestPreparationService } from './request/ai-request-preparation.se
     ClaudeAiProvider,
     AiOrchestrationEvidenceService,
     AiRequestPreparationService,
+    AiPreparedRequestDispatchBoundaryService,
 ],
   exports: [
     AiContextAssemblyService,
@@ -104,6 +106,7 @@ import { AiRequestPreparationService } from './request/ai-request-preparation.se
     AiProviderRegistrationService,
     AiOrchestrationEvidenceService,
     AiRequestPreparationService,
+    AiPreparedRequestDispatchBoundaryService,
 ],
 })
 export class AiModule {}

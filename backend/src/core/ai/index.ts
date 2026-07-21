@@ -59,3 +59,6 @@ export * from './context/ai-context-assembly.service';
 export * from './types/ai-request-preparation.types';
 export * from './errors/ai-request-preparation.error';
 export * from './request/ai-request-preparation.service';
+export * from './types/ai-prepared-request-dispatch.types';
+export * from './errors/ai-prepared-request-dispatch.error';
+export * from './dispatch/ai-prepared-request-dispatch-boundary.service';

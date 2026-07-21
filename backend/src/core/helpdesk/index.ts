@@ -8,3 +8,6 @@ export * from './services/helpdesk-ai-triage.service';
 export * from './services/helpdesk-sla.service';
 export * from './handlers/helpdesk-sla-warning-job.handler';
 export * from './handlers/helpdesk-sla-breach-job.handler';
+export * from './types/helpdesk-ai-reply.types';
+export * from './dto/draft-helpdesk-reply.dto';
+export * from './services/helpdesk-ai-reply.service';

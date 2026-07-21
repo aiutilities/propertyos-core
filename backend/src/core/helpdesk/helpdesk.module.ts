@@ -20,6 +20,7 @@ import {
 } from './repositories/helpdesk.repository';
 import { PostgresHelpdeskRepository } from './repositories/postgres-helpdesk.repository';
 import { HelpdeskService } from './services/helpdesk.service';
+import { HelpdeskAiReplyService } from './services/helpdesk-ai-reply.service';
 import { HelpdeskAiTriageService } from './services/helpdesk-ai-triage.service';
 import { HelpdeskSlaService } from './services/helpdesk-sla.service';
 import { HelpdeskSlaWarningJobHandler } from './handlers/helpdesk-sla-warning-job.handler';
@@ -50,6 +51,7 @@ import {
     HelpdeskSlaWarningJobHandler,
     HelpdeskSlaBreachJobHandler,
     HelpdeskService,
+    HelpdeskAiReplyService,
     HelpdeskAiTriageService,
     {
       provide: HELPDESK_REPOSITORY,
@@ -58,6 +60,7 @@ import {
   ],
   exports: [
     HelpdeskService,
+    HelpdeskAiReplyService,
     HelpdeskAiTriageService,
     HelpdeskSlaService,
     HelpdeskSlaWarningJobHandler,

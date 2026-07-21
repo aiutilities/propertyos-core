@@ -21,11 +21,13 @@ import { TransitionHelpdeskTicketDto } from '../dto/transition-helpdesk-ticket.d
 import { AddHelpdeskCommentDto } from '../dto/add-helpdesk-comment.dto';
 import { AddHelpdeskWorklogDto } from '../dto/add-helpdesk-worklog.dto';
 import { SubmitHelpdeskFeedbackDto } from '../dto/submit-helpdesk-feedback.dto';
+import { DraftHelpdeskReplyDto } from '../dto/draft-helpdesk-reply.dto';
 import { TriageHelpdeskTicketDto } from '../dto/triage-helpdesk-ticket.dto';
 import {
   HELPDESK_PERMISSIONS,
 } from '../helpdesk.constants';
 import { HelpdeskService } from '../services/helpdesk.service';
+import { HelpdeskAiReplyService } from '../services/helpdesk-ai-reply.service';
 import { HelpdeskAiTriageService } from '../services/helpdesk-ai-triage.service';
 import {
   HelpdeskChannel,
@@ -40,6 +42,7 @@ import {
 export class HelpdeskController {
   constructor(
     private readonly helpdeskService: HelpdeskService,
+    private readonly helpdeskAiReplyService: HelpdeskAiReplyService,
     private readonly helpdeskAiTriageService: HelpdeskAiTriageService,
   ) {}
 
@@ -111,6 +114,18 @@ export class HelpdeskController {
   ) {
     return this.success(
       await this.helpdeskAiTriageService.triage(dto),
+    );
+  }
+
+  @RequirePermission(HELPDESK_PERMISSIONS.COMMENT)
+  @Post('draft-reply')
+  async draftReply(
+    @Body() dto: DraftHelpdeskReplyDto,
+  ) {
+    return this.success(
+      await this.helpdeskAiReplyService.draftReply(
+        dto,
+      ),
     );
   }
 

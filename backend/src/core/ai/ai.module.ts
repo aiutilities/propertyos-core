@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AiProviderRuntimeService } from './runtime/ai-provider-runtime.service';
 import { OpenAiCompatibleProtocolService } from './protocols/openai-compatible/openai-compatible-protocol.service';
+import { AnthropicMessagesProtocolService } from './protocols/anthropic-messages/anthropic-messages-protocol.service';
 import { OpenAiProvider } from './providers/openai/openai-ai.provider';
 import { DeepSeekAiProvider } from './providers/deepseek/deepseek-ai.provider';
 import { QwenAiProvider } from './providers/qwen/qwen-ai.provider';
@@ -32,6 +33,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
   ],
   providers: [
     OpenAiCompatibleProtocolService,
+    AnthropicMessagesProtocolService,
     AiProviderRuntimeService,
     FetchAiProviderHttpTransportService,
     {

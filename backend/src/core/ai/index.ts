@@ -33,3 +33,6 @@ export * from './types/openai-compatible-protocol.types';
 export * from './providers/openai/openai-ai.provider';
 export * from './providers/deepseek/deepseek-ai.provider';
 export * from './providers/qwen/qwen-ai.provider';
+export * from './errors/anthropic-messages-protocol.error';
+export * from './protocols/anthropic-messages/anthropic-messages-protocol.service';
+export * from './types/anthropic-messages-protocol.types';

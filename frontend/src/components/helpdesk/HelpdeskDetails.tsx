@@ -218,6 +218,16 @@ export default function HelpdeskDetails({
     HelpdeskKnowledgeEvidence[]
   >([]);
 
+  const [
+    knowledgeSearchCompleted,
+    setKnowledgeSearchCompleted,
+  ] = useState(false);
+
+  const [
+    knowledgeSearchContext,
+    setKnowledgeSearchContext,
+  ] = useState("");
+
   const load =
     useCallback(async () => {
       setLoading(true);
@@ -546,35 +556,74 @@ export default function HelpdeskDetails({
 
   async function retrieveKnowledge() {
     if (!ticket) {
-      return
+      setKnowledgeError(
+        "Helpdesk ticket is not available.",
+      );
+      return;
     }
 
-    setKnowledgeBusy(true)
-    setKnowledgeError("")
-    setKnowledgeResults([])
+    const tenantId =
+      aiTenantId.trim();
+
+    if (!tenantId) {
+      setKnowledgeError(
+        "Tenant ID is required for knowledge retrieval.",
+      );
+      return;
+    }
+
+    const parsedLimit =
+      Number(knowledgeLimit);
+
+    if (
+      !Number.isInteger(parsedLimit) ||
+      ![3, 5, 10].includes(parsedLimit)
+    ) {
+      setKnowledgeError(
+        "Knowledge result limit must be 3, 5, or 10.",
+      );
+      return;
+    }
+
+    const explicitQuery =
+      knowledgeQuery.trim();
+
+    const effectiveQuery =
+      explicitQuery || ticket.title;
+
+    setKnowledgeBusy(true);
+    setKnowledgeError("");
+    setKnowledgeResults([]);
+    setKnowledgeSearchCompleted(false);
+    setKnowledgeSearchContext("");
 
     try {
       const result =
         await retrieveHelpdeskKnowledge({
-          tenantId: aiTenantId.trim(),
-          query:
-            knowledgeQuery.trim() ||
-            ticket.title,
-          limit:
-            Number(knowledgeLimit),
-        })
+          tenantId,
+          query: effectiveQuery,
+          limit: parsedLimit,
+        });
 
       setKnowledgeResults(
         result.evidence,
-      )
+      );
+
+      setKnowledgeSearchContext(
+        explicitQuery
+          ? `Results for “${effectiveQuery}”`
+          : `Results for ticket title “${effectiveQuery}”`,
+      );
+
+      setKnowledgeSearchCompleted(true);
     } catch (caught) {
       setKnowledgeError(
         caught instanceof Error
           ? caught.message
           : "Unable to retrieve knowledge.",
-      )
+      );
     } finally {
-      setKnowledgeBusy(false)
+      setKnowledgeBusy(false);
     }
   }
 
@@ -1009,11 +1058,18 @@ export default function HelpdeskDetails({
               Tenant ID for AI policy
               <input
                 value={aiTenantId}
-                onChange={(event) =>
+                onChange={(event) => {
                   setAiTenantId(
                     event.target.value,
-                  )
-                }
+                  );
+                  setAiReply(null);
+                  setAiReplyError("");
+                  setCopyStatus("");
+                  setKnowledgeResults([]);
+                  setKnowledgeError("");
+                  setKnowledgeSearchCompleted(false);
+                  setKnowledgeSearchContext("");
+                }}
                 placeholder="Tenant UUID"
               />
             </label>
@@ -1056,6 +1112,7 @@ export default function HelpdeskDetails({
             <button
               disabled={
                 aiReplyBusy ||
+                knowledgeBusy ||
                 !aiTenantId.trim()
               }
               onClick={() => {
@@ -1094,13 +1151,19 @@ export default function HelpdeskDetails({
           </div>
 
           {aiReplyError ? (
-            <div className="error-state">
+            <div
+              className="error-state"
+              role="alert"
+            >
               <p>{aiReplyError}</p>
             </div>
           ) : null}
 
           {copyStatus ? (
-            <p>
+            <p
+              aria-live="polite"
+              role="status"
+            >
               <small>
                 {copyStatus}
               </small>
@@ -1201,9 +1264,23 @@ export default function HelpdeskDetails({
             </article>
           ) : null}
 
-        <section className="panel stack-md">
+        <section
+          aria-busy={knowledgeBusy}
+          className="panel stack-md"
+        >
+          <div>
+            <p className="eyebrow">
+              AI Assistant
+            </p>
 
-          <h2>Knowledge Search</h2>
+            <h2>Knowledge Search</h2>
+
+            <p>
+              Find supporting policies, SOPs, and
+              knowledge records before preparing a
+              customer response.
+            </p>
+          </div>
 
           <div className="form-grid">
 
@@ -1211,11 +1288,15 @@ export default function HelpdeskDetails({
               Search
               <input
                 value={knowledgeQuery}
-                onChange={(event)=>
+                onChange={(event) => {
                   setKnowledgeQuery(
-                    event.target.value
-                  )
-                }
+                    event.target.value,
+                  );
+                  setKnowledgeResults([]);
+                  setKnowledgeError("");
+                  setKnowledgeSearchCompleted(false);
+                  setKnowledgeSearchContext("");
+                }}
                 placeholder="Search policies, SOPs or KB"
               />
             </label>
@@ -1224,11 +1305,15 @@ export default function HelpdeskDetails({
               Limit
               <select
                 value={knowledgeLimit}
-                onChange={(event)=>
+                onChange={(event) => {
                   setKnowledgeLimit(
-                    event.target.value
-                  )
-                }
+                    event.target.value,
+                  );
+                  setKnowledgeResults([]);
+                  setKnowledgeError("");
+                  setKnowledgeSearchCompleted(false);
+                  setKnowledgeSearchContext("");
+                }}
               >
                 <option>3</option>
                 <option>5</option>
@@ -1238,35 +1323,79 @@ export default function HelpdeskDetails({
 
           </div>
 
-          <button
-            type="button"
-            disabled={
-              knowledgeBusy ||
-              !aiTenantId.trim()
-            }
-            onClick={()=>{
-              void retrieveKnowledge()
-            }}
+          <div className="form-actions">
+            <button
+              aria-busy={knowledgeBusy}
+              disabled={
+                knowledgeBusy ||
+                aiReplyBusy ||
+                !aiTenantId.trim()
+              }
+              onClick={() => {
+                void retrieveKnowledge();
+              }}
+              type="button"
+            >
+              {knowledgeBusy
+                ? "Searching…"
+                : "Search Knowledge"}
+            </button>
+          </div>
+
+          <div
+            aria-live="polite"
+            role="status"
           >
-            {knowledgeBusy
-              ? "Searching..."
-              : "Search Knowledge"}
-          </button>
+            {knowledgeBusy ? (
+              <p>
+                Searching PropertyOS knowledge…
+              </p>
+            ) : null}
+
+            {!knowledgeBusy &&
+            knowledgeSearchCompleted ? (
+              <p>
+                <strong>
+                  {knowledgeResults.length}
+                </strong>{" "}
+                {knowledgeResults.length === 1
+                  ? "result"
+                  : "results"}{" "}
+                found. {knowledgeSearchContext}
+              </p>
+            ) : null}
+          </div>
 
           {knowledgeError ? (
-            <div className="error-state">
+            <div
+              className="error-state"
+              role="alert"
+            >
               <p>{knowledgeError}</p>
             </div>
           ) : null}
 
-          {knowledgeResults.length ? (
+          {!knowledgeBusy &&
+          knowledgeSearchCompleted &&
+          knowledgeResults.length === 0 ? (
+            <div className="empty-state">
+              <h2>No knowledge found</h2>
+              <p>
+                Try a broader search phrase or use
+                the current ticket title.
+              </p>
+            </div>
+          ) : null}
 
+          {knowledgeResults.length > 0 ? (
             <div className="stack-md">
-
               {knowledgeResults.map(
-                (item)=>(
+                (item, index) => (
                   <article
-                    key={item.id}
+                    key={
+                      item.id ||
+                      `${item.entityType}-${index}`
+                    }
                     className="subtle-card"
                   >
 

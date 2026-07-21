@@ -52,3 +52,7 @@ export * from './resilience/ai-provider-failover.service';
 export * from './types/ai-conversation-session.types';
 export * from './errors/ai-conversation-session.error';
 export * from './conversations/ai-conversation-session.service';
+export * from './types/ai-context.types';
+export * from './errors/ai-context-budget.error';
+export * from './tokenization/ai-token-budget.service';
+export * from './context/ai-context-assembly.service';

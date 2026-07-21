@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import {
   AiOrchestrationError,
@@ -10,6 +11,7 @@ import {
   AiOrchestrationResult,
 } from '../types/ai-orchestration.types';
 import { AiResponse } from '../types/ai.types';
+import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
 
 @Injectable()
@@ -19,88 +21,153 @@ export class AiOrchestratorService {
   constructor(
     private readonly routingPolicy: AiRoutingPolicyService,
     private readonly registry: AiProviderRegistry,
+    private readonly evidence: AiOrchestrationEvidenceService,
   ) {}
 
   async execute(
     request: AiOrchestrationRequest,
   ): Promise<AiOrchestrationResult> {
-    const decision = this.routingPolicy.decide(request);
-    const providerNames = [
-      decision.providerName,
-      ...decision.fallbackProviderNames,
-    ];
+    const correlationId = request.correlationId?.trim() || randomUUID();
     const attempts: AiOrchestrationAttempt[] = [];
-    const failures: Array<{
-      providerName: string;
-      code: AiOrchestrationFailureCode;
-      message: string;
-    }> = [];
+    let decision;
 
-    for (const [index, providerName] of providerNames.entries()) {
-      const attempt = index + 1;
+    try {
+      decision = this.routingPolicy.decide(request);
 
-      try {
-        const response = await this.executeProvider({
-          providerName,
-          attempt,
-          request,
-          selectedModel:
-            providerName === decision.providerName
-              ? decision.model
-              : request.model,
-        });
+      await this.evidence.recordRequested({
+        correlationId,
+        request,
+        decision,
+      });
 
-        this.assertTokenBudget(response, request, providerName, attempt);
+      const providerNames = [
+        decision.providerName,
+        ...decision.fallbackProviderNames,
+      ];
 
-        attempts.push({
-          providerName,
-          attempt,
-          status: 'SUCCEEDED',
-        });
+      const failures: Array<{
+        providerName: string;
+        code: AiOrchestrationFailureCode;
+        message: string;
+      }> = [];
 
-        return {
-          response,
-          decision: {
+      for (const [index, providerName] of providerNames.entries()) {
+        const attempt = index + 1;
+        const startedAtDate = new Date();
+        const startedAt = startedAtDate.toISOString();
+
+        try {
+          const response = await this.executeProvider({
+            providerName,
+            attempt,
+            request,
+            selectedModel:
+              providerName === decision.providerName
+                ? decision.model
+                : request.model,
+          });
+
+          this.assertTokenBudget(response, request, providerName, attempt);
+
+          const completedAtDate = new Date();
+          const completedAttempt: AiOrchestrationAttempt = {
+            providerName,
+            attempt,
+            status: 'SUCCEEDED',
+            startedAt,
+            completedAt: completedAtDate.toISOString(),
+            durationMs: Math.max(
+              0,
+              completedAtDate.getTime() - startedAtDate.getTime(),
+            ),
+          };
+
+          attempts.push(completedAttempt);
+
+          const resolvedDecision = {
             ...decision,
             providerName,
             model: response.model,
-          },
-          attempts,
-        };
-      } catch (error) {
-        const normalized = this.normalizeFailure(
-          error,
-          providerName,
-          attempt,
-        );
+          };
 
-        attempts.push({
-          providerName,
-          attempt,
-          status: 'FAILED',
-          failureCode: normalized.code,
-        });
+          await this.evidence.recordSucceeded({
+            correlationId,
+            request,
+            decision: resolvedDecision,
+            response,
+            attempts,
+          });
 
-        failures.push({
-          providerName,
-          code: normalized.code,
-          message: normalized.message,
-        });
+          return {
+            correlationId,
+            response,
+            decision: resolvedDecision,
+            attempts,
+          };
+        } catch (error) {
+          const completedAtDate = new Date();
+          const normalized = this.normalizeFailure(
+            error,
+            providerName,
+            attempt,
+          );
 
-        if (!normalized.retriable) {
-          throw normalized;
+          attempts.push({
+            providerName,
+            attempt,
+            status: 'FAILED',
+            failureCode: normalized.code,
+            startedAt,
+            completedAt: completedAtDate.toISOString(),
+            durationMs: Math.max(
+              0,
+              completedAtDate.getTime() - startedAtDate.getTime(),
+            ),
+          });
+
+          failures.push({
+            providerName,
+            code: normalized.code,
+            message: normalized.message,
+          });
+
+          if (!normalized.retriable) {
+            throw normalized;
+          }
         }
       }
-    }
 
-    throw new AiOrchestrationError({
-      code: 'ALL_PROVIDERS_FAILED',
-      message: 'All eligible AI providers failed',
-      retriable: false,
-      details: {
-        failures,
-      },
-    });
+      throw new AiOrchestrationError({
+        code: 'ALL_PROVIDERS_FAILED',
+        message: 'All eligible AI providers failed',
+        retriable: false,
+        details: {
+          failures,
+        },
+      });
+    } catch (error) {
+      const normalized =
+        error instanceof AiOrchestrationError
+          ? error
+          : new AiOrchestrationError({
+              code: 'PROVIDER_EXECUTION_FAILED',
+              message:
+                error instanceof Error
+                  ? error.message
+                  : 'Unknown AI orchestration failure',
+              retriable: false,
+            });
+
+      await this.evidence.recordFailed({
+        correlationId,
+        request,
+        decision,
+        error: normalized,
+        attempts,
+      });
+
+      throw normalized;
+    }
   }
 
   private async executeProvider(options: {

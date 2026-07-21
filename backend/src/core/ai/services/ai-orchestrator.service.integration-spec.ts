@@ -1,4 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
+import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiProviderPort } from '../contracts/ai-provider.contract';
 import { AiOrchestrationError } from '../errors/ai-orchestration.error';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
@@ -9,6 +10,7 @@ import {
   AiRequest,
   AiResponse,
 } from '../types/ai.types';
+import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
 import { AiOrchestratorService } from './ai-orchestrator.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
 
@@ -66,9 +68,16 @@ describe('AiOrchestratorService', () => {
       registry.register(provider);
     }
 
+    const eventBus = {
+      publish: jest.fn<EventBusService['publish']>(
+        async () => undefined,
+      ),
+    } as unknown as EventBusService;
+
     return new AiOrchestratorService(
       new AiRoutingPolicyService(registry),
       registry,
+      new AiOrchestrationEvidenceService(eventBus),
     );
   }
 
@@ -90,6 +99,7 @@ describe('AiOrchestratorService', () => {
         fallbackProviderNames: [],
       }),
     ).resolves.toEqual({
+      correlationId: expect.any(String),
       response: {
         providerName: 'primary',
         model: 'primary-model',
@@ -112,6 +122,9 @@ describe('AiOrchestratorService', () => {
           providerName: 'primary',
           attempt: 1,
           status: 'SUCCEEDED',
+          startedAt: expect.any(String),
+          completedAt: expect.any(String),
+          durationMs: expect.any(Number),
         },
       ],
     });
@@ -142,11 +155,17 @@ describe('AiOrchestratorService', () => {
         attempt: 1,
         status: 'FAILED',
         failureCode: 'PROVIDER_EXECUTION_FAILED',
+        startedAt: expect.any(String),
+        completedAt: expect.any(String),
+        durationMs: expect.any(Number),
       },
       {
         providerName: 'fallback',
         attempt: 2,
         status: 'SUCCEEDED',
+        startedAt: expect.any(String),
+        completedAt: expect.any(String),
+        durationMs: expect.any(Number),
       },
     ]);
   });
@@ -184,11 +203,17 @@ describe('AiOrchestratorService', () => {
           {
             providerName: 'primary',
             status: 'FAILED',
+          startedAt: expect.any(String),
+          completedAt: expect.any(String),
+          durationMs: expect.any(Number),
             failureCode: 'PROVIDER_TIMEOUT',
           },
           {
             providerName: 'fallback',
             status: 'SUCCEEDED',
+          startedAt: expect.any(String),
+          completedAt: expect.any(String),
+          durationMs: expect.any(Number),
           },
         ],
       });

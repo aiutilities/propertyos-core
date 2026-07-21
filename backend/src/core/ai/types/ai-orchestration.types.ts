@@ -29,6 +29,7 @@ export interface AiOrchestrationRequest extends AiRequest {
   fallbackProviderNames?: string[];
   humanApprovalReference?: string;
   timeoutMs?: number;
+  correlationId?: string;
 }
 
 export interface AiOrchestrationAttempt {
@@ -36,9 +37,13 @@ export interface AiOrchestrationAttempt {
   attempt: number;
   status: 'SUCCEEDED' | 'FAILED';
   failureCode?: string;
+  startedAt: string;
+  completedAt: string;
+  durationMs: number;
 }
 
 export interface AiOrchestrationResult {
+  correlationId: string;
   response: AiResponse;
   decision: AiRoutingDecision;
   attempts: AiOrchestrationAttempt[];

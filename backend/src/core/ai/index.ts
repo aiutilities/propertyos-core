@@ -32,3 +32,4 @@ export * from './protocols/openai-compatible/openai-compatible-protocol.service'
 export * from './types/openai-compatible-protocol.types';
 export * from './providers/openai/openai-ai.provider';
 export * from './providers/deepseek/deepseek-ai.provider';
+export * from './providers/qwen/qwen-ai.provider';

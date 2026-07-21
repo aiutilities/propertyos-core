@@ -24,3 +24,6 @@ export * from './contracts/ai-provider-http-transport.contract';
 export * from './errors/ai-provider-http-transport.error';
 export * from './transport/fetch-ai-provider-http-transport.service';
 export * from './types/ai-provider-http-transport.types';
+export * from './errors/ai-provider-runtime.error';
+export * from './runtime/ai-provider-runtime.service';
+export * from './types/ai-provider-runtime.types';

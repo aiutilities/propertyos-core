@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AiProviderRuntimeService } from './runtime/ai-provider-runtime.service';
 import { FetchAiProviderHttpTransportService } from './transport/fetch-ai-provider-http-transport.service';
 import { AI_PROVIDER_HTTP_TRANSPORT } from './contracts/ai-provider-http-transport.contract';
 import { EnvironmentAiProviderCredentialResolverService } from './credentials/environment-ai-provider-credential-resolver.service';
@@ -26,6 +27,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiController,
   ],
   providers: [
+    AiProviderRuntimeService,
     FetchAiProviderHttpTransportService,
     {
       provide:
@@ -52,6 +54,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiOrchestrationEvidenceService,
   ],
   exports: [
+    AiProviderRuntimeService,
     FetchAiProviderHttpTransportService,
     AI_PROVIDER_HTTP_TRANSPORT,
     EnvironmentAiProviderCredentialResolverService,

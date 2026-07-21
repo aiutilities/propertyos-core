@@ -1,0 +1,309 @@
+import { describe, expect, it, jest } from '@jest/globals';
+import { AiProviderPort } from '../contracts/ai-provider.contract';
+import { AiOrchestrationError } from '../errors/ai-orchestration.error';
+import { AiProviderRegistry } from '../registry/ai-provider.registry';
+import { AiOrchestrationRequest } from '../types/ai-orchestration.types';
+import {
+  AiCapability,
+  AiProvider,
+  AiRequest,
+  AiResponse,
+} from '../types/ai.types';
+import { AiOrchestratorService } from './ai-orchestrator.service';
+import { AiRoutingPolicyService } from './ai-routing-policy.service';
+
+class FakeAiProvider implements AiProviderPort {
+  readonly displayName: string;
+  readonly capabilities: AiCapability[] = ['CHAT'];
+
+  constructor(
+    readonly name: string,
+    private readonly handler: (request: AiRequest) => Promise<AiResponse>,
+  ) {
+    this.displayName = `Fake ${name}`;
+  }
+
+  getProvider(): AiProvider {
+    return {
+      id: this.name,
+      name: this.name,
+      displayName: this.displayName,
+      status: 'ACTIVE',
+      capabilities: this.capabilities,
+      defaultModel: `${this.name}-model`,
+    };
+  }
+
+  generate(request: AiRequest): Promise<AiResponse> {
+    return this.handler(request);
+  }
+}
+
+describe('AiOrchestratorService', () => {
+  const request: AiOrchestrationRequest = {
+    tenantId: 'tenant-phase-16a2',
+    capability: 'CHAT',
+    executionMode: 'SIMULATED',
+    dataClassification: 'INTERNAL',
+    providerName: 'primary',
+    fallbackProviderNames: ['fallback'],
+    messages: [
+      {
+        role: 'user',
+        content: 'Execute a simulated orchestration request.',
+      },
+    ],
+    timeoutMs: 100,
+    tokenBudget: {
+      maxTotalTokens: 100,
+    },
+  };
+
+  function createService(...providers: AiProviderPort[]) {
+    const registry = new AiProviderRegistry();
+
+    for (const provider of providers) {
+      registry.register(provider);
+    }
+
+    return new AiOrchestratorService(
+      new AiRoutingPolicyService(registry),
+      registry,
+    );
+  }
+
+  it('executes the selected provider and returns normalized evidence', async () => {
+    const primary = new FakeAiProvider('primary', async () => ({
+      providerName: 'primary',
+      model: 'primary-model',
+      content: 'primary response',
+      usage: {
+        totalTokens: 20,
+      },
+    }));
+
+    const service = createService(primary);
+
+    await expect(
+      service.execute({
+        ...request,
+        fallbackProviderNames: [],
+      }),
+    ).resolves.toEqual({
+      response: {
+        providerName: 'primary',
+        model: 'primary-model',
+        content: 'primary response',
+        usage: {
+          totalTokens: 20,
+        },
+      },
+      decision: {
+        providerName: 'primary',
+        model: 'primary-model',
+        capability: 'CHAT',
+        executionMode: 'SIMULATED',
+        tenantId: 'tenant-phase-16a2',
+        fallbackProviderNames: [],
+        liveExecutionAuthorized: false,
+      },
+      attempts: [
+        {
+          providerName: 'primary',
+          attempt: 1,
+          status: 'SUCCEEDED',
+        },
+      ],
+    });
+  });
+
+  it('uses an eligible fallback after a provider failure', async () => {
+    const primary = new FakeAiProvider('primary', async () => {
+      throw new Error('simulated primary failure');
+    });
+
+    const fallback = new FakeAiProvider('fallback', async () => ({
+      providerName: 'fallback',
+      model: 'fallback-model',
+      content: 'fallback response',
+      usage: {
+        totalTokens: 25,
+      },
+    }));
+
+    const service = createService(primary, fallback);
+    const result = await service.execute(request);
+
+    expect(result.response.providerName).toBe('fallback');
+    expect(result.decision.providerName).toBe('fallback');
+    expect(result.attempts).toEqual([
+      {
+        providerName: 'primary',
+        attempt: 1,
+        status: 'FAILED',
+        failureCode: 'PROVIDER_EXECUTION_FAILED',
+      },
+      {
+        providerName: 'fallback',
+        attempt: 2,
+        status: 'SUCCEEDED',
+      },
+    ]);
+  });
+
+  it('uses a fallback after the selected provider times out', async () => {
+    jest.useFakeTimers();
+
+    try {
+      const primary = new FakeAiProvider(
+        'primary',
+        () => new Promise<AiResponse>(() => undefined),
+      );
+
+      const fallback = new FakeAiProvider('fallback', async () => ({
+        providerName: 'fallback',
+        content: 'fallback after timeout',
+        usage: {
+          totalTokens: 10,
+        },
+      }));
+
+      const service = createService(primary, fallback);
+      const execution = service.execute({
+        ...request,
+        timeoutMs: 50,
+      });
+
+      await jest.advanceTimersByTimeAsync(50);
+
+      await expect(execution).resolves.toMatchObject({
+        response: {
+          providerName: 'fallback',
+        },
+        attempts: [
+          {
+            providerName: 'primary',
+            status: 'FAILED',
+            failureCode: 'PROVIDER_TIMEOUT',
+          },
+          {
+            providerName: 'fallback',
+            status: 'SUCCEEDED',
+          },
+        ],
+      });
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it('fails closed when every eligible provider fails', async () => {
+    const primary = new FakeAiProvider('primary', async () => {
+      throw new Error('primary failed');
+    });
+
+    const fallback = new FakeAiProvider('fallback', async () => {
+      throw new Error('fallback failed');
+    });
+
+    const service = createService(primary, fallback);
+
+    await expect(service.execute(request)).rejects.toMatchObject({
+      name: 'AiOrchestrationError',
+      code: 'ALL_PROVIDERS_FAILED',
+      retriable: false,
+      details: {
+        failures: [
+          {
+            providerName: 'primary',
+            code: 'PROVIDER_EXECUTION_FAILED',
+          },
+          {
+            providerName: 'fallback',
+            code: 'PROVIDER_EXECUTION_FAILED',
+          },
+        ],
+      },
+    });
+  });
+
+  it('fails closed when the observed token usage exceeds budget', async () => {
+    const primary = new FakeAiProvider('primary', async () => ({
+      providerName: 'primary',
+      content: 'over-budget response',
+      usage: {
+        totalTokens: 101,
+      },
+    }));
+
+    const fallback = new FakeAiProvider('fallback', async () => ({
+      providerName: 'fallback',
+      content: 'must not execute',
+      usage: {
+        totalTokens: 1,
+      },
+    }));
+
+    const fallbackGenerate = jest.spyOn(fallback, 'generate');
+    const service = createService(primary, fallback);
+
+    await expect(service.execute(request)).rejects.toMatchObject({
+      name: 'AiOrchestrationError',
+      code: 'TOKEN_BUDGET_EXCEEDED',
+      retriable: false,
+      details: {
+        providerName: 'primary',
+        observedTotalTokens: 101,
+        allowedTotalTokens: 100,
+      },
+    });
+
+    expect(fallbackGenerate).not.toHaveBeenCalled();
+  });
+
+  it('rejects invalid timeout configuration before provider execution', async () => {
+    const primary = new FakeAiProvider('primary', async () => ({
+      providerName: 'primary',
+      content: 'must not be accepted',
+    }));
+
+    const generate = jest.spyOn(primary, 'generate');
+    const service = createService(primary);
+
+    await expect(
+      service.execute({
+        ...request,
+        fallbackProviderNames: [],
+        timeoutMs: 0,
+      }),
+    ).rejects.toMatchObject({
+      name: 'AiOrchestrationError',
+      code: 'PROVIDER_EXECUTION_FAILED',
+      retriable: false,
+    });
+
+    expect(generate).not.toHaveBeenCalled();
+  });
+
+  it('preserves the live-execution fail-closed routing boundary', async () => {
+    const primary = new FakeAiProvider('primary', async () => ({
+      providerName: 'primary',
+      content: 'must never execute',
+    }));
+
+    const generate = jest.spyOn(primary, 'generate');
+    const service = createService(primary);
+
+    await expect(
+      service.execute({
+        ...request,
+        executionMode: 'LIVE',
+        fallbackProviderNames: [],
+      }),
+    ).rejects.toThrow(
+      'Live AI provider execution is blocked pending explicit Phase 16 authorization',
+    );
+
+    expect(generate).not.toHaveBeenCalled();
+  });
+});

@@ -1,4 +1,4 @@
-import { AiCapability, AiRequest } from './ai.types';
+import { AiCapability, AiRequest, AiResponse } from './ai.types';
 
 export type AiExecutionMode = 'SIMULATED' | 'ISOLATED' | 'LIVE';
 
@@ -28,6 +28,20 @@ export interface AiOrchestrationRequest extends AiRequest {
   costBudget?: AiCostBudget;
   fallbackProviderNames?: string[];
   humanApprovalReference?: string;
+  timeoutMs?: number;
+}
+
+export interface AiOrchestrationAttempt {
+  providerName: string;
+  attempt: number;
+  status: 'SUCCEEDED' | 'FAILED';
+  failureCode?: string;
+}
+
+export interface AiOrchestrationResult {
+  response: AiResponse;
+  decision: AiRoutingDecision;
+  attempts: AiOrchestrationAttempt[];
 }
 
 export interface AiRoutingDecision {

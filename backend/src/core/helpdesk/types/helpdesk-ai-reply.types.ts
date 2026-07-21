@@ -1,3 +1,7 @@
+import {
+  HelpdeskKnowledgeEvidence,
+} from './helpdesk-ai-knowledge.types';
+
 export interface HelpdeskAiReplySuggestion {
   subject: string;
   reply: string;
@@ -6,4 +10,7 @@ export interface HelpdeskAiReplySuggestion {
   correlationId: string;
   providerName?: string;
   model?: string;
+  grounded: boolean;
+  evidence: HelpdeskKnowledgeEvidence[];
+  evidenceCount: number;
 }

@@ -1,4 +1,14 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  ArrayMaxSize,
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class DraftHelpdeskReplyDto {
   @IsString()
@@ -20,4 +30,20 @@ export class DraftHelpdeskReplyDto {
   @IsOptional()
   @IsString()
   internalNotes?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  groundWithKnowledge?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(10)
+  @IsString({ each: true })
+  knowledgeEntityTypes?: string[];
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(10)
+  knowledgeLimit?: number;
 }

@@ -40,3 +40,6 @@ export * from './providers/claude/claude-ai.provider';
 export * from './types/ai-provider-activation.types';
 export * from './errors/ai-provider-activation.error';
 export * from './activation/ai-provider-activation-boundary.service';
+export * from './types/ai-provider-simulation.types';
+export * from './errors/ai-provider-simulation.error';
+export * from './simulation/ai-provider-simulation.service';

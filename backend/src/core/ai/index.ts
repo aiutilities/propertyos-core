@@ -49,3 +49,6 @@ export * from './routing/ai-provider-selection.service';
 export * from './types/ai-provider-failover.types';
 export * from './errors/ai-provider-failover.error';
 export * from './resilience/ai-provider-failover.service';
+export * from './types/ai-conversation-session.types';
+export * from './errors/ai-conversation-session.error';
+export * from './conversations/ai-conversation-session.service';

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AiConversationSessionService } from './conversations/ai-conversation-session.service';
 import { AiProviderFailoverService } from './resilience/ai-provider-failover.service';
 import { AiProviderSelectionService } from './routing/ai-provider-selection.service';
 import { AiProviderSimulationService } from './simulation/ai-provider-simulation.service';
@@ -37,6 +38,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiController,
   ],
   providers: [
+    AiConversationSessionService,
     AiProviderFailoverService,
     AiProviderSelectionService,
     AiProviderSimulationService,
@@ -74,6 +76,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiOrchestrationEvidenceService,
   ],
   exports: [
+    AiConversationSessionService,
     AiProviderFailoverService,
     AiProviderSelectionService,
     AiProviderSimulationService,

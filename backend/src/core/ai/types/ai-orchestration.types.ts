@@ -1,0 +1,41 @@
+import { AiCapability, AiRequest } from './ai.types';
+
+export type AiExecutionMode = 'SIMULATED' | 'ISOLATED' | 'LIVE';
+
+export type AiDataClassification =
+  | 'PUBLIC'
+  | 'INTERNAL'
+  | 'CONFIDENTIAL'
+  | 'RESTRICTED';
+
+export interface AiTokenBudget {
+  maxInputTokens?: number;
+  maxOutputTokens?: number;
+  maxTotalTokens?: number;
+}
+
+export interface AiCostBudget {
+  maxEstimatedCostMinor?: number;
+  currency?: string;
+}
+
+export interface AiOrchestrationRequest extends AiRequest {
+  tenantId: string;
+  capability: AiCapability;
+  executionMode: AiExecutionMode;
+  dataClassification: AiDataClassification;
+  tokenBudget?: AiTokenBudget;
+  costBudget?: AiCostBudget;
+  fallbackProviderNames?: string[];
+  humanApprovalReference?: string;
+}
+
+export interface AiRoutingDecision {
+  providerName: string;
+  model?: string;
+  capability: AiCapability;
+  executionMode: AiExecutionMode;
+  tenantId: string;
+  fallbackProviderNames: string[];
+  liveExecutionAuthorized: boolean;
+}

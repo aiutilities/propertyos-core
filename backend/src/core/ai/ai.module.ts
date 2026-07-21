@@ -4,11 +4,17 @@ import { AiController } from './controllers/ai.controller';
 import { MockAiProvider } from './providers/mock-ai.provider';
 import { AiProviderRegistry } from './registry/ai-provider.registry';
 import { AiService } from './services/ai.service';
+import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
 
 @Module({
   imports: [EventBusModule],
   controllers: [AiController],
-  providers: [AiService, AiProviderRegistry, MockAiProvider],
-  exports: [AiService, AiProviderRegistry],
+  providers: [
+    AiService,
+    AiRoutingPolicyService,
+    AiProviderRegistry,
+    MockAiProvider,
+  ],
+  exports: [AiService, AiRoutingPolicyService, AiProviderRegistry],
 })
 export class AiModule {}

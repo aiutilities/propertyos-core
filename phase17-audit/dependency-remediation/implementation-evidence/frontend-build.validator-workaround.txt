@@ -1,0 +1,165 @@
+
+> propertyos-frontend@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.21
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 14.4s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/155) ...
+   Generating static pages (38/155)
+   Generating static pages (77/155)
+   Generating static pages (116/155)
+ ✓ Generating static pages (155/155)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                      Size  First Load JS
+┌ ○ /                                           166 B         107 kB
+├ ○ /_not-found                                  1 kB         104 kB
+├ ○ /access                                    1.2 kB         111 kB
+├ ○ /access/events                            1.23 kB         111 kB
+├ ○ /access/grants                            1.94 kB         112 kB
+├ ○ /access/points                             1.2 kB         111 kB
+├ ƒ /access/points/[id]                         790 B         111 kB
+├ ○ /access/points/new                        1.21 kB         111 kB
+├ ○ /communications                           1.58 kB         112 kB
+├ ƒ /communications/[id]                        351 B         114 kB
+├ ○ /communications/new                       1.71 kB         112 kB
+├ ○ /dashboard                                3.69 kB         111 kB
+├ ○ /docs                                     1.07 kB         108 kB
+├ ● /docs/[...slug]                           1.13 kB         108 kB
+├   ├ /docs/generated/modules/access-control
+├   ├ /docs/generated/modules/admin
+├   ├ /docs/generated/modules/agreement
+├   └ [+55 more paths]
+├ ○ /facilities                               1.46 kB         112 kB
+├ ○ /facilities/assets                        1.46 kB         112 kB
+├ ƒ /facilities/assets/[id]                   2.26 kB         112 kB
+├ ○ /facilities/assets/new                    1.37 kB         111 kB
+├ ○ /helpdesk                                  1.8 kB         112 kB
+├ ƒ /helpdesk/[id]                              345 B         115 kB
+├ ○ /helpdesk/new                             1.81 kB         112 kB
+├ ○ /invoices                                 2.19 kB         112 kB
+├ ƒ /invoices/[id]                            3.32 kB         110 kB
+├ ○ /invoices/new                             2.05 kB         113 kB
+├ ○ /leases                                   2.18 kB         112 kB
+├ ƒ /leases/[id]                              3.44 kB         110 kB
+├ ○ /leases/new                               4.03 kB         111 kB
+├ ○ /login                                    1.61 kB         105 kB
+├ ○ /maintenance                              1.47 kB         112 kB
+├ ƒ /maintenance/[id]                         1.66 kB         112 kB
+├ ○ /maintenance/new                          1.11 kB         111 kB
+├ ○ /notifications                            3.94 kB         111 kB
+├ ○ /operations                               2.25 kB         109 kB
+├ ○ /plugins                                  2.04 kB         112 kB
+├ ƒ /plugins/[id]                             2.69 kB         112 kB
+├ ○ /plugins/install                           4.4 kB         111 kB
+├ ○ /plugins/marketplace                      4.46 kB         111 kB
+├ ○ /procurement/comparison                     746 B         111 kB
+├ ○ /procurement/dashboard                    5.52 kB         112 kB
+├ ○ /procurement/goods-receipts               1.29 kB         111 kB
+├ ƒ /procurement/goods-receipts/[id]          1.51 kB         112 kB
+├ ○ /procurement/goods-receipts/new           1.75 kB         112 kB
+├ ○ /procurement/invoice-matches              1.36 kB         112 kB
+├ ƒ /procurement/invoice-matches/[id]         1.78 kB         112 kB
+├ ○ /procurement/invoice-matches/new          1.96 kB         112 kB
+├ ○ /procurement/payment-requests             1.46 kB         112 kB
+├ ƒ /procurement/payment-requests/[id]        1.78 kB         112 kB
+├ ○ /procurement/payment-requests/new         1.26 kB         111 kB
+├ ○ /procurement/purchase-orders              1.41 kB         111 kB
+├ ƒ /procurement/purchase-orders/[id]         1.72 kB         112 kB
+├ ○ /procurement/purchase-orders/new          1.41 kB         111 kB
+├ ○ /procurement/quotations                   1.36 kB         111 kB
+├ ƒ /procurement/quotations/[id]              1.55 kB         111 kB
+├ ○ /procurement/quotations/new               1.82 kB         112 kB
+├ ○ /procurement/requests                     1.53 kB         112 kB
+├ ƒ /procurement/requests/[id]                1.46 kB         112 kB
+├ ○ /procurement/requests/new                 4.42 kB         111 kB
+├ ○ /procurement/rfqs                         1.06 kB         111 kB
+├ ƒ /procurement/rfqs/[id]                    1.36 kB         111 kB
+├ ƒ /procurement/rfqs/[id]/comparison         1.85 kB         112 kB
+├ ○ /procurement/rfqs/new                     1.86 kB         112 kB
+├ ○ /properties                               2.18 kB         112 kB
+├ ƒ /properties/[id]                          3.18 kB         110 kB
+├ ƒ /properties/[id]/edit                       129 B         111 kB
+├ ƒ /properties/[id]/spaces                   3.05 kB         110 kB
+├ ƒ /properties/[id]/spaces/new                3.2 kB         110 kB
+├ ƒ /properties/[id]/zones                    3.08 kB         110 kB
+├ ƒ /properties/[id]/zones/new                3.13 kB         110 kB
+├ ○ /properties/new                             129 B         111 kB
+├ ○ /receipts                                 2.19 kB         112 kB
+├ ƒ /receipts/[id]                            3.35 kB         110 kB
+├ ○ /receipts/new                             1.83 kB         113 kB
+├ ○ /rent-ledgers                              2.3 kB         112 kB
+├ ƒ /rent-ledgers/[id]                        3.36 kB         110 kB
+├ ƒ /rent-ledgers/[id]/payments/new           3.32 kB         110 kB
+├ ○ /rent-ledgers/new                         4.33 kB         111 kB
+├ ○ /reports                                  2.25 kB         109 kB
+├ ○ /reports/outstanding-rent                 4.19 kB         114 kB
+├ ○ /reports/rent-collection                  3.98 kB         114 kB
+├ ○ /reservations                             1.41 kB         112 kB
+├ ƒ /reservations/[id]                        2.53 kB         113 kB
+├ ○ /reservations/approvals                   1.29 kB         112 kB
+├ ○ /reservations/calendar                    2.08 kB         112 kB
+├ ○ /reservations/new                         2.69 kB         113 kB
+├ ○ /reservations/resources                   2.12 kB         112 kB
+├ ƒ /reservations/resources/[id]               3.2 kB         114 kB
+├ ○ /reservations/resources/new               2.25 kB         113 kB
+├ ○ /resident                                 1.47 kB         112 kB
+├ ○ /resident/helpdesk                        1.38 kB         112 kB
+├ ƒ /resident/helpdesk/[id]                     357 B         115 kB
+├ ○ /resident/helpdesk/new                    1.81 kB         112 kB
+├ ○ /resident/maintenance                     1.09 kB         111 kB
+├ ○ /resident/maintenance/new                 1.11 kB         111 kB
+├ ○ /resident/notices                         1.04 kB         111 kB
+├ ƒ /resident/notices/[id]                      363 B         114 kB
+├ ○ /resident/reservations                    1.18 kB         112 kB
+├ ○ /resident/reservations/new                2.47 kB         113 kB
+├ ○ /resident/staff                           1.01 kB         111 kB
+├ ○ /resident/staff/new                       1.35 kB         112 kB
+├ ○ /resident/vehicles                          979 B         111 kB
+├ ○ /resident/vehicles/new                    1.23 kB         111 kB
+├ ○ /resident/visitors                        1.72 kB         111 kB
+├ ○ /resident/visitors/new                    3.67 kB         111 kB
+├ ○ /scheduler                                4.06 kB         111 kB
+├ ○ /security                                 3.23 kB         113 kB
+├ ○ /security/access                            942 B         111 kB
+├ ○ /security/staff                           1.21 kB         111 kB
+├ ○ /security/vehicles                        1.06 kB         111 kB
+├ ○ /staff                                    1.47 kB         112 kB
+├ ƒ /staff/[id]                               1.78 kB         112 kB
+├ ○ /staff/new                                1.35 kB         112 kB
+├ ○ /tenants                                  2.17 kB         112 kB
+├ ƒ /tenants/[id]                             3.29 kB         110 kB
+├ ƒ /tenants/[id]/assign-space                3.91 kB         111 kB
+├ ƒ /tenants/[id]/spaces                      3.07 kB         110 kB
+├ ○ /tenants/new                              4.38 kB         111 kB
+├ ○ /themes                                   1.79 kB         111 kB
+├ ƒ /themes/[id]                              1.88 kB         111 kB
+├ ○ /themes/packages                          4.34 kB         111 kB
+├ ○ /themes/packages/new                      4.13 kB         111 kB
+├ ○ /vehicles                                 1.35 kB         111 kB
+├ ƒ /vehicles/[id]                            1.72 kB         112 kB
+├ ○ /vehicles/new                             1.23 kB         111 kB
+├ ○ /vendors                                   1.7 kB         112 kB
+├ ƒ /vendors/[id]                              2.2 kB         112 kB
+├ ○ /vendors/categories                         782 B         111 kB
+├ ○ /vendors/contracts                        1.44 kB         112 kB
+├ ○ /vendors/new                              1.56 kB         112 kB
+├ ○ /vendors/work-orders                      1.58 kB         112 kB
+├ ○ /visitors                                 1.65 kB         111 kB
+├ ƒ /visitors/[id]                            11.6 kB         121 kB
+├ ○ /visitors/new                             3.67 kB         111 kB
+└ ○ /workflows                                4.38 kB         111 kB
++ First Load JS shared by all                  103 kB
+  ├ chunks/1255-f5767ca0d1da046a.js             46 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js       54.2 kB
+  └ other shared chunks (total)               3.19 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand

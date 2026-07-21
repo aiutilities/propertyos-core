@@ -1,0 +1,17 @@
+{
+  "backend": {
+    "critical": 0,
+    "high": 0,
+    "moderate": 0,
+    "low": 0,
+    "total": 0
+  },
+  "frontend": {
+    "critical": 0,
+    "high": 0,
+    "moderate": 2,
+    "low": 0,
+    "total": 2
+  },
+  "combined_critical_high": 0
+}

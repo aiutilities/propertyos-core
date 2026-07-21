@@ -1,0 +1,7 @@
+{
+  "critical_high": 4,
+  "fix_available": 5,
+  "major_upgrade_required": 1,
+  "no_fix_available": 0,
+  "recommended_category": "CONTROLLED_MAJOR_UPGRADE_REQUIRED"
+}

@@ -1,0 +1,93 @@
+{
+  "phase": "17B1.2",
+  "operation": "evidence whitespace normalization",
+  "normalized_at_utc": "2026-07-21T19:04:42.186867+00:00",
+  "semantic_content_changed": false,
+  "normalization_rules": [
+    "convert CRLF and carriage returns to LF",
+    "remove trailing spaces and tabs",
+    "remove excess blank lines at EOF",
+    "preserve one final newline"
+  ],
+  "changed_file_count": 13,
+  "changed_files": [
+    {
+      "file": "phase17-audit/dependency-remediation/audit-fix-dry-run.txt",
+      "before_sha256": "d61b5002507e64333f4a32216b8b0eeed21987e6e252536af5b2ab0d483dbe85",
+      "after_sha256": "80cc8bbd9b3a22aa6781fde22ba845b72cfbce779e390d46a96bd1c3c43cf56c",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/exact-vulnerability-inventory.txt",
+      "before_sha256": "c04080f68d2f4b989edaaf6bcf0f63ac789323202c583ccc21065a7e28501de0",
+      "after_sha256": "084141bfa894ef23a0ea8f051dea1ca46158dc2428654a8e1ef5339ed0aeff5d",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/access-route-files.txt",
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/backend-build.txt",
+      "before_sha256": "3ca97bea7e1b6611b20d1b7f750f70a87d9068d19ff07f2e40976146059d2d81",
+      "after_sha256": "4705a18a7531e2caffef3f098c3c2a0b2d19cf5223401e48bd146c963908caf2",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/backend-build.validator-workaround.txt",
+      "before_sha256": "3ca97bea7e1b6611b20d1b7f750f70a87d9068d19ff07f2e40976146059d2d81",
+      "after_sha256": "4705a18a7531e2caffef3f098c3c2a0b2d19cf5223401e48bd146c963908caf2",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/backend-dependencies.after.txt",
+      "before_sha256": "806850e116c6bd723787163fdce940dfb5621ccbf6d44bf1bfa5c2399f3bb02c",
+      "after_sha256": "f84551d838ea820c1f07836cc9059bf2e5eea15a410d236f9723beb8108dfc99",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/backend-dependencies.before.txt",
+      "before_sha256": "5f3c5d64d56a48c4a5f8698a7980653a4d43a1a1050faf0503b498d7f780f5a3",
+      "after_sha256": "f0d0fcbe794bec304afc9994a69b12534e32ba4938650a11068f52363a516bc9",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/frontend-build.validator-workaround.txt",
+      "before_sha256": "d896c406b4db65fab4756f943f3b548dad25eda262c2161a3966b6ae1241458f",
+      "after_sha256": "7af4c804bbc665491e5e1050265ffff7d3142e75241df4da110f89ce7788d82a",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/frontend-cache-clean-build-diagnostics.txt",
+      "before_sha256": "31e9f27fc4be6f12c4cf7ddf07a92b64d386d9ea0b0e923dec01c032ca4217b0",
+      "after_sha256": "c5198210132f978050885330cd07ccc87d9ff987c21f73c9740c25814a4b71e9",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/frontend-dependencies.after.txt",
+      "before_sha256": "dcd4baf46b50e1e587da30941c810fc796d1c1ebadb8b51f445b82b3087633a7",
+      "after_sha256": "30c158a18fde226d70297b03c65b7b14571403900ff9cd1213f9e1f78d90ba9c",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/frontend-dependencies.before.txt",
+      "before_sha256": "a6ccdbf6b9874e82d7cdc7f0973419490fb7e36146871c62a2a188f7ddb9b8ab",
+      "after_sha256": "c19df4d387656afe3d52b0200b43fbf3f6377336cfbc0a16127cd78ae0df7932",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/implementation-evidence/frontend-typecheck.validator-workaround.txt",
+      "before_sha256": "de33e761ca4eccdddc3f97646c51ddaf12743a17ba049766d3ce497c5a077a86",
+      "after_sha256": "747c3495c3d88ba4cc2addd55d5d81aa2d82cdba6fadaa237da88a4e7482fb2f",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    },
+    {
+      "file": "phase17-audit/dependency-remediation/production-dependency-tree.txt",
+      "before_sha256": "7c23273d6c36ce8653274dd9232350b925fe5dc82b6242cce746c2d06eb7c830",
+      "after_sha256": "f6cf20fa3b7c920bbc33d01208c820d92e6e4549c583d0792fadbcfd91e42994",
+      "operation": "normalize_line_endings_remove_trailing_whitespace_single_final_newline"
+    }
+  ]
+}

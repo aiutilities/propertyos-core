@@ -1,0 +1,23 @@
+backend@1.0.0 /Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/backend
+├── @nestjs/common@11.1.28
+├─┬ @nestjs/core@11.1.28
+│ ├── @nestjs/common@11.1.28 deduped
+│ └── @nestjs/platform-express@11.1.28 deduped
+├─┬ @nestjs/platform-express@11.1.28
+│ ├── @nestjs/common@11.1.28 deduped
+│ ├── @nestjs/core@11.1.28 deduped
+│ └── multer@2.2.0
+├─┬ @nestjs/swagger@11.4.6
+│ ├── @nestjs/common@11.1.28 deduped
+│ ├── @nestjs/core@11.1.28 deduped
+│ └─┬ @nestjs/mapped-types@2.1.1
+│   └── @nestjs/common@11.1.28 deduped
+├─┬ @nestjs/testing@11.1.27
+│ ├── @nestjs/common@11.1.28 deduped
+│ ├── @nestjs/core@11.1.28 deduped
+│ └── @nestjs/platform-express@11.1.28 deduped
+├─┬ @nestjs/throttler@6.5.0
+│ ├── @nestjs/common@11.1.28 deduped
+│ └── @nestjs/core@11.1.28 deduped
+├── adm-zip@0.6.0
+└── helmet@8.3.0

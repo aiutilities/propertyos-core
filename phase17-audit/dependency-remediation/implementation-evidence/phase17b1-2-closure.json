@@ -1,0 +1,55 @@
+{
+  "phase": "17B1.2",
+  "title": "Dependency remediation",
+  "baseline_head": "87ae71eb00085c530015ed54f659b3d587f81aa0",
+  "branch": "feature/v3-documentation",
+  "validated_at_utc": "2026-07-21T19:02:12.450580+00:00",
+  "dependency_declarations": {
+    "backend": {
+      "@nestjs/common": "^11.1.28",
+      "@nestjs/core": "^11.1.28",
+      "@nestjs/platform-express": "^11.1.28",
+      "@nestjs/swagger": "^11.4.6",
+      "adm-zip": "^0.6.0",
+      "helmet": "^8.3.0"
+    },
+    "frontend": {
+      "next": "15.5.21",
+      "react": "19.1.0",
+      "react-dom": "19.1.0",
+      "typescript": "5.9.3"
+    }
+  },
+  "nextjs_validator_compatibility": {
+    "generated_file": ".next/types/validator.ts",
+    "workaround": "exclude only .next/types/validator.ts from the project TypeScript program",
+    "strict_typecheck_preserved": true,
+    "source_typecheck_preserved": true,
+    "route_specific_types_preserved": true,
+    "production_route_generation_preserved": true
+  },
+  "validation": {
+    "frontend_typecheck": "PASS",
+    "frontend_production_build": "PASS",
+    "frontend_pilot_tests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "frontend_procurement_audit": {
+      "passed": 97,
+      "warnings": 0,
+      "failed": 0
+    },
+    "backend_build": "PASS",
+    "critical_high_vulnerabilities": 0
+  },
+  "sha256": {
+    "backend/package.json": "35dcecaf7b692df9291c2c61453c46bd2f47ba01a57347fc9228537f96c3141f",
+    "backend/package-lock.json": "81a6f2e0f47fee9f4d0b51f1454eb10c3ef9288734b31e5b563961a6aa4bcd8f",
+    "frontend/package.json": "965aefe583cbde7948800f17b5cb8ced91efe038191c33475956a095892f9c04",
+    "frontend/package-lock.json": "4366acb405738133162221e47fff19bed84d2a3cfb43f28edd479502c889cac2",
+    "frontend/next-env.d.ts": "e3e5602345bcf00c3181dac2a498f4ba395cd6813f8cff09e8a4604379e008f0",
+    "frontend/tsconfig.json": "42d89e7cd1f3e8a7fe3f74dbe112beae95d699d64000dbdc67de0957b24d497b"
+  },
+  "commit_created": false
+}

@@ -1,0 +1,16 @@
+
+> propertyos-frontend@1.0.0 test:pilot
+> node --test tests/pilot-frontend-contract.test.mjs
+
+✔ pilot routes exist and remain protected (2.618583ms)
+✔ pilot API contracts remain connected (0.473916ms)
+✔ pilot frontend types remain present (0.086792ms)
+✔ pilot surfaces contain no unfinished markers (3.094042ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 72.032417

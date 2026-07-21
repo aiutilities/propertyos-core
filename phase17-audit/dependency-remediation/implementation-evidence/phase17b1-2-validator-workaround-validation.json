@@ -1,0 +1,30 @@
+{
+  "baseline_head": "87ae71eb00085c530015ed54f659b3d587f81aa0",
+  "next_version": "15.5.21",
+  "typescript_version": "5.9.3",
+  "next_typegen": "PASS",
+  "per_route_type_file_expected_after_typegen": false,
+  "validator_exclusion_tested": true,
+  "frontend_typecheck": "PASS",
+  "frontend_production_build": "PASS",
+  "frontend_pilot_test": "PASS",
+  "frontend_procurement_audit": "PASS",
+  "backend_build": "PASS",
+  "combined_critical_high_vulnerabilities": 0,
+  "changed_files": [
+    "backend/package-lock.json",
+    "backend/package.json",
+    "frontend/next-env.d.ts",
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/tsconfig.json"
+  ],
+  "sha256": {
+    "backend/package.json": "35dcecaf7b692df9291c2c61453c46bd2f47ba01a57347fc9228537f96c3141f",
+    "backend/package-lock.json": "81a6f2e0f47fee9f4d0b51f1454eb10c3ef9288734b31e5b563961a6aa4bcd8f",
+    "frontend/package.json": "965aefe583cbde7948800f17b5cb8ced91efe038191c33475956a095892f9c04",
+    "frontend/package-lock.json": "4366acb405738133162221e47fff19bed84d2a3cfb43f28edd479502c889cac2",
+    "frontend/tsconfig.json": "42d89e7cd1f3e8a7fe3f74dbe112beae95d699d64000dbdc67de0957b24d497b"
+  },
+  "commit_created": false
+}

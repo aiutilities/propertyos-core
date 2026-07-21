@@ -1,0 +1,110 @@
+
+> propertyos-frontend@1.0.0 audit:procurement
+> node ../scripts/audit-procurement-frontend.mjs
+
+===== Procurement Frontend Release Audit =====
+PASS  File exists: frontend/src/app/procurement/dashboard/page.tsx
+PASS  Protected route: frontend/src/app/procurement/dashboard/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/dashboard/page.tsx
+PASS  File exists: frontend/src/app/procurement/requests/page.tsx
+PASS  Protected route: frontend/src/app/procurement/requests/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/requests/page.tsx
+PASS  File exists: frontend/src/app/procurement/requests/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/requests/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/requests/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/requests/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/requests/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/requests/[id]/page.tsx
+PASS  File exists: frontend/src/app/procurement/rfqs/page.tsx
+PASS  Protected route: frontend/src/app/procurement/rfqs/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/rfqs/page.tsx
+PASS  File exists: frontend/src/app/procurement/rfqs/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/rfqs/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/rfqs/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/rfqs/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/rfqs/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/rfqs/[id]/page.tsx
+PASS  File exists: frontend/src/app/procurement/rfqs/[id]/comparison/page.tsx
+PASS  Protected route: frontend/src/app/procurement/rfqs/[id]/comparison/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/rfqs/[id]/comparison/page.tsx
+PASS  File exists: frontend/src/app/procurement/quotations/page.tsx
+PASS  Protected route: frontend/src/app/procurement/quotations/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/quotations/page.tsx
+PASS  File exists: frontend/src/app/procurement/quotations/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/quotations/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/quotations/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/quotations/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/quotations/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/quotations/[id]/page.tsx
+PASS  File exists: frontend/src/app/procurement/comparison/page.tsx
+PASS  Protected route: frontend/src/app/procurement/comparison/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/comparison/page.tsx
+PASS  File exists: frontend/src/app/procurement/purchase-orders/page.tsx
+PASS  Protected route: frontend/src/app/procurement/purchase-orders/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/purchase-orders/page.tsx
+PASS  File exists: frontend/src/app/procurement/purchase-orders/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/purchase-orders/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/purchase-orders/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/purchase-orders/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/purchase-orders/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/purchase-orders/[id]/page.tsx
+PASS  File exists: frontend/src/app/procurement/goods-receipts/page.tsx
+PASS  Protected route: frontend/src/app/procurement/goods-receipts/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/goods-receipts/page.tsx
+PASS  File exists: frontend/src/app/procurement/goods-receipts/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/goods-receipts/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/goods-receipts/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/goods-receipts/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/goods-receipts/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/goods-receipts/[id]/page.tsx
+PASS  File exists: frontend/src/app/procurement/invoice-matches/page.tsx
+PASS  Protected route: frontend/src/app/procurement/invoice-matches/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/invoice-matches/page.tsx
+PASS  File exists: frontend/src/app/procurement/invoice-matches/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/invoice-matches/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/invoice-matches/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/invoice-matches/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/invoice-matches/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/invoice-matches/[id]/page.tsx
+PASS  File exists: frontend/src/app/procurement/payment-requests/page.tsx
+PASS  Protected route: frontend/src/app/procurement/payment-requests/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/payment-requests/page.tsx
+PASS  File exists: frontend/src/app/procurement/payment-requests/new/page.tsx
+PASS  Protected route: frontend/src/app/procurement/payment-requests/new/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/payment-requests/new/page.tsx
+PASS  File exists: frontend/src/app/procurement/payment-requests/[id]/page.tsx
+PASS  Protected route: frontend/src/app/procurement/payment-requests/[id]/page.tsx
+PASS  Admin shell: frontend/src/app/procurement/payment-requests/[id]/page.tsx
+PASS  File exists: frontend/src/hooks/useProcurement.ts
+PASS  File exists: frontend/src/hooks/useQuotations.ts
+PASS  File exists: frontend/src/hooks/useQuotationComparison.ts
+PASS  File exists: frontend/src/hooks/usePurchaseOrders.ts
+PASS  File exists: frontend/src/hooks/useGoodsReceipts.ts
+PASS  File exists: frontend/src/hooks/useInvoiceMatches.ts
+PASS  File exists: frontend/src/hooks/usePaymentRequests.ts
+PASS  File exists: frontend/src/hooks/useProcurementDashboard.ts
+PASS  File exists: frontend/src/types/procurement.ts
+PASS  File exists: frontend/src/types/quotation.ts
+PASS  File exists: frontend/src/types/quotationComparison.ts
+PASS  File exists: frontend/src/types/purchaseOrder.ts
+PASS  File exists: frontend/src/types/goodsReceipt.ts
+PASS  File exists: frontend/src/types/invoiceMatch.ts
+PASS  File exists: frontend/src/types/paymentRequest.ts
+PASS  File exists: frontend/src/types/procurementDashboard.ts
+PASS  Navigation contains /procurement/dashboard
+PASS  Navigation contains /procurement/requests
+PASS  Navigation contains /procurement/rfqs
+PASS  Navigation contains /procurement/quotations
+PASS  Navigation contains /procurement/comparison
+PASS  Navigation contains /procurement/purchase-orders
+PASS  Navigation contains /procurement/goods-receipts
+PASS  Navigation contains /procurement/invoice-matches
+PASS  Navigation contains /procurement/payment-requests
+
+===== Audit Summary =====
+Passed: 97
+Warnings: 0
+Failures: 0
+Routes checked: 24
+
+Procurement frontend audit passed.

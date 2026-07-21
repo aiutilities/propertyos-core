@@ -1,0 +1,2 @@
+39:// Validate ../../app/access/events/page.tsx
+42:  const handler = {} as typeof import("../../app/access/events/page.js")

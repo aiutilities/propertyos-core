@@ -1,0 +1,19 @@
+================================================================
+BACKEND OUTDATED PRODUCTION DEPENDENCIES
+================================================================
+Package                   Current   Wanted   Latest  Location                               Depended by
+@nestjs/common            11.1.27  11.1.28  11.1.28  node_modules/@nestjs/common            backend
+@nestjs/core              11.1.27  11.1.28  11.1.28  node_modules/@nestjs/core              backend
+@nestjs/platform-express  11.1.27  11.1.28  11.1.28  node_modules/@nestjs/platform-express  backend
+@nestjs/swagger            11.4.5   11.4.6   11.4.6  node_modules/@nestjs/swagger           backend
+adm-zip                    0.5.18   0.5.18    0.6.0  node_modules/adm-zip                   backend
+helmet                      8.2.0    8.3.0    8.3.0  node_modules/helmet                    backend
+
+================================================================
+FRONTEND OUTDATED PRODUCTION DEPENDENCIES
+================================================================
+Package       Current  Wanted   Latest  Location                   Depended by
+@types/react   19.1.8  19.1.8  19.2.17  node_modules/@types/react  frontend
+next           15.4.0  15.4.0  16.2.11  node_modules/next          frontend
+react          19.1.0  19.1.0   19.2.8  node_modules/react         frontend
+react-dom      19.1.0  19.1.0   19.2.8  node_modules/react-dom     frontend

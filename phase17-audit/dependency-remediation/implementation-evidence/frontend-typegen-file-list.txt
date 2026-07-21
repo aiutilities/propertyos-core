@@ -1,0 +1,2 @@
+frontend/.next/types/routes.d.ts
+frontend/.next/types/validator.ts

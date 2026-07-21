@@ -1,0 +1,12 @@
+propertyos-frontend@1.0.0 /Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/frontend
+├─┬ next@15.5.21
+│ ├── postcss@8.4.31
+│ ├── react-dom@19.1.0 deduped
+│ ├── react@19.1.0 deduped
+│ └─┬ styled-jsx@5.1.6
+│   └── react@19.1.0 deduped
+├─┬ react-dom@19.1.0
+│ └── react@19.1.0 deduped
+├─┬ react-markdown@10.1.0
+│ └── react@19.1.0 deduped
+└── react@19.1.0

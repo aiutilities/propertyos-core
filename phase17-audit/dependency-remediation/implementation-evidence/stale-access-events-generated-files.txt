@@ -1,0 +1,1 @@
+frontend/.next/types/app/access/events/page.ts

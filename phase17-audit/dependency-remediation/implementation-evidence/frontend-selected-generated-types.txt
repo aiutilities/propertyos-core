@@ -1,0 +1,1 @@
+/Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/frontend/.next/types/routes.d.ts

@@ -1,0 +1,3 @@
+PRESENT: frontend/.next
+PRESENT: frontend/tsconfig.tsbuildinfo
+ABSENT:  frontend/node_modules/.cache

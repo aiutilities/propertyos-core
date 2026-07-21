@@ -1,0 +1,821 @@
+================================================================
+BACKEND DEPENDENCY TREE
+================================================================
+backend@1.0.0 /Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/backend
+├─┬ @nestjs/common@11.1.27
+│ ├── class-transformer@0.5.1 deduped
+│ ├── class-validator@0.15.1 deduped
+│ ├─┬ file-type@21.3.4
+│ │ ├─┬ @tokenizer/inflate@0.4.1
+│ │ │ ├── debug@4.4.3 deduped
+│ │ │ └── token-types@6.1.2 deduped
+│ │ ├─┬ strtok3@10.3.5
+│ │ │ └── @tokenizer/token@0.3.0
+│ │ ├─┬ token-types@6.1.2
+│ │ │ ├── @borewit/text-codec@0.2.2
+│ │ │ ├── @tokenizer/token@0.3.0 deduped
+│ │ │ └── ieee754@1.2.1
+│ │ └── uint8array-extras@1.5.0
+│ ├── iterare@1.2.1
+│ ├── load-esm@1.0.3
+│ ├── reflect-metadata@0.2.2 deduped
+│ ├── rxjs@7.8.2 deduped
+│ ├── tslib@2.8.1
+│ └─┬ uid@2.0.2
+│   └── @lukeed/csprng@1.1.0
+├─┬ @nestjs/core@11.1.27
+│ ├── @nestjs/common@11.1.27 deduped
+│ ├── UNMET OPTIONAL DEPENDENCY @nestjs/microservices@^11.0.0
+│ ├── @nestjs/platform-express@11.1.27 deduped
+│ ├── UNMET OPTIONAL DEPENDENCY @nestjs/websockets@^11.0.0
+│ ├── fast-safe-stringify@2.1.1
+│ ├── iterare@1.2.1 deduped
+│ ├── path-to-regexp@8.4.2
+│ ├── reflect-metadata@0.2.2 deduped
+│ ├── rxjs@7.8.2 deduped
+│ ├── tslib@2.8.1 deduped
+│ └── uid@2.0.2 deduped
+├─┬ @nestjs/platform-express@11.1.27
+│ ├── @nestjs/common@11.1.27 deduped
+│ ├── @nestjs/core@11.1.27 deduped
+│ ├─┬ cors@2.8.6
+│ │ ├── object-assign@4.1.1
+│ │ └── vary@1.1.2 deduped
+│ ├── express@5.2.1 deduped
+│ ├─┬ multer@2.1.1
+│ │ ├── append-field@1.0.0
+│ │ ├─┬ busboy@1.6.0
+│ │ │ └── streamsearch@1.1.0
+│ │ ├─┬ concat-stream@2.0.0
+│ │ │ ├── buffer-from@1.1.2
+│ │ │ ├── inherits@2.0.4 deduped
+│ │ │ ├─┬ readable-stream@3.6.2
+│ │ │ │ ├── inherits@2.0.4 deduped
+│ │ │ │ ├─┬ string_decoder@1.3.0
+│ │ │ │ │ └── safe-buffer@5.2.1
+│ │ │ │ └── util-deprecate@1.0.2
+│ │ │ └── typedarray@0.0.6
+│ │ └─┬ type-is@1.6.18
+│ │   ├── media-typer@0.3.0
+│ │   └─┬ mime-types@2.1.35
+│ │     └── mime-db@1.52.0
+│ ├── path-to-regexp@8.4.2 deduped
+│ └── tslib@2.8.1 deduped
+├─┬ @nestjs/swagger@11.4.5
+│ ├── UNMET OPTIONAL DEPENDENCY @fastify/static@^8.0.0 || ^9.0.0
+│ ├── @microsoft/tsdoc@0.16.0
+│ ├── @nestjs/common@11.1.27 deduped
+│ ├── @nestjs/core@11.1.27 deduped
+│ ├─┬ @nestjs/mapped-types@2.1.1
+│ │ ├── @nestjs/common@11.1.27 deduped
+│ │ ├── class-transformer@0.5.1 deduped
+│ │ ├── class-validator@0.15.1 deduped
+│ │ └── reflect-metadata@0.2.2 deduped
+│ ├── class-transformer@0.5.1 deduped
+│ ├── class-validator@0.15.1 deduped
+│ ├─┬ js-yaml@4.3.0
+│ │ └── argparse@2.0.1
+│ ├── lodash@4.18.1
+│ ├── path-to-regexp@8.4.2 deduped
+│ ├── reflect-metadata@0.2.2 deduped
+│ └─┬ swagger-ui-dist@5.32.8
+│   └── @scarf/scarf@1.4.0
+├─┬ @nestjs/throttler@6.5.0
+│ ├── @nestjs/common@11.1.27 deduped
+│ ├── @nestjs/core@11.1.27 deduped
+│ └── reflect-metadata@0.2.2 deduped
+├── @propertyos/core-contracts@0.1.0 -> ./core-contracts
+├── @types/semver@7.7.1
+├── adm-zip@0.5.18
+├── class-transformer@0.5.1
+├─┬ class-validator@0.15.1
+│ ├── @types/validator@13.15.10
+│ ├── libphonenumber-js@1.13.8
+│ └── validator@13.15.35
+├─┬ express@5.2.1
+│ ├─┬ accepts@2.0.0
+│ │ ├── mime-types@3.0.2 deduped
+│ │ └── negotiator@1.0.0
+│ ├─┬ body-parser@2.3.0
+│ │ ├── bytes@3.1.2
+│ │ ├── content-type@2.0.0
+│ │ ├── debug@4.4.3 deduped
+│ │ ├── http-errors@2.0.1 deduped
+│ │ ├─┬ iconv-lite@0.7.2
+│ │ │ └── safer-buffer@2.1.2
+│ │ ├── on-finished@2.4.1 deduped
+│ │ ├── qs@6.15.3 deduped
+│ │ ├─┬ raw-body@3.0.2
+│ │ │ ├── bytes@3.1.2 deduped
+│ │ │ ├── http-errors@2.0.1 deduped
+│ │ │ ├── iconv-lite@0.7.2 deduped
+│ │ │ └── unpipe@1.0.0
+│ │ └── type-is@2.1.0 deduped
+│ ├── content-disposition@1.1.0
+│ ├── content-type@1.0.5
+│ ├── cookie-signature@1.2.2
+│ ├── cookie@0.7.2
+│ ├─┬ debug@4.4.3
+│ │ └── ms@2.1.3
+│ ├── depd@2.0.0
+│ ├── encodeurl@2.0.0
+│ ├── escape-html@1.0.3
+│ ├── etag@1.8.1
+│ ├─┬ finalhandler@2.1.1
+│ │ ├── debug@4.4.3 deduped
+│ │ ├── encodeurl@2.0.0 deduped
+│ │ ├── escape-html@1.0.3 deduped
+│ │ ├── on-finished@2.4.1 deduped
+│ │ ├── parseurl@1.3.3 deduped
+│ │ └── statuses@2.0.2 deduped
+│ ├── fresh@2.0.0
+│ ├─┬ http-errors@2.0.1
+│ │ ├── depd@2.0.0 deduped
+│ │ ├── inherits@2.0.4
+│ │ ├── setprototypeof@1.2.0
+│ │ ├── statuses@2.0.2 deduped
+│ │ └── toidentifier@1.0.1
+│ ├── merge-descriptors@2.0.0
+│ ├─┬ mime-types@3.0.2
+│ │ └── mime-db@1.54.0
+│ ├─┬ on-finished@2.4.1
+│ │ └── ee-first@1.1.1
+│ ├─┬ once@1.4.0
+│ │ └── wrappy@1.0.2
+│ ├── parseurl@1.3.3
+│ ├─┬ proxy-addr@2.0.7
+│ │ ├── forwarded@0.2.0
+│ │ └── ipaddr.js@1.9.1
+│ ├─┬ qs@6.15.3
+│ │ ├── es-define-property@1.0.1
+│ │ └─┬ side-channel@1.1.1
+│ │   ├── es-errors@1.3.0
+│ │   ├── object-inspect@1.13.4
+│ │   ├─┬ side-channel-list@1.0.1
+│ │   │ ├── es-errors@1.3.0 deduped
+│ │   │ └── object-inspect@1.13.4 deduped
+│ │   ├─┬ side-channel-map@1.0.1
+│ │   │ ├─┬ call-bound@1.0.4
+│ │   │ │ ├─┬ call-bind-apply-helpers@1.0.2
+│ │   │ │ │ ├── es-errors@1.3.0 deduped
+│ │   │ │ │ └── function-bind@1.1.2 deduped
+│ │   │ │ └── get-intrinsic@1.3.0 deduped
+│ │   │ ├── es-errors@1.3.0 deduped
+│ │   │ ├─┬ get-intrinsic@1.3.0
+│ │   │ │ ├── call-bind-apply-helpers@1.0.2 deduped
+│ │   │ │ ├── es-define-property@1.0.1 deduped
+│ │   │ │ ├── es-errors@1.3.0 deduped
+│ │   │ │ ├─┬ es-object-atoms@1.1.2
+│ │   │ │ │ └── es-errors@1.3.0 deduped
+│ │   │ │ ├── function-bind@1.1.2
+│ │   │ │ ├─┬ get-proto@1.0.1
+│ │   │ │ │ ├─┬ dunder-proto@1.0.1
+│ │   │ │ │ │ ├── call-bind-apply-helpers@1.0.2 deduped
+│ │   │ │ │ │ ├── es-errors@1.3.0 deduped
+│ │   │ │ │ │ └── gopd@1.2.0 deduped
+│ │   │ │ │ └── es-object-atoms@1.1.2 deduped
+│ │   │ │ ├── gopd@1.2.0
+│ │   │ │ ├── has-symbols@1.1.0
+│ │   │ │ ├─┬ hasown@2.0.4
+│ │   │ │ │ └── function-bind@1.1.2 deduped
+│ │   │ │ └── math-intrinsics@1.1.0
+│ │   │ └── object-inspect@1.13.4 deduped
+│ │   └─┬ side-channel-weakmap@1.0.2
+│ │     ├── call-bound@1.0.4 deduped
+│ │     ├── es-errors@1.3.0 deduped
+│ │     ├── get-intrinsic@1.3.0 deduped
+│ │     ├── object-inspect@1.13.4 deduped
+│ │     └── side-channel-map@1.0.1 deduped
+│ ├── range-parser@1.3.0
+│ ├─┬ router@2.2.0
+│ │ ├── debug@4.4.3 deduped
+│ │ ├── depd@2.0.0 deduped
+│ │ ├── is-promise@4.0.0
+│ │ ├── parseurl@1.3.3 deduped
+│ │ └── path-to-regexp@8.4.2 deduped
+│ ├─┬ send@1.2.1
+│ │ ├── debug@4.4.3 deduped
+│ │ ├── encodeurl@2.0.0 deduped
+│ │ ├── escape-html@1.0.3 deduped
+│ │ ├── etag@1.8.1 deduped
+│ │ ├── fresh@2.0.0 deduped
+│ │ ├── http-errors@2.0.1 deduped
+│ │ ├── mime-types@3.0.2 deduped
+│ │ ├── ms@2.1.3 deduped
+│ │ ├── on-finished@2.4.1 deduped
+│ │ ├── range-parser@1.3.0 deduped
+│ │ └── statuses@2.0.2 deduped
+│ ├─┬ serve-static@2.2.1
+│ │ ├── encodeurl@2.0.0 deduped
+│ │ ├── escape-html@1.0.3 deduped
+│ │ ├── parseurl@1.3.3 deduped
+│ │ └── send@1.2.1 deduped
+│ ├── statuses@2.0.2
+│ ├─┬ type-is@2.1.0
+│ │ ├── content-type@2.0.0
+│ │ ├── media-typer@1.1.0
+│ │ └── mime-types@3.0.2 deduped
+│ └── vary@1.1.2
+├── helmet@8.2.0
+├─┬ pdfkit@0.19.1
+│ ├── @noble/ciphers@1.3.0
+│ ├── @noble/hashes@1.8.0
+│ ├─┬ fontkit@2.0.4
+│ │ ├─┬ @swc/helpers@0.5.23
+│ │ │ └── tslib@2.8.1 deduped
+│ │ ├─┬ brotli@1.3.3
+│ │ │ └── base64-js@1.5.1
+│ │ ├── clone@2.1.2
+│ │ ├── dfa@1.2.0
+│ │ ├── fast-deep-equal@3.1.3
+│ │ ├── restructure@3.0.2
+│ │ ├── tiny-inflate@1.0.3
+│ │ ├─┬ unicode-properties@1.4.1
+│ │ │ ├── base64-js@1.5.1 deduped
+│ │ │ └── unicode-trie@2.0.0 deduped
+│ │ └─┬ unicode-trie@2.0.0
+│ │   ├── pako@0.2.9
+│ │   └── tiny-inflate@1.0.3 deduped
+│ ├── js-md5@0.8.3
+│ ├─┬ linebreak@1.1.0
+│ │ ├── base64-js@0.0.8
+│ │ └── unicode-trie@2.0.0 deduped
+│ └─┬ png-js@1.1.0
+│   └─┬ browserify-zlib@0.2.0
+│     └── pako@1.0.11
+├─┬ pg@8.22.0
+│ ├── pg-cloudflare@1.4.0
+│ ├── pg-connection-string@2.14.0
+│ ├── UNMET OPTIONAL DEPENDENCY pg-native@>=3.0.1
+│ ├─┬ pg-pool@3.14.0
+│ │ └── pg@8.22.0 deduped
+│ ├── pg-protocol@1.15.0
+│ ├─┬ pg-types@2.2.0
+│ │ ├── pg-int8@1.0.1
+│ │ ├── postgres-array@2.0.0
+│ │ ├── postgres-bytea@1.0.1
+│ │ ├── postgres-date@1.0.7
+│ │ └─┬ postgres-interval@1.2.0
+│ │   └── xtend@4.0.2
+│ └─┬ pgpass@1.0.5
+│   └── split2@4.2.0
+├── reflect-metadata@0.2.2
+├─┬ rxjs@7.8.2
+│ └── tslib@2.8.1 deduped
+├── semver@7.8.5
+└─┬ swagger-ui-express@5.0.1
+  ├── express@5.2.1 deduped
+  └── swagger-ui-dist@5.32.8 deduped
+
+
+================================================================
+FRONTEND DEPENDENCY TREE
+================================================================
+propertyos-frontend@1.0.0 /Users/anandnataraj/aiutilities/PropertyOS/propertyos-core/frontend
+├─┬ mermaid@11.16.0
+│ ├── @braintree/sanitize-url@7.1.2
+│ ├─┬ @iconify/utils@3.1.4
+│ │ ├─┬ @antfu/install-pkg@1.1.0
+│ │ │ ├── package-manager-detector@1.7.0
+│ │ │ └── tinyexec@1.2.4
+│ │ ├── @iconify/types@2.0.0
+│ │ └── import-meta-resolve@4.2.0
+│ ├─┬ @mermaid-js/parser@1.2.0
+│ │ └── @chevrotain/types@11.1.2
+│ ├─┬ @types/d3@7.4.3
+│ │ ├── @types/d3-array@3.2.2
+│ │ ├─┬ @types/d3-axis@3.0.6
+│ │ │ └── @types/d3-selection@3.0.11 deduped
+│ │ ├─┬ @types/d3-brush@3.0.6
+│ │ │ └── @types/d3-selection@3.0.11 deduped
+│ │ ├── @types/d3-chord@3.0.6
+│ │ ├── @types/d3-color@3.1.3
+│ │ ├─┬ @types/d3-contour@3.0.6
+│ │ │ ├── @types/d3-array@3.2.2 deduped
+│ │ │ └── @types/geojson@7946.0.16
+│ │ ├── @types/d3-delaunay@6.0.4
+│ │ ├── @types/d3-dispatch@3.0.7
+│ │ ├─┬ @types/d3-drag@3.0.7
+│ │ │ └── @types/d3-selection@3.0.11 deduped
+│ │ ├── @types/d3-dsv@3.0.7
+│ │ ├── @types/d3-ease@3.0.2
+│ │ ├─┬ @types/d3-fetch@3.0.7
+│ │ │ └── @types/d3-dsv@3.0.7 deduped
+│ │ ├── @types/d3-force@3.0.10
+│ │ ├── @types/d3-format@3.0.4
+│ │ ├─┬ @types/d3-geo@3.1.0
+│ │ │ └── @types/geojson@7946.0.16 deduped
+│ │ ├── @types/d3-hierarchy@3.1.7
+│ │ ├─┬ @types/d3-interpolate@3.0.4
+│ │ │ └── @types/d3-color@3.1.3 deduped
+│ │ ├── @types/d3-path@3.1.1
+│ │ ├── @types/d3-polygon@3.0.2
+│ │ ├── @types/d3-quadtree@3.0.6
+│ │ ├── @types/d3-random@3.0.4
+│ │ ├── @types/d3-scale-chromatic@3.1.0
+│ │ ├─┬ @types/d3-scale@4.0.9
+│ │ │ └── @types/d3-time@3.0.4 deduped
+│ │ ├── @types/d3-selection@3.0.11
+│ │ ├─┬ @types/d3-shape@3.1.8
+│ │ │ └── @types/d3-path@3.1.1 deduped
+│ │ ├── @types/d3-time-format@4.0.3
+│ │ ├── @types/d3-time@3.0.4
+│ │ ├── @types/d3-timer@3.0.2
+│ │ ├─┬ @types/d3-transition@3.0.9
+│ │ │ └── @types/d3-selection@3.0.11 deduped
+│ │ └─┬ @types/d3-zoom@3.0.8
+│ │   ├── @types/d3-interpolate@3.0.4 deduped
+│ │   └── @types/d3-selection@3.0.11 deduped
+│ ├─┬ @upsetjs/venn.js@2.0.0
+│ │ ├── d3-selection@3.0.0
+│ │ └─┬ d3-transition@3.0.1
+│ │   ├── d3-color@3.1.0 deduped
+│ │   ├── d3-dispatch@3.0.1 deduped
+│ │   ├── d3-ease@3.0.1 deduped
+│ │   ├── d3-interpolate@3.0.1 deduped
+│ │   ├── d3-selection@3.0.0 deduped
+│ │   └── d3-timer@3.0.1 deduped
+│ ├─┬ cytoscape-cose-bilkent@4.1.0
+│ │ ├─┬ cose-base@1.0.3
+│ │ │ └── layout-base@1.0.2
+│ │ └── cytoscape@3.34.0 deduped
+│ ├─┬ cytoscape-fcose@2.2.0
+│ │ ├─┬ cose-base@2.2.0
+│ │ │ └── layout-base@2.0.1
+│ │ └── cytoscape@3.34.0 deduped
+│ ├── cytoscape@3.34.0
+│ ├─┬ d3-sankey@0.12.3
+│ │ ├─┬ d3-array@2.12.1
+│ │ │ └── internmap@1.0.1
+│ │ └─┬ d3-shape@1.3.7
+│ │   └── d3-path@1.0.9
+│ ├─┬ d3@7.9.0
+│ │ ├─┬ d3-array@3.2.4
+│ │ │ └── internmap@2.0.3
+│ │ ├── d3-axis@3.0.0
+│ │ ├─┬ d3-brush@3.0.0
+│ │ │ ├── d3-dispatch@3.0.1 deduped
+│ │ │ ├── d3-drag@3.0.0 deduped
+│ │ │ ├── d3-interpolate@3.0.1 deduped
+│ │ │ ├── d3-selection@3.0.0 deduped
+│ │ │ └── d3-transition@3.0.1 deduped
+│ │ ├─┬ d3-chord@3.0.1
+│ │ │ └── d3-path@3.1.0 deduped
+│ │ ├── d3-color@3.1.0
+│ │ ├─┬ d3-contour@4.0.2
+│ │ │ └── d3-array@3.2.4 deduped
+│ │ ├─┬ d3-delaunay@6.0.4
+│ │ │ └─┬ delaunator@5.1.0
+│ │ │   └── robust-predicates@3.0.3
+│ │ ├── d3-dispatch@3.0.1
+│ │ ├─┬ d3-drag@3.0.0
+│ │ │ ├── d3-dispatch@3.0.1 deduped
+│ │ │ └── d3-selection@3.0.0 deduped
+│ │ ├─┬ d3-dsv@3.0.1
+│ │ │ ├── commander@7.2.0
+│ │ │ ├─┬ iconv-lite@0.6.3
+│ │ │ │ └── safer-buffer@2.1.2
+│ │ │ └── rw@1.3.3
+│ │ ├── d3-ease@3.0.1
+│ │ ├─┬ d3-fetch@3.0.1
+│ │ │ └── d3-dsv@3.0.1 deduped
+│ │ ├─┬ d3-force@3.0.0
+│ │ │ ├── d3-dispatch@3.0.1 deduped
+│ │ │ ├── d3-quadtree@3.0.1 deduped
+│ │ │ └── d3-timer@3.0.1 deduped
+│ │ ├── d3-format@3.1.2
+│ │ ├─┬ d3-geo@3.1.1
+│ │ │ └── d3-array@3.2.4 deduped
+│ │ ├── d3-hierarchy@3.1.2
+│ │ ├─┬ d3-interpolate@3.0.1
+│ │ │ └── d3-color@3.1.0 deduped
+│ │ ├── d3-path@3.1.0
+│ │ ├── d3-polygon@3.0.1
+│ │ ├── d3-quadtree@3.0.1
+│ │ ├── d3-random@3.0.1
+│ │ ├─┬ d3-scale-chromatic@3.1.0
+│ │ │ ├── d3-color@3.1.0 deduped
+│ │ │ └── d3-interpolate@3.0.1 deduped
+│ │ ├─┬ d3-scale@4.0.2
+│ │ │ ├── d3-array@3.2.4 deduped
+│ │ │ ├── d3-format@3.1.2 deduped
+│ │ │ ├── d3-interpolate@3.0.1 deduped
+│ │ │ ├── d3-time-format@4.1.0 deduped
+│ │ │ └── d3-time@3.1.0 deduped
+│ │ ├── d3-selection@3.0.0 deduped
+│ │ ├─┬ d3-shape@3.2.0
+│ │ │ └── d3-path@3.1.0 deduped
+│ │ ├─┬ d3-time-format@4.1.0
+│ │ │ └── d3-time@3.1.0 deduped
+│ │ ├─┬ d3-time@3.1.0
+│ │ │ └── d3-array@3.2.4 deduped
+│ │ ├── d3-timer@3.0.1
+│ │ ├── d3-transition@3.0.1 deduped
+│ │ └─┬ d3-zoom@3.0.0
+│ │   ├── d3-dispatch@3.0.1 deduped
+│ │   ├── d3-drag@3.0.0 deduped
+│ │   ├── d3-interpolate@3.0.1 deduped
+│ │   ├── d3-selection@3.0.0 deduped
+│ │   └── d3-transition@3.0.1 deduped
+│ ├─┬ dagre-d3-es@7.0.14
+│ │ ├── d3@7.9.0 deduped
+│ │ └── lodash-es@4.18.1
+│ ├── dayjs@1.11.21
+│ ├─┬ dompurify@3.4.12
+│ │ └── @types/trusted-types@2.0.7
+│ ├── es-toolkit@1.49.0
+│ ├─┬ katex@0.16.47
+│ │ └── commander@8.3.0
+│ ├── khroma@2.1.0
+│ ├── marked@16.4.2
+│ ├─┬ roughjs@4.6.6
+│ │ ├── hachure-fill@0.5.2
+│ │ ├── path-data-parser@0.1.0
+│ │ ├── points-on-curve@0.2.0
+│ │ └─┬ points-on-path@0.2.1
+│ │   ├── path-data-parser@0.1.0 deduped
+│ │   └── points-on-curve@0.2.0 deduped
+│ ├── stylis@4.4.0
+│ ├── ts-dedent@2.3.0
+│ └── uuid@14.0.1
+├─┬ next@15.4.0
+│ ├── @next/env@15.4.0-canary.57
+│ ├── @next/swc-darwin-arm64@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-darwin-x64@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-linux-arm64-gnu@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-linux-arm64-musl@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-linux-x64-gnu@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-linux-x64-musl@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-win32-arm64-msvc@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @next/swc-win32-x64-msvc@15.4.0
+│ ├── UNMET OPTIONAL DEPENDENCY @opentelemetry/api@^1.1.0
+│ ├── UNMET OPTIONAL DEPENDENCY @playwright/test@^1.41.2
+│ ├─┬ @swc/helpers@0.5.15
+│ │ └── tslib@2.8.1
+│ ├── UNMET OPTIONAL DEPENDENCY babel-plugin-react-compiler@*
+│ ├── caniuse-lite@1.0.30001803
+│ ├─┬ postcss@8.4.31
+│ │ ├── nanoid@3.3.15
+│ │ ├── picocolors@1.1.1
+│ │ └── source-map-js@1.2.1
+│ ├── react-dom@19.1.0 deduped
+│ ├── react@19.1.0 deduped
+│ ├── UNMET OPTIONAL DEPENDENCY sass@^1.3.0
+│ ├─┬ sharp@0.34.5
+│ │ ├── @img/colour@1.1.0
+│ │ ├─┬ @img/sharp-darwin-arm64@0.34.5
+│ │ │ └── @img/sharp-libvips-darwin-arm64@1.2.4 deduped
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-darwin-x64@0.34.5
+│ │ ├── @img/sharp-libvips-darwin-arm64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-darwin-x64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linux-arm@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linux-arm64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linux-ppc64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linux-riscv64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linux-s390x@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linux-x64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linuxmusl-arm64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-libvips-linuxmusl-x64@1.2.4
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linux-arm@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linux-arm64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linux-ppc64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linux-riscv64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linux-s390x@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linux-x64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linuxmusl-arm64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-linuxmusl-x64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-wasm32@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-win32-arm64@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-win32-ia32@0.34.5
+│ │ ├── UNMET OPTIONAL DEPENDENCY @img/sharp-win32-x64@0.34.5
+│ │ ├── detect-libc@2.1.2
+│ │ └── semver@7.8.5
+│ └─┬ styled-jsx@5.1.6
+│   ├── client-only@0.0.1
+│   └── react@19.1.0 deduped
+├─┬ qrcode@1.5.4
+│ ├── dijkstrajs@1.0.3
+│ ├── pngjs@5.0.0
+│ └─┬ yargs@15.4.1
+│   ├─┬ cliui@6.0.0
+│   │ ├── string-width@4.2.3 deduped
+│   │ ├─┬ strip-ansi@6.0.1
+│   │ │ └── ansi-regex@5.0.1
+│   │ └─┬ wrap-ansi@6.2.0
+│   │   ├─┬ ansi-styles@4.3.0
+│   │   │ └─┬ color-convert@2.0.1
+│   │   │   └── color-name@1.1.4
+│   │   ├── string-width@4.2.3 deduped
+│   │   └── strip-ansi@6.0.1 deduped
+│   ├── decamelize@1.2.0
+│   ├─┬ find-up@4.1.0
+│   │ ├─┬ locate-path@5.0.0
+│   │ │ └─┬ p-locate@4.1.0
+│   │ │   └─┬ p-limit@2.3.0
+│   │ │     └── p-try@2.2.0
+│   │ └── path-exists@4.0.0
+│   ├── get-caller-file@2.0.5
+│   ├── require-directory@2.1.1
+│   ├── require-main-filename@2.0.0
+│   ├── set-blocking@2.0.0
+│   ├─┬ string-width@4.2.3
+│   │ ├── emoji-regex@8.0.0
+│   │ ├── is-fullwidth-code-point@3.0.0
+│   │ └── strip-ansi@6.0.1 deduped
+│   ├── which-module@2.0.1
+│   ├── y18n@4.0.3
+│   └─┬ yargs-parser@18.1.3
+│     ├── camelcase@5.3.1
+│     └── decamelize@1.2.0 deduped
+├─┬ react-dom@19.1.0
+│ ├── react@19.1.0 deduped
+│ └── scheduler@0.26.0
+├─┬ react-markdown@10.1.0
+│ ├─┬ @types/hast@3.0.5
+│ │ └── @types/unist@3.0.3
+│ ├─┬ @types/mdast@4.0.4
+│ │ └── @types/unist@3.0.3 deduped
+│ ├─┬ @types/react@19.1.8
+│ │ └── csstype@3.2.3
+│ ├─┬ devlop@1.1.0
+│ │ └── dequal@2.0.3
+│ ├─┬ hast-util-to-jsx-runtime@2.3.6
+│ │ ├── @types/estree@1.0.9
+│ │ ├── @types/hast@3.0.5 deduped
+│ │ ├── @types/unist@3.0.3 deduped
+│ │ ├── comma-separated-tokens@2.0.3
+│ │ ├── devlop@1.1.0 deduped
+│ │ ├── estree-util-is-identifier-name@3.0.0
+│ │ ├─┬ hast-util-whitespace@3.0.0
+│ │ │ └── @types/hast@3.0.5 deduped
+│ │ ├─┬ mdast-util-mdx-expression@2.0.1
+│ │ │ ├─┬ @types/estree-jsx@1.0.5
+│ │ │ │ └── @types/estree@1.0.9 deduped
+│ │ │ ├── @types/hast@3.0.5 deduped
+│ │ │ ├── @types/mdast@4.0.4 deduped
+│ │ │ ├── devlop@1.1.0 deduped
+│ │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+│ │ │ └── mdast-util-to-markdown@2.1.2 deduped
+│ │ ├─┬ mdast-util-mdx-jsx@3.2.0
+│ │ │ ├── @types/estree-jsx@1.0.5 deduped
+│ │ │ ├── @types/hast@3.0.5 deduped
+│ │ │ ├── @types/mdast@4.0.4 deduped
+│ │ │ ├── @types/unist@3.0.3 deduped
+│ │ │ ├── ccount@2.0.1
+│ │ │ ├── devlop@1.1.0 deduped
+│ │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+│ │ │ ├── mdast-util-to-markdown@2.1.2 deduped
+│ │ │ ├─┬ parse-entities@4.0.2
+│ │ │ │ ├── @types/unist@2.0.11
+│ │ │ │ ├── character-entities-legacy@3.0.0
+│ │ │ │ ├── character-reference-invalid@2.0.1
+│ │ │ │ ├── decode-named-character-reference@1.3.0 deduped
+│ │ │ │ ├─┬ is-alphanumerical@2.0.1
+│ │ │ │ │ ├── is-alphabetical@2.0.1
+│ │ │ │ │ └── is-decimal@2.0.1 deduped
+│ │ │ │ ├── is-decimal@2.0.1
+│ │ │ │ └── is-hexadecimal@2.0.1
+│ │ │ ├─┬ stringify-entities@4.0.4
+│ │ │ │ ├── character-entities-html4@2.1.0
+│ │ │ │ └── character-entities-legacy@3.0.0 deduped
+│ │ │ ├─┬ unist-util-stringify-position@4.0.0
+│ │ │ │ └── @types/unist@3.0.3 deduped
+│ │ │ └── vfile-message@4.0.3 deduped
+│ │ ├─┬ mdast-util-mdxjs-esm@2.0.1
+│ │ │ ├── @types/estree-jsx@1.0.5 deduped
+│ │ │ ├── @types/hast@3.0.5 deduped
+│ │ │ ├── @types/mdast@4.0.4 deduped
+│ │ │ ├── devlop@1.1.0 deduped
+│ │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+│ │ │ └── mdast-util-to-markdown@2.1.2 deduped
+│ │ ├── property-information@7.2.0
+│ │ ├── space-separated-tokens@2.0.2
+│ │ ├─┬ style-to-js@1.1.21
+│ │ │ └─┬ style-to-object@1.0.14
+│ │ │   └── inline-style-parser@0.2.7
+│ │ ├─┬ unist-util-position@5.0.0
+│ │ │ └── @types/unist@3.0.3 deduped
+│ │ └─┬ vfile-message@4.0.3
+│ │   ├── @types/unist@3.0.3 deduped
+│ │   └── unist-util-stringify-position@4.0.0 deduped
+│ ├── html-url-attributes@3.0.1
+│ ├─┬ mdast-util-to-hast@13.2.1
+│ │ ├── @types/hast@3.0.5 deduped
+│ │ ├── @types/mdast@4.0.4 deduped
+│ │ ├── @ungap/structured-clone@1.3.3
+│ │ ├── devlop@1.1.0 deduped
+│ │ ├─┬ micromark-util-sanitize-uri@2.0.1
+│ │ │ ├─┬ micromark-util-character@2.1.1
+│ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+│ │ │ │ └── micromark-util-types@2.0.2 deduped
+│ │ │ ├── micromark-util-encode@2.0.1
+│ │ │ └── micromark-util-symbol@2.0.1
+│ │ ├── trim-lines@3.0.1
+│ │ ├── unist-util-position@5.0.0 deduped
+│ │ ├── unist-util-visit@5.1.0 deduped
+│ │ └── vfile@6.0.3 deduped
+│ ├── react@19.1.0 deduped
+│ ├─┬ remark-parse@11.0.0
+│ │ ├── @types/mdast@4.0.4 deduped
+│ │ ├─┬ mdast-util-from-markdown@2.0.3
+│ │ │ ├── @types/mdast@4.0.4 deduped
+│ │ │ ├── @types/unist@3.0.3 deduped
+│ │ │ ├─┬ decode-named-character-reference@1.3.0
+│ │ │ │ └── character-entities@2.0.2
+│ │ │ ├── devlop@1.1.0 deduped
+│ │ │ ├─┬ mdast-util-to-string@4.0.0
+│ │ │ │ └── @types/mdast@4.0.4 deduped
+│ │ │ ├─┬ micromark-util-decode-numeric-character-reference@2.0.2
+│ │ │ │ └── micromark-util-symbol@2.0.1 deduped
+│ │ │ ├─┬ micromark-util-decode-string@2.0.1
+│ │ │ │ ├── decode-named-character-reference@1.3.0 deduped
+│ │ │ │ ├── micromark-util-character@2.1.1 deduped
+│ │ │ │ ├── micromark-util-decode-numeric-character-reference@2.0.2 deduped
+│ │ │ │ └── micromark-util-symbol@2.0.1 deduped
+│ │ │ ├─┬ micromark-util-normalize-identifier@2.0.1
+│ │ │ │ └── micromark-util-symbol@2.0.1 deduped
+│ │ │ ├── micromark-util-symbol@2.0.1 deduped
+│ │ │ ├── micromark-util-types@2.0.2 deduped
+│ │ │ ├─┬ micromark@4.0.2
+│ │ │ │ ├─┬ @types/debug@4.1.13
+│ │ │ │ │ └── @types/ms@2.1.0
+│ │ │ │ ├─┬ debug@4.4.3
+│ │ │ │ │ └── ms@2.1.3
+│ │ │ │ ├── decode-named-character-reference@1.3.0 deduped
+│ │ │ │ ├── devlop@1.1.0 deduped
+│ │ │ │ ├── micromark-core-commonmark@2.0.3 deduped
+│ │ │ │ ├── micromark-factory-space@2.0.1 deduped
+│ │ │ │ ├── micromark-util-character@2.1.1 deduped
+│ │ │ │ ├── micromark-util-chunked@2.0.1 deduped
+│ │ │ │ ├── micromark-util-combine-extensions@2.0.1 deduped
+│ │ │ │ ├── micromark-util-decode-numeric-character-reference@2.0.2 deduped
+│ │ │ │ ├── micromark-util-encode@2.0.1 deduped
+│ │ │ │ ├── micromark-util-normalize-identifier@2.0.1 deduped
+│ │ │ │ ├── micromark-util-resolve-all@2.0.1 deduped
+│ │ │ │ ├── micromark-util-sanitize-uri@2.0.1 deduped
+│ │ │ │ ├─┬ micromark-util-subtokenize@2.1.0
+│ │ │ │ │ ├── devlop@1.1.0 deduped
+│ │ │ │ │ ├── micromark-util-chunked@2.0.1 deduped
+│ │ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+│ │ │ │ │ └── micromark-util-types@2.0.2 deduped
+│ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+│ │ │ │ └── micromark-util-types@2.0.2 deduped
+│ │ │ └── unist-util-stringify-position@4.0.0 deduped
+│ │ ├── micromark-util-types@2.0.2
+│ │ └── unified@11.0.5 deduped
+│ ├─┬ remark-rehype@11.1.2
+│ │ ├── @types/hast@3.0.5 deduped
+│ │ ├── @types/mdast@4.0.4 deduped
+│ │ ├── mdast-util-to-hast@13.2.1 deduped
+│ │ ├── unified@11.0.5 deduped
+│ │ └── vfile@6.0.3 deduped
+│ ├─┬ unified@11.0.5
+│ │ ├── @types/unist@3.0.3 deduped
+│ │ ├── bail@2.0.2
+│ │ ├── devlop@1.1.0 deduped
+│ │ ├── extend@3.0.2
+│ │ ├── is-plain-obj@4.1.0
+│ │ ├── trough@2.2.0
+│ │ └── vfile@6.0.3 deduped
+│ ├─┬ unist-util-visit@5.1.0
+│ │ ├── @types/unist@3.0.3 deduped
+│ │ ├─┬ unist-util-is@6.0.1
+│ │ │ └── @types/unist@3.0.3 deduped
+│ │ └─┬ unist-util-visit-parents@6.0.2
+│ │   ├── @types/unist@3.0.3 deduped
+│ │   └── unist-util-is@6.0.1 deduped
+│ └─┬ vfile@6.0.3
+│   ├── @types/unist@3.0.3 deduped
+│   └── vfile-message@4.0.3 deduped
+├── react@19.1.0
+└─┬ remark-gfm@4.0.1
+  ├── @types/mdast@4.0.4 deduped
+  ├─┬ mdast-util-gfm@3.1.0
+  │ ├── mdast-util-from-markdown@2.0.3 deduped
+  │ ├─┬ mdast-util-gfm-autolink-literal@2.0.1
+  │ │ ├── @types/mdast@4.0.4 deduped
+  │ │ ├── ccount@2.0.1 deduped
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├─┬ mdast-util-find-and-replace@3.0.2
+  │ │ │ ├── @types/mdast@4.0.4 deduped
+  │ │ │ ├── escape-string-regexp@5.0.0
+  │ │ │ ├── unist-util-is@6.0.1 deduped
+  │ │ │ └── unist-util-visit-parents@6.0.2 deduped
+  │ │ └── micromark-util-character@2.1.1 deduped
+  │ ├─┬ mdast-util-gfm-footnote@2.1.0
+  │ │ ├── @types/mdast@4.0.4 deduped
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+  │ │ ├── mdast-util-to-markdown@2.1.2 deduped
+  │ │ └── micromark-util-normalize-identifier@2.0.1 deduped
+  │ ├─┬ mdast-util-gfm-strikethrough@2.0.0
+  │ │ ├── @types/mdast@4.0.4 deduped
+  │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+  │ │ └── mdast-util-to-markdown@2.1.2 deduped
+  │ ├─┬ mdast-util-gfm-table@2.0.0
+  │ │ ├── @types/mdast@4.0.4 deduped
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├── markdown-table@3.0.4
+  │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+  │ │ └── mdast-util-to-markdown@2.1.2 deduped
+  │ ├─┬ mdast-util-gfm-task-list-item@2.0.0
+  │ │ ├── @types/mdast@4.0.4 deduped
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├── mdast-util-from-markdown@2.0.3 deduped
+  │ │ └── mdast-util-to-markdown@2.1.2 deduped
+  │ └─┬ mdast-util-to-markdown@2.1.2
+  │   ├── @types/mdast@4.0.4 deduped
+  │   ├── @types/unist@3.0.3 deduped
+  │   ├── longest-streak@3.1.0
+  │   ├─┬ mdast-util-phrasing@4.1.0
+  │   │ ├── @types/mdast@4.0.4 deduped
+  │   │ └── unist-util-is@6.0.1 deduped
+  │   ├── mdast-util-to-string@4.0.0 deduped
+  │   ├─┬ micromark-util-classify-character@2.0.1
+  │   │ ├── micromark-util-character@2.1.1 deduped
+  │   │ ├── micromark-util-symbol@2.0.1 deduped
+  │   │ └── micromark-util-types@2.0.2 deduped
+  │   ├── micromark-util-decode-string@2.0.1 deduped
+  │   ├── unist-util-visit@5.1.0 deduped
+  │   └── zwitch@2.0.4
+  ├─┬ micromark-extension-gfm@3.0.0
+  │ ├─┬ micromark-extension-gfm-autolink-literal@2.1.0
+  │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ ├── micromark-util-sanitize-uri@2.0.1 deduped
+  │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ ├─┬ micromark-extension-gfm-footnote@2.1.0
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├─┬ micromark-core-commonmark@2.0.3
+  │ │ │ ├── decode-named-character-reference@1.3.0 deduped
+  │ │ │ ├── devlop@1.1.0 deduped
+  │ │ │ ├─┬ micromark-factory-destination@2.0.1
+  │ │ │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ │ ├─┬ micromark-factory-label@2.0.1
+  │ │ │ │ ├── devlop@1.1.0 deduped
+  │ │ │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ │ ├── micromark-factory-space@2.0.1 deduped
+  │ │ │ ├─┬ micromark-factory-title@2.0.1
+  │ │ │ │ ├── micromark-factory-space@2.0.1 deduped
+  │ │ │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ │ ├─┬ micromark-factory-whitespace@2.0.1
+  │ │ │ │ ├── micromark-factory-space@2.0.1 deduped
+  │ │ │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ │ ├── micromark-util-chunked@2.0.1 deduped
+  │ │ │ ├── micromark-util-classify-character@2.0.1 deduped
+  │ │ │ ├── micromark-util-html-tag-name@2.0.1
+  │ │ │ ├── micromark-util-normalize-identifier@2.0.1 deduped
+  │ │ │ ├── micromark-util-resolve-all@2.0.1 deduped
+  │ │ │ ├── micromark-util-subtokenize@2.1.0 deduped
+  │ │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ ├─┬ micromark-factory-space@2.0.1
+  │ │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ ├── micromark-util-normalize-identifier@2.0.1 deduped
+  │ │ ├── micromark-util-sanitize-uri@2.0.1 deduped
+  │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ ├─┬ micromark-extension-gfm-strikethrough@2.1.0
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├─┬ micromark-util-chunked@2.0.1
+  │ │ │ └── micromark-util-symbol@2.0.1 deduped
+  │ │ ├── micromark-util-classify-character@2.0.1 deduped
+  │ │ ├─┬ micromark-util-resolve-all@2.0.1
+  │ │ │ └── micromark-util-types@2.0.2 deduped
+  │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ ├─┬ micromark-extension-gfm-table@2.1.1
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├── micromark-factory-space@2.0.1 deduped
+  │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ ├─┬ micromark-extension-gfm-tagfilter@2.0.0
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ ├─┬ micromark-extension-gfm-task-list-item@2.1.0
+  │ │ ├── devlop@1.1.0 deduped
+  │ │ ├── micromark-factory-space@2.0.1 deduped
+  │ │ ├── micromark-util-character@2.1.1 deduped
+  │ │ ├── micromark-util-symbol@2.0.1 deduped
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ ├─┬ micromark-util-combine-extensions@2.0.1
+  │ │ ├── micromark-util-chunked@2.0.1 deduped
+  │ │ └── micromark-util-types@2.0.2 deduped
+  │ └── micromark-util-types@2.0.2 deduped
+  ├── remark-parse@11.0.0 deduped
+  ├─┬ remark-stringify@11.0.0
+  │ ├── @types/mdast@4.0.4 deduped
+  │ ├── mdast-util-to-markdown@2.1.2 deduped
+  │ └── unified@11.0.5 deduped
+  └── unified@11.0.5 deduped

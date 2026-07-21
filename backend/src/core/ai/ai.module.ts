@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AiProviderRuntimeConfigurationService } from './configuration/ai-provider-runtime-configuration.service';
 import { DiscoveryModule } from '@nestjs/core';
 import { EventBusModule } from '../eventbus/eventbus.module';
 import { AiController } from './controllers/ai.controller';
@@ -21,6 +22,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiController,
   ],
   providers: [
+    AiProviderRuntimeConfigurationService,
     AiService,
     AiOrchestratorService,
     AiRoutingPolicyService,
@@ -32,6 +34,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiOrchestrationEvidenceService,
   ],
   exports: [
+    AiProviderRuntimeConfigurationService,
     AiService,
     AiOrchestratorService,
     AiRoutingPolicyService,

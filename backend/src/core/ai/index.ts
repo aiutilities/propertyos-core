@@ -37,3 +37,6 @@ export * from './errors/anthropic-messages-protocol.error';
 export * from './protocols/anthropic-messages/anthropic-messages-protocol.service';
 export * from './types/anthropic-messages-protocol.types';
 export * from './providers/claude/claude-ai.provider';
+export * from './types/ai-provider-activation.types';
+export * from './errors/ai-provider-activation.error';
+export * from './activation/ai-provider-activation-boundary.service';

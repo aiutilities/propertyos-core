@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AiProviderActivationBoundaryService } from './activation/ai-provider-activation-boundary.service';
 import { AiProviderRuntimeService } from './runtime/ai-provider-runtime.service';
 import { OpenAiCompatibleProtocolService } from './protocols/openai-compatible/openai-compatible-protocol.service';
 import { AnthropicMessagesProtocolService } from './protocols/anthropic-messages/anthropic-messages-protocol.service';
@@ -33,6 +34,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiController,
   ],
   providers: [
+    AiProviderActivationBoundaryService,
     OpenAiCompatibleProtocolService,
     AnthropicMessagesProtocolService,
     AiProviderRuntimeService,
@@ -66,6 +68,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiOrchestrationEvidenceService,
   ],
   exports: [
+    AiProviderActivationBoundaryService,
     OpenAiCompatibleProtocolService,
     AiProviderRuntimeService,
     FetchAiProviderHttpTransportService,

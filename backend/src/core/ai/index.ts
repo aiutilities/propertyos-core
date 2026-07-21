@@ -56,3 +56,6 @@ export * from './types/ai-context.types';
 export * from './errors/ai-context-budget.error';
 export * from './tokenization/ai-token-budget.service';
 export * from './context/ai-context-assembly.service';
+export * from './types/ai-request-preparation.types';
+export * from './errors/ai-request-preparation.error';
+export * from './request/ai-request-preparation.service';

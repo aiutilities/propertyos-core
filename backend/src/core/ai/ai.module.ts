@@ -30,6 +30,7 @@ import { AiService } from './services/ai.service';
 import { AiOrchestrationEvidenceService } from './services/ai-orchestration-evidence.service';
 import { AiOrchestratorService } from './services/ai-orchestrator.service';
 import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
+import { AiRequestPreparationService } from './request/ai-request-preparation.service';
 
 @Module({
   imports: [
@@ -78,7 +79,8 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     QwenAiProvider,
     ClaudeAiProvider,
     AiOrchestrationEvidenceService,
-  ],
+    AiRequestPreparationService,
+],
   exports: [
     AiContextAssemblyService,
     AiTokenBudgetService,
@@ -101,6 +103,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiProviderDiscoveryService,
     AiProviderRegistrationService,
     AiOrchestrationEvidenceService,
-  ],
+    AiRequestPreparationService,
+],
 })
 export class AiModule {}

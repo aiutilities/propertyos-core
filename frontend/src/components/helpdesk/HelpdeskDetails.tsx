@@ -15,6 +15,7 @@ import {
   assignHelpdeskTicket,
   cancelHelpdeskTicket,
   closeHelpdeskTicket,
+  draftHelpdeskAiReply,
   escalateHelpdeskTicket,
   getHelpdeskTicket,
   reopenHelpdeskTicket,
@@ -24,6 +25,7 @@ import {
 } from "@/hooks/useHelpdesk";
 
 import {
+  HelpdeskAiReplySuggestion,
   HelpdeskStatus,
   HelpdeskTicket,
   HelpdeskVisibility,
@@ -147,6 +149,43 @@ export default function HelpdeskDetails({
   const [
     feedbackComments,
     setFeedbackComments,
+  ] = useState("");
+
+  const [
+    aiTenantId,
+    setAiTenantId,
+  ] = useState("");
+
+  const [
+    aiInternalNotes,
+    setAiInternalNotes,
+  ] = useState("");
+
+  const [
+    aiGroundWithKnowledge,
+    setAiGroundWithKnowledge,
+  ] = useState(true);
+
+  const [
+    aiReplyBusy,
+    setAiReplyBusy,
+  ] = useState(false);
+
+  const [
+    aiReplyError,
+    setAiReplyError,
+  ] = useState("");
+
+  const [
+    aiReply,
+    setAiReply,
+  ] = useState<
+    HelpdeskAiReplySuggestion | null
+  >(null);
+
+  const [
+    copyStatus,
+    setCopyStatus,
   ] = useState("");
 
   const load =
@@ -421,6 +460,95 @@ export default function HelpdeskDetails({
     );
 
     setFeedbackComments("");
+  }
+
+  async function generateAiReply() {
+    if (!ticket) {
+      setAiReplyError(
+        "Helpdesk ticket is not available.",
+      );
+      return;
+    }
+
+    if (!aiTenantId.trim()) {
+      setAiReplyError(
+        "Tenant ID is required for AI policy evaluation.",
+      );
+      return;
+    }
+
+    setAiReplyBusy(true);
+    setAiReplyError("");
+    setAiReply(null);
+    setCopyStatus("");
+
+    try {
+      const result =
+        await draftHelpdeskAiReply({
+          tenantId:
+            aiTenantId.trim(),
+          ticketId:
+            ticket.id,
+          subject:
+            ticket.title,
+          customerMessage:
+            ticket.description,
+          internalNotes:
+            aiInternalNotes.trim() ||
+            undefined,
+          groundWithKnowledge:
+            aiGroundWithKnowledge,
+          knowledgeLimit: 5,
+        });
+
+      setAiReply(result);
+    } catch (caught) {
+      setAiReplyError(
+        caught instanceof Error
+          ? caught.message
+          : "Unable to generate an AI reply.",
+      );
+    } finally {
+      setAiReplyBusy(false);
+    }
+  }
+
+  async function copyAiReply() {
+    if (!aiReply) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(
+        aiReply.reply,
+      );
+
+      setCopyStatus(
+        "Reply copied to clipboard.",
+      );
+    } catch {
+      setCopyStatus(
+        "Unable to copy the reply.",
+      );
+    }
+  }
+
+  function useAiReplyAsComment() {
+    if (!aiReply) {
+      return;
+    }
+
+    setCommentBody(
+      aiReply.reply,
+    );
+
+    setCommentVisibility(
+      "PUBLIC",
+    );
+
+    setCopyStatus(
+      "Reply added to the comment editor. Review it before posting.",
+    );
   }
 
   if (loading) {
@@ -792,6 +920,223 @@ export default function HelpdeskDetails({
           ) : null}
         </article>
       </section>
+
+      {!residentMode ? (
+        <section className="panel stack-md">
+          <div>
+            <p className="eyebrow">
+              AI Assistant
+            </p>
+
+            <h2>
+              Draft customer reply
+            </h2>
+
+            <p>
+              Generate an advisory response using
+              the current ticket details. Review and
+              edit every suggestion before posting.
+            </p>
+          </div>
+
+          <div className="form-grid">
+            <label>
+              Tenant ID for AI policy
+              <input
+                value={aiTenantId}
+                onChange={(event) =>
+                  setAiTenantId(
+                    event.target.value,
+                  )
+                }
+                placeholder="Tenant UUID"
+              />
+            </label>
+
+            <label>
+              Internal context
+              <textarea
+                rows={4}
+                value={aiInternalNotes}
+                onChange={(event) =>
+                  setAiInternalNotes(
+                    event.target.value,
+                  )
+                }
+                placeholder="Add troubleshooting notes, actions taken, or response constraints"
+              />
+            </label>
+          </div>
+
+          <label className="plugin-checkbox">
+            <input
+              checked={
+                aiGroundWithKnowledge
+              }
+              onChange={(event) =>
+                setAiGroundWithKnowledge(
+                  event.target.checked,
+                )
+              }
+              type="checkbox"
+            />
+
+            <span>
+              Ground the reply with available
+              PropertyOS knowledge
+            </span>
+          </label>
+
+          <div className="form-actions">
+            <button
+              disabled={
+                aiReplyBusy ||
+                !aiTenantId.trim()
+              }
+              onClick={() => {
+                void generateAiReply();
+              }}
+              type="button"
+            >
+              {aiReplyBusy
+                ? "Drafting reply…"
+                : "Draft Reply with AI"}
+            </button>
+
+            {aiReply ? (
+              <>
+                <button
+                  className="secondary-button"
+                  onClick={() => {
+                    void copyAiReply();
+                  }}
+                  type="button"
+                >
+                  Copy Reply
+                </button>
+
+                <button
+                  className="secondary-button"
+                  onClick={
+                    useAiReplyAsComment
+                  }
+                  type="button"
+                >
+                  Use as Comment
+                </button>
+              </>
+            ) : null}
+          </div>
+
+          {aiReplyError ? (
+            <div className="error-state">
+              <p>{aiReplyError}</p>
+            </div>
+          ) : null}
+
+          {copyStatus ? (
+            <p>
+              <small>
+                {copyStatus}
+              </small>
+            </p>
+          ) : null}
+
+          {aiReply ? (
+            <article className="subtle-card">
+              <div className="stack-md">
+                <div>
+                  <strong>
+                    Suggested subject
+                  </strong>
+
+                  <p>
+                    {aiReply.subject}
+                  </p>
+                </div>
+
+                <div>
+                  <strong>
+                    Suggested reply
+                  </strong>
+
+                  <p
+                    style={{
+                      whiteSpace:
+                        "pre-wrap",
+                    }}
+                  >
+                    {aiReply.reply}
+                  </p>
+                </div>
+
+                <dl className="detail-list">
+                  <div>
+                    <dt>Tone</dt>
+                    <dd>
+                      {aiReply.tone}
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt>Confidence</dt>
+                    <dd>
+                      {Math.round(
+                        aiReply.confidence *
+                          100,
+                      )}
+                      %
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt>Grounded</dt>
+                    <dd>
+                      {aiReply.grounded
+                        ? "Yes"
+                        : "No"}
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd>
+                      {
+                        aiReply.evidenceCount
+                      }
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt>Provider</dt>
+                    <dd>
+                      {
+                        aiReply.providerName
+                      }
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt>Model</dt>
+                    <dd>
+                      {aiReply.model ??
+                        "Not specified"}
+                    </dd>
+                  </div>
+                </dl>
+
+                <small>
+                  Advisory only · Correlation
+                  ID:{" "}
+                  {
+                    aiReply.correlationId
+                  }
+                </small>
+              </div>
+            </article>
+          ) : null}
+        </section>
+      ) : null}
 
       {active ? (
         <section className="detail-grid">

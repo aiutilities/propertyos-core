@@ -1,11 +1,13 @@
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { MockAiProvider } from '../providers/mock-ai.provider';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
+import { AiProviderSelectionService } from '../routing/ai-provider-selection.service';
 import { AiOrchestrationRequest } from '../types/ai-orchestration.types';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
 
 describe('AiRoutingPolicyService', () => {
   let registry: AiProviderRegistry;
+  let selection: AiProviderSelectionService;
   let policy: AiRoutingPolicyService;
 
   const baseRequest: AiOrchestrationRequest = {
@@ -27,7 +29,11 @@ describe('AiRoutingPolicyService', () => {
   beforeEach(() => {
     registry = new AiProviderRegistry();
     registry.register(new MockAiProvider());
-    policy = new AiRoutingPolicyService(registry);
+    selection = new AiProviderSelectionService();
+    policy = new AiRoutingPolicyService(
+      registry,
+      selection,
+    );
   });
 
   it('selects a deterministic active provider supporting the capability', () => {
@@ -40,6 +46,56 @@ describe('AiRoutingPolicyService', () => {
       fallbackProviderNames: [],
       liveExecutionAuthorized: false,
     });
+  });
+
+  it('delegates automatic routing to the canonical provider selection service', () => {
+    const select = jest.spyOn(
+      selection,
+      'select',
+    );
+
+    expect(
+      policy.decide(baseRequest),
+    ).toMatchObject({
+      providerName: 'mock',
+      model: 'mock-model',
+    });
+
+    expect(select).toHaveBeenCalledTimes(1);
+
+    expect(select).toHaveBeenCalledWith({
+      requiredCapabilities: [],
+      candidates: [
+        {
+          providerName: 'mock',
+          model: 'mock-model',
+          enabled: true,
+          availability: 'AVAILABLE',
+          capabilities: [],
+          estimatedLatencyMs: 0,
+          estimatedCostPerMillionTokensUsd: 0,
+          priority: 0,
+        },
+      ],
+    });
+  });
+
+  it('does not invoke automatic selection for an explicitly requested provider', () => {
+    const select = jest.spyOn(
+      selection,
+      'select',
+    );
+
+    expect(
+      policy.decide({
+        ...baseRequest,
+        providerName: 'mock',
+      }),
+    ).toMatchObject({
+      providerName: 'mock',
+    });
+
+    expect(select).not.toHaveBeenCalled();
   });
 
   it('honours an explicitly requested eligible provider', () => {

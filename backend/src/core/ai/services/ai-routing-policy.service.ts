@@ -2,13 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { AiProviderPort } from '../contracts/ai-provider.contract';
 import { AiProviderRegistry } from '../registry/ai-provider.registry';
 import {
+  AiProviderSelectionCandidate,
+} from '../types/ai-provider-selection.types';
+import {
   AiOrchestrationRequest,
   AiRoutingDecision,
 } from '../types/ai-orchestration.types';
+import {
+  AiProviderSelectionService,
+} from '../routing/ai-provider-selection.service';
 
 @Injectable()
 export class AiRoutingPolicyService {
-  constructor(private readonly registry: AiProviderRegistry) {}
+  constructor(
+    private readonly registry: AiProviderRegistry,
+    private readonly providerSelection:
+      AiProviderSelectionService =
+        new AiProviderSelectionService(),
+  ) {}
 
   decide(request: AiOrchestrationRequest): AiRoutingDecision {
     this.validateRequest(request);
@@ -21,7 +32,7 @@ export class AiRoutingPolicyService {
 
     const provider = request.providerName
       ? this.getNamedProvider(request.providerName)
-      : this.getDeterministicProvider(request);
+      : this.getSelectedProvider(request);
 
     this.assertProviderEligible(provider, request);
 
@@ -84,10 +95,10 @@ export class AiRoutingPolicyService {
     return provider;
   }
 
-  private getDeterministicProvider(
+  private getSelectedProvider(
     request: AiOrchestrationRequest,
   ): AiProviderPort {
-    const provider = this.registry
+    const eligibleProviders = this.registry
       .list()
       .filter((candidate) => {
         const descriptor = candidate.getProvider();
@@ -96,12 +107,52 @@ export class AiRoutingPolicyService {
           descriptor.status === 'ACTIVE' &&
           candidate.capabilities.includes(request.capability)
         );
-      })
-      .sort((left, right) => left.name.localeCompare(right.name))[0];
+      });
+
+    if (eligibleProviders.length === 0) {
+      throw new Error(
+        `No active AI provider supports capability: ${request.capability}`,
+      );
+    }
+
+    /*
+     * Phase 16C2 establishes AiProviderSelectionService as the
+     * canonical automatic-selection boundary.
+     *
+     * Runtime latency and pricing observations are not yet part of
+     * the provider contract, so this adapter intentionally supplies
+     * neutral values instead of inventing operational measurements.
+     *
+     * With equal neutral scores, AiProviderSelectionService applies
+     * its deterministic provider-name/model tie-breaking contract,
+     * preserving the previous routing behaviour.
+     */
+    const candidates: AiProviderSelectionCandidate[] =
+      eligibleProviders.map((provider) => ({
+        providerName: provider.name,
+        model:
+          provider.getProvider().defaultModel ??
+          `${provider.name}-default`,
+        enabled: true,
+        availability: 'AVAILABLE',
+        capabilities: [],
+        estimatedLatencyMs: 0,
+        estimatedCostPerMillionTokensUsd: 0,
+        priority: 0,
+      }));
+
+    const selection = this.providerSelection.select({
+      requiredCapabilities: [],
+      candidates,
+    });
+
+    const provider = this.registry.get(
+      selection.selectedProviderName,
+    );
 
     if (!provider) {
       throw new Error(
-        `No active AI provider supports capability: ${request.capability}`,
+        `AI provider selection resolved an unregistered provider: ${selection.selectedProviderName}`,
       );
     }
 
@@ -132,7 +183,10 @@ export class AiRoutingPolicyService {
     const requestedFallbacks = request.fallbackProviderNames ?? [];
 
     return requestedFallbacks.filter((name, index, values) => {
-      if (name === selectedProviderName || values.indexOf(name) !== index) {
+      if (
+        name === selectedProviderName ||
+        values.indexOf(name) !== index
+      ) {
         return false;
       }
 

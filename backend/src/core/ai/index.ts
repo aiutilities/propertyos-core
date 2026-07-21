@@ -20,3 +20,7 @@ export * from './types/ai-provider-runtime-configuration.types';
 export * from './contracts/ai-provider-credential-resolver.contract';
 export * from './credentials/environment-ai-provider-credential-resolver.service';
 export * from './types/ai-provider-credential.types';
+export * from './contracts/ai-provider-http-transport.contract';
+export * from './errors/ai-provider-http-transport.error';
+export * from './transport/fetch-ai-provider-http-transport.service';
+export * from './types/ai-provider-http-transport.types';

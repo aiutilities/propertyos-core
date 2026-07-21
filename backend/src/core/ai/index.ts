@@ -68,3 +68,7 @@ export * from './dispatch/ai-dispatch-execution-coordinator.service';
 
 export * from './types/ai-execution-context.types';
 export * from './execution/ai-execution-context.service';
+
+export * from './sdk/ai-sdk.contracts';
+export * from './sdk/propertyos-ai-sdk.error';
+export * from './sdk/propertyos-ai-sdk.service';

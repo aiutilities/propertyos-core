@@ -36,3 +36,4 @@ export * from './providers/qwen/qwen-ai.provider';
 export * from './errors/anthropic-messages-protocol.error';
 export * from './protocols/anthropic-messages/anthropic-messages-protocol.service';
 export * from './types/anthropic-messages-protocol.types';
+export * from './providers/claude/claude-ai.provider';

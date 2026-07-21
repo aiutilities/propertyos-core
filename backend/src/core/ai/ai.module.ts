@@ -5,6 +5,7 @@ import { AnthropicMessagesProtocolService } from './protocols/anthropic-messages
 import { OpenAiProvider } from './providers/openai/openai-ai.provider';
 import { DeepSeekAiProvider } from './providers/deepseek/deepseek-ai.provider';
 import { QwenAiProvider } from './providers/qwen/qwen-ai.provider';
+import { ClaudeAiProvider } from './providers/claude/claude-ai.provider';
 import { FetchAiProviderHttpTransportService } from './transport/fetch-ai-provider-http-transport.service';
 import { AI_PROVIDER_HTTP_TRANSPORT } from './contracts/ai-provider-http-transport.contract';
 import { EnvironmentAiProviderCredentialResolverService } from './credentials/environment-ai-provider-credential-resolver.service';
@@ -61,6 +62,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     OpenAiProvider,
     DeepSeekAiProvider,
     QwenAiProvider,
+    ClaudeAiProvider,
     AiOrchestrationEvidenceService,
   ],
   exports: [

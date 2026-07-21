@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AiProviderRuntimeService } from './runtime/ai-provider-runtime.service';
 import { OpenAiCompatibleProtocolService } from './protocols/openai-compatible/openai-compatible-protocol.service';
+import { OpenAiProvider } from './providers/openai/openai-ai.provider';
 import { FetchAiProviderHttpTransportService } from './transport/fetch-ai-provider-http-transport.service';
 import { AI_PROVIDER_HTTP_TRANSPORT } from './contracts/ai-provider-http-transport.contract';
 import { EnvironmentAiProviderCredentialResolverService } from './credentials/environment-ai-provider-credential-resolver.service';
@@ -53,6 +54,7 @@ import { AiRoutingPolicyService } from './services/ai-routing-policy.service';
     AiProviderRegistrationService,
     AiProviderRegistrationBootstrapService,
     MockAiProvider,
+    OpenAiProvider,
     AiOrchestrationEvidenceService,
   ],
   exports: [

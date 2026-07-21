@@ -55,25 +55,21 @@ export class AiDispatchExecutionCoordinatorService {
       );
 
     const context =
-      input.context === undefined
-        ? undefined
-        : this.validateContext(
-            input.context,
-            envelope,
-          );
+      this.validateContext(
+        input.context,
+        envelope,
+      );
 
     const executionId =
       this.resolveExecutionId(
-        context?.executionId ??
-          input.executionId,
+        context.executionId,
         envelope,
       );
 
     const startedAt =
       this.resolveTimestamp(
-        context?.timestamps
-          .startedAt ??
-          input.startedAt,
+        context.timestamps
+          .startedAt,
         'startedAt',
       );
 
@@ -175,39 +171,34 @@ export class AiDispatchExecutionCoordinatorService {
         new Date()
           .toISOString();
 
-      const metadataSource =
-        context === undefined
-          ? input.metadata
-          : {
-              ...context.metadata,
-              correlationId:
-                context.correlationId,
-              tenantId:
-                context.tenantId,
-              requestId:
-                context.requestId,
-              executionId:
-                context.executionId,
-              attempt:
-                context.attempt,
-              capability:
-                context.capability,
-              dataClassification:
-                context.classification,
-              executionMode:
-                context.executionMode,
-              timeoutMs:
-                context.timeoutMs,
-            };
+      const metadataSource = {
+        ...context.metadata,
+        correlationId:
+          context.correlationId,
+        tenantId:
+          context.tenantId,
+        requestId:
+          context.requestId,
+        executionId:
+          context.executionId,
+        attempt:
+          context.attempt,
+        capability:
+          context.capability,
+        dataClassification:
+          context.classification,
+        executionMode:
+          context.executionMode,
+        timeoutMs:
+          context.timeoutMs,
+      };
 
       const metadata =
-        metadataSource === undefined
-          ? undefined
-          : this.deepFreeze(
-              this.deepClone(
-                metadataSource,
-              ),
-            );
+        this.deepFreeze(
+          this.deepClone(
+            metadataSource,
+          ),
+        );
 
       const evidence =
         this.createEvidence({

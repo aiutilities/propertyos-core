@@ -33,6 +33,18 @@ import {
   AiDispatchExecutionCoordinatorService,
 } from './ai-dispatch-execution-coordinator.service';
 
+type TestExecutionInput =
+  Omit<
+    Parameters<
+      AiDispatchExecutionCoordinatorService[
+        'execute'
+      ]
+    >[0],
+    'context'
+  > & {
+    context?: AiExecutionContext;
+  };
+
 describe(
   'AI dispatch execution coordinator',
   () => {
@@ -338,12 +350,38 @@ describe(
         } as unknown as
           AiProviderRegistry;
 
+        const rawService =
+          new AiDispatchExecutionCoordinatorService(
+            registry,
+          );
+
+        const service = {
+          execute:
+            (
+              input:
+                TestExecutionInput,
+            ) =>
+              input === undefined
+                ? rawService.execute(
+                    input as unknown as
+                      Parameters<
+                        AiDispatchExecutionCoordinatorService[
+                          'execute'
+                        ]
+                      >[0],
+                  )
+                : rawService.execute({
+                    ...input,
+                    context:
+                      input.context ??
+                      createExecutionContext(),
+                  }),
+        };
+
         return {
           registry,
-          service:
-            new AiDispatchExecutionCoordinatorService(
-              registry,
-            ),
+          rawService,
+          service,
         };
       };
 
@@ -405,36 +443,61 @@ describe(
 
         expect(
           result.metadata,
-        ).toEqual(
-          expect.objectContaining({
-            source:
-              'orchestrator',
-            tenantId:
-              'tenant-1',
-            requestId:
-              'airq_12345678',
-            correlationId:
-              'correlation-1',
-            executionId:
-              'execution-1',
-            attempt:
-              1,
-            capability:
-              'CHAT',
-            dataClassification:
-              'INTERNAL',
-            executionMode:
-              'LIVE',
-            timeoutMs:
-              30_000,
-          }),
-        );
+        ).toEqual({
+          source:
+            'orchestrator',
+          correlationId:
+            'correlation-1',
+          tenantId:
+            'tenant-1',
+          requestId:
+            'airq_12345678',
+          executionId:
+            'execution-1',
+          attempt:
+            1,
+          capability:
+            'CHAT',
+          dataClassification:
+            'INTERNAL',
+          executionMode:
+            'LIVE',
+          timeoutMs:
+            30000,
+        });
 
         expect(
           Object.isFrozen(
             result.metadata,
           ),
         ).toBe(true);
+      },
+    );
+
+    it(
+      'rejects a missing execution context',
+      async () => {
+        const {
+          rawService,
+        } =
+          createService();
+
+        await expect(
+          rawService.execute({
+            envelope:
+              createEnvelope(),
+            context:
+              undefined,
+          } as unknown as
+            Parameters<
+              AiDispatchExecutionCoordinatorService[
+                'execute'
+              ]
+            >[0]),
+        ).rejects.toMatchObject({
+          code:
+            'AI_DISPATCH_EXECUTION_INVALID_CONTEXT',
+        });
       },
     );
 
@@ -516,8 +579,8 @@ describe(
           await service.execute({
             envelope:
               createEnvelope(),
-            startedAt:
-              '2026-07-21T00:00:00.000Z',
+            context:
+              createExecutionContext(),
           });
 
         expect(
@@ -751,8 +814,11 @@ describe(
           await service.execute({
             envelope:
               createEnvelope(),
-            executionId:
-              'execution-1',
+            context:
+              createExecutionContext({
+                executionId:
+                  'execution-1',
+              }),
           });
 
         expect(
@@ -775,8 +841,11 @@ describe(
           await service.execute({
             envelope:
               createEnvelope(),
-            executionId:
-              ' execution-1 ',
+            context:
+              createExecutionContext({
+                executionId:
+                  ' execution-1 ',
+              }),
           });
 
         expect(
@@ -799,8 +868,16 @@ describe(
           await service.execute({
             envelope:
               createEnvelope(),
-            startedAt:
-              '2026-07-21T05:30:00+05:30',
+            context:
+              createExecutionContext({
+                timestamps:
+                  Object.freeze({
+                    createdAt:
+                      '2026-07-21T00:00:00.000Z',
+                    startedAt:
+                      '2026-07-21T05:30:00+05:30',
+                  }),
+              }),
           });
 
         expect(
@@ -909,7 +986,10 @@ describe(
           await service.execute({
             envelope:
               createEnvelope(),
-            metadata,
+            context:
+              createExecutionContext({
+                metadata,
+              }),
           });
 
         metadata.source =
@@ -917,10 +997,12 @@ describe(
 
         expect(
           result.metadata,
-        ).toEqual({
-          source:
-            'test',
-        });
+        ).toEqual(
+          expect.objectContaining({
+            source:
+              'test',
+          }),
+        );
       },
     );
 
@@ -988,7 +1070,7 @@ describe(
     );
 
     it(
-      'rejects an empty supplied execution id',
+      'rejects a context with an empty execution id',
       async () => {
         const {
           service,
@@ -999,18 +1081,21 @@ describe(
           service.execute({
             envelope:
               createEnvelope(),
-            executionId:
-              ' ',
+            context:
+              createExecutionContext({
+                executionId:
+                  ' ',
+              }),
           }),
         ).rejects.toMatchObject({
           code:
-            'AI_DISPATCH_EXECUTION_INVALID_ID',
+            'AI_DISPATCH_EXECUTION_INVALID_CONTEXT',
         });
       },
     );
 
     it(
-      'rejects an invalid timestamp',
+      'rejects a context with an invalid timestamp',
       async () => {
         const {
           service,
@@ -1021,12 +1106,20 @@ describe(
           service.execute({
             envelope:
               createEnvelope(),
-            startedAt:
-              'not-a-date',
+            context:
+              createExecutionContext({
+                timestamps:
+                  Object.freeze({
+                    createdAt:
+                      '2026-07-21T00:00:00.000Z',
+                    startedAt:
+                      'not-a-date',
+                  }),
+              }),
           }),
         ).rejects.toMatchObject({
           code:
-            'AI_DISPATCH_EXECUTION_INVALID_TIMESTAMP',
+            'AI_DISPATCH_EXECUTION_INVALID_CONTEXT',
         });
       },
     );

@@ -1,0 +1,137 @@
+{
+  "phase": "17",
+  "title": "Security and release audit baseline",
+  "created_at_utc": "2026-07-21T19:07:59.352408+00:00",
+  "branch": "feature/v3-documentation",
+  "parent_commit": "281fdbbe0d00432689e2d9e71dfb5bce24d308c0",
+  "dependency_remediation_tag": "v3.0.0-phase17b1-2-dependency-remediation",
+  "scope": {
+    "documentation_inventory": true,
+    "environment_inventory": true,
+    "package_inventory": true,
+    "release_baseline": true,
+    "security_inventory": true,
+    "todo_inventory": true
+  },
+  "credential_value_scan": "PASS",
+  "semantic_source_changes": false,
+  "file_count": 23,
+  "files": [
+    {
+      "file": "phase17-audit/documentation-files.txt",
+      "size_bytes": 2706,
+      "sha256": "bcb8da16f28397fffe285e5c6784dcb7e16098fb72baeeca15d3fcb31954d0a9"
+    },
+    {
+      "file": "phase17-audit/env-files.txt",
+      "size_bytes": 38,
+      "sha256": "64d0f8d36ad592d4c08052709f29ca33ff7999b352ee903da9da90a7b7e7aef3"
+    },
+    {
+      "file": "phase17-audit/package-files.txt",
+      "size_bytes": 1218,
+      "sha256": "9b8711971dfd4b4d81351af0d3af00f41a9b923cb599dc617c518a82930db419"
+    },
+    {
+      "file": "phase17-audit/release-baseline.txt",
+      "size_bytes": 121,
+      "sha256": "282bd52420caeff13abb60271a81486b9615ff3dc23fef9304b7e5a93d7dfd5f"
+    },
+    {
+      "file": "phase17-audit/security/ai-security-inventory.txt",
+      "size_bytes": 462784,
+      "sha256": "b70086bf5bd5f9478bdae0e7ab41b41c2ec6648599f28d01570d4d11f94215f6"
+    },
+    {
+      "file": "phase17-audit/security/auth-security-inventory.txt",
+      "size_bytes": 372661,
+      "sha256": "ef462481eb73df08ae189aed0c073f2efcd02e24674a29e869d8c3c4793e6835"
+    },
+    {
+      "file": "phase17-audit/security/backend-production-audit.json",
+      "size_bytes": 2962,
+      "sha256": "8b33efbdfee17e1f72201b166bc4715956aa97d72a797d49fc60901421cba2f8"
+    },
+    {
+      "file": "phase17-audit/security/controllers-without-local-guards.txt",
+      "size_bytes": 921,
+      "sha256": "de3bd3fb7e458cf473afff0c6fc19b519324ed2fbcd1435793036b64f6886ca3"
+    },
+    {
+      "file": "phase17-audit/security/credential-pattern-findings.txt",
+      "size_bytes": 112,
+      "sha256": "d9bec60341a04d5143709c7dc9fd330f9e2f557afe28a647261d164912347a97"
+    },
+    {
+      "file": "phase17-audit/security/dangerous-primitives.txt",
+      "size_bytes": 361,
+      "sha256": "eeb5273b901ba2670c747bdc40eb167dcdf8f0eba72fe3060e9436ab04e0ad4e"
+    },
+    {
+      "file": "phase17-audit/security/docker-security-inventory.txt",
+      "size_bytes": 5952,
+      "sha256": "61a9372d45dc2d444fb0c31637fb580e58744bce7b4ff25a0156a1ed29a86214"
+    },
+    {
+      "file": "phase17-audit/security/dynamic-sql-locations.txt",
+      "size_bytes": 463,
+      "sha256": "50f6a63e1019ced84fca728b6ca04b8f33e20283272597fc85d76963685f878a"
+    },
+    {
+      "file": "phase17-audit/security/environment-usage.txt",
+      "size_bytes": 4141,
+      "sha256": "98c78b5fdd63874f8e6c300634e1f0f78dc6bea9c8fd9a5efcf880bac6b87546"
+    },
+    {
+      "file": "phase17-audit/security/file-security-inventory.txt",
+      "size_bytes": 46220,
+      "sha256": "2177fb8dce56e011d8a2779f6cb60a089c09d7912e8adc6641b539da77cf2b6d"
+    },
+    {
+      "file": "phase17-audit/security/frontend-production-audit.json",
+      "size_bytes": 14558,
+      "sha256": "74b7d2d13e93bef9d7e0d0605334b7aad88f68c93e2c1296198e1ddc988a610e"
+    },
+    {
+      "file": "phase17-audit/security/http-security-inventory.txt",
+      "size_bytes": 3003,
+      "sha256": "6f6168ba71ef0b87dada526a13eb59dbe31e2210b76a7c0419d15d0df51e4322"
+    },
+    {
+      "file": "phase17-audit/security/plugin-security-inventory.txt",
+      "size_bytes": 302996,
+      "sha256": "4b4aca76b4bfd17f5f2d4e68a05de7033a694b5ff9b4e022214d362b73f54280"
+    },
+    {
+      "file": "phase17-audit/security/security-test-inventory.txt",
+      "size_bytes": 5428,
+      "sha256": "b39b2a6c747f8c573e3923369784172e7d7344d82ae5773df4d746e99f05512d"
+    },
+    {
+      "file": "phase17-audit/security/stale-phase16-references.txt",
+      "size_bytes": 333,
+      "sha256": "49487a043f91e69fda82d831a8ecdfcd1951b7ed0ed28a279d870e50e985cc97"
+    },
+    {
+      "file": "phase17-audit/security/summary.json",
+      "size_bytes": 283,
+      "sha256": "1696ec07a42f0a2a05f3f904583e8b1b939563bc72b5b0b345c264f7e659155b"
+    },
+    {
+      "file": "phase17-audit/security/suspicious-literal-locations.txt",
+      "size_bytes": 2349,
+      "sha256": "fc96aee58747b2af8dfed5b209ce09fc13d31abd1b389f580f0414d888cb5646"
+    },
+    {
+      "file": "phase17-audit/security/tracked-sensitive-files.txt",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "file": "phase17-audit/todo-report.txt",
+      "size_bytes": 558,
+      "sha256": "4c6149058c714eb46f209e76a4e38c8187090494509193a44c47fb7a56a37395"
+    }
+  ],
+  "commit_created": false
+}

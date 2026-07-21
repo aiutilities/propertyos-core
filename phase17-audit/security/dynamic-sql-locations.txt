@@ -1,0 +1,4 @@
+backend/src/core/document/repositories/postgres-document.repository.ts:149:            SELECT MAX(version_number) + 1
+backend/src/core/notification/services/notification-dispatcher.service.ts:54:        `WHATSAPP_PROVIDER_SELECTION_BLOCKED: ` +
+backend/src/database/runner/controlled-migration-runner.integration-spec.ts:72:        `SELECT ${index + 1} ` +
+backend/src/database/runner/migration-database-preflight.ts:226:      'SELECT COUNT(*)::text AS count ' +

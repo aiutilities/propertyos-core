@@ -1,0 +1,403 @@
+backend/src/core/access-control/services/access-control.service.ts:215:    if (accessPoint.status === AccessPointStatus.ARCHIVED) {
+backend/src/core/access-control/services/access-control.service.ts:217:        "Cannot create a grant for an archived access point",
+backend/src/core/access-control/services/access-control.service.ts:745:        AccessPointStatus.ARCHIVED,
+backend/src/core/access-control/services/access-control.service.ts:751:        AccessPointStatus.ARCHIVED,
+backend/src/core/access-control/services/access-control.service.ts:757:        AccessPointStatus.ARCHIVED,
+backend/src/core/access-control/services/access-control.service.ts:763:        AccessPointStatus.ARCHIVED,
+backend/src/core/access-control/services/access-control.service.ts:765:      ARCHIVED: [],
+backend/src/core/access-control/services/access-control.service.ts:781:      ARCHIVED: ACCESS_CONTROL_EVENTS.ACCESS_POINT_UPDATED,
+backend/src/core/access-control/types/access-control.types.ts:21:  ARCHIVED = "ARCHIVED",
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:313:      'archives an active session',
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:324:        const archived =
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:325:          service.archiveSession({
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:335:          archived.status,
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:337:          'ARCHIVED',
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:341:          archived.version,
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:347:          archived.archivedAt,
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:367:          service.archiveSession({
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:377:          service.archiveSession({
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:406:        const archived =
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:407:          service.archiveSession({
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:424:                archived.version,
+backend/src/core/ai/conversations/ai-conversation-session.service.integration-spec.ts:435:              'AI_CONVERSATION_SESSION_ARCHIVED',
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:11:  AiConversationArchiveRequest,
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:173:      'ARCHIVED'
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:176:        'AI_CONVERSATION_SESSION_ARCHIVED',
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:177:        'Archived conversation sessions cannot accept new messages',
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:236:  archiveSession(
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:238:      AiConversationArchiveRequest,
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:253:      'ARCHIVED'
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:264:    const archived:
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:268:          'ARCHIVED',
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:274:        archivedAt:
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:280:      archived,
+backend/src/core/ai/conversations/ai-conversation-session.service.ts:284:      archived,
+backend/src/core/ai/dto/orchestrate-ai-request.dto.ts:71:    'EXTRACTION',
+backend/src/core/ai/errors/ai-conversation-session.error.ts:4:  | 'AI_CONVERSATION_SESSION_ARCHIVED'
+backend/src/core/ai/manifest/ai-provider-manifest.validator.ts:19:  'EXTRACTION',
+backend/src/core/ai/providers/claude/claude-ai.provider.ts:41:      'EXTRACTION',
+backend/src/core/ai/providers/deepseek/deepseek-ai.provider.integration-spec.ts:154:          'EXTRACTION',
+backend/src/core/ai/providers/deepseek/deepseek-ai.provider.ts:41:      'EXTRACTION',
+backend/src/core/ai/providers/mock-ai.provider.ts:24:    'EXTRACTION',
+backend/src/core/ai/providers/openai/openai-ai.provider.integration-spec.ts:154:          'EXTRACTION',
+backend/src/core/ai/providers/openai/openai-ai.provider.ts:41:      'EXTRACTION',
+backend/src/core/ai/providers/qwen/qwen-ai.provider.integration-spec.ts:154:          'EXTRACTION',
+backend/src/core/ai/providers/qwen/qwen-ai.provider.ts:41:      'EXTRACTION',
+backend/src/core/ai/sdk/propertyos-ai-sdk.service.integration-spec.ts:295:              'EXTRACTION',
+backend/src/core/ai/sdk/propertyos-ai-sdk.service.integration-spec.ts:301:                  'Extract lease terms.',
+backend/src/core/ai/types/ai-conversation-session.types.ts:9:  | 'ARCHIVED';
+backend/src/core/ai/types/ai-conversation-session.types.ts:30:  archivedAt?: string;
+backend/src/core/ai/types/ai-conversation-session.types.ts:58:export interface AiConversationArchiveRequest {
+backend/src/core/ai/types/ai.types.ts:8:  | 'EXTRACTION'
+backend/src/core/communications/bootstrap/communications-bootstrap.service.ts:55:            COMMUNICATIONS_PERMISSIONS.ARCHIVE,
+backend/src/core/communications/bootstrap/communications-bootstrap.service.ts:57:            'Archive and cancel communications',
+backend/src/core/communications/bootstrap/communications-bootstrap.service.ts:223:            'communications.inapp.archived',
+backend/src/core/communications/bootstrap/communications-bootstrap.service.ts:225:            COMMUNICATIONS_EVENTS.ARCHIVED,
+backend/src/core/communications/bootstrap/communications-bootstrap.service.ts:229:            'Communication archived: {{communicationNumber}}',
+backend/src/core/communications/bootstrap/communications-bootstrap.service.ts:231:            '{{title}} has been archived.',
+backend/src/core/communications/communications.constants.ts:9:  ARCHIVE: 'communications.archive',
+backend/src/core/communications/communications.constants.ts:27:  ARCHIVED:
+backend/src/core/communications/communications.constants.ts:28:    'communications.communication.archived',
+backend/src/core/communications/controllers/communications.controller.ts:217:    COMMUNICATIONS_PERMISSIONS.ARCHIVE,
+backend/src/core/communications/controllers/communications.controller.ts:219:  @Post(':id/archive')
+backend/src/core/communications/controllers/communications.controller.ts:220:  async archive(
+backend/src/core/communications/controllers/communications.controller.ts:227:      await this.service.archive(
+backend/src/core/communications/controllers/communications.controller.ts:235:    COMMUNICATIONS_PERMISSIONS.ARCHIVE,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:60:          archived_at,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:65:          archived_by_person_id,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:94:          communication.archivedAt ?? null,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:99:          communication.archivedByPersonId ?? null,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:417:          archived_at = $14,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:421:          archived_by_person_id = $18,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:441:          merged.archivedAt ?? null,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:447:          merged.archivedByPersonId ??
+backend/src/core/communications/repositories/postgres-communications.repository.ts:846:            WHERE status = 'ARCHIVED'
+backend/src/core/communications/repositories/postgres-communications.repository.ts:847:          ) AS archived,
+backend/src/core/communications/repositories/postgres-communications.repository.ts:884:      archived:
+backend/src/core/communications/repositories/postgres-communications.repository.ts:885:        Number(row.archived ?? 0),
+backend/src/core/communications/repositories/postgres-communications.repository.ts:936:      archivedAt:
+backend/src/core/communications/repositories/postgres-communications.repository.ts:937:        row.archived_at ??
+backend/src/core/communications/repositories/postgres-communications.repository.ts:950:      archivedByPersonId:
+backend/src/core/communications/repositories/postgres-communications.repository.ts:951:        row.archived_by_person_id ??
+backend/src/core/communications/services/communications.service.ts:519:  async archive(
+backend/src/core/communications/services/communications.service.ts:533:        `Communication cannot be archived from ${current.status}`,
+backend/src/core/communications/services/communications.service.ts:539:      CommunicationStatus.ARCHIVED,
+backend/src/core/communications/services/communications.service.ts:540:      COMMUNICATIONS_EVENTS.ARCHIVED,
+backend/src/core/communications/services/communications.service.ts:544:        archivedAt:
+backend/src/core/communications/services/communications.service.ts:546:        archivedByPersonId:
+backend/src/core/communications/services/communications.service.ts:600:        CommunicationStatus.ARCHIVED,
+backend/src/core/communications/services/communications.service.ts:657:        CommunicationStatus.ARCHIVED,
+backend/src/core/communications/types/communications.types.ts:21:  ARCHIVED = 'ARCHIVED',
+backend/src/core/communications/types/communications.types.ts:80:  archivedAt?: Date;
+backend/src/core/communications/types/communications.types.ts:85:  archivedByPersonId?: string;
+backend/src/core/communications/types/communications.types.ts:172:  archived: number;
+backend/src/core/distribution/controllers/distribution.controller.ts:43:  @Patch(':id/archive')
+backend/src/core/distribution/controllers/distribution.controller.ts:44:  archive(@Param('id') id: string) {
+backend/src/core/distribution/controllers/distribution.controller.ts:45:    return this.distributionService.archive(id);
+backend/src/core/distribution/services/distribution.service.ts:95:  async archive(id: string): Promise<Distribution | undefined> {
+backend/src/core/distribution/services/distribution.service.ts:96:    const distribution = this.repository.updateStatus(id, 'ARCHIVED');
+backend/src/core/distribution/services/distribution.service.ts:99:      await this.eventBus.publish('distribution.archived', this.eventSource, {
+backend/src/core/distribution/types/distribution.types.ts:6:  | 'ARCHIVED';
+backend/src/core/document/types/document.types.ts:7:  | 'ARCHIVED';
+backend/src/core/forms/types/forms.types.ts:11:export type FormStatus = 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
+backend/src/core/helpdesk/services/helpdesk-ai-reply.service.ts:257:        this.extractJson(content),
+backend/src/core/helpdesk/services/helpdesk-ai-reply.service.ts:318:  private extractJson(
+backend/src/core/helpdesk/services/helpdesk-ai-triage.service.ts:155:        this.extractJson(content),
+backend/src/core/helpdesk/services/helpdesk-ai-triage.service.ts:229:  private extractJson(
+backend/src/core/integration/types/integration.types.ts:6:  | 'ARCHIVED';
+backend/src/core/plugin/installer/archive/plugin-package-extractor.service.ts:3:import { PluginZipExtractorService } from '../extractor/plugin-zip-extractor.service';
+backend/src/core/plugin/installer/archive/plugin-package-extractor.service.ts:6:export class PluginPackageExtractorService {
+backend/src/core/plugin/installer/archive/plugin-package-extractor.service.ts:8:    private readonly zipExtractor: PluginZipExtractorService,
+backend/src/core/plugin/installer/archive/plugin-package-extractor.service.ts:11:  async extract(packagePath: string): Promise<string> {
+backend/src/core/plugin/installer/archive/plugin-package-extractor.service.ts:13:      return this.zipExtractor.extract(packagePath);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:21:  PLUGIN_ARCHIVE_POLICY,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:22:  PluginZipExtractorService,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:23:} from './plugin-zip-extractor.service';
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:25:describe('PluginZipExtractorService archive admission security', () => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:28:  let extractor: PluginZipExtractorService;
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:33:      join(tmpdir(), 'propertyos-plugin-archive-'),
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:36:    extractor = new PluginZipExtractorService();
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:47:  function createArchive(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:49:    configure: (archive: AdmZip) => void,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:51:    const archivePath = join(workspace, name);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:52:    const archive = new AdmZip();
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:54:    configure(archive);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:55:    archive.writeZip(archivePath);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:57:    return archivePath;
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:60:  function replaceArchiveEntryName(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:61:    archivePath: string,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:74:    const archiveBytes = readFileSync(archivePath);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:78:    while (offset < archiveBytes.length) {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:79:      const index = archiveBytes.indexOf(safeBytes, offset);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:85:      unsafeBytes.copy(archiveBytes, index);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:96:    writeFileSync(archivePath, archiveBytes);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:113:  it('extracts a valid archive into a unique installation directory', () => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:114:    const archivePath = createArchive('valid.zip', (archive) => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:115:      archive.addFile(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:124:      archive.addFile(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:130:    const firstOutput = extractor.extract(archivePath);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:131:    const secondOutput = extractor.extract(archivePath);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:163:    'rejects %s entries and cleans partial extraction',
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:165:      const archivePath = createArchive(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:167:        (archive) => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:168:          archive.addFile(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:175:      replaceArchiveEntryName(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:176:        archivePath,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:181:      expect(() => extractor.extract(archivePath)).toThrow(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:188:  it('rejects symbolic links and cleans partial extraction', () => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:189:    const archivePath = createArchive('symlink.zip', (archive) => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:190:      archive.addFile(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:194:      archive.addFile(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:199:      const linkEntry = archive.getEntry('plugin/link');
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:205:      const symlinkMode = (0o120777 << 16) >>> 0;
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:207:      linkEntry.attr = symlinkMode;
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:208:      linkEntry.header.attr = symlinkMode;
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:211:    expect(() => extractor.extract(archivePath)).toThrow(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:212:      'Plugin archive contains a symbolic link',
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:217:  it('rejects excessive compression ratios before extraction', () => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:218:    const archivePath = createArchive('compression-bomb.zip', (archive) => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:219:      archive.addFile(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:222:          PLUGIN_ARCHIVE_POLICY.maximumCompressionRatio * 4096,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:228:    expect(() => extractor.extract(archivePath)).toThrow(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:229:      'Plugin archive entry exceeds maximum compression ratio',
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:234:  it('rejects empty archives and cleans the installation directory', () => {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:235:    const archivePath = createArchive('empty.zip', () => undefined);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:237:    expect(() => extractor.extract(archivePath)).toThrow(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:238:      'Plugin archive is empty',
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:244:    const directoryPath = join(workspace, 'not-an-archive');
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.integration-spec.ts:247:    expect(() => extractor.extract(directoryPath)).toThrow(
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:21:export const PLUGIN_ARCHIVE_POLICY = Object.freeze({
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:22:  maximumArchiveBytes: 100 * 1024 * 1024,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:30:export class PluginZipExtractorService {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:31:  extract(zipFile: string): string {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:32:    this.assertArchiveFile(zipFile);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:70:            `Plugin archive entry size mismatch: ${entry.entryName}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:91:  private assertArchiveFile(zipFile: string): void {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:96:    const archive = statSync(zipFile);
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:98:    if (!archive.isFile()) {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:102:    if (archive.size > PLUGIN_ARCHIVE_POLICY.maximumArchiveBytes) {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:104:        `Plugin archive exceeds maximum size of ${PLUGIN_ARCHIVE_POLICY.maximumArchiveBytes} bytes`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:111:      throw new Error('Plugin archive is empty');
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:114:    if (entries.length > PLUGIN_ARCHIVE_POLICY.maximumEntries) {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:116:        `Plugin archive exceeds maximum entry count of ${PLUGIN_ARCHIVE_POLICY.maximumEntries}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:129:          `Plugin archive contains duplicate entry: ${relativePath}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:143:      if (expandedSize > PLUGIN_ARCHIVE_POLICY.maximumEntryBytes) {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:145:          `Plugin archive entry exceeds maximum size: ${entry.entryName}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:151:      if (expandedBytes > PLUGIN_ARCHIVE_POLICY.maximumExpandedBytes) {
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:153:          `Plugin archive exceeds maximum expanded size of ${PLUGIN_ARCHIVE_POLICY.maximumExpandedBytes} bytes`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:162:            PLUGIN_ARCHIVE_POLICY.maximumCompressionRatio
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:166:          `Plugin archive entry exceeds maximum compression ratio: ${entry.entryName}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:176:      throw new Error('Plugin archive contains an invalid raw entry name');
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:180:      throw new Error('Plugin archive entry name contains a null byte');
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:188:      throw new Error('Plugin archive contains an invalid entry name');
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:200:        `Plugin archive contains an absolute path: ${entryName}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:210:        `Plugin archive contains an unsafe path: ${entryName}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:226:        `Plugin archive entry escapes installation directory: ${relativePath}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:239:        `Plugin archive contains a symbolic link: ${entry.entryName}`,
+backend/src/core/plugin/installer/extractor/plugin-zip-extractor.service.ts:249:        `Plugin archive contains an unsupported entry type: ${entry.entryName}`,
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:67:      const extractor =
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:68:        overrides.extractor ?? {
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:69:          extract:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:74:                  'extracted-plugin',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:237:          extractor as never,
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:253:        extractor,
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:445:                mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:506:      'cleans extracted files after validation failure',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:558:            'extracted-plugin',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:701:            'extracted-plugin',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:744:            'extracted-plugin',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:865:            'extracted-plugin',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:875:            'extracted-plugin',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:910:                mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:978:                mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1032:          mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1052:          mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1068:        'MIME type',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1072:          mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1085:        'PLUGIN_UPLOAD_MIME_TYPE_INVALID',
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1092:          mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1162:                mimeType:
+backend/src/core/plugin/installer/services/plugin-installer-coordination.integration-spec.ts:1258:                mimeType:
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:9:import { PluginPackageExtractorService } from '../archive/plugin-package-extractor.service';
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:39:    private readonly extractor: PluginPackageExtractorService,
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:143:    let extractedPath: string | undefined;
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:150:      extractedPath = await this.extractor.extract(materializedPackage.path);
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:153:          extractedPath,
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:296:          'Plugin extracted',
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:342:          extractedPath,
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:369:        extractedPath &&
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:373:          extractedPath,
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:506:      mimeType?: string;
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:514:    const acceptedMimeTypes =
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:557:      !storageObject.mimeType ||
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:558:      !acceptedMimeTypes.has(
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:559:        storageObject.mimeType
+backend/src/core/plugin/installer/services/plugin-installer.service.ts:564:        'PLUGIN_UPLOAD_MIME_TYPE_INVALID',
+backend/src/core/plugin/installer/types/plugin-installer.types.ts:5:  | 'EXTRACT'
+backend/src/core/plugin/package/archive/plugin-package-archive.service.ts:12:export class PluginPackageArchiveService {
+backend/src/core/plugin/package/services/plugin-package.service.ts:9:import { PluginPackageArchiveService } from '../archive/plugin-package-archive.service';
+backend/src/core/plugin/package/services/plugin-package.service.ts:15:  private readonly archive = new PluginPackageArchiveService();
+backend/src/core/plugin/package/services/plugin-package.service.ts:19:    const files = dto.sourcePath ? this.archive.listFiles(dto.sourcePath) : [];
+backend/src/core/plugin/package/services/plugin-package.service.ts:22:      ? this.archive.validateChecksums(dto.sourcePath, files)
+backend/src/core/plugin/package/services/plugin-package.service.ts:66:      ? this.archive.validateChecksums(pluginPackage.sourcePath, pluginPackage.files)
+backend/src/core/plugin/plugin.module.ts:4:import { PluginZipExtractorService } from './installer/extractor/plugin-zip-extractor.service';
+backend/src/core/plugin/plugin.module.ts:10:import { PluginPackageExtractorService } from './installer/archive/plugin-package-extractor.service';
+backend/src/core/plugin/plugin.module.ts:83:    PluginPackageExtractorService,
+backend/src/core/plugin/plugin.module.ts:84:    PluginZipExtractorService,
+backend/src/core/plugin/publication/plugin-pilot-offline-signature-evidence.ts:4:  realpath,
+backend/src/core/plugin/publication/plugin-pilot-offline-signature-evidence.ts:130:      await realpath(
+backend/src/core/plugin/publication/plugin-pilot-offline-signature-evidence.ts:136:      await realpath(requested);
+backend/src/core/plugin/publication/plugin-pilot-rollout-cli.ts:350:        mimeType:
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:42:    let extractedPath: string;
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:62:      extractedPath =
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:65:          'extracted',
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:69:          extractedPath,
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:102:          'signed-plugin-archive',
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:194:            extractedPath,
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:204:      'rejects stored content checksum drift before extraction',
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:206:        const extractor = {
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:207:          extract:
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:213:          extractor,
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:232:          extractor.extract,
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:274:            extractedPath,
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:337:        mimeType:
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:365:      const extractor =
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:366:        overrides.extractor ?? {
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:367:          extract:
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:370:                _archivePath:
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:373:                extractedPath,
+backend/src/core/plugin/publication/plugin-publication-admission.integration-spec.ts:421:            extractor as never,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:25:  PluginZipExtractorService,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:26:} from '../installer/extractor/plugin-zip-extractor.service';
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:51:const MAXIMUM_ARCHIVE_BYTES =
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:61:    private readonly extractor:
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:62:      PluginZipExtractorService,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:119:    const archivePath =
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:124:    let extractedPath:
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:134:      archivePath,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:143:      extractedPath =
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:144:        this.extractor.extract(
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:145:          archivePath,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:150:          extractedPath,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:220:      if (extractedPath) {
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:222:          extractedPath,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:231:        archivePath,
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:242:      mimeType?: string;
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:250:    const acceptedMimeTypes =
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:286:      !storageObject.mimeType ||
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:287:      !acceptedMimeTypes.has(
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:288:        storageObject.mimeType
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:293:        'PLUGIN_PUBLICATION_UPLOAD_MIME_TYPE_INVALID',
+backend/src/core/plugin/publication/plugin-publication-admission.service.ts:300:        MAXIMUM_ARCHIVE_BYTES
+backend/src/core/plugin/publication/transition-plugin-publication.dto.ts:6:  targetStatus!: Extract<
+backend/src/core/plugin/runtime/plugin-runtime-containment-isolated-adapter.ts:7:  realpathSync,
+backend/src/core/plugin/runtime/plugin-runtime-containment-isolated-adapter.ts:267:      realpathSync(sourceRoot) ===
+backend/src/core/plugin/runtime/plugin-runtime-containment-isolated-adapter.ts:268:        realpathSync(isolatedRoot)
+backend/src/core/plugin/runtime/plugin-runtime-module-loader.integration-spec.ts:12:  symlinkSync,
+backend/src/core/plugin/runtime/plugin-runtime-module-loader.integration-spec.ts:220:      'rejects a symlink that resolves outside the root',
+backend/src/core/plugin/runtime/plugin-runtime-module-loader.integration-spec.ts:238:        symlinkSync(
+backend/src/core/plugin/runtime/plugin-runtime-module-loader.service.ts:8:  realpathSync,
+backend/src/core/plugin/runtime/plugin-runtime-module-loader.service.ts:179:    const root = realpathSync(
+backend/src/core/plugin/runtime/plugin-runtime-module-loader.service.ts:240:      realpathSync(candidate);
+backend/src/core/plugin/runtime/plugin-runtime-package-linker.service.ts:7:  realpathSync,
+backend/src/core/plugin/runtime/plugin-runtime-package-linker.service.ts:8:  symlinkSync,
+backend/src/core/plugin/runtime/plugin-runtime-package-linker.service.ts:49:      realpathSync(
+backend/src/core/plugin/runtime/plugin-runtime-package-linker.service.ts:92:        realpathSync(
+backend/src/core/plugin/runtime/plugin-runtime-package-linker.service.ts:140:          realpathSync(
+backend/src/core/plugin/runtime/plugin-runtime-package-linker.service.ts:154:        symlinkSync(
+backend/src/core/procurement/purchase-order/CONTRACT.md:27:## Extracted Runtime Contract
+backend/src/core/staff/bootstrap/staff-bootstrap.service.ts:20:        description: "Update, activate, deactivate, suspend, and archive staff",
+backend/src/core/staff/services/staff.service.ts:410:      PENDING: [StaffStatus.ACTIVE, StaffStatus.ARCHIVED],
+backend/src/core/staff/services/staff.service.ts:414:        StaffStatus.ARCHIVED,
+backend/src/core/staff/services/staff.service.ts:416:      INACTIVE: [StaffStatus.ACTIVE, StaffStatus.ARCHIVED],
+backend/src/core/staff/services/staff.service.ts:417:      SUSPENDED: [StaffStatus.ACTIVE, StaffStatus.ARCHIVED],
+backend/src/core/staff/services/staff.service.ts:418:      ARCHIVED: [],
+backend/src/core/staff/services/staff.service.ts:434:      ARCHIVED: STAFF_EVENTS.ARCHIVED,
+backend/src/core/staff/staff.constants.ts:16:  ARCHIVED: "staff.archived",
+backend/src/core/staff/types/staff.types.ts:19:  ARCHIVED = "ARCHIVED",
+backend/src/core/storage/dto/store-object.dto.ts:5:  mimeType?: string;
+backend/src/core/storage/providers/postgres-storage-object.repository.ts:17:        id, provider, bucket, object_key, original_name, mime_type,
+backend/src/core/storage/providers/postgres-storage-object.repository.ts:29:        object.mimeType ?? null,
+backend/src/core/storage/providers/postgres-storage-object.repository.ts:71:      mimeType: row.mime_type ?? undefined,
+backend/src/core/storage/services/storage.service.ts:35:      mimeType: input.mimeType,
+backend/src/core/storage/types/storage.types.ts:14:  mimeType?: string;
+backend/src/core/storage/types/storage.types.ts:28:  mimeType?: string;
+backend/src/core/theme/package/archive/theme-package-archive.service.ts:4:export class ThemePackageArchiveService {
+backend/src/core/theme/package/controllers/theme-package.controller.ts:32:  @Patch(':id/archive')
+backend/src/core/theme/package/controllers/theme-package.controller.ts:33:  archive(@Param('id') id: string) {
+backend/src/core/theme/package/controllers/theme-package.controller.ts:34:    return this.themePackageService.archive(id);
+backend/src/core/theme/package/services/theme-package.service.ts:5:import { ThemePackageArchiveService } from '../archive/theme-package-archive.service';
+backend/src/core/theme/package/services/theme-package.service.ts:17:    private readonly archiveService: ThemePackageArchiveService,
+backend/src/core/theme/package/services/theme-package.service.ts:29:      sourcePath: this.archiveService.normalizeSourcePath(dto.sourcePath),
+backend/src/core/theme/package/services/theme-package.service.ts:80:  async archive(id: string): Promise<ThemePackage | undefined> {
+backend/src/core/theme/package/services/theme-package.service.ts:81:    const updated = this.repository.updateStatus(id, 'ARCHIVED');
+backend/src/core/theme/package/services/theme-package.service.ts:84:      await this.eventBus.publish('theme.package.archived', this.eventSource, {
+backend/src/core/theme/package/types/theme-package.types.ts:8:  | 'ARCHIVED';
+backend/src/core/theme/theme.module.ts:4:import { ThemePackageArchiveService } from './package/archive/theme-package-archive.service';
+backend/src/core/theme/theme.module.ts:15:  providers: [ThemeService, ThemeRegistry, ThemePackageService, ThemePackageRepository, ThemePackageValidator, ThemePackageArchiveService],
+backend/src/core/upload/dto/upload-object.dto.ts:5:  mimeType?: string;
+backend/src/core/upload/services/upload.service.ts:27:      dto.mimeType &&
+backend/src/core/upload/services/upload.service.ts:28:      policy.allowedMimeTypes.length > 0 &&
+backend/src/core/upload/services/upload.service.ts:29:      !policy.allowedMimeTypes.includes(dto.mimeType)
+backend/src/core/upload/services/upload.service.ts:31:      throw new BadRequestException(`MIME type not allowed: ${dto.mimeType}`);
+backend/src/core/upload/services/upload.service.ts:38:      mimeType: dto.mimeType,
+backend/src/core/upload/services/upload.service.ts:51:      mimeType: object.mimeType,
+backend/src/core/upload/services/upload.service.ts:74:      allowedMimeTypes: [],
+backend/src/core/upload/types/upload.types.ts:3:  allowedMimeTypes: string[];
+backend/src/core/upload/types/upload.types.ts:10:  mimeType?: string;
+backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts:31:            'Verify, reject, suspend, archive, and update vehicles',
+backend/src/core/vehicle/services/vehicle.service.ts:404:        VehicleStatus.ARCHIVED,
+backend/src/core/vehicle/services/vehicle.service.ts:408:        VehicleStatus.ARCHIVED,
+backend/src/core/vehicle/services/vehicle.service.ts:412:        VehicleStatus.ARCHIVED,
+backend/src/core/vehicle/services/vehicle.service.ts:416:        VehicleStatus.ARCHIVED,
+backend/src/core/vehicle/services/vehicle.service.ts:418:      ARCHIVED: [],
+backend/src/core/vehicle/services/vehicle.service.ts:439:      ARCHIVED: VEHICLE_EVENTS.ARCHIVED,
+backend/src/core/vehicle/types/vehicle.types.ts:14:  ARCHIVED = 'ARCHIVED',
+backend/src/core/vehicle/vehicle.constants.ts:16:  ARCHIVED: 'vehicle.archived',
+backend/src/core/vendor/controllers/vendor.controller.ts:837:  @Post(':id/archive')
+backend/src/core/vendor/controllers/vendor.controller.ts:838:  async archive(
+backend/src/core/vendor/controllers/vendor.controller.ts:846:      await this.service.archive(
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:75:          archived_at,
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:113:          vendor.archivedAt ?? null,
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:514:          archived_at = $24,
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:543:          merged.archivedAt ?? null,
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:1958:            WHERE status = 'ARCHIVED'
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:1959:          ) AS archived,
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:2017:      archived:
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:2018:        Number(row.archived ?? 0),
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:2372:      archivedAt:
+backend/src/core/vendor/repositories/postgres-vendor.repository.ts:2373:        row.archived_at ??
+backend/src/core/vendor/services/vendor.service.ts:625:  async archive(
+backend/src/core/vendor/services/vendor.service.ts:634:      VendorStatus.ARCHIVED
+backend/src/core/vendor/services/vendor.service.ts:637:        'Vendor is already archived',
+backend/src/core/vendor/services/vendor.service.ts:643:      VendorStatus.ARCHIVED,
+backend/src/core/vendor/services/vendor.service.ts:644:      VENDOR_EVENTS.ARCHIVED,
+backend/src/core/vendor/services/vendor.service.ts:648:        archivedAt:
+backend/src/core/vendor/services/vendor.service.ts:666:      VendorStatus.ARCHIVED
+backend/src/core/vendor/services/vendor.service.ts:669:        'Cannot rate an archived vendor',
+backend/src/core/vendor/services/vendor.service.ts:1306:      VendorStatus.ARCHIVED
+backend/src/core/vendor/services/vendor.service.ts:1309:        'Cannot add compliance to an archived vendor',
+backend/src/core/vendor/services/vendor.service.ts:1571:      VendorStatus.ARCHIVED
+backend/src/core/vendor/services/vendor.service.ts:1574:        'Cannot create a contract for an archived vendor',
+backend/src/core/vendor/types/vendor.types.ts:6:  ARCHIVED = 'ARCHIVED',
+backend/src/core/vendor/types/vendor.types.ts:125:  archivedAt?: Date;
+backend/src/core/vendor/types/vendor.types.ts:308:  archived: number;
+backend/src/core/vendor/vendor.constants.ts:29:  ARCHIVED:
+backend/src/core/vendor/vendor.constants.ts:30:    'vendor.archived',
+backend/src/core/workflow/repositories/postgres-workflow.repository.ts:281:          EXTRACT(EPOCH FROM (wi.updated_at - wi.created_at))::float AS completion_seconds
+backend/src/database/migrations/core/013-create-core-document-tables.sql:45:    mime_type VARCHAR(100),
+backend/src/database/migrations/core/015-create-core-storage-tables.sql:7:    mime_type VARCHAR(255),
+backend/src/database/migrations/core/025-create-core-vehicle-tables.sql:63:        'ARCHIVED'
+backend/src/database/migrations/core/026-create-core-staff-tables.sql:67:        'ARCHIVED'
+backend/src/database/migrations/core/027-create-core-access-control-tables.sql:73:        'ARCHIVED'
+backend/src/database/migrations/core/030-create-core-communications-tables.sql:53:  archived_at TIMESTAMPTZ,
+backend/src/database/migrations/core/030-create-core-communications-tables.sql:68:  archived_by_person_id UUID
+backend/src/database/migrations/core/030-create-core-communications-tables.sql:110:        'ARCHIVED',
+backend/src/database/migrations/core/030-create-core-communications-tables.sql:369:        'ARCHIVED',
+backend/src/database/migrations/core/030-create-core-communications-tables.sql:381:        'ARCHIVED',
+backend/src/database/migrations/core/031-create-core-vendor-tables.sql:57:  archived_at TIMESTAMPTZ,
+backend/src/database/migrations/core/031-create-core-vendor-tables.sql:80:        'ARCHIVED'
+backend/src/database/runner/phase-15c1-backup-restore-evidence.integration-spec.ts:33:      archiveReadable: boolean;
+backend/src/database/runner/phase-15c1-backup-restore-evidence.integration-spec.ts:39:      archiveReadable: boolean;
+backend/src/database/runner/phase-15c1-backup-restore-evidence.integration-spec.ts:131:            .archiveReadable,
+backend/src/database/runner/phase-15c1-backup-restore-evidence.integration-spec.ts:136:            .archiveReadable,

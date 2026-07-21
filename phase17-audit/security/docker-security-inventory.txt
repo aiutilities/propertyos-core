@@ -1,0 +1,152 @@
+
+--- backend/Dockerfile
+     1	FROM node:22-alpine AS deps
+     2	WORKDIR /app
+     3	COPY package*.json ./
+     4	COPY core-contracts ./core-contracts
+     5	RUN npm ci
+     6
+     7	FROM node:22-alpine AS build
+     8	WORKDIR /app
+     9	COPY --from=deps /app/node_modules ./node_modules
+    10	COPY --from=deps /app/core-contracts ./core-contracts
+    11	COPY package*.json ./
+    12	COPY tsconfig.json ./
+    13	COPY src ./src
+    14	RUN npm run build
+    15	RUN npm prune --omit=dev
+    16
+    17	FROM node:22-alpine AS runtime
+    18	WORKDIR /app
+    19
+    20	ENV NODE_ENV=production
+    21
+    22	RUN apk add --no-cache dumb-init
+    23
+    24	COPY --from=build --chown=node:node /app/package*.json ./
+    25	COPY --from=build --chown=node:node /app/node_modules ./node_modules
+    26	COPY --from=build --chown=node:node /app/core-contracts ./core-contracts
+    27	COPY --from=build --chown=node:node /app/dist ./dist
+    28	COPY --chown=node:node src/database/migrations ./src/database/migrations
+    29
+    30	RUN mkdir -p /app/uploads /app/plugins/.installed \
+    31	  && chown -R node:node /app
+    32
+    33	USER node
+    34
+    35	EXPOSE 3000
+    36
+    37	HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
+    38	  CMD node -e "fetch('http://127.0.0.1:3000/api/v1/health/ready').then(async r=>{const b=await r.json();process.exit(r.ok&&b.status==='ok'?0:1)}).catch(()=>process.exit(1))"
+    39
+    40	ENTRYPOINT ["dumb-init", "--"]
+    41	CMD ["node", "dist/main.js"]
+
+--- backend/docker-compose.yml
+     1	services:
+     2	  postgres:
+     3	    image: postgres:16
+     4	    container_name: propertyos-postgres
+     5	    restart: unless-stopped
+     6	    environment:
+     7	      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+     8	      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+     9	      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+    10	    ports:
+    11	      - "${POSTGRES_PORT:-5433}:5432"
+    12	    volumes:
+    13	      - propertyos_postgres_data:/var/lib/postgresql/data
+    14	    healthcheck:
+    15	      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-propertyos} -d ${POSTGRES_DB:-propertyos}"]
+    16	      interval: 10s
+    17	      timeout: 5s
+    18	      retries: 5
+    19
+    20	  migrate:
+    21	    build:
+    22	      context: .
+    23	      dockerfile: Dockerfile
+    24	    container_name: propertyos-migrate
+    25	    command: ["node", "dist/database/runner/migration-runner.js"]
+    26	    restart: "no"
+    27	    depends_on:
+    28	      postgres:
+    29	        condition: service_healthy
+    30	    environment:
+    31	      NODE_ENV: production
+    32	      POSTGRES_HOST: postgres
+    33	      POSTGRES_PORT: 5432
+    34	      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+    35	      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+    36	      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+    37	      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+    38
+    39	  api:
+    40	    build:
+    41	      context: .
+    42	      dockerfile: Dockerfile
+    43	    container_name: propertyos-api
+    44	    restart: unless-stopped
+    45	    init: true
+    46	    depends_on:
+    47	      migrate:
+    48	        condition: service_completed_successfully
+    49	    environment:
+    50	      NODE_ENV: production
+    51	      PORT: 3000
+    52	      POSTGRES_HOST: postgres
+    53	      POSTGRES_PORT: 5432
+    54	      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+    55	      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+    56	      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+    57	      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+    58	      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000,http://localhost:3001}
+    59	      RATE_LIMIT_TTL_MS: ${RATE_LIMIT_TTL_MS:-60000}
+    60	      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+    61	      STORAGE_LOCAL_ROOT: ${STORAGE_LOCAL_ROOT:-/app/uploads}
+    62	    ports:
+    63	      - "${API_PORT:-3001}:3000"
+    64	    volumes:
+    65	      - propertyos_upload_data:/app/uploads
+    66	      - propertyos_plugin_data:/app/plugins/.installed
+    67	    healthcheck:
+    68	      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/v1/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+    69	      interval: 30s
+    70	      timeout: 5s
+    71	      retries: 5
+    72	      start_period: 30s
+    73
+    74
+    75	  scheduler:
+    76	    build:
+    77	      context: .
+    78	      dockerfile: Dockerfile
+    79	    container_name: propertyos-scheduler
+    80	    command: ["node", "dist/scheduler-worker.js"]
+    81	    restart: unless-stopped
+    82	    init: true
+    83	    depends_on:
+    84	      migrate:
+    85	        condition: service_completed_successfully
+    86	    environment:
+    87	      NODE_ENV: production
+    88	      POSTGRES_HOST: postgres
+    89	      POSTGRES_PORT: 5432
+    90	      POSTGRES_DB: ${POSTGRES_DB:-propertyos}
+    91	      POSTGRES_USER: ${POSTGRES_USER:-propertyos}
+    92	      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-propertyos}
+    93	      AUTH_SECRET: ${AUTH_SECRET:-replace-with-a-secure-production-secret-of-at-least-32-chars}
+    94	      STORAGE_LOCAL_ROOT: ${STORAGE_LOCAL_ROOT:-/app/uploads}
+    95	      SCHEDULER_POLL_INTERVAL_MS: ${SCHEDULER_POLL_INTERVAL_MS:-30000}
+    96	      SCHEDULER_BATCH_SIZE: ${SCHEDULER_BATCH_SIZE:-20}
+    97	      SCHEDULER_STALE_AFTER_MS: ${SCHEDULER_STALE_AFTER_MS:-300000}
+    98	      SCHEDULER_RETRY_BASE_DELAY_MS: ${SCHEDULER_RETRY_BASE_DELAY_MS:-30000}
+    99	      SCHEDULER_MAX_RETRY_DELAY_MS: ${SCHEDULER_MAX_RETRY_DELAY_MS:-300000}
+   100	    volumes:
+   101	      - propertyos_upload_data:/app/uploads
+   102	      - propertyos_plugin_data:/app/plugins/.installed
+   103
+   104	volumes:
+   105	  propertyos_postgres_data:
+   106	  propertyos_upload_data:
+   107	  propertyos_plugin_data:

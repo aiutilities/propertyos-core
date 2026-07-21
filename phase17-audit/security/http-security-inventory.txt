@@ -1,0 +1,32 @@
+backend/src/app.module.ts:3:import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+backend/src/app.module.ts:47:    ThrottlerModule.forRoot([
+backend/src/app.module.ts:49:        ttl: Number(process.env.RATE_LIMIT_TTL_MS ?? 60000),
+backend/src/app.module.ts:50:        limit: Number(process.env.RATE_LIMIT_MAX ?? 100),
+backend/src/app.module.ts:108:      useClass: ThrottlerGuard,
+backend/src/config/env.validation.ts:42:    process.env.RATE_LIMIT_TTL_MS &&
+backend/src/config/env.validation.ts:43:    Number.isNaN(Number(process.env.RATE_LIMIT_TTL_MS))
+backend/src/config/env.validation.ts:45:    errors.push('RATE_LIMIT_TTL_MS must be a number');
+backend/src/config/env.validation.ts:49:    process.env.RATE_LIMIT_MAX &&
+backend/src/config/env.validation.ts:50:    Number.isNaN(Number(process.env.RATE_LIMIT_MAX))
+backend/src/config/env.validation.ts:52:    errors.push('RATE_LIMIT_MAX must be a number');
+backend/src/core/ai/resilience/ai-provider-failover.service.integration-spec.ts:179:      'retries rate-limit failures',
+backend/src/core/ai/resilience/ai-provider-failover.service.integration-spec.ts:195:                    'AI_PROVIDER_RATE_LIMITED',
+backend/src/core/ai/resilience/ai-provider-failover.service.ts:18:    'AI_PROVIDER_RATE_LIMITED',
+backend/src/core/ai/resilience/ai-provider-failover.service.ts:336:      'AI_PROVIDER_RATE_LIMITED',
+backend/src/core/ai/services/ai-orchestrator.service.ts:119:            'AI_PROVIDER_RATE_LIMITED',
+backend/src/core/ai/services/ai-orchestrator.service.ts:461:      case 'AI_PROVIDER_RATE_LIMITED':
+backend/src/core/ai/simulation/ai-provider-simulation.service.integration-spec.ts:98:        'RATE_LIMIT',
+backend/src/core/ai/simulation/ai-provider-simulation.service.integration-spec.ts:99:        'AI_PROVIDER_SIMULATED_RATE_LIMIT',
+backend/src/core/ai/simulation/ai-provider-simulation.service.integration-spec.ts:140:              'RATE_LIMIT',
+backend/src/core/ai/simulation/ai-provider-simulation.service.integration-spec.ts:165:                'RATE_LIMIT',
+backend/src/core/ai/simulation/ai-provider-simulation.service.integration-spec.ts:169:                'AI_PROVIDER_SIMULATED_RATE_LIMIT',
+backend/src/core/ai/simulation/ai-provider-simulation.service.ts:221:      case 'RATE_LIMIT':
+backend/src/core/ai/simulation/ai-provider-simulation.service.ts:222:        return 'AI_PROVIDER_SIMULATED_RATE_LIMIT';
+backend/src/core/ai/transport/fetch-ai-provider-http-transport.service.integration-spec.ts:355:                  'rate limited',
+backend/src/core/ai/types/ai-provider-failover.types.ts:3:  | 'AI_PROVIDER_RATE_LIMITED'
+backend/src/core/ai/types/ai-provider-simulation.types.ts:4:  | 'RATE_LIMIT'
+backend/src/core/ai/types/ai-provider-simulation.types.ts:10:  | 'AI_PROVIDER_SIMULATED_RATE_LIMIT'
+backend/src/main.ts:3:import helmet from 'helmet';
+backend/src/main.ts:16:  app.use(helmet());
+backend/src/main.ts:17:  app.enableCors({
+backend/src/main.ts:18:    origin: process.env.CORS_ORIGIN?.split(',') ?? true,

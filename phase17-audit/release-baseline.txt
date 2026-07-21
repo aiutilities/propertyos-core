@@ -1,0 +1,6 @@
+===== VERSION =====
+v2.10.32-phase-16b1.5t-canonical-pipeline-integration-18-g87ae71e
+
+===== NODE =====
+v24.17.0
+11.13.0

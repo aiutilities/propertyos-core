@@ -1,0 +1,9 @@
+{
+  "credential_pattern_findings": 1,
+  "suspicious_literal_locations": 28,
+  "controllers_without_local_guards": 15,
+  "dangerous_execution_locations": 4,
+  "dynamic_sql_locations": 4,
+  "critical_high_dependency_vulnerabilities": 4,
+  "stale_phase16_documentation_references": 3
+}

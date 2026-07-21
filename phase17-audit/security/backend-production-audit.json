@@ -1,0 +1,118 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@nestjs/platform-express": {
+      "name": "@nestjs/platform-express",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "multer"
+      ],
+      "effects": [],
+      "range": "<=11.1.27 || >=12.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@nestjs/platform-express"
+      ],
+      "fixAvailable": true
+    },
+    "adm-zip": {
+      "name": "adm-zip",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1123686,
+          "name": "adm-zip",
+          "dependency": "adm-zip",
+          "title": "adm-zip: Crafted ZIP file triggers 4GB memory allocation",
+          "url": "https://github.com/advisories/GHSA-xcpc-8h2w-3j85",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-789"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<0.6.0"
+        }
+      ],
+      "effects": [],
+      "range": "<0.6.0",
+      "nodes": [
+        "node_modules/adm-zip"
+      ],
+      "fixAvailable": {
+        "name": "adm-zip",
+        "version": "0.6.0",
+        "isSemVerMajor": true
+      }
+    },
+    "multer": {
+      "name": "multer",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1121089,
+          "name": "multer",
+          "dependency": "multer",
+          "title": "Multer vulnerable to Denial of Service via deeply nested field names",
+          "url": "https://github.com/advisories/GHSA-72gw-mp4g-v24j",
+          "severity": "high",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": ">=1.0.0 <2.2.0"
+        },
+        {
+          "source": 1121091,
+          "name": "multer",
+          "dependency": "multer",
+          "title": "Multer vulnerable to Denial of Service via incomplete cleanup of aborted uploads",
+          "url": "https://github.com/advisories/GHSA-3p4h-7m6x-2hcm",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-459"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=2.0.0-alpha.1 <2.2.0"
+        }
+      ],
+      "effects": [
+        "@nestjs/platform-express"
+      ],
+      "range": "1.0.0 - 2.1.1",
+      "nodes": [
+        "node_modules/multer"
+      ],
+      "fixAvailable": true
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 3,
+      "critical": 0,
+      "total": 3
+    },
+    "dependencies": {
+      "prod": 159,
+      "dev": 380,
+      "optional": 31,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 539
+    }
+  }
+}

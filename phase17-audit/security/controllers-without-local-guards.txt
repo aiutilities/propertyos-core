@@ -1,0 +1,15 @@
+backend/src/core/admin/controllers/admin.controller.ts
+backend/src/core/auth/auth.controller.ts
+backend/src/core/bootstrap/controllers/bootstrap.controller.ts
+backend/src/core/configuration/controllers/configuration.controller.ts
+backend/src/core/distribution/controllers/distribution.controller.ts
+backend/src/core/document/controllers/document.controller.ts
+backend/src/core/forms/controllers/forms.controller.ts
+backend/src/core/health/health.controller.ts
+backend/src/core/integration/controllers/integration.controller.ts
+backend/src/core/plugin/controllers/plugin.controller.ts
+backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts
+backend/src/core/plugin/package/controllers/plugin-package.controller.ts
+backend/src/core/theme/controllers/theme.controller.ts
+backend/src/core/theme/package/controllers/theme-package.controller.ts
+backend/src/core/upload/controllers/upload.controller.ts

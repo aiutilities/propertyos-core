@@ -1,0 +1,4 @@
+backend/src/core/notification/providers/whatsapp-webhook-isolated-evidence.integration-spec.ts:8:} from 'node:child_process';
+backend/src/core/plugin/publication/plugin-pilot-rollout-cli.ts:11:} from 'child_process';
+tools/knowledge_engine/dependency_closure.py:890:            "child_process",
+tools/knowledge_engine/import_analyzer.py:72:    "child_process",

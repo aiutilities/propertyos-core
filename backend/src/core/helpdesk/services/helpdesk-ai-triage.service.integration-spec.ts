@@ -20,6 +20,9 @@ import {
   HelpdeskChannel,
 } from '../types/helpdesk.types';
 import {
+  HelpdeskAiPolicyService,
+} from './helpdesk-ai-policy.service';
+import {
   HelpdeskAiTriageService,
 } from './helpdesk-ai-triage.service';
 
@@ -28,9 +31,12 @@ describe('HelpdeskAiTriageService', () => {
     jest.fn<PropertyOsAiSdkService['execute']>();
 
   const service =
-    new HelpdeskAiTriageService({
-      execute,
-    } as unknown as PropertyOsAiSdkService);
+    new HelpdeskAiTriageService(
+      {
+        execute,
+      } as unknown as PropertyOsAiSdkService,
+      new HelpdeskAiPolicyService(),
+    );
 
   beforeEach(() => {
     jest.clearAllMocks();

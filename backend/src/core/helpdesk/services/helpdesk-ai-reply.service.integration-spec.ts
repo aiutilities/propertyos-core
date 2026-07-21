@@ -20,6 +20,9 @@ import {
   HelpdeskAiKnowledgeService,
 } from './helpdesk-ai-knowledge.service';
 import {
+  HelpdeskAiPolicyService,
+} from './helpdesk-ai-policy.service';
+import {
   HelpdeskAiReplyService,
 } from './helpdesk-ai-reply.service';
 
@@ -38,6 +41,7 @@ describe('HelpdeskAiReplyService', () => {
       {
         retrieve,
       } as unknown as HelpdeskAiKnowledgeService,
+      new HelpdeskAiPolicyService(),
     );
 
   beforeEach(() => {

@@ -21,6 +21,7 @@ import {
 import { PostgresHelpdeskRepository } from './repositories/postgres-helpdesk.repository';
 import { HelpdeskService } from './services/helpdesk.service';
 import { HelpdeskAiKnowledgeService } from './services/helpdesk-ai-knowledge.service';
+import { HelpdeskAiPolicyService } from './services/helpdesk-ai-policy.service';
 import { HelpdeskAiReplyService } from './services/helpdesk-ai-reply.service';
 import { HelpdeskAiTriageService } from './services/helpdesk-ai-triage.service';
 import { HelpdeskSlaService } from './services/helpdesk-sla.service';
@@ -53,6 +54,7 @@ import {
     HelpdeskSlaBreachJobHandler,
     HelpdeskService,
     HelpdeskAiKnowledgeService,
+    HelpdeskAiPolicyService,
     HelpdeskAiReplyService,
     HelpdeskAiTriageService,
     {
@@ -63,6 +65,7 @@ import {
   exports: [
     HelpdeskService,
     HelpdeskAiKnowledgeService,
+    HelpdeskAiPolicyService,
     HelpdeskAiReplyService,
     HelpdeskAiTriageService,
     HelpdeskSlaService,

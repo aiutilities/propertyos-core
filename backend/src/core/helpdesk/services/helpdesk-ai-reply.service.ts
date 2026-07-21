@@ -19,6 +19,9 @@ import {
 import {
   HelpdeskAiKnowledgeService,
 } from './helpdesk-ai-knowledge.service';
+import {
+  HelpdeskAiPolicyService,
+} from './helpdesk-ai-policy.service';
 
 interface AiReplyPayload {
   subject?: unknown;
@@ -46,6 +49,8 @@ export class HelpdeskAiReplyService {
       PropertyOsAiSdkService,
     private readonly knowledgeService:
       HelpdeskAiKnowledgeService,
+    private readonly policy:
+      HelpdeskAiPolicyService,
   ) {}
 
   async draftReply(
@@ -63,18 +68,33 @@ export class HelpdeskAiReplyService {
     const grounding =
       await this.retrieveGrounding(dto);
 
+    const policy =
+      this.policy.resolve(
+        'REPLY_DRAFTING',
+      );
+
     const result =
       await this.aiSdk.execute({
         tenantId,
         moduleId: 'helpdesk',
-        capability: 'TEXT_GENERATION',
-        executionMode: 'SIMULATED',
-        dataClassification: 'INTERNAL',
-        temperature: 0.2,
-        maxTokens: 700,
+        capability: policy.capability,
+        executionMode:
+          policy.executionMode,
+        dataClassification:
+          policy.dataClassification,
+        temperature:
+          policy.temperature,
+        maxTokens:
+          policy.maxTokens,
         tokenBudget: {
-          maxOutputTokens: 700,
+          ...policy.tokenBudget,
         },
+        providerName:
+          policy.providerName,
+        fallbackProviderNames: [
+          ...policy
+            .fallbackProviderNames,
+        ],
         messages: [
           {
             role: 'system',
@@ -98,7 +118,8 @@ export class HelpdeskAiReplyService {
         metadata: {
           operation:
             'helpdesk_reply_drafting',
-          advisoryOnly: true,
+          advisoryOnly:
+            policy.advisoryOnly,
           grounded: grounding.grounded,
           evidenceCount:
             grounding.evidence.length,

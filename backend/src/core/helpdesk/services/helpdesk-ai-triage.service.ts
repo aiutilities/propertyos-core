@@ -16,6 +16,9 @@ import {
 import {
   HelpdeskPriority,
 } from '../types/helpdesk.types';
+import {
+  HelpdeskAiPolicyService,
+} from './helpdesk-ai-policy.service';
 
 interface AiTriagePayload {
   suggestedPriority?: unknown;
@@ -30,6 +33,8 @@ export class HelpdeskAiTriageService {
   constructor(
     private readonly aiSdk:
       PropertyOsAiSdkService,
+    private readonly policy:
+      HelpdeskAiPolicyService,
   ) {}
 
   async triage(
@@ -42,18 +47,31 @@ export class HelpdeskAiTriageService {
       'description',
     );
 
+    const policy =
+      this.policy.resolve('TRIAGE');
+
     const result =
       await this.aiSdk.execute({
         tenantId: dto.tenantId.trim(),
         moduleId: 'helpdesk',
-        capability: 'CLASSIFICATION',
-        executionMode: 'SIMULATED',
-        dataClassification: 'INTERNAL',
-        temperature: 0,
-        maxTokens: 500,
+        capability: policy.capability,
+        executionMode:
+          policy.executionMode,
+        dataClassification:
+          policy.dataClassification,
+        temperature:
+          policy.temperature,
+        maxTokens:
+          policy.maxTokens,
         tokenBudget: {
-          maxOutputTokens: 500,
+          ...policy.tokenBudget,
         },
+        providerName:
+          policy.providerName,
+        fallbackProviderNames: [
+          ...policy
+            .fallbackProviderNames,
+        ],
         messages: [
           {
             role: 'system',
@@ -80,7 +98,8 @@ export class HelpdeskAiTriageService {
         metadata: {
           operation:
             'helpdesk_ticket_triage',
-          advisoryOnly: true,
+          advisoryOnly:
+            policy.advisoryOnly,
         },
       });
 

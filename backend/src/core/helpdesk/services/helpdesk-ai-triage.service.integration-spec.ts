@@ -35,7 +35,13 @@ describe('HelpdeskAiTriageService', () => {
       {
         execute,
       } as unknown as PropertyOsAiSdkService,
-      new HelpdeskAiPolicyService(),
+      new HelpdeskAiPolicyService({
+        getByScopeAndKey: async () => {
+          throw new Error(
+            "Configuration setting not found",
+          );
+        },
+      } as never),
     );
 
   beforeEach(() => {

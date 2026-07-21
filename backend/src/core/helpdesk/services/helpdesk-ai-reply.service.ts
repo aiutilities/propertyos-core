@@ -69,7 +69,7 @@ export class HelpdeskAiReplyService {
       await this.retrieveGrounding(dto);
 
     const policy =
-      this.policy.resolve(
+      await this.policy.resolve(
         'REPLY_DRAFTING',
       );
 

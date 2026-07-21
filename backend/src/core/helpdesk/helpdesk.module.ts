@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { PostgresModule } from '../../database/postgres/postgres.module';
+import { ConfigurationModule } from '../configuration';
 import { AiModule } from '../ai';
 import { AuditModule } from '../audit/audit.module';
 import { AuthModule } from '../auth/auth.module';
@@ -34,6 +35,7 @@ import {
 } from './helpdesk-search-provider.service';
 @Module({
   imports: [
+    ConfigurationModule,
     AiModule,
     AuditModule,
     AuthModule,

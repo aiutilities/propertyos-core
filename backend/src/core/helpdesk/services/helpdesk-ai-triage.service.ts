@@ -48,7 +48,7 @@ export class HelpdeskAiTriageService {
     );
 
     const policy =
-      this.policy.resolve('TRIAGE');
+      await this.policy.resolve('TRIAGE');
 
     const result =
       await this.aiSdk.execute({

@@ -41,7 +41,13 @@ describe('HelpdeskAiReplyService', () => {
       {
         retrieve,
       } as unknown as HelpdeskAiKnowledgeService,
-      new HelpdeskAiPolicyService(),
+      new HelpdeskAiPolicyService({
+        getByScopeAndKey: async () => {
+          throw new Error(
+            "Configuration setting not found",
+          );
+        },
+      } as never),
     );
 
   beforeEach(() => {

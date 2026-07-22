@@ -33,15 +33,33 @@ import {
   AiProviderFailoverFailureCode,
 } from '../types/ai-provider-failover.types';
 import {
+  AiPreparedRequestDispatchEnvelope,
   AiPreparedRequestDispatchProtocol,
 } from '../types/ai-prepared-request-dispatch.types';
+import {
+  AiDispatchExecutionResult,
+} from '../types/ai-dispatch-execution.types';
+import {
+  AiExecutionContext,
+} from '../types/ai-execution-context.types';
 import { AiResponse } from '../types/ai.types';
+import {
+  AiToolOrchestrationLoopService,
+} from '../tools/orchestration/ai-tool-orchestration-loop.service';
 import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
+
+interface AiInitialProviderExecution {
+  readonly response: AiResponse;
+  readonly envelope: AiPreparedRequestDispatchEnvelope;
+  readonly context: AiExecutionContext;
+  readonly execution: AiDispatchExecutionResult;
+}
 
 @Injectable()
 export class AiOrchestratorService {
   private readonly defaultTimeoutMs = 30_000;
+  private readonly maximumToolOrchestrationRounds = 3;
 
   constructor(
     private readonly routingPolicy:
@@ -67,6 +85,8 @@ export class AiOrchestratorService {
     private readonly failover:
       AiProviderFailoverService =
         new AiProviderFailoverService(),
+    private readonly toolOrchestrationLoop:
+      AiToolOrchestrationLoopService,
   ) {}
 
   async execute(
@@ -125,7 +145,7 @@ export class AiOrchestratorService {
               context,
             ) => {
               try {
-                const response =
+                const execution =
                   await this.executeProvider({
                     providerName:
                       candidate.providerName,
@@ -142,7 +162,7 @@ export class AiOrchestratorService {
                   });
 
                 this.assertTokenBudget(
-                  response,
+                  execution.response,
                   request,
                   candidate.providerName,
                   context
@@ -152,7 +172,8 @@ export class AiOrchestratorService {
                 return {
                   status:
                     'SUCCEEDED' as const,
-                  response,
+                  response:
+                    execution,
                 };
               } catch (error) {
                 const normalized =
@@ -214,8 +235,48 @@ export class AiOrchestratorService {
         throw result.response.error;
       }
 
-      const response =
+      const initialExecution =
         result.response.response;
+
+      let response =
+        initialExecution.response;
+
+      if (request.toolContext) {
+        const loopResult =
+          await this.toolOrchestrationLoop
+            .execute({
+              initialEnvelope:
+                initialExecution.envelope,
+              initialContext:
+                initialExecution.context,
+              initialExecution:
+                initialExecution.execution,
+              toolContext:
+                request.toolContext,
+              maximumRounds:
+                this.maximumToolOrchestrationRounds,
+              metadata:
+                Object.freeze({
+                  ...(request.metadata ?? {}),
+                  correlationId,
+                  providerName:
+                    result.providerName,
+                  orchestrationAttempt:
+                    initialExecution
+                      .context.attempt,
+                }),
+            });
+
+        response =
+          loopResult.response;
+
+        this.assertTokenBudget(
+          response,
+          request,
+          result.providerName,
+          initialExecution.context.attempt,
+        );
+      }
 
       const resolvedDecision = {
         ...decision,
@@ -593,7 +654,7 @@ export class AiOrchestratorService {
         AiOrchestrationRequest;
       selectedModel?: string;
     },
-  ): Promise<AiResponse> {
+  ): Promise<AiInitialProviderExecution> {
     const provider =
       this.registry.get(
         options.providerName,
@@ -822,7 +883,14 @@ export class AiOrchestratorService {
         options.attempt,
       );
 
-    return result.response;
+    return Object.freeze({
+      response:
+        result.response,
+      envelope,
+      context,
+      execution:
+        result,
+    });
   }
 
   private resolveDispatchProtocol(

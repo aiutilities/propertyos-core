@@ -29,6 +29,9 @@ import { AiOrchestratorService } from './ai-orchestrator.service';
 import {
   AiProviderFailoverService,
 } from '../resilience/ai-provider-failover.service';
+import {
+  AiToolOrchestrationLoopService,
+} from '../tools/orchestration/ai-tool-orchestration-loop.service';
 import { AiRoutingPolicyService } from './ai-routing-policy.service';
 
 class FakeAiProvider implements AiProviderPort {
@@ -159,7 +162,30 @@ describe('AiOrchestratorService', () => {
     },
   };
 
-  function createService(...providers: AiProviderPort[]) {
+  function createLoop(
+    execute = jest.fn(
+      async (
+        input: Parameters<
+          AiToolOrchestrationLoopService['execute']
+        >[0],
+      ) => ({
+        response:
+          input.initialExecution.response,
+      }),
+    ),
+  ) {
+    return {
+      execute,
+    } as unknown as
+      AiToolOrchestrationLoopService;
+  }
+
+  function createServiceWithLoop(
+    loop:
+      AiToolOrchestrationLoopService,
+    ...providers:
+      AiProviderPort[]
+  ) {
     const registry = new AiProviderRegistry();
 
     for (const provider of providers) {
@@ -187,6 +213,17 @@ describe('AiOrchestratorService', () => {
       ),
       undefined,
       new AiProviderFailoverService(),
+      loop,
+    );
+  }
+
+  function createService(
+    ...providers:
+      AiProviderPort[]
+  ) {
+    return createServiceWithLoop(
+      createLoop(),
+      ...providers,
     );
   }
 
@@ -301,6 +338,237 @@ describe('AiOrchestratorService', () => {
         },
       ],
     });
+  });
+
+  it('does not invoke the tool loop without a trusted runtime context', async () => {
+    const primary =
+      new FakeAiProvider(
+        'primary',
+        async () => ({
+          providerName:
+            'primary',
+          model:
+            'primary-model',
+          content:
+            'terminal response',
+        }),
+      );
+
+    const executeLoop =
+      jest.fn(
+        async (
+          input: Parameters<
+            AiToolOrchestrationLoopService['execute']
+          >[0],
+        ) => ({
+          response:
+            input.initialExecution
+              .response,
+        }),
+      );
+
+    const service =
+      createServiceWithLoop(
+        createLoop(executeLoop),
+        primary,
+      );
+
+    const result =
+      await service.execute({
+        ...request,
+        fallbackProviderNames: [],
+      });
+
+    expect(result.response.content)
+      .toBe(
+        'terminal response',
+      );
+
+    expect(executeLoop)
+      .not.toHaveBeenCalled();
+  });
+
+  it('bridges the initial dispatch artifacts into the bounded tool loop', async () => {
+    const primary =
+      new FakeAiProvider(
+        'primary',
+        async () => ({
+          providerName:
+            'primary',
+          model:
+            'primary-model',
+          content:
+            '',
+          toolCalls: [
+            {
+              id:
+                'call-property-1',
+              name:
+                'property.lookup',
+              input:
+                '{"propertyId":"property-1"}',
+            },
+          ],
+        }),
+      );
+
+    const executeLoop =
+      jest.fn(
+        async (
+          input: Parameters<
+            AiToolOrchestrationLoopService['execute']
+          >[0],
+        ) => ({
+          response: {
+            providerName:
+              'primary',
+            model:
+              'primary-model',
+            content:
+              'continued terminal response',
+          },
+        }),
+      );
+
+    const service =
+      createServiceWithLoop(
+        createLoop(executeLoop),
+        primary,
+      );
+
+    const toolContext =
+      Object.freeze({
+        actorId:
+          'person-19c3e2',
+        correlationId:
+          'correlation-19c3e2',
+        permissions:
+          Object.freeze([
+            'ai.tool.execute',
+            'property.read',
+          ]),
+      });
+
+    const result =
+      await service.execute({
+        ...request,
+        correlationId:
+          'correlation-19c3e2',
+        fallbackProviderNames: [],
+        toolContext,
+      });
+
+    expect(result.response)
+      .toEqual({
+        providerName:
+          'primary',
+        model:
+          'primary-model',
+        content:
+          'continued terminal response',
+      });
+
+    expect(executeLoop)
+      .toHaveBeenCalledTimes(
+        1,
+      );
+
+    expect(executeLoop)
+      .toHaveBeenCalledWith(
+        expect.objectContaining({
+          initialEnvelope:
+            expect.objectContaining({
+              dispatchId:
+                expect.any(String),
+              requestId:
+                expect.any(String),
+              provider:
+                'primary',
+              model:
+                'primary-model',
+            }),
+          initialContext:
+            expect.objectContaining({
+              requestId:
+                expect.any(String),
+              correlationId:
+                'correlation-19c3e2',
+              executionId:
+                expect.any(String),
+              attempt:
+                1,
+            }),
+          initialExecution:
+            expect.objectContaining({
+              dispatchId:
+                expect.any(String),
+              requestId:
+                expect.any(String),
+              executionId:
+                expect.any(String),
+              response:
+                expect.objectContaining({
+                  providerName:
+                    'primary',
+                }),
+            }),
+          toolContext,
+          maximumRounds:
+            3,
+          metadata:
+            expect.objectContaining({
+              correlationId:
+                'correlation-19c3e2',
+              providerName:
+                'primary',
+              orchestrationAttempt:
+                1,
+            }),
+        }),
+      );
+
+    const loopInput =
+      executeLoop.mock.calls[0]?.[0];
+
+    expect(
+      loopInput
+        ?.initialEnvelope
+        .requestId,
+    ).toBe(
+      loopInput
+        ?.initialContext
+        .requestId,
+    );
+
+    expect(
+      loopInput
+        ?.initialEnvelope
+        .requestId,
+    ).toBe(
+      loopInput
+        ?.initialExecution
+        .requestId,
+    );
+
+    expect(
+      loopInput
+        ?.initialEnvelope
+        .dispatchId,
+    ).toBe(
+      loopInput
+        ?.initialExecution
+        .dispatchId,
+    );
+
+    expect(
+      loopInput
+        ?.initialContext
+        .executionId,
+    ).toBe(
+      loopInput
+        ?.initialExecution
+        .executionId,
+    );
   });
 
   it('uses an eligible fallback after a provider failure', async () => {

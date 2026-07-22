@@ -1,76 +1,85 @@
 export const Permissions = {
-  PERSON_READ: 'person.read',
-  PERSON_CREATE: 'person.create',
+  PERSON_READ: "person.read",
+  PERSON_CREATE: "person.create",
 
-  ORGANIZATION_READ: 'organization.read',
-  ORGANIZATION_CREATE: 'organization.create',
+  ORGANIZATION_READ: "organization.read",
+  ORGANIZATION_CREATE: "organization.create",
 
-  ROLE_READ: 'role.read',
-  ROLE_CREATE: 'role.create',
+  ROLE_READ: "role.read",
+  ROLE_CREATE: "role.create",
 
-  PERMISSION_READ: 'permission.read',
-  PERMISSION_CREATE: 'permission.create',
+  PERMISSION_READ: "permission.read",
+  PERMISSION_CREATE: "permission.create",
 
-  PROPERTY_READ: 'property.read',
-  PROPERTY_CREATE: 'property.create',
+  PROPERTY_READ: "property.read",
+  PROPERTY_CREATE: "property.create",
 
-  TENANT_READ: 'tenant.read',
-  TENANT_CREATE: 'tenant.create',
+  TENANT_READ: "tenant.read",
+  TENANT_CREATE: "tenant.create",
 
-  VISITOR_READ: 'visitor.read',
-  VISITOR_CREATE: 'visitor.create',
+  VISITOR_READ: "visitor.read",
+  VISITOR_CREATE: "visitor.create",
 
-  AGREEMENT_READ: 'agreement.read',
-  AGREEMENT_CREATE: 'agreement.create',
+  AGREEMENT_READ: "agreement.read",
+  AGREEMENT_CREATE: "agreement.create",
 
-  RENT_READ: 'rent.read',
-  RENT_CREATE: 'rent.create',
+  RENT_READ: "rent.read",
+  RENT_CREATE: "rent.create",
 
-  RECEIPT_READ: 'receipt.read',
-  RECEIPT_CREATE: 'receipt.create',
+  RECEIPT_READ: "receipt.read",
+  RECEIPT_CREATE: "receipt.create",
 
-  INVOICE_READ: 'invoice.read',
-  INVOICE_CREATE: 'invoice.create',
+  INVOICE_READ: "invoice.read",
+  INVOICE_CREATE: "invoice.create",
 
-  NOTIFICATION_READ: 'notification.read',
-  NOTIFICATION_CREATE: 'notification.create',
+  NOTIFICATION_READ: "notification.read",
+  NOTIFICATION_CREATE: "notification.create",
 
-  DOCUMENT_READ: 'document.read',
-  DOCUMENT_CREATE: 'document.create',
+  DOCUMENT_READ: "document.read",
+  DOCUMENT_CREATE: "document.create",
 
-  WORKFLOW_READ: 'workflow.read',
-  WORKFLOW_CREATE: 'workflow.create',
-  AI_EXECUTE: 'ai.execute',
+  WORKFLOW_READ: "workflow.read",
+  WORKFLOW_CREATE: "workflow.create",
+  AI_EXECUTE: "ai.execute",
 
-  SEARCH_READ: 'search.read',
+  SEARCH_READ: "search.read",
 
-  PLUGIN_READ: 'plugin.read',
-  PLUGIN_CREATE: 'plugin.create',
-  PLUGIN_MANAGE: 'plugin.manage',
+  PLUGIN_READ: "plugin.read",
+  PLUGIN_CREATE: "plugin.create",
+  PLUGIN_MANAGE: "plugin.manage",
 
-  CONFIGURATION_READ: 'configuration.read',
-  CONFIGURATION_MANAGE: 'configuration.manage',
+  CONFIGURATION_READ: "configuration.read",
+  CONFIGURATION_MANAGE: "configuration.manage",
 
-  FORM_READ: 'form.read',
-  FORM_CREATE: 'form.create',
+  FORM_READ: "form.read",
+  FORM_CREATE: "form.create",
 
-  ACCESS_CREDENTIAL_READ: 'access-credential.read',
-  ACCESS_CREDENTIAL_MANAGE: 'access-credential.manage',
+  ACCESS_CREDENTIAL_READ: "access-credential.read",
+  ACCESS_CREDENTIAL_MANAGE: "access-credential.manage",
 
-  SCHEDULER_READ: 'scheduler.read',
-  SCHEDULER_MANAGE: 'scheduler.manage',
+  SCHEDULER_READ: "scheduler.read",
+  SCHEDULER_MANAGE: "scheduler.manage",
 
-  STORAGE_READ: 'storage.read',
-  STORAGE_CREATE: 'storage.create',
+  STORAGE_READ: "storage.read",
+  STORAGE_CREATE: "storage.create",
 
-  UPLOAD_CREATE: 'upload.create',
+  UPLOAD_CREATE: "upload.create",
 
-  METRICS_READ: 'metrics.read',
+  METRICS_READ: "metrics.read",
 
-  REPORT_READ: 'report.read',
+  REPORT_READ: "report.read",
 
-  AUDIT_READ: 'audit.read',
+  AUDIT_READ: "audit.read",
 
-  ADMIN_READ: 'admin.read',
-  ADMIN_MANAGE: 'admin.manage',
+  ADMIN_READ: "admin.read",
+  ADMIN_MANAGE: "admin.manage",
+
+  THEME_READ: "theme.read",
+  THEME_MANAGE: "theme.manage",
+
+  DISTRIBUTION_READ: "distribution.read",
+  DISTRIBUTION_MANAGE: "distribution.manage",
+
+  INTEGRATION_READ: "integration.read",
+  INTEGRATION_MANAGE: "integration.manage",
 } as const;

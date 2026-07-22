@@ -1,15 +1,21 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { RegisterPluginPackageDto } from '../dto/register-plugin-package.dto';
-import { PluginPackageService } from '../services/plugin-package.service';
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { RegisterPluginPackageDto } from "../dto/register-plugin-package.dto";
+import { PluginPackageService } from "../services/plugin-package.service";
 
-@ApiTags('Plugin Packages')
-@ApiBearerAuth('JWT')
-@Controller('plugin-packages')
+import { Permissions } from "../../../auth/constants/permissions";
+import { RequirePermission } from "../../../auth/decorators/require-permission.decorator";
+import { JwtAuthGuard } from "../../../auth/guards/jwt-auth.guard";
+import { PermissionGuard } from "../../../auth/guards/permission.guard";
+@ApiTags("Plugin Packages")
+@ApiBearerAuth("JWT")
+@Controller("plugin-packages")
+@UseGuards(JwtAuthGuard, PermissionGuard)
 export class PluginPackageController {
   constructor(private readonly service: PluginPackageService) {}
 
   @Post()
+  @RequirePermission(Permissions.PLUGIN_MANAGE)
   register(@Body() dto: RegisterPluginPackageDto) {
     return {
       success: true,
@@ -18,6 +24,7 @@ export class PluginPackageController {
   }
 
   @Get()
+  @RequirePermission(Permissions.PLUGIN_READ)
   list() {
     return {
       success: true,
@@ -25,16 +32,18 @@ export class PluginPackageController {
     };
   }
 
-  @Get(':id')
-  get(@Param('id') id: string) {
+  @Get(":id")
+  @RequirePermission(Permissions.PLUGIN_READ)
+  get(@Param("id") id: string) {
     return {
       success: true,
       data: this.service.get(id),
     };
   }
 
-  @Post(':id/validate')
-  validate(@Param('id') id: string) {
+  @Post(":id/validate")
+  @RequirePermission(Permissions.PLUGIN_MANAGE)
+  validate(@Param("id") id: string) {
     return {
       success: true,
       data: this.service.validate(id),

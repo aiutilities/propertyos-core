@@ -1,4 +1,4 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Body,
   Controller,
@@ -8,21 +8,26 @@ import {
   Patch,
   Post,
   Query,
-} from '@nestjs/common';
-import { CreateSettingDto } from '../dto/create-setting.dto';
-import { UpdateSettingDto } from '../dto/update-setting.dto';
-import { ConfigurationService } from '../services/configuration.service';
-import { ConfigurationScope } from '../types/configuration.types';
+  UseGuards,
+} from "@nestjs/common";
+import { CreateSettingDto } from "../dto/create-setting.dto";
+import { UpdateSettingDto } from "../dto/update-setting.dto";
+import { ConfigurationService } from "../services/configuration.service";
+import { ConfigurationScope } from "../types/configuration.types";
 
-@ApiTags('Configuration')
-@ApiBearerAuth('JWT')
-@Controller('configuration')
+import { Permissions } from "../../auth/constants/permissions";
+import { RequirePermission } from "../../auth/decorators/require-permission.decorator";
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { PermissionGuard } from "../../auth/guards/permission.guard";
+@ApiTags("Configuration")
+@ApiBearerAuth("JWT")
+@Controller("configuration")
+@UseGuards(JwtAuthGuard, PermissionGuard)
 export class ConfigurationController {
-  constructor(
-    private readonly configurationService: ConfigurationService,
-  ) {}
+  constructor(private readonly configurationService: ConfigurationService) {}
 
-  @Post('settings')
+  @Post("settings")
+  @RequirePermission(Permissions.CONFIGURATION_MANAGE)
   async upsert(@Body() dto: CreateSettingDto) {
     return {
       success: true,
@@ -32,10 +37,11 @@ export class ConfigurationController {
     };
   }
 
-  @Get('settings')
+  @Get("settings")
+  @RequirePermission(Permissions.CONFIGURATION_READ)
   async list(
-    @Query('scopeType') scopeType?: ConfigurationScope,
-    @Query('scopeId') scopeId?: string,
+    @Query("scopeType") scopeType?: ConfigurationScope,
+    @Query("scopeId") scopeId?: string,
   ) {
     return {
       success: true,
@@ -45,11 +51,12 @@ export class ConfigurationController {
     };
   }
 
-  @Get('settings/:scopeType/:key')
+  @Get("settings/:scopeType/:key")
+  @RequirePermission(Permissions.CONFIGURATION_READ)
   async getByScopeAndKey(
-    @Param('scopeType') scopeType: ConfigurationScope,
-    @Param('key') key: string,
-    @Query('scopeId') scopeId?: string,
+    @Param("scopeType") scopeType: ConfigurationScope,
+    @Param("key") key: string,
+    @Query("scopeId") scopeId?: string,
   ) {
     return {
       success: true,
@@ -63,11 +70,9 @@ export class ConfigurationController {
     };
   }
 
-  @Patch('settings/:id')
-  async update(
-    @Param('id') id: string,
-    @Body() dto: UpdateSettingDto,
-  ) {
+  @Patch("settings/:id")
+  @RequirePermission(Permissions.CONFIGURATION_MANAGE)
+  async update(@Param("id") id: string, @Body() dto: UpdateSettingDto) {
     return {
       success: true,
       data: {
@@ -76,8 +81,9 @@ export class ConfigurationController {
     };
   }
 
-  @Delete('settings/:id')
-  async delete(@Param('id') id: string) {
+  @Delete("settings/:id")
+  @RequirePermission(Permissions.CONFIGURATION_MANAGE)
+  async delete(@Param("id") id: string) {
     await this.configurationService.delete(id);
 
     return {

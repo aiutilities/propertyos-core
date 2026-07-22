@@ -14,6 +14,22 @@ import {
   HelpdeskService,
 } from '../../helpdesk/services/helpdesk.service';
 
+import {
+  MaintenanceRiskAnalyzerService,
+} from './maintenance-risk-analyzer.service';
+
+import {
+  HelpdeskRiskAnalyzerService,
+} from './helpdesk-risk-analyzer.service';
+
+import {
+  PropertyRiskAggregationService,
+} from './property-risk-aggregation.service';
+
+import {
+  PropertyHealthAdvisoryService,
+} from './property-health-advisory.service';
+
 
 @Injectable()
 export class PropertyOperationsIntelligenceService {
@@ -28,6 +44,18 @@ export class PropertyOperationsIntelligenceService {
 
     private readonly helpdeskService:
       HelpdeskService,
+
+    private readonly maintenanceRiskAnalyzer:
+      MaintenanceRiskAnalyzerService,
+
+    private readonly helpdeskRiskAnalyzer:
+      HelpdeskRiskAnalyzerService,
+
+    private readonly riskAggregator:
+      PropertyRiskAggregationService,
+
+    private readonly healthAdvisory:
+      PropertyHealthAdvisoryService,
   ) {}
 
 
@@ -69,18 +97,31 @@ export class PropertyOperationsIntelligenceService {
       helpdesk.length;
 
 
-    let risk:
-      'LOW' | 'MEDIUM' | 'HIGH' =
-      'LOW';
+    const maintenanceSignals =
+      this.maintenanceRiskAnalyzer.analyze(
+        maintenance,
+      );
 
 
-    if (
-      maintenanceCount > 5 ||
-      helpdeskCount > 5
-    ) {
-      risk =
-        'MEDIUM';
-    }
+    const helpdeskSignals =
+      this.helpdeskRiskAnalyzer.analyze(
+        helpdesk,
+      );
+
+
+    const evaluation =
+      this.riskAggregator.evaluate(
+        [
+          ...maintenanceSignals,
+          ...helpdeskSignals,
+        ],
+      );
+
+
+    const advisory =
+      this.healthAdvisory.advise(
+        evaluation,
+      );
 
 
     return {
@@ -97,10 +138,12 @@ export class PropertyOperationsIntelligenceService {
         helpdeskCount,
 
       operationalRisk:
-        risk as 'LOW' | 'MEDIUM' | 'HIGH',
+        evaluation.overallRisk,
+
+      advisory,
 
       summary:
-        `${property.name} has ${maintenanceCount} maintenance issues and ${helpdeskCount} helpdesk issues`,
+        advisory.summary,
     };
   }
 }

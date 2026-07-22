@@ -8,6 +8,22 @@ import {
   PropertyOperationsIntelligenceService,
 } from './property-operations-intelligence.service';
 
+import {
+  MaintenanceRiskAnalyzerService,
+} from './maintenance-risk-analyzer.service';
+
+import {
+  HelpdeskRiskAnalyzerService,
+} from './helpdesk-risk-analyzer.service';
+
+import {
+  PropertyRiskAggregationService,
+} from './property-risk-aggregation.service';
+
+import {
+  PropertyHealthAdvisoryService,
+} from './property-health-advisory.service';
+
 
 describe(
   'PropertyOperationsIntelligenceService',
@@ -57,6 +73,10 @@ describe(
             propertyService,
             maintenanceService,
             helpdeskService,
+            new MaintenanceRiskAnalyzerService(),
+            new HelpdeskRiskAnalyzerService(),
+            new PropertyRiskAggregationService(),
+            new PropertyHealthAdvisoryService(),
           );
 
 

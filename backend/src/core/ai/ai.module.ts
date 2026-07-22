@@ -43,6 +43,7 @@ import { AiToolInteractionProjectionService } from "./tools/orchestration/ai-too
 import { AiToolContinuationBoundaryService } from "./tools/orchestration/ai-tool-continuation-boundary.service";
 import { AiToolContinuationDispatchService } from "./tools/orchestration/ai-tool-continuation-dispatch.service";
 import { AiToolContinuationExecutionService } from "./tools/orchestration/ai-tool-continuation-execution.service";
+import { AiToolContinuationCoordinatorService } from "./tools/orchestration/ai-tool-continuation-coordinator.service";
 import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
 
 @Module({
@@ -98,6 +99,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolContinuationBoundaryService,
     AiToolContinuationDispatchService,
     AiToolContinuationExecutionService,
+    AiToolContinuationCoordinatorService,
     AiToolRegistry,
   ],
   exports: [
@@ -135,6 +137,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolContinuationBoundaryService,
     AiToolContinuationDispatchService,
     AiToolContinuationExecutionService,
+    AiToolContinuationCoordinatorService,
   ],
 })
 export class AiModule {}

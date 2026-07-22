@@ -25,6 +25,7 @@ import {
 } from '../request/ai-request-preparation.service';
 import {
   AiOrchestrationAttempt,
+  AiOrchestrationLoopSummary,
   AiOrchestrationRequest,
   AiOrchestrationResult,
 } from '../types/ai-orchestration.types';
@@ -241,6 +242,10 @@ export class AiOrchestratorService {
       let response =
         initialExecution.response;
 
+      let loop:
+        AiOrchestrationLoopSummary |
+        undefined;
+
       if (request.toolContext) {
         const loopResult =
           await this.toolOrchestrationLoop
@@ -270,6 +275,11 @@ export class AiOrchestratorService {
         response =
           loopResult.response;
 
+        loop =
+          this.toLoopSummary(
+            loopResult.evidence,
+          );
+
         this.assertTokenBudget(
           response,
           request,
@@ -294,6 +304,7 @@ export class AiOrchestratorService {
           resolvedDecision,
         response,
         attempts,
+        loop,
       });
 
       return {
@@ -302,6 +313,11 @@ export class AiOrchestratorService {
         decision:
           resolvedDecision,
         attempts,
+        ...(loop
+          ? {
+              loop,
+            }
+          : {}),
       };
     } catch (error) {
       if (
@@ -424,6 +440,67 @@ export class AiOrchestratorService {
 
       throw normalized;
     }
+  }
+
+  private toLoopSummary(
+    evidence: {
+      readonly outcome:
+        'CONTINUE' |
+        'TERMINAL' |
+        'EXHAUSTED';
+      readonly maximumRounds: number;
+      readonly completedContinuationRounds:
+        number;
+      readonly observedResponseCount: number;
+      readonly normalizedToolCallCount: number;
+      readonly executedToolCallCount: number;
+      readonly succeededToolCallCount: number;
+      readonly failedToolCallCount: number;
+      readonly skippedToolCallCount: number;
+      readonly initialDispatchId: string;
+      readonly initialExecutionId: string;
+      readonly finalDispatchId: string;
+      readonly finalExecutionId: string;
+    },
+  ): AiOrchestrationLoopSummary {
+    if (
+      evidence.outcome ===
+      'CONTINUE'
+    ) {
+      throw new Error(
+        'Tool orchestration loop returned a non-terminal outcome',
+      );
+    }
+
+    return Object.freeze({
+      outcome:
+        evidence.outcome,
+      maximumRounds:
+        evidence.maximumRounds,
+      completedContinuationRounds:
+        evidence
+          .completedContinuationRounds,
+      observedResponseCount:
+        evidence.observedResponseCount,
+      normalizedToolCallCount:
+        evidence.normalizedToolCallCount,
+      executedToolCallCount:
+        evidence.executedToolCallCount,
+      succeededToolCallCount:
+        evidence.succeededToolCallCount,
+      failedToolCallCount:
+        evidence.failedToolCallCount,
+      skippedToolCallCount:
+        evidence.skippedToolCallCount,
+      initialDispatchId:
+        evidence.initialDispatchId,
+      initialExecutionId:
+        evidence.initialExecutionId,
+      finalDispatchId:
+        evidence.finalDispatchId,
+      finalExecutionId:
+        evidence.finalExecutionId,
+    });
   }
 
   private createFailoverCandidates(

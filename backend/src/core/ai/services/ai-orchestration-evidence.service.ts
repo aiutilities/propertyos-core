@@ -43,6 +43,7 @@ export class AiOrchestrationEvidenceService {
     decision: AiRoutingDecision;
     response: AiResponse;
     attempts: AiOrchestrationEvidence['attempts'];
+    loop?: AiOrchestrationEvidence['loop'];
   }): Promise<void> {
     await this.publish('ai.orchestration.succeeded', {
       correlationId: options.correlationId,
@@ -55,6 +56,11 @@ export class AiOrchestrationEvidenceService {
       selectedModel: options.response.model,
       fallbackProviderNames: options.decision.fallbackProviderNames,
       attempts: options.attempts,
+      ...(options.loop
+        ? {
+            loop: options.loop,
+          }
+        : {}),
       usage: options.response.usage,
       metadata: this.sanitizeMetadata(options.request.metadata ?? {}),
       recordedAt: new Date().toISOString(),

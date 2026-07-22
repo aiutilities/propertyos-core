@@ -44,11 +44,32 @@ export interface AiOrchestrationAttempt {
   durationMs: number;
 }
 
+export type AiOrchestrationLoopOutcome =
+  | 'TERMINAL'
+  | 'EXHAUSTED';
+
+export interface AiOrchestrationLoopSummary {
+  readonly outcome: AiOrchestrationLoopOutcome;
+  readonly maximumRounds: number;
+  readonly completedContinuationRounds: number;
+  readonly observedResponseCount: number;
+  readonly normalizedToolCallCount: number;
+  readonly executedToolCallCount: number;
+  readonly succeededToolCallCount: number;
+  readonly failedToolCallCount: number;
+  readonly skippedToolCallCount: number;
+  readonly initialDispatchId: string;
+  readonly initialExecutionId: string;
+  readonly finalDispatchId: string;
+  readonly finalExecutionId: string;
+}
+
 export interface AiOrchestrationResult {
   correlationId: string;
   response: AiResponse;
   decision: AiRoutingDecision;
   attempts: AiOrchestrationAttempt[];
+  loop?: AiOrchestrationLoopSummary;
 }
 
 export interface AiRoutingDecision {

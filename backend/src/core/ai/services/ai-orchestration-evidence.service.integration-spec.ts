@@ -91,6 +91,35 @@ describe('AiOrchestrationEvidenceService', () => {
       },
     ];
 
+    const loop = {
+      outcome:
+        'TERMINAL' as const,
+      maximumRounds:
+        3,
+      completedContinuationRounds:
+        1,
+      observedResponseCount:
+        2,
+      normalizedToolCallCount:
+        1,
+      executedToolCallCount:
+        1,
+      succeededToolCallCount:
+        1,
+      failedToolCallCount:
+        0,
+      skippedToolCallCount:
+        0,
+      initialDispatchId:
+        'dispatch-initial',
+      initialExecutionId:
+        'execution-initial',
+      finalDispatchId:
+        'dispatch-final',
+      finalExecutionId:
+        'execution-final',
+    };
+
     await service.recordSucceeded({
       correlationId: 'correlation-succeeded',
       request,
@@ -104,6 +133,7 @@ describe('AiOrchestrationEvidenceService', () => {
         },
       },
       attempts,
+      loop,
     });
 
     expect(publish).toHaveBeenCalledWith(
@@ -112,10 +142,37 @@ describe('AiOrchestrationEvidenceService', () => {
       expect.objectContaining({
         status: 'SUCCEEDED',
         attempts,
+        loop,
         usage: {
           totalTokens: 12,
         },
       }),
+    );
+
+    const publishedEvidence =
+      publish.mock.calls[0]?.[2];
+
+    expect(publishedEvidence)
+      .not.toHaveProperty(
+        'requestId',
+      );
+
+    expect(publishedEvidence)
+      .not.toHaveProperty(
+        'rounds',
+      );
+
+    expect(publishedEvidence)
+      .not.toHaveProperty(
+        'toolContext',
+      );
+
+    expect(
+      JSON.stringify(
+        publishedEvidence,
+      ),
+    ).not.toContain(
+      'must-not-leak',
     );
   });
 

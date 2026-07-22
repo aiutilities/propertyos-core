@@ -6,6 +6,7 @@ import {
   AiCostBudget,
   AiDataClassification,
   AiExecutionMode,
+  AiOrchestrationLoopSummary,
   AiTokenBudget,
 } from '../types/ai-orchestration.types';
 
@@ -60,6 +61,7 @@ export interface PropertyOsAiSuccess {
   model?: string;
   usage?: PropertyOsAiUsage;
   attempts: PropertyOsAiExecutionAttempt[];
+  loop?: AiOrchestrationLoopSummary;
   raw?: unknown;
 }
 

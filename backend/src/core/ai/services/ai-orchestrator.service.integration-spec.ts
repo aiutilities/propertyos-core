@@ -175,7 +175,64 @@ describe('AiOrchestratorService', () => {
     ),
   ) {
     return {
-      execute,
+      execute:
+        async (
+          input: Parameters<
+            AiToolOrchestrationLoopService['execute']
+          >[0],
+        ) => {
+          const result =
+            await execute(input);
+
+          if (
+            result &&
+            typeof result === 'object' &&
+            'evidence' in result
+          ) {
+            return result;
+          }
+
+          return {
+            ...result,
+            evidence:
+              Object.freeze({
+                requestId:
+                  input.initialContext
+                    .requestId,
+                correlationId:
+                  input.initialContext
+                    .correlationId,
+                initialDispatchId:
+                  input.initialEnvelope
+                    .dispatchId,
+                initialExecutionId:
+                  input.initialContext
+                    .executionId,
+                finalDispatchId:
+                  'dispatch-final-19c3e3',
+                finalExecutionId:
+                  'execution-final-19c3e3',
+                maximumRounds:
+                  input.maximumRounds,
+                completedContinuationRounds:
+                  1,
+                observedResponseCount:
+                  2,
+                normalizedToolCallCount:
+                  1,
+                executedToolCallCount:
+                  1,
+                succeededToolCallCount:
+                  1,
+                failedToolCallCount:
+                  0,
+                skippedToolCallCount:
+                  0,
+                outcome:
+                  'TERMINAL' as const,
+              }),
+          };
+        },
     } as unknown as
       AiToolOrchestrationLoopService;
   }
@@ -467,6 +524,56 @@ describe('AiOrchestratorService', () => {
         content:
           'continued terminal response',
       });
+
+    expect(result.loop)
+      .toEqual({
+        outcome:
+          'TERMINAL',
+        maximumRounds:
+          3,
+        completedContinuationRounds:
+          1,
+        observedResponseCount:
+          2,
+        normalizedToolCallCount:
+          1,
+        executedToolCallCount:
+          1,
+        succeededToolCallCount:
+          1,
+        failedToolCallCount:
+          0,
+        skippedToolCallCount:
+          0,
+        initialDispatchId:
+          expect.any(String),
+        initialExecutionId:
+          expect.any(String),
+        finalDispatchId:
+          'dispatch-final-19c3e3',
+        finalExecutionId:
+          'execution-final-19c3e3',
+      });
+
+    expect(result.loop)
+      .not.toHaveProperty(
+        'requestId',
+      );
+
+    expect(result.loop)
+      .not.toHaveProperty(
+        'correlationId',
+      );
+
+    expect(result.loop)
+      .not.toHaveProperty(
+        'rounds',
+      );
+
+    expect(result.loop)
+      .not.toHaveProperty(
+        'toolContext',
+      );
 
     expect(executeLoop)
       .toHaveBeenCalledTimes(

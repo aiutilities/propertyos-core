@@ -82,6 +82,34 @@ describe(
                 false,
             },
             attempts: [],
+            loop: {
+              outcome:
+                'TERMINAL',
+              maximumRounds:
+                3,
+              completedContinuationRounds:
+                1,
+              observedResponseCount:
+                2,
+              normalizedToolCallCount:
+                1,
+              executedToolCallCount:
+                1,
+              succeededToolCallCount:
+                1,
+              failedToolCallCount:
+                0,
+              skippedToolCallCount:
+                0,
+              initialDispatchId:
+                'dispatch-initial',
+              initialExecutionId:
+                'execution-initial',
+              finalDispatchId:
+                'dispatch-final',
+              finalExecutionId:
+                'execution-final',
+            },
           };
 
         const {
@@ -136,7 +164,57 @@ describe(
             undefined,
           attempts:
             [],
+          loop: {
+            outcome:
+              'TERMINAL',
+            maximumRounds:
+              3,
+            completedContinuationRounds:
+              1,
+            observedResponseCount:
+              2,
+            normalizedToolCallCount:
+              1,
+            executedToolCallCount:
+              1,
+            succeededToolCallCount:
+              1,
+            failedToolCallCount:
+              0,
+            skippedToolCallCount:
+              0,
+            initialDispatchId:
+              'dispatch-initial',
+            initialExecutionId:
+              'execution-initial',
+            finalDispatchId:
+              'dispatch-final',
+            finalExecutionId:
+              'execution-final',
+          },
         });
+
+        if (result.ok) {
+          expect(result.loop)
+            .not.toHaveProperty(
+              'requestId',
+            );
+
+          expect(result.loop)
+            .not.toHaveProperty(
+              'correlationId',
+            );
+
+          expect(result.loop)
+            .not.toHaveProperty(
+              'rounds',
+            );
+
+          expect(result.loop)
+            .not.toHaveProperty(
+              'toolContext',
+            );
+        }
 
         expect(
           orchestrator.execute,

@@ -73,6 +73,13 @@ export class PropertyOsAiSdkService {
               ...attempt,
             }),
           ),
+        ...(result.loop
+          ? {
+              loop: {
+                ...result.loop,
+              },
+            }
+          : {}),
       };
     } catch (error) {
       return this.toFailure(

@@ -2,6 +2,7 @@ import {
   AiDataClassification,
   AiExecutionMode,
   AiOrchestrationAttempt,
+  AiOrchestrationLoopSummary,
 } from './ai-orchestration.types';
 import { AiCapability } from './ai.types';
 
@@ -21,6 +22,7 @@ export interface AiOrchestrationEvidence {
   selectedModel?: string;
   fallbackProviderNames: string[];
   attempts: AiOrchestrationAttempt[];
+  loop?: AiOrchestrationLoopSummary;
   usage?: {
     inputTokens?: number;
     outputTokens?: number;

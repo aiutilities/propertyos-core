@@ -37,6 +37,7 @@ import { AiDispatchExecutionCoordinatorService } from './dispatch/ai-dispatch-ex
 import { AiExecutionContextService } from './execution/ai-execution-context.service';
 import { PropertyOsAiSdkService } from './sdk/propertyos-ai-sdk.service';
 import { AiToolManifestValidator } from './tools/manifest/ai-tool-manifest.validator';
+import { AiToolExecutionService } from './tools/execution/ai-tool-execution.service';
 import { AiToolRegistry } from './tools/registry/ai-tool.registry';
 
 @Module({
@@ -98,8 +99,9 @@ import { AiToolRegistry } from './tools/registry/ai-tool.registry';
     AiExecutionContextService,
     PropertyOsAiSdkService,
     AiToolManifestValidator,
+    AiToolExecutionService,
     AiToolRegistry,
-],
+  ],
   exports: [
     AiContextAssemblyService,
     AiTokenBudgetService,
@@ -128,6 +130,7 @@ import { AiToolRegistry } from './tools/registry/ai-tool.registry';
     AiExecutionContextService,
     PropertyOsAiSdkService,
     AiToolRegistry,
-],
+    AiToolExecutionService,
+  ],
 })
 export class AiModule {}

@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "generator": "propertyos-typescript-module-dependency-extractor",
   "moduleCount": 47,
-  "importReferenceCount": 171,
+  "importReferenceCount": 183,
   "modules": [
     {
       "className": "ConfigModule",
@@ -95,9 +95,19 @@
       "className": "AdminModule",
       "source": {
         "path": "backend/src/core/admin/admin.module.ts",
-        "line": 19
+        "line": 17
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/admin/admin.module.ts",
+            "line": 12
+          }
+        },
         {
           "className": "PluginModule",
           "expression": "PluginModule",
@@ -115,7 +125,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/admin/admin.module.ts",
-            "line": 13
+            "line": 12
           }
         }
       ]
@@ -183,9 +193,29 @@
       "className": "AiModule",
       "source": {
         "path": "backend/src/core/ai/ai.module.ts",
-        "line": 14
+        "line": 128
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/ai/ai.module.ts",
+            "line": 44
+          }
+        },
+        {
+          "className": "DiscoveryModule",
+          "expression": "DiscoveryModule",
+          "sourcePath": null,
+          "external": true,
+          "source": {
+            "path": "backend/src/core/ai/ai.module.ts",
+            "line": 42
+          }
+        },
         {
           "className": "EventBusModule",
           "expression": "EventBusModule",
@@ -193,7 +223,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/ai/ai.module.ts",
-            "line": 9
+            "line": 43
           }
         }
       ]
@@ -366,9 +396,19 @@
       "className": "ConfigurationModule",
       "source": {
         "path": "backend/src/core/configuration/configuration.module.ts",
-        "line": 13
+        "line": 14
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/configuration/configuration.module.ts",
+            "line": 9
+          }
+        },
         {
           "className": "DatabaseModule",
           "expression": "DatabaseModule",
@@ -376,7 +416,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/configuration/configuration.module.ts",
-            "line": 8
+            "line": 9
           }
         }
       ]
@@ -424,9 +464,19 @@
       "className": "DistributionModule",
       "source": {
         "path": "backend/src/core/distribution/distribution.module.ts",
-        "line": 14
+        "line": 19
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/distribution/distribution.module.ts",
+            "line": 10
+          }
+        },
         {
           "className": "EventBusModule",
           "expression": "EventBusModule",
@@ -434,7 +484,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/distribution/distribution.module.ts",
-            "line": 9
+            "line": 10
           }
         }
       ]
@@ -708,9 +758,19 @@
       "className": "HelpdeskModule",
       "source": {
         "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-        "line": 62
+        "line": 78
       },
       "imports": [
+        {
+          "className": "AiModule",
+          "expression": "AiModule",
+          "sourcePath": "backend/src/core/ai/ai.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 39
+          }
+        },
         {
           "className": "AuditModule",
           "expression": "AuditModule",
@@ -718,7 +778,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 32
+            "line": 40
           }
         },
         {
@@ -728,7 +788,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 33
+            "line": 41
+          }
+        },
+        {
+          "className": "ConfigurationModule",
+          "expression": "ConfigurationModule",
+          "sourcePath": "backend/src/core/configuration/configuration.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/helpdesk/helpdesk.module.ts",
+            "line": 38
           }
         },
         {
@@ -738,7 +808,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 35
+            "line": 43
           }
         },
         {
@@ -748,7 +818,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 36
+            "line": 44
           }
         },
         {
@@ -758,7 +828,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 34
+            "line": 42
           }
         },
         {
@@ -768,7 +838,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 38
+            "line": 46
           }
         },
         {
@@ -778,7 +848,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/helpdesk/helpdesk.module.ts",
-            "line": 37
+            "line": 45
           }
         }
       ]
@@ -806,9 +876,19 @@
       "className": "IntegrationModule",
       "source": {
         "path": "backend/src/core/integration/integration.module.ts",
-        "line": 20
+        "line": 21
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/integration/integration.module.ts",
+            "line": 11
+          }
+        },
         {
           "className": "EventBusModule",
           "expression": "EventBusModule",
@@ -816,7 +896,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/integration/integration.module.ts",
-            "line": 10
+            "line": 11
           }
         }
       ]
@@ -1042,7 +1122,7 @@
       "className": "MetricsModule",
       "source": {
         "path": "backend/src/core/metrics/metrics.module.ts",
-        "line": 22
+        "line": 27
       },
       "imports": [
         {
@@ -1052,7 +1132,17 @@
           "external": false,
           "source": {
             "path": "backend/src/core/metrics/metrics.module.ts",
-            "line": 11
+            "line": 14
+          }
+        },
+        {
+          "className": "PlatformModule",
+          "expression": "PlatformModule",
+          "sourcePath": "backend/src/core/platform/platform.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/metrics/metrics.module.ts",
+            "line": 15
           }
         },
         {
@@ -1062,7 +1152,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/metrics/metrics.module.ts",
-            "line": 11
+            "line": 13
           }
         }
       ]
@@ -1071,7 +1161,7 @@
       "className": "NotificationModule",
       "source": {
         "path": "backend/src/core/notification/notification.module.ts",
-        "line": 33
+        "line": 35
       },
       "imports": [
         {
@@ -1081,7 +1171,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/notification/notification.module.ts",
-            "line": 16
+            "line": 17
           }
         },
         {
@@ -1091,7 +1181,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/notification/notification.module.ts",
-            "line": 16
+            "line": 17
           }
         },
         {
@@ -1101,7 +1191,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/notification/notification.module.ts",
-            "line": 16
+            "line": 17
           }
         },
         {
@@ -1111,7 +1201,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/notification/notification.module.ts",
-            "line": 16
+            "line": 17
           }
         }
       ]
@@ -1128,9 +1218,19 @@
       "className": "PluginModule",
       "source": {
         "path": "backend/src/core/plugin/plugin.module.ts",
-        "line": 146
+        "line": 148
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/plugin/plugin.module.ts",
+            "line": 65
+          }
+        },
         {
           "className": "EventBusModule",
           "expression": "EventBusModule",
@@ -1138,7 +1238,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 59
+            "line": 60
           }
         },
         {
@@ -1148,7 +1248,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 60
+            "line": 61
           }
         },
         {
@@ -1158,7 +1258,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 61
+            "line": 62
           }
         },
         {
@@ -1168,7 +1268,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 62
+            "line": 63
           }
         },
         {
@@ -1178,7 +1278,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/plugin/plugin.module.ts",
-            "line": 63
+            "line": 64
           }
         }
       ]
@@ -1796,9 +1896,19 @@
       "className": "ThemeModule",
       "source": {
         "path": "backend/src/core/theme/theme.module.ts",
-        "line": 18
+        "line": 26
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/theme/theme.module.ts",
+            "line": 14
+          }
+        },
         {
           "className": "EventBusModule",
           "expression": "EventBusModule",
@@ -1806,7 +1916,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/theme/theme.module.ts",
-            "line": 13
+            "line": 14
           }
         }
       ]
@@ -1815,9 +1925,19 @@
       "className": "UploadModule",
       "source": {
         "path": "backend/src/core/upload/upload.module.ts",
-        "line": 13
+        "line": 14
       },
       "imports": [
+        {
+          "className": "AuthModule",
+          "expression": "AuthModule",
+          "sourcePath": "backend/src/core/auth/auth.module.ts",
+          "external": false,
+          "source": {
+            "path": "backend/src/core/upload/upload.module.ts",
+            "line": 9
+          }
+        },
         {
           "className": "ConfigurationModule",
           "expression": "ConfigurationModule",
@@ -1825,7 +1945,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/upload/upload.module.ts",
-            "line": 8
+            "line": 9
           }
         },
         {
@@ -1835,7 +1955,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/upload/upload.module.ts",
-            "line": 8
+            "line": 9
           }
         }
       ]

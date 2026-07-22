@@ -16,6 +16,7 @@ from .import_analyzer import (
     NODE_BUILTINS,
 )
 from .repository_api import Repository
+from .test_source_policy import is_test_source
 
 
 class PluginWorkspaceGenerationError(
@@ -755,6 +756,9 @@ class PluginWorkspaceGenerator:
         for source_file in sorted(
             module_root.rglob("*.ts")
         ):
+            if is_test_source(source_file):
+                continue
+
             try:
                 content = source_file.read_text(
                     encoding="utf-8"

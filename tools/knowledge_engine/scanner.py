@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from tools.knowledge_engine.test_source_policy import is_test_source
+
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -285,10 +287,10 @@ class RepositoryScanner:
             for part in source_file.parts
         }
 
-        if filename.endswith(".spec.ts"):
+        if is_test_source(filename):
             return None
 
-        if filename.endswith(".test.ts"):
+        if is_test_source(filename):
             return None
 
         if filename.endswith(MODULE_FILE_SUFFIX):

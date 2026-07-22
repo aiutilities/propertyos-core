@@ -78,7 +78,7 @@ class AstControllerExtractorTest(unittest.TestCase):
 
     def test_expected_route_count(self) -> None:
         self.assertEqual(
-            457,
+            460,
             self.ast["routeCount"],
         )
 

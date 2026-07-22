@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "controllerCount": 62,
-  "routeCount": 457,
+  "routeCount": 460,
   "controllers": [
     {
       "id": "access-control:access-control",
@@ -254,7 +254,10 @@
       "moduleId": "admin",
       "className": "AdminController",
       "basePath": "/admin",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 4,
       "routes": [
@@ -267,12 +270,14 @@
           "path": "dashboard",
           "fullPath": "/admin/dashboard",
           "handler": "dashboard",
-          "handlerLine": 20,
-          "permissions": [],
+          "handlerLine": 27,
+          "permissions": [
+            "Permissions.ADMIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/admin/controllers/admin.controller.ts",
-            "line": 19
+            "line": 25
           }
         },
         {
@@ -284,12 +289,14 @@
           "path": "menu",
           "fullPath": "/admin/menu",
           "handler": "menu",
-          "handlerLine": 28,
-          "permissions": [],
+          "handlerLine": 36,
+          "permissions": [
+            "Permissions.ADMIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/admin/controllers/admin.controller.ts",
-            "line": 27
+            "line": 34
           }
         },
         {
@@ -301,12 +308,14 @@
           "path": "platform",
           "fullPath": "/admin/platform",
           "handler": "platform",
-          "handlerLine": 12,
-          "permissions": [],
+          "handlerLine": 18,
+          "permissions": [
+            "Permissions.ADMIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/admin/controllers/admin.controller.ts",
-            "line": 11
+            "line": 16
           }
         },
         {
@@ -318,18 +327,20 @@
           "path": "widgets",
           "fullPath": "/admin/widgets",
           "handler": "widgets",
-          "handlerLine": 36,
-          "permissions": [],
+          "handlerLine": 45,
+          "permissions": [
+            "Permissions.ADMIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/admin/controllers/admin.controller.ts",
-            "line": 35
+            "line": 43
           }
         }
       ],
       "source": {
         "path": "backend/src/core/admin/controllers/admin.controller.ts",
-        "line": 7
+        "line": 11
       }
     },
     {
@@ -431,25 +442,30 @@
       "moduleId": "ai",
       "className": "AiController",
       "basePath": "/ai",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 2,
       "routes": [
         {
-          "id": "ai:ai:post:generate:/ai/generate",
+          "id": "ai:ai:post:orchestrate:/ai/orchestrate",
           "controllerId": "ai:ai",
           "controllerClassName": "AiController",
           "moduleId": "ai",
           "httpMethod": "POST",
-          "path": "generate",
-          "fullPath": "/ai/generate",
-          "handler": "generate",
-          "handlerLine": 18,
-          "permissions": [],
+          "path": "orchestrate",
+          "fullPath": "/ai/orchestrate",
+          "handler": "orchestrate",
+          "handlerLine": 63,
+          "permissions": [
+            "Permissions.AI_EXECUTE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/ai/controllers/ai.controller.ts",
-            "line": 17
+            "line": 59
           }
         },
         {
@@ -461,18 +477,20 @@
           "path": "providers",
           "fullPath": "/ai/providers",
           "handler": "listProviders",
-          "handlerLine": 13,
-          "permissions": [],
+          "handlerLine": 55,
+          "permissions": [
+            "Permissions.AI_EXECUTE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/ai/controllers/ai.controller.ts",
-            "line": 12
+            "line": 51
           }
         }
       ],
       "source": {
         "path": "backend/src/core/ai/controllers/ai.controller.ts",
-        "line": 8
+        "line": 43
       }
     },
     {
@@ -549,18 +567,18 @@
           "path": "login",
           "fullPath": "/auth/login",
           "handler": "login",
-          "handlerLine": 14,
+          "handlerLine": 16,
           "permissions": [],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/auth/auth.controller.ts",
-            "line": 13
+            "line": 15
           }
         }
       ],
       "source": {
         "path": "backend/src/core/auth/auth.controller.ts",
-        "line": 9
+        "line": 10
       }
     },
     {
@@ -581,12 +599,12 @@
           "path": "setup",
           "fullPath": "/bootstrap/setup",
           "handler": "setup",
-          "handlerLine": 18,
+          "handlerLine": 20,
           "permissions": [],
           "bearerAuth": false,
           "source": {
             "path": "backend/src/core/bootstrap/controllers/bootstrap.controller.ts",
-            "line": 17
+            "line": 19
           }
         },
         {
@@ -598,18 +616,18 @@
           "path": "status",
           "fullPath": "/bootstrap/status",
           "handler": "status",
-          "handlerLine": 13,
+          "handlerLine": 15,
           "permissions": [],
           "bearerAuth": false,
           "source": {
             "path": "backend/src/core/bootstrap/controllers/bootstrap.controller.ts",
-            "line": 12
+            "line": 14
           }
         }
       ],
       "source": {
         "path": "backend/src/core/bootstrap/controllers/bootstrap.controller.ts",
-        "line": 8
+        "line": 10
       }
     },
     {
@@ -939,7 +957,10 @@
       "moduleId": "configuration",
       "className": "ConfigurationController",
       "basePath": "/configuration",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 5,
       "routes": [
@@ -952,12 +973,14 @@
           "path": "settings",
           "fullPath": "/configuration/settings",
           "handler": "list",
-          "handlerLine": 36,
-          "permissions": [],
+          "handlerLine": 42,
+          "permissions": [
+            "Permissions.CONFIGURATION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/configuration/controllers/configuration.controller.ts",
-            "line": 35
+            "line": 40
           }
         },
         {
@@ -969,12 +992,14 @@
           "path": "settings",
           "fullPath": "/configuration/settings",
           "handler": "upsert",
-          "handlerLine": 26,
-          "permissions": [],
+          "handlerLine": 31,
+          "permissions": [
+            "Permissions.CONFIGURATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/configuration/controllers/configuration.controller.ts",
-            "line": 25
+            "line": 29
           }
         },
         {
@@ -986,12 +1011,14 @@
           "path": "settings/:id",
           "fullPath": "/configuration/settings/:id",
           "handler": "delete",
-          "handlerLine": 80,
-          "permissions": [],
+          "handlerLine": 86,
+          "permissions": [
+            "Permissions.CONFIGURATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/configuration/controllers/configuration.controller.ts",
-            "line": 79
+            "line": 84
           }
         },
         {
@@ -1003,12 +1030,14 @@
           "path": "settings/:id",
           "fullPath": "/configuration/settings/:id",
           "handler": "update",
-          "handlerLine": 67,
-          "permissions": [],
+          "handlerLine": 75,
+          "permissions": [
+            "Permissions.CONFIGURATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/configuration/controllers/configuration.controller.ts",
-            "line": 66
+            "line": 73
           }
         },
         {
@@ -1020,18 +1049,20 @@
           "path": "settings/:scopeType/:key",
           "fullPath": "/configuration/settings/:scopeType/:key",
           "handler": "getByScopeAndKey",
-          "handlerLine": 49,
-          "permissions": [],
+          "handlerLine": 56,
+          "permissions": [
+            "Permissions.CONFIGURATION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/configuration/controllers/configuration.controller.ts",
-            "line": 48
+            "line": 54
           }
         }
       ],
       "source": {
         "path": "backend/src/core/configuration/controllers/configuration.controller.ts",
-        "line": 19
+        "line": 24
       }
     },
     {
@@ -1171,7 +1202,10 @@
       "moduleId": "distribution",
       "className": "DistributionController",
       "basePath": "/distributions",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 7,
       "routes": [
@@ -1184,12 +1218,14 @@
           "path": "",
           "fullPath": "/distributions",
           "handler": "list",
-          "handlerLine": 19,
-          "permissions": [],
+          "handlerLine": 34,
+          "permissions": [
+            "Permissions.DISTRIBUTION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 18
+            "line": 32
           }
         },
         {
@@ -1201,12 +1237,14 @@
           "path": "",
           "fullPath": "/distributions",
           "handler": "register",
-          "handlerLine": 14,
-          "permissions": [],
+          "handlerLine": 28,
+          "permissions": [
+            "Permissions.DISTRIBUTION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 13
+            "line": 26
           }
         },
         {
@@ -1218,12 +1256,14 @@
           "path": ":id",
           "fullPath": "/distributions/:id",
           "handler": "get",
-          "handlerLine": 29,
-          "permissions": [],
+          "handlerLine": 46,
+          "permissions": [
+            "Permissions.DISTRIBUTION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 28
+            "line": 44
           }
         },
         {
@@ -1235,12 +1275,14 @@
           "path": ":id/activate",
           "fullPath": "/distributions/:id/activate",
           "handler": "activate",
-          "handlerLine": 39,
-          "permissions": [],
+          "handlerLine": 58,
+          "permissions": [
+            "Permissions.DISTRIBUTION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 38
+            "line": 56
           }
         },
         {
@@ -1252,12 +1294,14 @@
           "path": ":id/archive",
           "fullPath": "/distributions/:id/archive",
           "handler": "archive",
-          "handlerLine": 44,
-          "permissions": [],
+          "handlerLine": 64,
+          "permissions": [
+            "Permissions.DISTRIBUTION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 43
+            "line": 62
           }
         },
         {
@@ -1269,12 +1313,14 @@
           "path": "active",
           "fullPath": "/distributions/active",
           "handler": "getActive",
-          "handlerLine": 24,
-          "permissions": [],
+          "handlerLine": 40,
+          "permissions": [
+            "Permissions.DISTRIBUTION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 23
+            "line": 38
           }
         },
         {
@@ -1286,18 +1332,20 @@
           "path": "install",
           "fullPath": "/distributions/install",
           "handler": "install",
-          "handlerLine": 34,
-          "permissions": [],
+          "handlerLine": 52,
+          "permissions": [
+            "Permissions.DISTRIBUTION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-            "line": 33
+            "line": 50
           }
         }
       ],
       "source": {
         "path": "backend/src/core/distribution/controllers/distribution.controller.ts",
-        "line": 9
+        "line": 21
       }
     },
     {
@@ -1775,12 +1823,12 @@
           "path": "",
           "fullPath": "/health",
           "handler": "getHealth",
-          "handlerLine": 12,
+          "handlerLine": 15,
           "permissions": [],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/health/health.controller.ts",
-            "line": 11
+            "line": 14
           }
         },
         {
@@ -1792,12 +1840,12 @@
           "path": "database",
           "fullPath": "/health/database",
           "handler": "getDatabaseHealth",
-          "handlerLine": 27,
+          "handlerLine": 46,
           "permissions": [],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/health/health.controller.ts",
-            "line": 26
+            "line": 45
           }
         },
         {
@@ -1809,12 +1857,12 @@
           "path": "live",
           "fullPath": "/health/live",
           "handler": "getLiveness",
-          "handlerLine": 17,
+          "handlerLine": 20,
           "permissions": [],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/health/health.controller.ts",
-            "line": 16
+            "line": 19
           }
         },
         {
@@ -1826,18 +1874,18 @@
           "path": "ready",
           "fullPath": "/health/ready",
           "handler": "getReadiness",
-          "handlerLine": 22,
+          "handlerLine": 25,
           "permissions": [],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/health/health.controller.ts",
-            "line": 21
+            "line": 24
           }
         }
       ],
       "source": {
         "path": "backend/src/core/health/health.controller.ts",
-        "line": 7
+        "line": 10
       }
     },
     {
@@ -1850,7 +1898,7 @@
         "PermissionGuard"
       ],
       "bearerAuth": true,
-      "routeCount": 17,
+      "routeCount": 20,
       "routes": [
         {
           "id": "helpdesk:helpdesk:get:list:/helpdesk",
@@ -1861,14 +1909,14 @@
           "path": "",
           "fullPath": "/helpdesk",
           "handler": "list",
-          "handlerLine": 55,
+          "handlerLine": 64,
           "permissions": [
             "HELPDESK_PERMISSIONS.READ"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 54
+            "line": 63
           }
         },
         {
@@ -1880,14 +1928,14 @@
           "path": "",
           "fullPath": "/helpdesk",
           "handler": "create",
-          "handlerLine": 45,
+          "handlerLine": 54,
           "permissions": [
             "HELPDESK_PERMISSIONS.CREATE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 44
+            "line": 53
           }
         },
         {
@@ -1899,14 +1947,14 @@
           "path": ":id",
           "fullPath": "/helpdesk/:id",
           "handler": "get",
-          "handlerLine": 106,
+          "handlerLine": 149,
           "permissions": [
             "HELPDESK_PERMISSIONS.READ"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 105
+            "line": 148
           }
         },
         {
@@ -1918,14 +1966,14 @@
           "path": ":id",
           "fullPath": "/helpdesk/:id",
           "handler": "update",
-          "handlerLine": 114,
+          "handlerLine": 157,
           "permissions": [
             "HELPDESK_PERMISSIONS.MANAGE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 113
+            "line": 156
           }
         },
         {
@@ -1937,14 +1985,14 @@
           "path": ":id/assign",
           "fullPath": "/helpdesk/:id/assign",
           "handler": "assign",
-          "handlerLine": 125,
+          "handlerLine": 168,
           "permissions": [
             "HELPDESK_PERMISSIONS.ASSIGN"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 124
+            "line": 167
           }
         },
         {
@@ -1956,14 +2004,14 @@
           "path": ":id/cancel",
           "fullPath": "/helpdesk/:id/cancel",
           "handler": "cancel",
-          "handlerLine": 194,
+          "handlerLine": 237,
           "permissions": [
             "HELPDESK_PERMISSIONS.RESOLVE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 193
+            "line": 236
           }
         },
         {
@@ -1975,14 +2023,14 @@
           "path": ":id/close",
           "fullPath": "/helpdesk/:id/close",
           "handler": "close",
-          "handlerLine": 183,
+          "handlerLine": 226,
           "permissions": [
             "HELPDESK_PERMISSIONS.RESOLVE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 182
+            "line": 225
           }
         },
         {
@@ -1994,14 +2042,14 @@
           "path": ":id/comments",
           "fullPath": "/helpdesk/:id/comments",
           "handler": "addComment",
-          "handlerLine": 205,
+          "handlerLine": 248,
           "permissions": [
             "HELPDESK_PERMISSIONS.COMMENT"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 204
+            "line": 247
           }
         },
         {
@@ -2013,14 +2061,14 @@
           "path": ":id/escalate",
           "fullPath": "/helpdesk/:id/escalate",
           "handler": "escalate",
-          "handlerLine": 150,
+          "handlerLine": 193,
           "permissions": [
             "HELPDESK_PERMISSIONS.MANAGE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 149
+            "line": 192
           }
         },
         {
@@ -2032,14 +2080,14 @@
           "path": ":id/feedback",
           "fullPath": "/helpdesk/:id/feedback",
           "handler": "submitFeedback",
-          "handlerLine": 233,
+          "handlerLine": 276,
           "permissions": [
             "HELPDESK_PERMISSIONS.CREATE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 232
+            "line": 275
           }
         },
         {
@@ -2051,14 +2099,14 @@
           "path": ":id/history",
           "fullPath": "/helpdesk/:id/history",
           "handler": "history",
-          "handlerLine": 247,
+          "handlerLine": 290,
           "permissions": [
             "HELPDESK_PERMISSIONS.READ"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 246
+            "line": 289
           }
         },
         {
@@ -2070,14 +2118,14 @@
           "path": ":id/reopen",
           "fullPath": "/helpdesk/:id/reopen",
           "handler": "reopen",
-          "handlerLine": 172,
+          "handlerLine": 215,
           "permissions": [
             "HELPDESK_PERMISSIONS.RESOLVE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 171
+            "line": 214
           }
         },
         {
@@ -2089,14 +2137,14 @@
           "path": ":id/resolve",
           "fullPath": "/helpdesk/:id/resolve",
           "handler": "resolve",
-          "handlerLine": 161,
+          "handlerLine": 204,
           "permissions": [
             "HELPDESK_PERMISSIONS.RESOLVE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 160
+            "line": 203
           }
         },
         {
@@ -2108,14 +2156,14 @@
           "path": ":id/start-progress",
           "fullPath": "/helpdesk/:id/start-progress",
           "handler": "startProgress",
-          "handlerLine": 136,
+          "handlerLine": 179,
           "permissions": [
             "HELPDESK_PERMISSIONS.MANAGE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 135
+            "line": 178
           }
         },
         {
@@ -2127,14 +2175,14 @@
           "path": ":id/worklogs",
           "fullPath": "/helpdesk/:id/worklogs",
           "handler": "addWorklog",
-          "handlerLine": 219,
+          "handlerLine": 262,
           "permissions": [
             "HELPDESK_PERMISSIONS.MANAGE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 218
+            "line": 261
           }
         },
         {
@@ -2146,14 +2194,33 @@
           "path": "categories",
           "fullPath": "/helpdesk/categories",
           "handler": "listCategories",
-          "handlerLine": 86,
+          "handlerLine": 95,
           "permissions": [
             "HELPDESK_PERMISSIONS.READ"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 85
+            "line": 94
+          }
+        },
+        {
+          "id": "helpdesk:helpdesk:post:draftReply:/helpdesk/draft-reply",
+          "controllerId": "helpdesk:helpdesk",
+          "controllerClassName": "HelpdeskController",
+          "moduleId": "helpdesk",
+          "httpMethod": "POST",
+          "path": "draft-reply",
+          "fullPath": "/helpdesk/draft-reply",
+          "handler": "draftReply",
+          "handlerLine": 125,
+          "permissions": [
+            "HELPDESK_PERMISSIONS.COMMENT"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+            "line": 124
           }
         },
         {
@@ -2165,20 +2232,58 @@
           "path": "metrics",
           "fullPath": "/helpdesk/metrics",
           "handler": "getMetrics",
-          "handlerLine": 94,
+          "handlerLine": 103,
           "permissions": [
             "HELPDESK_PERMISSIONS.READ"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-            "line": 93
+            "line": 102
+          }
+        },
+        {
+          "id": "helpdesk:helpdesk:post:retrieveKnowledge:/helpdesk/retrieve-knowledge",
+          "controllerId": "helpdesk:helpdesk",
+          "controllerClassName": "HelpdeskController",
+          "moduleId": "helpdesk",
+          "httpMethod": "POST",
+          "path": "retrieve-knowledge",
+          "fullPath": "/helpdesk/retrieve-knowledge",
+          "handler": "retrieveKnowledge",
+          "handlerLine": 137,
+          "permissions": [
+            "HELPDESK_PERMISSIONS.READ"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+            "line": 136
+          }
+        },
+        {
+          "id": "helpdesk:helpdesk:post:triage:/helpdesk/triage",
+          "controllerId": "helpdesk:helpdesk",
+          "controllerClassName": "HelpdeskController",
+          "moduleId": "helpdesk",
+          "httpMethod": "POST",
+          "path": "triage",
+          "fullPath": "/helpdesk/triage",
+          "handler": "triage",
+          "handlerLine": 115,
+          "permissions": [
+            "HELPDESK_PERMISSIONS.CREATE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+            "line": 114
           }
         }
       ],
       "source": {
         "path": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
-        "line": 37
+        "line": 43
       }
     },
     {
@@ -2543,7 +2648,10 @@
       "moduleId": "integration",
       "className": "IntegrationController",
       "basePath": "/integrations",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 7,
       "routes": [
@@ -2556,12 +2664,14 @@
           "path": "",
           "fullPath": "/integrations",
           "handler": "list",
-          "handlerLine": 24,
-          "permissions": [],
+          "handlerLine": 40,
+          "permissions": [
+            "Permissions.INTEGRATION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 23
+            "line": 38
           }
         },
         {
@@ -2573,12 +2683,14 @@
           "path": "",
           "fullPath": "/integrations",
           "handler": "register",
-          "handlerLine": 19,
-          "permissions": [],
+          "handlerLine": 34,
+          "permissions": [
+            "Permissions.INTEGRATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 18
+            "line": 32
           }
         },
         {
@@ -2590,12 +2702,14 @@
           "path": ":id",
           "fullPath": "/integrations/:id",
           "handler": "get",
-          "handlerLine": 29,
-          "permissions": [],
+          "handlerLine": 46,
+          "permissions": [
+            "Permissions.INTEGRATION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 28
+            "line": 44
           }
         },
         {
@@ -2607,12 +2721,14 @@
           "path": ":id/activate",
           "fullPath": "/integrations/:id/activate",
           "handler": "activate",
-          "handlerLine": 34,
-          "permissions": [],
+          "handlerLine": 52,
+          "permissions": [
+            "Permissions.INTEGRATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 33
+            "line": 50
           }
         },
         {
@@ -2624,12 +2740,14 @@
           "path": ":id/deactivate",
           "fullPath": "/integrations/:id/deactivate",
           "handler": "deactivate",
-          "handlerLine": 39,
-          "permissions": [],
+          "handlerLine": 58,
+          "permissions": [
+            "Permissions.INTEGRATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 38
+            "line": 56
           }
         },
         {
@@ -2641,12 +2759,14 @@
           "path": "connectors",
           "fullPath": "/integrations/connectors",
           "handler": "listConnectors",
-          "handlerLine": 14,
-          "permissions": [],
+          "handlerLine": 28,
+          "permissions": [
+            "Permissions.INTEGRATION_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 13
+            "line": 26
           }
         },
         {
@@ -2658,18 +2778,20 @@
           "path": "execute",
           "fullPath": "/integrations/execute",
           "handler": "execute",
-          "handlerLine": 44,
-          "permissions": [],
+          "handlerLine": 64,
+          "permissions": [
+            "Permissions.INTEGRATION_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/integration/controllers/integration.controller.ts",
-            "line": 43
+            "line": 62
           }
         }
       ],
       "source": {
         "path": "backend/src/core/integration/controllers/integration.controller.ts",
-        "line": 9
+        "line": 21
       }
     },
     {
@@ -4470,7 +4592,10 @@
       "moduleId": "plugin",
       "className": "PluginController",
       "basePath": "/plugins",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 12,
       "routes": [
@@ -4483,12 +4608,14 @@
           "path": "",
           "fullPath": "/plugins",
           "handler": "list",
-          "handlerLine": 16,
-          "permissions": [],
+          "handlerLine": 30,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 15
+            "line": 28
           }
         },
         {
@@ -4500,12 +4627,14 @@
           "path": "",
           "fullPath": "/plugins",
           "handler": "install",
-          "handlerLine": 26,
-          "permissions": [],
+          "handlerLine": 42,
+          "permissions": [
+            "Permissions.PLUGIN_CREATE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 25
+            "line": 40
           }
         },
         {
@@ -4517,12 +4646,14 @@
           "path": ":id",
           "fullPath": "/plugins/:id",
           "handler": "remove",
-          "handlerLine": 92,
-          "permissions": [],
+          "handlerLine": 108,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 91
+            "line": 106
           }
         },
         {
@@ -4534,12 +4665,14 @@
           "path": ":id",
           "fullPath": "/plugins/:id",
           "handler": "getInstalled",
-          "handlerLine": 31,
-          "permissions": [],
+          "handlerLine": 48,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 30
+            "line": 46
           }
         },
         {
@@ -4551,12 +4684,14 @@
           "path": ":id/capabilities",
           "fullPath": "/plugins/:id/capabilities",
           "handler": "capabilities",
-          "handlerLine": 36,
-          "permissions": [],
+          "handlerLine": 54,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 35
+            "line": 52
           }
         },
         {
@@ -4568,12 +4703,14 @@
           "path": ":id/diagnostics",
           "fullPath": "/plugins/:id/diagnostics",
           "handler": "diagnostics",
-          "handlerLine": 41,
-          "permissions": [],
+          "handlerLine": 60,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 40
+            "line": 58
           }
         },
         {
@@ -4585,12 +4722,14 @@
           "path": ":id/lifecycle",
           "fullPath": "/plugins/:id/lifecycle",
           "handler": "lifecycleStatus",
-          "handlerLine": 56,
-          "permissions": [],
+          "handlerLine": 77,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 55
+            "line": 75
           }
         },
         {
@@ -4602,12 +4741,14 @@
           "path": ":id/lifecycle",
           "fullPath": "/plugins/:id/lifecycle",
           "handler": "lifecycle",
-          "handlerLine": 77,
-          "permissions": [],
+          "handlerLine": 95,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 76
+            "line": 93
           }
         },
         {
@@ -4619,12 +4760,14 @@
           "path": ":id/load-report",
           "fullPath": "/plugins/:id/load-report",
           "handler": "loadReport",
-          "handlerLine": 46,
-          "permissions": [],
+          "handlerLine": 66,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 45
+            "line": 64
           }
         },
         {
@@ -4636,12 +4779,14 @@
           "path": ":id/rollback",
           "fullPath": "/plugins/:id/rollback",
           "handler": "rollback",
-          "handlerLine": 69,
-          "permissions": [],
+          "handlerLine": 89,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 68
+            "line": 87
           }
         },
         {
@@ -4653,12 +4798,14 @@
           "path": ":id/upgrade",
           "fullPath": "/plugins/:id/upgrade",
           "handler": "upgrade",
-          "handlerLine": 61,
-          "permissions": [],
+          "handlerLine": 83,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 60
+            "line": 81
           }
         },
         {
@@ -4670,18 +4817,20 @@
           "path": "installed",
           "fullPath": "/plugins/installed",
           "handler": "installed",
-          "handlerLine": 21,
-          "permissions": [],
+          "handlerLine": 36,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-            "line": 20
+            "line": 34
           }
         }
       ],
       "source": {
         "path": "backend/src/core/plugin/controllers/plugin.controller.ts",
-        "line": 11
+        "line": 23
       }
     },
     {
@@ -4726,8 +4875,11 @@
       "moduleId": "plugin",
       "className": "PluginMarketplaceController",
       "basePath": "/plugin-marketplace",
-      "guards": [],
-      "bearerAuth": false,
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
+      "bearerAuth": true,
       "routeCount": 3,
       "routes": [
         {
@@ -4739,12 +4891,14 @@
           "path": "",
           "fullPath": "/plugin-marketplace",
           "handler": "list",
-          "handlerLine": 27,
-          "permissions": [],
-          "bearerAuth": false,
+          "handlerLine": 20,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
+          "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 26
+            "line": 18
           }
         },
         {
@@ -4756,12 +4910,14 @@
           "path": ":id",
           "fullPath": "/plugin-marketplace/:id",
           "handler": "get",
-          "handlerLine": 50,
-          "permissions": [],
-          "bearerAuth": false,
+          "handlerLine": 41,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
+          "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 49
+            "line": 39
           }
         },
         {
@@ -4773,18 +4929,20 @@
           "path": "search",
           "fullPath": "/plugin-marketplace/search",
           "handler": "search",
-          "handlerLine": 36,
-          "permissions": [],
-          "bearerAuth": false,
+          "handlerLine": 29,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
+          "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-            "line": 35
+            "line": 27
           }
         }
       ],
       "source": {
         "path": "backend/src/core/plugin/marketplace/controllers/plugin-marketplace.controller.ts",
-        "line": 19
+        "line": 13
       }
     },
     {
@@ -4792,7 +4950,10 @@
       "moduleId": "plugin",
       "className": "PluginPackageController",
       "basePath": "/plugin-packages",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 4,
       "routes": [
@@ -4805,12 +4966,14 @@
           "path": "",
           "fullPath": "/plugin-packages",
           "handler": "list",
-          "handlerLine": 21,
-          "permissions": [],
+          "handlerLine": 28,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts",
-            "line": 20
+            "line": 26
           }
         },
         {
@@ -4822,12 +4985,14 @@
           "path": "",
           "fullPath": "/plugin-packages",
           "handler": "register",
-          "handlerLine": 13,
-          "permissions": [],
+          "handlerLine": 19,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts",
-            "line": 12
+            "line": 17
           }
         },
         {
@@ -4839,12 +5004,14 @@
           "path": ":id",
           "fullPath": "/plugin-packages/:id",
           "handler": "get",
-          "handlerLine": 29,
-          "permissions": [],
+          "handlerLine": 37,
+          "permissions": [
+            "Permissions.PLUGIN_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts",
-            "line": 28
+            "line": 35
           }
         },
         {
@@ -4856,18 +5023,20 @@
           "path": ":id/validate",
           "fullPath": "/plugin-packages/:id/validate",
           "handler": "validate",
-          "handlerLine": 37,
-          "permissions": [],
+          "handlerLine": 46,
+          "permissions": [
+            "Permissions.PLUGIN_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts",
-            "line": 36
+            "line": 44
           }
         }
       ],
       "source": {
         "path": "backend/src/core/plugin/package/controllers/plugin-package.controller.ts",
-        "line": 8
+        "line": 12
       }
     },
     {
@@ -8197,7 +8366,10 @@
       "moduleId": "theme",
       "className": "ThemeController",
       "basePath": "/themes",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 5,
       "routes": [
@@ -8210,12 +8382,14 @@
           "path": "",
           "fullPath": "/themes",
           "handler": "list",
-          "handlerLine": 13,
-          "permissions": [],
+          "handlerLine": 19,
+          "permissions": [
+            "Permissions.THEME_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/controllers/theme.controller.ts",
-            "line": 12
+            "line": 17
           }
         },
         {
@@ -8227,12 +8401,14 @@
           "path": "",
           "fullPath": "/themes",
           "handler": "install",
-          "handlerLine": 37,
-          "permissions": [],
+          "handlerLine": 46,
+          "permissions": [
+            "Permissions.THEME_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/controllers/theme.controller.ts",
-            "line": 36
+            "line": 44
           }
         },
         {
@@ -8244,12 +8420,14 @@
           "path": ":id",
           "fullPath": "/themes/:id",
           "handler": "get",
-          "handlerLine": 29,
-          "permissions": [],
+          "handlerLine": 37,
+          "permissions": [
+            "Permissions.THEME_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/controllers/theme.controller.ts",
-            "line": 28
+            "line": 35
           }
         },
         {
@@ -8261,12 +8439,14 @@
           "path": ":id/activate",
           "fullPath": "/themes/:id/activate",
           "handler": "activate",
-          "handlerLine": 42,
-          "permissions": [],
+          "handlerLine": 52,
+          "permissions": [
+            "Permissions.THEME_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/controllers/theme.controller.ts",
-            "line": 41
+            "line": 50
           }
         },
         {
@@ -8278,18 +8458,20 @@
           "path": "active",
           "fullPath": "/themes/active",
           "handler": "active",
-          "handlerLine": 21,
-          "permissions": [],
+          "handlerLine": 28,
+          "permissions": [
+            "Permissions.THEME_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/controllers/theme.controller.ts",
-            "line": 20
+            "line": 26
           }
         }
       ],
       "source": {
         "path": "backend/src/core/theme/controllers/theme.controller.ts",
-        "line": 8
+        "line": 12
       }
     },
     {
@@ -8297,7 +8479,10 @@
       "moduleId": "theme",
       "className": "ThemePackageController",
       "basePath": "/theme-packages",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 5,
       "routes": [
@@ -8310,12 +8495,14 @@
           "path": "",
           "fullPath": "/theme-packages",
           "handler": "list",
-          "handlerLine": 18,
-          "permissions": [],
+          "handlerLine": 33,
+          "permissions": [
+            "Permissions.THEME_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts",
-            "line": 17
+            "line": 31
           }
         },
         {
@@ -8327,12 +8514,14 @@
           "path": "",
           "fullPath": "/theme-packages",
           "handler": "register",
-          "handlerLine": 13,
-          "permissions": [],
+          "handlerLine": 27,
+          "permissions": [
+            "Permissions.THEME_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts",
-            "line": 12
+            "line": 25
           }
         },
         {
@@ -8344,12 +8533,14 @@
           "path": ":id",
           "fullPath": "/theme-packages/:id",
           "handler": "get",
-          "handlerLine": 23,
-          "permissions": [],
+          "handlerLine": 39,
+          "permissions": [
+            "Permissions.THEME_READ"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts",
-            "line": 22
+            "line": 37
           }
         },
         {
@@ -8361,12 +8552,14 @@
           "path": ":id/archive",
           "fullPath": "/theme-packages/:id/archive",
           "handler": "archive",
-          "handlerLine": 33,
-          "permissions": [],
+          "handlerLine": 51,
+          "permissions": [
+            "Permissions.THEME_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts",
-            "line": 32
+            "line": 49
           }
         },
         {
@@ -8378,18 +8571,20 @@
           "path": ":id/install",
           "fullPath": "/theme-packages/:id/install",
           "handler": "install",
-          "handlerLine": 28,
-          "permissions": [],
+          "handlerLine": 45,
+          "permissions": [
+            "Permissions.THEME_MANAGE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts",
-            "line": 27
+            "line": 43
           }
         }
       ],
       "source": {
         "path": "backend/src/core/theme/package/controllers/theme-package.controller.ts",
-        "line": 8
+        "line": 20
       }
     },
     {
@@ -8397,7 +8592,10 @@
       "moduleId": "upload",
       "className": "UploadController",
       "basePath": "/uploads",
-      "guards": [],
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
       "bearerAuth": true,
       "routeCount": 1,
       "routes": [
@@ -8410,18 +8608,20 @@
           "path": "",
           "fullPath": "/uploads",
           "handler": "upload",
-          "handlerLine": 13,
-          "permissions": [],
+          "handlerLine": 19,
+          "permissions": [
+            "Permissions.UPLOAD_CREATE"
+          ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/upload/controllers/upload.controller.ts",
-            "line": 12
+            "line": 17
           }
         }
       ],
       "source": {
         "path": "backend/src/core/upload/controllers/upload.controller.ts",
-        "line": 8
+        "line": 12
       }
     },
     {

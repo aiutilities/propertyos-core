@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from tools.knowledge_engine.test_source_policy import is_test_source
+
 import re
 from pathlib import PurePosixPath
 from typing import Iterable, Tuple
@@ -375,7 +377,7 @@ class PluginBlueprintGenerator:
         elif "constant" in path_text:
             file_kind = "constant"
         elif "test" in path_text or (
-            filename.endswith(".spec.ts")
+            is_test_source(filename)
         ):
             file_kind = "test"
         else:

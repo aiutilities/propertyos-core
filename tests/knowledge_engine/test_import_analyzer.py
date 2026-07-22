@@ -211,7 +211,7 @@ class ImportAnalyzerTest(
             )
 
             self.assertEqual(
-                48,
+                60,
                 len(resolved_original),
             )
 
@@ -250,12 +250,12 @@ class ImportAnalyzerTest(
             ]
 
             self.assertEqual(
-                48,
+                60,
                 len(rewrites),
             )
 
             self.assertEqual(
-                48,
+                60,
                 analysis.rewrite_count,
             )
 

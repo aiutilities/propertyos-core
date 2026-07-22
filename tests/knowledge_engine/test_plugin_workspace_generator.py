@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from unittest.mock import Mock
+
 import json
 import tempfile
 import unittest
@@ -628,6 +630,125 @@ class PluginWorkspaceContractSurfaceTest(
             "inventory-stock-ledger.repository';",
             index,
         )
+
+    def test_external_package_scan_ignores_test_sources(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            dir=REPOSITORY_ROOT
+        ) as directory:
+            root = Path(directory)
+
+            module_root = (
+                root
+                / "backend"
+                / "src"
+                / "sample"
+            )
+
+            module_root.mkdir(
+                parents=True
+            )
+
+            (
+                module_root
+                / "sample.module.ts"
+            ).write_text(
+                "export class SampleModule {}\n",
+                encoding="utf-8",
+            )
+
+            (
+                module_root
+                / "sample.spec.ts"
+            ).write_text(
+                (
+                    "import { describe } "
+                    "from '@undeclared/test-only';\n"
+                ),
+                encoding="utf-8",
+            )
+
+            repository = Mock()
+
+            repository.module.return_value = Mock(
+                source=Mock(
+                    path=module_root
+                )
+            )
+
+            generator = PluginWorkspaceGenerator(
+                repository=repository,
+                repository_root=root,
+            )
+
+            blueprint = Mock(
+                module_id="sample"
+            )
+
+            self.assertEqual(
+                (),
+                generator._external_packages(
+                    blueprint
+                ),
+            )
+
+    def test_external_package_scan_keeps_production_imports(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            dir=REPOSITORY_ROOT
+        ) as directory:
+            root = Path(directory)
+
+            module_root = (
+                root
+                / "backend"
+                / "src"
+                / "sample"
+            )
+
+            module_root.mkdir(
+                parents=True
+            )
+
+            (
+                module_root
+                / "sample.module.ts"
+            ).write_text(
+                (
+                    "import { value } "
+                    "from '@undeclared/runtime';\n"
+                    "export class SampleModule {}\n"
+                ),
+                encoding="utf-8",
+            )
+
+            repository = Mock()
+
+            repository.module.return_value = Mock(
+                source=Mock(
+                    path=module_root
+                )
+            )
+
+            generator = PluginWorkspaceGenerator(
+                repository=repository,
+                repository_root=root,
+            )
+
+            blueprint = Mock(
+                module_id="sample"
+            )
+
+            self.assertEqual(
+                (
+                    "@undeclared/runtime",
+                ),
+                generator._external_packages(
+                    blueprint
+                ),
+            )
 
 
 if __name__ == "__main__":

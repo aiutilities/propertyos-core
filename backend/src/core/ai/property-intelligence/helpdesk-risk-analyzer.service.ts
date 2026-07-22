@@ -31,8 +31,7 @@ export class HelpdeskRiskAnalyzerService {
 
 
       if (
-        ticket.priority === 'URGENT' ||
-        ticket.priority === 'CRITICAL'
+        String(ticket.priority) === 'URGENT'
       ) {
 
         signals.push({

@@ -8,6 +8,10 @@ import {
   HelpdeskRiskAnalyzerService,
 } from './helpdesk-risk-analyzer.service';
 
+import {
+  HelpdeskChannel,
+} from '../../helpdesk/types/helpdesk.types';
+
 
 describe(
   'HelpdeskRiskAnalyzerService',
@@ -45,8 +49,11 @@ describe(
               propertyId:
                 'property-001',
 
-              reporterPersonId:
+              requesterPersonId:
                 'tenant-1',
+
+              channel:
+                HelpdeskChannel.WEB,
 
               priority:
                 'URGENT' as any,
@@ -109,8 +116,11 @@ describe(
               propertyId:
                 'property-001',
 
-              reporterPersonId:
+              requesterPersonId:
                 'tenant-1',
+
+              channel:
+                HelpdeskChannel.WEB,
 
               priority:
                 'MEDIUM' as any,

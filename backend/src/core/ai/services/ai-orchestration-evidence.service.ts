@@ -115,6 +115,154 @@ export class AiOrchestrationEvidenceService {
     });
   }
 
+  async recordRecoveryStarted(options: {
+    correlationId: string;
+    tenantId: string;
+    action:
+      | 'RETRY'
+      | 'FALLBACK_PROVIDER'
+      | 'REDUCE_CONTEXT'
+      | 'REQUEST_PERMISSION'
+      | 'STOP';
+    attemptNumber: number;
+    message: string;
+  }): Promise<void> {
+    await this.publish(
+      'ai.recovery.started',
+      {
+        correlationId:
+          options.correlationId,
+        tenantId:
+          options.tenantId,
+        capability:
+          'CHAT',
+        executionMode:
+          'SIMULATED',
+        dataClassification:
+          'INTERNAL',
+        status:
+          'REQUESTED',
+        fallbackProviderNames:
+          [],
+        attempts:
+          [],
+        recoveryExecution: {
+          status:
+            'STARTED',
+          action:
+            options.action,
+          attemptNumber:
+            options.attemptNumber,
+          message:
+            options.message,
+        },
+        metadata:
+          {},
+        recordedAt:
+          new Date().toISOString(),
+      },
+    );
+  }
+
+  async recordRecoveryCompleted(options: {
+    correlationId: string;
+    tenantId: string;
+    action:
+      | 'RETRY'
+      | 'FALLBACK_PROVIDER'
+      | 'REDUCE_CONTEXT'
+      | 'REQUEST_PERMISSION'
+      | 'STOP';
+    attemptNumber: number;
+    message: string;
+  }): Promise<void> {
+    await this.publish(
+      'ai.recovery.completed',
+      {
+        correlationId:
+          options.correlationId,
+        tenantId:
+          options.tenantId,
+        capability:
+          'CHAT',
+        executionMode:
+          'SIMULATED',
+        dataClassification:
+          'INTERNAL',
+        status:
+          'SUCCEEDED',
+        fallbackProviderNames:
+          [],
+        attempts:
+          [],
+        recoveryExecution: {
+          status:
+            'SUCCEEDED',
+          action:
+            options.action,
+          attemptNumber:
+            options.attemptNumber,
+          message:
+            options.message,
+        },
+        metadata:
+          {},
+        recordedAt:
+          new Date().toISOString(),
+      },
+    );
+  }
+
+  async recordRecoveryFailed(options: {
+    correlationId: string;
+    tenantId: string;
+    action:
+      | 'RETRY'
+      | 'FALLBACK_PROVIDER'
+      | 'REDUCE_CONTEXT'
+      | 'REQUEST_PERMISSION'
+      | 'STOP';
+    attemptNumber: number;
+    message: string;
+  }): Promise<void> {
+    await this.publish(
+      'ai.recovery.failed',
+      {
+        correlationId:
+          options.correlationId,
+        tenantId:
+          options.tenantId,
+        capability:
+          'CHAT',
+        executionMode:
+          'SIMULATED',
+        dataClassification:
+          'INTERNAL',
+        status:
+          'FAILED',
+        fallbackProviderNames:
+          [],
+        attempts:
+          [],
+        recoveryExecution: {
+          status:
+            'FAILED',
+          action:
+            options.action,
+          attemptNumber:
+            options.attemptNumber,
+          message:
+            options.message,
+        },
+        metadata:
+          {},
+        recordedAt:
+          new Date().toISOString(),
+      },
+    );
+  }
+
+
   sanitizeMetadata(
     metadata: Record<string, unknown>,
   ): Record<string, unknown> {

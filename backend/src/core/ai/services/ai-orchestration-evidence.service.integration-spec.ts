@@ -242,4 +242,120 @@ describe('AiOrchestrationEvidenceService', () => {
       authorization: '[REDACTED]',
     });
   });
+
+
+describe(
+  'AiOrchestrationEvidenceService recovery evidence',
+  () => {
+    it(
+      'publishes recovery started evidence',
+      async () => {
+        const {
+          service,
+          publish,
+        } = createService();
+
+        await service.recordRecoveryStarted({
+          correlationId:
+            'correlation-recovery-start',
+          tenantId:
+            'tenant-recovery',
+          action:
+            'RETRY',
+          attemptNumber:
+            1,
+          message:
+            'retry approved',
+        });
+
+        expect(
+          publish,
+        ).toHaveBeenCalledWith(
+          'ai.recovery.started',
+          'core.ai.orchestration',
+          expect.objectContaining({
+            recoveryExecution: {
+              status:
+                'STARTED',
+              action:
+                'RETRY',
+              attemptNumber:
+                1,
+              message:
+                'retry approved',
+            },
+          }),
+        );
+      },
+    );
+
+    it(
+      'publishes recovery completed evidence',
+      async () => {
+        const {
+          service,
+          publish,
+        } = createService();
+
+        await service.recordRecoveryCompleted({
+          correlationId:
+            'correlation-recovery-complete',
+          tenantId:
+            'tenant-recovery',
+          action:
+            'FALLBACK_PROVIDER',
+          attemptNumber:
+            2,
+          message:
+            'fallback succeeded',
+        });
+
+        expect(
+          publish,
+        ).toHaveBeenCalledWith(
+          'ai.recovery.completed',
+          'core.ai.orchestration',
+          expect.objectContaining({
+            status:
+              'SUCCEEDED',
+          }),
+        );
+      },
+    );
+
+    it(
+      'publishes recovery failed evidence',
+      async () => {
+        const {
+          service,
+          publish,
+        } = createService();
+
+        await service.recordRecoveryFailed({
+          correlationId:
+            'correlation-recovery-failed',
+          tenantId:
+            'tenant-recovery',
+          action:
+            'RETRY',
+          attemptNumber:
+            3,
+          message:
+            'retry exhausted',
+        });
+
+        expect(
+          publish,
+        ).toHaveBeenCalledWith(
+          'ai.recovery.failed',
+          'core.ai.orchestration',
+          expect.objectContaining({
+            status:
+              'FAILED',
+          }),
+        );
+      },
+    );
+  },
+);
 });

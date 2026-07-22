@@ -39,6 +39,23 @@ export interface AiOrchestrationEvidence {
     };
     recovery?: AiRecoveryPlan;
   };
+  recoveryExecution?: {
+    status:
+      | 'REQUESTED'
+      | 'STARTED'
+      | 'SUCCEEDED'
+      | 'FAILED'
+      | 'STOPPED';
+    action:
+      | 'RETRY'
+      | 'FALLBACK_PROVIDER'
+      | 'REDUCE_CONTEXT'
+      | 'REQUEST_PERMISSION'
+      | 'STOP';
+    attemptNumber: number;
+    message: string;
+  };
+
   metadata: Record<string, unknown>;
   recordedAt: string;
 }

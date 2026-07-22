@@ -329,6 +329,24 @@ export class AiOrchestrationEvidenceService {
 
 
 
+  async recordPropertyAction(
+    evidence: Record<string, unknown>,
+  ): Promise<void> {
+
+    await this.publish(
+      'ai.property.action.evidence',
+      {
+        ...evidence,
+
+        recordedAt:
+          new Date().toISOString(),
+      },
+    );
+
+  }
+
+
+
   private async publish(
     eventName: string,
     evidence: Record<string, unknown>,

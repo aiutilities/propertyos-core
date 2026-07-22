@@ -9,6 +9,10 @@ import {
   AiRecoveryCoordinatorService,
 } from './ai-recovery-coordinator.service';
 
+import {
+  AiRecoveryBudgetService,
+} from './ai-recovery-budget.service';
+
 describe(
   'AiRecoveryCoordinatorService',
   () => {
@@ -16,7 +20,9 @@ describe(
 
     beforeEach(() => {
       service =
-        new AiRecoveryCoordinatorService();
+        new AiRecoveryCoordinatorService(
+          new AiRecoveryBudgetService(),
+        );
     });
 
     it(
@@ -143,7 +149,7 @@ describe(
           executable:
             false,
           reason:
-            'Recovery attempt limit reached',
+            'Recovery budget exhausted',
         });
       },
     );

@@ -14,60 +14,105 @@ describe(
   () => {
 
 
-    const service =
-      new PropertyOperationsAgentService();
-
-
     it(
-      'returns healthy property insight',
-      () => {
+      'creates property operational insight',
+      async () => {
 
-        expect(
-          service.analyze({
-            propertyId:
-              'property-001',
 
-            propertyName:
-              'Advaiths Nest',
+        const intelligence = {
 
-            openMaintenanceIssues:
-              1,
-          }),
-        ).toEqual(
-          expect.objectContaining({
+          analyzeProperty:
+            async () => ({
 
-            healthStatus:
-              'HEALTHY',
-          }),
-        );
+              propertyId:
+                'property-001',
+
+              propertyName:
+                'Advaiths Nest',
+
+              maintenanceOpenCount:
+                2,
+
+              helpdeskOpenCount:
+                1,
+
+              operationalRisk:
+                'LOW',
+            }),
+        } as any;
+
+
+        const service =
+          new PropertyOperationsAgentService(
+            intelligence,
+          );
+
+
+        const result =
+          await service.analyze(
+            'property-001',
+          );
+
+
+        expect(result)
+          .toEqual(
+            expect.objectContaining({
+
+              propertyName:
+                'Advaiths Nest',
+
+              healthStatus:
+                'HEALTHY',
+            }),
+          );
       },
     );
 
 
     it(
-      'raises critical alert',
-      () => {
+      'raises warning for operational risk',
+      async () => {
 
-        expect(
-          service.analyze({
-            propertyId:
-              'property-001',
 
-            propertyName:
-              'Advaiths Nest',
+        const intelligence = {
 
-            alerts:
-              [
-                'Water leakage detected',
-              ],
-          }),
-        ).toEqual(
-          expect.objectContaining({
+          analyzeProperty:
+            async () => ({
 
-            healthStatus:
-              'CRITICAL',
-          }),
-        );
+              propertyId:
+                'property-001',
+
+              propertyName:
+                'Advaiths Nest',
+
+              maintenanceOpenCount:
+                8,
+
+              helpdeskOpenCount:
+                3,
+
+              operationalRisk:
+                'MEDIUM',
+            }),
+        } as any;
+
+
+        const service =
+          new PropertyOperationsAgentService(
+            intelligence,
+          );
+
+
+        const result =
+          await service.analyze(
+            'property-001',
+          );
+
+
+        expect(result.healthStatus)
+          .toBe(
+            'WARNING',
+          );
       },
     );
 

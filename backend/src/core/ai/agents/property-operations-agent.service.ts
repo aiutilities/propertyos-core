@@ -3,7 +3,10 @@ import {
 } from '@nestjs/common';
 
 import {
-  PropertyOperationsAgentContext,
+  PropertyOperationsIntelligenceService,
+} from '../property-intelligence/property-operations-intelligence.service';
+
+import {
   PropertyOperationsInsight,
 } from '../types/property-operations-agent.types';
 
@@ -12,10 +15,21 @@ import {
 export class PropertyOperationsAgentService {
 
 
-  analyze(
-    context:
-      PropertyOperationsAgentContext,
-  ): PropertyOperationsInsight {
+  constructor(
+    private readonly intelligence:
+      PropertyOperationsIntelligenceService,
+  ) {}
+
+
+  async analyze(
+    propertyId: string,
+  ): Promise<PropertyOperationsInsight> {
+
+
+    const data =
+      await this.intelligence.analyzeProperty(
+        propertyId,
+      );
 
 
     let healthStatus:
@@ -28,28 +42,27 @@ export class PropertyOperationsAgentService {
 
 
     if (
-      (context.openMaintenanceIssues ?? 0) > 5
+      data.operationalRisk === 'MEDIUM'
     ) {
 
       healthStatus =
         'WARNING';
 
       recommendations.push(
-        'Review pending maintenance issues',
+        'Review maintenance and helpdesk workload',
       );
     }
 
 
     if (
-      context.alerts &&
-      context.alerts.length > 0
+      data.operationalRisk === 'HIGH'
     ) {
 
       healthStatus =
         'CRITICAL';
 
       recommendations.push(
-        ...context.alerts,
+        'Immediate operational attention required',
       );
     }
 
@@ -57,12 +70,15 @@ export class PropertyOperationsAgentService {
     return {
 
       propertyId:
-        context.propertyId,
+        data.propertyId,
+
+      propertyName:
+        data.propertyName,
 
       healthStatus,
 
       summary:
-        `${context.propertyName} operational health analysed`,
+        `${data.propertyName} operational health: ${healthStatus}`,
 
       recommendations,
 

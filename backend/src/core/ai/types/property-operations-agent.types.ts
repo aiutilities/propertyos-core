@@ -4,19 +4,23 @@ export interface PropertyOperationsAgentContext {
 
   propertyName: string;
 
-  occupancy?: number;
+  maintenanceOpenCount: number;
 
-  openMaintenanceIssues?: number;
+  helpdeskOpenCount: number;
 
-  pendingPayments?: number;
+  operationalRisk:
+    | 'LOW'
+    | 'MEDIUM'
+    | 'HIGH';
 
-  alerts?: string[];
 }
 
 
 export interface PropertyOperationsInsight {
 
   propertyId: string;
+
+  propertyName: string;
 
   healthStatus:
     | 'HEALTHY'

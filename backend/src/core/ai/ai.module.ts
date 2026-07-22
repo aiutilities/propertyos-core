@@ -39,6 +39,7 @@ import { PropertyOsAiSdkService } from "./sdk/propertyos-ai-sdk.service";
 import { AiToolManifestValidator } from "./tools/manifest/ai-tool-manifest.validator";
 import { AiToolExecutionService } from "./tools/execution/ai-tool-execution.service";
 import { AiToolCallCoordinatorService } from "./tools/orchestration/ai-tool-call-coordinator.service";
+import { AiToolInteractionProjectionService } from "./tools/orchestration/ai-tool-interaction-projection.service";
 import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
 
 @Module({
@@ -90,6 +91,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolManifestValidator,
     AiToolExecutionService,
     AiToolCallCoordinatorService,
+    AiToolInteractionProjectionService,
     AiToolRegistry,
   ],
   exports: [
@@ -123,6 +125,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolExecutionService,
 
     AiToolCallCoordinatorService,
+    AiToolInteractionProjectionService,
   ],
 })
 export class AiModule {}

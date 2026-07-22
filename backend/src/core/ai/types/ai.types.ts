@@ -1,14 +1,14 @@
-export type AiProviderStatus = 'ACTIVE' | 'INACTIVE';
+export type AiProviderStatus = "ACTIVE" | "INACTIVE";
 
 export type AiCapability =
-  | 'CHAT'
-  | 'TEXT_GENERATION'
-  | 'CLASSIFICATION'
-  | 'SUMMARIZATION'
-  | 'EXTRACTION'
-  | 'EMBEDDINGS'
-  | 'VISION'
-  | 'TOOL_CALLING';
+  | "CHAT"
+  | "TEXT_GENERATION"
+  | "CLASSIFICATION"
+  | "SUMMARIZATION"
+  | "EXTRACTION"
+  | "EMBEDDINGS"
+  | "VISION"
+  | "TOOL_CALLING";
 
 export interface AiProvider {
   id: string;
@@ -21,8 +21,10 @@ export interface AiProvider {
 }
 
 export interface AiMessage {
-  role: 'system' | 'user' | 'assistant' | 'tool';
+  role: "system" | "user" | "assistant" | "tool";
   content: string;
+  toolCallId?: string;
+  toolName?: string;
 }
 
 export interface AiRequest {

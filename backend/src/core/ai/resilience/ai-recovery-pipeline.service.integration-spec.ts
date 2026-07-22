@@ -26,6 +26,18 @@ import {
 } from './ai-recovery-execution.service';
 
 import {
+  AiOrchestrationEvidenceService,
+} from '../services/ai-orchestration-evidence.service';
+
+import {
+  EventBusService,
+} from '../../eventbus/services/eventbus.service';
+
+import {
+  jest,
+} from '@jest/globals';
+
+import {
   AiRecoveryPipelineService,
 } from './ai-recovery-pipeline.service';
 
@@ -36,8 +48,31 @@ describe(
     let service:
       AiRecoveryPipelineService;
 
+    let events:
+      unknown[];
+
+    let publish:
+      jest.Mock;
+
     beforeEach(
       () => {
+        events = [];
+
+        publish =
+          jest.fn(
+            async (
+              eventName,
+              source,
+              payload,
+            ) => {
+              events.push({
+                eventName,
+                source,
+                payload,
+              });
+            },
+          );
+
         service =
           new AiRecoveryPipelineService(
             new AiFailurePolicyService(),
@@ -46,15 +81,22 @@ describe(
               new AiRecoveryBudgetService(),
             ),
             new AiRecoveryExecutionService(),
+            new AiOrchestrationEvidenceService(
+              {
+                publish,
+              } as unknown as EventBusService,
+              new AiFailurePolicyService(),
+              new AiRecoveryDecisionService(),
+            ),
           );
       },
     );
 
     it(
       'executes fallback recovery pipeline',
-      () => {
+      async () => {
         expect(
-          service.execute({
+          await service.execute({
             failureCode:
               'PROVIDER_EXECUTION_FAILED',
             retriable:
@@ -83,9 +125,9 @@ describe(
 
     it(
       'stops when recovery budget is exhausted',
-      () => {
+      async () => {
         expect(
-          service.execute({
+          await service.execute({
             failureCode:
               'PROVIDER_EXECUTION_FAILED',
             retriable:

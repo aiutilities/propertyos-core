@@ -17,6 +17,10 @@ import {
 } from './ai-recovery-execution.service';
 
 import {
+  AiOrchestrationEvidenceService,
+} from '../services/ai-orchestration-evidence.service';
+
+import {
   AiRecoveryPipelineInput,
   AiRecoveryPipelineResult,
 } from '../types/ai-recovery-pipeline.types';
@@ -36,11 +40,14 @@ export class AiRecoveryPipelineService {
 
     private readonly execution:
       AiRecoveryExecutionService,
+
+    private readonly evidence:
+      AiOrchestrationEvidenceService,
   ) {}
 
-  execute(
+  async execute(
     input: AiRecoveryPipelineInput,
-  ): AiRecoveryPipelineResult {
+  ): Promise<AiRecoveryPipelineResult> {
 
     const classification =
       this.failurePolicy.classify(
@@ -90,6 +97,23 @@ export class AiRecoveryPipelineService {
       };
     }
 
+    await this.evidence.recordRecoveryStarted({
+      correlationId:
+        input.correlationId,
+
+      tenantId:
+        input.tenantId,
+
+      action:
+        plan.decision,
+
+      attemptNumber:
+        input.attemptsUsed + 1,
+
+      message:
+        coordination.reason,
+    });
+
     const execution =
       this.execution.execute({
         action:
@@ -107,6 +131,42 @@ export class AiRecoveryPipelineService {
         attemptNumber:
           input.attemptsUsed + 1,
       });
+
+    if (execution.status === 'FAILED') {
+      await this.evidence.recordRecoveryFailed({
+        correlationId:
+          input.correlationId,
+
+        tenantId:
+          input.tenantId,
+
+        action:
+          plan.decision,
+
+        attemptNumber:
+          input.attemptsUsed + 1,
+
+        message:
+          execution.message,
+      });
+    } else {
+      await this.evidence.recordRecoveryCompleted({
+        correlationId:
+          input.correlationId,
+
+        tenantId:
+          input.tenantId,
+
+        action:
+          plan.decision,
+
+        attemptNumber:
+          input.attemptsUsed + 1,
+
+        message:
+          execution.message,
+      });
+    }
 
     return {
       success:

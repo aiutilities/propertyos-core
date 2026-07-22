@@ -1,4 +1,5 @@
 import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
+import { AiRecoveryDecisionService } from '../resilience/ai-recovery-decision.service';
 import {
   describe,
   expect,
@@ -234,6 +235,7 @@ describe(
             new AiOrchestrationEvidenceService(
               eventBus,
               new AiFailurePolicyService(),
+              new AiRecoveryDecisionService(),
             ),
             new AiRequestPreparationService(),
             new AiPreparedRequestDispatchBoundaryService(),

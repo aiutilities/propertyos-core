@@ -3,6 +3,7 @@ import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiOrchestrationError } from '../errors/ai-orchestration.error';
 import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
 import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
+import { AiRecoveryDecisionService } from '../resilience/ai-recovery-decision.service';
 
 describe('AiOrchestrationEvidenceService', () => {
   function createService() {
@@ -18,6 +19,7 @@ describe('AiOrchestrationEvidenceService', () => {
       service: new AiOrchestrationEvidenceService(
         eventBus,
         new AiFailurePolicyService(),
+        new AiRecoveryDecisionService(),
       ),
       publish,
     };

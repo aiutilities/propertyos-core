@@ -4,6 +4,7 @@ import {
   AiOrchestrationAttempt,
   AiOrchestrationLoopSummary,
 } from './ai-orchestration.types';
+import { AiRecoveryPlan } from './ai-recovery.types';
 import { AiCapability } from './ai.types';
 
 export type AiOrchestrationEvidenceStatus =
@@ -36,6 +37,7 @@ export interface AiOrchestrationEvidence {
       severity: string;
       recoveryAction: string;
     };
+    recovery?: AiRecoveryPlan;
   };
   metadata: Record<string, unknown>;
   recordedAt: string;

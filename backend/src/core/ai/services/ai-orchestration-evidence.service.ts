@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
+import { AiRecoveryDecisionService } from '../resilience/ai-recovery-decision.service';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiOrchestrationError } from '../errors/ai-orchestration.error';
 import {
@@ -18,6 +19,7 @@ export class AiOrchestrationEvidenceService {
   constructor(
     private readonly eventBus: EventBusService,
     private readonly failurePolicy: AiFailurePolicyService,
+    private readonly recoveryDecision: AiRecoveryDecisionService,
   ) {}
 
   async recordRequested(options: {
@@ -99,6 +101,13 @@ export class AiOrchestrationEvidenceService {
           this.failurePolicy.classify(
             options.error.code,
             options.error.retriable,
+          ),
+        recovery:
+          this.recoveryDecision.decide(
+            this.failurePolicy.classify(
+              options.error.code,
+              options.error.retriable,
+            ),
           ),
       },
       metadata: this.sanitizeMetadata(options.request.metadata ?? {}),

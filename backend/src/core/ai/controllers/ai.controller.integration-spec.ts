@@ -79,6 +79,7 @@ describe(
           new AiController(
             aiService as never,
             {} as never,
+            {} as never,
           );
 
         expect(
@@ -101,11 +102,30 @@ describe(
             ) => request,
           );
 
+        const createToolContext =
+          jest.fn(
+            async (
+              _input: unknown,
+            ) => ({
+              actorId:
+                'person-16a4',
+              correlationId:
+                'correlation-16a4',
+              permissions: [
+                Permissions.AI_EXECUTE,
+              ],
+            }),
+          );
+
         const controller =
           new AiController(
             {} as never,
             {
               execute,
+            } as never,
+            {
+              create:
+                createToolContext,
             } as never,
           );
 
@@ -179,6 +199,18 @@ describe(
                   'SUCCEEDED',
               },
             } as never,
+            {
+              sub:
+                'person-16a4',
+              email:
+                'person@example.com',
+              displayName:
+                'Person 16A4',
+              iat:
+                1_900_000_000,
+              exp:
+                2_000_000_000,
+            },
           );
 
         expect(
@@ -234,6 +266,15 @@ describe(
             source:
               'controller-test',
           },
+          toolContext: {
+            actorId:
+              'person-16a4',
+            correlationId:
+              'correlation-16a4',
+            permissions: [
+              Permissions.AI_EXECUTE,
+            ],
+          },
         });
 
         expect(result).not
@@ -255,6 +296,25 @@ describe(
           .toHaveProperty(
             'evidence',
           );
+
+        expect(
+          createToolContext,
+        ).toHaveBeenCalledWith({
+          user: {
+            sub:
+              'person-16a4',
+            email:
+              'person@example.com',
+            displayName:
+              'Person 16A4',
+            iat:
+              1_900_000_000,
+            exp:
+              2_000_000_000,
+          },
+          correlationId:
+            'correlation-16a4',
+        });
       },
     );
 

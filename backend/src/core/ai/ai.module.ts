@@ -48,6 +48,7 @@ import { AiToolOrchestrationDecisionService } from "./tools/orchestration/ai-too
 import { AiToolResponseNormalizationService } from "./tools/orchestration/ai-tool-response-normalization.service";
 import { AiToolOrchestrationLoopService } from "./tools/orchestration/ai-tool-orchestration-loop.service";
 import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
+import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-context.service";
 
 @Module({
   imports: [DiscoveryModule, EventBusModule, AuthModule],
@@ -106,6 +107,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolOrchestrationDecisionService,
     AiToolResponseNormalizationService,
     AiToolOrchestrationLoopService,
+    AiToolRuntimeContextService,
     AiToolRegistry,
   ],
   exports: [
@@ -147,6 +149,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolOrchestrationDecisionService,
     AiToolResponseNormalizationService,
     AiToolOrchestrationLoopService,
+    AiToolRuntimeContextService,
   ],
 })
 export class AiModule {}

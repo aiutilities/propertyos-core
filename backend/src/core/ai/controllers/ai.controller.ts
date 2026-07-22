@@ -5,6 +5,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -12,6 +13,12 @@ import {
 import {
   Permissions,
 } from '../../auth/constants/permissions';
+import {
+  CurrentUser,
+} from '../../auth/decorators/current-user.decorator';
+import {
+  AuthTokenPayload,
+} from '../../auth/services/auth.service';
 import {
   RequirePermission,
 } from '../../auth/decorators/require-permission.decorator';
@@ -24,6 +31,9 @@ import {
 import {
   OrchestrateAiRequestDto,
 } from '../dto/orchestrate-ai-request.dto';
+import {
+  AiToolRuntimeContextService,
+} from '../tools/runtime/ai-tool-runtime-context.service';
 import {
   AiOrchestratorService,
 } from '../services/ai-orchestrator.service';
@@ -46,6 +56,8 @@ export class AiController {
     private readonly aiService: AiService,
     private readonly orchestrator:
       AiOrchestratorService,
+    private readonly toolRuntimeContext:
+      AiToolRuntimeContextService,
   ) {}
 
   @Get('providers')
@@ -60,9 +72,21 @@ export class AiController {
   @RequirePermission(
     Permissions.AI_EXECUTE,
   )
-  orchestrate(
+  async orchestrate(
     @Body() dto: OrchestrateAiRequestDto,
+    @CurrentUser()
+    user: AuthTokenPayload,
   ) {
+    const correlationId =
+      dto.correlationId?.trim() ||
+      randomUUID();
+
+    const toolContext =
+      await this.toolRuntimeContext.create({
+        user,
+        correlationId,
+      });
+
     const request:
       AiOrchestrationRequest = {
         tenantId: dto.tenantId,
@@ -121,8 +145,8 @@ export class AiController {
           dto.humanApprovalReference,
         timeoutMs:
           dto.timeoutMs,
-        correlationId:
-          dto.correlationId,
+        correlationId,
+        toolContext,
         metadata:
           dto.metadata
             ? {

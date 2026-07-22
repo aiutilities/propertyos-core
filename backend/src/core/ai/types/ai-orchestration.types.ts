@@ -1,4 +1,5 @@
 import { AiCapability, AiRequest, AiResponse } from './ai.types';
+import { AiToolExecutionContext } from '../tools/types/ai-tool.types';
 
 export type AiExecutionMode = 'SIMULATED' | 'ISOLATED' | 'LIVE';
 
@@ -30,6 +31,7 @@ export interface AiOrchestrationRequest extends AiRequest {
   humanApprovalReference?: string;
   timeoutMs?: number;
   correlationId?: string;
+  toolContext?: AiToolExecutionContext;
 }
 
 export interface AiOrchestrationAttempt {

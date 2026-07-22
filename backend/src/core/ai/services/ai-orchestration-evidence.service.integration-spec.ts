@@ -358,4 +358,179 @@ describe(
     );
   },
 );
+
+  describe(
+    'governance evidence',
+    () => {
+
+      it(
+        'publishes approved decision evidence',
+        async () => {
+
+          const {
+            service,
+            publish,
+          } = createService();
+
+          await service.recordDecisionApproved({
+            correlationId:
+              'decision-approved',
+
+            tenantId:
+              'tenant',
+
+            providerName:
+              'openai',
+
+            recommendation:
+              'PRIMARY',
+
+            confidence:
+              0.95,
+
+            status:
+              'APPROVED',
+
+            reason:
+              'Governance accepted',
+
+            auditRequired:
+              true,
+
+            rollbackRequired:
+              true,
+
+            recordedAt:
+              new Date().toISOString(),
+          });
+
+
+          expect(
+            publish,
+          ).toHaveBeenCalledWith(
+            'ai.decision.approved',
+            'core.ai.orchestration',
+            expect.objectContaining({
+              status:
+                'APPROVED',
+            }),
+          );
+        },
+      );
+
+
+      it(
+        'publishes approval required evidence',
+        async () => {
+
+          const {
+            service,
+            publish,
+          } = createService();
+
+          await service.recordDecisionRequiresApproval({
+            correlationId:
+              'decision-approval',
+
+            tenantId:
+              'tenant',
+
+            providerName:
+              'openai',
+
+            recommendation:
+              'PRIMARY',
+
+            confidence:
+              0.50,
+
+            status:
+              'REQUIRES_APPROVAL',
+
+            reason:
+              'Confidence below threshold',
+
+            auditRequired:
+              true,
+
+            rollbackRequired:
+              true,
+
+            recordedAt:
+              new Date().toISOString(),
+          });
+
+
+          expect(
+            publish,
+          ).toHaveBeenCalledWith(
+            'ai.decision.requires_approval',
+            'core.ai.orchestration',
+            expect.objectContaining({
+              status:
+                'REQUIRES_APPROVAL',
+            }),
+          );
+        },
+      );
+
+
+      it(
+        'publishes blocked decision evidence',
+        async () => {
+
+          const {
+            service,
+            publish,
+          } = createService();
+
+          await service.recordDecisionBlocked({
+            correlationId:
+              'decision-blocked',
+
+            tenantId:
+              'tenant',
+
+            providerName:
+              'openai',
+
+            recommendation:
+              'AVOID',
+
+            confidence:
+              0.99,
+
+            status:
+              'BLOCKED',
+
+            reason:
+              'Policy denied',
+
+            auditRequired:
+              true,
+
+            rollbackRequired:
+              true,
+
+            recordedAt:
+              new Date().toISOString(),
+          });
+
+
+          expect(
+            publish,
+          ).toHaveBeenCalledWith(
+            'ai.decision.blocked',
+            'core.ai.orchestration',
+            expect.objectContaining({
+              status:
+                'BLOCKED',
+            }),
+          );
+        },
+      );
+
+    },
+  );
+
 });

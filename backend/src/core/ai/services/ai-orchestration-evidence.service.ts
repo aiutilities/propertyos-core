@@ -8,6 +8,7 @@ import {
   AiRoutingDecision,
 } from '../types/ai-orchestration.types';
 import { AiOrchestrationEvidence } from '../types/ai-orchestration-evidence.types';
+import { AiGovernanceEvidence } from '../types/ai-governance-evidence.types';
 import { AiResponse } from '../types/ai.types';
 
 @Injectable()
@@ -288,9 +289,49 @@ export class AiOrchestrationEvidenceService {
     return value;
   }
 
+  async recordDecisionApproved(
+    evidence: AiGovernanceEvidence,
+  ): Promise<void> {
+    await this.publish(
+      'ai.decision.approved',
+      {
+        ...evidence,
+        status: 'APPROVED',
+      },
+    );
+  }
+
+
+  async recordDecisionRequiresApproval(
+    evidence: AiGovernanceEvidence,
+  ): Promise<void> {
+    await this.publish(
+      'ai.decision.requires_approval',
+      {
+        ...evidence,
+        status: 'REQUIRES_APPROVAL',
+      },
+    );
+  }
+
+
+  async recordDecisionBlocked(
+    evidence: AiGovernanceEvidence,
+  ): Promise<void> {
+    await this.publish(
+      'ai.decision.blocked',
+      {
+        ...evidence,
+        status: 'BLOCKED',
+      },
+    );
+  }
+
+
+
   private async publish(
     eventName: string,
-    evidence: AiOrchestrationEvidence,
+    evidence: Record<string, unknown>,
   ): Promise<void> {
     await this.eventBus.publish(
       eventName,

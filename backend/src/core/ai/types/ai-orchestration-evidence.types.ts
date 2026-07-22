@@ -31,6 +31,11 @@ export interface AiOrchestrationEvidence {
   failure?: {
     code: string;
     retriable: boolean;
+    classification?: {
+      category: string;
+      severity: string;
+      recoveryAction: string;
+    };
   };
   metadata: Record<string, unknown>;
   recordedAt: string;

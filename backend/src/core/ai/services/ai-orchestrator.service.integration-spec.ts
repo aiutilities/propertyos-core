@@ -25,6 +25,7 @@ import {
   AiResponse,
 } from '../types/ai.types';
 import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
+import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
 import { AiOrchestratorService } from './ai-orchestrator.service';
 import {
   AiProviderFailoverService,
@@ -262,6 +263,7 @@ describe('AiOrchestratorService', () => {
       registry,
       new AiOrchestrationEvidenceService(
         eventBus,
+        new AiFailurePolicyService(),
       ),
       new AiRequestPreparationService(),
       new AiPreparedRequestDispatchBoundaryService(),

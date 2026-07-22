@@ -2,6 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiOrchestrationError } from '../errors/ai-orchestration.error';
 import { AiOrchestrationEvidenceService } from './ai-orchestration-evidence.service';
+import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
 
 describe('AiOrchestrationEvidenceService', () => {
   function createService() {
@@ -14,7 +15,10 @@ describe('AiOrchestrationEvidenceService', () => {
     } as unknown as EventBusService;
 
     return {
-      service: new AiOrchestrationEvidenceService(eventBus),
+      service: new AiOrchestrationEvidenceService(
+        eventBus,
+        new AiFailurePolicyService(),
+      ),
       publish,
     };
   }
@@ -196,10 +200,15 @@ describe('AiOrchestrationEvidenceService', () => {
       'core.ai.orchestration',
       expect.objectContaining({
         status: 'FAILED',
-        failure: {
+        failure: expect.objectContaining({
           code: 'PROVIDER_EXECUTION_FAILED',
           retriable: true,
-        },
+          classification: expect.objectContaining({
+            category: 'PROVIDER',
+            severity: 'HIGH',
+            recoveryAction: 'FALLBACK_PROVIDER',
+          }),
+        }),
       }),
     );
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { AiOrchestrationError } from '../errors/ai-orchestration.error';
 import {
@@ -14,7 +15,10 @@ export class AiOrchestrationEvidenceService {
   private readonly sensitiveKeyPattern =
     /(authorization|api[-_]?key|secret|password|credential|access[-_]?token|refresh[-_]?token)/i;
 
-  constructor(private readonly eventBus: EventBusService) {}
+  constructor(
+    private readonly eventBus: EventBusService,
+    private readonly failurePolicy: AiFailurePolicyService,
+  ) {}
 
   async recordRequested(options: {
     correlationId: string;
@@ -91,6 +95,11 @@ export class AiOrchestrationEvidenceService {
       failure: {
         code: options.error.code,
         retriable: options.error.retriable,
+        classification:
+          this.failurePolicy.classify(
+            options.error.code,
+            options.error.retriable,
+          ),
       },
       metadata: this.sanitizeMetadata(options.request.metadata ?? {}),
       recordedAt: new Date().toISOString(),

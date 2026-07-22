@@ -1,3 +1,4 @@
+import { AiFailurePolicyService } from '../resilience/ai-failure-policy.service';
 import {
   describe,
   expect,
@@ -474,6 +475,7 @@ describe(
             providerRegistry,
             new AiOrchestrationEvidenceService(
               eventBus,
+              new AiFailurePolicyService(),
             ),
             requestPreparation,
             dispatchBoundary,

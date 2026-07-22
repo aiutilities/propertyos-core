@@ -28,6 +28,14 @@ import {
   PropertyAgentDecisionAggregatorService,
 } from '../agents/property-agent-decision-aggregator.service';
 
+import {
+  PropertyHealthAdvisoryService,
+} from '../property-intelligence/property-health-advisory.service';
+
+import {
+  PropertyActionProposalService,
+} from '../property-actions/property-action-proposal.service';
+
 
 describe(
   'PropertyOperationsAiOrchestratorService',
@@ -92,6 +100,10 @@ describe(
             ),
 
             new PropertyAgentDecisionAggregatorService(),
+
+            new PropertyHealthAdvisoryService(),
+
+            new PropertyActionProposalService(),
 
           );
 

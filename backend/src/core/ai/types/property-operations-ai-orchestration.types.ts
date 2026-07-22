@@ -1,3 +1,8 @@
+import {
+  PropertyActionProposal,
+} from './property-action-proposal.types';
+
+
 export interface PropertyOperationsAiRequest {
 
   propertyId:
@@ -25,5 +30,8 @@ export interface PropertyOperationsAiResult {
 
   participatingAgents:
     string[];
+
+  proposals:
+    PropertyActionProposal[];
 
 }

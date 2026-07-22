@@ -19,6 +19,14 @@ import {
   PropertyOperationsAiResult,
 } from '../types/property-operations-ai-orchestration.types';
 
+import {
+  PropertyHealthAdvisoryService,
+} from '../property-intelligence/property-health-advisory.service';
+
+import {
+  PropertyActionProposalService,
+} from '../property-actions/property-action-proposal.service';
+
 
 @Injectable()
 export class PropertyOperationsAiOrchestratorService {
@@ -33,6 +41,12 @@ export class PropertyOperationsAiOrchestratorService {
 
     private readonly aggregator:
       PropertyAgentDecisionAggregatorService,
+
+    private readonly advisory:
+      PropertyHealthAdvisoryService,
+
+    private readonly actionProposal:
+      PropertyActionProposalService,
   ) {}
 
 
@@ -92,6 +106,32 @@ export class PropertyOperationsAiOrchestratorService {
       );
 
 
+    const healthAdvisory =
+      this.advisory.advise({
+
+        signals:
+          [],
+
+        overallRisk:
+          'HIGH',
+
+        recommendations:
+          [
+            'Review high priority operational issues',
+            'Assign owners for unresolved risks',
+          ],
+
+      });
+
+
+    const proposals =
+      this.actionProposal.create(
+        request.propertyId,
+        healthAdvisory,
+      );
+
+
+
     return {
 
       propertyId:
@@ -105,6 +145,8 @@ export class PropertyOperationsAiOrchestratorService {
 
       participatingAgents:
         collaboration.participatingAgents,
+
+      proposals,
 
     };
 

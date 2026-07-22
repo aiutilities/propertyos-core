@@ -28,6 +28,7 @@ export interface OpenAiCompatibleChatCompletionChoice {
   message?: {
     role?: string;
     content?: unknown;
+    tool_calls?: unknown;
   };
   finish_reason?: string | null;
 }

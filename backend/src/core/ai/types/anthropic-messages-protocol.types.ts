@@ -32,6 +32,9 @@ export interface AnthropicMessagesRequest {
 export interface AnthropicMessagesResponseContentBlock {
   type?: string;
   text?: unknown;
+  id?: unknown;
+  name?: unknown;
+  input?: unknown;
   [key: string]: unknown;
 }
 

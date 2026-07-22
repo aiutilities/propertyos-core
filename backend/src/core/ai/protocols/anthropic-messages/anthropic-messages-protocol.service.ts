@@ -311,13 +311,27 @@ export class AnthropicMessagesProtocolService {
           '\n',
         );
 
-    if (!text) {
+    const hasToolUse =
+      raw.content
+        .some(
+          (block) =>
+            this.isRecord(
+              block,
+            ) &&
+            block.type ===
+              'tool_use',
+        );
+
+    if (
+      !text &&
+      !hasToolUse
+    ) {
       throw new AnthropicMessagesProtocolError({
         providerName,
         code:
           'EMPTY_RESPONSE_CONTENT',
         message:
-          `Anthropic Messages response contains no non-empty text blocks: ` +
+          `Anthropic Messages response contains no non-empty text or tool-use blocks: ` +
           `${providerName}`,
       });
     }

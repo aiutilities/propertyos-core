@@ -223,12 +223,34 @@ export class OpenAiCompatibleProtocolService {
       });
     }
 
-    const content =
+    const message =
       raw.choices[0]
-        ?.message
-        ?.content;
+        ?.message;
 
     if (
+      !message ||
+      !this.isRecord(
+        message,
+      )
+    ) {
+      throw new OpenAiCompatibleProtocolError({
+        providerName,
+        code:
+          'INVALID_RESPONSE',
+        message:
+          `OpenAI-compatible response message is invalid: ` +
+          `${providerName}`,
+      });
+    }
+
+    const content =
+      message.content;
+
+    if (
+      content !==
+        undefined &&
+      content !==
+        null &&
       typeof content !==
         'string'
     ) {
@@ -243,15 +265,50 @@ export class OpenAiCompatibleProtocolService {
     }
 
     const normalizedContent =
-      content.trim();
+      typeof content ===
+        'string'
+        ? content.trim()
+        : '';
 
-    if (!normalizedContent) {
+    const toolCalls =
+      message.tool_calls;
+
+    if (
+      toolCalls !==
+        undefined &&
+      toolCalls !==
+        null &&
+      !Array.isArray(
+        toolCalls,
+      )
+    ) {
+      throw new OpenAiCompatibleProtocolError({
+        providerName,
+        code:
+          'INVALID_RESPONSE',
+        message:
+          `OpenAI-compatible response tool_calls are invalid: ` +
+          `${providerName}`,
+      });
+    }
+
+    const hasToolCalls =
+      Array.isArray(
+        toolCalls,
+      ) &&
+      toolCalls.length >
+        0;
+
+    if (
+      !normalizedContent &&
+      !hasToolCalls
+    ) {
       throw new OpenAiCompatibleProtocolError({
         providerName,
         code:
           'EMPTY_RESPONSE_CONTENT',
         message:
-          `OpenAI-compatible response content is empty: ` +
+          `OpenAI-compatible response contains no text or tool calls: ` +
           `${providerName}`,
       });
     }

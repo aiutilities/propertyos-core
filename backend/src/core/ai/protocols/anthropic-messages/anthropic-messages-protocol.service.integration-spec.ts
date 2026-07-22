@@ -663,6 +663,103 @@ describe(
     );
 
     it(
+      'accepts a tool-only Anthropic response',
+      () => {
+        const {
+          runtime,
+        } =
+          createRuntime();
+
+        const service =
+          new AnthropicMessagesProtocolService(
+            runtime,
+          );
+
+        const raw =
+          createRawResponse({
+            content: [
+              {
+                type:
+                  'tool_use',
+                id:
+                  'toolu-property',
+                name:
+                  'property.lookup',
+                input: {
+                  propertyId:
+                    'property-1',
+                },
+              },
+            ],
+            stop_reason:
+              'tool_use',
+          });
+
+        const response =
+          service.mapResponse({
+            providerName:
+              ' Claude ',
+            requestedModel:
+              'fallback-model',
+            raw,
+          });
+
+        expect(
+          response,
+        ).toEqual(
+          expect.objectContaining({
+            providerName:
+              'claude',
+            content:
+              '',
+            raw,
+          }),
+        );
+      },
+    );
+
+    it(
+      'continues rejecting Anthropic responses without text or tool use',
+      () => {
+        const {
+          runtime,
+        } =
+          createRuntime();
+
+        const service =
+          new AnthropicMessagesProtocolService(
+            runtime,
+          );
+
+        expect(
+          () =>
+            service.mapResponse({
+              providerName:
+                'claude',
+              requestedModel:
+                'model',
+              raw:
+                createRawResponse({
+                  content: [
+                    {
+                      type:
+                        'thinking',
+                      thinking:
+                        'not exposed',
+                    },
+                  ],
+                }),
+            }),
+        ).toThrow(
+          expect.objectContaining({
+            code:
+              'EMPTY_RESPONSE_CONTENT',
+          }),
+        );
+      },
+    );
+
+    it(
       'rejects malformed and empty content-block responses',
       () => {
         const {

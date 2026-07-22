@@ -715,6 +715,117 @@ describe(
     );
 
     it(
+      'accepts a tool-only OpenAI-compatible response',
+      () => {
+        const {
+          runtime,
+        } =
+          createRuntime();
+
+        const service =
+          new OpenAiCompatibleProtocolService(
+            runtime,
+          );
+
+        const raw =
+          createRawResponse({
+            choices: [
+              {
+                index:
+                  0,
+                message: {
+                  role:
+                    'assistant',
+                  content:
+                    null,
+                  tool_calls: [
+                    {
+                      id:
+                        'call-property',
+                      type:
+                        'function',
+                      function: {
+                        name:
+                          'property.lookup',
+                        arguments:
+                          '{"propertyId":"property-1"}',
+                      },
+                    },
+                  ],
+                },
+                finish_reason:
+                  'tool_calls',
+              },
+            ],
+          });
+
+        const response =
+          service.mapResponse({
+            providerName:
+              ' OpenAI ',
+            requestedModel:
+              'fallback-model',
+            raw,
+          });
+
+        expect(
+          response,
+        ).toEqual(
+          expect.objectContaining({
+            providerName:
+              'openai',
+            content:
+              '',
+            raw,
+          }),
+        );
+      },
+    );
+
+    it(
+      'rejects malformed OpenAI-compatible tool-call collections',
+      () => {
+        const {
+          runtime,
+        } =
+          createRuntime();
+
+        const service =
+          new OpenAiCompatibleProtocolService(
+            runtime,
+          );
+
+        expect(
+          () =>
+            service.mapResponse({
+              providerName:
+                'openai',
+              requestedModel:
+                'model',
+              raw:
+                createRawResponse({
+                  choices: [
+                    {
+                      message: {
+                        content:
+                          null,
+                        tool_calls:
+                          {},
+                      },
+                    },
+                  ],
+                }),
+            }),
+        ).toThrow(
+          expect.objectContaining({
+            code:
+              'INVALID_RESPONSE',
+          }),
+        );
+      },
+    );
+
+    it(
       'does not register or identify a concrete provider',
       () => {
         const {

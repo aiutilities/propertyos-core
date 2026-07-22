@@ -46,6 +46,7 @@ import { AiToolContinuationExecutionService } from "./tools/orchestration/ai-too
 import { AiToolContinuationCoordinatorService } from "./tools/orchestration/ai-tool-continuation-coordinator.service";
 import { AiToolOrchestrationDecisionService } from "./tools/orchestration/ai-tool-orchestration-decision.service";
 import { AiToolResponseNormalizationService } from "./tools/orchestration/ai-tool-response-normalization.service";
+import { AiToolOrchestrationLoopService } from "./tools/orchestration/ai-tool-orchestration-loop.service";
 import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
 
 @Module({
@@ -104,6 +105,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolContinuationCoordinatorService,
     AiToolOrchestrationDecisionService,
     AiToolResponseNormalizationService,
+    AiToolOrchestrationLoopService,
     AiToolRegistry,
   ],
   exports: [
@@ -144,6 +146,7 @@ import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
     AiToolContinuationCoordinatorService,
     AiToolOrchestrationDecisionService,
     AiToolResponseNormalizationService,
+    AiToolOrchestrationLoopService,
   ],
 })
 export class AiModule {}

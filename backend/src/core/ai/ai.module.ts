@@ -36,6 +36,8 @@ import { AiPreparedRequestDispatchBoundaryService } from './dispatch/ai-prepared
 import { AiDispatchExecutionCoordinatorService } from './dispatch/ai-dispatch-execution-coordinator.service';
 import { AiExecutionContextService } from './execution/ai-execution-context.service';
 import { PropertyOsAiSdkService } from './sdk/propertyos-ai-sdk.service';
+import { AiToolManifestValidator } from './tools/manifest/ai-tool-manifest.validator';
+import { AiToolRegistry } from './tools/registry/ai-tool.registry';
 
 @Module({
   imports: [
@@ -95,6 +97,8 @@ import { PropertyOsAiSdkService } from './sdk/propertyos-ai-sdk.service';
     AiDispatchExecutionCoordinatorService,
     AiExecutionContextService,
     PropertyOsAiSdkService,
+    AiToolManifestValidator,
+    AiToolRegistry,
 ],
   exports: [
     AiContextAssemblyService,
@@ -123,6 +127,7 @@ import { PropertyOsAiSdkService } from './sdk/propertyos-ai-sdk.service';
     AiDispatchExecutionCoordinatorService,
     AiExecutionContextService,
     PropertyOsAiSdkService,
+    AiToolRegistry,
 ],
 })
 export class AiModule {}

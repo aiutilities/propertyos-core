@@ -13,4 +13,7 @@ export interface PropertyRiskEvaluation {
     | 'MEDIUM'
     | 'HIGH';
 
+  recommendations:
+    string[];
+
 }

@@ -8,6 +8,8 @@ import { DatabaseModule } from "./database/database.module";
 
 import { AuditModule } from "./core/audit/audit.module";
 import { AuthModule } from "./core/auth/auth.module";
+import { JwtAuthGuard } from "./core/auth/guards/jwt-auth.guard";
+import { PermissionGuard } from "./core/auth/guards/permission.guard";
 import { AuthorizationModule } from "./core/authorization/authorization.module";
 import { EventBusModule } from "./core/eventbus/eventbus.module";
 import { IdentityModule } from "./core/identity/identity.module";
@@ -106,6 +108,14 @@ const runtimeBusinessModules = resolveRuntimeBusinessModules();
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useExisting: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useExisting: PermissionGuard,
     },
   ],
 })

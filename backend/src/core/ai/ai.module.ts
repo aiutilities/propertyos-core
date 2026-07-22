@@ -20,6 +20,7 @@ import { AI_PROVIDER_CREDENTIAL_RESOLVER } from './contracts/ai-provider-credent
 import { AiProviderRuntimeConfigurationService } from './configuration/ai-provider-runtime-configuration.service';
 import { DiscoveryModule } from '@nestjs/core';
 import { EventBusModule } from '../eventbus/eventbus.module';
+import { AuthModule } from '../auth/auth.module';
 import { AiController } from './controllers/ai.controller';
 import { AiProviderDiscoveryService } from './discovery/ai-provider-discovery.service';
 import { MockAiProvider } from './providers/mock-ai.provider';
@@ -40,6 +41,7 @@ import { PropertyOsAiSdkService } from './sdk/propertyos-ai-sdk.service';
   imports: [
     DiscoveryModule,
     EventBusModule,
+    AuthModule,
   ],
   controllers: [
     AiController,
@@ -47,7 +49,12 @@ import { PropertyOsAiSdkService } from './sdk/propertyos-ai-sdk.service';
   providers: [
     AiContextAssemblyService,
     AiTokenBudgetService,
-    AiConversationSessionService,
+    {
+      provide:
+        AiConversationSessionService,
+      useFactory: () =>
+        new AiConversationSessionService(),
+    },
     AiProviderFailoverService,
     AiProviderSelectionService,
     AiProviderSimulationService,

@@ -104,6 +104,7 @@ describe('Configuration API integration', () => {
 
     await request(app.getHttpServer())
       .get('/api/v1/configuration/settings')
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
     const createResponse = await request(app.getHttpServer())

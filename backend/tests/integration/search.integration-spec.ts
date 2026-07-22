@@ -291,6 +291,7 @@ describe('Search API integration', () => {
 
     const template = await request(app.getHttpServer())
       .post('/api/v1/document-templates')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: `Search Document Template ${timestamp}`,
         code: `SEARCH_DOC_TEMPLATE_${timestamp}`,
@@ -304,6 +305,7 @@ describe('Search API integration', () => {
 
     const document = await request(app.getHttpServer())
       .post('/api/v1/documents/generate')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         templateId: documentTemplateId,
         title: `Search Document ${timestamp}`,
@@ -322,6 +324,7 @@ describe('Search API integration', () => {
 
     const plugin = await request(app.getHttpServer())
       .post('/api/v1/plugins')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         manifest: {
           name: pluginName,

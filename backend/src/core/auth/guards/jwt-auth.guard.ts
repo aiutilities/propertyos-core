@@ -4,16 +4,36 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { createHmac, timingSafeEqual } from 'crypto';
 
+import {
+  PUBLIC_ROUTE_METADATA_KEY,
+} from '../decorators/public.decorator';
 import { AuthRequest } from '../types/auth-request.type';
 
 const AUTH_SECRET = process.env.AUTH_SECRET ?? 'propertyos-dev-secret-change-me';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
+  constructor(private readonly reflector: Reflector) {}
+
   canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest<AuthRequest>();
+    const isPublic =
+      this.reflector.getAllAndOverride<boolean>(
+        PUBLIC_ROUTE_METADATA_KEY,
+        [
+          context.getHandler(),
+          context.getClass(),
+        ],
+      );
+
+    if (isPublic === true) {
+      return true;
+    }
+
+    const request =
+      context.switchToHttp().getRequest<AuthRequest>();
     const header = request.headers.authorization;
 
     if (!header || !header.startsWith('Bearer ')) {

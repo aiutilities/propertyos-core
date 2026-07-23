@@ -44,6 +44,10 @@ import {
   PropertyAiAgentConsensusService,
 } from '../collaboration/property-ai-agent-consensus.service';
 
+import {
+  PropertySpecialistAgentRuntimeService,
+} from '../agents/runtime/property-specialist-agent-runtime.service';
+
 
 describe(
   'PropertyOperationsAiOrchestratorService',
@@ -124,6 +128,40 @@ describe(
         } as any;
 
 
+        const specialistRuntime =
+          new PropertySpecialistAgentRuntimeService();
+
+
+        specialistRuntime.register({
+
+          agentId:
+            'maintenance-agent',
+
+          capabilities:
+            [
+              'MAINTENANCE_ANALYSIS',
+            ],
+
+          execute:
+            async context => ({
+
+              agentId:
+                'maintenance-agent',
+
+              recommendation:
+                'CREATE_OPERATIONAL_ACTION',
+
+              confidence:
+                0.9,
+
+              reasoning:
+                context.objective,
+
+            }),
+
+        });
+
+
         const service =
           new PropertyOperationsAiOrchestratorService(
 
@@ -146,6 +184,8 @@ describe(
             new PropertyAiAgentNegotiationService(),
 
             new PropertyAiAgentConsensusService(),
+
+            specialistRuntime,
 
           );
 

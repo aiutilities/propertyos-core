@@ -39,6 +39,10 @@ import {
   PropertyAiAgentConsensusService,
 } from '../collaboration/property-ai-agent-consensus.service';
 
+import {
+  PropertySpecialistAgentRuntimeService,
+} from '../agents/runtime/property-specialist-agent-runtime.service';
+
 
 @Injectable()
 export class PropertyOperationsAiOrchestratorService {
@@ -68,6 +72,9 @@ export class PropertyOperationsAiOrchestratorService {
 
     private readonly consensus:
       PropertyAiAgentConsensusService,
+
+    private readonly specialistRuntime:
+      PropertySpecialistAgentRuntimeService,
   ) {}
 
 
@@ -108,19 +115,22 @@ export class PropertyOperationsAiOrchestratorService {
 
     const specialistRecommendations =
       [
-        {
-          agentId:
-            delegation.targetAgentId,
+        await this.specialistRuntime.execute(
 
-          recommendation:
-            'CREATE_OPERATIONAL_ACTION',
+          delegation.targetAgentId,
 
-          confidence:
-            0.9,
+          {
+            propertyId:
+              request.propertyId,
 
-          reasoning:
-            request.reason,
-        },
+            capability:
+              request.capability,
+
+            objective:
+              request.reason,
+          },
+
+        ),
       ];
 
 

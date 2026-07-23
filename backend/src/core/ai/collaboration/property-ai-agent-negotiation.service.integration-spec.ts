@@ -181,5 +181,63 @@ describe(
     );
 
 
+    it(
+      'prefers higher expertise weight when confidence is equal',
+      () => {
+
+        const service =
+          new PropertyAiAgentNegotiationService();
+
+        const result =
+          service.negotiate(
+            'property-001',
+            [
+              {
+                agentId:
+                  'maintenance',
+
+                recommendation:
+                  'CREATE_REPAIR_ACTION',
+
+                confidence:
+                  0.80,
+
+                expertiseWeight:
+                  2,
+
+                reasoning:
+                  '',
+              },
+
+              {
+                agentId:
+                  'general',
+
+                recommendation:
+                  'CREATE_INSPECTION',
+
+                confidence:
+                  0.80,
+
+                expertiseWeight:
+                  1,
+
+                reasoning:
+                  '',
+              },
+            ],
+          );
+
+        expect(
+          result.selectedProposal.agentId,
+        )
+        .toBe(
+          'maintenance',
+        );
+
+      },
+    );
+
+
   },
 );

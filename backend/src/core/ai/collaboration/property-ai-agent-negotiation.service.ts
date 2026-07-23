@@ -113,10 +113,44 @@ export class PropertyAiAgentNegotiationService {
           (
             a,
             b,
-          ) =>
-            b.confidence
-            -
-            a.confidence,
+          ) => {
+
+            const weightedDifference =
+              (
+                b.confidence
+                *
+                (
+                  b.expertiseWeight
+                  ?? 1
+                )
+              )
+              -
+              (
+                a.confidence
+                *
+                (
+                  a.expertiseWeight
+                  ?? 1
+                )
+              );
+
+
+            if (
+              weightedDifference !== 0
+            ) {
+
+              return weightedDifference;
+
+            }
+
+
+            return (
+              b.confidence
+              -
+              a.confidence
+            );
+
+          },
         )[0];
 
 
@@ -245,7 +279,14 @@ export class PropertyAiAgentNegotiationService {
               ) =>
                 total
                 +
-                proposal.confidence,
+                (
+                  proposal.confidence
+                  *
+                  (
+                    proposal.expertiseWeight
+                    ?? 1
+                  )
+                ),
               0,
             );
 

@@ -12,6 +12,9 @@ export interface PropertyAiAgentProposal {
   reasoning:
     string;
 
+  expertiseWeight?:
+    number;
+
 }
 
 

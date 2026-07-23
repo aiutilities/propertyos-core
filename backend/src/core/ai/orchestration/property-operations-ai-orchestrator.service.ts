@@ -85,8 +85,8 @@ export class PropertyOperationsAiOrchestratorService {
     Promise<PropertyOperationsAiResult> {
 
 
-    const delegation =
-      this.delegation.delegate(
+    const delegations =
+      this.delegation.delegateMany(
         'property-operations-agent',
         request.capability,
         request.reason,
@@ -107,14 +107,24 @@ export class PropertyOperationsAiOrchestratorService {
 
         specialistAgentIds:
           [
-            delegation.targetAgentId,
+            ...delegations.map(
+              delegation =>
+                delegation.targetAgentId,
+            ),
           ],
 
       });
 
 
-    const specialistRecommendations =
-      [
+    const specialistRecommendations = [];
+
+    for (
+      const delegation
+      of delegations
+    ) {
+
+      specialistRecommendations.push(
+
         await this.specialistRuntime.execute(
 
           delegation.targetAgentId,
@@ -131,7 +141,10 @@ export class PropertyOperationsAiOrchestratorService {
           },
 
         ),
-      ];
+
+      );
+
+    }
 
 
     const negotiation =

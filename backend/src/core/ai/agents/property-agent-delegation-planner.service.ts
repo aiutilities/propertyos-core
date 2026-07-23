@@ -66,4 +66,52 @@ export class PropertyAgentDelegationPlannerService {
 
   }
 
+
+  delegateMany(
+    sourceAgentId:
+      string,
+
+    capability:
+      string,
+
+    reason:
+      string,
+  ):
+    PropertyAgentDelegation[] {
+
+
+    const agents =
+      this.registry.getByCapability(
+        capability,
+      );
+
+
+    if (
+      agents.length === 0
+    ) {
+
+      throw new Error(
+        `No specialist found for capability: ${capability}`,
+      );
+
+    }
+
+
+    return agents.map(
+      specialist => ({
+
+        sourceAgentId,
+
+        targetAgentId:
+          specialist.agent.id,
+
+        capability,
+
+        reason,
+
+      }),
+    );
+
+  }
+
 }

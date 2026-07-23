@@ -13,3 +13,20 @@ export interface PropertyAgentDelegation {
     string;
 
 }
+
+
+export interface PropertyAgentDelegationPlan {
+
+  sourceAgentId:
+    string;
+
+  capability:
+    string;
+
+  reason:
+    string;
+
+  delegations:
+    PropertyAgentDelegation[];
+
+}

@@ -16,14 +16,14 @@ describe(
 
     it(
       'executes property AI command',
-      () => {
+      async () => {
 
 
         const orchestrator =
         {
 
           execute:
-            () => ({
+            async () => ({
 
               propertyId:
                 'property-001',
@@ -54,7 +54,7 @@ describe(
 
 
         const result =
-          service.execute({
+          await service.execute({
 
             propertyId:
               'property-001',

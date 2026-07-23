@@ -22,15 +22,15 @@ export class PropertyAiCommandService {
   ) {}
 
 
-  execute(
+  async execute(
     request:
       PropertyAiCommandRequest,
   ):
-    PropertyAiCommandResult {
+    Promise<PropertyAiCommandResult> {
 
 
     const result =
-      this.orchestrator.execute({
+      await this.orchestrator.execute({
 
         propertyId:
           request.propertyId,

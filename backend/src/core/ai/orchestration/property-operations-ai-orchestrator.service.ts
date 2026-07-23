@@ -27,6 +27,10 @@ import {
   PropertyActionProposalService,
 } from '../property-actions/property-action-proposal.service';
 
+import {
+  PropertyOperationsIntelligenceService,
+} from '../property-intelligence/property-operations-intelligence.service';
+
 
 @Injectable()
 export class PropertyOperationsAiOrchestratorService {
@@ -47,14 +51,17 @@ export class PropertyOperationsAiOrchestratorService {
 
     private readonly actionProposal:
       PropertyActionProposalService,
+
+    private readonly intelligence:
+      PropertyOperationsIntelligenceService,
   ) {}
 
 
-  execute(
+  async execute(
     request:
       PropertyOperationsAiRequest,
   ):
-    PropertyOperationsAiResult {
+    Promise<PropertyOperationsAiResult> {
 
 
     const delegation =
@@ -106,22 +113,13 @@ export class PropertyOperationsAiOrchestratorService {
       );
 
 
+    const intelligence =
+      await this.intelligence.analyzeProperty(
+        request.propertyId,
+      );
+
     const healthAdvisory =
-      this.advisory.advise({
-
-        signals:
-          [],
-
-        overallRisk:
-          'HIGH',
-
-        recommendations:
-          [
-            'Review high priority operational issues',
-            'Assign owners for unresolved risks',
-          ],
-
-      });
+      intelligence.advisory;
 
 
     const proposals =

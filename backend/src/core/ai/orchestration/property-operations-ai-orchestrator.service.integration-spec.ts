@@ -44,7 +44,7 @@ describe(
 
     it(
       'runs property AI operational loop',
-      () => {
+      async () => {
 
 
         const registry =
@@ -88,6 +88,34 @@ describe(
         });
 
 
+        const intelligence =
+        {
+          analyzeProperty:
+            async () => ({
+
+              advisory:
+                new PropertyHealthAdvisoryService()
+                  .advise({
+
+                    signals:
+                      [],
+
+                    overallRisk:
+                      'HIGH',
+
+                    recommendations:
+                      [
+                        'Review high priority operational issues',
+                        'Assign owners for unresolved risks',
+                      ],
+
+                  }),
+
+            }),
+
+        } as any;
+
+
         const service =
           new PropertyOperationsAiOrchestratorService(
 
@@ -105,11 +133,13 @@ describe(
 
             new PropertyActionProposalService(),
 
+            intelligence,
+
           );
 
 
         const result =
-          service.execute({
+          await service.execute({
 
             propertyId:
               'property-001',

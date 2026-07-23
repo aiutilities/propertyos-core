@@ -6,72 +6,165 @@ import {
   PropertyAiOutcomeMemory,
 } from './property-ai-outcome-memory.types';
 
+import {
+  PropertyAiOutcomeMemoryRepository,
+} from './property-ai-outcome-memory.repository';
+
+import {
+  PropertyAiOutcomeMemoryRecord,
+} from './property-ai-outcome-memory.repository.types';
+
 
 @Injectable()
 export class PropertyAiOutcomeMemoryService {
 
 
-  private readonly memories:
-    PropertyAiOutcomeMemory[] =
-    [];
+  constructor(
+    private readonly repository:
+      PropertyAiOutcomeMemoryRepository,
+  ) {}
 
 
-  record(
+  async record(
     outcome:
       PropertyAiOutcomeMemory,
   ):
-    PropertyAiOutcomeMemory {
+    Promise<PropertyAiOutcomeMemory> {
 
 
-    this.memories.push(
-      outcome,
+    const saved =
+      await this.repository.create({
+
+        id:
+          outcome.id,
+
+        propertyId:
+          outcome.propertyId,
+
+        command:
+          outcome.command ?? '',
+
+        decision:
+          outcome.decision ?? '',
+
+        action:
+          outcome.action,
+
+        confidence:
+          outcome.recommendationConfidence,
+
+        executionStatus:
+          outcome.executionStatus,
+
+        outcomeSummary:
+          outcome.notes,
+
+        createdAt:
+          new Date(
+            outcome.createdAt,
+          ),
+
+      });
+
+
+    return this.toDomain(
+      saved,
     );
-
-
-    return outcome;
 
   }
 
 
-  listByProperty(
+  async listByProperty(
     propertyId:
       string,
   ):
-    PropertyAiOutcomeMemory[] {
+    Promise<PropertyAiOutcomeMemory[]> {
 
 
-    return this.memories.filter(
-      memory =>
-        memory.propertyId
-          === propertyId,
+    const records =
+      await this.repository.findByProperty(
+        propertyId,
+      );
+
+
+    return records.map(
+      record =>
+        this.toDomain(record),
     );
 
   }
 
 
-  findSuccessfulActions(
+  async findSuccessfulActions(
     propertyId:
       string,
   ):
-    PropertyAiOutcomeMemory[] {
+    Promise<PropertyAiOutcomeMemory[]> {
 
 
-    return this.memories.filter(
-      memory =>
-        memory.propertyId
-          === propertyId
-        &&
-        memory.executionStatus
-          === 'SUCCESS',
+    const records =
+      await this.repository.findSuccessful(
+        propertyId,
+      );
+
+
+    return records.map(
+      record =>
+        this.toDomain(record),
     );
 
   }
 
 
   count():
-    number {
+    Promise<number> {
 
-    return this.memories.length;
+    return this.repository.count();
+
+  }
+
+
+  private toDomain(
+    record:
+      PropertyAiOutcomeMemoryRecord,
+  ):
+    PropertyAiOutcomeMemory {
+
+
+    return {
+
+      id:
+        record.id,
+
+      propertyId:
+        record.propertyId,
+
+      command:
+        record.command,
+
+      decision:
+        record.decision,
+
+      action:
+        record.action ?? '',
+
+      recommendationConfidence:
+        record.confidence ?? 0,
+
+      executionStatus:
+        record.executionStatus as any,
+
+      impactScore:
+        0,
+
+      notes:
+        record.outcomeSummary ?? '',
+
+      createdAt:
+        record.createdAt
+          .toISOString(),
+
+    };
 
   }
 

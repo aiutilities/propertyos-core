@@ -15,6 +15,14 @@ export interface PropertyAiOutcomeMemory {
     string;
 
 
+  command?:
+    string;
+
+
+  decision?:
+    string;
+
+
   action:
     string;
 
@@ -27,7 +35,7 @@ export interface PropertyAiOutcomeMemory {
     PropertyAiOutcomeStatus;
 
 
-  impactScore:
+  impactScore?:
     number;
 
 

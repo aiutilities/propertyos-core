@@ -21,15 +21,15 @@ export class PropertyAiFeedbackService {
   ) {}
 
 
-  analyze(
+  async analyze(
     propertyId:
       string,
   ):
-    PropertyAiFeedbackInsight[] {
+    Promise<PropertyAiFeedbackInsight[]> {
 
 
     const outcomes =
-      this.memory.listByProperty(
+      await this.memory.listByProperty(
         propertyId,
       );
 

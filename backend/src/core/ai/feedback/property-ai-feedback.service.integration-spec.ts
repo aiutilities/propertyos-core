@@ -20,11 +20,46 @@ describe(
 
     it(
       'analyzes outcome history into feedback insights',
-      () => {
+      async () => {
+
+
+        const records: any[] = [];
+
+        const repository = {
+
+          create:
+            async (memory: any) => {
+              records.push(memory);
+              return memory;
+            },
+
+          findByProperty:
+            async (propertyId: string) =>
+              records.filter(
+                item =>
+                  item.propertyId === propertyId,
+              ),
+
+          findSuccessful:
+            async (propertyId: string) =>
+              records.filter(
+                item =>
+                  item.propertyId === propertyId
+                  &&
+                  item.executionStatus === 'SUCCESS',
+              ),
+
+          count:
+            async () =>
+              records.length,
+
+        } as any;
 
 
         const memory =
-          new PropertyAiOutcomeMemoryService();
+          new PropertyAiOutcomeMemoryService(
+            repository,
+          );
 
 
         memory.record({
@@ -124,7 +159,7 @@ describe(
 
 
         const result =
-          service.analyze(
+          await service.analyze(
             'property-001',
           );
 

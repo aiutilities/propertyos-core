@@ -16,11 +16,46 @@ describe(
 
     it(
       'stores and retrieves AI outcomes',
-      () => {
+      async () => {
+
+
+        const records: any[] = [];
+
+        const repository = {
+
+          create:
+            async (memory: any) => {
+              records.push(memory);
+              return memory;
+            },
+
+          findByProperty:
+            async (propertyId: string) =>
+              records.filter(
+                item =>
+                  item.propertyId === propertyId,
+              ),
+
+          findSuccessful:
+            async (propertyId: string) =>
+              records.filter(
+                item =>
+                  item.propertyId === propertyId
+                  &&
+                  item.executionStatus === 'SUCCESS',
+              ),
+
+          count:
+            async () =>
+              records.length,
+
+        } as any;
 
 
         const service =
-          new PropertyAiOutcomeMemoryService();
+          new PropertyAiOutcomeMemoryService(
+            repository,
+          );
 
 
         service.record({
@@ -84,7 +119,7 @@ describe(
 
 
         const history =
-          service.listByProperty(
+          await service.listByProperty(
             'property-001',
           );
 
@@ -98,7 +133,7 @@ describe(
 
 
         const successful =
-          service.findSuccessfulActions(
+          await service.findSuccessfulActions(
             'property-001',
           );
 
@@ -120,7 +155,7 @@ describe(
 
 
         expect(
-          service.count(),
+          await service.count(),
         )
         .toBe(
           2,

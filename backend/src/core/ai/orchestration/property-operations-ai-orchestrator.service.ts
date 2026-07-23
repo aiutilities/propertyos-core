@@ -116,35 +116,30 @@ export class PropertyOperationsAiOrchestratorService {
       });
 
 
-    const specialistRecommendations = [];
+    const specialistRecommendations =
+      await Promise.all(
 
-    for (
-      const delegation
-      of delegations
-    ) {
+        delegations.map(
+          delegation =>
+            this.specialistRuntime.execute(
 
-      specialistRecommendations.push(
+              delegation.targetAgentId,
 
-        await this.specialistRuntime.execute(
+              {
+                propertyId:
+                  request.propertyId,
 
-          delegation.targetAgentId,
+                capability:
+                  request.capability,
 
-          {
-            propertyId:
-              request.propertyId,
+                objective:
+                  request.reason,
+              },
 
-            capability:
-              request.capability,
-
-            objective:
-              request.reason,
-          },
-
+            ),
         ),
 
       );
-
-    }
 
 
     const negotiation =

@@ -219,5 +219,167 @@ describe(
     );
 
 
+    it(
+      'executes multiple specialists concurrently',
+      async () => {
+
+
+        const runtime =
+          new PropertySpecialistAgentRuntimeService();
+
+
+        let startedAgents =
+          0;
+
+
+        let releaseExecutions:
+          (() => void) | undefined;
+
+
+        const executionBarrier =
+          new Promise<void>(
+            resolve => {
+
+              releaseExecutions =
+                resolve;
+
+            },
+          );
+
+
+        const createAgent =
+          (
+            agentId:
+              string,
+          ) => ({
+
+            agentId,
+
+            capabilities:
+              [
+                'MAINTENANCE_ANALYSIS',
+              ],
+
+            execute:
+              async () => {
+
+
+                startedAgents +=
+                  1;
+
+
+                if (
+                  startedAgents === 2
+                ) {
+
+                  releaseExecutions?.();
+
+                }
+
+
+                await executionBarrier;
+
+
+                return {
+
+                  agentId,
+
+                  recommendation:
+                    'CREATE_REPAIR_ACTION',
+
+                  confidence:
+                    0.9,
+
+                  reasoning:
+                    `${agentId} completed concurrently`,
+
+                };
+
+              },
+
+          });
+
+
+        runtime.register(
+          createAgent(
+            'maintenance-agent',
+          ),
+        );
+
+
+        runtime.register(
+          createAgent(
+            'helpdesk-agent',
+          ),
+        );
+
+
+        const executions =
+          Promise.all([
+            runtime.execute(
+
+              'maintenance-agent',
+
+              {
+                propertyId:
+                  'property-001',
+
+                capability:
+                  'MAINTENANCE_ANALYSIS',
+
+                objective:
+                  'Review maintenance risk',
+              },
+
+            ),
+
+            runtime.execute(
+
+              'helpdesk-agent',
+
+              {
+                propertyId:
+                  'property-001',
+
+                capability:
+                  'MAINTENANCE_ANALYSIS',
+
+                objective:
+                  'Review maintenance risk',
+              },
+
+            ),
+          ]);
+
+
+        const results =
+          await executions;
+
+
+        expect(
+          startedAgents,
+        )
+        .toBe(
+          2,
+        );
+
+
+        expect(
+          results.map(
+            result =>
+              result.agentId,
+          ),
+        )
+        .toEqual(
+          [
+            'maintenance-agent',
+            'helpdesk-agent',
+          ],
+        );
+
+      },
+    );
+
+
   },
 );

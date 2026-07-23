@@ -15,6 +15,10 @@ import {
   PropertyOSEvent,
 } from '../../eventbus/types/event.types';
 
+import {
+  AI_EVENT_COMMAND_REGISTRY,
+} from './ai-event-command.registry';
+
 
 @Injectable()
 export class PropertyAiEventTriggerService {
@@ -87,30 +91,7 @@ export class PropertyAiEventTriggerService {
   ):
     PropertyAiTriggerCommand | undefined {
 
-
-    switch(eventType) {
-
-
-      case 'maintenance.ticket.overdue':
-
-        return 'ANALYZE_PROPERTY_HEALTH';
-
-
-      case 'helpdesk.ticket.escalated':
-
-        return 'REVIEW_OPERATIONAL_RISK';
-
-
-      case 'inventory.low.stock':
-
-        return 'REVIEW_OPERATIONAL_RISK';
-
-
-      default:
-
-        return undefined;
-
-    }
+    return AI_EVENT_COMMAND_REGISTRY[eventType];
 
   }
 

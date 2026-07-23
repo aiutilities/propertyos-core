@@ -11,6 +11,10 @@ import {
   PropertyAiEventTriggerService,
 } from './property-ai-event-trigger.service';
 
+import {
+  AI_EVENT_COMMAND_REGISTRY,
+} from './ai-event-command.registry';
+
 
 @Injectable()
 export class PropertyAiEventTriggerBootstrapService
@@ -28,15 +32,10 @@ export class PropertyAiEventTriggerBootstrapService
 
   onModuleInit(): void {
 
-    const events = [
-
-      'maintenance.ticket.overdue',
-
-      'helpdesk.ticket.escalated',
-
-      'inventory.low.stock',
-
-    ];
+    const events =
+      Object.keys(
+        AI_EVENT_COMMAND_REGISTRY,
+      );
 
 
     for (

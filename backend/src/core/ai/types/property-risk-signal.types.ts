@@ -2,7 +2,8 @@ export type PropertyRiskCategory =
   | 'MAINTENANCE'
   | 'HELPDESK'
   | 'PAYMENT'
-  | 'TENANT';
+  | 'TENANT'
+  | 'INVENTORY';
 
 
 export type PropertyRiskSeverity =

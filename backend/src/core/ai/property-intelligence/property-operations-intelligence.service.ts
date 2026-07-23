@@ -15,12 +15,20 @@ import {
 } from '../../helpdesk/services/helpdesk.service';
 
 import {
+  InventoryService,
+} from '../../inventory/services/inventory.service';
+
+import {
   MaintenanceRiskAnalyzerService,
 } from './maintenance-risk-analyzer.service';
 
 import {
   HelpdeskRiskAnalyzerService,
 } from './helpdesk-risk-analyzer.service';
+
+import {
+  InventoryRiskAnalyzerService,
+} from './inventory-risk-analyzer.service';
 
 import {
   PropertyRiskAggregationService,
@@ -45,11 +53,17 @@ export class PropertyOperationsIntelligenceService {
     private readonly helpdeskService:
       HelpdeskService,
 
+    private readonly inventoryService:
+      InventoryService,
+
     private readonly maintenanceRiskAnalyzer:
       MaintenanceRiskAnalyzerService,
 
     private readonly helpdeskRiskAnalyzer:
       HelpdeskRiskAnalyzerService,
+
+    private readonly inventoryRiskAnalyzer:
+      InventoryRiskAnalyzerService,
 
     private readonly riskAggregator:
       PropertyRiskAggregationService,
@@ -89,6 +103,12 @@ export class PropertyOperationsIntelligenceService {
       });
 
 
+    const inventory =
+      await this.inventoryService.listStockBalances({
+        propertyId,
+      });
+
+
     const maintenanceCount =
       maintenance.length;
 
@@ -109,11 +129,18 @@ export class PropertyOperationsIntelligenceService {
       );
 
 
+    const inventorySignals =
+      this.inventoryRiskAnalyzer.analyze(
+        inventory,
+      );
+
+
     const evaluation =
       this.riskAggregator.evaluate(
         [
           ...maintenanceSignals,
           ...helpdeskSignals,
+          ...inventorySignals,
         ],
       );
 
@@ -136,6 +163,9 @@ export class PropertyOperationsIntelligenceService {
 
       helpdeskOpenCount:
         helpdeskCount,
+
+      inventorySignalCount:
+        inventorySignals.length,
 
       operationalRisk:
         evaluation.overallRisk,

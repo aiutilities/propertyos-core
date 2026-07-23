@@ -68,13 +68,31 @@ describe(
         } as any;
 
 
+        const inventoryService = {
+
+          listStockBalances:
+            async () => [],
+
+        } as any;
+
+
+        const inventoryRiskAnalyzer = {
+
+          analyze:
+            () => [],
+
+        } as any;
+
+
         const service =
           new PropertyOperationsIntelligenceService(
             propertyService,
             maintenanceService,
             helpdeskService,
+            inventoryService,
             new MaintenanceRiskAnalyzerService(),
             new HelpdeskRiskAnalyzerService(),
+            inventoryRiskAnalyzer,
             new PropertyRiskAggregationService(),
             new PropertyHealthAdvisoryService(),
           );

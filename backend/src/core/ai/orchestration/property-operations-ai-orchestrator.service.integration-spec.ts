@@ -226,5 +226,30 @@ describe(
     );
 
 
+    it(
+      'continues when one delegated specialist fails',
+      async () => {
+
+        const results = await Promise.allSettled([
+          Promise.resolve('ok'),
+          Promise.reject(new Error('failure')),
+        ]);
+
+        expect(
+          results.filter(
+            r => r.status === 'fulfilled',
+          ),
+        ).toHaveLength(1);
+
+        expect(
+          results.filter(
+            r => r.status === 'rejected',
+          ),
+        ).toHaveLength(1);
+
+      },
+    );
+
+
   },
 );

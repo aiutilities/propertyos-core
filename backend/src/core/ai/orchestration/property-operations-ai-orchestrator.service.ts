@@ -116,8 +116,8 @@ export class PropertyOperationsAiOrchestratorService {
       });
 
 
-    const specialistRecommendations =
-      await Promise.all(
+    const executionResults =
+      await Promise.allSettled(
 
         delegations.map(
           delegation =>
@@ -140,6 +140,32 @@ export class PropertyOperationsAiOrchestratorService {
         ),
 
       );
+
+
+    const specialistRecommendations =
+      executionResults
+        .filter(
+          (
+            result,
+          ):
+            result is PromiseFulfilledResult<any> =>
+              result.status === 'fulfilled',
+        )
+        .map(
+          result =>
+            result.value,
+        );
+
+
+    if (
+      specialistRecommendations.length === 0
+    ) {
+
+      throw new Error(
+        'All delegated specialists failed',
+      );
+
+    }
 
 
     const negotiation =

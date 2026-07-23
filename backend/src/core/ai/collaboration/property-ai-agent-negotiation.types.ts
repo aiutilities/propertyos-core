@@ -29,4 +29,10 @@ export interface PropertyAiAgentNegotiationResult {
   agreementScore:
     number;
 
+  supportingAgentIds:
+    string[];
+
+  conflictingAgentIds:
+    string[];
+
 }

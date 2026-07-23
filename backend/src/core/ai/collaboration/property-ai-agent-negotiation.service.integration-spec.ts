@@ -15,7 +15,7 @@ describe(
 
 
     it(
-      'selects highest confidence proposal',
+      'selects the recommendation supported by the majority',
       () => {
 
 
@@ -34,13 +34,27 @@ describe(
                   'maintenance-agent',
 
                 recommendation:
-                  'Review maintenance',
+                  'CREATE_REPAIR_ACTION',
 
                 confidence:
-                  0.80,
+                  0.9,
 
                 reasoning:
-                  'Backlog high',
+                  'Repair backlog is high',
+              },
+
+              {
+                agentId:
+                  'helpdesk-agent',
+
+                recommendation:
+                  'CREATE_REPAIR_ACTION',
+
+                confidence:
+                  0.8,
+
+                reasoning:
+                  'Repeated tenant complaints',
               },
 
               {
@@ -48,23 +62,119 @@ describe(
                   'finance-agent',
 
                 recommendation:
-                  'Review collections',
+                  'DEFER_REPAIR_ACTION',
 
                 confidence:
-                  0.90,
+                  0.95,
 
                 reasoning:
-                  'Rent risk high',
+                  'Budget pressure',
               },
             ],
+
           );
 
 
         expect(
-          result.selectedProposal.agentId,
+          result.selectedProposal.recommendation,
         )
         .toBe(
-          'finance-agent',
+          'CREATE_REPAIR_ACTION',
+        );
+
+
+        expect(
+          result.supportingAgentIds,
+        )
+        .toEqual(
+          [
+            'maintenance-agent',
+            'helpdesk-agent',
+          ],
+        );
+
+
+        expect(
+          result.conflictingAgentIds,
+        )
+        .toEqual(
+          [
+            'finance-agent',
+          ],
+        );
+
+
+        expect(
+          result.agreementScore,
+        )
+        .toBe(
+          0.57,
+        );
+
+      },
+    );
+
+
+    it(
+      'uses confidence to break an equal recommendation split',
+      () => {
+
+
+        const service =
+          new PropertyAiAgentNegotiationService();
+
+
+        const result =
+          service.negotiate(
+
+            'property-001',
+
+            [
+              {
+                agentId:
+                  'maintenance-agent',
+
+                recommendation:
+                  'CREATE_REPAIR_ACTION',
+
+                confidence:
+                  0.8,
+
+                reasoning:
+                  'Maintenance risk',
+              },
+
+              {
+                agentId:
+                  'finance-agent',
+
+                recommendation:
+                  'DEFER_REPAIR_ACTION',
+
+                confidence:
+                  0.9,
+
+                reasoning:
+                  'Financial risk',
+              },
+            ],
+
+          );
+
+
+        expect(
+          result.selectedProposal.recommendation,
+        )
+        .toBe(
+          'DEFER_REPAIR_ACTION',
+        );
+
+
+        expect(
+          result.agreementScore,
+        )
+        .toBe(
+          0.45,
         );
 
       },

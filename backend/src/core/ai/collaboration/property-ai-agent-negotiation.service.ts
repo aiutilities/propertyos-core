@@ -8,6 +8,23 @@ import {
 } from './property-ai-agent-negotiation.types';
 
 
+interface RecommendationGroup {
+
+  recommendation:
+    string;
+
+  proposals:
+    PropertyAiAgentProposal[];
+
+  totalConfidence:
+    number;
+
+  averageConfidence:
+    number;
+
+}
+
+
 @Injectable()
 export class PropertyAiAgentNegotiationService {
 
@@ -35,33 +52,118 @@ export class PropertyAiAgentNegotiationService {
     }
 
 
-    const sorted =
-      [...proposals]
+    const groups =
+      this.groupByRecommendation(
+        proposals,
+      );
+
+
+    const rankedGroups =
+      [...groups]
+        .sort(
+          (
+            a,
+            b,
+          ) => {
+
+            if (
+              b.proposals.length
+              !== a.proposals.length
+            ) {
+
+              return (
+                b.proposals.length
+                -
+                a.proposals.length
+              );
+
+            }
+
+
+            if (
+              b.averageConfidence
+              !== a.averageConfidence
+            ) {
+
+              return (
+                b.averageConfidence
+                -
+                a.averageConfidence
+              );
+
+            }
+
+
+            return a.recommendation
+              .localeCompare(
+                b.recommendation,
+              );
+
+          },
+        );
+
+
+    const selectedGroup =
+      rankedGroups[0];
+
+
+    const selectedProposal =
+      [...selectedGroup.proposals]
         .sort(
           (
             a,
             b,
           ) =>
-            b.confidence -
+            b.confidence
+            -
             a.confidence,
-        );
+        )[0];
 
 
-    const selectedProposal =
-      sorted[0];
+    const agreementRatio =
+      selectedGroup.proposals.length
+      /
+      proposals.length;
 
 
     const agreementScore =
-      proposals.reduce(
+      Number(
         (
-          sum,
-          proposal,
-        ) =>
-          sum + proposal.confidence,
-        0,
-      )
-      /
-      proposals.length;
+          agreementRatio
+          *
+          selectedGroup.averageConfidence
+        )
+          .toFixed(
+            2,
+          ),
+      );
+
+
+    const supportingAgentIds =
+      selectedGroup.proposals.map(
+        proposal =>
+          proposal.agentId,
+      );
+
+
+    const supportingAgents =
+      new Set(
+        supportingAgentIds,
+      );
+
+
+    const conflictingAgentIds =
+      proposals
+        .filter(
+          proposal =>
+            !supportingAgents.has(
+              proposal.agentId,
+            ),
+        )
+        .map(
+          proposal =>
+            proposal.agentId,
+        );
 
 
     return {
@@ -72,13 +174,100 @@ export class PropertyAiAgentNegotiationService {
 
       selectedProposal,
 
-      agreementScore:
+      agreementScore,
 
-        Number(
-          agreementScore.toFixed(2),
-        ),
+      supportingAgentIds,
+
+      conflictingAgentIds,
 
     };
+
+  }
+
+
+  private groupByRecommendation(
+    proposals:
+      PropertyAiAgentProposal[],
+  ):
+    RecommendationGroup[] {
+
+
+    const groups =
+      new Map<
+        string,
+        PropertyAiAgentProposal[]
+      >();
+
+
+    for (
+      const proposal
+      of proposals
+    ) {
+
+      const existing =
+        groups.get(
+          proposal.recommendation,
+        )
+        ??
+        [];
+
+
+      existing.push(
+        proposal,
+      );
+
+
+      groups.set(
+        proposal.recommendation,
+        existing,
+      );
+
+    }
+
+
+    return Array.from(
+      groups.entries(),
+    )
+      .map(
+        (
+          [
+            recommendation,
+            groupedProposals,
+          ],
+        ) => {
+
+
+          const totalConfidence =
+            groupedProposals.reduce(
+              (
+                total,
+                proposal,
+              ) =>
+                total
+                +
+                proposal.confidence,
+              0,
+            );
+
+
+          return {
+
+            recommendation,
+
+            proposals:
+              groupedProposals,
+
+            totalConfidence,
+
+            averageConfidence:
+              totalConfidence
+              /
+              groupedProposals.length,
+
+          };
+
+        },
+      );
 
   }
 

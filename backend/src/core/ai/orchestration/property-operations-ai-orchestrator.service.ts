@@ -31,6 +31,14 @@ import {
   PropertyOperationsIntelligenceService,
 } from '../property-intelligence/property-operations-intelligence.service';
 
+import {
+  PropertyAiAgentNegotiationService,
+} from '../collaboration/property-ai-agent-negotiation.service';
+
+import {
+  PropertyAiAgentConsensusService,
+} from '../collaboration/property-ai-agent-consensus.service';
+
 
 @Injectable()
 export class PropertyOperationsAiOrchestratorService {
@@ -54,6 +62,12 @@ export class PropertyOperationsAiOrchestratorService {
 
     private readonly intelligence:
       PropertyOperationsIntelligenceService,
+
+    private readonly negotiation:
+      PropertyAiAgentNegotiationService,
+
+    private readonly consensus:
+      PropertyAiAgentConsensusService,
   ) {}
 
 
@@ -92,31 +106,84 @@ export class PropertyOperationsAiOrchestratorService {
       });
 
 
-    const decision =
+    const specialistRecommendations =
+      [
+        {
+          agentId:
+            delegation.targetAgentId,
+
+          recommendation:
+            'CREATE_OPERATIONAL_ACTION',
+
+          confidence:
+            0.9,
+
+          reasoning:
+            request.reason,
+        },
+      ];
+
+
+    const negotiation =
+      this.negotiation.negotiate(
+        request.propertyId,
+        specialistRecommendations,
+      );
+
+
+    const consensus =
+      this.consensus.decide(
+        negotiation,
+      );
+
+
+    const fallbackDecision =
       this.aggregator.aggregate(
 
         request.propertyId,
 
-        [
-          {
+        specialistRecommendations.map(
+          proposal => ({
+
             agentId:
-              delegation.targetAgentId,
+              proposal.agentId,
 
             recommendation:
-              'CREATE_OPERATIONAL_ACTION',
+              proposal.recommendation,
 
             confidence:
-              0.9,
-          },
-        ],
+              proposal.confidence,
+
+          }),
+        ),
 
       );
+
+
+    const decision =
+      consensus.decision
+      === 'CONSENSUS_REACHED'
+        ? {
+            decision:
+              consensus.recommendation,
+
+            confidence:
+              consensus.confidence,
+          }
+        : {
+            decision:
+              'HUMAN_REVIEW_REQUIRED',
+
+            confidence:
+              fallbackDecision.confidence,
+          };
 
 
     const intelligence =
       await this.intelligence.analyzeProperty(
         request.propertyId,
       );
+
 
     const healthAdvisory =
       intelligence.advisory;
@@ -127,7 +194,6 @@ export class PropertyOperationsAiOrchestratorService {
         request.propertyId,
         healthAdvisory,
       );
-
 
 
     return {

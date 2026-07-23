@@ -52,6 +52,14 @@ describe(
             agreementScore:
               0.9,
 
+            supportingAgentIds:
+              [
+                'maintenance-agent',
+              ],
+
+            conflictingAgentIds:
+              [],
+
           });
 
 

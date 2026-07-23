@@ -36,6 +36,14 @@ import {
   PropertyActionProposalService,
 } from '../property-actions/property-action-proposal.service';
 
+import {
+  PropertyAiAgentNegotiationService,
+} from '../collaboration/property-ai-agent-negotiation.service';
+
+import {
+  PropertyAiAgentConsensusService,
+} from '../collaboration/property-ai-agent-consensus.service';
+
 
 describe(
   'PropertyOperationsAiOrchestratorService',
@@ -135,6 +143,10 @@ describe(
 
             intelligence,
 
+            new PropertyAiAgentNegotiationService(),
+
+            new PropertyAiAgentConsensusService(),
+
           );
 
 
@@ -162,6 +174,12 @@ describe(
         expect(result.participatingAgents)
           .toContain(
             'maintenance-agent',
+          );
+
+
+        expect(result.confidence)
+          .toBe(
+            0.9,
           );
 
       },

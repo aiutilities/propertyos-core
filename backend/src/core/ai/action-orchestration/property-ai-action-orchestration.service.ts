@@ -23,6 +23,14 @@ import {
   PropertyAiActionOrchestrationResult,
 } from './property-ai-action-orchestration.types';
 
+import {
+  AiDecisionAuditService,
+} from '../audit/ai-decision-audit.service';
+
+import {
+  randomUUID,
+} from 'crypto';
+
 
 @Injectable()
 export class PropertyAiActionOrchestrationService {
@@ -35,6 +43,9 @@ export class PropertyAiActionOrchestrationService {
 
     private readonly execution:
       PropertyActionExecutionService,
+
+    private readonly audit:
+      AiDecisionAuditService,
 
   ) {}
 
@@ -92,6 +103,46 @@ export class PropertyAiActionOrchestrationService {
             this.execution.execute(
               governed,
             );
+
+
+          this.audit.record({
+
+            id:
+              randomUUID(),
+
+            propertyId:
+
+              propertyId,
+
+            command:
+
+              'PROPERTY_ACTION_ORCHESTRATION',
+
+            confidence:
+
+              recommendation.confidence,
+
+            decision:
+
+              governed.decision.mode,
+
+            governanceResult:
+
+              governed.decision.mode,
+
+            action:
+
+              result.action,
+
+            executionStatus:
+
+              result.status,
+
+            createdAt:
+
+              new Date(),
+
+          });
 
 
           return {

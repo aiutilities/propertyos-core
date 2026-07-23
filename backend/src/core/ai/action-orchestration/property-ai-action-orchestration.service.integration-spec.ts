@@ -8,6 +8,10 @@ import {
   PropertyAiActionOrchestrationService,
 } from './property-ai-action-orchestration.service';
 
+import {
+  AiDecisionAuditService,
+} from '../audit/ai-decision-audit.service';
+
 
 describe(
   'PropertyAiActionOrchestrationService',
@@ -61,6 +65,9 @@ describe(
 
                 }),
             } as never,
+
+
+            new AiDecisionAuditService(),
 
           );
 

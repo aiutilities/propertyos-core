@@ -17,6 +17,17 @@ export interface PropertyOperationsAiRequest {
 }
 
 
+export interface PropertySpecialistExecutionFailure {
+
+  agentId:
+    string;
+
+  message:
+    string;
+
+}
+
+
 export interface PropertyOperationsAiResult {
 
   propertyId:
@@ -30,6 +41,9 @@ export interface PropertyOperationsAiResult {
 
   participatingAgents:
     string[];
+
+  specialistFailures:
+    PropertySpecialistExecutionFailure[];
 
   proposals:
     PropertyActionProposal[];

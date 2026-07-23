@@ -143,18 +143,50 @@ export class PropertyOperationsAiOrchestratorService {
 
 
     const specialistRecommendations =
-      executionResults
-        .filter(
-          (
-            result,
-          ):
-            result is PromiseFulfilledResult<any> =>
-              result.status === 'fulfilled',
-        )
-        .map(
-          result =>
-            result.value,
-        );
+      executionResults.flatMap(
+        result =>
+          result.status === 'fulfilled'
+            ? [
+                result.value,
+              ]
+            : [],
+      );
+
+
+    const specialistFailures =
+      executionResults.flatMap(
+        (
+          result,
+          index,
+        ) => {
+
+          if (
+            result.status === 'fulfilled'
+          ) {
+
+            return [];
+
+          }
+
+
+          return [
+            {
+              agentId:
+                delegations[index]
+                  .targetAgentId,
+
+              message:
+                result.reason
+                  instanceof Error
+                    ? result.reason.message
+                    : String(
+                        result.reason,
+                      ),
+            },
+          ];
+
+        },
+      );
 
 
     if (
@@ -253,6 +285,8 @@ export class PropertyOperationsAiOrchestratorService {
 
       participatingAgents:
         collaboration.participatingAgents,
+
+      specialistFailures,
 
       proposals,
 

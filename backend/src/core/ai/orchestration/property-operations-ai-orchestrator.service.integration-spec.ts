@@ -222,6 +222,14 @@ describe(
             0.9,
           );
 
+
+        expect(
+          result.specialistFailures,
+        )
+        .toEqual(
+          [],
+        );
+
       },
     );
 
@@ -246,6 +254,380 @@ describe(
             r => r.status === 'rejected',
           ),
         ).toHaveLength(1);
+
+      },
+    );
+
+
+    it(
+      'returns structured failures while continuing with successful specialists',
+      async () => {
+
+
+        const registry =
+          new PropertySpecialistAgentRegistryService();
+
+
+        const createRegistryAgent =
+          (
+            id:
+              string,
+
+            domain:
+              string,
+          ) => ({
+
+            domain,
+
+            agent:
+              {
+                id,
+
+                name:
+                  `${domain} Specialist`,
+
+                description:
+                  `${domain} operational analysis`,
+
+                capabilities:
+                  [
+                    'MAINTENANCE_ANALYSIS',
+                  ],
+
+                permissions:
+                  [],
+
+                autonomyLevel:
+                  'SUPERVISED' as const,
+
+                status:
+                  'ACTIVE' as const,
+
+                createdAt:
+                  new Date().toISOString(),
+              },
+
+          });
+
+
+        registry.register(
+          createRegistryAgent(
+            'maintenance-agent',
+            'MAINTENANCE',
+          ),
+        );
+
+
+        registry.register(
+          createRegistryAgent(
+            'helpdesk-agent',
+            'HELPDESK',
+          ),
+        );
+
+
+        const specialistRuntime =
+          new PropertySpecialistAgentRuntimeService();
+
+
+        specialistRuntime.register({
+
+          agentId:
+            'maintenance-agent',
+
+          capabilities:
+            [
+              'MAINTENANCE_ANALYSIS',
+            ],
+
+          execute:
+            async context => ({
+
+              agentId:
+                'maintenance-agent',
+
+              recommendation:
+                'CREATE_OPERATIONAL_ACTION',
+
+              confidence:
+                0.92,
+
+              reasoning:
+                context.objective,
+
+            }),
+
+        });
+
+
+        specialistRuntime.register({
+
+          agentId:
+            'helpdesk-agent',
+
+          capabilities:
+            [
+              'MAINTENANCE_ANALYSIS',
+            ],
+
+          execute:
+            async () => {
+
+              throw new Error(
+                'Helpdesk specialist unavailable',
+              );
+
+            },
+
+        });
+
+
+        const intelligence =
+          {
+            analyzeProperty:
+              async () => ({
+
+                advisory:
+                  new PropertyHealthAdvisoryService()
+                    .advise({
+
+                      signals:
+                        [],
+
+                      overallRisk:
+                        'HIGH',
+
+                      recommendations:
+                        [
+                          'Review operational risk',
+                        ],
+
+                    }),
+
+              }),
+          } as any;
+
+
+        const service =
+          new PropertyOperationsAiOrchestratorService(
+
+            new PropertyAgentDelegationPlannerService(
+              registry,
+            ),
+
+            new PropertyAgentCollaborationService(
+              new AiAgentCollaborationService(),
+            ),
+
+            new PropertyAgentDecisionAggregatorService(),
+
+            new PropertyHealthAdvisoryService(),
+
+            new PropertyActionProposalService(),
+
+            intelligence,
+
+            new PropertyAiAgentNegotiationService(),
+
+            new PropertyAiAgentConsensusService(),
+
+            specialistRuntime,
+
+          );
+
+
+        const result =
+          await service.execute({
+
+            propertyId:
+              'property-partial-failure',
+
+            capability:
+              'MAINTENANCE_ANALYSIS',
+
+            reason:
+              'Review unresolved maintenance risk',
+
+          });
+
+
+        expect(
+          result.decision,
+        )
+        .toBe(
+          'CREATE_OPERATIONAL_ACTION',
+        );
+
+
+        expect(
+          result.confidence,
+        )
+        .toBe(
+          0.92,
+        );
+
+
+        expect(
+          result.participatingAgents,
+        )
+        .toEqual(
+          [
+            'maintenance-agent',
+            'helpdesk-agent',
+          ],
+        );
+
+
+        expect(
+          result.specialistFailures,
+        )
+        .toEqual(
+          [
+            {
+              agentId:
+                'helpdesk-agent',
+
+              message:
+                'Helpdesk specialist unavailable',
+            },
+          ],
+        );
+
+      },
+    );
+
+
+    it(
+      'rejects when every delegated specialist fails',
+      async () => {
+
+
+        const registry =
+          new PropertySpecialistAgentRegistryService();
+
+
+        registry.register({
+
+          domain:
+            'MAINTENANCE',
+
+          agent:
+            {
+              id:
+                'failing-maintenance-agent',
+
+              name:
+                'Failing Maintenance Specialist',
+
+              description:
+                'Unavailable maintenance specialist',
+
+              capabilities:
+                [
+                  'MAINTENANCE_ANALYSIS',
+                ],
+
+              permissions:
+                [],
+
+              autonomyLevel:
+                'SUPERVISED',
+
+              status:
+                'ACTIVE',
+
+              createdAt:
+                new Date().toISOString(),
+            },
+
+        });
+
+
+        const specialistRuntime =
+          new PropertySpecialistAgentRuntimeService();
+
+
+        specialistRuntime.register({
+
+          agentId:
+            'failing-maintenance-agent',
+
+          capabilities:
+            [
+              'MAINTENANCE_ANALYSIS',
+            ],
+
+          execute:
+            async () => {
+
+              throw new Error(
+                'Maintenance runtime unavailable',
+              );
+
+            },
+
+        });
+
+
+        const intelligence =
+          {
+            analyzeProperty:
+              async () => {
+
+                throw new Error(
+                  'Intelligence must not execute',
+                );
+
+              },
+          } as any;
+
+
+        const service =
+          new PropertyOperationsAiOrchestratorService(
+
+            new PropertyAgentDelegationPlannerService(
+              registry,
+            ),
+
+            new PropertyAgentCollaborationService(
+              new AiAgentCollaborationService(),
+            ),
+
+            new PropertyAgentDecisionAggregatorService(),
+
+            new PropertyHealthAdvisoryService(),
+
+            new PropertyActionProposalService(),
+
+            intelligence,
+
+            new PropertyAiAgentNegotiationService(),
+
+            new PropertyAiAgentConsensusService(),
+
+            specialistRuntime,
+
+          );
+
+
+        await expect(
+          service.execute({
+
+            propertyId:
+              'property-all-failed',
+
+            capability:
+              'MAINTENANCE_ANALYSIS',
+
+            reason:
+              'Review maintenance incident',
+
+          }),
+        )
+        .rejects
+        .toThrow(
+          'All delegated specialists failed',
+        );
 
       },
     );

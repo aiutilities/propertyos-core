@@ -7,6 +7,10 @@ import {
 } from '../reasoning/property-health-reasoning.types';
 
 import {
+  PropertyAiConfidenceAdaptationService,
+} from '../adaptation/property-ai-confidence-adaptation.service';
+
+import {
   PropertyActionRecommendation,
 } from './property-action-recommendation.types';
 
@@ -15,11 +19,17 @@ import {
 export class PropertyActionRecommendationService {
 
 
-  recommend(
+  constructor(
+    private readonly confidenceAdaptation:
+      PropertyAiConfidenceAdaptationService,
+  ) {}
+
+
+  async recommend(
     advisory:
       PropertyHealthAdvisory,
   ):
-    PropertyActionRecommendation[] {
+    Promise<PropertyActionRecommendation[]> {
 
 
     const recommendations:
@@ -51,7 +61,13 @@ export class PropertyActionRecommendationService {
             action,
 
           confidence:
-            0.90,
+            (
+              await this.confidenceAdaptation.adjust(
+                advisory.propertyId,
+                'REVIEW_MAINTENANCE',
+                0.90,
+              )
+            ).adjustedConfidence,
 
           priority:
             advisory.riskLevel
@@ -85,7 +101,13 @@ export class PropertyActionRecommendationService {
             action,
 
           confidence:
-            0.85,
+            (
+              await this.confidenceAdaptation.adjust(
+                advisory.propertyId,
+                'REVIEW_RENT_COLLECTION',
+                0.85,
+              )
+            ).adjustedConfidence,
 
           priority:
             advisory.riskLevel
@@ -119,7 +141,13 @@ export class PropertyActionRecommendationService {
             action,
 
           confidence:
-            0.85,
+            (
+              await this.confidenceAdaptation.adjust(
+                advisory.propertyId,
+                'REVIEW_HELPDESK_ESCALATION',
+                0.85,
+              )
+            ).adjustedConfidence,
 
           priority:
             'HIGH',

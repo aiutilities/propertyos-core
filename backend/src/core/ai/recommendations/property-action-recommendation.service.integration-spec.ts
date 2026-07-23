@@ -16,15 +16,36 @@ describe(
 
     it(
       'converts health advisory into action recommendations',
-      () => {
+      async () => {
 
 
         const service =
-          new PropertyActionRecommendationService();
+          new PropertyActionRecommendationService(
+            {
+              adjust:
+                async (
+                  propertyId,
+                  action,
+                  confidence,
+                ) => ({
+                  action,
+                  originalConfidence:
+                    confidence,
+                  adjustedConfidence:
+                    confidence,
+                  adjustment:
+                    0,
+                  historicalExecutions:
+                    0,
+                  successRate:
+                    0,
+                }),
+            } as never,
+          );
 
 
         const result =
-          service.recommend({
+          await service.recommend({
 
             propertyId:
               'property-001',

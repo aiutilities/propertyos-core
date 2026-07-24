@@ -6,9 +6,9 @@
 - [x] Authentication
 - [x] Authorization
 - [x] Configuration
-- [ ] Workflow
+- [x] Workflow
 - [x] Event Bus
-- [ ] Scheduler
+- [x] Scheduler
 - [x] Notification
 - [ ] Search
 - [ ] Storage

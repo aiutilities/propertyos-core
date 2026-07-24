@@ -707,6 +707,15 @@ class StagedImportAnalyzer:
             )
         )
 
+        if original_source is None:
+            original_source = (
+                self._generated_repository_source_for(
+                    module_id=module_id,
+                    workspace=workspace,
+                    staged_file=source_file,
+                )
+            )
+
         repository_resolution = None
 
         if original_source is not None:
@@ -937,6 +946,57 @@ class StagedImportAnalyzer:
                     ).resolve()
 
         return None
+
+    def _generated_repository_source_for(
+        self,
+        module_id: str,
+        workspace: Path,
+        staged_file: Path,
+    ) -> Optional[Path]:
+        """Map a generated staged source to its module counterpart.
+
+        Generated files do not have extraction-report source mappings.
+        For generated TypeScript files beneath the staged ``src``
+        directory, use the owning repository module's source root only
+        when the corresponding repository file actually exists.
+        """
+        staged_source_root = (
+            workspace
+            / "src"
+        ).resolve()
+
+        try:
+            staged_relative = (
+                staged_file.resolve()
+                .relative_to(staged_source_root)
+            )
+        except ValueError:
+            return None
+
+        module = self.repository.module(
+            module_id
+        )
+
+        module_root = (
+            self.repository_root
+            / module.source.path
+        ).resolve().parent
+
+        candidate = (
+            module_root
+            / staged_relative
+        ).resolve()
+
+        if not self._inside(
+            candidate,
+            module_root,
+        ):
+            return None
+
+        if not candidate.is_file():
+            return None
+
+        return candidate
 
     def _module_for_path(
         self,

@@ -10,8 +10,8 @@
 - [x] Event Bus
 - [x] Scheduler
 - [x] Notification
-- [ ] Search
-- [ ] Storage
+- [x] Search
+- [x] Storage
 
 ## Business
 

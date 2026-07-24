@@ -19,9 +19,9 @@
 - [x] Tenant
 - [x] Agreement
 - [x] Lease
-- [ ] Rent
-- [ ] Invoice
-- [ ] Receipt
+- [x] Rent
+- [x] Invoice
+- [x] Receipt
 
 ## Operations
 

@@ -15,10 +15,10 @@
 
 ## Business
 
-- [ ] Property
-- [ ] Tenant
-- [ ] Agreement
-- [ ] Lease
+- [x] Property
+- [x] Tenant
+- [x] Agreement
+- [x] Lease
 - [ ] Rent
 - [ ] Invoice
 - [ ] Receipt

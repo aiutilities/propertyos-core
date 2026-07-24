@@ -2,12 +2,12 @@
 
 ## Core Platform
 
-- [ ] Identity
-- [ ] Authentication
-- [ ] Authorization
-- [ ] Configuration
+- [x] Identity
+- [x] Authentication
+- [x] Authorization
+- [x] Configuration
 - [ ] Workflow
-- [ ] Event Bus
+- [x] Event Bus
 - [ ] Scheduler
 - [x] Notification
 - [ ] Search

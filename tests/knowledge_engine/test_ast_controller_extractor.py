@@ -72,13 +72,13 @@ class AstControllerExtractorTest(unittest.TestCase):
 
     def test_expected_controller_count(self) -> None:
         self.assertEqual(
-            62,
+            63,
             self.ast["controllerCount"],
         )
 
     def test_expected_route_count(self) -> None:
         self.assertEqual(
-            460,
+            461,
             self.ast["routeCount"],
         )
 

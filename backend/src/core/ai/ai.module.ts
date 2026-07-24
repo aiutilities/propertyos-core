@@ -22,6 +22,7 @@ import { DiscoveryModule } from "@nestjs/core";
 import { EventBusModule } from "../eventbus/eventbus.module";
 import { AuthModule } from "../auth/auth.module";
 import { AiController } from "./controllers/ai.controller";
+import { PropertyAiDashboardController } from "./controllers/property-ai-dashboard.controller";
 import { AiProviderDiscoveryService } from "./discovery/ai-provider-discovery.service";
 import { MockAiProvider } from "./providers/mock-ai.provider";
 import { AiProviderRegistry } from "./registry/ai-provider.registry";
@@ -52,7 +53,7 @@ import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-con
 
 @Module({
   imports: [DiscoveryModule, EventBusModule, AuthModule],
-  controllers: [AiController],
+  controllers: [AiController, PropertyAiDashboardController],
   providers: [
     AiContextAssemblyService,
     AiTokenBudgetService,

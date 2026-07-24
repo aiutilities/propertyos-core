@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "controllerCount": 62,
-  "routeCount": 460,
+  "controllerCount": 63,
+  "routeCount": 461,
   "controllers": [
     {
       "id": "access-control:access-control",
@@ -458,14 +458,14 @@
           "path": "orchestrate",
           "fullPath": "/ai/orchestrate",
           "handler": "orchestrate",
-          "handlerLine": 63,
+          "handlerLine": 75,
           "permissions": [
             "Permissions.AI_EXECUTE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/ai/controllers/ai.controller.ts",
-            "line": 59
+            "line": 71
           }
         },
         {
@@ -477,20 +477,57 @@
           "path": "providers",
           "fullPath": "/ai/providers",
           "handler": "listProviders",
-          "handlerLine": 55,
+          "handlerLine": 67,
           "permissions": [
             "Permissions.AI_EXECUTE"
           ],
           "bearerAuth": true,
           "source": {
             "path": "backend/src/core/ai/controllers/ai.controller.ts",
-            "line": 51
+            "line": 63
           }
         }
       ],
       "source": {
         "path": "backend/src/core/ai/controllers/ai.controller.ts",
-        "line": 43
+        "line": 53
+      }
+    },
+    {
+      "id": "ai:property-ai-dashboard",
+      "moduleId": "ai",
+      "className": "PropertyAiDashboardController",
+      "basePath": "/ai/properties",
+      "guards": [
+        "JwtAuthGuard",
+        "PermissionGuard"
+      ],
+      "bearerAuth": true,
+      "routeCount": 1,
+      "routes": [
+        {
+          "id": "ai:property-ai-dashboard:get:getDashboard:/ai/properties/:propertyId/dashboard",
+          "controllerId": "ai:property-ai-dashboard",
+          "controllerClassName": "PropertyAiDashboardController",
+          "moduleId": "ai",
+          "httpMethod": "GET",
+          "path": ":propertyId/dashboard",
+          "fullPath": "/ai/properties/:propertyId/dashboard",
+          "handler": "getDashboard",
+          "handlerLine": 54,
+          "permissions": [
+            "Permissions.AI_EXECUTE"
+          ],
+          "bearerAuth": true,
+          "source": {
+            "path": "backend/src/core/ai/controllers/property-ai-dashboard.controller.ts",
+            "line": 50
+          }
+        }
+      ],
+      "source": {
+        "path": "backend/src/core/ai/controllers/property-ai-dashboard.controller.ts",
+        "line": 40
       }
     },
     {

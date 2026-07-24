@@ -11,4 +11,7 @@ export interface PropertySpecialistAgent {
   agent:
     AiAgentIdentity;
 
+  expertiseWeight?:
+    number;
+
 }

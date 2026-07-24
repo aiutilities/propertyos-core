@@ -187,6 +187,8 @@ describe(
 
             specialistRuntime,
 
+            registry,
+
           );
 
 
@@ -433,6 +435,8 @@ describe(
 
             specialistRuntime,
 
+            registry,
+
           );
 
 
@@ -607,6 +611,8 @@ describe(
 
             specialistRuntime,
 
+            registry,
+
           );
 
 
@@ -631,6 +637,231 @@ describe(
 
       },
     );
+
+
+  it(
+    'uses registry expertise weighting during negotiation',
+    async () => {
+
+      const registry =
+        new PropertySpecialistAgentRegistryService();
+
+      registry.register({
+
+        domain:
+          'MAINTENANCE',
+
+        expertiseWeight:
+          2,
+
+        agent:
+          {
+            id:
+              'maintenance-agent',
+
+            name:
+              'Maintenance Specialist',
+
+            description:
+              'Maintenance analysis',
+
+            capabilities:
+              [
+                'MAINTENANCE_ANALYSIS',
+              ],
+
+            permissions:
+              [],
+
+            autonomyLevel:
+              'SUPERVISED',
+
+            status:
+              'ACTIVE',
+
+            createdAt:
+              new Date().toISOString(),
+          },
+
+      });
+
+      registry.register({
+
+        domain:
+          'GENERAL',
+
+        expertiseWeight:
+          1,
+
+        agent:
+          {
+            id:
+              'general-agent',
+
+            name:
+              'General Specialist',
+
+            description:
+              'General analysis',
+
+            capabilities:
+              [
+                'MAINTENANCE_ANALYSIS',
+              ],
+
+            permissions:
+              [],
+
+            autonomyLevel:
+              'SUPERVISED',
+
+            status:
+              'ACTIVE',
+
+            createdAt:
+              new Date().toISOString(),
+          },
+
+      });
+
+      const runtime =
+        new PropertySpecialistAgentRuntimeService();
+
+      runtime.register({
+
+        agentId:
+          'maintenance-agent',
+
+        capabilities:
+          [
+            'MAINTENANCE_ANALYSIS',
+          ],
+
+        execute:
+          async () => ({
+
+            agentId:
+              'maintenance-agent',
+
+            recommendation:
+              'CREATE_OPERATIONAL_ACTION',
+
+            confidence:
+              0.90,
+
+            reasoning:
+              'maintenance',
+
+          }),
+
+      });
+
+      runtime.register({
+
+        agentId:
+          'general-agent',
+
+        capabilities:
+          [
+            'MAINTENANCE_ANALYSIS',
+          ],
+
+        execute:
+          async () => ({
+
+            agentId:
+              'general-agent',
+
+            recommendation:
+              'HUMAN_REVIEW_REQUIRED',
+
+            confidence:
+              0.90,
+
+            reasoning:
+              'general',
+
+          }),
+
+      });
+
+      const intelligence =
+        {
+          analyzeProperty:
+            async () => ({
+
+              advisory:
+                new PropertyHealthAdvisoryService()
+                  .advise({
+
+                    signals:
+                      [],
+
+                    overallRisk:
+                      'HIGH',
+
+                    recommendations:
+                      [
+                        'Review',
+                      ],
+
+                  }),
+
+            }),
+
+        } as any;
+
+      const service =
+        new PropertyOperationsAiOrchestratorService(
+
+          new PropertyAgentDelegationPlannerService(
+            registry,
+          ),
+
+          new PropertyAgentCollaborationService(
+            new AiAgentCollaborationService(),
+          ),
+
+          new PropertyAgentDecisionAggregatorService(),
+
+          new PropertyHealthAdvisoryService(),
+
+          new PropertyActionProposalService(),
+
+          intelligence,
+
+          new PropertyAiAgentNegotiationService(),
+
+          new PropertyAiAgentConsensusService(),
+
+          runtime,
+
+          registry,
+
+        );
+
+      const result =
+        await service.execute({
+
+          propertyId:
+            'property-weight',
+
+          capability:
+            'MAINTENANCE_ANALYSIS',
+
+          reason:
+            'weighted negotiation',
+
+        });
+
+      expect(
+        result.decision,
+      ).toBe(
+        'CREATE_OPERATIONAL_ACTION',
+      );
+
+    },
+  );
 
 
   },

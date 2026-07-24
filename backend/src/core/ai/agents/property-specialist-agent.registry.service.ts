@@ -20,9 +20,31 @@ export class PropertySpecialistAgentRegistryService {
       PropertySpecialistAgent,
   ): void {
 
-    this.agents.push(
-      agent,
-    );
+    const expertiseWeight =
+      agent.expertiseWeight
+      ?? 1;
+
+    if (
+      !Number.isFinite(
+        expertiseWeight,
+      )
+      ||
+      expertiseWeight <= 0
+    ) {
+
+      throw new Error(
+        'Invalid specialist expertise weight',
+      );
+
+    }
+
+    this.agents.push({
+
+      ...agent,
+
+      expertiseWeight,
+
+    });
 
   }
 
@@ -43,12 +65,28 @@ export class PropertySpecialistAgentRegistryService {
   ):
     PropertySpecialistAgent[] {
 
-
     return this.agents.filter(
       item =>
         item.agent.capabilities.includes(
           capability,
         ),
+    );
+
+  }
+
+
+  getByAgentId(
+    agentId:
+      string,
+  ):
+    PropertySpecialistAgent
+    | undefined {
+
+    return this.agents.find(
+      item =>
+        item.agent.id
+        ===
+        agentId,
     );
 
   }

@@ -3,6 +3,8 @@ import { AiContextAssemblyService } from "./context/ai-context-assembly.service"
 import { AiTokenBudgetService } from "./tokenization/ai-token-budget.service";
 import { AiConversationSessionService } from "./conversations/ai-conversation-session.service";
 import { AiProviderFailoverService } from "./resilience/ai-provider-failover.service";
+import { AiFailurePolicyService } from "./resilience/ai-failure-policy.service";
+import { AiRecoveryDecisionService } from "./resilience/ai-recovery-decision.service";
 import { AiProviderSelectionService } from "./routing/ai-provider-selection.service";
 import { AiProviderSimulationService } from "./simulation/ai-provider-simulation.service";
 import { AiProviderActivationBoundaryService } from "./activation/ai-provider-activation-boundary.service";
@@ -23,6 +25,7 @@ import { EventBusModule } from "../eventbus/eventbus.module";
 import { AuthModule } from "../auth/auth.module";
 import { AiController } from "./controllers/ai.controller";
 import { PropertyAiDashboardController } from "./controllers/property-ai-dashboard.controller";
+import { PropertyAiDashboardService } from "./dashboard/property-ai-dashboard.service";
 import { AiProviderDiscoveryService } from "./discovery/ai-provider-discovery.service";
 import { MockAiProvider } from "./providers/mock-ai.provider";
 import { AiProviderRegistry } from "./registry/ai-provider.registry";
@@ -62,6 +65,8 @@ import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-con
       useFactory: () => new AiConversationSessionService(),
     },
     AiProviderFailoverService,
+    AiFailurePolicyService,
+    AiRecoveryDecisionService,
     AiProviderSelectionService,
     AiProviderSimulationService,
     AiProviderActivationBoundaryService,
@@ -96,6 +101,7 @@ import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-con
     AiPreparedRequestDispatchBoundaryService,
     AiDispatchExecutionCoordinatorService,
     AiExecutionContextService,
+    PropertyAiDashboardService,
     PropertyOsAiSdkService,
     AiToolManifestValidator,
     AiToolExecutionService,
@@ -137,6 +143,7 @@ import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-con
     AiPreparedRequestDispatchBoundaryService,
     AiDispatchExecutionCoordinatorService,
     AiExecutionContextService,
+    PropertyAiDashboardService,
     PropertyOsAiSdkService,
     AiToolRegistry,
     AiToolExecutionService,

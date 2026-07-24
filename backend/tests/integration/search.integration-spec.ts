@@ -49,6 +49,8 @@ describe('Search API integration', () => {
     Permissions.SEARCH_READ,
     Permissions.WORKFLOW_READ,
     Permissions.WORKFLOW_CREATE,
+    Permissions.PLUGIN_READ,
+    Permissions.PLUGIN_CREATE,
   ];
 
   beforeAll(async () => {

@@ -39,7 +39,12 @@
     "knowledge:materialize": "cd .. && python3 -m tools.knowledge_engine.materialization_cli",
     "knowledge:imports": "cd .. && python3 -m tools.knowledge_engine.import_analysis_cli",
     "knowledge:authorization": "cd .. && python3 -m tools.knowledge_engine.authorization_cli",
-    "knowledge:authorization:check": "cd .. && python3 -m tools.knowledge_engine.authorization_cli --check --verify-generated"
+    "knowledge:authorization:check": "cd .. && python3 -m tools.knowledge_engine.authorization_cli --check --verify-generated",
+    "kdd:discover": "cd .. && ./scripts/kdd/discover.sh",
+    "kdd:validate": "cd .. && ./scripts/kdd/validate.sh",
+    "kdd:context": "cd .. && ./scripts/kdd/context.sh",
+    "kdd:release": "cd .. && ./scripts/kdd/release.sh",
+    "kdd:agent-context": "cd .. && ./scripts/kdd/agent-context.sh"
   },
   "keywords": [],
   "author": "",

@@ -193,7 +193,7 @@
       "className": "AiModule",
       "source": {
         "path": "backend/src/core/ai/ai.module.ts",
-        "line": 128
+        "line": 163
       },
       "imports": [
         {
@@ -203,7 +203,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/ai/ai.module.ts",
-            "line": 44
+            "line": 58
           }
         },
         {
@@ -213,7 +213,7 @@
           "external": true,
           "source": {
             "path": "backend/src/core/ai/ai.module.ts",
-            "line": 42
+            "line": 58
           }
         },
         {
@@ -223,7 +223,7 @@
           "external": false,
           "source": {
             "path": "backend/src/core/ai/ai.module.ts",
-            "line": 43
+            "line": 58
           }
         }
       ]

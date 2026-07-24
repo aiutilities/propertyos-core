@@ -43,6 +43,10 @@ import {
   PropertySpecialistAgentRuntimeService,
 } from '../agents/runtime/property-specialist-agent-runtime.service';
 
+import {
+  PropertySpecialistAgentRegistryService,
+} from '../agents/property-specialist-agent.registry.service';
+
 
 @Injectable()
 export class PropertyOperationsAiOrchestratorService {
@@ -75,6 +79,9 @@ export class PropertyOperationsAiOrchestratorService {
 
     private readonly specialistRuntime:
       PropertySpecialistAgentRuntimeService,
+
+    private readonly specialistRegistry:
+      PropertySpecialistAgentRegistryService,
   ) {}
 
 
@@ -200,10 +207,34 @@ export class PropertyOperationsAiOrchestratorService {
     }
 
 
+    const weightedRecommendations =
+      specialistRecommendations.map(
+        proposal => {
+
+          const specialist =
+            this.specialistRegistry
+              .getByAgentId(
+                proposal.agentId,
+              );
+
+          return {
+
+            ...proposal,
+
+            expertiseWeight:
+              specialist
+                ?.expertiseWeight
+              ?? 1,
+
+          };
+
+        },
+      );
+
     const negotiation =
       this.negotiation.negotiate(
         request.propertyId,
-        specialistRecommendations,
+        weightedRecommendations,
       );
 
 

@@ -9,7 +9,7 @@
 - [ ] Workflow
 - [ ] Event Bus
 - [ ] Scheduler
-- [ ] Notification
+- [x] Notification
 - [ ] Search
 - [ ] Storage
 

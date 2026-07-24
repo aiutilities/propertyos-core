@@ -53,6 +53,18 @@ import { AiToolResponseNormalizationService } from "./tools/orchestration/ai-too
 import { AiToolOrchestrationLoopService } from "./tools/orchestration/ai-tool-orchestration-loop.service";
 import { AiToolRegistry } from "./tools/registry/ai-tool.registry";
 import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-context.service";
+import {
+  PropertySpecialistAgentRegistryService,
+} from "./agents/property-specialist-agent.registry.service";
+import {
+  PropertySpecialistAgentRuntimeService,
+} from "./agents/runtime/property-specialist-agent-runtime.service";
+import {
+  LeaseSpecialistService,
+} from "./specialists/lease-specialist.service";
+import {
+  LeaseSpecialistBootstrapService,
+} from "./specialists/lease-specialist-bootstrap.service";
 
 @Module({
   imports: [DiscoveryModule, EventBusModule, AuthModule],
@@ -116,6 +128,10 @@ import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-con
     AiToolOrchestrationLoopService,
     AiToolRuntimeContextService,
     AiToolRegistry,
+    PropertySpecialistAgentRegistryService,
+    PropertySpecialistAgentRuntimeService,
+    LeaseSpecialistService,
+    LeaseSpecialistBootstrapService,
   ],
   exports: [
     AiContextAssemblyService,
@@ -158,6 +174,9 @@ import { AiToolRuntimeContextService } from "./tools/runtime/ai-tool-runtime-con
     AiToolResponseNormalizationService,
     AiToolOrchestrationLoopService,
     AiToolRuntimeContextService,
+    PropertySpecialistAgentRegistryService,
+    PropertySpecialistAgentRuntimeService,
+    LeaseSpecialistService,
   ],
 })
 export class AiModule {}

@@ -28,8 +28,8 @@
 - [x] Maintenance
 - [x] Facility
 - [x] Asset
-- [ ] Staff
-- [ ] Vehicle
+- [x] Staff
+- [x] Vehicle
 
 ## Procurement
 

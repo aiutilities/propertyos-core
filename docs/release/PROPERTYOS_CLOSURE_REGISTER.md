@@ -25,9 +25,9 @@
 
 ## Operations
 
-- [ ] Maintenance
-- [ ] Facility
-- [ ] Asset
+- [x] Maintenance
+- [x] Facility
+- [x] Asset
 - [ ] Staff
 - [ ] Vehicle
 

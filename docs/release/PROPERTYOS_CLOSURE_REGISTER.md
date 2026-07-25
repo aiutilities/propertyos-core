@@ -70,7 +70,7 @@
 - [x] Upgrade
 - [x] Backup
 - [x] Restore
-- [ ] Monitoring
-- [ ] Metrics
-- [ ] Health
+- [x] Monitoring
+- [x] Metrics
+- [x] Health
 

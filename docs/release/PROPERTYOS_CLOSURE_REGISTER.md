@@ -54,9 +54,9 @@
 
 ## Resident
 
-- [ ] Reservation
-- [ ] Helpdesk
-- [ ] Documents
+- [x] Reservation
+- [x] Helpdesk
+- [x] Documents
 
 ## Platform
 

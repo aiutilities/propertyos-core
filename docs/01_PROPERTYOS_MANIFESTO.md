@@ -110,6 +110,8 @@ We believe contributors deserve respect.
 
 We believe communities create platforms that can outlive their founders.
 
+PropertyOS is created, maintained and stewarded by Cogzidel Technologies Pvt. Ltd., which is committed to protecting the platform's openness, sustainability and long-term evolution.
+
 PropertyOS is built for apartments, communities, offices, coworking spaces, hotels, resorts, campuses, warehouses and other managed environments.
 
 But PropertyOS is not defined by a list of property types.

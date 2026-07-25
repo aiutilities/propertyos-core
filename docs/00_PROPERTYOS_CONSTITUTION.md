@@ -383,7 +383,28 @@ Future maintainers should be thankful for today's decisions, not trapped by them
 
 ---
 
-## 21. Product Boundaries
+## 21. Legal and Organizational Stewardship
+
+PropertyOS is created, maintained and stewarded by **Cogzidel Technologies Pvt. Ltd.**
+
+Cogzidel Technologies Pvt. Ltd. is responsible for:
+
+- protecting the PropertyOS vision and Constitution
+- maintaining architectural integrity
+- administering releases and security response
+- protecting the PropertyOS name and trademarks
+- supporting an open plugin, theme and contributor ecosystem
+- ensuring the platform's long-term sustainability
+
+The company acts as steward of the platform rather than as a substitute for the community.
+
+PropertyOS Core is licensed under the Mozilla Public License 2.0.
+
+The source license does not grant rights to use the PropertyOS name, logo or trademarks.
+
+---
+
+## 23. Product Boundaries
 
 PropertyOS focuses on operating managed physical environments, including:
 
@@ -435,7 +456,7 @@ The following principles are non-negotiable unless this Constitution is formally
 
 ---
 
-## 23. Decision Test
+## 24. Decision Test
 
 Major decisions should be evaluated using these questions:
 
@@ -454,7 +475,7 @@ A decision that materially conflicts with the Constitution must be reconsidered 
 
 ---
 
-## 24. Long-Term Vision
+## 25. Long-Term Vision
 
 PropertyOS should become for managed-space operations what Linux became for operating systems and WordPress became for publishing:
 
@@ -469,7 +490,7 @@ PropertyOS should outlive individual products, companies, technologies and maint
 
 ---
 
-## 25. Founder's Pledge
+## 26. Founder's Pledge
 
 > I pledge, in the name of God, to build PropertyOS with integrity, discipline and humility.
 >
@@ -487,7 +508,7 @@ PropertyOS should outlive individual products, companies, technologies and maint
 
 ---
 
-## 26. Ratification
+## 27. Ratification
 
 This Constitution was ratified on **25 July 2026** by **Anand Nataraj**, founder of PropertyOS.
 
@@ -497,7 +518,7 @@ All major architectural, product, governance, release and community decisions sh
 
 ---
 
-## 27. Amendment
+## 28. Amendment
 
 The Constitution should be stable but not incapable of responsible evolution.
 
@@ -515,7 +536,7 @@ Silent constitutional changes are prohibited.
 
 ---
 
-## 28. Closing Statement
+## 29. Closing Statement
 
 PropertyOS is more than software.
 

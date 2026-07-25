@@ -587,11 +587,11 @@ The following repository documents are being established under the PropertyOS Co
 - `SUPPORT.md`
 - `ROADMAP.md`
 - `CHANGELOG.md`
-- root open-source license
+- `GOVERNANCE.md`
+- `MAINTAINERS.md`
+- `TRADEMARKS.md`
 
-Until a formal root license is committed, do not assume that public repository access grants permission to copy, modify or redistribute the code.
-
-License formalization is the next blocking Foundation task.
+PropertyOS Core is licensed under the Mozilla Public License 2.0.
 
 ---
 
@@ -673,11 +673,25 @@ Every release should be supported by tests, build evidence, migration validation
 
 ## License
 
-A formal open-source license has not yet been committed to the repository root.
+PropertyOS Core is licensed under the **Mozilla Public License 2.0**.
 
-This is the highest-priority remaining Repository Foundation task.
+The MPL-2.0 protects modifications to covered PropertyOS source files while allowing independent plugins, integrations and larger applications to use their own compatible licensing models.
 
-Until a license is formally published, the repository's public visibility should not be interpreted as legal permission to use, modify or redistribute its contents.
+See the root [LICENSE](LICENSE) file for the complete license text.
+
+The PropertyOS name, logo and associated trademarks are owned by **Cogzidel Technologies Pvt. Ltd.** and are not granted under the MPL-2.0.
+
+---
+
+## Stewardship
+
+PropertyOS is created, maintained and stewarded by **Cogzidel Technologies Pvt. Ltd.**
+
+Cogzidel Technologies Pvt. Ltd. builds open, AI-native operating systems for industries.
+
+The company provides long-term legal, architectural and operational stewardship for PropertyOS while fostering an open-source ecosystem around the platform.
+
+The PropertyOS name, logo and associated trademarks are owned by Cogzidel Technologies Pvt. Ltd.
 
 ---
 

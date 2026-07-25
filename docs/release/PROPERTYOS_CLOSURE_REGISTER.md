@@ -33,10 +33,10 @@
 
 ## Procurement
 
-- [ ] Purchase Request
-- [ ] RFQ
-- [ ] Quotation
-- [ ] Comparison
+- [x] Purchase Request
+- [x] RFQ
+- [x] Quotation
+- [x] Comparison
 - [ ] Purchase Order
 - [ ] Goods Receipt
 - [ ] Invoice Match

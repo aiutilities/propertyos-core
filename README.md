@@ -677,9 +677,11 @@ PropertyOS Core is licensed under the **Mozilla Public License 2.0**.
 
 The MPL-2.0 protects modifications to covered PropertyOS source files while allowing independent plugins, integrations and larger applications to use their own compatible licensing models.
 
-See the root [LICENSE](LICENSE) file for the complete license text.
+See the root [LICENSE](LICENSE) file for the complete license text and [NOTICE](NOTICE) for ownership and attribution information.
 
 The PropertyOS name, logo and associated trademarks are owned by **Cogzidel Technologies Pvt. Ltd.** and are not granted under the MPL-2.0.
+
+Trademark use is governed by the [PropertyOS Trademark Policy](TRADEMARKS.md).
 
 ---
 

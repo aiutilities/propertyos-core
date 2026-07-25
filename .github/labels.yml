@@ -1,0 +1,236 @@
+# PropertyOS GitHub label catalogue
+#
+# This file is the repository source of truth for issue and pull-request labels.
+# Applying these labels to GitHub is a separate controlled repository action.
+
+- name: "type: bug"
+  color: "d73a4a"
+  description: "A reproducible defect in supported PropertyOS behaviour"
+
+- name: "type: enhancement"
+  color: "a2eeef"
+  description: "A proposed future capability or improvement"
+
+- name: "type: documentation"
+  color: "0075ca"
+  description: "Documentation correction, clarification or improvement"
+
+- name: "type: question"
+  color: "d876e3"
+  description: "Usage, architecture or contributor question"
+
+- name: "type: maintenance"
+  color: "cfd3d7"
+  description: "Repository, dependency or operational maintenance"
+
+- name: "type: governance"
+  color: "5319e7"
+  description: "Governance, policy or project-authority work"
+
+- name: "type: security"
+  color: "b60205"
+  description: "Public security-hardening work without private vulnerability details"
+
+- name: "type: test"
+  color: "1d76db"
+  description: "Testing, verification or quality assurance"
+
+- name: "type: release"
+  color: "0052cc"
+  description: "Release preparation, certification or publication"
+
+- name: "status: needs triage"
+  color: "ededed"
+  description: "Awaiting initial maintainer review"
+
+- name: "status: needs information"
+  color: "fbca04"
+  description: "Additional evidence or clarification is required"
+
+- name: "status: accepted"
+  color: "0e8a16"
+  description: "Accepted for governed execution"
+
+- name: "status: blocked"
+  color: "b60205"
+  description: "Blocked by a dependency, decision or operational condition"
+
+- name: "status: in progress"
+  color: "1d76db"
+  description: "Authorized work is actively in progress"
+
+- name: "status: review required"
+  color: "5319e7"
+  description: "Awaiting technical, governance or security review"
+
+- name: "status: duplicate"
+  color: "cfd3d7"
+  description: "Duplicates an existing issue or pull request"
+
+- name: "status: declined"
+  color: "ffffff"
+  description: "Reviewed and not accepted"
+
+- name: "status: completed"
+  color: "0e8a16"
+  description: "Work is complete and validated"
+
+- name: "priority: critical"
+  color: "b60205"
+  description: "Immediate attention required"
+
+- name: "priority: high"
+  color: "d93f0b"
+  description: "High-priority work"
+
+- name: "priority: medium"
+  color: "fbca04"
+  description: "Normal planned priority"
+
+- name: "priority: low"
+  color: "0e8a16"
+  description: "Low-priority or opportunistic work"
+
+- name: "scope: core"
+  color: "0052cc"
+  description: "PropertyOS Core platform"
+
+- name: "scope: frontend"
+  color: "1d76db"
+  description: "Web interface and frontend experience"
+
+- name: "scope: backend"
+  color: "006b75"
+  description: "Backend services, APIs and persistence"
+
+- name: "scope: infrastructure"
+  color: "4a4a4a"
+  description: "Deployment, CI, Docker, operations or observability"
+
+- name: "scope: documentation"
+  color: "0075ca"
+  description: "Official documentation"
+
+- name: "scope: governance"
+  color: "5319e7"
+  description: "Constitution, governance and repository policy"
+
+- name: "scope: plugin"
+  color: "7057ff"
+  description: "Plugin engine, SDK, packaging or lifecycle"
+
+- name: "scope: theme"
+  color: "c5def5"
+  description: "Theme platform, packages or lifecycle"
+
+- name: "scope: ai"
+  color: "6f42c1"
+  description: "AI runtime, providers, agents, specialists or safety"
+
+- name: "scope: marketplace"
+  color: "bfdadc"
+  description: "Extension publication, certification or registry"
+
+- name: "domain: identity"
+  color: "0366d6"
+  description: "Identity, authentication and authorization"
+
+- name: "domain: property"
+  color: "0052cc"
+  description: "Property, zones and spaces"
+
+- name: "domain: tenant"
+  color: "1d76db"
+  description: "Tenant, agreement and lease"
+
+- name: "domain: finance"
+  color: "0e8a16"
+  description: "Rent, payments, invoices and receipts"
+
+- name: "domain: operations"
+  color: "fbca04"
+  description: "Maintenance, facility, assets, staff and vehicles"
+
+- name: "domain: procurement"
+  color: "d93f0b"
+  description: "Procurement and vendor workflows"
+
+- name: "domain: inventory"
+  color: "e99695"
+  description: "Inventory, stock, batches and material movement"
+
+- name: "domain: resident"
+  color: "c2e0c6"
+  description: "Resident-facing capabilities"
+
+- name: "area: breaking change"
+  color: "b60205"
+  description: "Introduces a compatibility-breaking change"
+
+- name: "area: migration"
+  color: "d93f0b"
+  description: "Database, data or deployment migration impact"
+
+- name: "area: accessibility"
+  color: "0052cc"
+  description: "Accessibility improvement or defect"
+
+- name: "area: performance"
+  color: "fbca04"
+  description: "Performance, scalability or efficiency"
+
+- name: "area: developer experience"
+  color: "bfd4f2"
+  description: "Developer workflow, SDK or contributor experience"
+
+- name: "governance: product freeze"
+  color: "b60205"
+  description: "Subject to the active Product Foundation freeze"
+
+- name: "governance: decision required"
+  color: "5319e7"
+  description: "Requires an explicit governance decision"
+
+- name: "governance: roadmap candidate"
+  color: "d4c5f9"
+  description: "Candidate for future roadmap consideration"
+
+- name: "release: candidate"
+  color: "1d76db"
+  description: "Release-candidate work"
+
+- name: "release: hotfix"
+  color: "b60205"
+  description: "Emergency or security hotfix"
+
+- name: "release: certified"
+  color: "0e8a16"
+  description: "Release or capability has completed certification"
+
+- name: "contribution: good first issue"
+  color: "7057ff"
+  description: "Suitable for a new contributor"
+
+- name: "contribution: help wanted"
+  color: "008672"
+  description: "Maintainers welcome community help"
+
+- name: "contribution: maintainer only"
+  color: "4a4a4a"
+  description: "Restricted to authorized maintainers"
+
+- name: "resolution: cannot reproduce"
+  color: "cfd3d7"
+  description: "The reported behaviour could not be reproduced"
+
+- name: "resolution: invalid"
+  color: "e4e669"
+  description: "The request does not meet project requirements"
+
+- name: "resolution: wontfix"
+  color: "ffffff"
+  description: "The project does not plan to implement or change this"
+
+- name: "resolution: external"
+  color: "cfd3d7"
+  description: "The issue belongs to an external provider or project"

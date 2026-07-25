@@ -61,9 +61,9 @@ jobs:
 
       - name: Verify repository governance workflow is isolated
         run: |
-          ! grep -q "npm run build" \
+          ! grep -q "npm run"" build" \
             .github/workflows/repository-governance.yml
-          ! grep -q "npm test" \
+          ! grep -q "npm"" test" \
             .github/workflows/repository-governance.yml
-          ! grep -q "docker compose build" \
+          ! grep -q "docker compose"" build" \
             .github/workflows/repository-governance.yml

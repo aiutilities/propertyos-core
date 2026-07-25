@@ -60,8 +60,8 @@
 
 ## Platform
 
-- [ ] Plugin
-- [ ] Theme
+- [x] Plugin
+- [x] Theme
 - [ ] AI Runtime
 
 ## Production

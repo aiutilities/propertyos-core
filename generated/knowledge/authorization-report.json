@@ -1,12 +1,12 @@
 {
-  "authenticated_endpoint_count": 389,
-  "controller_count": 62,
+  "authenticated_endpoint_count": 390,
+  "controller_count": 63,
   "controller_roots": [
     "backend/src/core",
     "backend/src/plugins"
   ],
   "duplicate_permission_values": {},
-  "endpoint_count": 460,
+  "endpoint_count": 461,
   "endpoints": [
     {
       "classification": "authenticated",
@@ -296,7 +296,7 @@
       "has_permission_guard": false,
       "http_method": "GET",
       "is_public": false,
-      "line": 51,
+      "line": 63,
       "method": "RequirePermission",
       "path": "backend/src/core/ai/controllers/ai.controller.ts",
       "permission": null,
@@ -310,11 +310,25 @@
       "has_permission_guard": false,
       "http_method": "POST",
       "is_public": false,
-      "line": 59,
+      "line": 71,
       "method": "RequirePermission",
       "path": "backend/src/core/ai/controllers/ai.controller.ts",
       "permission": null,
       "route": "'orchestrate'"
+    },
+    {
+      "classification": "authenticated",
+      "controller": "PropertyAiDashboardController",
+      "has_bearer_auth": false,
+      "has_jwt_guard": false,
+      "has_permission_guard": false,
+      "http_method": "GET",
+      "is_public": false,
+      "line": 50,
+      "method": "RequirePermission",
+      "path": "backend/src/core/ai/controllers/property-ai-dashboard.controller.ts",
+      "permission": null,
+      "route": "':propertyId/dashboard'"
     },
     {
       "classification": "authenticated",
@@ -6449,10 +6463,10 @@
       "route": "'/:visitId/history'"
     }
   ],
-  "permission_coverage_percent": 14.13,
+  "permission_coverage_percent": 14.1,
   "permission_definition_count": 55,
   "permission_protected_endpoint_count": 64,
-  "permission_reference_count": 177,
+  "permission_reference_count": 180,
   "permission_registry": "backend/src/core/auth/constants/permissions.ts",
   "public_endpoint_count": 7,
   "repository_root": ".",

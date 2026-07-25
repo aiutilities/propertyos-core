@@ -6,14 +6,14 @@
 
 | Metric | Value |
 |---|---:|
-| Controllers | 62 |
-| Endpoints | 460 |
+| Controllers | 63 |
+| Endpoints | 461 |
 | Public endpoints | 7 |
-| Authenticated endpoints | 389 |
+| Authenticated endpoints | 390 |
 | Permission-protected endpoints | 64 |
-| Permission coverage | 14.13% |
+| Permission coverage | 14.10% |
 | Permission definitions | 55 |
-| Permission references | 177 |
+| Permission references | 180 |
 | Blocking violations | 0 |
 | Unused permission definitions | 13 |
 
@@ -44,5 +44,5 @@ Unused permission definitions do not fail the check.
 | Classification | Count |
 |---|---:|
 | Public | 7 |
-| Authenticated | 389 |
+| Authenticated | 390 |
 | Permission protected | 64 |

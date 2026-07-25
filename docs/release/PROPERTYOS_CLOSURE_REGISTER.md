@@ -37,8 +37,8 @@
 - [x] RFQ
 - [x] Quotation
 - [x] Comparison
-- [ ] Purchase Order
-- [ ] Goods Receipt
+- [x] Purchase Order
+- [x] Goods Receipt
 - [ ] Invoice Match
 - [ ] Payment Request
 

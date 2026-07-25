@@ -579,17 +579,24 @@ Generated module documentation is available here:
 
 PropertyOS is entering its formal open-source governance phase.
 
-The following repository documents are being established under the PropertyOS Constitution:
+Repository governance is being established under the PropertyOS Constitution.
 
-- `CONTRIBUTING.md`
+Available:
+
+- [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Trademark Policy](TRADEMARKS.md)
+- [NOTICE](NOTICE)
+- [MPL-2.0 License](LICENSE)
+
+In progress:
+
 - `SECURITY.md`
-- `CODE_OF_CONDUCT.md`
 - `SUPPORT.md`
 - `ROADMAP.md`
 - `CHANGELOG.md`
 - `GOVERNANCE.md`
 - `MAINTAINERS.md`
-- `TRADEMARKS.md`
 
 PropertyOS Core is licensed under the Mozilla Public License 2.0.
 
@@ -599,15 +606,17 @@ PropertyOS Core is licensed under the Mozilla Public License 2.0.
 
 PropertyOS welcomes contributors who align with its Constitution and community principles.
 
-Before formal contribution workflows are published, prospective contributors should:
+Before contributing:
 
 1. read the [PropertyOS Constitution](docs/00_PROPERTYOS_CONSTITUTION.md)
 2. read the [PropertyOS Manifesto](docs/01_PROPERTYOS_MANIFESTO.md)
-3. review the [architecture decisions](adrs/README.md)
-4. review the [repository guide](docs/development/REPOSITORY_GUIDE.md)
-5. open an issue before starting major architectural work
+3. review the [Contributing Guide](CONTRIBUTING.md)
+4. follow the [Code of Conduct](CODE_OF_CONDUCT.md)
+5. review the [architecture decisions](adrs/README.md)
+6. review the [repository guide](docs/development/REPOSITORY_GUIDE.md)
+7. open an issue before starting major architectural work
 
-A complete `CONTRIBUTING.md` will be added during the Repository Governance phase.
+The contributing guide explains development standards, testing, migrations, APIs, plugins, AI contributions, licensing and pull-request expectations.
 
 ---
 

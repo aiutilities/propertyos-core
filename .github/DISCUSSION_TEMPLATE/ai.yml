@@ -1,0 +1,49 @@
+title: "[AI] "
+labels:
+  - "scope: ai"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        AI discussions must preserve human accountability, authorization,
+        provider isolation, auditability and data protection.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: AI area
+      options:
+        - Provider integration
+        - Agent or specialist
+        - Orchestration
+        - Prompt governance
+        - Tool authorization
+        - Evaluation
+        - Safety
+        - Capability registry
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Discussion
+    validations:
+      required: true
+
+  - type: textarea
+    id: authority
+    attributes:
+      label: Human authorization boundary
+      description: Explain which consequential actions require accountable human approval.
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Security, privacy and safety considerations
+    validations:
+      required: true

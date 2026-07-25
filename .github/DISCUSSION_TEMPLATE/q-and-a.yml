@@ -1,0 +1,65 @@
+title: "[Question] "
+labels:
+  - "type: question"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask a PropertyOS usage, architecture or development question.
+
+        Do not disclose credentials, personal data, customer information or
+        security vulnerabilities.
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Installation
+        - Configuration
+        - Architecture
+        - API
+        - Plugin development
+        - Theme development
+        - AI development
+        - Deployment
+        - Contribution workflow
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: PropertyOS version
+      placeholder: v1.0.1
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: What are you trying to accomplish?
+    validations:
+      required: true
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What have you tried?
+      description: Include relevant documentation and sanitized evidence.
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include deployment, database and runtime details when relevant.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I searched existing documentation and discussions.
+          required: true
+        - label: This is not a private security report.
+          required: true

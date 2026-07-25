@@ -1,0 +1,40 @@
+title: "[Community] "
+labels:
+  - "type: governance"
+
+body:
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Community topic
+      options:
+        - Contributor onboarding
+        - Events
+        - Recognition
+        - Education
+        - Translation
+        - Partnerships
+        - Community process
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: discussion
+    attributes:
+      label: Discussion
+    validations:
+      required: true
+
+  - type: textarea
+    id: participants
+    attributes:
+      label: Who should participate?
+
+  - type: checkboxes
+    id: conduct
+    attributes:
+      label: Community standards
+      options:
+        - label: I will follow the PropertyOS Code of Conduct.
+          required: true

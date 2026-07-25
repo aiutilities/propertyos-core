@@ -1,0 +1,39 @@
+title: "[Theme] "
+labels:
+  - "scope: theme"
+
+body:
+  - type: textarea
+    id: topic
+    attributes:
+      label: Theme topic
+      description: Describe the theme idea, compatibility question or publishing concern.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Discussion type
+      options:
+        - Theme idea
+        - Theme development
+        - Compatibility
+        - Accessibility
+        - Branding
+        - Publishing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: audience
+    attributes:
+      label: Intended audience or experience
+    validations:
+      required: true
+
+  - type: textarea
+    id: considerations
+    attributes:
+      label: Security, accessibility or compatibility considerations

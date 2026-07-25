@@ -1,0 +1,33 @@
+title: "[Documentation] "
+labels:
+  - "type: documentation"
+  - "scope: documentation"
+
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Documentation area
+      placeholder: README, architecture, API, plugin guide, policy...
+    validations:
+      required: true
+
+  - type: textarea
+    id: discussion
+    attributes:
+      label: Discussion
+      description: Describe the documentation need, structure or improvement.
+    validations:
+      required: true
+
+  - type: textarea
+    id: audience
+    attributes:
+      label: Intended audience
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome

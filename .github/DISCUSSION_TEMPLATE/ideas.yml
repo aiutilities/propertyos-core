@@ -1,0 +1,70 @@
+title: "[Idea] "
+labels:
+  - "type: enhancement"
+  - "governance: roadmap candidate"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share ideas for the future of PropertyOS.
+
+        Product development is currently frozen during Repository Foundation.
+        An idea does not authorize implementation or guarantee roadmap inclusion.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What user, operator, developer or ecosystem problem should be addressed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed idea
+      description: Describe the desired outcome without assuming a specific implementation.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Suggested scope
+      options:
+        - Core platform
+        - Plugin
+        - Theme
+        - AI Specialist
+        - SDK or developer tooling
+        - Documentation
+        - Marketplace or ecosystem
+        - Integration
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefit
+    attributes:
+      label: Expected benefit
+      description: Who benefits and why does this matter?
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Risks and impact
+      description: Note compatibility, security, migration or operational concerns.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Governance acknowledgement
+      options:
+        - label: I understand this discussion does not authorize implementation.
+          required: true
+        - label: I have not included confidential or security-sensitive information.
+          required: true

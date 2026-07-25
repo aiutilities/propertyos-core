@@ -1,0 +1,56 @@
+title: "[Architecture] "
+labels:
+  - "scope: core"
+  - "governance: decision required"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this category for significant architectural discussion.
+
+        Discussion does not replace an approved ADR, governance decision or
+        implementation authorization.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Describe the architectural problem and relevant constraints.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed direction
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Architectural impact
+      description: Cover APIs, data, modules, compatibility, security and operations.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reversal
+    attributes:
+      label: Reversal or migration approach
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Governance acknowledgement
+      options:
+        - label: I understand this discussion does not authorize source changes.
+          required: true

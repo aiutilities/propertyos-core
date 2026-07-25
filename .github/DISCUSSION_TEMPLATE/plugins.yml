@@ -1,0 +1,47 @@
+title: "[Plugin] "
+labels:
+  - "scope: plugin"
+
+body:
+  - type: textarea
+    id: topic
+    attributes:
+      label: Plugin topic
+      description: Describe the plugin idea, implementation question or compatibility concern.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Discussion type
+      options:
+        - Plugin idea
+        - SDK question
+        - Installation or lifecycle
+        - Compatibility
+        - Security
+        - Publishing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+    validations:
+      required: true
+
+  - type: textarea
+    id: platform_impact
+    attributes:
+      label: Platform impact
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: No private vulnerability details are included.
+          required: true

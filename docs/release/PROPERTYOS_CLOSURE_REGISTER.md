@@ -66,10 +66,10 @@
 
 ## Production
 
-- [ ] Docker
-- [ ] Upgrade
-- [ ] Backup
-- [ ] Restore
+- [x] Docker
+- [x] Upgrade
+- [x] Backup
+- [x] Restore
 - [ ] Monitoring
 - [ ] Metrics
 - [ ] Health

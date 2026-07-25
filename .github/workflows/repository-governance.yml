@@ -1,0 +1,69 @@
+name: Repository Governance
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+    paths:
+      - "**/*.md"
+      - ".github/**"
+      - "scripts/validate-repository-foundation.sh"
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "**/*.md"
+      - ".github/**"
+      - "scripts/validate-repository-foundation.sh"
+  workflow_dispatch:
+
+concurrency:
+  group: repository-governance-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  repository-foundation:
+    name: Repository Foundation validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate repository foundation
+        run: ./scripts/validate-repository-foundation.sh
+
+      - name: Validate YAML syntax
+        run: |
+          ruby -e '
+            require "yaml"
+            Dir[
+              ".github/**/*.yml",
+              ".github/**/*.yaml"
+            ].each do |file|
+              YAML.load_file(file)
+              puts "Validated #{file}"
+            end
+          '
+
+      - name: Verify existing product CI remains present
+        run: |
+          test -f .github/workflows/propertyos-ci.yml
+          grep -q "^name: PropertyOS CI$" \
+            .github/workflows/propertyos-ci.yml
+
+      - name: Verify repository governance workflow is isolated
+        run: |
+          ! grep -q "npm run build" \
+            .github/workflows/repository-governance.yml
+          ! grep -q "npm test" \
+            .github/workflows/repository-governance.yml
+          ! grep -q "docker compose build" \
+            .github/workflows/repository-governance.yml

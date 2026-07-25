@@ -1,0 +1,52 @@
+name: Documentation issue
+description: Report unclear, missing, outdated or incorrect documentation
+title: "[Docs]: "
+labels:
+  - "type: documentation"
+body:
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: This report contains no confidential or security-sensitive information.
+          required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Document or page
+      description: Provide the file path, heading or page reference.
+      placeholder: docs/... or README.md section
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue
+    attributes:
+      label: Documentation problem
+      options:
+        - Incorrect
+        - Outdated
+        - Missing
+        - Unclear
+        - Broken link
+        - Inconsistent terminology
+        - Accessibility
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction

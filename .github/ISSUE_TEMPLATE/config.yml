@@ -1,0 +1,18 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/aiutilities/propertyos-core/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue.
+
+  - name: Support policy
+    url: https://github.com/aiutilities/propertyos-core/blob/main/SUPPORT.md
+    about: Review supported channels, scope and response expectations.
+
+  - name: Contribution guide
+    url: https://github.com/aiutilities/propertyos-core/blob/main/CONTRIBUTING.md
+    about: Review contribution requirements before proposing changes.
+
+  - name: Public roadmap
+    url: https://github.com/aiutilities/propertyos-core/blob/main/ROADMAP.md
+    about: Review the approved project direction and current product freeze.

@@ -1,0 +1,56 @@
+name: Question
+description: Ask a usage, architecture or extension-development question
+title: "[Question]: "
+labels:
+  - "type: question"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GitHub Discussions is the preferred long-term channel for support and questions once enabled.
+
+        Do not include credentials, private data or security-vulnerability details.
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Installation
+        - Configuration
+        - Architecture
+        - API
+        - Plugin development
+        - Theme development
+        - AI development
+        - Deployment
+        - Contribution workflow
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: PropertyOS version
+      placeholder: v1.0.1
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Explain what you are trying to accomplish.
+    validations:
+      required: true
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What have you tried?
+      description: Include relevant documentation or troubleshooting already attempted.
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include deployment and runtime details when relevant.

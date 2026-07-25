@@ -1,0 +1,78 @@
+name: Feature request
+description: Propose a future capability without bypassing roadmap governance
+title: "[Proposal]: "
+labels:
+  - "type: enhancement"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        PropertyOS Core is currently under product freeze during Repository Foundation.
+
+        This form records proposals for future governance review. Submission does not authorize implementation or guarantee roadmap inclusion.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues, discussions and the public roadmap.
+          required: true
+        - label: I understand this request does not authorize implementation.
+          required: true
+        - label: I have not included confidential or security-sensitive information.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: Describe the user or ecosystem problem, not only the desired implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed capability
+      description: Describe the desired outcome.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Suggested scope
+      options:
+        - Core platform
+        - Official plugin
+        - Official theme
+        - AI Specialist
+        - SDK or developer tooling
+        - Documentation
+        - Marketplace or ecosystem
+        - Integration
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Compatibility, security and operational impact
+      description: Identify likely risks, migrations or affected modules.
+
+  - type: textarea
+    id: users
+    attributes:
+      label: Who benefits?
+      description: Identify affected users, operators, developers or ecosystem participants.
+    validations:
+      required: true

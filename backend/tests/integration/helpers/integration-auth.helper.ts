@@ -2,6 +2,7 @@ import { createHash, randomUUID } from "crypto";
 import { Pool } from "pg";
 import request from "supertest";
 
+import { Permissions } from "../../../src/core/auth/constants/permissions";
 import { POSTGRES_POOL } from "../../../src/database/postgres";
 
 export interface IntegrationAuthContext {
@@ -93,6 +94,27 @@ export async function provisionIntegrationAdmin(
     [personRoleId, personId, roleId],
   );
 
+  for (const permissionKey of Object.values(Permissions)) {
+    await pool.query(
+      `
+        INSERT INTO permissions
+          (
+            id,
+            permission_key,
+            description
+          )
+        VALUES
+          (
+            gen_random_uuid(),
+            $1,
+            $2
+          )
+        ON CONFLICT (permission_key) DO NOTHING
+      `,
+      [permissionKey, `Allows ${permissionKey}`],
+    );
+  }
+
   await pool.query(
     `
       INSERT INTO role_permissions
@@ -106,6 +128,7 @@ export async function provisionIntegrationAdmin(
         $1,
         permissions.id
       FROM permissions
+      WHERE permissions.deleted_at IS NULL
       ON CONFLICT DO NOTHING
     `,
     [roleId],

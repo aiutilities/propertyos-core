@@ -62,7 +62,7 @@
 
 - [x] Plugin
 - [x] Theme
-- [ ] AI Runtime
+- [x] AI Runtime
 
 ## Production
 

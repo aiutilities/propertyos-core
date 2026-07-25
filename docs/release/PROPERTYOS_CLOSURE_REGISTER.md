@@ -44,13 +44,13 @@
 
 ## Inventory
 
-- [ ] Item
-- [ ] Batch
-- [ ] Stock
-- [ ] Material Issue
-- [ ] Material Return
-- [ ] Cycle Count
-- [ ] Adjustment
+- [x] Item
+- [x] Batch
+- [x] Stock
+- [x] Material Issue
+- [x] Material Return
+- [x] Cycle Count
+- [x] Adjustment
 
 ## Resident
 

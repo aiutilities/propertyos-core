@@ -39,8 +39,8 @@
 - [x] Comparison
 - [x] Purchase Order
 - [x] Goods Receipt
-- [ ] Invoice Match
-- [ ] Payment Request
+- [x] Invoice Match
+- [x] Payment Request
 
 ## Inventory
 

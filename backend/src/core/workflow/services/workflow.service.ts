@@ -1,5 +1,9 @@
 import { Inject, Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 
+import {
+  WorkflowExecutionMetricsService,
+} from './workflow-execution-metrics.service';
+
 import { EventBusService } from '../../eventbus/services/eventbus.service';
 import { CreateWorkflowDefinitionDto } from '../dto/create-workflow-definition.dto';
 import { StartWorkflowDto } from '../dto/start-workflow.dto';
@@ -19,6 +23,10 @@ export class WorkflowService {
     @Inject(WORKFLOW_REPOSITORY)
     private readonly workflowRepository: WorkflowRepository,
     private readonly eventBus: EventBusService,
+
+    private readonly executionMetrics:
+      WorkflowExecutionMetricsService,
+
   ) {}
 
   async createDefinition(dto: CreateWorkflowDefinitionDto) {
@@ -135,6 +143,9 @@ export class WorkflowService {
   }
 
   async startWorkflow(dto: StartWorkflowDto) {
+    return this.executionMetrics.observe(
+      'start',
+      async () => {
     const definition = await this.workflowRepository.findDefinitionById(dto.workflowDefinitionId);
 
     if (!definition) {
@@ -174,7 +185,10 @@ export class WorkflowService {
     });
 
     return instance;
-  }
+
+      },
+    );
+}
 
   async getInstance(id: string) {
     const instance = await this.workflowRepository.findInstanceById(id);
@@ -192,6 +206,9 @@ export class WorkflowService {
   }
 
   async transitionWorkflow(instanceId: string, dto: TransitionWorkflowDto) {
+    return this.executionMetrics.observe(
+      'transition',
+      async () => {
     const instance = await this.workflowRepository.findInstanceById(instanceId);
 
     if (!instance) {
@@ -264,5 +281,8 @@ export class WorkflowService {
     }
 
     return updatedInstance;
-  }
+
+      },
+    );
+}
 }

@@ -1,3 +1,18 @@
+import {
+  PostgresModule,
+} from '../../database/postgres/postgres.module';
+import {
+  PlatformIdempotencyRepository,
+} from './idempotency/repositories/platform-idempotency.repository';
+import {
+  PostgresPlatformIdempotencyRepository,
+} from './idempotency/repositories/postgres-platform-idempotency.repository';
+import {
+  PlatformIdempotencyFingerprintService,
+} from './idempotency/services/platform-idempotency-fingerprint.service';
+import {
+  PlatformIdempotencyService,
+} from './idempotency/services/platform-idempotency.service';
 import { Module } from '@nestjs/common';
 import {
   AuthModule,
@@ -12,16 +27,28 @@ import { ConsolePlatformLogger } from './logging';
 
 @Module({
   imports: [
+    PostgresModule,
     AuthModule,
   ],
   controllers: [
     PlatformRuntimeController,
   ],
   providers: [
+    PlatformIdempotencyFingerprintService,
+    PlatformIdempotencyService,
+    {
+      provide:
+        PlatformIdempotencyRepository,
+      useClass:
+        PostgresPlatformIdempotencyRepository,
+    },
     ConsolePlatformLogger,
     PlatformRuntimeService,
   ],
   exports: [
+    PlatformIdempotencyFingerprintService,
+    PlatformIdempotencyService,
+    PlatformIdempotencyRepository,
     ConsolePlatformLogger,
     PlatformRuntimeService,
   ],

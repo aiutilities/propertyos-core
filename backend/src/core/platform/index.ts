@@ -36,3 +36,8 @@ export * from './runtime/platform-runtime.service';
 export * from './platform.module';
 export * from './logging';
 export * from './swagger';
+export * from './idempotency/entities/platform-idempotency-request.entity';
+export * from './idempotency/platform-idempotency.types';
+export * from './idempotency/repositories/platform-idempotency.repository';
+export * from './idempotency/services/platform-idempotency-fingerprint.service';
+export * from './idempotency/services/platform-idempotency.service';

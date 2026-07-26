@@ -3,7 +3,7 @@ CREATE TABLE marketplace_plugins
     id uuid PRIMARY KEY,
 
     plugin_id uuid
-        REFERENCES plugins(id)
+        REFERENCES core_plugins(id)
         ON DELETE SET NULL,
 
     slug varchar(150) NOT NULL UNIQUE,

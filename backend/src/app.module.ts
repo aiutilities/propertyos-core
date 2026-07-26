@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MarketplaceModule } from './core/marketplace/marketplace.module';
 import { APP_FILTER, APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { AccessControlModule } from "./core/access-control";
@@ -45,6 +46,7 @@ const runtimeBusinessModules = resolveRuntimeBusinessModules();
 
 @Module({
   imports: [
+    MarketplaceModule,
     AccessControlModule,
     ThrottlerModule.forRoot([
       {

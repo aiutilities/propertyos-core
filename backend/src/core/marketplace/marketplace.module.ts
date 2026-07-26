@@ -6,8 +6,17 @@ import {
   PostgresModule,
 } from '../../database/postgres/postgres.module';
 import {
+  AuthModule,
+} from '../auth/auth.module';
+import {
+  PluginModule,
+} from '../plugin/plugin.module';
+import {
   MarketplacePublisherController,
 } from './controllers/marketplace-publisher.controller';
+import {
+  MarketplaceInstallController,
+} from './install/controllers/marketplace-install.controller';
 import {
   MarketplaceController,
 } from './controllers/marketplace.controller';
@@ -27,6 +36,9 @@ import {
   MarketplaceCatalogService,
 } from './services/marketplace-catalog.service';
 import {
+  MarketplaceInstallService,
+} from './install/services/marketplace-install.service';
+import {
   MarketplacePublisherService,
 } from './services/marketplace-publisher.service';
 import {
@@ -45,14 +57,18 @@ import {
 @Module({
   imports: [
     PostgresModule,
+    AuthModule,
+    PluginModule,
   ],
   controllers: [
     MarketplacePublisherController,
+    MarketplaceInstallController,
     MarketplaceVersionController,
     MarketplaceController,
   ],
   providers: [
     MarketplaceCatalogService,
+    MarketplaceInstallService,
     MarketplacePublisherService,
     MarketplaceVersionService,
     {

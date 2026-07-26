@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  InventoryPostingMetricsService,
+} from './inventory-posting-metrics.service';
+
+import {
   randomUUID,
 } from 'crypto';
 
@@ -61,6 +65,10 @@ export class InventoryStockTransferService {
 
     private readonly auditService:
       AuditService,
+
+    private readonly postingMetrics:
+      InventoryPostingMetricsService,
+
   ) {}
 
   async createTransfer(
@@ -424,6 +432,9 @@ export class InventoryStockTransferService {
     id: string,
     dto: DispatchStockTransferDto,
   ) {
+    return this.postingMetrics.observe(
+      'transfer_dispatch',
+      async () => {
     const details =
       await this.getTransfer(
         id,
@@ -704,12 +715,18 @@ export class InventoryStockTransferService {
     return this.getTransfer(
       id,
     );
-  }
+
+      },
+    );
+}
 
   async receiveTransfer(
     id: string,
     dto: ReceiveStockTransferDto,
   ) {
+    return this.postingMetrics.observe(
+      'transfer_receive',
+      async () => {
     const details =
       await this.getTransfer(
         id,
@@ -978,7 +995,10 @@ export class InventoryStockTransferService {
     return this.getTransfer(
       id,
     );
-  }
+
+      },
+    );
+}
 
   async cancelTransfer(
     id: string,

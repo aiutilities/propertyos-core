@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  InventoryPostingMetricsService,
+} from './inventory-posting-metrics.service';
+
+import {
   randomUUID,
 } from 'crypto';
 
@@ -60,6 +64,9 @@ export class InventoryStockAdjustmentService {
 
     private readonly auditService:
       AuditService,
+
+    private readonly postingMetrics:
+      InventoryPostingMetricsService,
   ) {}
 
   async createAdjustment(
@@ -394,6 +401,9 @@ export class InventoryStockAdjustmentService {
     id: string,
     dto: PostStockAdjustmentDto,
   ) {
+    return this.postingMetrics.observe(
+      'stock_adjustment',
+      async () => {
     const details =
       await this.getAdjustment(
         id,
@@ -572,7 +582,10 @@ export class InventoryStockAdjustmentService {
     return this.getAdjustment(
       id,
     );
-  }
+
+      },
+    );
+}
 
   async cancelAdjustment(
     id: string,

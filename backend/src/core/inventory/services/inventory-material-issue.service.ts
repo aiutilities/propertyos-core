@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  InventoryPostingMetricsService,
+} from './inventory-posting-metrics.service';
+
+import {
   randomUUID,
 } from 'crypto';
 
@@ -68,6 +72,9 @@ export class InventoryMaterialIssueService {
 
     private readonly auditService:
       AuditService,
+
+    private readonly postingMetrics:
+      InventoryPostingMetricsService,
   ) {}
 
   async createMaterialIssue(
@@ -566,6 +573,9 @@ export class InventoryMaterialIssueService {
     dto:
       PostMaterialIssueDto,
   ) {
+    return this.postingMetrics.observe(
+      'material_issue',
+      async () => {
     const postedAt =
       new Date();
 
@@ -774,7 +784,10 @@ export class InventoryMaterialIssueService {
     return this.getMaterialIssue(
       id,
     );
-  }
+
+      },
+    );
+}
 
   async cancelMaterialIssue(
     id: string,

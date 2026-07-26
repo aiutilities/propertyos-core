@@ -13,6 +13,9 @@ import {
 import {
   PlatformModule,
 } from '../platform/platform.module';
+import {
+  MetricsModule,
+} from '../metrics/metrics.module';
 
 import {
   PlatformIdempotencyInterceptor,
@@ -125,6 +128,10 @@ import {
 } from './services/inventory-stock-adjustment.service';
 
 import {
+  InventoryPostingMetricsService,
+} from './services/inventory-posting-metrics.service';
+
+import {
   InventoryStockTransferService,
 } from './services/inventory-stock-transfer.service';
 
@@ -148,6 +155,7 @@ import {
 
 @Module({
   imports: [
+    MetricsModule,
     PostgresModule,
     AuthModule,
     PlatformModule,
@@ -212,6 +220,7 @@ import {
     InventoryBatchAllocationService,
     InventoryStockAdjustmentService,
     InventoryStockTransferService,
+    InventoryPostingMetricsService,
     InventoryStockReservationService,
     InventoryCycleCountService,
     InventoryMaterialIssueService,

@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  ProcurementTransitionMetricsService,
+} from './procurement-transition-metrics.service';
+
+import {
   randomUUID,
 } from 'crypto';
 
@@ -87,6 +91,10 @@ export class ProcurementGoodsReceiptService {
 
     private readonly inventoryPostingService:
       ProcurementInventoryPostingService,
+
+    private readonly transitionMetrics:
+      ProcurementTransitionMetricsService,
+
   ) {}
 
   async create(
@@ -370,6 +378,9 @@ export class ProcurementGoodsReceiptService {
     id: string,
     dto: PostProcurementGoodsReceiptDto,
   ) {
+    return this.transitionMetrics.observe(
+      'goods_receipt_post',
+      async () => {
     const current =
       await this.requireGoodsReceipt(
         id,
@@ -649,7 +660,10 @@ export class ProcurementGoodsReceiptService {
     }
 
     return result.goodsReceipt;
-  }
+
+      },
+    );
+}
 
   async reverse(
     id: string,

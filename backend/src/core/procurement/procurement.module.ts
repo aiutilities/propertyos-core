@@ -23,6 +23,10 @@ import {
 } from '../inventory/inventory.module';
 
 import {
+  MetricsModule,
+} from '../metrics/metrics.module';
+
+import {
   PlatformModule,
 } from '../platform/platform.module';
 
@@ -155,6 +159,10 @@ import {
 } from './services/procurement-purchase-order.service';
 
 import {
+  ProcurementTransitionMetricsService,
+} from './services/procurement-transition-metrics.service';
+
+import {
   ProcurementQuotationComparisonService,
 } from './services/procurement-quotation-comparison.service';
 
@@ -172,6 +180,7 @@ import {
 
 @Module({
   imports: [
+    MetricsModule,
     AuditModule,
     AuthModule,
     EventBusModule,
@@ -193,6 +202,7 @@ import {
   ],
 
   providers: [
+    ProcurementTransitionMetricsService,
     PlatformIdempotencyInterceptor,
     ProcurementBootstrapService,
     ProcurementGoodsReceiptService,

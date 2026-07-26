@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  ProcurementTransitionMetricsService,
+} from './procurement-transition-metrics.service';
+
+import {
   randomUUID,
 } from 'crypto';
 
@@ -95,6 +99,10 @@ export class ProcurementInvoiceMatchService {
 
     private readonly eventBus:
       EventBusService,
+
+    private readonly transitionMetrics:
+      ProcurementTransitionMetricsService,
+
   ) {}
 
   async create(
@@ -405,6 +413,9 @@ export class ProcurementInvoiceMatchService {
     id: string,
     dto: CompleteProcurementInvoiceMatchDto,
   ) {
+    return this.transitionMetrics.observe(
+      'invoice_match_complete',
+      async () => {
     const current =
       await this.requireInvoiceMatch(
         id,
@@ -502,7 +513,10 @@ export class ProcurementInvoiceMatchService {
     );
 
     return transitioned;
-  }
+
+      },
+    );
+}
 
   async approve(
     id: string,

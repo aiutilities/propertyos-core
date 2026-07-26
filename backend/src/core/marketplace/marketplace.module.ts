@@ -2,6 +2,9 @@ import {
   PlatformModule,
 } from '../platform/platform.module';
 import {
+  PlatformIdempotencyInterceptor,
+} from '../platform/idempotency/http/platform-idempotency.interceptor';
+import {
   Module,
 } from '@nestjs/common';
 
@@ -99,6 +102,7 @@ import {
     MarketplaceController,
   ],
   providers: [
+    PlatformIdempotencyInterceptor,
     MarketplaceCatalogService,
     MarketplaceInstallService,
     MarketplaceUpgradeService,

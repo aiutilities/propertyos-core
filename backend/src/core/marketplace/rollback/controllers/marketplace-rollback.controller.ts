@@ -4,6 +4,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -26,6 +27,13 @@ import {
   RollbackMarketplacePluginDto,
 } from '../dto/rollback-marketplace-plugin.dto';
 import {
+  IdempotentOperation,
+} from '../../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../../platform/idempotency/http/platform-idempotency.interceptor';
+
+import {
   MarketplaceRollbackService,
 } from '../services/marketplace-rollback.service';
 
@@ -46,6 +54,20 @@ export class MarketplaceRollbackController {
   @RequirePermission(
     Permissions.PLUGIN_MANAGE,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'marketplace.rollback',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `marketplace-plugin:${request.params.slug}@${request.params.version}`,
+  })
   rollback(
     @Param('slug')
     slug: string,

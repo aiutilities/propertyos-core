@@ -4,6 +4,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -14,6 +15,13 @@ import { CurrentUser } from '../../../auth/decorators/current-user.decorator';
 import { RequirePermission } from '../../../auth/decorators/require-permission.decorator';
 import { Permissions } from '../../../auth/constants/permissions';
 import { AuthTokenPayload } from '../../../auth/services/auth.service';
+
+import {
+  IdempotentOperation,
+} from '../../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../../platform/idempotency/http/platform-idempotency.interceptor';
 
 import { MarketplaceInstallService } from '../services/marketplace-install.service';
 import { InstallMarketplacePluginDto } from '../dto/install-marketplace-plugin.dto';
@@ -33,6 +41,20 @@ export class MarketplaceInstallController {
 
   @Post(':slug/versions/:version/install')
   @RequirePermission(Permissions.PLUGIN_MANAGE)
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'marketplace.install',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `marketplace-plugin:${request.params.slug}@${request.params.version}`,
+  })
   install(
     @Param('slug') slug: string,
     @Param('version') version: string,

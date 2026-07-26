@@ -4,6 +4,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -26,6 +27,13 @@ import {
   UpgradeMarketplacePluginDto,
 } from '../dto/upgrade-marketplace-plugin.dto';
 import {
+  IdempotentOperation,
+} from '../../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../../platform/idempotency/http/platform-idempotency.interceptor';
+
+import {
   MarketplaceUpgradeService,
 } from '../services/marketplace-upgrade.service';
 
@@ -46,6 +54,20 @@ export class MarketplaceUpgradeController {
   @RequirePermission(
     Permissions.PLUGIN_MANAGE,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'marketplace.upgrade',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `marketplace-plugin:${request.params.slug}@${request.params.version}`,
+  })
   upgrade(
     @Param('slug')
     slug: string,

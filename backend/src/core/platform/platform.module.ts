@@ -54,6 +54,7 @@ import { ConsolePlatformLogger } from './logging';
     PlatformRuntimeService,
   ],
   exports: [
+    PlatformIdempotencyContextBuilder,
     PlatformIdempotencyFingerprintService,
     PlatformIdempotencyService,
     PlatformIdempotencyRepository,

@@ -18,6 +18,9 @@ import {
   MarketplaceInstallController,
 } from './install/controllers/marketplace-install.controller';
 import {
+  MarketplaceUpgradeController,
+} from './upgrade/controllers/marketplace-upgrade.controller';
+import {
   MarketplaceController,
 } from './controllers/marketplace.controller';
 import {
@@ -38,6 +41,9 @@ import {
 import {
   MarketplaceInstallService,
 } from './install/services/marketplace-install.service';
+import {
+  MarketplaceUpgradeService,
+} from './upgrade/services/marketplace-upgrade.service';
 import {
   MarketplacePublisherService,
 } from './services/marketplace-publisher.service';
@@ -63,12 +69,14 @@ import {
   controllers: [
     MarketplacePublisherController,
     MarketplaceInstallController,
+    MarketplaceUpgradeController,
     MarketplaceVersionController,
     MarketplaceController,
   ],
   providers: [
     MarketplaceCatalogService,
     MarketplaceInstallService,
+    MarketplaceUpgradeService,
     MarketplacePublisherService,
     MarketplaceVersionService,
     {

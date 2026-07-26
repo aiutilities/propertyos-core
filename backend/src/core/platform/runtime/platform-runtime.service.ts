@@ -7,11 +7,15 @@ import {
   release,
 } from 'os';
 
-export interface PlatformRuntimeContext {
+export interface PlatformRuntimePublicContext {
   platformVersion: string;
   apiVersion: string;
   buildVersion: string;
   environment: string;
+}
+
+export interface PlatformRuntimeContext
+  extends PlatformRuntimePublicContext {
   nodeVersion: string;
   operatingSystem: string;
   operatingSystemRelease: string;
@@ -85,7 +89,8 @@ export class PlatformRuntimeService {
       .resolveBuildVersion();
   }
 
-  context(): PlatformRuntimeContext {
+  publicContext():
+    PlatformRuntimePublicContext {
     return {
       platformVersion:
         this.platformVersion(),
@@ -96,6 +101,12 @@ export class PlatformRuntimeService {
       environment:
         process.env.NODE_ENV ??
         'development',
+    };
+  }
+
+  context(): PlatformRuntimeContext {
+    return {
+      ...this.publicContext(),
       nodeVersion:
         process.version,
       operatingSystem:

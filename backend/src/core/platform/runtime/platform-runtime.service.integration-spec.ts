@@ -67,6 +67,44 @@ describe(
     );
 
     it(
+      'returns a safe public runtime projection',
+      () => {
+        const runtime =
+          new PlatformRuntimeService();
+
+        const result =
+          runtime.publicContext();
+
+        expect(result).toMatchObject({
+          platformVersion:
+            expect.any(String),
+          apiVersion:
+            expect.any(String),
+          buildVersion:
+            expect.any(String),
+          environment:
+            expect.any(String),
+        });
+
+        expect(result).not.toHaveProperty(
+          'gitSha',
+        );
+
+        expect(result).not.toHaveProperty(
+          'nodeVersion',
+        );
+
+        expect(result).not.toHaveProperty(
+          'operatingSystemRelease',
+        );
+
+        expect(result).not.toHaveProperty(
+          'architecture',
+        );
+      },
+    );
+
+    it(
       'returns immutable runtime information',
       () => {
         const runtime =

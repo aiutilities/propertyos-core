@@ -12,8 +12,12 @@ import {
 } from 'pg';
 import request from 'supertest';
 
-import { AppModule } from '../../src/app.module';
-import { POSTGRES_POOL } from '../../src/database/postgres';
+import {
+  AppModule,
+} from '../../src/app.module';
+import {
+  POSTGRES_POOL,
+} from '../../src/database/postgres';
 import {
   IntegrationAuthContext,
   provisionIntegrationAdmin,
@@ -26,11 +30,17 @@ describe(
     let pool: Pool;
     let auth: IntegrationAuthContext;
 
-    const marketplacePluginId =
+    const verifiedPluginId =
       randomUUID();
 
-    const slug =
-      `marketplace-test-${marketplacePluginId}`;
+    const communityPluginId =
+      randomUUID();
+
+    const verifiedSlug =
+      `marketplace-operations-${verifiedPluginId}`;
+
+    const communitySlug =
+      `marketplace-finance-${communityPluginId}`;
 
     beforeAll(async () => {
       const moduleRef =
@@ -38,13 +48,15 @@ describe(
           imports: [AppModule],
         }).compile();
 
-      app = moduleRef.createNestApplication();
+      app =
+        moduleRef.createNestApplication();
 
       app.setGlobalPrefix('api/v1');
 
       await app.init();
 
-      pool = app.get<Pool>(POSTGRES_POOL);
+      pool =
+        app.get<Pool>(POSTGRES_POOL);
 
       auth =
         await provisionIntegrationAdmin(
@@ -70,24 +82,31 @@ describe(
           (
             $1,
             $2,
+            'Maintenance Command Center',
+            'Cogzidel',
+            '1.0.0',
+            'Maintenance operations plugin',
+            'operations',
+            true,
+            now()
+          ),
+          (
             $3,
             $4,
-            $5,
-            $6,
-            $7,
-            $8,
-            now()
+            'Community Finance Exporter',
+            'Community Labs',
+            '0.5.0',
+            'Finance export integration',
+            'finance',
+            false,
+            now() - interval '1 day'
           )
         `,
         [
-          marketplacePluginId,
-          slug,
-          'Marketplace Test Plugin',
-          'Cogzidel',
-          '1.0.0',
-          'Marketplace integration fixture',
-          'operations',
-          true,
+          verifiedPluginId,
+          verifiedSlug,
+          communityPluginId,
+          communitySlug,
         ],
       );
     });
@@ -97,9 +116,12 @@ describe(
         await pool.query(
           `
             DELETE FROM marketplace_plugins
-            WHERE id = $1
+            WHERE id = ANY($1::uuid[])
           `,
-          [marketplacePluginId],
+          [[
+            verifiedPluginId,
+            communityPluginId,
+          ]],
         );
       }
 
@@ -112,32 +134,49 @@ describe(
       }
     });
 
+    const authenticatedGet = (
+      path: string,
+    ) => {
+      return request(app.getHttpServer())
+        .get(path)
+        .set(
+          'Authorization',
+          `Bearer ${auth.accessToken}`,
+        );
+    };
+
     it(
-      'lists marketplace plugins',
+      'returns a paginated marketplace catalogue',
       async () => {
         const response =
-          await request(app.getHttpServer())
-            .get('/api/v1/marketplace')
-            .set(
-              'Authorization',
-              `Bearer ${auth.accessToken}`,
-            )
-            .expect(200);
+          await authenticatedGet(
+            '/api/v1/marketplace'
+            + '?page=1&limit=20',
+          ).expect(200);
+
+        expect(response.body).toMatchObject({
+          page: 1,
+          limit: 20,
+        });
 
         expect(
-          Array.isArray(response.body),
+          Array.isArray(response.body.items),
         ).toBe(true);
 
-        expect(response.body).toEqual(
+        expect(response.body.total)
+          .toBeGreaterThanOrEqual(2);
+
+        expect(response.body.items).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              id: marketplacePluginId,
-              slug,
-              name:
-                'Marketplace Test Plugin',
-              vendor: 'Cogzidel',
+              id: verifiedPluginId,
+              slug: verifiedSlug,
               latestVersion: '1.0.0',
-              verified: true,
+            }),
+            expect.objectContaining({
+              id: communityPluginId,
+              slug: communitySlug,
+              latestVersion: '0.5.0',
             }),
           ]),
         );
@@ -145,22 +184,128 @@ describe(
     );
 
     it(
+      'searches catalogue text',
+      async () => {
+        const response =
+          await authenticatedGet(
+            '/api/v1/marketplace'
+            + '?q=Maintenance',
+          ).expect(200);
+
+        expect(response.body.items).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              id: verifiedPluginId,
+            }),
+          ]),
+        );
+
+        expect(
+          response.body.items.some(
+            (item: { id: string }) =>
+              item.id === communityPluginId,
+          ),
+        ).toBe(false);
+      },
+    );
+
+    it(
+      'filters by category and verification',
+      async () => {
+        const response =
+          await authenticatedGet(
+            '/api/v1/marketplace'
+            + '?category=operations'
+            + '&verified=true',
+          ).expect(200);
+
+        expect(response.body.items).toEqual([
+          expect.objectContaining({
+            id: verifiedPluginId,
+            category: 'operations',
+            verified: true,
+          }),
+        ]);
+      },
+    );
+
+    it(
+      'filters by vendor case-insensitively',
+      async () => {
+        const response =
+          await authenticatedGet(
+            '/api/v1/marketplace'
+            + '?vendor=community%20labs',
+          ).expect(200);
+
+        expect(response.body.items).toEqual([
+          expect.objectContaining({
+            id: communityPluginId,
+            vendor: 'Community Labs',
+          }),
+        ]);
+      },
+    );
+
+    it(
+      'applies pagination and deterministic sorting',
+      async () => {
+        const response =
+          await authenticatedGet(
+            '/api/v1/marketplace'
+            + '?sort=name'
+            + '&direction=asc'
+            + '&page=1'
+            + '&limit=1',
+          ).expect(200);
+
+        expect(response.body).toMatchObject({
+          page: 1,
+          limit: 1,
+        });
+
+        expect(response.body.items)
+          .toHaveLength(1);
+
+        expect(response.body.total)
+          .toBeGreaterThanOrEqual(2);
+
+        expect(response.body.totalPages)
+          .toBeGreaterThanOrEqual(2);
+      },
+    );
+
+    it(
+      'rejects invalid search parameters',
+      async () => {
+        await authenticatedGet(
+          '/api/v1/marketplace'
+          + '?verified=maybe',
+        ).expect(400);
+
+        await authenticatedGet(
+          '/api/v1/marketplace'
+          + '?limit=101',
+        ).expect(400);
+
+        await authenticatedGet(
+          '/api/v1/marketplace'
+          + '?sort=downloads',
+        ).expect(400);
+      },
+    );
+
+    it(
       'returns marketplace plugin details',
       async () => {
         const response =
-          await request(app.getHttpServer())
-            .get(
-              `/api/v1/marketplace/${slug}`,
-            )
-            .set(
-              'Authorization',
-              `Bearer ${auth.accessToken}`,
-            )
-            .expect(200);
+          await authenticatedGet(
+            `/api/v1/marketplace/${verifiedSlug}`,
+          ).expect(200);
 
         expect(response.body).toMatchObject({
-          id: marketplacePluginId,
-          slug,
+          id: verifiedPluginId,
+          slug: verifiedSlug,
           latestVersion: '1.0.0',
         });
       },
@@ -169,15 +314,9 @@ describe(
     it(
       'returns 404 for an unknown plugin',
       async () => {
-        await request(app.getHttpServer())
-          .get(
-            '/api/v1/marketplace/missing-plugin',
-          )
-          .set(
-            'Authorization',
-            `Bearer ${auth.accessToken}`,
-          )
-          .expect(404);
+        await authenticatedGet(
+          '/api/v1/marketplace/missing-plugin',
+        ).expect(404);
       },
     );
   },

@@ -1,4 +1,10 @@
 import {
+  PlatformIdempotencyContextBuilder,
+} from './idempotency/http/platform-idempotency-context-builder.service';
+import {
+  PlatformIdempotencyInterceptor,
+} from './idempotency/http/platform-idempotency.interceptor';
+import {
   PostgresModule,
 } from '../../database/postgres/postgres.module';
 import {
@@ -34,6 +40,8 @@ import { ConsolePlatformLogger } from './logging';
     PlatformRuntimeController,
   ],
   providers: [
+    PlatformIdempotencyContextBuilder,
+    PlatformIdempotencyInterceptor,
     PlatformIdempotencyFingerprintService,
     PlatformIdempotencyService,
     {

@@ -143,13 +143,18 @@ export class PlatformIdempotencyService {
           ? options.serialize(value)
           : value;
 
+      const runtimeStatusCode =
+        this.resolveStatusCode(
+          value,
+          options.statusCode,
+        );
+
       const completed =
         await transaction.complete(
           started.id,
           {
             statusCode:
-              options.statusCode ??
-              200,
+              runtimeStatusCode,
             payload,
           },
         );
@@ -174,6 +179,31 @@ export class PlatformIdempotencyService {
         error,
       };
     }
+  }
+
+  private resolveStatusCode(
+    value: unknown,
+    configured:
+      number | undefined,
+  ): number {
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      'statusCode' in value &&
+      typeof (
+        value as {
+          statusCode?: unknown;
+        }
+      ).statusCode === 'number'
+    ) {
+      return (
+        value as {
+          statusCode: number;
+        }
+      ).statusCode;
+    }
+
+    return configured ?? 200;
   }
 
   private isRunningRequestFresh(

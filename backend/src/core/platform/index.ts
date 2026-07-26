@@ -41,3 +41,6 @@ export * from './idempotency/platform-idempotency.types';
 export * from './idempotency/repositories/platform-idempotency.repository';
 export * from './idempotency/services/platform-idempotency-fingerprint.service';
 export * from './idempotency/services/platform-idempotency.service';
+export * from './idempotency/decorators/idempotent-operation.decorator';
+export * from './idempotency/http/platform-idempotency-context-builder.service';
+export * from './idempotency/http/platform-idempotency.interceptor';

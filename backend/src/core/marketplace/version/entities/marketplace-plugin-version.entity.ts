@@ -11,6 +11,7 @@ export interface MarketplacePluginVersion {
   artifactSha256: string;
   integritySha256: string;
   minimumPlatformVersion: string | null;
+  dependencies: string[];
   changelog: string | null;
   verified: true;
   latest: boolean;

@@ -24,6 +24,9 @@ import {
   MarketplaceRollbackController,
 } from './rollback/controllers/marketplace-rollback.controller';
 import {
+  MarketplaceResolutionController,
+} from './resolution/controllers/marketplace-resolution.controller';
+import {
   MarketplaceUninstallController,
 } from './uninstall/controllers/marketplace-uninstall.controller';
 import {
@@ -54,6 +57,9 @@ import {
   MarketplaceRollbackService,
 } from './rollback/services/marketplace-rollback.service';
 import {
+  MarketplaceResolutionPlannerService,
+} from './resolution/services/marketplace-resolution-planner.service';
+import {
   MarketplaceUninstallService,
 } from './uninstall/services/marketplace-uninstall.service';
 import {
@@ -83,6 +89,7 @@ import {
     MarketplaceInstallController,
     MarketplaceUpgradeController,
     MarketplaceRollbackController,
+    MarketplaceResolutionController,
     MarketplaceUninstallController,
     MarketplaceVersionController,
     MarketplaceController,
@@ -92,6 +99,7 @@ import {
     MarketplaceInstallService,
     MarketplaceUpgradeService,
     MarketplaceRollbackService,
+    MarketplaceResolutionPlannerService,
     MarketplaceUninstallService,
     MarketplacePublisherService,
     MarketplaceVersionService,

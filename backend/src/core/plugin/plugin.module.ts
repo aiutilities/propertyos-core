@@ -121,6 +121,7 @@ import { PluginPublicationInstallationController } from "./publication/plugin-pu
   ],
   exports: [
     PluginService,
+    PluginDependencyResolverService,
     PluginPublisherTrustService,
     PluginPublisherTrustLifecycleService,
     PluginPublicationGovernanceService,

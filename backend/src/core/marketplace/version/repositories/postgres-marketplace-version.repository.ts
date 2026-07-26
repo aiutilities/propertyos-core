@@ -29,6 +29,7 @@ interface MarketplaceVersionRow {
   artifact_sha256: string;
   integrity_sha256: string;
   minimum_platform_version: string | null;
+  dependencies: unknown;
   changelog: string | null;
   latest: boolean;
 }
@@ -96,6 +97,11 @@ export class PostgresMarketplaceVersionRepository
                   ->> 'minimumPlatformVersion',
                 ''
               ) AS minimum_platform_version,
+              COALESCE(
+                publication.metadata
+                  -> 'dependencies',
+                '[]'::jsonb
+              ) AS dependencies,
               NULLIF(
                 publication.metadata
                   ->> 'changelog',
@@ -135,6 +141,7 @@ export class PostgresMarketplaceVersionRepository
             artifact_sha256,
             integrity_sha256,
             minimum_platform_version,
+            dependencies,
             changelog,
             latest
           FROM approved_versions
@@ -198,6 +205,13 @@ export class PostgresMarketplaceVersionRepository
         row.integrity_sha256,
       minimumPlatformVersion:
         row.minimum_platform_version,
+      dependencies:
+        Array.isArray(row.dependencies)
+          ? row.dependencies.filter(
+              (item): item is string =>
+                typeof item === 'string',
+            )
+          : [],
       changelog:
         row.changelog,
       verified: true,

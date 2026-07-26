@@ -3,6 +3,10 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 
+import {
+  SchedulerExecutionMetricsService,
+} from './scheduler-execution-metrics.service';
+
 import { ConsolePlatformLogger } from '../../platform';
 import { PostgresSchedulerRepository } from '../repositories/postgres-scheduler.repository';
 import { SchedulerHandlerRegistry } from '../registries/scheduler-handler.registry';
@@ -26,6 +30,10 @@ export class SchedulerWorkerService
     private readonly repository: PostgresSchedulerRepository,
     private readonly handlerRegistry: SchedulerHandlerRegistry,
     private readonly logger: ConsolePlatformLogger,
+
+    private readonly executionMetrics:
+      SchedulerExecutionMetricsService,
+
   ) {}
 
   async start(): Promise<void> {
@@ -142,7 +150,16 @@ export class SchedulerWorkerService
   private async executeClaimedJob(
     job: SchedulerJob,
   ): Promise<boolean> {
-    const handler = this.handlerRegistry.get(job.jobType);
+    const metricsStartedAt =
+      this.executionMetrics.start(
+        'claimed_job',
+        job.jobType,
+      );
+
+    const handler =
+      this.handlerRegistry.get(
+        job.jobType,
+      );
 
     if (!handler) {
       await this.repository.failClaimedJob(
@@ -157,6 +174,13 @@ export class SchedulerWorkerService
         errorMessage: 'No handler registered',
       });
 
+      this.executionMetrics.failure(
+        'claimed_job',
+        job.jobType,
+        'MissingHandler',
+        metricsStartedAt,
+      );
+
       return false;
     }
 
@@ -169,6 +193,12 @@ export class SchedulerWorkerService
         jobType: job.jobType,
         attempts: job.attempts,
       });
+
+      this.executionMetrics.success(
+        'claimed_job',
+        job.jobType,
+        metricsStartedAt,
+      );
 
       return true;
     } catch (error) {
@@ -200,8 +230,30 @@ export class SchedulerWorkerService
         errorMessage,
       });
 
+      this.executionMetrics.failure(
+        'claimed_job',
+        job.jobType,
+        this.schedulerErrorType(
+          error,
+        ),
+        metricsStartedAt,
+      );
+
       return false;
     }
+  }
+
+  private schedulerErrorType(
+    error: unknown,
+  ): string {
+    if (
+      error instanceof Error &&
+      error.name.trim()
+    ) {
+      return error.name;
+    }
+
+    return 'UnknownError';
   }
 
   private retryDelayMs(attempt: number): number {

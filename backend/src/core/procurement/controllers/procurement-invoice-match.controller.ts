@@ -7,6 +7,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import {
@@ -25,6 +26,13 @@ import {
 import {
   PermissionGuard,
 } from '../../auth/guards/permission.guard';
+
+import {
+  IdempotentOperation,
+} from '../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../platform/idempotency/http/platform-idempotency.interceptor';
 
 import {
   ApproveProcurementInvoiceMatchDto,
@@ -158,6 +166,20 @@ export class ProcurementInvoiceMatchController {
   @RequirePermission(
     PROCUREMENT_PERMISSIONS.INVOICE_MATCH,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'procurement.invoice-match.complete',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `procurement-invoice-match:${request.params.id}`,
+  })
   @Post(':id/complete')
   async complete(
     @Param('id')

@@ -23,6 +23,14 @@ import {
 } from '../inventory/inventory.module';
 
 import {
+  PlatformModule,
+} from '../platform/platform.module';
+
+import {
+  PlatformIdempotencyInterceptor,
+} from '../platform/idempotency/http/platform-idempotency.interceptor';
+
+import {
   PluginModule,
 } from '../plugin/plugin.module';
 
@@ -168,6 +176,7 @@ import {
     AuthModule,
     EventBusModule,
     InventoryModule,
+    PlatformModule,
     PluginModule,
     PostgresModule,
   ],
@@ -184,6 +193,7 @@ import {
   ],
 
   providers: [
+    PlatformIdempotencyInterceptor,
     ProcurementBootstrapService,
     ProcurementGoodsReceiptService,
     ProcurementInventoryPostingService,

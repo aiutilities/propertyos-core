@@ -7,6 +7,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import {
@@ -25,6 +26,13 @@ import {
 import {
   PermissionGuard,
 } from '../../auth/guards/permission.guard';
+
+import {
+  IdempotentOperation,
+} from '../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../platform/idempotency/http/platform-idempotency.interceptor';
 
 import {
   CreateProcurementPurchaseOrderDto,
@@ -193,6 +201,20 @@ export class ProcurementPurchaseOrderController {
   @RequirePermission(
     PROCUREMENT_PERMISSIONS.PURCHASE_ORDER,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'procurement.purchase-order.issue',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `procurement-purchase-order:${request.params.id}`,
+  })
   @Post(':id/issue')
   async issue(
     @Param('id')

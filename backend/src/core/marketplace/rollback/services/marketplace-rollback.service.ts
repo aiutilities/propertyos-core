@@ -4,6 +4,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  MarketplaceLifecycleMetricsService,
+} from '../../services/marketplace-lifecycle-metrics.service';
+
+import {
   PluginService,
 } from '../../../plugin/services/plugin.service';
 import {
@@ -22,7 +26,10 @@ export class MarketplaceRollbackService {
       MarketplaceVersionService,
     private readonly plugins:
       PluginService,
-  ) {}
+
+
+    private readonly lifecycleMetrics:
+      MarketplaceLifecycleMetricsService,  ) {}
 
   async rollback(
     slug: string,
@@ -44,15 +51,19 @@ export class MarketplaceRollbackService {
         targetVersion,
       );
 
-    return this.plugins.rollback(
-      marketplacePlugin.pluginId,
-      {
-        targetVersion:
-          approvedVersion.version,
-        notes:
-          notes ??
-          `Marketplace rollback to ${approvedVersion.version}`,
-      },
+    return this.lifecycleMetrics.observe(
+      'rollback',
+      () =>
+        this.plugins.rollback(
+          marketplacePlugin.pluginId,
+          {
+            targetVersion:
+              approvedVersion.version,
+            notes:
+              notes ??
+              `Marketplace rollback to ${approvedVersion.version}`,
+          },
+        ),
     );
   }
 }

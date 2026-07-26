@@ -2,6 +2,9 @@ import {
   PlatformModule,
 } from '../platform/platform.module';
 import {
+  MetricsModule,
+} from '../metrics/metrics.module';
+import {
   PlatformIdempotencyInterceptor,
 } from '../platform/idempotency/http/platform-idempotency.interceptor';
 import {
@@ -84,8 +87,13 @@ import {
   MarketplaceVersionService,
 } from './version/services/marketplace-version.service';
 
+import {
+  MarketplaceLifecycleMetricsService,
+} from './services/marketplace-lifecycle-metrics.service';
+
 @Module({
   imports: [
+    MetricsModule,
     PlatformModule,
     PostgresModule,
     AuthModule,
@@ -102,6 +110,7 @@ import {
     MarketplaceController,
   ],
   providers: [
+    MarketplaceLifecycleMetricsService,
     PlatformIdempotencyInterceptor,
     MarketplaceCatalogService,
     MarketplaceInstallService,

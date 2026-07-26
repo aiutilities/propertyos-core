@@ -83,6 +83,12 @@ const STORAGE_OBJECT_V2 =
 describe(
   'Marketplace runtime workflow acceptance',
   () => {
+
+  const lifecycleMetrics =
+    {
+      observe: jest.fn(async (_operation: string, execute: () => Promise<unknown>) => execute()),
+    } as any;
+
     it(
       'plans and executes install, upgrade, rollback and uninstall through existing runtimes',
       async () => {
@@ -367,6 +373,7 @@ describe(
             versions as unknown as
               MarketplaceVersionService,
             publicationInstaller,
+                      lifecycleMetrics,
           );
 
         const upgradeAdapter =
@@ -377,6 +384,7 @@ describe(
               MarketplaceVersionService,
             pluginRuntime as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const rollbackAdapter =
@@ -387,6 +395,7 @@ describe(
               MarketplaceVersionService,
             pluginRuntime as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const uninstallAdapter =
@@ -395,6 +404,7 @@ describe(
               MarketplaceCatalogService,
             pluginRuntime as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const planner =
@@ -861,6 +871,7 @@ describe(
             versions as unknown as
               MarketplaceVersionService,
             publicationInstaller,
+                      lifecycleMetrics,
           );
 
         await expect(

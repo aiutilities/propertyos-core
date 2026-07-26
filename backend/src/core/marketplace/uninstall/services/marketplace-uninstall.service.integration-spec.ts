@@ -21,6 +21,12 @@ import {
 describe(
   'MarketplaceUninstallService',
   () => {
+
+  const lifecycleMetrics =
+    {
+      observe: jest.fn(async (_operation: string, execute: () => Promise<unknown>) => execute()),
+    } as any;
+
     it(
       'resolves the installed plugin and delegates to PluginService',
       async () => {
@@ -63,6 +69,7 @@ describe(
               MarketplaceCatalogService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const result =
@@ -138,6 +145,7 @@ describe(
               MarketplaceCatalogService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const result =
@@ -194,6 +202,7 @@ describe(
               MarketplaceCatalogService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         await expect(

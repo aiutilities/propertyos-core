@@ -18,6 +18,12 @@ import {
 describe(
   'MarketplaceInstallService',
   () => {
+
+  const lifecycleMetrics =
+    {
+      observe: jest.fn(async (_operation: string, execute: () => Promise<unknown>) => execute()),
+    } as any;
+
     it(
       'resolves an approved version and delegates installation',
       async () => {
@@ -65,7 +71,8 @@ describe(
               MarketplaceVersionService,
             installer as unknown as
               PluginPublicationInstallationService,
-          );
+                      lifecycleMetrics,
+);
 
         const result =
           await service.install(
@@ -148,7 +155,8 @@ describe(
               MarketplaceVersionService,
             installer as unknown as
               PluginPublicationInstallationService,
-          );
+                      lifecycleMetrics,
+);
 
         await service.install(
           'example-plugin',

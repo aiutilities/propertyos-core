@@ -2,6 +2,10 @@ import {
   Injectable,
 } from '@nestjs/common';
 
+import {
+  MarketplaceLifecycleMetricsService,
+} from '../../services/marketplace-lifecycle-metrics.service';
+
 import { MarketplaceVersionService } from '../../version/services/marketplace-version.service';
 import { PluginPublicationInstallationService } from '../../../plugin/publication/plugin-publication-installation.service';
 
@@ -11,7 +15,10 @@ export class MarketplaceInstallService {
   constructor(
     private readonly versions: MarketplaceVersionService,
     private readonly installer: PluginPublicationInstallationService,
-  ) {}
+
+
+    private readonly lifecycleMetrics:
+      MarketplaceLifecycleMetricsService,  ) {}
 
   async install(
     pluginSlug: string,
@@ -28,13 +35,18 @@ export class MarketplaceInstallService {
         version,
       );
 
-    return this.installer.install({
-      publicationId: publication.publicationId,
-      actorId,
-      autoEnable,
-      overwrite,
-      metadata,
-    });
+    return this.lifecycleMetrics.observe(
+      'install',
+      () =>
+        this.installer.install({
+          publicationId:
+            publication.publicationId,
+          actorId,
+          autoEnable,
+          overwrite,
+          metadata,
+        }),
+    );
   }
 
 }

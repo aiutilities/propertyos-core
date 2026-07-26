@@ -4,6 +4,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  MarketplaceLifecycleMetricsService,
+} from '../../services/marketplace-lifecycle-metrics.service';
+
+import {
   PluginService,
 } from '../../../plugin/services/plugin.service';
 import {
@@ -17,7 +21,10 @@ export class MarketplaceUninstallService {
       MarketplaceCatalogService,
     private readonly plugins:
       PluginService,
-  ) {}
+
+
+    private readonly lifecycleMetrics:
+      MarketplaceLifecycleMetricsService,  ) {}
 
   async uninstall(
     slug: string,
@@ -31,8 +38,12 @@ export class MarketplaceUninstallService {
       );
     }
 
-    return this.plugins.uninstall(
-      marketplacePlugin.pluginId,
+    return this.lifecycleMetrics.observe(
+      'uninstall',
+      () =>
+        this.plugins.uninstall(
+          marketplacePlugin.pluginId,
+        ),
     );
   }
 }

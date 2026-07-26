@@ -24,6 +24,12 @@ import {
 describe(
   'MarketplaceUpgradeService',
   () => {
+
+  const lifecycleMetrics =
+    {
+      observe: jest.fn(async (_operation: string, execute: () => Promise<unknown>) => execute()),
+    } as any;
+
     it(
       'resolves an approved release and delegates to PluginService',
       async () => {
@@ -86,6 +92,7 @@ describe(
               MarketplaceVersionService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const result =
@@ -180,6 +187,7 @@ describe(
               MarketplaceVersionService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         await service.upgrade(
@@ -241,6 +249,7 @@ describe(
               MarketplaceVersionService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         await expect(

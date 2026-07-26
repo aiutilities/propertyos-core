@@ -4,6 +4,10 @@ import {
 } from '@nestjs/common';
 
 import {
+  MarketplaceLifecycleMetricsService,
+} from '../../services/marketplace-lifecycle-metrics.service';
+
+import {
   PluginService,
 } from '../../../plugin/services/plugin.service';
 import {
@@ -22,7 +26,10 @@ export class MarketplaceUpgradeService {
       MarketplaceVersionService,
     private readonly plugins:
       PluginService,
-  ) {}
+
+
+    private readonly lifecycleMetrics:
+      MarketplaceLifecycleMetricsService,  ) {}
 
   async upgrade(
     slug: string,
@@ -44,15 +51,19 @@ export class MarketplaceUpgradeService {
         version,
       );
 
-    return this.plugins.upgrade(
-      marketplacePlugin.pluginId,
-      {
-        version:
-          approvedVersion.version,
-        notes:
-          notes ??
-          `Marketplace upgrade to ${approvedVersion.version}`,
-      },
+    return this.lifecycleMetrics.observe(
+      'upgrade',
+      () =>
+        this.plugins.upgrade(
+          marketplacePlugin.pluginId,
+          {
+            version:
+              approvedVersion.version,
+            notes:
+              notes ??
+              `Marketplace upgrade to ${approvedVersion.version}`,
+          },
+        ),
     );
   }
 }

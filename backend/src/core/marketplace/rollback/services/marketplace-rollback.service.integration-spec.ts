@@ -24,6 +24,12 @@ import {
 describe(
   'MarketplaceRollbackService',
   () => {
+
+  const lifecycleMetrics =
+    {
+      observe: jest.fn(async (_operation: string, execute: () => Promise<unknown>) => execute()),
+    } as any;
+
     it(
       'resolves an approved release and delegates rollback to PluginService',
       async () => {
@@ -83,6 +89,7 @@ describe(
               MarketplaceVersionService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         const result =
@@ -178,6 +185,7 @@ describe(
               MarketplaceVersionService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         await service.rollback(
@@ -231,6 +239,7 @@ describe(
               MarketplaceVersionService,
             plugins as unknown as
               PluginService,
+                      lifecycleMetrics,
           );
 
         await expect(

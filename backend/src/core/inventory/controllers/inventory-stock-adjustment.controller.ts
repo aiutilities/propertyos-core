@@ -11,6 +11,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import {
@@ -24,6 +25,13 @@ import {
 import {
   PermissionGuard,
 } from '../../auth/guards/permission.guard';
+
+import {
+  IdempotentOperation,
+} from '../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../platform/idempotency/http/platform-idempotency.interceptor';
 
 import {
   CancelStockAdjustmentDto,
@@ -116,6 +124,20 @@ export class InventoryStockAdjustmentController {
   @RequirePermission(
     INVENTORY_PERMISSIONS.ADJUST,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'inventory.stock-adjustment.post',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `inventory-stock-adjustment:${request.params.id}`,
+  })
   @Post(':id/post')
   async postAdjustment(
     @Param('id')

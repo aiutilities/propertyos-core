@@ -11,6 +11,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import {
@@ -24,6 +25,13 @@ import {
 import {
   PermissionGuard,
 } from '../../auth/guards/permission.guard';
+
+import {
+  IdempotentOperation,
+} from '../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../platform/idempotency/http/platform-idempotency.interceptor';
 
 import {
   CancelStockTransferDto,
@@ -121,6 +129,20 @@ export class InventoryStockTransferController {
   @RequirePermission(
     INVENTORY_PERMISSIONS.TRANSFER,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'inventory.stock-transfer.dispatch',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `inventory-stock-transfer:${request.params.id}`,
+  })
   @Post(':id/dispatch')
   async dispatch(
     @Param('id')
@@ -142,6 +164,20 @@ export class InventoryStockTransferController {
   @RequirePermission(
     INVENTORY_PERMISSIONS.TRANSFER,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'inventory.stock-transfer.receive',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `inventory-stock-transfer:${request.params.id}`,
+  })
   @Post(':id/receive')
   async receive(
     @Param('id')

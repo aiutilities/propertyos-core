@@ -11,6 +11,14 @@ import {
 } from '../auth/auth.module';
 
 import {
+  PlatformModule,
+} from '../platform/platform.module';
+
+import {
+  PlatformIdempotencyInterceptor,
+} from '../platform/idempotency/http/platform-idempotency.interceptor';
+
+import {
   EventBusModule,
 } from '../eventbus/eventbus.module';
 
@@ -142,6 +150,7 @@ import {
   imports: [
     PostgresModule,
     AuthModule,
+    PlatformModule,
     AuditModule,
     EventBusModule,
     PluginModule,
@@ -160,6 +169,7 @@ import {
   ],
 
   providers: [
+    PlatformIdempotencyInterceptor,
     PostgresInventoryRepository,
     PostgresInventoryBatchRepository,
     PostgresInventoryBatchAllocationRepository,

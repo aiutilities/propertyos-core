@@ -11,6 +11,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import {
@@ -24,6 +25,13 @@ import {
 import {
   PermissionGuard,
 } from '../../auth/guards/permission.guard';
+
+import {
+  IdempotentOperation,
+} from '../../platform/idempotency/decorators/idempotent-operation.decorator';
+import {
+  PlatformIdempotencyInterceptor,
+} from '../../platform/idempotency/http/platform-idempotency.interceptor';
 
 import {
   CancelMaterialIssueDto,
@@ -124,6 +132,20 @@ export class InventoryMaterialIssueController {
   @RequirePermission(
     INVENTORY_PERMISSIONS.ISSUE,
   )
+  @UseInterceptors(
+    PlatformIdempotencyInterceptor,
+  )
+  @IdempotentOperation({
+    operation:
+      'inventory.material-issue.post',
+    required:
+      true,
+    expiresInSeconds:
+      24 * 60 * 60,
+    resource:
+      (request) =>
+        `inventory-material-issue:${request.params.id}`,
+  })
   @Post(':id/post')
   async postMaterialIssue(
     @Param('id')

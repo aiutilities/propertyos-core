@@ -24,6 +24,9 @@ import {
   AuthModule,
 } from '../auth/auth.module';
 import {
+  MetricsModule,
+} from '../metrics/metrics.module';
+import {
   PlatformRuntimeService,
 } from './runtime/platform-runtime.service';
 import {
@@ -33,6 +36,7 @@ import { ConsolePlatformLogger } from './logging';
 
 @Module({
   imports: [
+    MetricsModule,
     PostgresModule,
     AuthModule,
   ],

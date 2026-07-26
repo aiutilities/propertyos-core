@@ -2,8 +2,12 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Optional,
 } from '@nestjs/common';
 
+import {
+  MetricsService,
+} from '../../../metrics/services/metrics.service';
 import {
   PlatformIdempotencyRequest,
 } from '../entities/platform-idempotency-request.entity';
@@ -43,6 +47,10 @@ export class PlatformIdempotencyService {
   constructor(
     private readonly repository:
       PlatformIdempotencyRepository,
+
+    @Optional()
+    private readonly metrics?:
+      MetricsService,
   ) {}
 
   async execute<T>(
@@ -51,30 +59,70 @@ export class PlatformIdempotencyService {
   ): Promise<
     PlatformIdempotencyExecutionResult<T>
   > {
-    this.validateScope(
-      options.scope,
+    const startedAt =
+      Date.now();
+
+    this.recordRequest(
+      options.scope.operation,
     );
 
-    const locked =
-      await this.repository
-        .executeWithLock(
-          options.scope,
-          async (
-            transaction,
-          ) =>
-            this.executeLocked(
+    try {
+      this.validateScope(
+        options.scope,
+      );
+
+      const locked =
+        await this.repository
+          .executeWithLock(
+            options.scope,
+            async (
               transaction,
-              options,
-            ),
+            ) =>
+              this.executeLocked(
+                transaction,
+                options,
+              ),
+          );
+
+      if (
+        locked.succeeded === false
+      ) {
+        throw locked.error;
+      }
+
+      if (
+        locked.result.replayed
+      ) {
+        this.recordReplay(
+          options.scope.operation,
         );
+      }
 
-    if (
-      locked.succeeded === false
-    ) {
-      throw locked.error;
+      return locked.result;
+    } catch (error) {
+      if (
+        error instanceof
+          ConflictException
+      ) {
+        this.recordConflict(
+          options.scope.operation,
+          this.conflictCode(
+            error,
+          ),
+        );
+      } else {
+        this.recordFailure(
+          options.scope.operation,
+        );
+      }
+
+      throw error;
+    } finally {
+      this.recordDuration(
+        options.scope.operation,
+        Date.now() - startedAt,
+      );
     }
-
-    return locked.result;
   }
 
   private async executeLocked<T>(
@@ -179,6 +227,107 @@ export class PlatformIdempotencyService {
         error,
       };
     }
+  }
+
+  private recordRequest(
+    operation: string,
+  ): void {
+    this.metrics?.incrementCounter({
+      name:
+        'propertyos_idempotency_requests_total',
+      help:
+        'Total idempotency execution requests.',
+      labels: {
+        operation,
+      },
+    });
+  }
+
+  private recordReplay(
+    operation: string,
+  ): void {
+    this.metrics?.incrementCounter({
+      name:
+        'propertyos_idempotency_replays_total',
+      help:
+        'Total completed idempotency responses replayed.',
+      labels: {
+        operation,
+      },
+    });
+  }
+
+  private recordConflict(
+    operation: string,
+    conflictCode: string,
+  ): void {
+    this.metrics?.incrementCounter({
+      name:
+        'propertyos_idempotency_conflicts_total',
+      help:
+        'Total idempotency execution conflicts.',
+      labels: {
+        operation,
+        conflictCode,
+      },
+    });
+  }
+
+  private recordFailure(
+    operation: string,
+  ): void {
+    this.metrics?.incrementCounter({
+      name:
+        'propertyos_idempotency_failures_total',
+      help:
+        'Total non-conflict idempotency execution failures.',
+      labels: {
+        operation,
+      },
+    });
+  }
+
+  private recordDuration(
+    operation: string,
+    durationMs: number,
+  ): void {
+    this.metrics?.observeHistogram({
+      name:
+        'propertyos_idempotency_duration_ms',
+      help:
+        'Idempotency execution duration in milliseconds.',
+      labels: {
+        operation,
+      },
+      value:
+        durationMs,
+    });
+  }
+
+  private conflictCode(
+    error: ConflictException,
+  ): string {
+    const response =
+      error.getResponse();
+
+    if (
+      response !== null &&
+      typeof response === 'object' &&
+      'error' in response &&
+      typeof (
+        response as {
+          error?: unknown;
+        }
+      ).error === 'string'
+    ) {
+      return (
+        response as {
+          error: string;
+        }
+      ).error;
+    }
+
+    return 'IDEMPOTENCY_CONFLICT';
   }
 
   private resolveStatusCode(

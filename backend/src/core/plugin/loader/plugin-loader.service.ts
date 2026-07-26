@@ -1,3 +1,6 @@
+import {
+  PlatformRuntimeService,
+} from '../../platform/runtime/platform-runtime.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join, resolve } from 'path';
@@ -22,7 +25,6 @@ type CapabilityKey =
   | 'scheduler'
   | 'routes';
 
-const PLATFORM_VERSION = '0.1.0';
 
 @Injectable()
 export class PluginLoaderService {
@@ -37,6 +39,8 @@ export class PluginLoaderService {
     private readonly configurationRegistry: PluginConfigurationRegistry,
     private readonly schedulerRegistry: PluginSchedulerRegistry,
     private readonly searchRegistry: PluginSearchRegistry,
+    private readonly runtime?:
+      PlatformRuntimeService,
   ) {}
 
   async loadPlugins(): Promise<PluginRegistryEntry[]> {
@@ -172,9 +176,14 @@ export class PluginLoaderService {
     compatible: boolean;
     errors: string[];
   } {
+    const platformVersion =
+      this.runtime?.platformVersion() ??
+      PlatformRuntimeService
+        .resolvePlatformVersion();
+
     const requiredVersion = manifest.minimumPlatformVersion;
 
-    if (!requiredVersion || this.compareVersions(PLATFORM_VERSION, requiredVersion) >= 0) {
+    if (!requiredVersion || this.compareVersions(platformVersion, requiredVersion) >= 0) {
       return {
         compatible: true,
         errors: [],
@@ -184,7 +193,7 @@ export class PluginLoaderService {
     return {
       compatible: false,
       errors: [
-        `Plugin requires platform ${requiredVersion}, current platform is ${PLATFORM_VERSION}`,
+        `Plugin requires platform ${requiredVersion}, current platform is ${platformVersion}`,
       ],
     };
   }

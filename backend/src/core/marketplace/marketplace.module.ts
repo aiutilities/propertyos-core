@@ -1,4 +1,7 @@
 import {
+  PlatformModule,
+} from '../platform/platform.module';
+import {
   Module,
 } from '@nestjs/common';
 
@@ -80,6 +83,7 @@ import {
 
 @Module({
   imports: [
+    PlatformModule,
     PostgresModule,
     AuthModule,
     PluginModule,

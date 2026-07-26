@@ -1,3 +1,6 @@
+import {
+  PlatformModule,
+} from '../platform/platform.module';
 import { PluginInstallationCoordinatorService } from "./installer/coordination/plugin-installation-coordinator.service";
 import { PluginInstallationRollbackService } from "./installer/rollback/plugin-installation-rollback.service";
 import { PluginDiscoveryService } from "./installer/discovery/plugin-discovery.service";
@@ -57,6 +60,7 @@ import { PluginPublicationInstallationController } from "./publication/plugin-pu
 
 @Module({
   imports: [
+    PlatformModule,
     EventBusModule,
     IdentityModule,
     PostgresModule,

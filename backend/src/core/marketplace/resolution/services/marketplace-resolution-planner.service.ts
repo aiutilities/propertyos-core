@@ -1,4 +1,7 @@
 import {
+  PlatformRuntimeService,
+} from '../../../platform/runtime/platform-runtime.service';
+import {
   Injectable,
 } from '@nestjs/common';
 import semver from 'semver';
@@ -20,9 +23,6 @@ import {
   MarketplaceResolutionResult,
 } from '../entities/marketplace-resolution-result.entity';
 
-const DEFAULT_PLATFORM_VERSION =
-  '0.1.0';
-
 @Injectable()
 export class MarketplaceResolutionPlannerService {
   constructor(
@@ -34,6 +34,8 @@ export class MarketplaceResolutionPlannerService {
       PluginService,
     private readonly dependencyResolver:
       PluginDependencyResolverService,
+    private readonly runtime?:
+      PlatformRuntimeService,
   ) {}
 
   async plan(
@@ -78,9 +80,9 @@ export class MarketplaceResolutionPlannerService {
         );
 
     const platformVersion =
-      process.env
-        .PROPERTYOS_PLATFORM_VERSION ??
-      DEFAULT_PLATFORM_VERSION;
+      this.runtime?.platformVersion() ??
+      PlatformRuntimeService
+        .resolvePlatformVersion();
 
     const platformCompatible =
       this.isPlatformCompatible(

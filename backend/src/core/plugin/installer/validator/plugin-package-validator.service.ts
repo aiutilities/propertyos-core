@@ -1,3 +1,6 @@
+import {
+  PlatformRuntimeService,
+} from '../../../platform/runtime/platform-runtime.service';
 import { Injectable } from '@nestjs/common';
 import { existsSync } from 'fs';
 import { join } from 'path';
@@ -5,16 +8,22 @@ import semver from 'semver';
 import { PluginManifest } from '../../manifest/plugin-manifest.interface';
 import { PluginSignatureVerifierService } from '../signature/plugin-signature-verifier.service';
 
-const PLATFORM_VERSION = '0.1.0';
 
 @Injectable()
 export class PluginPackageValidatorService {
   constructor(
     private readonly signatureVerifier: PluginSignatureVerifierService,
+    private readonly runtime?:
+      PlatformRuntimeService,
   ) {}
 
   async validate(pluginRoot: string, manifest?: PluginManifest): Promise<string[]> {
     const errors: string[] = [];
+
+    const platformVersion =
+      this.runtime?.platformVersion() ??
+      PlatformRuntimeService
+        .resolvePlatformVersion();
 
     if (!existsSync(pluginRoot)) {
       errors.push(`Plugin root does not exist: ${pluginRoot}`);
@@ -45,10 +54,10 @@ export class PluginPackageValidatorService {
     if (
       manifest.minimumPlatformVersion &&
       semver.valid(manifest.minimumPlatformVersion) &&
-      semver.lt(PLATFORM_VERSION, manifest.minimumPlatformVersion)
+      semver.lt(platformVersion, manifest.minimumPlatformVersion)
     ) {
       errors.push(
-        `Plugin requires PropertyOS ${manifest.minimumPlatformVersion}, current platform is ${PLATFORM_VERSION}`,
+        `Plugin requires PropertyOS ${manifest.minimumPlatformVersion}, current platform is ${platformVersion}`,
       );
     }
 

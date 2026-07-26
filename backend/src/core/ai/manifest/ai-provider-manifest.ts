@@ -1,9 +1,14 @@
+import {
+  PlatformRuntimeService,
+} from '../../platform/runtime/platform-runtime.service';
 import { AiExecutionMode } from '../types/ai-orchestration.types';
 import { AiCapability } from '../types/ai.types';
 
 export const AI_PROVIDER_MANIFEST_VERSION = '1.0.0';
 export const AI_PROVIDER_CONTRACT_VERSION = '1.0.0';
-export const PROPERTYOS_PLATFORM_VERSION = '0.1.0';
+export const PROPERTYOS_PLATFORM_VERSION =
+  PlatformRuntimeService
+    .resolvePlatformVersion();
 
 export interface AiProviderManifestIdentity {
   id: string;

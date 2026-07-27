@@ -1,0 +1,114 @@
+groups:
+  - name: propertyos.idempotency.recording
+    interval: 30s
+    rules:
+      - record: propertyos:idempotency_requests:rate5m
+        expr: sum by (operation) (rate(propertyos_idempotency_requests_total[5m]))
+
+      - record: propertyos:idempotency_replays:rate5m
+        expr: sum by (operation) (rate(propertyos_idempotency_replays_total[5m]))
+
+      - record: propertyos:idempotency_conflicts:rate5m
+        expr: sum by (operation, conflictCode) (rate(propertyos_idempotency_conflicts_total[5m]))
+
+      - record: propertyos:idempotency_failures:rate5m
+        expr: sum by (operation) (rate(propertyos_idempotency_failures_total[5m]))
+
+      - record: propertyos:idempotency_failure_ratio:rate5m
+        expr: sum by (operation) (rate(propertyos_idempotency_failures_total[5m])) / clamp_min(sum by (operation) (rate(propertyos_idempotency_requests_total[5m])), 0.001)
+
+      - record: propertyos:idempotency_conflict_ratio:rate5m
+        expr: sum by (operation) (rate(propertyos_idempotency_conflicts_total[5m])) / clamp_min(sum by (operation) (rate(propertyos_idempotency_requests_total[5m])), 0.001)
+
+      - record: propertyos:idempotency_duration_ms:avg5m
+        expr: sum by (operation) (rate(propertyos_idempotency_duration_ms_sum[5m])) / clamp_min(sum by (operation) (rate(propertyos_idempotency_duration_ms_count[5m])), 0.001)
+
+  - name: propertyos.marketplace.recording
+    interval: 30s
+    rules:
+      - record: propertyos:marketplace_requests:rate5m
+        expr: sum by (operation) (rate(propertyos_marketplace_lifecycle_requests_total[5m]))
+
+      - record: propertyos:marketplace_success:rate5m
+        expr: sum by (operation) (rate(propertyos_marketplace_lifecycle_success_total[5m]))
+
+      - record: propertyos:marketplace_failures:rate5m
+        expr: sum by (operation, errorType) (rate(propertyos_marketplace_lifecycle_failures_total[5m]))
+
+      - record: propertyos:marketplace_failure_ratio:rate5m
+        expr: sum by (operation) (rate(propertyos_marketplace_lifecycle_failures_total[5m])) / clamp_min(sum by (operation) (rate(propertyos_marketplace_lifecycle_requests_total[5m])), 0.001)
+
+      - record: propertyos:marketplace_duration_ms:avg5m
+        expr: sum by (operation) (rate(propertyos_marketplace_lifecycle_duration_ms_sum[5m])) / clamp_min(sum by (operation) (rate(propertyos_marketplace_lifecycle_duration_ms_count[5m])), 0.001)
+
+  - name: propertyos.inventory.recording
+    interval: 30s
+    rules:
+      - record: propertyos:inventory_requests:rate5m
+        expr: sum by (operation) (rate(propertyos_inventory_posting_requests_total[5m]))
+
+      - record: propertyos:inventory_success:rate5m
+        expr: sum by (operation) (rate(propertyos_inventory_posting_success_total[5m]))
+
+      - record: propertyos:inventory_failures:rate5m
+        expr: sum by (operation, errorType) (rate(propertyos_inventory_posting_failures_total[5m]))
+
+      - record: propertyos:inventory_failure_ratio:rate5m
+        expr: sum by (operation) (rate(propertyos_inventory_posting_failures_total[5m])) / clamp_min(sum by (operation) (rate(propertyos_inventory_posting_requests_total[5m])), 0.001)
+
+      - record: propertyos:inventory_duration_ms:avg5m
+        expr: sum by (operation) (rate(propertyos_inventory_posting_duration_ms_sum[5m])) / clamp_min(sum by (operation) (rate(propertyos_inventory_posting_duration_ms_count[5m])), 0.001)
+
+  - name: propertyos.procurement.recording
+    interval: 30s
+    rules:
+      - record: propertyos:procurement_requests:rate5m
+        expr: sum by (operation) (rate(propertyos_procurement_transition_requests_total[5m]))
+
+      - record: propertyos:procurement_success:rate5m
+        expr: sum by (operation) (rate(propertyos_procurement_transition_success_total[5m]))
+
+      - record: propertyos:procurement_failures:rate5m
+        expr: sum by (operation, errorType) (rate(propertyos_procurement_transition_failures_total[5m]))
+
+      - record: propertyos:procurement_failure_ratio:rate5m
+        expr: sum by (operation) (rate(propertyos_procurement_transition_failures_total[5m])) / clamp_min(sum by (operation) (rate(propertyos_procurement_transition_requests_total[5m])), 0.001)
+
+      - record: propertyos:procurement_duration_ms:avg5m
+        expr: sum by (operation) (rate(propertyos_procurement_transition_duration_ms_sum[5m])) / clamp_min(sum by (operation) (rate(propertyos_procurement_transition_duration_ms_count[5m])), 0.001)
+
+  - name: propertyos.workflow.recording
+    interval: 30s
+    rules:
+      - record: propertyos:workflow_requests:rate5m
+        expr: sum by (operation) (rate(propertyos_workflow_execution_requests_total[5m]))
+
+      - record: propertyos:workflow_success:rate5m
+        expr: sum by (operation) (rate(propertyos_workflow_execution_success_total[5m]))
+
+      - record: propertyos:workflow_failures:rate5m
+        expr: sum by (operation, errorType) (rate(propertyos_workflow_execution_failures_total[5m]))
+
+      - record: propertyos:workflow_failure_ratio:rate5m
+        expr: sum by (operation) (rate(propertyos_workflow_execution_failures_total[5m])) / clamp_min(sum by (operation) (rate(propertyos_workflow_execution_requests_total[5m])), 0.001)
+
+      - record: propertyos:workflow_duration_ms:avg5m
+        expr: sum by (operation) (rate(propertyos_workflow_execution_duration_ms_sum[5m])) / clamp_min(sum by (operation) (rate(propertyos_workflow_execution_duration_ms_count[5m])), 0.001)
+
+  - name: propertyos.scheduler.recording
+    interval: 30s
+    rules:
+      - record: propertyos:scheduler_requests:rate5m
+        expr: sum by (operation, jobType) (rate(propertyos_scheduler_execution_requests_total[5m]))
+
+      - record: propertyos:scheduler_success:rate5m
+        expr: sum by (operation, jobType) (rate(propertyos_scheduler_execution_success_total[5m]))
+
+      - record: propertyos:scheduler_failures:rate5m
+        expr: sum by (operation, jobType, errorType) (rate(propertyos_scheduler_execution_failures_total[5m]))
+
+      - record: propertyos:scheduler_failure_ratio:rate5m
+        expr: sum by (operation, jobType) (rate(propertyos_scheduler_execution_failures_total[5m])) / clamp_min(sum by (operation, jobType) (rate(propertyos_scheduler_execution_requests_total[5m])), 0.001)
+
+      - record: propertyos:scheduler_duration_ms:avg5m
+        expr: sum by (operation, jobType) (rate(propertyos_scheduler_execution_duration_ms_sum[5m])) / clamp_min(sum by (operation, jobType) (rate(propertyos_scheduler_execution_duration_ms_count[5m])), 0.001)

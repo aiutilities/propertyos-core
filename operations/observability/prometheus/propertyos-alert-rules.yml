@@ -1,0 +1,80 @@
+groups:
+  - name: propertyos.alerts
+    rules:
+
+      - alert: PropertyOSHighFailureRatio
+        expr: propertyos:idempotency_failure_ratio:rate5m > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: High idempotency failure ratio
+
+      - alert: PropertyOSCriticalFailureRatio
+        expr: propertyos:idempotency_failure_ratio:rate5m > 0.20
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Critical idempotency failure ratio
+
+      - alert: PropertyOSSchedulerLatency
+        expr: propertyos:scheduler_duration_ms:avg5m > 30000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Scheduler execution latency is high
+
+      - alert: PropertyOSMetricsEndpointDown
+        expr: up{job="propertyos-api"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: PropertyOS metrics endpoint unavailable
+
+      - alert: PropertyOSMarketplaceFailureRateHigh
+        expr: propertyos:marketplace_failure_ratio:rate5m > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          subsystem: marketplace
+        annotations:
+          summary: Marketplace failure rate is high
+
+      - alert: PropertyOSInventoryFailureRateHigh
+        expr: propertyos:inventory_failure_ratio:rate5m > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          subsystem: inventory
+        annotations:
+          summary: Inventory failure rate is high
+
+      - alert: PropertyOSProcurementFailureRateHigh
+        expr: propertyos:procurement_failure_ratio:rate5m > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          subsystem: procurement
+        annotations:
+          summary: Procurement failure rate is high
+
+      - alert: PropertyOSWorkflowFailureRateHigh
+        expr: propertyos:workflow_failure_ratio:rate5m > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          subsystem: workflow
+        annotations:
+          summary: Workflow failure rate is high
+
+      - alert: PropertyOSSchedulerFailureRateHigh
+        expr: propertyos:scheduler_failure_ratio:rate5m > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          subsystem: scheduler
+        annotations:
+          summary: Scheduler failure rate is high

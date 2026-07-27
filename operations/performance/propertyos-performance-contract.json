@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "phase": "17D",
+  "name": "Performance and Scale Validation",
+  "execution": {
+    "target": "local-production-build",
+    "baseUrlEnvironmentVariable": "PROPERTYOS_PERFORMANCE_BASE_URL",
+    "defaultBaseUrl": "http://127.0.0.1:3000",
+    "warmupRequestsPerRoute": 10,
+    "measuredRequestsPerRoute": 100,
+    "requestTimeoutMs": 5000,
+    "concurrencyLevels": [
+      1,
+      5,
+      10
+    ],
+    "isolatedRuntime": {
+      "required": true,
+      "recommendedPort": 3017,
+      "environment": {
+        "NODE_ENV": "production",
+        "RATE_LIMIT_MAX": "5000",
+        "RATE_LIMIT_TTL_MS": "60000"
+      },
+      "reason": "The default runtime rate limit is 100 requests per 60000 milliseconds, which is intentionally lower than the complete performance workload."
+    }
+  },
+  "routes": [
+    {
+      "name": "health-summary",
+      "method": "GET",
+      "path": "/api/v1/health",
+      "expectedStatus": 200,
+      "requiresAuthentication": false,
+      "thresholds": {
+        "p50LatencyMs": 100,
+        "p95LatencyMs": 300,
+        "p99LatencyMs": 750,
+        "failureRatioMaximum": 0
+      }
+    },
+    {
+      "name": "health-liveness",
+      "method": "GET",
+      "path": "/api/v1/health/live",
+      "expectedStatus": 200,
+      "requiresAuthentication": false,
+      "thresholds": {
+        "p50LatencyMs": 50,
+        "p95LatencyMs": 150,
+        "p99LatencyMs": 400,
+        "failureRatioMaximum": 0
+      }
+    },
+    {
+      "name": "health-readiness",
+      "method": "GET",
+      "path": "/api/v1/health/ready",
+      "expectedStatus": 200,
+      "requiresAuthentication": false,
+      "thresholds": {
+        "p50LatencyMs": 250,
+        "p95LatencyMs": 750,
+        "p99LatencyMs": 1500,
+        "failureRatioMaximum": 0
+      }
+    }
+  ],
+  "safety": {
+    "mutatesApplicationData": false,
+    "requiresProductionAuthorization": false,
+    "allowedAgainstPublicProduction": false,
+    "databaseWritesPermitted": false,
+    "applicationInstrumentationChangesPermitted": false,
+    "prometheusContractChangesPermitted": false,
+    "grafanaContractChangesPermitted": false,
+    "normalRuntimeRateLimitMayBeChanged": false,
+    "isolatedRuntimeOverridePermitted": true
+  }
+}

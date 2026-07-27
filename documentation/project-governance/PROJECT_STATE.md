@@ -38,11 +38,11 @@ Core engineering completion is approximately 95 to 97 percent.
 
 Phase:
 
-17D
+18
 
 Name:
 
-Performance and Scale Validation
+Production Operations
 
 Status:
 
@@ -51,6 +51,38 @@ READY TO START
 Blocked:
 
 NO
+
+## Completed Phase 17D
+
+Performance and Scale Validation:
+
+- version-controlled performance validation contract
+- read-only operational-health workload
+- public health, liveness and readiness routes
+- local production-build target
+- concurrency levels 1, 5 and 10
+- 10 warm-up requests per route
+- 100 measured requests per route and concurrency
+- dependency-free Node.js performance harness
+- permanent performance contract validator
+- permanent baseline evidence validator
+- deterministic percentile and throughput reporting
+- HTTP status distribution reporting
+- invalid rate-limited environment detection
+- isolated runtime requirement
+- normal runtime rate limit preserved
+- benchmark-only rate-limit override
+- readiness working-directory issue detected and corrected
+- stable committed baseline evidence
+- 900 measured requests
+- 900 successful responses
+- zero failed responses
+- zero environment failures
+- zero threshold failures
+- all nine result groups passed
+- application modules unchanged
+- Prometheus contract unchanged
+- Grafana contract unchanged
 
 ## Phase 17C3 Objective
 
@@ -211,10 +243,6 @@ Completed foundations include:
 
 ## Remaining Canonical Roadmap
 
-Phase 17D:
-
-Performance and Scale Validation
-
 Phase 18:
 
 Production Operations
@@ -281,11 +309,11 @@ Verify:
 - Phase 17C3 closure commit is 724f0f8
 - repository is clean
 
-Then continue directly with Phase 17D.
+Then continue directly with Phase 18.
 
 Do not rename the phase.
 
-Do not insert another phase before 17D.
+Do not insert another phase before Phase 18.
 
 Do not revisit Prometheus instrumentation.
 

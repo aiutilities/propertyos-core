@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "phase": "17D",
+  "baseline": "operational-health",
+  "target": "isolated-local-production-build",
+  "runtime": {
+    "port": 3017,
+    "rateLimitMax": 5000,
+    "rateLimitTtlMs": 60000
+  },
+  "workload": {
+    "routes": 3,
+    "warmupRequestsPerRoute": 10,
+    "measuredRequestsPerRoute": 100,
+    "concurrencyLevels": [
+      1,
+      5,
+      10
+    ],
+    "totalWarmupRequests": 30,
+    "totalMeasuredRequests": 900
+  },
+  "validation": {
+    "environmentValid": true,
+    "environmentFailures": 0,
+    "failedRequests": 0,
+    "thresholdFailures": 0,
+    "passed": true
+  },
+  "results": [
+    {
+      "route": "health-summary",
+      "path": "/api/v1/health",
+      "concurrency": 1,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 8.75,
+      "averageLatencyMs": 11.4,
+      "p50LatencyMs": 11.55,
+      "p95LatencyMs": 13.14,
+      "p99LatencyMs": 15.53,
+      "maximumLatencyMs": 16.0,
+      "requestsPerSecond": 87.52,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-summary",
+      "path": "/api/v1/health",
+      "concurrency": 5,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 9.45,
+      "averageLatencyMs": 12.79,
+      "p50LatencyMs": 12.09,
+      "p95LatencyMs": 16.89,
+      "p99LatencyMs": 29.59,
+      "maximumLatencyMs": 32.77,
+      "requestsPerSecond": 383.68,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-summary",
+      "path": "/api/v1/health",
+      "concurrency": 10,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 12.26,
+      "averageLatencyMs": 19.31,
+      "p50LatencyMs": 18.65,
+      "p95LatencyMs": 25.65,
+      "p99LatencyMs": 30.54,
+      "maximumLatencyMs": 33.32,
+      "requestsPerSecond": 497.84,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-liveness",
+      "path": "/api/v1/health/live",
+      "concurrency": 1,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 0.48,
+      "averageLatencyMs": 1.63,
+      "p50LatencyMs": 1.65,
+      "p95LatencyMs": 1.93,
+      "p99LatencyMs": 1.99,
+      "maximumLatencyMs": 2.01,
+      "requestsPerSecond": 612.12,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-liveness",
+      "path": "/api/v1/health/live",
+      "concurrency": 5,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 0.69,
+      "averageLatencyMs": 2.82,
+      "p50LatencyMs": 2.53,
+      "p95LatencyMs": 5.68,
+      "p99LatencyMs": 5.89,
+      "maximumLatencyMs": 7.83,
+      "requestsPerSecond": 1748.95,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-liveness",
+      "path": "/api/v1/health/live",
+      "concurrency": 10,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 1.81,
+      "averageLatencyMs": 6.49,
+      "p50LatencyMs": 5.36,
+      "p95LatencyMs": 14.86,
+      "p99LatencyMs": 15.73,
+      "maximumLatencyMs": 15.97,
+      "requestsPerSecond": 1505.34,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-readiness",
+      "path": "/api/v1/health/ready",
+      "concurrency": 1,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 8.83,
+      "averageLatencyMs": 10.99,
+      "p50LatencyMs": 10.97,
+      "p95LatencyMs": 12.47,
+      "p99LatencyMs": 15.82,
+      "maximumLatencyMs": 18.97,
+      "requestsPerSecond": 90.83,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-readiness",
+      "path": "/api/v1/health/ready",
+      "concurrency": 5,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 9.44,
+      "averageLatencyMs": 11.65,
+      "p50LatencyMs": 11.38,
+      "p95LatencyMs": 14.47,
+      "p99LatencyMs": 16.28,
+      "maximumLatencyMs": 18.31,
+      "requestsPerSecond": 422.17,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    },
+    {
+      "route": "health-readiness",
+      "path": "/api/v1/health/ready",
+      "concurrency": 10,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "failureRatio": 0,
+      "minimumLatencyMs": 10.28,
+      "averageLatencyMs": 19.24,
+      "p50LatencyMs": 18.69,
+      "p95LatencyMs": 26.02,
+      "p99LatencyMs": 29.26,
+      "maximumLatencyMs": 29.8,
+      "requestsPerSecond": 503.26,
+      "statusCounts": {
+        "200": 100
+      },
+      "thresholdFailures": [],
+      "passed": true
+    }
+  ]
+}

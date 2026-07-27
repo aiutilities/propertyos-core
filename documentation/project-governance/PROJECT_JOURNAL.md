@@ -296,3 +296,77 @@ CLEAN
 Next phase:
 
 17D - Performance and Scale Validation
+
+---
+
+## 27 July 2026 - Phase 17D
+
+Commit:
+
+Pending closure commit
+
+Completed:
+
+- performance and scale validation contract
+- read-only health endpoint workload
+- local production-build execution profile
+- concurrency levels 1, 5 and 10
+- 10 warm-up requests per route
+- 100 measured requests per route and concurrency
+- dependency-free Node.js performance harness
+- permanent performance contract validator
+- permanent baseline evidence validator
+- percentile latency reporting
+- throughput reporting
+- HTTP status distribution reporting
+- environment validity reporting
+- isolated benchmark runtime requirement
+- benchmark-only rate-limit override
+- default 100-request rate limit diagnosis
+- HTTP 429 invalid-environment classification
+- production environment validation respected
+- benchmark working-directory readiness correction
+- stable operational-health baseline evidence
+- 900 measured requests
+- 900 successful responses
+- zero failed responses
+- zero environment failures
+- zero threshold failures
+- all nine result groups passed
+- normal runtime unchanged
+- application code unchanged
+- Prometheus contract unchanged
+- Grafana contract unchanged
+
+Files:
+
+- operations/performance/README.md
+- operations/performance/propertyos-performance-contract.json
+- operations/performance/baselines/phase-17d-operational-health-baseline.json
+- operations/performance/scripts/run-performance-validation.mjs
+- operations/performance/scripts/validate-performance-contract.py
+- operations/performance/scripts/validate-performance-baseline.py
+
+Validation:
+
+- performance contract validator passed
+- baseline evidence validator passed
+- harness syntax validation passed
+- production backend build passed
+- isolated runtime readiness passed
+- 3 routes verified
+- 3 concurrency levels verified
+- 900 measured requests verified
+- 900 HTTP 200 responses verified
+- zero rate-limit failures in isolated runtime
+- zero latency-threshold failures
+- repository scope validated
+- mature application and observability files unchanged
+
+Repository:
+
+Pending closure commit
+
+Next phase:
+
+18 - Production Operations

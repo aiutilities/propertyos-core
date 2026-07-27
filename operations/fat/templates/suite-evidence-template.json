@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "suiteId": "<SUITE_ID>",
+  "status": "NOT_STARTED",
+  "startedAt": null,
+  "completedAt": null,
+  "commit": null,
+  "environment": {
+    "type": "isolated",
+    "baseUrl": null,
+    "database": null,
+    "production": false
+  },
+  "checks": [],
+  "summary": {
+    "checksTotal": 0,
+    "checksPassed": 0,
+    "checksFailed": 0,
+    "checksBlocked": 0
+  },
+  "evidenceReferences": [],
+  "defects": [],
+  "founderDecision": null,
+  "notes": null,
+  "authorization": {
+    "executionAuthorized": false,
+    "productionExecutionAuthorized": false
+  }
+}

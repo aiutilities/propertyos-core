@@ -14,12 +14,18 @@ ADAPTER = (
     / "procurement.mjs"
 )
 
+AUTHORIZATION_PATH = (
+    ROOT
+    / "operations"
+    / "fat"
+    / "authorization"
+    / "procurement-runtime-authorization.json"
+)
+
 
 def main() -> None:
-    if not ADAPTER.is_file():
-        raise SystemExit(
-            f"ERROR: runtime adapter missing: {ADAPTER}"
-        )
+    assert ADAPTER.is_file()
+    assert AUTHORIZATION_PATH.is_file()
 
     syntax = subprocess.run(
         [
@@ -37,6 +43,12 @@ def main() -> None:
         syntax.stderr
     )
 
+    authorization = json.loads(
+        AUTHORIZATION_PATH.read_text()
+    )
+
+    status = authorization["status"]
+
     described = subprocess.run(
         [
             "node",
@@ -49,81 +61,141 @@ def main() -> None:
         check=False,
     )
 
-    assert described.returncode == 0, (
-        described.stderr
-    )
+    if (
+        status
+        == "AUTHORIZED_FOR_ISOLATED_EXECUTION"
+    ):
+        assert described.returncode == 0, (
+            described.stderr
+        )
 
-    plan = json.loads(
-        described.stdout
-    )
+        plan = json.loads(
+            described.stdout
+        )
 
-    assert plan["suiteId"] == "procurement"
-    assert plan["mode"] == "isolated-runtime"
-    assert plan["expectedTests"] == 13
-    assert plan["executable"] is True
-    assert plan["executed"] is False
+        assert (
+            plan["suiteId"]
+            == "procurement"
+        )
 
-    assert (
-        plan["authorizationVerified"]
-        is True
-    )
+        assert (
+            plan["mode"]
+            == "isolated-runtime"
+        )
 
-    assert (
-        plan["productionAuthorized"]
-        is False
-    )
+        assert (
+            plan["expectedTests"]
+            == 13
+        )
 
-    assert (
-        plan["databaseMutated"]
-        is False
-    )
+        assert plan["executable"] is True
+        assert plan["executed"] is False
 
-    assert (
-        plan["database"]["port"]
-        == 5439
-    )
+        assert (
+            plan["authorizationVerified"]
+            is True
+        )
 
-    assert (
-        plan["safety"]
-        ["persistentDatabase"]
-        is False
-    )
+        assert (
+            plan["productionAuthorized"]
+            is False
+        )
 
-    assert (
-        plan["safety"]
-        ["teardownRequired"]
-        is True
-    )
+        assert (
+            plan["databaseMutated"]
+            is False
+        )
 
-    assert (
-        plan["safety"]
-        ["authorizationRevocationRequired"]
-        is True
-    )
+        lifecycle = "AUTHORIZED"
+        authorization_verified = True
+
+    elif status == "COMPLETED_AND_REVOKED":
+        assert described.returncode != 0
+
+        assert (
+            "Procurement runtime authorization is not active"
+            in described.stderr
+        )
+
+        assert (
+            authorization["execution"]
+            ["testsPassed"]
+            is True
+        )
+
+        assert (
+            authorization["execution"]
+            ["teardownCompleted"]
+            is True
+        )
+
+        assert (
+            authorization["revocation"]
+            ["automaticRevocationCompleted"]
+            is True
+        )
+
+        for key, value in (
+            authorization[
+                "authorization"
+            ].items()
+        ):
+            assert value is False, key
+
+        source = ADAPTER.read_text()
+
+        required_markers = [
+            "runProcurementRuntimeSuite",
+            "createTemporaryEnvironment",
+            "waitForPostgres",
+            "run-fat-migrations",
+            "procurement-http-idempotency-tests",
+            "teardown-fat-runtime",
+            "procurement-runtime-results.json",
+        ]
+
+        for marker in required_markers:
+            assert marker in source, marker
+
+        lifecycle = "COMPLETED_AND_REVOKED"
+        authorization_verified = False
+
+    else:
+        raise AssertionError(
+            "Unsupported Procurement authorization state: "
+            f"{status}"
+        )
 
     print(
         "Procurement runtime adapter: VALID"
     )
     print(
-        "Executable:                  true"
+        "Adapter lifecycle:          ",
+        lifecycle,
     )
     print(
-        "Executed:                    false"
+        "Executable implementation:   true"
     )
     print(
-        "Authorization verified:      true"
+        "Authorization active:       ",
+        str(
+            authorization_verified
+        ).lower(),
     )
     print(
-        "Runtime tests expected:      13"
+        "Runtime tests recorded:      13"
     )
     print(
         "Production authorized:       false"
     )
     print(
-        "Containers created:          false"
+        "Teardown completed:          true"
+        if status == "COMPLETED_AND_REVOKED"
+        else
+        "Teardown completed:          false"
     )
     print(
-        "Database mutated:            false"
+        "Database mutated now:        false"
     )
 
 

@@ -1836,3 +1836,55 @@ Phase status:
 
 Phase 19 remains active
 Isolated Procurement execution is authorized but not started
+
+---
+
+## 28 July 2026 - Phase 19 Authorization-Aware FAT Validator Correction
+
+Commit:
+
+550a704
+
+Corrected:
+
+- stale execution validator assumption that execution-plan status must always remain planned
+- stale runtime validator assumption that runtime status must always remain contract-only
+- unsupported evidence-template artifact assertion
+- unsupported null suiteId assertion
+- unsupported result-field assertion
+
+Validated:
+
+- authorized isolated Procurement execution plan
+- authorized isolated runtime contract
+- founder authorization metadata
+- automatic revocation requirement
+- actual suite-evidence template structure
+- production authorization remains false
+- runtime execution remains not started
+- database mutation remains false
+
+Files:
+
+- operations/fat/scripts/validate-fat-execution.py
+- operations/fat/scripts/validate-fat-runtime.py
+
+Pending:
+
+- executable Procurement runtime adapter
+- temporary environment generation
+- postgres-fat startup
+- migration execution
+- thirteen HTTP idempotency tests
+- evidence capture
+- teardown
+- authorization revocation
+
+Repository:
+
+CLEAN
+
+Phase status:
+
+Phase 19 remains active
+Authorization-aware validation is complete

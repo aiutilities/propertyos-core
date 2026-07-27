@@ -948,6 +948,27 @@ Authorization commit:
 
 Phase 19 remains active. Isolated Procurement execution is authorized but has not started.
 
+## Phase 19 Authorization-Aware FAT Validator Correction
+
+Completed checkpoint:
+
+- execution validator updated to support planned and authorized isolated states
+- runtime validator updated to support contract-only and authorized isolated states
+- execution-plan authorization metadata validated
+- runtime authorization metadata validated
+- automatic revocation requirement validated
+- production execution remains forbidden
+- public release remains forbidden
+- suite evidence template validation aligned with the actual schema
+- no runtime resources created
+- no database mutation
+
+Correction commit:
+
+550a704
+
+Phase 19 remains active. Authorization-aware validation is complete; executable runtime adapter remains pending.
+
 ## Completed Phase 17D
 
 Performance and Scale Validation:

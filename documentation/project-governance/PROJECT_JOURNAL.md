@@ -377,7 +377,7 @@ Next phase:
 
 Commit:
 
-Pending checkpoint commit
+58aeb22
 
 Completed:
 
@@ -440,7 +440,7 @@ Validation:
 
 Repository:
 
-Pending checkpoint commit
+CLEAN
 
 Phase status:
 

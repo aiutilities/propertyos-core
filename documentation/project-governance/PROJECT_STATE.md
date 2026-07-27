@@ -14,15 +14,15 @@ feature/phase-16f-marketplace-upgrade-runtime
 
 HEAD:
 
-eed8d58
+07857ce2959e1445c8f36d4cc5a76d75a9bd6bd3
 
 Latest commit:
 
-feat(observability): add Prometheus rules contract
+feat(observability): add Grafana dashboard contract
 
 Repository status:
 
-CLEAN after commit eed8d58
+CLEAN after commit 07857ce
 
 Remote status:
 
@@ -38,11 +38,11 @@ Core engineering completion is approximately 95 to 97 percent.
 
 Phase:
 
-17C3
+17D
 
 Name:
 
-Grafana Dashboard Contract
+Performance and Scale Validation
 
 Status:
 
@@ -73,6 +73,32 @@ Expected deliverables:
 - alert status views
 
 Phase 17C3 must not redesign the metrics system.
+
+## Completed Phase 17C3
+
+Grafana Dashboard Contract:
+
+- Grafana dashboard JSON
+- Grafana datasource provisioning contract
+- Grafana dashboard-file provisioning contract
+- seven operational dashboard sections
+- 21 Prometheus dashboard queries
+- 20 canonical recording-rule references
+- one direct metrics availability query
+- platform availability view
+- idempotency views
+- marketplace lifecycle views
+- inventory posting views
+- procurement transition views
+- workflow execution views
+- scheduler execution views
+- throughput views
+- failure-ratio views
+- latency views
+- version-controlled dashboard query manifest
+- permanent dashboard contract validator
+- forbidden high-cardinality dimensions validated absent
+- Prometheus instrumentation unchanged
 
 ## Completed Observability Work
 
@@ -185,10 +211,6 @@ Completed foundations include:
 
 ## Remaining Canonical Roadmap
 
-Phase 17C3:
-
-Grafana Dashboard Contract
-
 Phase 17D:
 
 Performance and Scale Validation
@@ -256,14 +278,14 @@ This is a continuation session, not a planning session.
 Verify:
 
 - branch is feature/phase-16f-marketplace-upgrade-runtime
-- HEAD is eed8d58
+- HEAD is 07857ce
 - repository is clean
 
-Then continue directly with Phase 17C3.
+Then continue directly with Phase 17D.
 
 Do not rename the phase.
 
-Do not insert another phase before 17C3.
+Do not insert another phase before 17D.
 
 Do not revisit Prometheus instrumentation.
 

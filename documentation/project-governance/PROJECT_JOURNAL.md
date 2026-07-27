@@ -234,3 +234,65 @@ CLEAN
 Next phase:
 
 17C3 - Grafana Dashboard Contract
+
+---
+
+## 27 July 2026 - Phase 17C3
+
+Commit:
+
+07857ce
+
+Completed:
+
+- Grafana dashboard contract
+- PropertyOS Operations dashboard
+- Grafana Prometheus datasource provisioning
+- Grafana dashboard-file provisioning
+- seven operational dashboard sections
+- 21 dashboard queries
+- 20 canonical Prometheus recording-rule references
+- one direct propertyos-api availability query
+- platform availability views
+- idempotency views
+- marketplace lifecycle views
+- inventory posting views
+- procurement transition views
+- workflow execution views
+- scheduler execution views
+- throughput views
+- failure-ratio views
+- latency views
+- version-controlled dashboard query manifest
+- permanent dashboard contract validator
+- forbidden high-cardinality dimensions confirmed absent
+- completed Prometheus instrumentation left unchanged
+
+Files:
+
+- operations/observability/grafana/README.md
+- operations/observability/grafana/propertyos-dashboard-contract.json
+- operations/observability/grafana/dashboards/propertyos-operations.json
+- operations/observability/grafana/provisioning/datasources/propertyos-prometheus.yml
+- operations/observability/grafana/provisioning/dashboards/propertyos-dashboards.yml
+- operations/observability/grafana/scripts/validate-dashboard-contract.py
+
+Validation:
+
+- dashboard contract validator passed
+- 7 operational sections verified
+- 21 dashboard queries verified
+- 20 recording-rule references verified
+- 28 unique panel IDs verified
+- provisioning values verified
+- forbidden dimensions absent
+- Prometheus files unchanged
+- application code unchanged
+
+Repository:
+
+CLEAN
+
+Next phase:
+
+17D - Performance and Scale Validation

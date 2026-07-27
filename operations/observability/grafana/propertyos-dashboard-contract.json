@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "dashboard": {
+    "title": "PropertyOS Operations",
+    "uid": "propertyos-operations",
+    "datasourceUid": "propertyos-prometheus",
+    "refresh": "30s",
+    "defaultTimeRange": "6h"
+  },
+  "sections": [
+    {
+      "name": "Platform Availability",
+      "queries": [
+        {
+          "name": "Metrics endpoint availability",
+          "expr": "up{job=\"propertyos-api\"}"
+        }
+      ]
+    },
+    {
+      "name": "Idempotency",
+      "queries": [
+        {
+          "name": "Request rate",
+          "expr": "propertyos:idempotency_requests:rate5m"
+        },
+        {
+          "name": "Replay rate",
+          "expr": "propertyos:idempotency_replays:rate5m"
+        },
+        {
+          "name": "Conflict rate",
+          "expr": "propertyos:idempotency_conflicts:rate5m"
+        },
+        {
+          "name": "Failure ratio",
+          "expr": "propertyos:idempotency_failure_ratio:rate5m"
+        },
+        {
+          "name": "Average duration",
+          "expr": "propertyos:idempotency_duration_ms:avg5m"
+        }
+      ]
+    },
+    {
+      "name": "Marketplace",
+      "queries": [
+        {
+          "name": "Request rate",
+          "expr": "propertyos:marketplace_requests:rate5m"
+        },
+        {
+          "name": "Failure ratio",
+          "expr": "propertyos:marketplace_failure_ratio:rate5m"
+        },
+        {
+          "name": "Average duration",
+          "expr": "propertyos:marketplace_duration_ms:avg5m"
+        }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "queries": [
+        {
+          "name": "Request rate",
+          "expr": "propertyos:inventory_requests:rate5m"
+        },
+        {
+          "name": "Failure ratio",
+          "expr": "propertyos:inventory_failure_ratio:rate5m"
+        },
+        {
+          "name": "Average duration",
+          "expr": "propertyos:inventory_duration_ms:avg5m"
+        }
+      ]
+    },
+    {
+      "name": "Procurement",
+      "queries": [
+        {
+          "name": "Request rate",
+          "expr": "propertyos:procurement_requests:rate5m"
+        },
+        {
+          "name": "Failure ratio",
+          "expr": "propertyos:procurement_failure_ratio:rate5m"
+        },
+        {
+          "name": "Average duration",
+          "expr": "propertyos:procurement_duration_ms:avg5m"
+        }
+      ]
+    },
+    {
+      "name": "Workflow",
+      "queries": [
+        {
+          "name": "Request rate",
+          "expr": "propertyos:workflow_requests:rate5m"
+        },
+        {
+          "name": "Failure ratio",
+          "expr": "propertyos:workflow_failure_ratio:rate5m"
+        },
+        {
+          "name": "Average duration",
+          "expr": "propertyos:workflow_duration_ms:avg5m"
+        }
+      ]
+    },
+    {
+      "name": "Scheduler",
+      "queries": [
+        {
+          "name": "Request rate",
+          "expr": "propertyos:scheduler_requests:rate5m"
+        },
+        {
+          "name": "Failure ratio",
+          "expr": "propertyos:scheduler_failure_ratio:rate5m"
+        },
+        {
+          "name": "Average duration",
+          "expr": "propertyos:scheduler_duration_ms:avg5m"
+        }
+      ]
+    }
+  ]
+}

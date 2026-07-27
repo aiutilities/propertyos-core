@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: PropertyOS Prometheus
+    uid: propertyos-prometheus
+    type: prometheus
+    access: proxy
+    url: ${PROPERTYOS_PROMETHEUS_URL}
+    isDefault: true
+    editable: false
+    jsonData:
+      httpMethod: POST
+      timeInterval: 15s

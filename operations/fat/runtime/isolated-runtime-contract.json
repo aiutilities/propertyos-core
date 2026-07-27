@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "isolated-fat-runtime",
+  "status": "contract-only",
+  "runtime": {
+    "environmentName": "propertyos-fat",
+    "nodeEnvironment": "production",
+    "apiPort": 3019,
+    "frontendPort": 3020,
+    "postgresHostPort": 5439,
+    "databaseName": "propertyos_fat",
+    "databaseUser": "propertyos_fat",
+    "storageRoot": "/tmp/propertyos-fat/uploads",
+    "pluginRoot": "/tmp/propertyos-fat/plugins",
+    "evidenceRoot": "/tmp/propertyos-fat/evidence"
+  },
+  "services": {
+    "postgres": {
+      "required": true,
+      "image": "postgres:16",
+      "persistent": false,
+      "publicExposurePermitted": false
+    },
+    "migrate": {
+      "required": true,
+      "automaticExecutionPermitted": false,
+      "authorizationRequired": true
+    },
+    "api": {
+      "required": true,
+      "entryPoint": "backend/dist/main.js",
+      "healthPath": "/api/v1/health/ready"
+    },
+    "scheduler": {
+      "required": true,
+      "entryPoint": "backend/dist/scheduler-worker.js"
+    },
+    "frontend": {
+      "required": true,
+      "workingDirectory": "frontend",
+      "command": "npm run start"
+    }
+  },
+  "environment": {
+    "template": "operations/fat/templates/.env.fat.template",
+    "secretValuesMayBeCommitted": false,
+    "syntheticDataOnly": true,
+    "dedicatedDatabaseRequired": true,
+    "productionCredentialsPermitted": false
+  },
+  "rateLimit": {
+    "ttlMs": 60000,
+    "maximum": 5000,
+    "normalRuntimeConfigurationMayBeChanged": false,
+    "isolatedOverridePermitted": true
+  },
+  "authorization": {
+    "runtimeStartAuthorized": false,
+    "databaseCreationAuthorized": false,
+    "migrationExecutionAuthorized": false,
+    "databaseWritesAuthorized": false,
+    "acceptanceExecutionAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "publicReleaseAuthorized": false
+  },
+  "execution": {
+    "servicesStarted": false,
+    "databaseCreated": false,
+    "migrationsExecuted": false,
+    "testsExecuted": false,
+    "databaseMutated": false
+  }
+}

@@ -1,0 +1,109 @@
+services:
+  postgres-fat:
+    image: postgres:16
+    container_name: propertyos-fat-postgres
+    restart: "no"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+    ports:
+      - "127.0.0.1:5439:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U ${POSTGRES_USER:?required} -d ${POSTGRES_DB:?required}
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  migrate-fat:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: propertyos-fat-migrate
+    command:
+      - node
+      - dist/database/runner/migration-runner.js
+    restart: "no"
+    depends_on:
+      postgres-fat:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres-fat
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      AUTH_SECRET: ${AUTH_SECRET:?required}
+    profiles:
+      - authorized-fat-migration
+
+  api-fat:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: propertyos-fat-api
+    restart: "no"
+    init: true
+    depends_on:
+      postgres-fat:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3019
+      POSTGRES_HOST: postgres-fat
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      AUTH_SECRET: ${AUTH_SECRET:?required}
+      CORS_ORIGIN: http://127.0.0.1:3020
+      RATE_LIMIT_TTL_MS: 60000
+      RATE_LIMIT_MAX: 5000
+      STORAGE_LOCAL_ROOT: /tmp/propertyos-fat/uploads
+    ports:
+      - "127.0.0.1:3019:3019"
+    tmpfs:
+      - /tmp/propertyos-fat
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          node -e "fetch('http://127.0.0.1:3019/api/v1/health/ready')
+          .then(r=>process.exit(r.ok?0:1))
+          .catch(()=>process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  scheduler-fat:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: propertyos-fat-scheduler
+    command:
+      - node
+      - dist/scheduler-worker.js
+    restart: "no"
+    init: true
+    depends_on:
+      postgres-fat:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres-fat
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      AUTH_SECRET: ${AUTH_SECRET:?required}
+      SCHEDULER_POLL_INTERVAL_MS: 5000
+      SCHEDULER_BATCH_SIZE: 25
+      SCHEDULER_STALE_AFTER_MS: 300000
+      SCHEDULER_RETRY_BASE_DELAY_MS: 1000
+      SCHEDULER_MAX_RETRY_DELAY_MS: 60000

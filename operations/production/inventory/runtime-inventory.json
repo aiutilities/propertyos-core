@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "inventory": "production-runtime",
+  "status": "contract-only",
+  "runtime": {
+    "backend": {
+      "technology": "NestJS",
+      "language": "TypeScript",
+      "compiledEntryPoint": "backend/dist/main.js",
+      "productionCommand": "node dist/main.js",
+      "defaultInternalPort": 3000
+    },
+    "scheduler": {
+      "technology": "NestJS standalone worker",
+      "compiledEntryPoint": "backend/dist/scheduler-worker.js",
+      "productionCommand": "node dist/scheduler-worker.js"
+    },
+    "frontend": {
+      "technology": "Next.js",
+      "mode": "production-server"
+    },
+    "database": {
+      "technology": "PostgreSQL",
+      "majorVersion": 16,
+      "persistent": true
+    },
+    "container": {
+      "dockerfile": "backend/Dockerfile",
+      "composeFile": "backend/docker-compose.yml",
+      "deploymentModel": "self-hosted-docker"
+    }
+  },
+  "health": {
+    "livenessPath": "/api/v1/health/live",
+    "readinessPath": "/api/v1/health/ready",
+    "expectedHttpStatus": 200,
+    "readinessStatus": "ok"
+  },
+  "safety": {
+    "productionExecutionAuthorized": false,
+    "databaseMutationAuthorized": false,
+    "migrationExecutionAuthorized": false
+  }
+}

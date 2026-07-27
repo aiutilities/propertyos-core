@@ -1,0 +1,24 @@
+[Unit]
+Description=PropertyOS Scheduler Worker
+After=network-online.target propertyos-api.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=<PROPERTYOS_USER>
+Group=<PROPERTYOS_GROUP>
+WorkingDirectory=<PROPERTYOS_ROOT>
+EnvironmentFile=<PROPERTYOS_ENV_FILE>
+ExecStart=/usr/bin/node backend/dist/scheduler-worker.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=<PROPERTYOS_UPLOAD_PATH> <PROPERTYOS_PLUGIN_PATH>
+
+[Install]
+WantedBy=multi-user.target

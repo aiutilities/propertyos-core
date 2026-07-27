@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "inventory": "production-environment",
+  "status": "contract-only",
+  "source": "backend/.env.example",
+  "requiredVariables": [
+    "NODE_ENV",
+    "PORT",
+    "POSTGRES_HOST",
+    "POSTGRES_PORT",
+    "POSTGRES_DB",
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "AUTH_SECRET"
+  ],
+  "operationalVariables": [
+    "CORS_ORIGIN",
+    "RATE_LIMIT_TTL_MS",
+    "RATE_LIMIT_MAX",
+    "STORAGE_LOCAL_ROOT",
+    "SCHEDULER_POLL_INTERVAL_MS",
+    "SCHEDULER_BATCH_SIZE",
+    "SCHEDULER_STALE_AFTER_MS",
+    "SCHEDULER_RETRY_BASE_DELAY_MS",
+    "SCHEDULER_MAX_RETRY_DELAY_MS"
+  ],
+  "secretVariables": [
+    "POSTGRES_PASSWORD",
+    "AUTH_SECRET"
+  ],
+  "rules": {
+    "nodeEnvironmentMustBeProduction": true,
+    "authSecretMinimumLength": 32,
+    "secretValuesMayBeCommitted": false,
+    "environmentFileMayBeCommitted": false,
+    "templateMayContainPlaceholdersOnly": true
+  },
+  "validation": {
+    "sourceVariablesFound": 17,
+    "requiredVariablesPresent": true,
+    "operationalVariablesPresent": true,
+    "secretValuesCaptured": false
+  }
+}

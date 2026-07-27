@@ -1,0 +1,107 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+    volumes:
+      - propertyos_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U ${POSTGRES_USER:?required} -d ${POSTGRES_DB:?required}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    command:
+      - node
+      - dist/database/runner/migration-runner.js
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      AUTH_SECRET: ${AUTH_SECRET:?required}
+    profiles:
+      - authorized-migration
+
+  api:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      AUTH_SECRET: ${AUTH_SECRET:?required}
+      CORS_ORIGIN: ${CORS_ORIGIN:?required}
+      RATE_LIMIT_TTL_MS: ${RATE_LIMIT_TTL_MS:-60000}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+      STORAGE_LOCAL_ROOT: /app/uploads
+    volumes:
+      - propertyos_upload_data:/app/uploads
+      - propertyos_plugin_data:/app/plugins/.installed
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          node -e "fetch('http://127.0.0.1:3000/api/v1/health/ready')
+          .then(r=>process.exit(r.ok?0:1))
+          .catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  scheduler:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    command:
+      - node
+      - dist/scheduler-worker.js
+    restart: unless-stopped
+    init: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      AUTH_SECRET: ${AUTH_SECRET:?required}
+      SCHEDULER_POLL_INTERVAL_MS: ${SCHEDULER_POLL_INTERVAL_MS:-5000}
+      SCHEDULER_BATCH_SIZE: ${SCHEDULER_BATCH_SIZE:-25}
+      SCHEDULER_STALE_AFTER_MS: ${SCHEDULER_STALE_AFTER_MS:-300000}
+      SCHEDULER_RETRY_BASE_DELAY_MS: ${SCHEDULER_RETRY_BASE_DELAY_MS:-1000}
+      SCHEDULER_MAX_RETRY_DELAY_MS: ${SCHEDULER_MAX_RETRY_DELAY_MS:-60000}
+
+volumes:
+  propertyos_postgres_data:
+  propertyos_upload_data:
+  propertyos_plugin_data:

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "inventory": "production-network",
+  "status": "contract-only",
+  "services": {
+    "postgres": {
+      "internalPort": 5432,
+      "defaultHostPort": 5433,
+      "publicExposurePermitted": false
+    },
+    "api": {
+      "internalPort": 3000,
+      "defaultHostPort": 3001,
+      "publicExposurePermitted": true,
+      "healthPaths": [
+        "/api/v1/health/live",
+        "/api/v1/health/ready"
+      ]
+    },
+    "frontend": {
+      "internalPort": 3000,
+      "defaultHostPort": 3000,
+      "publicExposurePermitted": true
+    },
+    "prometheus": {
+      "publicExposurePermitted": false
+    },
+    "grafana": {
+      "publicExposurePermitted": false
+    }
+  },
+  "rules": {
+    "databaseMustNotBePubliclyExposed": true,
+    "tlsTerminationRequiredForPublicTraffic": true,
+    "reverseProxyRequired": true,
+    "corsOriginMustBeExplicit": true,
+    "healthEndpointsMayBePublic": true,
+    "metricsEndpointMayBePublic": false
+  },
+  "safety": {
+    "networkChangesAuthorized": false,
+    "firewallChangesAuthorized": false,
+    "dnsChangesAuthorized": false,
+    "tlsCertificateIssuanceAuthorized": false
+  }
+}

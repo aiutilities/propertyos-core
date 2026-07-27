@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "inventory": "production-storage",
+  "status": "contract-only",
+  "volumes": {
+    "database": {
+      "composeVolume": "propertyos_postgres_data",
+      "containerPath": "/var/lib/postgresql/data",
+      "persistent": true,
+      "backupRequired": true
+    },
+    "uploads": {
+      "composeVolume": "propertyos_upload_data",
+      "containerPath": "/app/uploads",
+      "persistent": true,
+      "backupRequired": true
+    },
+    "plugins": {
+      "composeVolume": "propertyos_plugin_data",
+      "containerPath": "/app/plugins/.installed",
+      "persistent": true,
+      "backupRequired": true
+    }
+  },
+  "backup": {
+    "databaseBackupRequired": true,
+    "uploadBackupRequired": true,
+    "pluginInventoryRequired": true,
+    "digestRequired": true,
+    "restoreExerciseRequired": true,
+    "retentionPolicyRequired": true
+  },
+  "rules": {
+    "ephemeralContainerStorageMayHoldBusinessData": false,
+    "backupDestinationMustBeProtected": true,
+    "backupIntegrityMustBeVerified": true,
+    "restoreMustBeValidatedInIsolationFirst": true
+  },
+  "safety": {
+    "volumeDeletionAuthorized": false,
+    "backupExecutionAuthorized": false,
+    "restoreExecutionAuthorized": false,
+    "dataDeletionAuthorized": false
+  }
+}

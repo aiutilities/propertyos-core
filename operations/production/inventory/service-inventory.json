@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "inventory": "production-services",
+  "status": "contract-only",
+  "services": [
+    {
+      "name": "postgres",
+      "type": "database",
+      "required": true,
+      "startupOrder": 1,
+      "shutdownOrder": 5,
+      "healthRequired": true
+    },
+    {
+      "name": "migrate",
+      "type": "one-shot",
+      "required": true,
+      "startupOrder": 2,
+      "shutdownOrder": null,
+      "healthRequired": false,
+      "executionRequiresAuthorization": true
+    },
+    {
+      "name": "api",
+      "type": "application",
+      "required": true,
+      "startupOrder": 3,
+      "shutdownOrder": 3,
+      "healthRequired": true
+    },
+    {
+      "name": "scheduler",
+      "type": "worker",
+      "required": true,
+      "startupOrder": 4,
+      "shutdownOrder": 2,
+      "healthRequired": false
+    },
+    {
+      "name": "frontend",
+      "type": "application",
+      "required": true,
+      "startupOrder": 5,
+      "shutdownOrder": 1,
+      "healthRequired": true
+    },
+    {
+      "name": "prometheus",
+      "type": "monitoring",
+      "required": true,
+      "startupOrder": 6,
+      "shutdownOrder": 4,
+      "healthRequired": true
+    },
+    {
+      "name": "grafana",
+      "type": "monitoring",
+      "required": true,
+      "startupOrder": 7,
+      "shutdownOrder": 4,
+      "healthRequired": true
+    }
+  ],
+  "dependencies": {
+    "migrate": [
+      "postgres"
+    ],
+    "api": [
+      "migrate"
+    ],
+    "scheduler": [
+      "migrate"
+    ],
+    "frontend": [
+      "api"
+    ],
+    "prometheus": [
+      "api"
+    ],
+    "grafana": [
+      "prometheus"
+    ]
+  },
+  "safety": {
+    "serviceStartAuthorized": false,
+    "serviceStopAuthorized": false,
+    "migrationServiceExecutionAuthorized": false,
+    "productionTrafficExposureAuthorized": false
+  }
+}

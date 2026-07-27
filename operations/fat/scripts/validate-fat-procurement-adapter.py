@@ -62,6 +62,10 @@ EXPECTED_TEST_FILES = [
         "src/core/procurement/services/"
         "procurement-goods-receipt-posting.integration-spec.ts"
     ),
+    (
+        "src/core/procurement/services/"
+        "procurement-goods-receipt-reversal.integration-spec.ts"
+    ),
 ]
 
 
@@ -119,7 +123,7 @@ def main() -> None:
         "automated-code-precheck"
     )
 
-    assert report["discoveredTestFiles"] == 8
+    assert report["discoveredTestFiles"] == 9
 
     assert report["testFiles"] == (
         EXPECTED_TEST_FILES
@@ -142,7 +146,7 @@ def main() -> None:
         "rfqLifecycleContract": True,
         "quotationLifecycleContract": True,
         "purchaseOrderLifecycleContract": True,
-        "goodsReceiptLifecycleContract": False,
+        "goodsReceiptLifecycleContract": True,
         "invoiceMatchLifecycleContract": False,
         "paymentRequestLifecycleContract": False,
     }
@@ -162,10 +166,10 @@ def main() -> None:
         "FAT Procurement foundation: VALID"
     )
     print(
-        "Test files discovered:       8"
+        "Test files discovered:       9"
     )
     print(
-        "Procurement tests executed:  43"
+        "Procurement tests executed:  47"
     )
     print(
         "Adapter checks passed:       2"
@@ -174,7 +178,7 @@ def main() -> None:
         "Purchase Request contract:   true"
     )
     print(
-        "Remaining lifecycle contracts: 3"
+        "Remaining lifecycle contracts: 2"
     )
     print(
         "Procurement adapter complete: false"

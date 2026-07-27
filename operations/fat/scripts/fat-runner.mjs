@@ -6,6 +6,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { runInstallationSuite } from "../adapters/installation.mjs";
 import { runAuthenticationSuite } from "../adapters/authentication.mjs";
+import { runPropertyManagementSuite } from "../adapters/property-management.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const fatRoot = path.resolve(path.dirname(scriptPath), "..");
@@ -18,6 +19,10 @@ const precheckAdapters = new Map([
   [
     "authentication",
     runAuthenticationSuite,
+  ],
+  [
+    "property-management",
+    runPropertyManagementSuite,
   ],
 ]);
 
@@ -120,6 +125,7 @@ Usage:
   fat-runner.mjs status
   fat-runner.mjs precheck installation
   fat-runner.mjs precheck authentication
+  fat-runner.mjs precheck property-management
   fat-runner.mjs run <suite-id>
   fat-runner.mjs run all
 

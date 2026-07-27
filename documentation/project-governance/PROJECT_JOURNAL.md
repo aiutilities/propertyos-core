@@ -1486,3 +1486,56 @@ Phase status:
 
 Phase 19 remains active
 Goods Receipt remains incomplete
+
+---
+
+## 27 July 2026 - Phase 19 Procurement Goods Receipt Reversal Contract
+
+Commit:
+
+cb4ff82
+
+Completed:
+
+- Goods Receipt reversal contract
+- non-posted reversal guard
+- reversal-reason validation
+- negative restored-quantity protection
+- successful Goods Receipt reversal
+- Purchase Order restoration to ACKNOWLEDGED
+- four tests passed
+- backend typecheck passed
+- Goods Receipt lifecycle marked complete
+- Procurement precheck increased to forty-seven tests
+- Procurement lifecycle coverage increased to five of seven
+- zero services started
+- zero database mutations
+
+Files:
+
+- backend/src/core/procurement/services/procurement-goods-receipt-reversal.integration-spec.ts
+- operations/fat/adapters/procurement.mjs
+- operations/fat/scripts/validate-fat-procurement-adapter.py
+
+Validation:
+
+- Goods Receipt reversal contract passed
+- backend typecheck passed
+- Procurement precheck passed
+- permanent Procurement validator passed
+- exact repository scope verified
+
+Pending:
+
+- Invoice Match lifecycle contract
+- Payment Request lifecycle contract
+- isolated runtime HTTP idempotency execution
+
+Repository:
+
+CLEAN
+
+Phase status:
+
+Phase 19 remains active
+Procurement lifecycle coverage is five of seven

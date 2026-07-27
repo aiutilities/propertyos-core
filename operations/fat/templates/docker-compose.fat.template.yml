@@ -21,7 +21,7 @@ services:
 
   migrate-fat:
     build:
-      context: ../../backend
+      context: ../../../backend
       dockerfile: Dockerfile
     container_name: propertyos-fat-migrate
     command:
@@ -44,7 +44,7 @@ services:
 
   api-fat:
     build:
-      context: ../../backend
+      context: ../../../backend
       dockerfile: Dockerfile
     container_name: propertyos-fat-api
     restart: "no"
@@ -83,7 +83,7 @@ services:
 
   scheduler-fat:
     build:
-      context: ../../backend
+      context: ../../../backend
       dockerfile: Dockerfile
     container_name: propertyos-fat-scheduler
     command:

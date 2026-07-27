@@ -68,13 +68,37 @@ def main() -> None:
         listed.stderr
     )
 
-    suite_lines = [
-        line
-        for line in listed.stdout.splitlines()
-        if line.strip().startswith("- ")
+    expected_suites = [
+        "installation",
+        "authentication",
+        "property-management",
+        "tenant-lifecycle",
+        "procurement",
+        "inventory",
+        "workflow",
+        "plugins",
+        "performance-regression",
+        "backup-restore",
     ]
 
-    assert len(suite_lines) == 10
+    for suite_id in expected_suites:
+        assert suite_id in listed.stdout, (
+            f"Suite missing from runner list: {suite_id}"
+        )
+
+    assert (
+        listed.stdout.count(
+            "property-management"
+        )
+        == 1
+    )
+
+    assert (
+        listed.stdout.count(
+            "tenant-lifecycle"
+        )
+        == 1
+    )
 
     status = run("status")
 

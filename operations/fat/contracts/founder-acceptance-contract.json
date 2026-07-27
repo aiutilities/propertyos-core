@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "founder-acceptance",
+  "status": "contract-only",
+  "requiredSuites": [
+    "installation",
+    "authentication",
+    "property-management",
+    "tenant-lifecycle",
+    "procurement",
+    "inventory",
+    "workflow",
+    "plugins",
+    "performance-regression",
+    "backup-restore"
+  ],
+  "authorization": {
+    "productionExecutionAuthorized": false,
+    "databaseMutationAuthorized": false,
+    "publicReleaseAuthorized": false
+  }
+}

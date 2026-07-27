@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "founder-acceptance-suite-manifest",
+  "status": "contract-only",
+  "suites": [
+    {
+      "id": "installation",
+      "name": "Installation and Bootstrap",
+      "type": "system",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication and Authorization",
+      "type": "security",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "property-management",
+      "name": "Property Management",
+      "type": "business",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "tenant-lifecycle",
+      "name": "Tenant Lifecycle",
+      "type": "business",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "procurement",
+      "name": "Procurement Lifecycle",
+      "type": "business",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "inventory",
+      "name": "Inventory Lifecycle",
+      "type": "business",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "workflow",
+      "name": "Workflow Execution",
+      "type": "platform",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "plugins",
+      "name": "Plugin Lifecycle",
+      "type": "platform",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "performance-regression",
+      "name": "Performance Regression",
+      "type": "operational",
+      "requiresDatabaseWrites": false,
+      "requiresIsolatedEnvironment": true
+    },
+    {
+      "id": "backup-restore",
+      "name": "Backup and Restore Rehearsal",
+      "type": "recovery",
+      "requiresDatabaseWrites": true,
+      "requiresIsolatedEnvironment": true
+    }
+  ],
+  "execution": {
+    "isolatedEnvironmentRequired": true,
+    "productionEnvironmentPermitted": false,
+    "testDataRequired": true,
+    "evidenceRequired": true,
+    "founderSignOffRequired": true
+  },
+  "authorization": {
+    "acceptanceExecutionAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "publicReleaseAuthorized": false
+  }
+}

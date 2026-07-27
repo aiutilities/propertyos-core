@@ -58,6 +58,10 @@ EXPECTED_TEST_FILES = [
         "src/core/procurement/services/"
         "procurement-purchase-order.service.integration-spec.ts"
     ),
+    (
+        "src/core/procurement/services/"
+        "procurement-goods-receipt.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -115,7 +119,7 @@ def main() -> None:
         "automated-code-precheck"
     )
 
-    assert report["discoveredTestFiles"] == 7
+    assert report["discoveredTestFiles"] == 8
 
     assert report["testFiles"] == (
         EXPECTED_TEST_FILES
@@ -158,10 +162,10 @@ def main() -> None:
         "FAT Procurement foundation: VALID"
     )
     print(
-        "Test files discovered:       7"
+        "Test files discovered:       8"
     )
     print(
-        "Procurement tests executed:  47"
+        "Procurement tests executed:  52"
     )
     print(
         "Adapter checks passed:       2"

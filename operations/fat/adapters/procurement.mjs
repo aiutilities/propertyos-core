@@ -28,6 +28,7 @@ const procurementTests = [
   "src/core/procurement/services/procurement-rfq.service.integration-spec.ts",
   "src/core/procurement/services/procurement-quotation.service.integration-spec.ts",
   "src/core/procurement/services/procurement-purchase-order.service.integration-spec.ts",
+  "src/core/procurement/services/procurement-goods-receipt.service.integration-spec.ts",
 ];
 
 function runCommand({

@@ -370,3 +370,78 @@ CLEAN
 Next phase:
 
 18 - Production Operations
+
+---
+
+## 27 July 2026 - Phase 18 Production Operations Contract
+
+Commit:
+
+Pending checkpoint commit
+
+Completed:
+
+- production operations contract
+- compiled backend runtime profile
+- compiled scheduler runtime profile
+- Next.js production frontend profile
+- PostgreSQL 16 production profile
+- self-hosted Docker deployment profile
+- startup sequence contract
+- shutdown sequence contract
+- health verification contract
+- backup policy
+- restore policy
+- rollback policy
+- monitoring requirements
+- startup runbook
+- shutdown runbook
+- deployment runbook
+- rollback runbook
+- backup runbook
+- restore runbook
+- incident runbook
+- permanent production contract validator
+- permanent runbook validator
+- secret-value validation
+- explicit production authorization remains absent
+- database mutation authorization remains absent
+- migration execution authorization remains absent
+- application code unchanged
+- Docker contract unchanged
+- Prometheus contract unchanged
+- Grafana contract unchanged
+
+Files:
+
+- operations/production/README.md
+- operations/production/propertyos-production-contract.json
+- operations/production/runbooks/startup.md
+- operations/production/runbooks/shutdown.md
+- operations/production/runbooks/deployment.md
+- operations/production/runbooks/rollback.md
+- operations/production/runbooks/backup.md
+- operations/production/runbooks/restore.md
+- operations/production/runbooks/incident.md
+- operations/production/scripts/validate-production-contract.py
+- operations/production/scripts/validate-runbooks.py
+
+Validation:
+
+- production contract validator passed
+- seven required runbooks verified
+- seven runbooks validated
+- zero missing runbooks
+- zero secret-value findings
+- repository scope validated
+- mature runtime unchanged
+- observability unchanged
+- production execution not authorized
+
+Repository:
+
+Pending checkpoint commit
+
+Phase status:
+
+Phase 18 remains active

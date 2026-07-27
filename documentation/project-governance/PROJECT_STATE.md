@@ -52,6 +52,43 @@ Blocked:
 
 NO
 
+## Phase 18 Production Operations Contract
+
+Completed checkpoint:
+
+- version-controlled production operations contract
+- compiled backend and scheduler runtime definitions
+- Next.js production frontend definition
+- PostgreSQL 16 production profile
+- self-hosted Docker deployment model
+- startup sequence contract
+- shutdown sequence contract
+- health verification requirements
+- backup policy
+- restore policy
+- rollback policy
+- monitoring requirements
+- explicit production authorization remains absent
+- database mutation authorization remains absent
+- migration execution authorization remains absent
+- seven operational runbooks
+- startup runbook
+- shutdown runbook
+- deployment runbook
+- rollback runbook
+- backup runbook
+- restore runbook
+- incident runbook
+- permanent production contract validator
+- permanent runbook validator
+- secret-value checks passed
+- application code unchanged
+- Docker contract unchanged
+- Prometheus contract unchanged
+- Grafana contract unchanged
+
+Phase 18 remains active. Production execution has not been authorized.
+
 ## Completed Phase 17D
 
 Performance and Scale Validation:

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "name": "Production Operations",
+  "profile": {
+    "runtime": "compiled-node-production",
+    "backendEntryPoint": "backend/dist/main.js",
+    "schedulerEntryPoint": "backend/dist/scheduler-worker.js",
+    "frontendRuntime": "next-production-server",
+    "deploymentModel": "self-hosted-docker",
+    "database": "postgresql-16"
+  },
+  "requiredRunbooks": [
+    "startup",
+    "shutdown",
+    "deployment",
+    "rollback",
+    "backup",
+    "restore",
+    "incident"
+  ],
+  "startupSequence": [
+    "validate-environment",
+    "validate-database-connectivity",
+    "run-migration-preflight",
+    "start-database",
+    "start-backend",
+    "start-scheduler",
+    "start-frontend",
+    "verify-liveness",
+    "verify-readiness",
+    "verify-monitoring"
+  ],
+  "shutdownSequence": [
+    "stop-frontend",
+    "stop-scheduler",
+    "stop-backend",
+    "verify-process-termination",
+    "preserve-database"
+  ],
+  "healthRequirements": {
+    "livenessPath": "/api/v1/health/live",
+    "readinessPath": "/api/v1/health/ready",
+    "expectedStatus": 200,
+    "readinessMustBeOk": true
+  },
+  "backupPolicy": {
+    "requiredBeforeDeployment": true,
+    "databaseBackupRequired": true,
+    "configurationBackupRequired": true,
+    "restoreEvidenceRequired": true,
+    "backupIntegrityVerificationRequired": true
+  },
+  "rollbackPolicy": {
+    "rollbackPlanRequired": true,
+    "databaseCompatibilityCheckRequired": true,
+    "previousArtifactRequired": true,
+    "humanAuthorizationRequired": true
+  },
+  "monitoringRequirements": {
+    "prometheusRequired": true,
+    "grafanaRequired": true,
+    "alertRulesRequired": true,
+    "incidentMonitorRequired": true
+  },
+  "safety": {
+    "productionExecutionAuthorized": false,
+    "databaseMutationAuthorized": false,
+    "migrationExecutionAuthorized": false,
+    "secretValuesMayBeCommitted": false,
+    "normalRateLimitsMayBeChanged": false,
+    "prometheusContractMayBeChanged": false,
+    "grafanaContractMayBeChanged": false,
+    "applicationCodeMayBeChanged": false,
+    "dockerContractMayBeChanged": false
+  }
+}

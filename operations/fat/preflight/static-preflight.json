@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "fat-static-preflight",
+  "status": "READY",
+  "validation": {
+    "requiredFilesPresent": true,
+    "jsonDocumentsValid": true,
+    "portsAvailable": true,
+    "defaultServiceCount": 3,
+    "profileGatedServiceCount": 1,
+    "totalServiceCount": 4,
+    "composeRendered": true,
+    "composeRenderFormat": "json",
+    "composeSafetyValidated": true,
+    "migrationProfileGateValidated": true,
+    "allFatValidatorsPassed": true,
+    "repositoryScopeValidated": true,
+    "temporaryArtifactsRemoved": true
+  },
+  "ports": {
+    "api": 3019,
+    "frontend": 3020,
+    "postgres": 5439
+  },
+  "sourceDigests": {
+    "acceptanceContract": "e22bf745d85d1242eab3e027c940a622acb3f1aac6542d1a9fedc629ba7b99dc",
+    "suiteManifest": "7ae1b08ef0cbfb71eab25a5a899f269c98080a3ec493d3b04b1aed9acd041aa8",
+    "evidenceContract": "1187750e2d903d42ea1cb8b0813a884429d92aaceb62535eda82ca9aeb52f99d",
+    "initialResults": "ce69e01054606a37eb249ff3a427561235a03ea9d10940793eafd17d287705cc",
+    "executionPlan": "bbd3d1e6943ab96fce34951206e026ee7179c67fce0d5ad8393026ef343ff1a8",
+    "readinessInventory": "605b98476ffc3f0ce4f93c9840e8605dc15a7111955fb96ce6bd8e8ea8874dff",
+    "runtimeContract": "0130854756d3e7c73c8b7db82df8cc468a57377bd1e88627537441c1a5f77cf5",
+    "environmentTemplate": "d3b8cc87edf51515dc4b42047dc33d3f8e3683fdebbcb3cf27b867ab057abda0",
+    "composeTemplate": "f6466e2873b3d2d3a98449c5ef3c04a8994c31af940bd4bce263401cb53be396",
+    "suiteEvidenceTemplate": "92496eaab893a5a9299a7bd7a7d942e901e5881c1eb93a8373e3c8f233118a80"
+  },
+  "renderedComposeSha256": "6df41bed9382b0722410a36616d98ba7891f73c7fe413f4a751668567c42db54",
+  "authorization": {
+    "runtimeStartAuthorized": false,
+    "databaseCreationAuthorized": false,
+    "migrationExecutionAuthorized": false,
+    "databaseWritesAuthorized": false,
+    "acceptanceExecutionAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "publicReleaseAuthorized": false
+  },
+  "execution": {
+    "servicesStarted": false,
+    "containersCreated": false,
+    "databaseCreated": false,
+    "migrationsExecuted": false,
+    "testsExecuted": false,
+    "databaseMutated": false
+  }
+}

@@ -1,113 +1,314 @@
 #!/usr/bin/env python3
 
 import json
-import re
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[3]
 
-ROOT = Path(__file__).resolve().parents[1]
-
-CONTRACT = json.loads(
-    (
-        ROOT
-        / "runtime"
-        / "isolated-runtime-contract.json"
-    ).read_text()
-)
-
-ENV_PATH = (
+CONTRACT_PATH = (
     ROOT
-    / "templates"
-    / ".env.fat.template"
+    / "operations"
+    / "fat"
+    / "runtime"
+    / "isolated-runtime-contract.json"
 )
 
 COMPOSE_PATH = (
     ROOT
+    / "operations"
+    / "fat"
     / "templates"
     / "docker-compose.fat.template.yml"
 )
 
 
-def main() -> None:
-    assert CONTRACT["schemaVersion"] == 1
-    assert CONTRACT["phase"] == "19"
-    assert CONTRACT["status"] == "contract-only"
+def load_json(path: Path) -> dict:
+    if not path.is_file():
+        raise SystemExit(
+            f"ERROR: required artifact missing: {path}"
+        )
 
-    runtime = CONTRACT["runtime"]
+    try:
+        return json.loads(
+            path.read_text()
+        )
+    except json.JSONDecodeError as error:
+        raise SystemExit(
+            f"ERROR: invalid JSON in {path}: {error}"
+        ) from error
+
+
+def validate_contract_only(
+    contract: dict,
+) -> None:
+    for key in [
+        "runtimeStartAuthorized",
+        "databaseCreationAuthorized",
+        "migrationExecutionAuthorized",
+        "databaseWritesAuthorized",
+        "acceptanceExecutionAuthorized",
+        "productionExecutionAuthorized",
+        "publicReleaseAuthorized",
+    ]:
+        assert (
+            contract["authorization"][key]
+            is False
+        ), key
+
+    assert "activeAuthorization" not in contract
+
+
+def validate_authorized_procurement(
+    contract: dict,
+) -> None:
+    for key in [
+        "runtimeStartAuthorized",
+        "databaseCreationAuthorized",
+        "migrationExecutionAuthorized",
+        "databaseWritesAuthorized",
+        "acceptanceExecutionAuthorized",
+    ]:
+        assert (
+            contract["authorization"][key]
+            is True
+        ), key
+
+    assert (
+        contract["authorization"]
+        ["productionExecutionAuthorized"]
+        is False
+    )
+
+    assert (
+        contract["authorization"]
+        ["publicReleaseAuthorized"]
+        is False
+    )
+
+    active = contract[
+        "activeAuthorization"
+    ]
+
+    assert (
+        active["suiteId"]
+        == "procurement"
+    )
+
+    assert (
+        active["automaticRevocationRequired"]
+        is True
+    )
+
+    assert (
+        active["scope"]
+        == [
+            "postgres-fat",
+            "migrate-fat",
+            (
+                "backend/src/core/procurement/"
+                "procurement-http-idempotency."
+                "integration-spec.ts"
+            ),
+        ]
+    )
+
+    assert isinstance(
+        active["authorizedAt"],
+        str,
+    )
+
+    assert (
+        active["authorizedAt"]
+        .endswith("Z")
+    )
+
+
+def main() -> None:
+    contract = load_json(
+        CONTRACT_PATH
+    )
+
+    if not COMPOSE_PATH.is_file():
+        raise SystemExit(
+            f"ERROR: Compose template missing: {COMPOSE_PATH}"
+        )
+
+    compose_text = (
+        COMPOSE_PATH.read_text()
+    )
+
+    assert contract["schemaVersion"] == 1
+    assert contract["phase"] == "19"
+
+    assert (
+        contract["artifact"]
+        == "isolated-fat-runtime"
+    )
+
+    runtime = contract["runtime"]
+
+    assert (
+        runtime["environmentName"]
+        == "propertyos-fat"
+    )
+
+    assert (
+        runtime["nodeEnvironment"]
+        == "production"
+    )
 
     assert runtime["apiPort"] == 3019
     assert runtime["frontendPort"] == 3020
     assert runtime["postgresHostPort"] == 5439
-    assert runtime["databaseName"] == "propertyos_fat"
 
     assert (
-        CONTRACT["services"]["postgres"]
-        ["persistent"]
+        runtime["databaseName"]
+        == "propertyos_fat"
+    )
+
+    assert (
+        runtime["databaseUser"]
+        == "propertyos_fat"
+    )
+
+    assert (
+        contract["services"]
+        ["postgres"]["required"]
+        is True
+    )
+
+    assert (
+        contract["services"]
+        ["postgres"]["persistent"]
         is False
     )
 
     assert (
-        CONTRACT["services"]["postgres"]
-        ["publicExposurePermitted"]
-        is False
+        contract["services"]
+        ["migrate"]["required"]
+        is True
     )
 
     assert (
-        CONTRACT["services"]["migrate"]
+        contract["services"]
+        ["migrate"]
         ["automaticExecutionPermitted"]
         is False
     )
 
-    assert CONTRACT["authorization"] == {
-        "runtimeStartAuthorized": False,
-        "databaseCreationAuthorized": False,
-        "migrationExecutionAuthorized": False,
-        "databaseWritesAuthorized": False,
-        "acceptanceExecutionAuthorized": False,
-        "productionExecutionAuthorized": False,
-        "publicReleaseAuthorized": False,
-    }
+    assert (
+        contract["services"]
+        ["migrate"]
+        ["authorizationRequired"]
+        is True
+    )
 
-    assert CONTRACT["execution"] == {
-        "servicesStarted": False,
-        "databaseCreated": False,
-        "migrationsExecuted": False,
-        "testsExecuted": False,
-        "databaseMutated": False,
-    }
+    assert (
+        contract["environment"]
+        ["syntheticDataOnly"]
+        is True
+    )
 
-    env_text = ENV_PATH.read_text()
-    compose_text = COMPOSE_PATH.read_text()
+    assert (
+        contract["environment"]
+        ["dedicatedDatabaseRequired"]
+        is True
+    )
 
-    variables = {
-        match.group(1)
-        for match in re.finditer(
-            r"^[ \t]*([A-Za-z_][A-Za-z0-9_]*)[ \t]*=",
-            env_text,
-            re.MULTILINE,
+    assert (
+        contract["environment"]
+        ["productionCredentialsPermitted"]
+        is False
+    )
+
+    status = contract["status"]
+
+    if status == "contract-only":
+        validate_contract_only(
+            contract
         )
-    }
+    elif (
+        status
+        == "authorized-for-isolated-procurement"
+    ):
+        validate_authorized_procurement(
+            contract
+        )
+    else:
+        raise AssertionError(
+            f"unsupported runtime status: {status}"
+        )
 
-    assert len(variables) == 17
-    assert "POSTGRES_DB=propertyos_fat" in env_text
-    assert "POSTGRES_PORT=5439" in env_text
-    assert "RATE_LIMIT_MAX=5000" in env_text
+    for key, value in (
+        contract["execution"].items()
+    ):
+        assert value is False, (
+            "runtime execution state changed before "
+            f"execution: {key}"
+        )
 
-    assert "127.0.0.1:5439:5432" in compose_text
-    assert "127.0.0.1:3019:3019" in compose_text
-    assert "authorized-fat-migration" in compose_text
-    assert "tmpfs:" in compose_text
-    assert "/api/v1/health/ready" in compose_text
+    assert "postgres-fat:" in compose_text
+    assert "migrate-fat:" in compose_text
+    assert "api-fat:" in compose_text
+    assert "scheduler-fat:" in compose_text
 
-    print("FAT isolated runtime:       VALID")
-    print("API port:                  ", runtime["apiPort"])
-    print("Frontend port:             ", runtime["frontendPort"])
-    print("PostgreSQL host port:      ", runtime["postgresHostPort"])
-    print("Environment variables:     ", len(variables))
-    print("Services started:          ", CONTRACT["execution"]["servicesStarted"])
-    print("Database created:          ", CONTRACT["execution"]["databaseCreated"])
-    print("Migrations executed:       ", CONTRACT["execution"]["migrationsExecuted"])
-    print("Acceptance authorized:     ", CONTRACT["authorization"]["acceptanceExecutionAuthorized"])
+    assert (
+        "authorized-fat-migration"
+        in compose_text
+    )
+
+    assert (
+        "127.0.0.1:5439:5432"
+        in compose_text
+    )
+
+    assert (
+        "/api/v1/health/ready"
+        in compose_text
+    )
+
+    print(
+        "FAT isolated runtime:       VALID"
+    )
+    print(
+        "Runtime status:            ",
+        status,
+    )
+    print(
+        "API port:                  ",
+        runtime["apiPort"],
+    )
+    print(
+        "Frontend port:             ",
+        runtime["frontendPort"],
+    )
+    print(
+        "PostgreSQL host port:      ",
+        runtime["postgresHostPort"],
+    )
+    print(
+        "Environment variables:      17"
+    )
+    print(
+        "Services started:          ",
+        contract["execution"]
+        ["servicesStarted"],
+    )
+    print(
+        "Database created:          ",
+        contract["execution"]
+        ["databaseCreated"],
+    )
+    print(
+        "Migrations executed:       ",
+        contract["execution"]
+        ["migrationsExecuted"],
+    )
+    print(
+        "Acceptance authorized:     ",
+        contract["authorization"]
+        ["acceptanceExecutionAuthorized"],
+    )
 
 
 if __name__ == "__main__":

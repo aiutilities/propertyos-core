@@ -3,99 +3,353 @@
 import json
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[3]
 
-ROOT = Path(__file__).resolve().parents[1]
-
-CONTRACT = json.loads(
-    (
-        ROOT
-        / "contracts"
-        / "founder-acceptance-contract.json"
-    ).read_text()
+PLAN_PATH = (
+    ROOT
+    / "operations"
+    / "fat"
+    / "plans"
+    / "execution-plan.json"
 )
 
-PLAN = json.loads(
-    (
-        ROOT
-        / "plans"
-        / "execution-plan.json"
-    ).read_text()
+EVIDENCE_TEMPLATE_PATH = (
+    ROOT
+    / "operations"
+    / "fat"
+    / "templates"
+    / "suite-evidence-template.json"
 )
 
-TEMPLATE = json.loads(
-    (
-        ROOT
-        / "templates"
-        / "suite-evidence-template.json"
-    ).read_text()
-)
+EXPECTED_ORDER = [
+    "installation",
+    "authentication",
+    "property-management",
+    "tenant-lifecycle",
+    "procurement",
+    "inventory",
+    "workflow",
+    "plugins",
+    "performance-regression",
+    "backup-restore",
+]
+
+
+def load_json(path: Path) -> dict:
+    if not path.is_file():
+        raise SystemExit(
+            f"ERROR: required artifact missing: {path}"
+        )
+
+    try:
+        return json.loads(
+            path.read_text()
+        )
+    except json.JSONDecodeError as error:
+        raise SystemExit(
+            f"ERROR: invalid JSON in {path}: {error}"
+        ) from error
+
+
+def validate_planned_state(plan: dict) -> None:
+    authorization = plan["authorization"]
+
+    assert (
+        authorization["executionAuthorized"]
+        is False
+    )
+
+    assert (
+        authorization["databaseWritesAuthorized"]
+        is False
+    )
+
+    assert (
+        authorization["productionExecutionAuthorized"]
+        is False
+    )
+
+    assert (
+        authorization["publicReleaseAuthorized"]
+        is False
+    )
+
+    assert "activeAuthorization" not in plan
+
+
+def validate_isolated_procurement_state(
+    plan: dict,
+) -> None:
+    authorization = plan["authorization"]
+
+    assert (
+        authorization["executionAuthorized"]
+        is True
+    )
+
+    assert (
+        authorization["databaseWritesAuthorized"]
+        is True
+    )
+
+    assert (
+        authorization["productionExecutionAuthorized"]
+        is False
+    )
+
+    assert (
+        authorization["publicReleaseAuthorized"]
+        is False
+    )
+
+    active = plan["activeAuthorization"]
+
+    assert (
+        active["suiteId"]
+        == "procurement"
+    )
+
+    assert (
+        active["scope"]
+        == "isolated-procurement-runtime-only"
+    )
+
+    assert (
+        active["automaticRevocationRequired"]
+        is True
+    )
+
+    assert isinstance(
+        active["authorizedAt"],
+        str,
+    )
+
+    assert (
+        active["authorizedAt"]
+        .endswith("Z")
+    )
 
 
 def main() -> None:
-    required_suites = CONTRACT["requiredSuites"]
+    plan = load_json(
+        PLAN_PATH
+    )
 
-    assert PLAN["schemaVersion"] == 1
-    assert PLAN["phase"] == "19"
-    assert PLAN["status"] == "planned"
-    assert PLAN["executionOrder"] == required_suites
-    assert len(PLAN["executionOrder"]) == 10
+    evidence_template = load_json(
+        EVIDENCE_TEMPLATE_PATH
+    )
 
-    environment = PLAN["environment"]
+    assert plan["schemaVersion"] == 1
+    assert plan["phase"] == "19"
 
-    assert environment["type"] == "isolated"
-    assert environment["productionPermitted"] is False
-    assert environment["syntheticDataRequired"] is True
-    assert environment["dedicatedDatabaseRequired"] is True
+    assert (
+        plan["artifact"]
+        == "founder-acceptance-execution-plan"
+    )
 
-    rules = PLAN["rules"]
+    assert (
+        plan["executionOrder"]
+        == EXPECTED_ORDER
+    )
 
-    assert rules["captureEvidenceAfterEachSuite"] is True
-    assert rules["stopOnCriticalDefect"] is True
-    assert rules["stopOnEnvironmentFailure"] is True
-    assert rules["allSuitesMustPassForSignOff"] is True
+    assert (
+        plan["environment"]["type"]
+        == "isolated"
+    )
 
-    assert PLAN["authorization"] == {
-        "executionAuthorized": False,
-        "databaseWritesAuthorized": False,
-        "productionExecutionAuthorized": False,
-        "publicReleaseAuthorized": False,
-    }
+    assert (
+        plan["environment"]
+        ["productionPermitted"]
+        is False
+    )
 
-    assert TEMPLATE["schemaVersion"] == 1
-    assert TEMPLATE["phase"] == "19"
-    assert TEMPLATE["suiteId"] == "<SUITE_ID>"
-    assert TEMPLATE["status"] == "NOT_STARTED"
+    assert (
+        plan["environment"]
+        ["syntheticDataRequired"]
+        is True
+    )
 
-    assert TEMPLATE["environment"] == {
-        "type": "isolated",
-        "baseUrl": None,
-        "database": None,
-        "production": False,
-    }
+    assert (
+        plan["environment"]
+        ["dedicatedDatabaseRequired"]
+        is True
+    )
 
-    assert TEMPLATE["checks"] == []
-    assert TEMPLATE["summary"] == {
-        "checksTotal": 0,
-        "checksPassed": 0,
-        "checksFailed": 0,
-        "checksBlocked": 0,
-    }
-    assert TEMPLATE["evidenceReferences"] == []
-    assert TEMPLATE["defects"] == []
-    assert TEMPLATE["founderDecision"] is None
+    assert (
+        plan["environment"]
+        ["evidenceDirectoryRequired"]
+        is True
+    )
 
-    assert TEMPLATE["authorization"] == {
-        "executionAuthorized": False,
-        "productionExecutionAuthorized": False,
-    }
+    assert (
+        plan["rules"]
+        ["captureEvidenceAfterEachSuite"]
+        is True
+    )
 
-    print("FAT execution framework:    VALID")
-    print("Execution order:           ", len(required_suites))
-    print("Evidence template:          VALID")
-    print("Isolated environment:       required")
-    print("Execution authorized:      ", PLAN["authorization"]["executionAuthorized"])
-    print("Database writes authorized:", PLAN["authorization"]["databaseWritesAuthorized"])
-    print("Production authorized:     ", PLAN["authorization"]["productionExecutionAuthorized"])
+    assert (
+        plan["rules"]
+        ["stopOnCriticalDefect"]
+        is True
+    )
+
+    assert (
+        plan["rules"]
+        ["stopOnEnvironmentFailure"]
+        is True
+    )
+
+    assert (
+        plan["rules"]
+        ["founderDecisionRequiredPerSuite"]
+        is True
+    )
+
+    assert (
+        plan["rules"]
+        ["allSuitesMustPassForSignOff"]
+        is True
+    )
+
+    status = plan["status"]
+
+    if status == "planned":
+        validate_planned_state(
+            plan
+        )
+    elif (
+        status
+        == "authorized-for-isolated-procurement"
+    ):
+        validate_isolated_procurement_state(
+            plan
+        )
+    else:
+        raise AssertionError(
+            f"unsupported execution-plan status: {status}"
+        )
+
+    assert (
+        evidence_template["schemaVersion"]
+        == 1
+    )
+
+    assert (
+        evidence_template["phase"]
+        == "19"
+    )
+
+    assert (
+        evidence_template["suiteId"]
+        == "<SUITE_ID>"
+    )
+
+    assert (
+        evidence_template["status"]
+        == "NOT_STARTED"
+    )
+
+    assert (
+        evidence_template["startedAt"]
+        is None
+    )
+
+    assert (
+        evidence_template["completedAt"]
+        is None
+    )
+
+    assert (
+        evidence_template["commit"]
+        is None
+    )
+
+    assert (
+        evidence_template["environment"]
+        == {
+            "type": "isolated",
+            "baseUrl": None,
+            "database": None,
+            "production": False,
+        }
+    )
+
+    assert (
+        evidence_template["checks"]
+        == []
+    )
+
+    assert (
+        evidence_template["summary"]
+        == {
+            "checksTotal": 0,
+            "checksPassed": 0,
+            "checksFailed": 0,
+            "checksBlocked": 0,
+        }
+    )
+
+    assert (
+        evidence_template["evidenceReferences"]
+        == []
+    )
+
+    assert (
+        evidence_template["defects"]
+        == []
+    )
+
+    assert (
+        evidence_template["founderDecision"]
+        is None
+    )
+
+    assert (
+        evidence_template["notes"]
+        is None
+    )
+
+    assert (
+        evidence_template["authorization"]
+        == {
+            "executionAuthorized": False,
+            "productionExecutionAuthorized": False,
+        }
+    )
+
+    print(
+        "FAT execution framework:    VALID"
+    )
+    print(
+        "Execution-plan status:     ",
+        status,
+    )
+    print(
+        "Execution order:           ",
+        len(plan["executionOrder"]),
+    )
+    print(
+        "Evidence template:          VALID"
+    )
+    print(
+        "Isolated environment:      ",
+        plan["environment"]["type"],
+    )
+    print(
+        "Execution authorized:      ",
+        plan["authorization"]
+        ["executionAuthorized"],
+    )
+    print(
+        "Database writes authorized:",
+        plan["authorization"]
+        ["databaseWritesAuthorized"],
+    )
+    print(
+        "Production authorized:     ",
+        plan["authorization"]
+        ["productionExecutionAuthorized"],
+    )
 
 
 if __name__ == "__main__":

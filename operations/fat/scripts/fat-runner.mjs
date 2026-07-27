@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { runInstallationSuite } from "../adapters/installation.mjs";
 import { runAuthenticationSuite } from "../adapters/authentication.mjs";
 import { runPropertyManagementSuite } from "../adapters/property-management.mjs";
+import { runTenantLifecycleSuite } from "../adapters/tenant-lifecycle.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const fatRoot = path.resolve(path.dirname(scriptPath), "..");
@@ -23,6 +24,10 @@ const precheckAdapters = new Map([
   [
     "property-management",
     runPropertyManagementSuite,
+  ],
+  [
+    "tenant-lifecycle",
+    runTenantLifecycleSuite,
   ],
 ]);
 
@@ -126,6 +131,7 @@ Usage:
   fat-runner.mjs precheck installation
   fat-runner.mjs precheck authentication
   fat-runner.mjs precheck property-management
+  fat-runner.mjs precheck tenant-lifecycle
   fat-runner.mjs run <suite-id>
   fat-runner.mjs run all
 

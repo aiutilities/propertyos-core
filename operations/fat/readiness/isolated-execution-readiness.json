@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "19",
   "artifact": "isolated-fat-execution-readiness",
-  "status": "INVENTORIED",
+  "status": "AUTHORIZED_FOR_ISOLATED_PROCUREMENT",
   "testAssets": {
     "backendTestFiles": 239,
     "frontendTestFiles": 0
@@ -19,8 +19,8 @@
     "databaseWriteAuthorizationRequired": true
   },
   "authorization": {
-    "acceptanceExecutionAuthorized": false,
-    "databaseWritesAuthorized": false,
+    "acceptanceExecutionAuthorized": true,
+    "databaseWritesAuthorized": true,
     "productionExecutionAuthorized": false,
     "publicReleaseAuthorized": false
   },
@@ -28,5 +28,13 @@
     "testsExecuted": false,
     "databaseMutated": false,
     "servicesStarted": false
+  },
+  "activeAuthorization": {
+    "suiteId": "procurement",
+    "authorizedAt": "2026-07-27T18:51:19Z",
+    "runtimeStartAuthorized": true,
+    "databaseCreationAuthorized": true,
+    "migrationExecutionAuthorized": true,
+    "automaticRevocationRequired": true
   }
 }

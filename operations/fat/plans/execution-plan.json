@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "19",
   "artifact": "founder-acceptance-execution-plan",
-  "status": "planned",
+  "status": "authorized-for-isolated-procurement",
   "executionOrder": [
     "installation",
     "authentication",
@@ -31,9 +31,15 @@
     "allSuitesMustPassForSignOff": true
   },
   "authorization": {
-    "executionAuthorized": false,
-    "databaseWritesAuthorized": false,
+    "executionAuthorized": true,
+    "databaseWritesAuthorized": true,
     "productionExecutionAuthorized": false,
     "publicReleaseAuthorized": false
+  },
+  "activeAuthorization": {
+    "suiteId": "procurement",
+    "scope": "isolated-procurement-runtime-only",
+    "authorizedAt": "2026-07-27T18:51:19Z",
+    "automaticRevocationRequired": true
   }
 }

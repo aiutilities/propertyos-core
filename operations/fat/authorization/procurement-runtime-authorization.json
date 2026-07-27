@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "19",
   "artifact": "procurement-isolated-runtime-authorization",
-  "status": "PREPARED",
+  "status": "AUTHORIZED_FOR_ISOLATED_EXECUTION",
   "suiteId": "procurement",
   "purpose": "Execute the deferred Procurement HTTP idempotency integration contract in a temporary isolated FAT database.",
   "environment": {
@@ -61,12 +61,12 @@
     "evidenceMutationPermitted": false
   },
   "authorization": {
-    "founderAuthorizationRecorded": false,
-    "runtimeStartAuthorized": false,
-    "databaseCreationAuthorized": false,
-    "migrationExecutionAuthorized": false,
-    "databaseWritesAuthorized": false,
-    "acceptanceExecutionAuthorized": false,
+    "founderAuthorizationRecorded": true,
+    "runtimeStartAuthorized": true,
+    "databaseCreationAuthorized": true,
+    "migrationExecutionAuthorized": true,
+    "databaseWritesAuthorized": true,
+    "acceptanceExecutionAuthorized": true,
     "productionExecutionAuthorized": false,
     "publicReleaseAuthorized": false
   },
@@ -80,5 +80,14 @@
     "testsPassed": false,
     "databaseMutated": false,
     "teardownCompleted": false
+  },
+  "authorizationMetadata": {
+    "authorizedAt": "2026-07-27T18:51:19Z",
+    "authorizedByRole": "founder",
+    "authorizedSuite": "procurement",
+    "authorizationScope": "isolated-procurement-runtime-only",
+    "productionAuthorizationGranted": false,
+    "publicReleaseAuthorizationGranted": false,
+    "automaticRevocationRequired": true
   }
 }

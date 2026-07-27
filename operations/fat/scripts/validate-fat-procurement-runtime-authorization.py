@@ -29,6 +29,14 @@ RUNTIME_PATH = (
     / "isolated-runtime-contract.json"
 )
 
+READINESS_PATH = (
+    ROOT
+    / "operations"
+    / "fat"
+    / "readiness"
+    / "isolated-execution-readiness.json"
+)
+
 HTTP_TEST_PATH = (
     ROOT
     / "backend"
@@ -55,6 +63,12 @@ def load_json(path: Path) -> dict:
         ) from error
 
 
+def assert_iso_timestamp(value: object) -> None:
+    assert isinstance(value, str)
+    assert value.endswith("Z")
+    assert "T" in value
+
+
 def main() -> None:
     authorization = load_json(
         AUTHORIZATION_PATH
@@ -68,47 +82,18 @@ def main() -> None:
         RUNTIME_PATH
     )
 
-    assert (
-        authorization["schemaVersion"]
-        == 1
+    readiness = load_json(
+        READINESS_PATH
     )
 
     assert (
-        authorization["phase"]
-        == "19"
+        authorization["status"]
+        == "AUTHORIZED_FOR_ISOLATED_EXECUTION"
     )
 
     assert (
         authorization["suiteId"]
         == "procurement"
-    )
-
-    assert (
-        authorization["status"]
-        == "PREPARED"
-    )
-
-    assert (
-        authorization["environment"]["type"]
-        == "isolated"
-    )
-
-    assert (
-        authorization["environment"]
-        ["syntheticDataOnly"]
-        is True
-    )
-
-    assert (
-        authorization["environment"]
-        ["productionEnvironmentPermitted"]
-        is False
-    )
-
-    assert (
-        authorization["environment"]
-        ["persistentDatabasePermitted"]
-        is False
     )
 
     assert (
@@ -132,96 +117,115 @@ def main() -> None:
 
     assert (
         authorization["scope"]
-        ["database"]
-        == {
-            "host": "127.0.0.1",
-            "port": 5439,
-            "name": "propertyos_fat",
-            "user": "propertyos_fat",
-        }
-    )
-
-    assert (
-        authorization["scope"]
-        ["migrationProfile"]
-        == "authorized-fat-migration"
-    )
-
-    assert (
-        authorization["scope"]
         ["expectedRuntimeTests"]
         == 13
     )
 
+    assert HTTP_TEST_PATH.is_file()
+
+    expected_enabled = [
+        "founderAuthorizationRecorded",
+        "runtimeStartAuthorized",
+        "databaseCreationAuthorized",
+        "migrationExecutionAuthorized",
+        "databaseWritesAuthorized",
+        "acceptanceExecutionAuthorized",
+    ]
+
+    for key in expected_enabled:
+        assert (
+            authorization["authorization"][key]
+            is True
+        ), key
+
     assert (
-        authorization["scope"]
-        ["testFiles"]
-        == [
-            (
-                "backend/src/core/procurement/"
-                "procurement-http-idempotency."
-                "integration-spec.ts"
-            )
+        authorization["authorization"]
+        ["productionExecutionAuthorized"]
+        is False
+    )
+
+    assert (
+        authorization["authorization"]
+        ["publicReleaseAuthorized"]
+        is False
+    )
+
+    metadata = (
+        authorization[
+            "authorizationMetadata"
         ]
     )
 
-    assert HTTP_TEST_PATH.is_file()
+    assert_iso_timestamp(
+        metadata["authorizedAt"]
+    )
 
-    for key, value in (
-        authorization["authorization"].items()
-    ):
-        assert value is False, (
-            f"authorization unexpectedly enabled: {key}"
-        )
+    assert (
+        metadata["authorizedByRole"]
+        == "founder"
+    )
+
+    assert (
+        metadata["authorizedSuite"]
+        == "procurement"
+    )
+
+    assert (
+        metadata[
+            "automaticRevocationRequired"
+        ]
+        is True
+    )
 
     for key, value in (
         authorization["execution"].items()
     ):
         assert value is False, (
-            f"execution state unexpectedly enabled: {key}"
+            "execution state changed before "
+            f"runtime: {key}"
         )
 
     assert (
         execution_plan["authorization"]
         ["executionAuthorized"]
-        is False
+        is True
     )
 
     assert (
         execution_plan["authorization"]
         ["databaseWritesAuthorized"]
+        is True
+    )
+
+    assert (
+        execution_plan["authorization"]
+        ["productionExecutionAuthorized"]
         is False
     )
 
     assert (
-        runtime["authorization"]
-        ["runtimeStartAuthorized"]
+        execution_plan["authorization"]
+        ["publicReleaseAuthorized"]
         is False
     )
 
     assert (
-        runtime["authorization"]
-        ["databaseCreationAuthorized"]
-        is False
+        execution_plan["activeAuthorization"]
+        ["suiteId"]
+        == "procurement"
     )
 
-    assert (
-        runtime["authorization"]
-        ["migrationExecutionAuthorized"]
-        is False
-    )
-
-    assert (
-        runtime["authorization"]
-        ["databaseWritesAuthorized"]
-        is False
-    )
-
-    assert (
-        runtime["authorization"]
-        ["acceptanceExecutionAuthorized"]
-        is False
-    )
+    for key in [
+        "runtimeStartAuthorized",
+        "databaseCreationAuthorized",
+        "migrationExecutionAuthorized",
+        "databaseWritesAuthorized",
+        "acceptanceExecutionAuthorized",
+    ]:
+        assert (
+            runtime["authorization"][key]
+            is True
+        ), key
 
     assert (
         runtime["authorization"]
@@ -229,47 +233,110 @@ def main() -> None:
         is False
     )
 
+    assert (
+        runtime["authorization"]
+        ["publicReleaseAuthorized"]
+        is False
+    )
+
+    assert (
+        runtime["activeAuthorization"]
+        ["suiteId"]
+        == "procurement"
+    )
+
+    assert (
+        readiness["authorization"]
+        ["acceptanceExecutionAuthorized"]
+        is True
+    )
+
+    assert (
+        readiness["authorization"]
+        ["databaseWritesAuthorized"]
+        is True
+    )
+
+    assert (
+        readiness["authorization"]
+        ["productionExecutionAuthorized"]
+        is False
+    )
+
+    assert (
+        readiness["authorization"]
+        ["publicReleaseAuthorized"]
+        is False
+    )
+
+    assert (
+        readiness["activeAuthorization"]
+        ["suiteId"]
+        == "procurement"
+    )
+
+    assert (
+        authorization["environment"]
+        ["productionEnvironmentPermitted"]
+        is False
+    )
+
+    assert (
+        authorization["environment"]
+        ["productionCredentialsPermitted"]
+        is False
+    )
+
+    assert (
+        authorization["safety"]
+        ["productionMutationPermitted"]
+        is False
+    )
+
     print(
-        "Procurement runtime authorization: PREPARED"
+        "Procurement runtime authorization: AUTHORIZED"
     )
     print(
         "Suite:                             procurement"
     )
     print(
+        "Scope:                             isolated only"
+    )
+    print(
         "Runtime tests expected:            13"
     )
     print(
-        "Permitted services:                2"
+        "Founder authorization recorded:    true"
     )
     print(
-        "Production services permitted:     0"
+        "Runtime start authorized:          true"
     )
     print(
-        "Founder authorization recorded:    false"
+        "Database creation authorized:      true"
     )
     print(
-        "Runtime start authorized:          false"
+        "Migration execution authorized:    true"
     )
     print(
-        "Database creation authorized:      false"
+        "Database writes authorized:        true"
     )
     print(
-        "Migration execution authorized:    false"
-    )
-    print(
-        "Database writes authorized:        false"
-    )
-    print(
-        "Acceptance execution authorized:   false"
+        "Acceptance execution authorized:   true"
     )
     print(
         "Production execution authorized:   false"
+    )
+    print(
+        "Public release authorized:         false"
     )
     print(
         "Services started:                  false"
     )
     print(
         "Database mutated:                  false"
+    )
+    print(
+        "Automatic revocation required:     true"
     )
 
 

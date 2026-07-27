@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "founder-acceptance-evidence",
+  "status": "contract-only",
+  "suiteStatuses": [
+    "NOT_STARTED",
+    "IN_PROGRESS",
+    "PASSED",
+    "FAILED",
+    "BLOCKED"
+  ],
+  "requiredSuiteEvidence": [
+    "suiteId",
+    "status",
+    "startedAt",
+    "completedAt",
+    "environment",
+    "commit",
+    "checksTotal",
+    "checksPassed",
+    "checksFailed",
+    "checksBlocked",
+    "evidenceReferences",
+    "defects",
+    "founderDecision"
+  ],
+  "acceptanceRules": {
+    "allRequiredSuitesMustPass": true,
+    "failedChecksPermittedForSignOff": false,
+    "blockedChecksPermittedForSignOff": false,
+    "unresolvedCriticalDefectsPermitted": false,
+    "unresolvedHighDefectsPermitted": false,
+    "founderSignOffRequired": true,
+    "productionEnvironmentPermitted": false
+  },
+  "authorization": {
+    "acceptanceExecutionAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "databaseMutationAuthorized": false,
+    "publicReleaseAuthorized": false
+  }
+}

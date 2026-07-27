@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "isolated-fat-execution-readiness",
+  "status": "INVENTORIED",
+  "testAssets": {
+    "backendTestFiles": 239,
+    "frontendTestFiles": 0
+  },
+  "environment": {
+    "isolatedEnvironmentRequired": true,
+    "dedicatedDatabaseRequired": true,
+    "syntheticDataRequired": true,
+    "productionEnvironmentPermitted": false
+  },
+  "nextGate": {
+    "isolatedEnvironmentConfigurationRequired": true,
+    "acceptanceExecutionAuthorizationRequired": true,
+    "databaseWriteAuthorizationRequired": true
+  },
+  "authorization": {
+    "acceptanceExecutionAuthorized": false,
+    "databaseWritesAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "publicReleaseAuthorized": false
+  },
+  "execution": {
+    "testsExecuted": false,
+    "databaseMutated": false,
+    "servicesStarted": false
+  }
+}

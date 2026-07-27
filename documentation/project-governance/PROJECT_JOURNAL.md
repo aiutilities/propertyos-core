@@ -815,3 +815,69 @@ CLEAN
 Phase status:
 
 Phase 19 remains active
+
+---
+
+## 27 July 2026 - Phase 19 Isolated FAT Runtime Contract
+
+Commit:
+
+316645a
+
+Completed:
+
+- isolated FAT runtime contract
+- dedicated FAT API port 3019
+- dedicated frontend port 3020
+- dedicated PostgreSQL host port 5439
+- dedicated propertyos_fat database definition
+- isolated FAT environment template
+- seventeen environment variables
+- two secret placeholders
+- zero committed secret values
+- isolated Docker Compose template
+- temporary PostgreSQL storage
+- loopback-only PostgreSQL exposure
+- loopback-only API exposure
+- migration service behind authorized-fat-migration profile
+- isolated rate-limit override
+- permanent FAT runtime validator
+- zero services started
+- zero databases created
+- zero migrations executed
+- zero tests executed
+- zero database mutations
+- runtime start remains unauthorized
+- database creation remains unauthorized
+- migration execution remains unauthorized
+- acceptance execution remains unauthorized
+- production execution remains unauthorized
+- application code unchanged
+
+Files:
+
+- operations/fat/runtime/isolated-runtime-contract.json
+- operations/fat/templates/.env.fat.template
+- operations/fat/templates/docker-compose.fat.template.yml
+- operations/fat/scripts/validate-fat-runtime.py
+
+Validation:
+
+- runtime contract JSON parsed successfully
+- environment template validated
+- seventeen environment variable names verified
+- two secret placeholders verified
+- zero committed secret values verified
+- Compose safety properties verified
+- FAT runtime validator passed
+- exact repository scope verified
+- mature implementation unchanged
+- no runtime execution authorized
+
+Repository:
+
+CLEAN
+
+Phase status:
+
+Phase 19 remains active

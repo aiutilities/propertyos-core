@@ -4,6 +4,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+import {
+  runProcurementRuntimeSuite,
+} from "../runtime-adapters/procurement.mjs";
+
 import { runInstallationSuite } from "../adapters/installation.mjs";
 import { runAuthenticationSuite } from "../adapters/authentication.mjs";
 import { runPropertyManagementSuite } from "../adapters/property-management.mjs";
@@ -12,6 +16,13 @@ import { runProcurementSuite } from "../adapters/procurement.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const fatRoot = path.resolve(path.dirname(scriptPath), "..");
+
+const runtimeAdapters = new Map([
+  [
+    "procurement",
+    runProcurementRuntimeSuite,
+  ],
+]);
 
 const precheckAdapters = new Map([
   [
@@ -333,16 +344,46 @@ async function main() {
   if (command === "run") {
     if (!argument) {
       throw new Error(
-        "Suite ID is required: run <suite-id|all>",
+        "Suite ID is required: run <suite-id>",
       );
     }
 
     validateSuiteId(context, argument);
+
+    if (argument === "all") {
+      throw new Error(
+        "Runtime execution of all suites is not installed",
+      );
+    }
+
     assertExecutionAuthorized(context);
 
-    throw new Error(
-      "Executable suite adapters have not yet been installed",
+    const adapter = runtimeAdapters.get(
+      argument,
     );
+
+    if (!adapter) {
+      throw new Error(
+        `No executable runtime adapter installed for: ${argument}`,
+      );
+    }
+
+    const report = await adapter({
+      execute: true,
+    });
+
+    console.log(
+      JSON.stringify(report, null, 2),
+    );
+
+    if (
+      report.status &&
+      report.status !== "PASSED"
+    ) {
+      process.exitCode = 1;
+    }
+
+    return;
   }
 
   throw new Error(`Unknown command: ${command}`);

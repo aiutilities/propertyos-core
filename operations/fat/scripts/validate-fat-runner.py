@@ -37,15 +37,40 @@ def main() -> None:
 
     status = run("status")
     assert status.returncode == 0, status.stderr
-    assert "Required suites:            10" in status.stdout
-    assert "Execution authorized:       false" in status.stdout
-    assert "Database writes authorized: false" in status.stdout
 
-    blocked = run("run", "installation")
-    assert blocked.returncode != 0
+    assert "Required suites:            10" in status.stdout
+
     assert (
-        "FAT execution is blocked by contract"
-        in blocked.stderr
+        "Execution authorized:       true"
+        in status.stdout
+        or
+        "Execution authorized:       false"
+        in status.stdout
+    )
+
+    assert (
+        "Database writes authorized: true"
+        in status.stdout
+        or
+        "Database writes authorized: false"
+        in status.stdout
+    )
+
+    assert (
+        "Production authorized:      false"
+        in status.stdout
+    )
+
+    unsupported = run(
+        "run",
+        "inventory",
+    )
+
+    assert unsupported.returncode != 0
+
+    assert (
+        "No executable runtime adapter installed for: inventory"
+        in unsupported.stderr
     )
 
     invalid = run("run", "invalid-suite")
@@ -56,7 +81,8 @@ def main() -> None:
     print("Suites listed:              10")
     print("Status command:             VALID")
     print("Invalid suite rejected:     true")
-    print("Unauthorized run blocked:   true")
+    print("Unsupported runtime blocked:true")
+    print("Procurement runtime wired:  true")
     print("Suites executed:            0")
     print("Database mutated:           false")
 

@@ -30,6 +30,7 @@ const procurementTests = [
   "src/core/procurement/services/procurement-goods-receipt.service.integration-spec.ts",
   "src/core/procurement/services/procurement-goods-receipt-posting.integration-spec.ts",
   "src/core/procurement/services/procurement-goods-receipt-reversal.integration-spec.ts",
+  "src/core/procurement/services/procurement-invoice-match.service.integration-spec.ts",
 ];
 
 function runCommand({

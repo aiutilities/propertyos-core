@@ -14,7 +14,7 @@ feature/phase-16f-marketplace-upgrade-runtime
 
 HEAD:
 
-724f0f87a78b213b0656d398a6f0bbd7f08b45ba
+73b472a
 
 Latest commit:
 
@@ -22,7 +22,7 @@ feat(observability): add Grafana dashboard contract
 
 Repository status:
 
-CLEAN after Phase 17C3 closure commit 724f0f8
+CLEAN after Phase 17D closure commit 73b472a
 
 Remote status:
 
@@ -306,7 +306,7 @@ This is a continuation session, not a planning session.
 Verify:
 
 - branch is feature/phase-16f-marketplace-upgrade-runtime
-- Phase 17C3 closure commit is 724f0f8
+- Phase 17D closure commit is 73b472a
 - repository is clean
 
 Then continue directly with Phase 18.

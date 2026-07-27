@@ -234,18 +234,80 @@ def main() -> None:
         validate_authorized_procurement(
             contract
         )
+    elif status == "completed-and-revoked":
+        validate_contract_only(
+            contract
+        )
+
+        assert (
+            contract["lastExecution"]
+            ["suiteId"]
+            == "procurement"
+        )
+
+        assert (
+            contract["lastExecution"]
+            ["result"]
+            == "PASSED"
+        )
+
+        assert (
+            contract["lastExecution"]
+            ["migrationsExecuted"]
+            == 54
+        )
+
+        assert (
+            contract["lastExecution"]
+            ["testsPassed"]
+            == 13
+        )
+
+        assert (
+            contract["lastExecution"]
+            ["runtimeResourcesRemain"]
+            is False
+        )
     else:
         raise AssertionError(
             f"unsupported runtime status: {status}"
         )
 
-    for key, value in (
-        contract["execution"].items()
-    ):
-        assert value is False, (
-            "runtime execution state changed before "
-            f"execution: {key}"
+    if status == "completed-and-revoked":
+        execution = contract["execution"]
+
+        assert (
+            execution["servicesStarted"]
+            is False
         )
+
+        assert (
+            execution["databaseCreated"]
+            is False
+        )
+
+        assert (
+            execution["migrationsExecuted"]
+            is False
+        )
+
+        assert (
+            execution["acceptanceExecuted"]
+            is False
+        )
+
+        assert (
+            execution["teardownCompleted"]
+            is True
+        )
+    else:
+        for key, value in (
+            contract["execution"].items()
+        ):
+            assert value is False, (
+                "runtime execution state changed before "
+                f"execution: {key}"
+            )
 
     assert "postgres-fat:" in compose_text
     assert "migrate-fat:" in compose_text

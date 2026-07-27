@@ -224,6 +224,22 @@ def main() -> None:
         validate_isolated_procurement_state(
             plan
         )
+    elif status == "completed-and-revoked":
+        validate_planned_state(
+            plan
+        )
+
+        assert (
+            plan["lastCompletedAuthorization"]
+            ["suiteId"]
+            == "procurement"
+        )
+
+        assert (
+            plan["lastCompletedAuthorization"]
+            ["result"]
+            == "PASSED"
+        )
     else:
         raise AssertionError(
             f"unsupported execution-plan status: {status}"

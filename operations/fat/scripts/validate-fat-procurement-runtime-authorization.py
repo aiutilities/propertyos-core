@@ -88,7 +88,7 @@ def main() -> None:
 
     assert (
         authorization["status"]
-        == "AUTHORIZED_FOR_ISOLATED_EXECUTION"
+        == "COMPLETED_AND_REVOKED"
     )
 
     assert (
@@ -123,20 +123,10 @@ def main() -> None:
 
     assert HTTP_TEST_PATH.is_file()
 
-    expected_enabled = [
-        "founderAuthorizationRecorded",
-        "runtimeStartAuthorized",
-        "databaseCreationAuthorized",
-        "migrationExecutionAuthorized",
-        "databaseWritesAuthorized",
-        "acceptanceExecutionAuthorized",
-    ]
-
-    for key in expected_enabled:
-        assert (
-            authorization["authorization"][key]
-            is True
-        ), key
+    for key, value in (
+        authorization["authorization"].items()
+    ):
+        assert value is False, key
 
     assert (
         authorization["authorization"]
@@ -177,24 +167,34 @@ def main() -> None:
         is True
     )
 
-    for key, value in (
-        authorization["execution"].items()
-    ):
-        assert value is False, (
-            "execution state changed before "
-            f"runtime: {key}"
-        )
+    assert authorization["execution"] == {
+        "dockerAvailable": True,
+        "containersCreated": True,
+        "servicesStarted": True,
+        "databaseCreated": True,
+        "migrationsExecuted": True,
+        "testsExecuted": True,
+        "testsPassed": True,
+        "databaseMutated": True,
+        "teardownCompleted": True,
+    }
+
+    assert (
+        authorization["revocation"]
+        ["automaticRevocationCompleted"]
+        is True
+    )
 
     assert (
         execution_plan["authorization"]
         ["executionAuthorized"]
-        is True
+        is False
     )
 
     assert (
         execution_plan["authorization"]
         ["databaseWritesAuthorized"]
-        is True
+        is False
     )
 
     assert (
@@ -210,22 +210,15 @@ def main() -> None:
     )
 
     assert (
-        execution_plan["activeAuthorization"]
+        execution_plan["lastCompletedAuthorization"]
         ["suiteId"]
         == "procurement"
     )
 
-    for key in [
-        "runtimeStartAuthorized",
-        "databaseCreationAuthorized",
-        "migrationExecutionAuthorized",
-        "databaseWritesAuthorized",
-        "acceptanceExecutionAuthorized",
-    ]:
-        assert (
-            runtime["authorization"][key]
-            is True
-        ), key
+    for key, value in (
+        runtime["authorization"].items()
+    ):
+        assert value is False, key
 
     assert (
         runtime["authorization"]
@@ -240,21 +233,27 @@ def main() -> None:
     )
 
     assert (
-        runtime["activeAuthorization"]
+        runtime["lastExecution"]
         ["suiteId"]
         == "procurement"
+    )
+
+    assert (
+        runtime["lastExecution"]
+        ["result"]
+        == "PASSED"
     )
 
     assert (
         readiness["authorization"]
         ["acceptanceExecutionAuthorized"]
-        is True
+        is False
     )
 
     assert (
         readiness["authorization"]
         ["databaseWritesAuthorized"]
-        is True
+        is False
     )
 
     assert (
@@ -270,7 +269,7 @@ def main() -> None:
     )
 
     assert (
-        readiness["activeAuthorization"]
+        readiness["lastCompletedAuthorization"]
         ["suiteId"]
         == "procurement"
     )
@@ -294,34 +293,37 @@ def main() -> None:
     )
 
     print(
-        "Procurement runtime authorization: AUTHORIZED"
+        "Procurement runtime authorization: REVOKED"
     )
     print(
         "Suite:                             procurement"
     )
     print(
-        "Scope:                             isolated only"
+        "Runtime result:                    PASSED"
     )
     print(
-        "Runtime tests expected:            13"
+        "Migrations executed:               54"
     )
     print(
-        "Founder authorization recorded:    true"
+        "Runtime tests passed:              13"
     )
     print(
-        "Runtime start authorized:          true"
+        "Founder authorization recorded:    false"
     )
     print(
-        "Database creation authorized:      true"
+        "Runtime start authorized:          false"
     )
     print(
-        "Migration execution authorized:    true"
+        "Database creation authorized:      false"
     )
     print(
-        "Database writes authorized:        true"
+        "Migration execution authorized:    false"
     )
     print(
-        "Acceptance execution authorized:   true"
+        "Database writes authorized:        false"
+    )
+    print(
+        "Acceptance execution authorized:   false"
     )
     print(
         "Production execution authorized:   false"
@@ -330,14 +332,12 @@ def main() -> None:
         "Public release authorized:         false"
     )
     print(
-        "Services started:                  false"
+        "Teardown completed:                true"
     )
     print(
-        "Database mutated:                  false"
+        "Automatic revocation completed:    true"
     )
-    print(
-        "Automatic revocation required:     true"
-    )
+
 
 
 if __name__ == "__main__":

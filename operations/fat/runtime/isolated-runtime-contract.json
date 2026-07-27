@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "19",
   "artifact": "isolated-fat-runtime",
-  "status": "authorized-for-isolated-procurement",
+  "status": "completed-and-revoked",
   "runtime": {
     "environmentName": "propertyos-fat",
     "nodeEnvironment": "production",
@@ -56,11 +56,11 @@
     "isolatedOverridePermitted": true
   },
   "authorization": {
-    "runtimeStartAuthorized": true,
-    "databaseCreationAuthorized": true,
-    "migrationExecutionAuthorized": true,
-    "databaseWritesAuthorized": true,
-    "acceptanceExecutionAuthorized": true,
+    "runtimeStartAuthorized": false,
+    "databaseCreationAuthorized": false,
+    "migrationExecutionAuthorized": false,
+    "databaseWritesAuthorized": false,
+    "acceptanceExecutionAuthorized": false,
     "productionExecutionAuthorized": false,
     "publicReleaseAuthorized": false
   },
@@ -69,16 +69,18 @@
     "databaseCreated": false,
     "migrationsExecuted": false,
     "testsExecuted": false,
-    "databaseMutated": false
+    "databaseMutated": false,
+    "acceptanceExecuted": false,
+    "teardownCompleted": true
   },
-  "activeAuthorization": {
+  "lastExecution": {
     "suiteId": "procurement",
-    "authorizedAt": "2026-07-27T18:51:19Z",
-    "scope": [
-      "postgres-fat",
-      "migrate-fat",
-      "backend/src/core/procurement/procurement-http-idempotency.integration-spec.ts"
-    ],
-    "automaticRevocationRequired": true
+    "result": "PASSED",
+    "migrationsExecuted": 54,
+    "testsPassed": 13,
+    "databaseWasMutated": true,
+    "runtimeResourcesRemain": false,
+    "temporaryEnvironmentRemoved": true,
+    "revokedAt": "2026-07-27T19:57:11Z"
   }
 }

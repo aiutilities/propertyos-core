@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "phase": "19",
   "artifact": "procurement-isolated-runtime-authorization",
-  "status": "AUTHORIZED_FOR_ISOLATED_EXECUTION",
+  "status": "COMPLETED_AND_REVOKED",
   "suiteId": "procurement",
   "purpose": "Execute the deferred Procurement HTTP idempotency integration contract in a temporary isolated FAT database.",
   "environment": {
@@ -61,25 +61,25 @@
     "evidenceMutationPermitted": false
   },
   "authorization": {
-    "founderAuthorizationRecorded": true,
-    "runtimeStartAuthorized": true,
-    "databaseCreationAuthorized": true,
-    "migrationExecutionAuthorized": true,
-    "databaseWritesAuthorized": true,
-    "acceptanceExecutionAuthorized": true,
+    "founderAuthorizationRecorded": false,
+    "runtimeStartAuthorized": false,
+    "databaseCreationAuthorized": false,
+    "migrationExecutionAuthorized": false,
+    "databaseWritesAuthorized": false,
+    "acceptanceExecutionAuthorized": false,
     "productionExecutionAuthorized": false,
     "publicReleaseAuthorized": false
   },
   "execution": {
-    "dockerAvailable": false,
-    "containersCreated": false,
-    "servicesStarted": false,
-    "databaseCreated": false,
-    "migrationsExecuted": false,
-    "testsExecuted": false,
-    "testsPassed": false,
-    "databaseMutated": false,
-    "teardownCompleted": false
+    "dockerAvailable": true,
+    "containersCreated": true,
+    "servicesStarted": true,
+    "databaseCreated": true,
+    "migrationsExecuted": true,
+    "testsExecuted": true,
+    "testsPassed": true,
+    "databaseMutated": true,
+    "teardownCompleted": true
   },
   "authorizationMetadata": {
     "authorizedAt": "2026-07-27T18:51:19Z",
@@ -89,5 +89,12 @@
     "productionAuthorizationGranted": false,
     "publicReleaseAuthorizationGranted": false,
     "automaticRevocationRequired": true
+  },
+  "revocation": {
+    "revokedAt": "2026-07-27T19:57:11Z",
+    "reason": "isolated-procurement-runtime-completed",
+    "automaticRevocationCompleted": true,
+    "productionAuthorizationWasGranted": false,
+    "publicReleaseAuthorizationWasGranted": false
   }
 }

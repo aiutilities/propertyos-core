@@ -32,6 +32,7 @@ const procurementTests = [
   "src/core/procurement/services/procurement-goods-receipt-reversal.integration-spec.ts",
   "src/core/procurement/services/procurement-invoice-match.service.integration-spec.ts",
   "src/core/procurement/services/procurement-invoice-match-transitions.integration-spec.ts",
+  "src/core/procurement/services/procurement-payment-request.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -223,7 +224,7 @@ async function runProcurementSuite() {
       invoiceMatchLifecycleContract:
         true,
       paymentRequestLifecycleContract:
-        false,
+        true,
     },
     safety: {
       servicesStarted: false,

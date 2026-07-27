@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "evidence": "operations-readiness",
+  "status": "validated",
+  "contracts": {
+    "productionContract": true,
+    "runbooks": 7,
+    "inventories": 5,
+    "templates": 4,
+    "checklists": 4
+  },
+  "validators": [
+    "operations/production/scripts/validate-production-contract.py",
+    "operations/production/scripts/validate-runbooks.py",
+    "operations/production/scripts/validate-production-inventory.py",
+    "operations/production/scripts/validate-release-evidence.py"
+  ],
+  "recovery": {
+    "backupRunbookPresent": true,
+    "restoreRunbookPresent": true,
+    "rollbackRunbookPresent": true,
+    "incidentRunbookPresent": true,
+    "productionRestoreAuthorized": false,
+    "productionRollbackAuthorized": false
+  },
+  "authorization": {
+    "productionDeploymentAuthorized": false,
+    "databaseMutationAuthorized": false,
+    "migrationExecutionAuthorized": false
+  }
+}

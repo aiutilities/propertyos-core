@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "manifest": "release",
+  "status": "contract-only",
+  "artifacts": [
+    "backend",
+    "frontend",
+    "scheduler",
+    "docker",
+    "runbooks",
+    "inventories",
+    "performance"
+  ],
+  "authorization": {
+    "productionExecutionAuthorized": false,
+    "databaseMutationAuthorized": false
+  }
+}

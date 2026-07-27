@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "evidence": "health-and-performance",
+  "status": "validated-baseline",
+  "health": {
+    "livenessPath": "/api/v1/health/live",
+    "readinessPath": "/api/v1/health/ready",
+    "expectedHttpStatus": 200,
+    "readinessStatus": "ok"
+  },
+  "performance": {
+    "source": "operations/performance/baselines/phase-17d-operational-health-baseline.json",
+    "routes": 3,
+    "concurrencyLevels": [
+      1,
+      5,
+      10
+    ],
+    "measuredRequests": 900,
+    "successfulResponses": 900,
+    "failedResponses": 0,
+    "environmentFailures": 0,
+    "thresholdFailures": 0,
+    "passed": true
+  },
+  "authorization": {
+    "productionExecutionAuthorized": false,
+    "trafficExposureAuthorized": false
+  }
+}

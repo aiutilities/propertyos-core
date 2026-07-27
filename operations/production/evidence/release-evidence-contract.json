@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "artifact": "release-evidence",
+  "status": "contract-only",
+  "requiredEvidence": [
+    "backend-build",
+    "frontend-build",
+    "scheduler-build",
+    "docker-image",
+    "health-validation",
+    "performance-baseline",
+    "production-contract",
+    "runbooks",
+    "inventories",
+    "backup-evidence",
+    "rollback-evidence",
+    "release-manifest"
+  ],
+  "authorization": {
+    "productionExecutionAuthorized": false,
+    "databaseMutationAuthorized": false,
+    "migrationExecutionAuthorized": false
+  }
+}

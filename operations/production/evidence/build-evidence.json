@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "phase": "18",
+  "evidence": "production-build",
+  "status": "contract-only",
+  "artifacts": {
+    "backend": {
+      "buildCommand": "npm run build",
+      "workingDirectory": "backend",
+      "entryPoint": "backend/dist/main.js",
+      "required": true
+    },
+    "scheduler": {
+      "buildCommand": "npm run build",
+      "workingDirectory": "backend",
+      "entryPoint": "backend/dist/scheduler-worker.js",
+      "required": true
+    },
+    "frontend": {
+      "buildCommand": "npm run build",
+      "workingDirectory": "frontend",
+      "required": true
+    },
+    "docker": {
+      "dockerfile": "backend/Dockerfile",
+      "composeFile": "backend/docker-compose.yml",
+      "required": true
+    }
+  },
+  "verification": {
+    "backendEntryPointRequired": true,
+    "schedulerEntryPointRequired": true,
+    "frontendBuildRequired": true,
+    "dockerBuildRequired": true,
+    "artifactDigestRequiredForRelease": true
+  },
+  "authorization": {
+    "productionDeploymentAuthorized": false,
+    "databaseMutationAuthorized": false
+  }
+}

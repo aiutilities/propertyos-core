@@ -25,6 +25,7 @@ const procurementTests = [
   "src/core/procurement/procurement-idempotency-wiring.integration-spec.ts",
   "src/core/procurement/services/procurement-transition-metrics.service.integration-spec.ts",
   "src/core/procurement/services/purchase-request.service.integration-spec.ts",
+  "src/core/procurement/services/procurement-rfq.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -206,7 +207,7 @@ async function runProcurementSuite() {
       transitionMetrics:
         true,
       rfqLifecycleContract:
-        false,
+        true,
       quotationLifecycleContract:
         false,
       purchaseOrderLifecycleContract:

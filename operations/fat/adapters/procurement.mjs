@@ -26,6 +26,7 @@ const procurementTests = [
   "src/core/procurement/services/procurement-transition-metrics.service.integration-spec.ts",
   "src/core/procurement/services/purchase-request.service.integration-spec.ts",
   "src/core/procurement/services/procurement-rfq.service.integration-spec.ts",
+  "src/core/procurement/services/procurement-quotation.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -209,7 +210,7 @@ async function runProcurementSuite() {
       rfqLifecycleContract:
         true,
       quotationLifecycleContract:
-        false,
+        true,
       purchaseOrderLifecycleContract:
         false,
       goodsReceiptLifecycleContract:

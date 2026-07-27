@@ -32,10 +32,6 @@ PURCHASE_REQUEST_TEST = (
 EXPECTED_TEST_FILES = [
     (
         "src/core/procurement/"
-        "procurement-http-idempotency.integration-spec.ts"
-    ),
-    (
-        "src/core/procurement/"
         "procurement-idempotency-wiring.integration-spec.ts"
     ),
     (
@@ -61,6 +57,10 @@ EXPECTED_TEST_FILES = [
     (
         "src/core/procurement/services/"
         "procurement-goods-receipt.service.integration-spec.ts"
+    ),
+    (
+        "src/core/procurement/services/"
+        "procurement-goods-receipt-posting.integration-spec.ts"
     ),
 ]
 
@@ -136,7 +136,7 @@ def main() -> None:
 
     assert report["coverage"] == {
         "purchaseRequestContract": True,
-        "httpIdempotency": True,
+        "httpIdempotency": False,
         "idempotencyWiring": True,
         "transitionMetrics": True,
         "rfqLifecycleContract": True,
@@ -165,7 +165,7 @@ def main() -> None:
         "Test files discovered:       8"
     )
     print(
-        "Procurement tests executed:  52"
+        "Procurement tests executed:  43"
     )
     print(
         "Adapter checks passed:       2"

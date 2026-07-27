@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+import { runInstallationSuite } from "../adapters/installation.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const fatRoot = path.resolve(path.dirname(scriptPath), "..");
@@ -105,6 +106,7 @@ PropertyOS Founder Acceptance Runner
 Usage:
   fat-runner.mjs list
   fat-runner.mjs status
+  fat-runner.mjs precheck installation
   fat-runner.mjs run <suite-id>
   fat-runner.mjs run all
 
@@ -262,6 +264,34 @@ async function main() {
 
   if (command === "status") {
     printStatus(context);
+    return;
+  }
+
+  if (command === "precheck") {
+    if (!argument) {
+      throw new Error(
+        "Suite ID is required: precheck <suite-id>",
+      );
+    }
+
+    validateSuiteId(context, argument);
+
+    if (argument !== "installation") {
+      throw new Error(
+        `No read-only precheck adapter installed for: ${argument}`,
+      );
+    }
+
+    const report = await runInstallationSuite();
+
+    console.log(
+      JSON.stringify(report, null, 2),
+    );
+
+    if (!report.passed) {
+      process.exitCode = 1;
+    }
+
     return;
   }
 

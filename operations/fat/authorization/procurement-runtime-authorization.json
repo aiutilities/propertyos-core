@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "phase": "19",
+  "artifact": "procurement-isolated-runtime-authorization",
+  "status": "PREPARED",
+  "suiteId": "procurement",
+  "purpose": "Execute the deferred Procurement HTTP idempotency integration contract in a temporary isolated FAT database.",
+  "environment": {
+    "type": "isolated",
+    "environmentName": "propertyos-fat",
+    "syntheticDataOnly": true,
+    "productionEnvironmentPermitted": false,
+    "productionCredentialsPermitted": false,
+    "dedicatedDatabaseRequired": true,
+    "persistentDatabasePermitted": false
+  },
+  "scope": {
+    "servicesPermitted": [
+      "postgres-fat",
+      "migrate-fat"
+    ],
+    "servicesNotPermitted": [
+      "api-fat",
+      "scheduler-fat",
+      "frontend-fat"
+    ],
+    "database": {
+      "host": "127.0.0.1",
+      "port": 5439,
+      "name": "propertyos_fat",
+      "user": "propertyos_fat"
+    },
+    "migrationProfile": "authorized-fat-migration",
+    "testFiles": [
+      "backend/src/core/procurement/procurement-http-idempotency.integration-spec.ts"
+    ],
+    "expectedRuntimeTests": 13
+  },
+  "executionSequence": [
+    "verify Docker daemon availability",
+    "verify no pre-existing propertyos-fat containers",
+    "create temporary FAT environment file",
+    "start postgres-fat only",
+    "wait for PostgreSQL health",
+    "run migrate-fat with authorized-fat-migration profile",
+    "verify migration exit status",
+    "run deferred Procurement HTTP idempotency tests against port 5439",
+    "capture test and database evidence",
+    "remove FAT containers and temporary volumes",
+    "delete temporary environment secrets",
+    "verify teardown"
+  ],
+  "safety": {
+    "stopOnDockerFailure": true,
+    "stopOnPostgresHealthFailure": true,
+    "stopOnMigrationFailure": true,
+    "stopOnTestFailure": true,
+    "teardownRequired": true,
+    "productionMutationPermitted": false,
+    "normalDevelopmentDatabasePermitted": false,
+    "evidenceMutationPermitted": false
+  },
+  "authorization": {
+    "founderAuthorizationRecorded": false,
+    "runtimeStartAuthorized": false,
+    "databaseCreationAuthorized": false,
+    "migrationExecutionAuthorized": false,
+    "databaseWritesAuthorized": false,
+    "acceptanceExecutionAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "publicReleaseAuthorized": false
+  },
+  "execution": {
+    "dockerAvailable": false,
+    "containersCreated": false,
+    "servicesStarted": false,
+    "databaseCreated": false,
+    "migrationsExecuted": false,
+    "testsExecuted": false,
+    "testsPassed": false,
+    "databaseMutated": false,
+    "teardownCompleted": false
+  }
+}

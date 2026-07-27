@@ -5,9 +5,21 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { runInstallationSuite } from "../adapters/installation.mjs";
+import { runAuthenticationSuite } from "../adapters/authentication.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const fatRoot = path.resolve(path.dirname(scriptPath), "..");
+
+const precheckAdapters = new Map([
+  [
+    "installation",
+    runInstallationSuite,
+  ],
+  [
+    "authentication",
+    runAuthenticationSuite,
+  ],
+]);
 
 const files = {
   contract: path.join(
@@ -107,6 +119,7 @@ Usage:
   fat-runner.mjs list
   fat-runner.mjs status
   fat-runner.mjs precheck installation
+  fat-runner.mjs precheck authentication
   fat-runner.mjs run <suite-id>
   fat-runner.mjs run all
 
@@ -276,13 +289,17 @@ async function main() {
 
     validateSuiteId(context, argument);
 
-    if (argument !== "installation") {
+    const adapter = precheckAdapters.get(
+      argument,
+    );
+
+    if (!adapter) {
       throw new Error(
-        `No read-only precheck adapter installed for: ${argument}`,
+        `No precheck adapter installed for: ${argument}`,
       );
     }
 
-    const report = await runInstallationSuite();
+    const report = await adapter();
 
     console.log(
       JSON.stringify(report, null, 2),

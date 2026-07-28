@@ -2763,3 +2763,53 @@ ABSENT
 Next checkpoint:
 
 Phase 21D2E Create Property Browser Re-audit
+
+---
+
+## 28 July 2026 - Phase 21 Property Submit Contract Fix
+
+Root cause:
+
+The global validation contract uses whitelist and
+forbid-non-whitelisted behaviour. CreatePropertyDto and
+UpdatePropertyDto declared TypeScript fields but did not declare
+class-validator decorators. Therefore every submitted property
+field was treated as forbidden.
+
+Implemented:
+
+- added explicit validators to CreatePropertyDto
+- added explicit validators to UpdatePropertyDto
+- retained all existing property request fields
+- retained create and update controller contracts
+- retained string-compatible property type
+- added field-length boundaries
+- added DTO validation integration coverage
+- proved supported create fields pass whitelist validation
+- proved unsupported fields remain rejected
+- proved property name remains required
+- proved partial property updates remain supported
+- replaced raw backend JSON rendering with safe user messages
+- retained complete technical errors in browser console logging
+- preserved entered form values after failed submission
+- installed permanent submit-contract validation
+
+Defect status:
+
+UX-007 remediated, pending successful browser submission
+
+Backend database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21D2H Successful Create Property Browser Validation

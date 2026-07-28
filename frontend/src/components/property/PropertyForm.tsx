@@ -126,10 +126,14 @@ export default function PropertyForm({
             "",
         });
       } catch (caughtError) {
+        console.error(
+          "Property load failed",
+          caughtError,
+        );
+
         setError(
-          caughtError instanceof Error
-            ? caughtError.message
-            : "Unable to load property.",
+          "Unable to load this property. "
+          + "Please refresh the page and try again.",
         );
       } finally {
         setLoading(false);
@@ -189,10 +193,15 @@ export default function PropertyForm({
         `/properties/${response.data.id}`,
       );
     } catch (caughtError) {
+      console.error(
+        "Property save failed",
+        caughtError,
+      );
+
       setError(
-        caughtError instanceof Error
-          ? caughtError.message
-          : "Unable to save property.",
+        getPropertySaveError(
+          caughtError,
+        ),
       );
     } finally {
       setSaving(false);
@@ -623,6 +632,153 @@ export default function PropertyForm({
       </div>
     </form>
   );
+}
+
+function getPropertySaveError(
+  caughtError: unknown,
+): string {
+  const fallback =
+    "Unable to save the property. "
+    + "Please review the form and try again.";
+
+  if (!(caughtError instanceof Error)) {
+    return fallback;
+  }
+
+  const message =
+    extractApiMessage(
+      caughtError.message,
+    );
+
+  if (!message) {
+    return fallback;
+  }
+
+  const normalized =
+    message.toLowerCase();
+
+  if (
+    normalized.includes(
+      "name should not be empty",
+    )
+    || normalized.includes(
+      "name must be longer",
+    )
+  ) {
+    return (
+      "Property name is required. "
+      + "Enter a property name and try again."
+    );
+  }
+
+  if (
+    normalized.includes(
+      "name should not exist",
+    )
+    || normalized.includes(
+      "propertytype should not exist",
+    )
+    || normalized.includes(
+      "addressline1 should not exist",
+    )
+  ) {
+    return (
+      "The property form could not be accepted "
+      + "by the server. Refresh the page and "
+      + "try again."
+    );
+  }
+
+  if (
+    normalized.includes(
+      "already exists",
+    )
+    || normalized.includes(
+      "duplicate",
+    )
+  ) {
+    return (
+      "A property with the same name or code "
+      + "already exists."
+    );
+  }
+
+  if (
+    normalized.includes(
+      "unauthorized",
+    )
+    || normalized.includes(
+      "forbidden",
+    )
+  ) {
+    return (
+      "You do not have permission to save "
+      + "this property."
+    );
+  }
+
+  return fallback;
+}
+
+function extractApiMessage(
+  rawMessage: string,
+): string {
+  const trimmed =
+    rawMessage.trim();
+
+  if (!trimmed.startsWith("{")) {
+    return trimmed;
+  }
+
+  try {
+    const payload =
+      JSON.parse(trimmed) as {
+        message?: unknown;
+        error?: {
+          message?: unknown;
+          details?: {
+            message?: unknown;
+          };
+        };
+      };
+
+    const candidates = [
+      payload.message,
+      payload.error?.message,
+      payload.error
+        ?.details
+        ?.message,
+    ];
+
+    for (
+      const candidate
+      of candidates
+    ) {
+      if (
+        typeof candidate
+          === "string"
+      ) {
+        return candidate;
+      }
+
+      if (
+        Array.isArray(candidate)
+      ) {
+        return candidate
+          .filter(
+            (value):
+              value is string =>
+                typeof value
+                  === "string",
+          )
+          .join(" ");
+      }
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
 }
 
 function cleanPayload(

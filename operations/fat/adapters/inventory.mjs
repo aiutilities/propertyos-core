@@ -67,6 +67,8 @@ const inventoryTests = [
     "inventory-stock-reservation-release-expiry.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-batch-tracking.service.integration-spec.ts",
+  "src/core/inventory/repositories/" +
+    "postgres-inventory-stock-ledger-insufficient-stock.integration-spec.ts",
 ];
 
 function runCommand({
@@ -300,7 +302,7 @@ async function runInventorySuite() {
       batchTrackingContract:
         true,
       insufficientStockRejection:
-        false,
+        true,
       httpIdempotency:
         false,
       idempotencyWiring:

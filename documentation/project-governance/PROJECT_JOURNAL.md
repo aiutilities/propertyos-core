@@ -2271,3 +2271,43 @@ ABSENT
 Next checkpoint:
 
 Phase 21C2 Login, Root and Dashboard Audit
+
+---
+
+## 28 July 2026 - Phase 21 Initial Founder Visual Audit
+
+Routes reviewed:
+
+- /
+- /login
+- /dashboard
+
+Founder assessment:
+
+- root landing page: 3.5 of 5, needs polish
+- login page: 4.2 of 5, needs polish
+- dashboard: 2.5 of 5, pilot blocker
+
+Principal findings:
+
+- landing page is clean but does not yet communicate the full platform value
+- login experience is professional
+- browser-visible prefilled administrator credentials must be removed
+- dashboard exposes useful totals but lacks operational priorities
+- dashboard lacks alerts, exceptions, quick actions, trends and recent activity
+- sidebar is excessively long and mixes resident and administrator navigation
+
+Defects recorded:
+
+- UX-001: prefilled administrator credentials
+- UX-002: dashboard lacks actionable operational priorities
+- UX-003: sidebar information architecture requires redesign
+- UX-004: landing-page product communication requires enhancement
+
+Implementation authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21C5 Root, Login and Dashboard UX Contract Capture

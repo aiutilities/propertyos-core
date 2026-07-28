@@ -8,7 +8,7 @@ ReviewOrder,Module,Route,VisualDesign,Navigation,Layout,Typography,Spacing,Respo
 7,communications,/communications/[id],,,,,,,,,,,,,,,Not Audited,,,,,No
 8,communications,/communications/new,,,,,,,,,,,,,,,Not Audited,,,,,No
 9,communications,/communications,,,,,,,,,,,,,,,Not Audited,,,,,No
-10,dashboard,/dashboard,,,,,,,,,,,,,,,Not Audited,,,,,No
+10,dashboard,/dashboard,3,2,2,4,2,Not Reviewed,Not Observed,Not Applicable,Not Observed,Not Applicable,Not Applicable,1,5,2.5,Pilot Blocker,P1,Founder screenshots captured externally,"Dashboard loads quickly and exposes useful operational totals, financial metrics, and platform health. It is primarily a static grid of numbers and does not identify today's priorities, alerts, pending actions, trends, recent activity, or quick actions. The sidebar is very long, mixes resident and administration areas, and requires substantial scrolling.","Redesign the dashboard as an operational command centre with today's work, exceptions, alerts, quick actions, financial and occupancy trends, recent activity, and contextual recommendations. Reorganize the sidebar into collapsible domain groups.",Yes
 11,docs,/docs/[...slug],,,,,,,,,,,,,,,Not Audited,,,,,No
 12,docs,/docs,,,,,,,,,,,,,,,Not Audited,,,,,No
 13,facilities,/facilities/assets/[id],,,,,,,,,,,,,,,Not Audited,,,,,No
@@ -24,13 +24,13 @@ ReviewOrder,Module,Route,VisualDesign,Navigation,Layout,Typography,Spacing,Respo
 23,leases,/leases/[id],,,,,,,,,,,,,,,Not Audited,,,,,No
 24,leases,/leases/new,,,,,,,,,,,,,,,Not Audited,,,,,No
 25,leases,/leases,,,,,,,,,,,,,,,Not Audited,,,,,No
-26,login,/login,,,,,,,,,,,,,,,Not Audited,,,,,No
+26,login,/login,4,4,5,5,5,Not Reviewed,Covered,Not Applicable,Implemented,4,Not Applicable,4,5,4.2,Needs Polish,P1,Founder screenshot captured externally,"Professional and clear sign-in form. Default administrator email and password are prefilled in the client, which is unacceptable for pilot or production use. Password recovery and optional remember-me behaviour are absent.",Remove all prefilled credentials before pilot authorization. Add environment-safe authentication onboarding and later add password recovery and optional remember-me support.,Yes
 27,maintenance,/maintenance/[id],,,,,,,,,,,,,,,Not Audited,,,,,No
 28,maintenance,/maintenance/new,,,,,,,,,,,,,,,Not Audited,,,,,No
 29,maintenance,/maintenance,,,,,,,,,,,,,,,Not Audited,,,,,No
 30,notifications,/notifications,,,,,,,,,,,,,,,Not Audited,,,,,No
 31,operations,/operations,,,,,,,,,,,,,,,Not Audited,,,,,No
-32,root,/,,,,,,,,,,,,,,,Not Audited,,,,,No
+32,root,/,4,4,4,4,4,Not Reviewed,Not Observed,Not Applicable,Not Observed,Not Applicable,Not Applicable,3,5,3.5,Needs Polish,P3,Founder screenshot captured externally,"Clean landing page with strong typography and clear loading. The page is visually sparse and does not yet communicate the platform's differentiators, supported property types, documentation, marketplace, version, or open-source community.","Retain the clean hero but add concise product differentiation, supported verticals, documentation and GitHub entry points, marketplace visibility, and a product preview.",Yes
 33,plugins,/plugins/[id],,,,,,,,,,,,,,,Not Audited,,,,,No
 34,plugins,/plugins/install,,,,,,,,,,,,,,,Not Audited,,,,,No
 35,plugins,/plugins/marketplace,,,,,,,,,,,,,,,Not Audited,,,,,No

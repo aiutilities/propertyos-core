@@ -1,7 +1,7 @@
 AuditOrder,Module,Route,SuggestedFilename,Captured,Notes
-1,root,/,001-root.png,No,
-2,login,/login,002-login.png,No,
-3,dashboard,/dashboard,003-dashboard.png,No,
+1,root,/,001-root.png,Yes,Founder screenshot captured externally
+2,login,/login,002-login.png,Yes,Founder screenshot captured externally
+3,dashboard,/dashboard,003-dashboard.png,Yes,Founder screenshots captured externally
 4,properties,/properties/[id]/edit,004-properties__id__edit.png,No,
 5,properties,/properties/[id],005-properties__id.png,No,
 6,properties,/properties/[id]/spaces/new,006-properties__id__spaces__new.png,No,

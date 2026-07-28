@@ -2443,3 +2443,50 @@ ABSENT
 Next checkpoint:
 
 Phase 21C8 Administration Navigation Remediation
+
+---
+
+## 28 July 2026 - Phase 21 Administration Navigation Remediation
+
+Implemented:
+
+- reorganized administrator navigation into eight operational domains
+- separated resident navigation from the administrator sidebar
+- removed duplicate generic Dashboard labels
+- renamed the procurement entry to Procurement Dashboard
+- introduced collapsible navigation groups
+- automatically expands the group containing the active route
+- added keyboard-accessible group controls
+- added Staff and Access Control to the appropriate operational group
+- installed permanent navigation-contract validation
+
+Administrator navigation groups:
+
+1. Overview
+2. Property
+3. Service Operations
+4. Finance
+5. Procurement
+6. Community
+7. Automation
+8. Platform
+
+Defect status:
+
+UX-003 remediated, pending founder browser re-audit
+
+Database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21C8A Administration Navigation Browser Re-audit

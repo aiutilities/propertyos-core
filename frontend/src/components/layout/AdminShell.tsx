@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   usePathname,
   useRouter,
@@ -30,33 +31,17 @@ const navGroups: NavGroup[] = [
         href: "/dashboard",
       },
       {
-        label: "Resident Portal",
-        href: "/resident",
+        label: "Operations Center",
+        href: "/operations",
       },
       {
-        label: "My Bookings",
-        href: "/resident/reservations",
-      },
-      {
-        label: "Community Notices",
-        href: "/resident/notices",
-      },
-      {
-        label: "My Helpdesk",
-        href: "/resident/helpdesk",
-      },
-      {
-        label: "My Maintenance",
-        href: "/resident/maintenance",
-      },
-      {
-        label: "My Vehicles",
-        href: "/resident/vehicles",
+        label: "Notifications",
+        href: "/notifications",
       },
     ],
   },
   {
-    label: "Property Operations",
+    label: "Property",
     items: [
       {
         label: "Properties",
@@ -75,15 +60,74 @@ const navGroups: NavGroup[] = [
         href: "/visitors",
       },
       {
-        label: "Helpdesk",
-        href: "/helpdesk",
+        label: "Reservations",
+        href: "/reservations",
       },
+      {
+        label: "Booking Calendar",
+        href: "/reservations/calendar",
+      },
+    ],
+  },
+  {
+    label: "Service Operations",
+    items: [
       {
         label: "Maintenance",
         href: "/maintenance",
       },
       {
-        label: "Dashboard",
+        label: "Helpdesk",
+        href: "/helpdesk",
+      },
+      {
+        label: "Facilities & Assets",
+        href: "/facilities",
+      },
+      {
+        label: "Staff",
+        href: "/staff",
+      },
+      {
+        label: "Vehicles",
+        href: "/vehicles",
+      },
+      {
+        label: "Access Control",
+        href: "/access",
+      },
+      {
+        label: "Security",
+        href: "/security",
+      },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      {
+        label: "Rent Ledgers",
+        href: "/rent-ledgers",
+      },
+      {
+        label: "Receipts",
+        href: "/receipts",
+      },
+      {
+        label: "Invoices",
+        href: "/invoices",
+      },
+      {
+        label: "Reports",
+        href: "/reports",
+      },
+    ],
+  },
+  {
+    label: "Procurement",
+    items: [
+      {
+        label: "Procurement Dashboard",
         href: "/procurement/dashboard",
       },
       {
@@ -122,54 +166,14 @@ const navGroups: NavGroup[] = [
         label: "Vendors",
         href: "/vendors",
       },
-      {
-        label: "Vendor Contracts",
-        href: "/vendors/contracts",
-      },
-      {
-        label: "Vendor Work Orders",
-        href: "/vendors/work-orders",
-      },
-      {
-        label: "Vendor Categories",
-        href: "/vendors/categories",
-      },
-      {
-        label: "Facilities & Assets",
-        href: "/facilities",
-      },
-      {
-        label: "Vehicles",
-        href: "/vehicles",
-      },
-      {
-        label: "Reservations",
-        href: "/reservations",
-      },
-      {
-        label: "Booking Calendar",
-        href: "/reservations/calendar",
-      },
-      {
-        label: "Reservation Resources",
-        href: "/reservations/resources",
-      },
-      {
-        label: "Reservation Approvals",
-        href: "/reservations/approvals",
-      },
     ],
   },
   {
-    label: "Community Operations",
+    label: "Community",
     items: [
       {
         label: "Communications",
         href: "/communications",
-      },
-      {
-        label: "Security Dashboard",
-        href: "/security",
       },
       {
         label: "Vehicle Gate",
@@ -178,40 +182,11 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
-    label: "Finance",
-    items: [
-      {
-        label: "Rent Ledgers",
-        href: "/rent-ledgers",
-      },
-      {
-        label: "Receipts",
-        href: "/receipts",
-      },
-      {
-        label: "Invoices",
-        href: "/invoices",
-      },
-      {
-        label: "Reports",
-        href: "/reports",
-      },
-    ],
-  },
-  {
     label: "Automation",
     items: [
       {
-        label: "Operations Center",
-        href: "/operations",
-      },
-      {
         label: "Workflows",
         href: "/workflows",
-      },
-      {
-        label: "Notifications",
-        href: "/notifications",
       },
       {
         label: "Scheduler",
@@ -223,16 +198,8 @@ const navGroups: NavGroup[] = [
     label: "Platform",
     items: [
       {
-        label: "Documentation",
-        href: "/docs",
-      },
-      {
         label: "Plugins",
         href: "/plugins",
-      },
-      {
-        label: "Install Plugin",
-        href: "/plugins/install",
       },
       {
         label: "Plugin Marketplace",
@@ -243,12 +210,8 @@ const navGroups: NavGroup[] = [
         href: "/themes",
       },
       {
-        label: "Theme Packages",
-        href: "/themes/packages",
-      },
-      {
-        label: "Register Theme",
-        href: "/themes/packages/new",
+        label: "Documentation",
+        href: "/docs",
       },
     ],
   },
@@ -441,6 +404,58 @@ export function AdminShell({
   const sectionTitle =
     getSectionTitle(pathname);
 
+  const [expandedGroups, setExpandedGroups] =
+    useState<Record<string, boolean>>(
+      () =>
+        Object.fromEntries(
+          navGroups.map((group) => [
+            group.label,
+            group.label === "Overview" ||
+              group.items.some((item) =>
+                isActiveRoute(
+                  pathname,
+                  item.href,
+                ),
+              ),
+          ]),
+        ),
+    );
+
+  useEffect(() => {
+    const activeGroup =
+      navGroups.find((group) =>
+        group.items.some((item) =>
+          isActiveRoute(
+            pathname,
+            item.href,
+          ),
+        ),
+      );
+
+    if (!activeGroup) {
+      return;
+    }
+
+    setExpandedGroups(
+      (current) => ({
+        ...current,
+        [activeGroup.label]: true,
+      }),
+    );
+  }, [pathname]);
+
+  function toggleGroup(
+    label: string,
+  ) {
+    setExpandedGroups(
+      (current) => ({
+        ...current,
+        [label]:
+          !current[label],
+      }),
+    );
+  }
+
   function logout() {
     clearSession();
     router.replace("/login");
@@ -465,62 +480,106 @@ export function AdminShell({
           aria-label="Primary navigation"
         >
           {navGroups.map(
-            (group) => (
-              <div
-                className="nav-group"
-                key={group.label}
-              >
-                <p className="nav-group-label">
-                  {group.label}
-                </p>
+            (group) => {
+              const expanded =
+                expandedGroups[
+                  group.label
+                ] ?? false;
 
-                <div className="nav-group-items">
-                  {group.items.map(
-                    (item) => {
-                      const active =
-                        isActiveRoute(
-                          pathname,
-                          item.href,
-                        );
+              const groupId =
+                `navigation-${group.label
+                  .toLowerCase()
+                  .replace(
+                    /[^a-z0-9]+/g,
+                    "-",
+                  )}`;
 
-                      return (
-                        <Link
-                          aria-current={
-                            active
-                              ? "page"
-                              : undefined
-                          }
-                          className={
-                            active
-                              ? "nav-link active"
-                              : "nav-link"
-                          }
-                          href={
-                            item.href
-                          }
-                          key={
-                            item.href
-                          }
-                        >
-                          <span>
-                            {
-                              item.label
+              return (
+                <section
+                  className={
+                    expanded
+                      ? "nav-group expanded"
+                      : "nav-group collapsed"
+                  }
+                  key={group.label}
+                >
+                  <button
+                    aria-controls={groupId}
+                    aria-expanded={expanded}
+                    className="nav-group-toggle"
+                    onClick={() =>
+                      toggleGroup(
+                        group.label,
+                      )
+                    }
+                    type="button"
+                  >
+                    <span>
+                      {group.label}
+                    </span>
+
+                    <span
+                      aria-hidden="true"
+                      className="nav-group-chevron"
+                    >
+                      {expanded
+                        ? "−"
+                        : "+"}
+                    </span>
+                  </button>
+
+                  <div
+                    className="nav-group-items"
+                    hidden={!expanded}
+                    id={groupId}
+                  >
+                    {group.items.map(
+                      (item) => {
+                        const active =
+                          isActiveRoute(
+                            pathname,
+                            item.href,
+                          );
+
+                        return (
+                          <Link
+                            aria-current={
+                              active
+                                ? "page"
+                                : undefined
                             }
-                          </span>
-
-                          <span
-                            aria-hidden="true"
-                            className="nav-arrow"
+                            className={
+                              active
+                                ? "nav-link active"
+                                : "nav-link"
+                            }
+                            href={
+                              item.href
+                            }
+                            key={
+                              item.href
+                            }
                           >
-                            →
-                          </span>
-                        </Link>
-                      );
-                    },
-                  )}
-                </div>
-              </div>
-            ),
+                            <span>
+                              {
+                                item.label
+                              }
+                            </span>
+
+                            <span
+                              aria-hidden="true"
+                              className="nav-arrow"
+                            >
+                              →
+                            </span>
+                          </Link>
+                        );
+                      },
+                    )}
+                  </div>
+                </section>
+              );
+            },
           )}
         </nav>
 

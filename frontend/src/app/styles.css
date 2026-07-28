@@ -3791,3 +3791,66 @@ input {
   padding: 14px;
   white-space: pre;
 }
+
+/* Phase 21C8 administration navigation */
+
+.nav-group {
+  margin-bottom: 0.5rem;
+}
+
+.nav-group-toggle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0.625rem;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.nav-group-toggle:hover,
+.nav-group-toggle:focus-visible {
+  background: rgb(255 255 255 / 8%);
+}
+
+.nav-group-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.nav-group-chevron {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.nav-group.collapsed {
+  margin-bottom: 0.25rem;
+}
+
+.nav-group-items[hidden] {
+  display: none;
+}
+
+.nav-group.expanded .nav-group-items {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.sidebar nav {
+  padding-bottom: 1rem;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}

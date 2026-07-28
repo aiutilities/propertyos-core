@@ -1,0 +1,324 @@
+{
+  "acceptance": {
+    "adapterChecksPassed": 2,
+    "adapterChecksTotal": 2,
+    "backendTypecheckPassed": true,
+    "coverageFlagsComplete": 34,
+    "defects": [],
+    "fatRunnerValidationPassed": true,
+    "lifecycleContractsComplete": 23,
+    "registeredTestFiles": 25,
+    "testSuitesPassed": 25,
+    "testSuitesTotal": 25,
+    "testsPassed": 203,
+    "testsTotal": 203
+  },
+  "artifact": "inventory-fat-acceptance-snapshot",
+  "authorization": {
+    "databaseWritesAuthorized": false,
+    "fatExecutionAuthorization": "completed-and-revoked",
+    "pilotDeploymentAuthorized": false,
+    "productionExecutionAuthorized": false,
+    "publicReleaseAuthorized": false,
+    "runtimeAuthorized": false
+  },
+  "capabilities": {
+    "batchAllocation": true,
+    "batchMaster": true,
+    "batchTracking": true,
+    "binLifecycle": true,
+    "brandLifecycle": true,
+    "categoryLifecycle": true,
+    "goodsReceiptPosting": true,
+    "httpIdempotency": true,
+    "idempotencyWiring": true,
+    "insufficientStockRejection": true,
+    "itemLifecycle": true,
+    "materialIssueLifecycle": true,
+    "materialReturnLifecycle": true,
+    "postingMetrics": true,
+    "reservationLifecycle": true,
+    "stockAdjustmentLifecycle": true,
+    "stockBalance": true,
+    "stockTransferLifecycle": true,
+    "storeLifecycle": true,
+    "unitOfMeasureLifecycle": true
+  },
+  "capturedAt": "2026-07-28T15:19:11+05:30",
+  "checkpoint": "20M3",
+  "evidence": {
+    "commits": [
+      {
+        "commit": "85cc05d4b5ca09e27df77cd44f776c6b6bdec864",
+        "subject": "feat(acceptance): add inventory FAT foundation"
+      },
+      {
+        "commit": "91c72ba2c372f2e6abebc37ed9ab0552f7d55099",
+        "subject": "test(inventory): add unit of measure FAT contract"
+      },
+      {
+        "commit": "b33dd0cedfebc984c9ebff5564d7573ca0bfd2eb",
+        "subject": "test(inventory): add category FAT contract"
+      },
+      {
+        "commit": "1449ace555b6f6174684b7e474e00550f27d9946",
+        "subject": "test(inventory): add brand FAT contract"
+      },
+      {
+        "commit": "b4e172bf6859c01554c9c1cbb967083926bd3a9e",
+        "subject": "test(inventory): add item FAT contract"
+      },
+      {
+        "commit": "6331e0de5dae344942ffb72fc98bccd30bee2adc",
+        "subject": "test(inventory): add store FAT contract"
+      },
+      {
+        "commit": "3ad00fb9c3e96d9523080639ebfe17da849b81f7",
+        "subject": "test(inventory): add bin FAT contract"
+      },
+      {
+        "commit": "ca9a13ae9c04c0548b78febbaad2b6c7f8a96562",
+        "subject": "test(inventory): add stock balance FAT contract"
+      },
+      {
+        "commit": "7129d0581660e6fd8862eb6a4e7813a62144fd7e",
+        "subject": "test(inventory): add goods receipt posting FAT contract"
+      },
+      {
+        "commit": "152ed575f0de7512cb823e8cb29ce0960d8730a3",
+        "subject": "test(inventory): add stock transfer foundation FAT contract"
+      },
+      {
+        "commit": "0f2e3d40bd7915023cee642673498fe6abfbdb0d",
+        "subject": "test(inventory): add stock transfer dispatch FAT contract"
+      },
+      {
+        "commit": "3a0aaf83ddb56a2d86047b5902e8a56d5425f557",
+        "subject": "test(inventory): add stock transfer receive FAT contract"
+      },
+      {
+        "commit": "2e57ae33fba995995122ce5181834d70b8ba2c14",
+        "subject": "test(inventory): add material issue foundation FAT contract"
+      },
+      {
+        "commit": "2483d00bc793fd6074c6cf7bbdf5f2c43f09886c",
+        "subject": "test(inventory): add material issue posting FAT contract"
+      },
+      {
+        "commit": "05c38dd09e32a7ae574dded490da613a8ce5c185",
+        "subject": "test(inventory): add material return foundation FAT contract"
+      },
+      {
+        "commit": "85d5964424f01a7534b2acf4de5f27de0e3d9183",
+        "subject": "test(inventory): add material return posting FAT contract"
+      },
+      {
+        "commit": "2215563cacc7a956173dea1ed4a66226740e85ac",
+        "subject": "test(inventory): add stock adjustment foundation FAT contract"
+      },
+      {
+        "commit": "8373fa6bf4a0ed461dc9e4b2e8753668906a5be1",
+        "subject": "test(inventory): add stock adjustment posting FAT contract"
+      },
+      {
+        "commit": "7fd6f9548ee4453aeb99252cb92354bb39cb6597",
+        "subject": "test(inventory): add reservation foundation FAT contract"
+      },
+      {
+        "commit": "635d97b307e065277c7de0b00cd09f00a251c2b9",
+        "subject": "test(inventory): add reservation fulfillment FAT contract"
+      },
+      {
+        "commit": "407c494ba834203481c9b7bbc2ac1031dbe752ad",
+        "subject": "test(inventory): add reservation release and expiry FAT contract"
+      },
+      {
+        "commit": "73a49aa62db9534e3758d7111e68726fa8541e20",
+        "subject": "test(inventory): add batch tracking FAT contract"
+      },
+      {
+        "commit": "fdd90b206b3766f5b9ae94601d2b06a6def083b3",
+        "subject": "test(inventory): add insufficient stock rejection FAT contract"
+      },
+      {
+        "commit": "528a4b9fb1df1543e4e80dd27a27a925c47dd1b9",
+        "subject": "test(inventory): complete HTTP idempotency FAT contract"
+      },
+      {
+        "commit": "ddcaace0c5d4682b3e06c7d83e7723cc1d954ab5",
+        "subject": "docs(governance): close inventory FAT acceptance"
+      }
+    ],
+    "contractFiles": [
+      {
+        "path": "operations/fat/adapters/inventory.mjs",
+        "sha256": "7b49123c95152fee920c4fb44897e3765d8ae6d53ade4fb150a6886754a577d3"
+      },
+      {
+        "path": "operations/fat/scripts/validate-fat-inventory-adapter.py",
+        "sha256": "4d62571f41ad73632e751817c8e8bd969bafc9c1055e677a113beb6442062c4b"
+      },
+      {
+        "path": "operations/fat/checklists/inventory.md",
+        "sha256": "3e883280a5ae2e17e2a303fddab4e947a16e876e85fca78b458f53189605d331"
+      },
+      {
+        "path": "operations/fat/scripts/fat-runner.mjs",
+        "sha256": "6a9d7b61994efbdde7c44c8101056d6e3c85de0d60d4f8e4df71baca75fc589c"
+      },
+      {
+        "path": "operations/fat/scripts/validate-fat-runner.py",
+        "sha256": "53ce29a4eec7d6edbabc3132d3f4ac22d76f6ae827abe6f85bc84bf5ccd638e4"
+      },
+      {
+        "path": "operations/fat/contracts/founder-acceptance-evidence-contract.json",
+        "sha256": "1187750e2d903d42ea1cb8b0813a884429d92aaceb62535eda82ca9aeb52f99d"
+      },
+      {
+        "path": "operations/fat/contracts/founder-acceptance-suite-manifest.json",
+        "sha256": "7ae1b08ef0cbfb71eab25a5a899f269c98080a3ec493d3b04b1aed9acd041aa8"
+      },
+      {
+        "path": "operations/fat/plans/execution-plan.json",
+        "sha256": "3bb66c07f3e4b8a8ddd38e60090667df0f1ad53acbc89fc871c1a8a698928f1f"
+      },
+      {
+        "path": "operations/fat/readiness/isolated-execution-readiness.json",
+        "sha256": "c376eef1bb9f58d3ea47b4ea0bd0f1e4235c36b7c718f480bb5c826a7a1fabd1"
+      },
+      {
+        "path": "operations/fat/runtime/isolated-runtime-contract.json",
+        "sha256": "d6e61edf3a8489935ffb762896273070c28069ca7b81559d9315738c76e27d2a"
+      }
+    ],
+    "testFiles": [
+      {
+        "path": "backend/src/core/inventory/inventory-idempotency-wiring.integration-spec.ts",
+        "sha256": "ff767ddf221186cddb533fb41cc03f149b71172efbf33f85e5c2663b375837f7"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-posting-metrics.service.integration-spec.ts",
+        "sha256": "b37661c4873435f7dd62222bcba5385df0f3af94ab691dc7827b9ec2da20dc2a"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-unit-of-measure.service.integration-spec.ts",
+        "sha256": "57d3c2e86cdab1fd5616bdf51aae68b57465e8b536687f810c800d43b219e872"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-category.service.integration-spec.ts",
+        "sha256": "14f427c8815971190eca28b14e7086f43803e007fe025e0b54ec67b4f758e4a2"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-brand.service.integration-spec.ts",
+        "sha256": "b74d394e15a51bf0e0eaa783f9ff1c7240151ac3e37f27328c905e3a8413acb9"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-item.service.integration-spec.ts",
+        "sha256": "391ad7dc1fbee2577507d54ae98ee4dd1698821fc761a10e56dff5950f21b368"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-store.service.integration-spec.ts",
+        "sha256": "0c46c3300eaa8aea890cfc5328a3d66c02aa35efd3c6b3aa9341efa68d38dedc"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-bin.service.integration-spec.ts",
+        "sha256": "563879c7e583bef6bc3707f6c294f855abcdc208711c4982df7bd8df7ff0e96a"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-balance.service.integration-spec.ts",
+        "sha256": "aa787283cd0f7feed5fca95d1e2fe2ca091ceca179e6dbf5c91b3b3603f783fb"
+      },
+      {
+        "path": "backend/src/core/procurement/services/procurement-inventory-posting.service.integration-spec.ts",
+        "sha256": "e0b0eeccac6fbaadf80fee52ecdc6deff12f311dea605c688154000b82ebe106"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-transfer-foundation.service.integration-spec.ts",
+        "sha256": "369f2608d254a2be023578df5ab2e1377190f2fdd26080bee484e5032459ebf5"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-transfer-dispatch.service.integration-spec.ts",
+        "sha256": "50015d05c141be3019586344202ec95cc015d912048220cfcf92a623ba1d6d23"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-transfer-receive.service.integration-spec.ts",
+        "sha256": "b97f192492d2abe2efbc2ae15d073fbc558fb1831bbb1235c52c8200e7a52edd"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-material-issue-foundation.service.integration-spec.ts",
+        "sha256": "4504d3d1a3b5e437d6102540690f62a14e52ef374c73b387d727ca571a6da102"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-material-issue-posting.service.integration-spec.ts",
+        "sha256": "d9ae21cb67452090eaf1d8b363d3d1d1909e322b26c2978849fcc2c3f51cb84c"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-material-return-foundation.service.integration-spec.ts",
+        "sha256": "441cb2885dd83f802247aa08b484d83098c99e0393209d14ea908ed130192097"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-material-return-posting.service.integration-spec.ts",
+        "sha256": "8ffd8054491165641250a0689b176220d3c84f798c4d9c31c573412feb7fdcd2"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-adjustment-foundation.service.integration-spec.ts",
+        "sha256": "fde5122442860d8366aeaa0671e8ada23f46800f8755d6c640840c26b5ee6396"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-adjustment-posting.service.integration-spec.ts",
+        "sha256": "a54578043bac2d3d45bdb6b6d6d096eb8a98d8ddb82ee5e3cd27f4cb667ab9ed"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-reservation-foundation.service.integration-spec.ts",
+        "sha256": "b726a1346c36c39b15c78eea73f2361e0bf570bf2fca445d94017e1901247f5b"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-reservation-fulfillment.service.integration-spec.ts",
+        "sha256": "cadc54ae8fccf3b613a2255ba53153f8eda8562f30b77469698fd3c9ffa6fb4b"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-stock-reservation-release-expiry.service.integration-spec.ts",
+        "sha256": "1720fc27ef19d57cd312ec23052324afa275c598995ce72dd2d28be958b9f6bb"
+      },
+      {
+        "path": "backend/src/core/inventory/services/inventory-batch-tracking.service.integration-spec.ts",
+        "sha256": "214a8a5737a56d694cb9e5a08ae455ec10fdc34db84478d77162a5941cdd1169"
+      },
+      {
+        "path": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger-insufficient-stock.integration-spec.ts",
+        "sha256": "4874d17fc81f1f7f44a70749b2e9a5c2b49ee76ce2780d84507cdea501251197"
+      },
+      {
+        "path": "backend/src/core/inventory/inventory-http-idempotency.integration-spec.ts",
+        "sha256": "db85b18e842406ae115cf9a4ce2e29a4a715273d304b1b731cf1ff49a4a6b174"
+      }
+    ]
+  },
+  "founderDecision": {
+    "fatAcceptance": "ACCEPTED",
+    "pilotDeployment": "NOT_GRANTED",
+    "runtimeAcceptance": "NOT_AUTHORIZED"
+  },
+  "nextCheckpoint": "Phase 20M4 Inventory FAT Final Closure",
+  "phase": "20",
+  "repository": {
+    "branch": "feature/phase-16f-marketplace-upgrade-runtime",
+    "implementationBaseline": "528a4b9fb1df1543e4e80dd27a27a925c47dd1b9",
+    "phaseBaseline": "0cf96d9f08c6059ef6b89e7c11d66bd7fd6011f5",
+    "remoteMutationPerformed": false,
+    "sourceCommit": "ddcaace0c5d4682b3e06c7d83e7723cc1d954ab5",
+    "workingTreeClean": true
+  },
+  "safety": {
+    "acceptanceEvidenceStateMutated": false,
+    "databaseMutatedAfterCleanup": false,
+    "liveInventoryOperationsExecuted": false,
+    "migrationsExecuted": false,
+    "persistentRuntimeCreated": false,
+    "productionDataAccessed": false,
+    "productionDataMutated": false
+  },
+  "schemaVersion": 1,
+  "status": "PASSED",
+  "suiteId": "inventory"
+}

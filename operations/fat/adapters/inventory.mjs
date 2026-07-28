@@ -61,6 +61,8 @@ const inventoryTests = [
     "inventory-stock-adjustment-posting.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-stock-reservation-foundation.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-stock-reservation-fulfillment.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -278,6 +280,8 @@ async function runInventorySuite() {
       stockAdjustmentContract:
         true,
       reservationFoundationContract:
+        true,
+      reservationFulfillmentContract:
         true,
       reservationAllocationContract:
         false,

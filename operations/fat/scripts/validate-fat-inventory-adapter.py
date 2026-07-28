@@ -92,6 +92,10 @@ EXPECTED_TEST_FILES = [
         "src/core/inventory/services/"
         "inventory-stock-adjustment-foundation.service.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/services/"
+        "inventory-stock-adjustment-posting.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -159,7 +163,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 18
+        == 19
     )
 
     assert report["testFiles"] == (
@@ -196,7 +200,8 @@ def main() -> None:
         "materialReturnPostingContract": True,
         "materialReturnContract": True,
         "stockAdjustmentFoundationContract": True,
-        "stockAdjustmentContract": False,
+        "stockAdjustmentPostingContract": True,
+        "stockAdjustmentContract": True,
         "reservationAllocationContract": False,
         "batchTrackingContract": False,
         "insufficientStockRejection": False,
@@ -220,7 +225,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    18"
+        "Test files discovered:    19"
     )
     print(
         "Adapter checks passed:    2"
@@ -292,10 +297,13 @@ def main() -> None:
         "Stock Adjustment foundation:true"
     )
     print(
-        "Stock Adjustment posting: pending"
+        "Stock Adjustment posting: true"
     )
     print(
-        "Lifecycle contracts done:  16"
+        "Stock Adjustment lifecycle:true"
+    )
+    print(
+        "Lifecycle contracts done:  17"
     )
     print(
         "Database mutated:          false"

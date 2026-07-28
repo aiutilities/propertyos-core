@@ -48,6 +48,10 @@ EXPECTED_TEST_FILES = [
         "src/core/inventory/services/"
         "inventory-store.service.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/services/"
+        "inventory-bin.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -115,7 +119,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 7
+        == 8
     )
 
     assert report["testFiles"] == (
@@ -137,7 +141,8 @@ def main() -> None:
         "brandLifecycleContract": True,
         "itemLifecycleContract": True,
         "storeLifecycleContract": True,
-        "storeAndBinContract": False,
+        "binLifecycleContract": True,
+        "storeAndBinContract": True,
         "goodsReceiptPostingContract": False,
         "stockTransferContract": False,
         "materialIssueContract": False,
@@ -166,7 +171,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    7"
+        "Test files discovered:    8"
     )
     print(
         "Adapter checks passed:    2"
@@ -193,7 +198,13 @@ def main() -> None:
         "Store contract:            true"
     )
     print(
-        "Lifecycle contracts done:  5"
+        "Bin contract:              true"
+    )
+    print(
+        "Store and Bin contract:    true"
+    )
+    print(
+        "Lifecycle contracts done:  6"
     )
     print(
         "Database mutated:          false"

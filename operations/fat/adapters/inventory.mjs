@@ -65,6 +65,8 @@ const inventoryTests = [
     "inventory-stock-reservation-fulfillment.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-stock-reservation-release-expiry.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-batch-tracking.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -291,8 +293,12 @@ async function runInventorySuite() {
         true,
       reservationAllocationContract:
         true,
+      batchMasterContract:
+        true,
+      batchAllocationContract:
+        true,
       batchTrackingContract:
-        false,
+        true,
       insufficientStockRejection:
         false,
       httpIdempotency:

@@ -108,6 +108,10 @@ EXPECTED_TEST_FILES = [
         "src/core/inventory/services/"
         "inventory-stock-reservation-release-expiry.service.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/services/"
+        "inventory-batch-tracking.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -175,7 +179,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 22
+        == 23
     )
 
     assert report["testFiles"] == (
@@ -219,7 +223,9 @@ def main() -> None:
         "reservationReleaseContract": True,
         "reservationExpiryContract": True,
         "reservationAllocationContract": True,
-        "batchTrackingContract": False,
+        "batchMasterContract": True,
+        "batchAllocationContract": True,
+        "batchTrackingContract": True,
         "insufficientStockRejection": False,
         "httpIdempotency": False,
         "idempotencyWiring": True,
@@ -241,7 +247,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    22"
+        "Test files discovered:    23"
     )
     print(
         "Adapter checks passed:    2"
@@ -334,7 +340,16 @@ def main() -> None:
         "Reservation lifecycle:     true"
     )
     print(
-        "Lifecycle contracts done:  20"
+        "Batch master:              true"
+    )
+    print(
+        "Batch allocation:          true"
+    )
+    print(
+        "Batch tracking:            true"
+    )
+    print(
+        "Lifecycle contracts done:  21"
     )
     print(
         "Database mutated:          false"

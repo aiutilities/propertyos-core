@@ -25,6 +25,8 @@ const inventoryTests = [
     "inventory-idempotency-wiring.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-posting-metrics.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-unit-of-measure.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -197,6 +199,8 @@ async function runInventorySuite() {
     passed:
       failed.length === 0,
     coverage: {
+      unitOfMeasureLifecycleContract:
+        true,
       itemLifecycleContract:
         false,
       storeAndBinContract:

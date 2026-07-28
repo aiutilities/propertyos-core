@@ -37,6 +37,8 @@ const inventoryTests = [
     "inventory-store.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-bin.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-stock-balance.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -222,6 +224,8 @@ async function runInventorySuite() {
       binLifecycleContract:
         true,
       storeAndBinContract:
+        true,
+      stockBalanceContract:
         true,
       goodsReceiptPostingContract:
         false,

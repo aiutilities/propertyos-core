@@ -2189,3 +2189,49 @@ Phase 20 Inventory FAT complete and closed
 Next canonical phase:
 
 Phase 21 Advaith's Nest Pilot Deployment Preparation
+
+---
+
+## 28 July 2026 - Phase 21 Product and Platform Plan
+
+Created:
+
+documentation/project-governance/PHASE_21_PRODUCT_AND_PLATFORM_PLAN.md
+
+Purpose:
+
+- preserve the post-Phase 20 strategy
+- define the transition from feature engineering to product validation
+- establish Product Experience, Pilot Readiness, Platform Engineering and
+  AI Experience workstreams
+- retain Procurement as the workflow reference implementation
+- retain Inventory as the FAT and acceptance reference implementation
+- define Advaith's Nest as the controlled pilot and product laboratory
+- define the future ForgeOS direction
+- prohibit unnecessary backend expansion
+- retain strict runtime-authorization boundaries
+- provide a continuation contract for future conversations
+
+Phase 20 baseline:
+
+38c729367177d4208d510181b917e98fc561f115
+
+Phase 20 tag:
+
+phase-20-inventory-fat-complete
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Production authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21A2 Product Experience Runtime Foundation

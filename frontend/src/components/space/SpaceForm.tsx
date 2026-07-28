@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useNotifications } from "@/hooks/useNotifications";
 import { apiRequest } from "@/lib/api";
 
 export default function SpaceForm({
@@ -10,6 +11,7 @@ export default function SpaceForm({
   propertyId: string;
 }) {
   const router = useRouter();
+  const notifications = useNotifications();
 
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
@@ -40,9 +42,27 @@ export default function SpaceForm({
         }),
       });
 
+      notifications.afterRedirect.created(
+        "Space",
+        name.trim(),
+        "The space was added successfully.",
+      );
+
       router.replace(`/properties/${propertyId}/spaces`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to create space.");
+      console.error(
+        "Space creation failed",
+        err,
+      );
+
+      notifications.error(
+        err,
+        "Space could not be created.",
+      );
+
+      setError(
+        "Unable to create space. Please review the form and try again.",
+      );
     } finally {
       setSaving(false);
     }

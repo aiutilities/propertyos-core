@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 
+import { useNotifications } from "@/hooks/useNotifications";
 import { apiRequest } from "@/lib/api";
 import type { Property } from "@/types/property";
 
@@ -59,6 +60,7 @@ export default function PropertyForm({
   propertyId,
 }: PropertyFormProps) {
   const router = useRouter();
+  const notifications = useNotifications();
   const isEditMode = Boolean(propertyId);
 
   const [
@@ -189,6 +191,24 @@ export default function PropertyForm({
           },
         );
 
+      const savedPropertyName =
+        response.data.name?.trim()
+        || form.name.trim();
+
+      if (isEditMode) {
+        notifications.afterRedirect.updated(
+          "Property",
+          savedPropertyName,
+          "Your changes have been saved.",
+        );
+      } else {
+        notifications.afterRedirect.created(
+          "Property",
+          savedPropertyName,
+          "The property is ready for zones and spaces.",
+        );
+      }
+
       router.replace(
         `/properties/${response.data.id}`,
       );
@@ -196,6 +216,13 @@ export default function PropertyForm({
       console.error(
         "Property save failed",
         caughtError,
+      );
+
+      notifications.error(
+        caughtError,
+        isEditMode
+          ? "Property could not be updated."
+          : "Property could not be created.",
       );
 
       setError(

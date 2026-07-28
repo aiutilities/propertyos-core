@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useNotifications } from "@/hooks/useNotifications";
 import { apiRequest } from "@/lib/api";
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 
 export default function ZoneForm({ propertyId }: Props) {
   const router = useRouter();
+  const notifications = useNotifications();
 
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
@@ -35,9 +37,27 @@ export default function ZoneForm({ propertyId }: Props) {
         }),
       });
 
+      notifications.afterRedirect.created(
+        "Zone",
+        name.trim(),
+        "The zone was added successfully.",
+      );
+
       router.replace(`/properties/${propertyId}/zones`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to create zone.");
+      console.error(
+        "Zone creation failed",
+        err,
+      );
+
+      notifications.error(
+        err,
+        "Zone could not be created.",
+      );
+
+      setError(
+        "Unable to create zone. Please review the form and try again.",
+      );
     } finally {
       setSaving(false);
     }

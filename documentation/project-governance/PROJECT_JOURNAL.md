@@ -2865,3 +2865,66 @@ NONE
 Next checkpoint:
 
 Phase 21E3 Property CRUD Notification Integration
+
+---
+
+## 28 July 2026 - Phase 21 Property Notification Integration
+
+Integrated the shared configurable notification framework into the
+existing Property domain frontend mutations.
+
+Covered mutations:
+
+- Property Create
+- Property Update
+- Zone Create
+- Space Create
+
+Successful redirecting mutations now queue notifications before
+navigation.
+
+Property Create message:
+
+Property "<name>" created successfully.
+
+Property Update message:
+
+Property "<name>" updated successfully.
+
+Zone Create message:
+
+Zone "<name>" created successfully.
+
+Space Create message:
+
+Space "<name>" created successfully.
+
+Failure behaviour:
+
+- mutation failures invoke the global error notification
+- safe inline field and form guidance remains available
+- raw backend JSON is not rendered
+- technical details remain available through console logging
+
+Current API limitation:
+
+Property, Zone and Space delete operations are not currently exposed
+through the existing frontend and backend Property controller contract.
+
+Zone and Space update operations are also not currently exposed through
+the existing frontend mutation surface.
+
+These operations must be integrated when their CRUD contracts are
+implemented.
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+NONE
+
+Next checkpoint:
+
+Phase 21E3C Property Notification Browser Acceptance

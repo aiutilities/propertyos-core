@@ -2972,3 +2972,49 @@ NONE
 Next checkpoint:
 
 Phase 21E3C Property Notification Browser Re-acceptance
+
+---
+
+## 28 July 2026 - Property Notification Browser Acceptance
+
+Browser acceptance completed for the route-aware redirect notification
+runtime.
+
+Accepted browser evidence:
+
+- Property updated: Arathi Bhavanam
+- redirect to Property Details completed
+- green success notification appeared
+- notification included the entity name
+- supporting confirmation text appeared
+- notification dismissal control was visible
+- no raw backend JSON was displayed
+- saved Property values were visible on the destination page
+
+Accepted message:
+
+Property "Arathi Bhavanam" updated successfully.
+
+Supporting message:
+
+Your changes have been saved.
+
+Decision:
+
+Property Update notifications are approved for pilot use.
+
+Property Create integration remains implemented.
+
+Zone Create and Space Create remain pending browser acceptance.
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+Property update performed during manual acceptance.
+
+Next checkpoint:
+
+Phase 21E3D Zone and Space Browser Acceptance

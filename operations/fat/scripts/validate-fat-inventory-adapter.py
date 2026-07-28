@@ -76,6 +76,10 @@ EXPECTED_TEST_FILES = [
         "src/core/inventory/services/"
         "inventory-material-issue-foundation.service.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/services/"
+        "inventory-material-issue-posting.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -143,7 +147,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 14
+        == 15
     )
 
     assert report["testFiles"] == (
@@ -174,7 +178,8 @@ def main() -> None:
         "stockTransferReceiveContract": True,
         "stockTransferContract": True,
         "materialIssueFoundationContract": True,
-        "materialIssueContract": False,
+        "materialIssuePostingContract": True,
+        "materialIssueContract": True,
         "materialReturnContract": False,
         "stockAdjustmentContract": False,
         "reservationAllocationContract": False,
@@ -200,7 +205,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    14"
+        "Test files discovered:    15"
     )
     print(
         "Adapter checks passed:    2"
@@ -254,10 +259,13 @@ def main() -> None:
         "Material Issue foundation: true"
     )
     print(
-        "Material Issue posting:    pending"
+        "Material Issue posting:    true"
     )
     print(
-        "Lifecycle contracts done:  12"
+        "Material Issue lifecycle:  true"
+    )
+    print(
+        "Lifecycle contracts done:  13"
     )
     print(
         "Database mutated:          false"

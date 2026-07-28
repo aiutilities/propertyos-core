@@ -49,6 +49,8 @@ const inventoryTests = [
     "inventory-stock-transfer-receive.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-material-issue-foundation.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-material-issue-posting.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -249,8 +251,10 @@ async function runInventorySuite() {
         true,
       materialIssueFoundationContract:
         true,
+      materialIssuePostingContract:
+        true,
       materialIssueContract:
-        false,
+        true,
       materialReturnContract:
         false,
       stockAdjustmentContract:

@@ -2490,3 +2490,53 @@ ABSENT
 Next checkpoint:
 
 Phase 21C8A Administration Navigation Browser Re-audit
+
+---
+
+## 28 July 2026 - Phase 21 Administration Navigation Re-audit Closure
+
+Founder browser re-audit confirmed:
+
+- eight administration navigation domains visible
+- navigation groups are collapsible
+- Overview is expanded for the dashboard route
+- active-route group expansion works
+- resident navigation is absent from the administrator sidebar
+- duplicate generic Dashboard label is absent
+- Procurement Dashboard is clearly labelled
+- continuous full-menu scrolling is materially reduced
+
+Final navigation assessment:
+
+- navigation sub-score: 4 of 5
+- UX-003: Closed
+- navigation pilot blocker: Removed
+
+Dashboard assessment:
+
+- overall dashboard score remains 2.5 of 5
+- dashboard status remains Pilot Blocker
+- UX-002 remains Open
+- dashboard command-centre remediation is still required
+
+Deferred navigation polish:
+
+- replace plus/minus symbols with directional chevrons
+- further refine group-header emphasis
+- validate mobile navigation behaviour
+
+Database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21C9 Dashboard Operational Command Centre

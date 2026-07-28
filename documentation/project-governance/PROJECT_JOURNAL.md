@@ -2311,3 +2311,52 @@ ABSENT
 Next checkpoint:
 
 Phase 21C5 Root, Login and Dashboard UX Contract Capture
+
+---
+
+## 28 July 2026 - Phase 21 UX Remediation Blueprint
+
+Created:
+
+documentation/product-audit/UX_REMEDIATION_BLUEPRINT.md
+
+Scope:
+
+- administration shell
+- navigation information architecture
+- dashboard
+- login
+- landing page
+- reusable page patterns
+
+Defect mapping:
+
+- UX-001 assigned to Phase 21C7
+- UX-003 assigned to Phase 21C8
+- UX-002 assigned to Phases 21C9 and 21C10
+- UX-004 assigned to Phase 21C11
+
+Implementation order:
+
+1. login credential safety
+2. administration navigation
+3. dashboard hierarchy
+4. dashboard states and actions
+5. landing-page communication
+6. founder re-audit
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Production authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21C7 Login Credential Safety Remediation

@@ -2813,3 +2813,55 @@ ABSENT
 Next checkpoint:
 
 Phase 21D2H Successful Create Property Browser Validation
+
+---
+
+## 28 July 2026 - Phase 21 Global Notification Foundation
+
+Founder decision:
+
+Every CRUD operation and every state-changing action must provide
+immediate visual feedback.
+
+The framework provides PropertyOS defaults while allowing installation
+administrators to edit notification behaviour and message templates.
+
+Implemented:
+
+- global NotificationProvider
+- editable installation configuration
+- runtime administrator overrides
+- success, error, warning and information tones
+- configurable position and automatic dismissal
+- manual dismissal and stacked presentation
+- accessible live-region and alert semantics
+- reduced-motion support
+- configurable CRUD and state-transition templates
+- entity-name interpolation
+- redirect-persistent notification queue
+- semantic CRUD and workflow helpers
+- centralized API-error sanitization
+- raw backend JSON suppression contract
+- permanent validator and contract tests
+- formal Global Notification UX Contract
+
+Configuration file:
+
+frontend/public/config/notifications.json
+
+Governance:
+
+No current or future CRUD or state-changing action may complete
+silently.
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+NONE
+
+Next checkpoint:
+
+Phase 21E3 Property CRUD Notification Integration

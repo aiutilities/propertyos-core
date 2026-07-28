@@ -69,6 +69,8 @@ const inventoryTests = [
     "inventory-batch-tracking.service.integration-spec.ts",
   "src/core/inventory/repositories/" +
     "postgres-inventory-stock-ledger-insufficient-stock.integration-spec.ts",
+  "src/core/inventory/" +
+    "inventory-http-idempotency.integration-spec.ts",
 ];
 
 function runCommand({
@@ -304,7 +306,7 @@ async function runInventorySuite() {
       insufficientStockRejection:
         true,
       httpIdempotency:
-        false,
+        true,
       idempotencyWiring:
         true,
       postingMetrics:

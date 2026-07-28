@@ -116,6 +116,10 @@ EXPECTED_TEST_FILES = [
         "src/core/inventory/repositories/"
         "postgres-inventory-stock-ledger-insufficient-stock.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/"
+        "inventory-http-idempotency.integration-spec.ts"
+    ),
 ]
 
 
@@ -183,7 +187,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 24
+        == 25
     )
 
     assert report["testFiles"] == (
@@ -231,7 +235,7 @@ def main() -> None:
         "batchAllocationContract": True,
         "batchTrackingContract": True,
         "insufficientStockRejection": True,
-        "httpIdempotency": False,
+        "httpIdempotency": True,
         "idempotencyWiring": True,
         "postingMetrics": True,
     }
@@ -251,7 +255,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    24"
+        "Test files discovered:    25"
     )
     print(
         "Adapter checks passed:    2"
@@ -356,10 +360,13 @@ def main() -> None:
         "Insufficient stock reject: true"
     )
     print(
-        "HTTP idempotency:          pending"
+        "HTTP idempotency:          true"
     )
     print(
-        "Lifecycle contracts done:  22"
+        "Inventory FAT coverage:    complete"
+    )
+    print(
+        "Lifecycle contracts done:  23"
     )
     print(
         "Database mutated:          false"

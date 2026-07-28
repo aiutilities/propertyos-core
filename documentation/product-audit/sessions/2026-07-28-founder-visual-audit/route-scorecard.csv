@@ -8,7 +8,7 @@ AuditOrder,Module,Route,Loads,Navigation,Breadcrumb,Content,Search,Filters,Pagin
 7,properties,/properties/[id]/spaces,,,,,,,,,,,,,,,,,,,,Not Audited,
 8,properties,/properties/[id]/zones/new,,,,,,,,,,,,,,,,,,,,Not Audited,
 9,properties,/properties/[id]/zones,,,,,,,,,,,,,,,,,,,,Not Audited,
-10,properties,/properties/new,,,,,,,,,,,,,,,,,,,,Not Audited,
+10,properties,/properties/new,Yes,3.5,,Yes,,,,,,,Not fully reviewed,,Not observed,,Not reviewed,,Not reviewed,,3.0,Pilot Blocker,"Sticky shell header overlaps form fields during scroll. Long form lacks semantic sections, required-field guidance and a clear cancel action."
 11,properties,/properties,,,,,,,,,,,,,,,,,,,,Not Audited,
 12,tenants,/tenants/[id]/assign-space,,,,,,,,,,,,,,,,,,,,Not Audited,
 13,tenants,/tenants/[id],,,,,,,,,,,,,,,,,,,,Not Audited,

@@ -2649,3 +2649,69 @@ ABSENT
 Next checkpoint:
 
 Phase 21D Module-by-Module Visual Audit
+
+---
+
+## 28 July 2026 - Phase 21 Create Property Founder Audit
+
+Route reviewed:
+
+/properties/new
+
+Founder assessment:
+
+- score: 3.0 of 5
+- status: Pilot Blocker
+- property-module audit remains in progress
+
+Accepted strengths:
+
+- route loads successfully
+- visual styling is consistent with the administration shell
+- labels and inputs are generally readable
+- address fields use an understandable two-column arrangement
+- primary action is visible at the end of the form
+
+Defects recorded:
+
+- UX-005: sticky administration header overlays property-form content
+- UX-006: property form is long and lacks semantic sections and a clear secondary action
+
+Required remediation:
+
+1. correct the content offset beneath the sticky header
+2. group fields into Basic Information, Address and Configuration
+3. identify required and optional fields clearly
+4. add a visible Cancel action
+5. preserve clear action access throughout the long form
+6. validate desktop, tablet and mobile layouts
+
+Remaining property routes:
+
+- /properties
+- /properties/[id]
+- /properties/[id]/edit
+- /properties/[id]/zones
+- /properties/[id]/zones/new
+- /properties/[id]/spaces
+- /properties/[id]/spaces/new
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21D2B Properties List Founder Audit

@@ -65,7 +65,7 @@ ReviewOrder,Module,Route,VisualDesign,Navigation,Layout,Typography,Spacing,Respo
 64,properties,/properties/[id]/spaces,,,,,,,,,,,,,,,Not Audited,,,,,No
 65,properties,/properties/[id]/zones/new,,,,,,,,,,,,,,,Not Audited,,,,,No
 66,properties,/properties/[id]/zones,,,,,,,,,,,,,,,Not Audited,,,,,No
-67,properties,/properties/new,,,,,,,,,,,,,,,Not Audited,,,,,No
+67,properties,/properties/new,3.5,3.5,2.5,4,3,Not Reviewed,,,,3,,2.5,5,3.0,Pilot Blocker,P1,Founder screenshots captured on 28 July 2026,"The create-property form loads and presents readable controls, but the sticky administration header overlays form content while scrolling. Property Type and Description content are visibly obscured. The form is also presented as one long undifferentiated block without section headings, explanatory text, a visible cancel action, or a clear indication of required versus optional fields.","Correct the sticky-header content offset first. Reorganize the form into Basic Information, Address and Configuration sections. Add required-field guidance, appropriate field help, a Cancel action, and a stable action area that remains usable on long forms.",Yes
 68,properties,/properties,,,,,,,,,,,,,,,Not Audited,,,,,No
 69,receipts,/receipts/[id],,,,,,,,,,,,,,,Not Audited,,,,,No
 70,receipts,/receipts/new,,,,,,,,,,,,,,,Not Audited,,,,,No

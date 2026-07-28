@@ -1225,6 +1225,68 @@ Completed foundations include:
 - idempotent mutation protection
 - operational metrics
 
+## Inventory FAT Acceptance State
+
+Status:
+
+COMPLETE
+
+Implementation baseline:
+
+528a4b9fb1df1543e4e80dd27a27a925c47dd1b9
+
+Acceptance evidence:
+
+- 25 registered Inventory FAT suites
+- 203 Inventory FAT tests passed
+- 23 Inventory lifecycle contracts complete
+- 34 coverage flags verified true
+- backend typecheck passed
+- Inventory adapter validation passed
+- FAT runner validation passed
+- HTTP idempotency complete
+- insufficient-stock rejection complete
+- Batch tracking complete
+- repository scope validation passed
+
+Accepted Inventory capabilities:
+
+- Units of Measure
+- Categories
+- Brands
+- Items
+- Stores
+- Bins
+- Stock Balances
+- Goods Receipt Inventory posting
+- Stock Transfers
+- Material Issues
+- Material Returns
+- Stock Adjustments
+- Reservations and allocation
+- Batch tracking and allocation
+- insufficient-stock protection
+- HTTP mutation idempotency
+- posting metrics
+
+Safety state:
+
+- runtime authorization: absent
+- FAT runtime authorization: revoked
+- production execution: forbidden
+- live Inventory operations: not executed
+- production database mutation: false
+- migration execution: false
+- repository: clean
+
+Pending before any pilot Inventory execution:
+
+- immutable acceptance evidence snapshot
+- explicit isolated-runtime authorization
+- synthetic pilot dataset
+- controlled runtime execution plan
+- mandatory teardown and authorization revocation
+
 ## Remaining Canonical Roadmap
 
 Phase 18:

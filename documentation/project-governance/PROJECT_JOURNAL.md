@@ -2928,3 +2928,47 @@ NONE
 Next checkpoint:
 
 Phase 21E3C Property Notification Browser Acceptance
+
+---
+
+## 28 July 2026 - Phase 21 Redirect Notification Runtime Repair
+
+Browser acceptance identified that successful Property Create and
+Property Update operations completed correctly, but the queued success
+notification did not appear on the destination page.
+
+Root cause:
+
+The global NotificationProvider consumed redirect notifications only
+during its initial mount.
+
+Next.js client-side navigation preserves the root provider, so
+router.replace() did not remount it and the queued notification remained
+in session storage.
+
+Remediation:
+
+- NotificationProvider now observes the active pathname
+- redirect notifications are consumed after client-side route changes
+- consumption waits until installation configuration has loaded
+- the session-storage queue remains exactly-once
+- direct notification dispatch remains unchanged
+- permanent regression coverage was added
+
+Expected browser behaviour:
+
+Property "Arathi Bhavanam" created successfully.
+
+Property "Arathi Bhavanam" updated successfully.
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+NONE
+
+Next checkpoint:
+
+Phase 21E3C Property Notification Browser Re-acceptance

@@ -13,6 +13,10 @@ import type {
 } from "react";
 
 import {
+  usePathname,
+} from "next/navigation";
+
+import {
   consumeRedirectNotifications,
   defaultNotificationConfiguration,
   getNotificationConfiguration,
@@ -48,12 +52,18 @@ export function NotificationProvider({
 }: {
   children: ReactNode;
 }) {
+  const pathname = usePathname();
   const [
     configuration,
     setConfiguration,
   ] = useState(
     defaultNotificationConfiguration,
   );
+
+  const [
+    configurationLoaded,
+    setConfigurationLoaded,
+  ] = useState(false);
 
   const [
     notifications,
@@ -189,13 +199,7 @@ export function NotificationProvider({
       );
 
       setConfiguration(merged);
-
-      for (
-        const item
-        of consumeRedirectNotifications()
-      ) {
-        addNotification(item);
-      }
+      setConfigurationLoaded(true);
     }
 
     void loadConfiguration();
@@ -204,6 +208,23 @@ export function NotificationProvider({
       active = false;
     };
   }, [addNotification]);
+
+  useEffect(() => {
+    if (!configurationLoaded) {
+      return;
+    }
+
+    for (
+      const item
+      of consumeRedirectNotifications()
+    ) {
+      addNotification(item);
+    }
+  }, [
+    pathname,
+    configurationLoaded,
+    addNotification,
+  ]);
 
   useEffect(() => {
     function receiveNotification(

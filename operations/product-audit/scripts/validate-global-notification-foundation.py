@@ -126,6 +126,10 @@ require(
         "manualDismiss",
         "maximumVisible",
         "autoDismissMs",
+        "usePathname",
+        "configurationLoaded",
+        "consumeRedirectNotifications",
+        "pathname",
     ],
     "Provider contract",
 )

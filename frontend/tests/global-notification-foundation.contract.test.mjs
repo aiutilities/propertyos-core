@@ -206,3 +206,28 @@ test(
     );
   },
 );
+
+test(
+  "consumes redirect notifications after client navigation",
+  () => {
+    assert.match(
+      provider,
+      /usePathname/,
+    );
+
+    assert.match(
+      provider,
+      /configurationLoaded/,
+    );
+
+    assert.match(
+      provider,
+      /consumeRedirectNotifications/,
+    );
+
+    assert.match(
+      provider,
+      /pathname,/,
+    );
+  },
+);

@@ -1233,7 +1233,7 @@ COMPLETE AND CLOSED
 
 Final closure commit:
 
-PENDING_CURRENT_COMMIT
+80da1eec0860d93c81f0bdc06f5ff121af372945
 
 Evidence snapshot commit:
 

@@ -27,6 +27,8 @@ const inventoryTests = [
     "inventory-posting-metrics.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-unit-of-measure.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-category.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -200,6 +202,8 @@ async function runInventorySuite() {
       failed.length === 0,
     coverage: {
       unitOfMeasureLifecycleContract:
+        true,
+      categoryLifecycleContract:
         true,
       itemLifecycleContract:
         false,

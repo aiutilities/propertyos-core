@@ -2715,3 +2715,51 @@ ABSENT
 Next checkpoint:
 
 Phase 21D2B Properties List Founder Audit
+
+---
+
+## 28 July 2026 - Phase 21 Create Property Remediation
+
+Implemented:
+
+- removed sticky top-bar behaviour from long Property create and edit forms
+- added dedicated Create Property and Edit Property page introductions
+- reorganized the form into Basic Information, Address and Configuration
+- added required-field guidance
+- identified optional fields
+- added field descriptions and examples
+- added property-type suggestions while retaining string compatibility
+- added browser autocomplete contracts
+- added a visible Cancel action
+- added a persistent form action area
+- added structured property-loading skeletons
+- added accessible error feedback
+- preserved create and edit API contracts
+- preserved successful redirect to Property Details
+- added responsive one-column mobile behaviour
+- installed permanent Create Property remediation validation
+
+Defect status:
+
+- UX-005 remediated, pending founder browser re-audit
+- UX-006 remediated, pending founder browser re-audit
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21D2E Create Property Browser Re-audit

@@ -404,6 +404,12 @@ export function AdminShell({
   const sectionTitle =
     getSectionTitle(pathname);
 
+  const isLongFormRoute =
+    pathname === "/properties/new" ||
+    /^\/properties\/[^/]+\/edit$/.test(
+      pathname,
+    );
+
   const [expandedGroups, setExpandedGroups] =
     useState<Record<string, boolean>>(
       () =>
@@ -593,7 +599,13 @@ export function AdminShell({
         </div>
       </aside>
 
-      <main className="admin-main">
+      <main
+        className={
+          isLongFormRoute
+            ? "admin-main admin-main-long-form"
+            : "admin-main"
+        }
+      >
         <header className="topbar">
           <div>
             <p className="eyebrow">

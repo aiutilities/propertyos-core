@@ -2540,3 +2540,60 @@ ABSENT
 Next checkpoint:
 
 Phase 21C9 Dashboard Operational Command Centre
+
+---
+
+## 28 July 2026 - Phase 21 Dashboard Command Centre
+
+Implemented:
+
+- removed the duplicate dashboard page heading
+- replaced the statistics-first dashboard with an operational command centre
+- added portfolio-context hero
+- added priorities and exception cards
+- added outstanding-rent exception
+- added overdue-invoice exception
+- added vacant-space attention item
+- added six workflow quick actions
+- added portfolio operating-health cards
+- added monthly financial-position panel
+- retained platform readiness in a secondary panel
+- added structured loading skeletons
+- added retryable dashboard error state
+- added actionable empty state
+- added responsive tablet and mobile layouts
+- retained the existing backend dashboard API contract
+- installed permanent dashboard command-centre validation
+
+Quick actions:
+
+- Add tenant
+- Record payment
+- Raise maintenance
+- Create property
+- Purchase request
+- Receive goods
+
+Defect status:
+
+UX-002 remediated, pending founder browser re-audit
+
+Backend change:
+
+NONE
+
+Database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21C9C Dashboard Command Centre Browser Re-audit

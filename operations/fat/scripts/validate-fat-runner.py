@@ -100,6 +100,27 @@ def main() -> None:
         == 1
     )
 
+    inventory_precheck = run(
+        "precheck",
+        "inventory",
+    )
+
+    assert inventory_precheck.returncode == 0, (
+        inventory_precheck.stderr
+        or inventory_precheck.stdout
+    )
+
+    inventory_report = json.loads(
+        inventory_precheck.stdout
+    )
+
+    assert (
+        inventory_report["suiteId"]
+        == "inventory"
+    )
+
+    assert inventory_report["passed"] is True
+
     status = run("status")
 
     assert status.returncode == 0, (

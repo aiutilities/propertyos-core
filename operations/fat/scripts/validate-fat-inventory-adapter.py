@@ -60,6 +60,10 @@ EXPECTED_TEST_FILES = [
         "src/core/procurement/services/"
         "procurement-inventory-posting.service.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/services/"
+        "inventory-stock-transfer-foundation.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -127,7 +131,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 10
+        == 11
     )
 
     assert report["testFiles"] == (
@@ -153,6 +157,7 @@ def main() -> None:
         "storeAndBinContract": True,
         "stockBalanceContract": True,
         "goodsReceiptPostingContract": True,
+        "stockTransferFoundationContract": True,
         "stockTransferContract": False,
         "materialIssueContract": False,
         "materialReturnContract": False,
@@ -180,7 +185,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    10"
+        "Test files discovered:    11"
     )
     print(
         "Adapter checks passed:    2"
@@ -219,7 +224,13 @@ def main() -> None:
         "Goods Receipt posting:     true"
     )
     print(
-        "Lifecycle contracts done:  8"
+        "Transfer foundation:       true"
+    )
+    print(
+        "Transfer lifecycle:        pending"
+    )
+    print(
+        "Lifecycle contracts done:  9"
     )
     print(
         "Database mutated:          false"

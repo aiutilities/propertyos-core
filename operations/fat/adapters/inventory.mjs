@@ -41,6 +41,8 @@ const inventoryTests = [
     "inventory-stock-balance.service.integration-spec.ts",
   "src/core/procurement/services/" +
     "procurement-inventory-posting.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-stock-transfer-foundation.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -230,6 +232,8 @@ async function runInventorySuite() {
       stockBalanceContract:
         true,
       goodsReceiptPostingContract:
+        true,
+      stockTransferFoundationContract:
         true,
       stockTransferContract:
         false,

@@ -29,6 +29,8 @@ const inventoryTests = [
     "inventory-unit-of-measure.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-category.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-brand.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -204,6 +206,8 @@ async function runInventorySuite() {
       unitOfMeasureLifecycleContract:
         true,
       categoryLifecycleContract:
+        true,
+      brandLifecycleContract:
         true,
       itemLifecycleContract:
         false,

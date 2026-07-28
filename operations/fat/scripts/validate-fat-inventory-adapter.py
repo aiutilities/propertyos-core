@@ -36,6 +36,10 @@ EXPECTED_TEST_FILES = [
         "src/core/inventory/services/"
         "inventory-category.service.integration-spec.ts"
     ),
+    (
+        "src/core/inventory/services/"
+        "inventory-brand.service.integration-spec.ts"
+    ),
 ]
 
 
@@ -103,7 +107,7 @@ def main() -> None:
 
     assert (
         report["discoveredTestFiles"]
-        == 4
+        == 5
     )
 
     assert report["testFiles"] == (
@@ -122,6 +126,7 @@ def main() -> None:
     assert report["coverage"] == {
         "unitOfMeasureLifecycleContract": True,
         "categoryLifecycleContract": True,
+        "brandLifecycleContract": True,
         "itemLifecycleContract": False,
         "storeAndBinContract": False,
         "goodsReceiptPostingContract": False,
@@ -152,7 +157,7 @@ def main() -> None:
         "FAT Inventory foundation: VALID"
     )
     print(
-        "Test files discovered:    4"
+        "Test files discovered:    5"
     )
     print(
         "Adapter checks passed:    2"
@@ -170,7 +175,10 @@ def main() -> None:
         "Category contract:         true"
     )
     print(
-        "Lifecycle contracts done:  2"
+        "Brand contract:            true"
+    )
+    print(
+        "Lifecycle contracts done:  3"
     )
     print(
         "Database mutated:          false"

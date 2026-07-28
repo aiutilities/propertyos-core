@@ -6,8 +6,8 @@ import { login } from "@/lib/auth";
 
 export function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@propertyos.local");
-  const [password, setPassword] = useState("admin12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -42,6 +42,7 @@ export function LoginForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           type="email"
+          autoComplete="email"
           required
         />
       </label>
@@ -52,6 +53,7 @@ export function LoginForm() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           type="password"
+          autoComplete="current-password"
           required
         />
       </label>

@@ -2360,3 +2360,44 @@ ABSENT
 Next checkpoint:
 
 Phase 21C7 Login Credential Safety Remediation
+
+---
+
+## 28 July 2026 - Phase 21 Login Credential Safety
+
+Implemented:
+
+- removed the prefilled administrator email from the login form
+- removed the prefilled administrator password from the login form
+- added email autocomplete semantics
+- added current-password autocomplete semantics
+- preserved masked password entry
+- preserved submitting-state protection
+- installed a permanent login credential-safety validator
+
+Defect status:
+
+UX-001 remediated, pending founder browser re-audit
+
+Security outcome:
+
+- browser-visible default credentials absent
+- credentials are no longer supplied by the frontend source
+- authentication API behaviour unchanged
+- token and session contracts unchanged
+
+Database mutation:
+
+NONE
+
+Runtime authorization:
+
+ABSENT
+
+Pilot authorization:
+
+ABSENT
+
+Next checkpoint:
+
+Phase 21C7A Login Credential Safety Browser Re-audit

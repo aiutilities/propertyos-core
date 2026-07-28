@@ -33,6 +33,8 @@ const inventoryTests = [
     "inventory-brand.service.integration-spec.ts",
   "src/core/inventory/services/" +
     "inventory-item.service.integration-spec.ts",
+  "src/core/inventory/services/" +
+    "inventory-store.service.integration-spec.ts",
 ];
 
 function runCommand({
@@ -212,6 +214,8 @@ async function runInventorySuite() {
       brandLifecycleContract:
         true,
       itemLifecycleContract:
+        true,
+      storeLifecycleContract:
         true,
       storeAndBinContract:
         false,

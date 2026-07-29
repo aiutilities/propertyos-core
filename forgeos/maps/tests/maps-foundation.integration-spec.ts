@@ -36,6 +36,21 @@ describe(
 
         expect(
           typeof maps
+            .OsrmProvider,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof maps
+            .resolveOsrmConfiguration,
+        ).toBe(
+          'function',
+        );
+
+
+        expect(
+          typeof maps
             .resolveNominatimConfiguration,
         ).toBe(
           'function',

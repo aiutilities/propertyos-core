@@ -27,7 +27,8 @@
     "ports/**/*.ts",
     "providers/**/*.ts",
     "registry/**/*.ts",
-    "webhooks/**/*.ts"
+    "webhooks/**/*.ts",
+    "idempotency/**/*.ts"
   ],
   "exclude": [
     "dist",

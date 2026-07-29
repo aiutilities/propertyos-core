@@ -57,6 +57,10 @@ export interface NormalizedPaymentWebhookEvent {
 export interface PaymentWebhookDispatchResult {
   accepted: boolean;
 
+  duplicate?: boolean;
+
+  idempotencyKey?: string;
+
   providerName: string;
 
   verified:

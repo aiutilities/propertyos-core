@@ -1,4 +1,9 @@
 import {
+  buildPaymentWebhookIdempotencyKey,
+  PaymentWebhookIdempotencyStore,
+} from '../idempotency';
+
+import {
   NoopPaymentEventPublisher,
   NoopPaymentLogger,
   PaymentEventPublisher,
@@ -31,6 +36,9 @@ export interface PaymentWebhookDispatcherDependencies {
 
   logger?:
     PaymentLogger;
+
+  idempotencyStore?:
+    PaymentWebhookIdempotencyStore;
 
   now?:
     () => Date;
@@ -149,6 +157,89 @@ export class PaymentWebhookDispatcher {
           verified.errorMessage ??
           'Payment webhook verification failed',
       };
+    }
+
+    let idempotencyKey:
+      string | undefined;
+
+    if (
+      this.dependencies
+        .idempotencyStore &&
+      verified.eventId
+    ) {
+      idempotencyKey =
+        buildPaymentWebhookIdempotencyKey(
+          verified.providerName,
+          verified.eventId,
+        );
+
+      const claim =
+        await this.dependencies
+          .idempotencyStore
+          .claim({
+            key:
+              idempotencyKey,
+
+            providerName:
+              verified.providerName,
+
+            eventId:
+              verified.eventId,
+
+            claimedAt:
+              this.now()
+                .toISOString(),
+
+            metadata:
+              input.metadata,
+          });
+
+      if (!claim.claimed) {
+        await this.eventPublisher.publish({
+          type:
+            'payment.webhook.duplicate',
+
+          source:
+            'forgeos.payment.webhooks',
+
+          payload: {
+            providerName:
+              verified.providerName,
+
+            eventId:
+              verified.eventId,
+
+            idempotencyKey,
+
+            existingStatus:
+              claim.record.status,
+          },
+
+          correlationId:
+            input.correlationId,
+
+          causationId:
+            input.causationId,
+
+          metadata:
+            input.metadata,
+        });
+
+        return {
+          accepted: true,
+
+          duplicate: true,
+
+          idempotencyKey,
+
+          providerName:
+            verified.providerName,
+
+          verified,
+
+          handledBy: [],
+        };
+      }
     }
 
     const event:
@@ -352,8 +443,34 @@ export class PaymentWebhookDispatcher {
             event.metadata,
         });
 
+        if (
+          idempotencyKey &&
+          this.dependencies
+            .idempotencyStore
+        ) {
+          await this.dependencies
+            .idempotencyStore
+            .fail(
+              idempotencyKey,
+
+              this.now()
+                .toISOString(),
+
+              {
+                handlerName:
+                  handler.name,
+
+                errorMessage,
+              },
+            );
+        }
+
         return {
           accepted: false,
+
+          duplicate: false,
+
+          idempotencyKey,
 
           providerName:
             event.providerName,
@@ -373,8 +490,31 @@ export class PaymentWebhookDispatcher {
       }
     }
 
+    if (
+      idempotencyKey &&
+      this.dependencies
+        .idempotencyStore
+    ) {
+      await this.dependencies
+        .idempotencyStore
+        .complete(
+          idempotencyKey,
+
+          this.now()
+            .toISOString(),
+
+          {
+            handledBy,
+          },
+        );
+    }
+
     return {
       accepted: true,
+
+      duplicate: false,
+
+      idempotencyKey,
 
       providerName:
         event.providerName,

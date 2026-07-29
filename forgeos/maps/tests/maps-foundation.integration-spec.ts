@@ -22,6 +22,14 @@ describe(
 
         expect(
           typeof maps
+            .MapsDispatcher,
+        ).toBe(
+          'function',
+        );
+
+
+        expect(
+          typeof maps
             .calculateGeoDistanceMeters,
         ).toBe(
           'function',

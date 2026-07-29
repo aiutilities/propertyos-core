@@ -17,7 +17,7 @@ import {
 
 import {
   PaymentEventStoreService,
-} from '../services';
+} from '../services/payment-event-store.service';
 
 @Injectable()
 export class PropertyOSPaymentWebhookHandler

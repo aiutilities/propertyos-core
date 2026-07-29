@@ -7,6 +7,10 @@ import {
 } from '../../database/postgres';
 
 import {
+  AuthModule,
+} from '../auth/auth.module';
+
+import {
   EventBusModule,
 } from '../eventbus/eventbus.module';
 
@@ -33,12 +37,14 @@ import {
 } from './runtime';
 
 import {
+  PaymentController,
   PaymentTimelineController,
   PaymentWebhookController,
 } from './controllers';
 
 import {
   PaymentEventStoreService,
+  PaymentService,
 } from './services';
 
 import {
@@ -47,12 +53,14 @@ import {
 
 @Module({
   imports: [
+    AuthModule,
     EventBusModule,
     PostgresModule,
   ],
 
 
   controllers: [
+    PaymentController,
     PaymentTimelineController,
     PaymentWebhookController,
   ],
@@ -92,6 +100,7 @@ import {
     PropertyOSPaymentReconciliationStateUpdaterAdapter,
 
     PaymentEventStoreService,
+    PaymentService,
     PropertyOSPaymentWebhookHandler,
     PaymentRuntimeService,
   ],
@@ -99,6 +108,7 @@ import {
   exports: [
     PaymentRuntimeService,
     PaymentEventStoreService,
+    PaymentService,
     PaymentTransactionRepository,
     PaymentProviderEventRepository,
     PaymentReconciliationRepository,

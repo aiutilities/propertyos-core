@@ -1,7 +1,11 @@
 import {
   PLACE_CATEGORIES,
+  CachedPlacesService,
+  InMemoryPlacesCacheStore,
   PlacesDispatcher,
+  PlacesFallbackEngine,
   PlacesProviderRegistry,
+  PlacesProviderSelection,
   validatePlaceSearchRequest,
 } from '../index';
 
@@ -19,6 +23,30 @@ describe(
 
         expect(
           typeof PlacesProviderRegistry,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof PlacesProviderSelection,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof PlacesFallbackEngine,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof CachedPlacesService,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof InMemoryPlacesCacheStore,
         ).toBe(
           'function',
         );

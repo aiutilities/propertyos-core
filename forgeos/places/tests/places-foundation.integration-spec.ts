@@ -5,6 +5,7 @@ import {
   PlacesDispatcher,
   PlacesFallbackEngine,
   PlacesProviderRegistry,
+  OverpassProvider,
   PhotonProvider,
   PlacesProviderSelection,
   validatePlaceSearchRequest,
@@ -36,6 +37,12 @@ describe(
 
         expect(
           typeof PhotonProvider,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof OverpassProvider,
         ).toBe(
           'function',
         );

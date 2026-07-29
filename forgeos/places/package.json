@@ -1,0 +1,25 @@
+{
+  "name": "@forgeos/places",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Provider-neutral places and point-of-interest engine for ForgeOS products",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "node ../../backend/node_modules/typescript/bin/tsc -p tsconfig.build.json",
+    "typecheck": "node ../../backend/node_modules/typescript/bin/tsc -p tsconfig.build.json --noEmit",
+    "test": "../../backend/node_modules/.bin/jest --config ../jest.config.cjs places/tests --runInBand",
+    "prepare": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@forgeos/maps": "file:../maps"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "Apache-2.0"
+}

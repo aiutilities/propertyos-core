@@ -23,7 +23,14 @@ export class InMemoryPaymentWebhookIdempotencyStore
         input.key,
       );
 
-    if (existing) {
+    if (
+      existing &&
+      !(
+        input.reclaimFailed === true &&
+        existing.status ===
+          'FAILED'
+      )
+    ) {
       return {
         claimed: false,
         record:
@@ -50,8 +57,19 @@ export class InMemoryPaymentWebhookIdempotencyStore
         claimedAt:
           input.claimedAt,
 
-        metadata:
-          input.metadata,
+        metadata: {
+          ...existing?.metadata,
+          ...input.metadata,
+
+          retryCount:
+            existing
+              ? Number(
+                  existing.metadata
+                    ?.retryCount ??
+                  0,
+                ) + 1
+              : 0,
+        },
       };
 
     this.records.set(

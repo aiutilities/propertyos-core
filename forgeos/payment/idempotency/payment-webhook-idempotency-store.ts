@@ -28,6 +28,8 @@ export interface ClaimPaymentWebhookInput {
 
   claimedAt: string;
 
+  reclaimFailed?: boolean;
+
   metadata?:
     Record<string, unknown>;
 }

@@ -40,6 +40,9 @@ export interface PaymentWebhookDispatcherDependencies {
   idempotencyStore?:
     PaymentWebhookIdempotencyStore;
 
+  retryFailedWebhooks?:
+    boolean;
+
   now?:
     () => Date;
 }
@@ -189,6 +192,11 @@ export class PaymentWebhookDispatcher {
             claimedAt:
               this.now()
                 .toISOString(),
+
+            reclaimFailed:
+              this.dependencies
+                .retryFailedWebhooks ??
+              true,
 
             metadata:
               input.metadata,

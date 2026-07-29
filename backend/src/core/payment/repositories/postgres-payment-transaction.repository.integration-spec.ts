@@ -312,5 +312,89 @@ describe(
           );
       },
     );
+
+    it(
+      'finds a transaction using provider identifiers',
+      async () => {
+        const query =
+          jest.fn(
+            async (
+              _sql: string,
+              _values:
+                readonly unknown[],
+            ) => ({
+              rows: [
+                row(),
+              ],
+            }),
+          );
+
+        const repository =
+          new PostgresPaymentTransactionRepository(
+            {
+              query,
+            } as unknown as
+              Pool,
+          );
+
+        await expect(
+          repository
+            .findByProviderIdentifiers(
+              'razorpay',
+              {
+                providerOrderId:
+                  'order-1',
+
+                providerPaymentId:
+                  'pay-1',
+              },
+            ),
+        ).resolves.toMatchObject({
+          id:
+            'payment-1',
+        });
+
+        expect(query)
+          .toHaveBeenCalledWith(
+            expect.stringContaining(
+              'provider_payment_id',
+            ),
+
+            [
+              'razorpay',
+              'pay-1',
+              'order-1',
+            ],
+          );
+      },
+    );
+
+    it(
+      'does not query without provider identifiers',
+      async () => {
+        const query =
+          jest.fn();
+
+        const repository =
+          new PostgresPaymentTransactionRepository(
+            {
+              query,
+            } as unknown as
+              Pool,
+          );
+
+        await expect(
+          repository
+            .findByProviderIdentifiers(
+              'stripe',
+              {},
+            ),
+        ).resolves.toBeNull();
+
+        expect(query)
+          .not
+          .toHaveBeenCalled();
+      },
+    );
   },
 );

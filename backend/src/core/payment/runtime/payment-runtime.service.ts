@@ -24,6 +24,10 @@ import {
   resolvePaymentProviderSelection,
 } from '../provider-selection';
 
+import {
+  PropertyOSPaymentWebhookHandler,
+} from '../webhooks';
+
 @Injectable()
 export class PaymentRuntimeService
   implements OnModuleInit
@@ -52,6 +56,9 @@ export class PaymentRuntimeService
 
     private readonly stateStore:
       PropertyOSPaymentStateStoreAdapter,
+
+    private readonly webhookHandler:
+      PropertyOSPaymentWebhookHandler,
   ) {}
 
   onModuleInit(): void {
@@ -156,6 +163,10 @@ export class PaymentRuntimeService
         logger:
           this.logger,
       });
+
+    this.handlers.register(
+      this.webhookHandler,
+    );
 
     this.webhookDispatcher =
       new PaymentWebhookDispatcher({

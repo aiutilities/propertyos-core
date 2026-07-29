@@ -16,6 +16,10 @@ import {
   PaymentRuntimeService,
 } from './payment-runtime.service';
 
+import {
+  PropertyOSPaymentWebhookHandler,
+} from '../webhooks';
+
 const ENVIRONMENT_KEYS = [
   'PAYMENT_PROVIDER',
   'RAZORPAY_KEY_ID',
@@ -72,10 +76,27 @@ function createRuntime():
   } as unknown as
     PropertyOSPaymentStateStoreAdapter;
 
+  const webhookHandler = {
+    name:
+      'propertyos-payment-runtime',
+
+    eventTypes: [
+      '*',
+    ],
+
+    handle:
+      jest.fn(
+        async () =>
+          undefined,
+      ),
+  } as unknown as
+    PropertyOSPaymentWebhookHandler;
+
   return new PaymentRuntimeService(
     eventPublisher,
     logger,
     stateStore,
+    webhookHandler,
   );
 }
 

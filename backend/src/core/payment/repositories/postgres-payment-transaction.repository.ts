@@ -221,6 +221,98 @@ export class PostgresPaymentTransactionRepository
       : null;
   }
 
+  async findByProviderIdentifiers(
+    providerName:
+      string,
+
+    identifiers: {
+      providerOrderId?:
+        string;
+
+      providerPaymentId?:
+        string;
+
+      providerRefundId?:
+        string;
+    },
+  ): Promise<
+    PaymentTransaction |
+    null
+  > {
+    const conditions:
+      string[] = [];
+
+    const values:
+      unknown[] = [
+        providerName,
+      ];
+
+    const addIdentifier = (
+      column: string,
+      value:
+        string | undefined,
+    ): void => {
+      if (!value) {
+        return;
+      }
+
+      values.push(value);
+
+      conditions.push(
+        `${column} = $${values.length}`,
+      );
+    };
+
+    addIdentifier(
+      'provider_payment_id',
+      identifiers
+        .providerPaymentId,
+    );
+
+    addIdentifier(
+      'provider_order_id',
+      identifiers
+        .providerOrderId,
+    );
+
+    addIdentifier(
+      'provider_refund_id',
+      identifiers
+        .providerRefundId,
+    );
+
+    if (
+      conditions.length === 0
+    ) {
+      return null;
+    }
+
+    const result =
+      await this.pool.query<
+        PaymentTransactionRow
+      >(
+        `
+          SELECT *
+          FROM payment_transactions
+          WHERE provider_name = $1
+            AND (
+              ${conditions.join(
+                ' OR ',
+              )}
+            )
+          ORDER BY updated_at DESC
+          LIMIT 1
+        `,
+        values,
+      );
+
+    return result.rows[0]
+      ? this.map(
+          result.rows[0],
+        )
+      : null;
+  }
+
   async updateState(
     input:
       UpdatePaymentStateInput,

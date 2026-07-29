@@ -47,6 +47,25 @@ export abstract class PaymentTransactionRepository {
     null
   >;
 
+  abstract findByProviderIdentifiers(
+    providerName:
+      string,
+
+    identifiers: {
+      providerOrderId?:
+        string;
+
+      providerPaymentId?:
+        string;
+
+      providerRefundId?:
+        string;
+    },
+  ): Promise<
+    PaymentTransaction |
+    null
+  >;
+
   abstract updateState(
     input:
       UpdatePaymentStateInput,

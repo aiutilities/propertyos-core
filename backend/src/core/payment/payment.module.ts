@@ -40,6 +40,10 @@ import {
   PaymentEventStoreService,
 } from './services';
 
+import {
+  PropertyOSPaymentWebhookHandler,
+} from './webhooks';
+
 @Module({
   imports: [
     EventBusModule,
@@ -86,6 +90,7 @@ import {
     PropertyOSPaymentReconciliationStateUpdaterAdapter,
 
     PaymentEventStoreService,
+    PropertyOSPaymentWebhookHandler,
     PaymentRuntimeService,
   ],
 

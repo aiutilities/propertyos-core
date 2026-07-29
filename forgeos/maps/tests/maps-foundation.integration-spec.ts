@@ -29,6 +29,28 @@ describe(
 
         expect(
           typeof maps
+            .MapsFallbackEngine,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof maps
+            .MapsProviderSelection,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof maps
+            .InMemoryMapsProviderHealthStore,
+        ).toBe(
+          'function',
+        );
+
+
+        expect(
+          typeof maps
             .NominatimProvider,
         ).toBe(
           'function',

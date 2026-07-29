@@ -16,6 +16,7 @@ import {
   createPropertyOSStripeProvider,
   PropertyOSPaymentEventPublisherAdapter,
   PropertyOSPaymentLoggerAdapter,
+  PropertyOSPaymentStateStoreAdapter,
 } from '../adapters/forgeos';
 
 import {
@@ -48,6 +49,9 @@ export class PaymentRuntimeService
 
     private readonly logger:
       PropertyOSPaymentLoggerAdapter,
+
+    private readonly stateStore:
+      PropertyOSPaymentStateStoreAdapter,
   ) {}
 
   onModuleInit(): void {
@@ -145,6 +149,9 @@ export class PaymentRuntimeService
 
         eventPublisher:
           this.eventPublisher,
+
+        stateStore:
+          this.stateStore,
 
         logger:
           this.logger,

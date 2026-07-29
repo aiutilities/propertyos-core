@@ -9,6 +9,7 @@ import {
 import {
   PropertyOSPaymentEventPublisherAdapter,
   PropertyOSPaymentLoggerAdapter,
+  PropertyOSPaymentStateStoreAdapter,
 } from '../adapters/forgeos';
 
 import {
@@ -54,9 +55,27 @@ function createRuntime():
   } as unknown as
     PropertyOSPaymentLoggerAdapter;
 
+  const stateStore = {
+    updatePaymentState:
+      jest.fn(
+        async () => ({
+          id:
+            'payment-1',
+
+          status:
+            'PENDING',
+
+          providerName:
+            'disabled',
+        }),
+      ),
+  } as unknown as
+    PropertyOSPaymentStateStoreAdapter;
+
   return new PaymentRuntimeService(
     eventPublisher,
     logger,
+    stateStore,
   );
 }
 

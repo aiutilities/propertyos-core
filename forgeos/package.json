@@ -1,0 +1,22 @@
+{
+  "name": "@forgeos/communication",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Framework-neutral communication engine for ForgeOS products",
+  "main": "dist/communication/index.js",
+  "types": "dist/communication/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "node ../backend/node_modules/typescript/bin/tsc -p tsconfig.build.json",
+    "typecheck": "node ../backend/node_modules/typescript/bin/tsc -p tsconfig.build.json --noEmit",
+    "test": "../backend/node_modules/.bin/jest --config jest.config.cjs communication/tests --runInBand",
+    "prepare": "npm run clean && npm run build"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "Apache-2.0"
+}

@@ -10,3 +10,7 @@ coverage/
 
 # TypeScript incremental metadata
 *.tsbuildinfo
+
+# Package-local installation artefacts
+node_modules/
+package-lock.json

@@ -4,17 +4,50 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 
-import { EventBusService } from '../../eventbus/services/eventbus.service';
-import { InAppNotificationProvider } from '../providers/in-app-notification.provider';
-import { MockWhatsAppNotificationProvider } from '../providers/mock-whatsapp-notification.provider';
-import { WhatsAppWebhookNotificationProvider } from '../providers/whatsapp-webhook-notification.provider';
+import {
+  CommunicationDispatcher,
+  CommunicationProviderRegistry,
+  StoredCommunicationDelivery,
+  UpdateDeliveryStateInput,
+} from '@forgeos/communication';
+
+import {
+  EventBusService,
+} from '../../eventbus/services/eventbus.service';
+
+import {
+  PropertyOSNotificationEventPublisherAdapter,
+  PropertyOSNotificationProviderAdapter,
+} from '../adapters/forgeos';
+
+import {
+  InAppNotificationProvider,
+} from '../providers/in-app-notification.provider';
+
+import {
+  MockWhatsAppNotificationProvider,
+} from '../providers/mock-whatsapp-notification.provider';
+
+import {
+  WhatsAppWebhookNotificationProvider,
+} from '../providers/whatsapp-webhook-notification.provider';
+
 import {
   currentWhatsAppEnvironmentClass,
   resolveWhatsAppProviderSelection,
 } from '../providers/whatsapp-provider-selection';
-import { NotificationProviderRegistry } from '../registries/notification-provider.registry';
-import { NotificationMessage } from '../types/notification.types';
-import { NotificationService } from './notification.service';
+
+import {
+  NotificationProviderRegistry,
+} from '../registries/notification-provider.registry';
+
+import {
+  NotificationMessage,
+} from '../types/notification.types';
+
+import {
+  NotificationService,
+} from './notification.service';
 
 @Injectable()
 export class NotificationDispatcherService
@@ -25,14 +58,18 @@ export class NotificationDispatcherService
   );
 
   constructor(
-    private readonly registry: NotificationProviderRegistry,
-    private readonly notificationService: NotificationService,
-    private readonly eventBus: EventBusService,
+    private readonly registry:
+      NotificationProviderRegistry,
+    private readonly notificationService:
+      NotificationService,
+    private readonly eventBus:
+      EventBusService,
     private readonly mockWhatsAppProvider:
       MockWhatsAppNotificationProvider,
     private readonly webhookWhatsAppProvider:
       WhatsAppWebhookNotificationProvider,
-    private readonly inAppProvider: InAppNotificationProvider,
+    private readonly inAppProvider:
+      InAppNotificationProvider,
   ) {}
 
   onModuleInit(): void {
@@ -94,125 +131,107 @@ export class NotificationDispatcherService
   async dispatch(
     notification: NotificationMessage,
   ): Promise<NotificationMessage> {
-    const provider = this.registry.get(notification.channel);
+    const forgeosProviders =
+      new CommunicationProviderRegistry();
 
-    if (!provider) {
-      const failed =
-        await this.notificationService.updateDeliveryStatus(
-          notification.id,
-          'FAILED',
-          {
-            deliveryError:
-              `No notification provider registered for ${notification.channel}`,
-          },
-        );
-
-      await this.eventBus.publish(
-        'notification.failed',
-        'core.notification.dispatcher',
-        {
-          notificationId: notification.id,
-          channel: notification.channel,
-          recipient: notification.recipient,
-          reason:
-            `No provider registered for ${notification.channel}`,
-        },
+    for (
+      const provider
+      of this.registry.list()
+    ) {
+      forgeosProviders.register(
+        new PropertyOSNotificationProviderAdapter(
+          provider,
+        ),
       );
-
-      return failed ?? notification;
     }
 
-    try {
-      const result = await provider.send(notification);
+    let updatedNotification:
+      NotificationMessage | null = null;
 
-      if (!result.success) {
-        const failed =
-          await this.notificationService.updateDeliveryStatus(
-            notification.id,
-            'FAILED',
-            {
-              providerName: result.providerName,
-              deliveryError:
-                result.error ?? 'Provider delivery failed',
-              providerMetadata: result.metadata ?? {},
+    const dispatcher =
+      new CommunicationDispatcher({
+        providers: forgeosProviders,
+
+        deliveryStateStore: {
+          updateDeliveryState:
+            async (
+              input:
+                UpdateDeliveryStateInput,
+            ): Promise<
+              StoredCommunicationDelivery | null
+            > => {
+              updatedNotification =
+                await this.notificationService
+                  .updateDeliveryStatus(
+                    input.communicationId,
+                    input.status,
+                    input.metadata ?? {},
+                  );
+
+              if (!updatedNotification) {
+                return null;
+              }
+
+              return {
+                id:
+                  updatedNotification.id,
+                status:
+                  updatedNotification.status,
+                metadata:
+                  updatedNotification.metadata,
+              };
             },
-          );
-
-        await this.eventBus.publish(
-          'notification.failed',
-          'core.notification.dispatcher',
-          {
-            notificationId: notification.id,
-            channel: notification.channel,
-            recipient: notification.recipient,
-            providerName: result.providerName,
-            reason:
-              result.error ?? 'Provider delivery failed',
-          },
-        );
-
-        return failed ?? notification;
-      }
-
-      const sent =
-        await this.notificationService.updateDeliveryStatus(
-          notification.id,
-          'SENT',
-          {
-            providerName: result.providerName,
-            providerMessageId: result.providerMessageId,
-            providerMetadata: result.metadata ?? {},
-            deliveredAt: new Date().toISOString(),
-          },
-        );
-
-      await this.eventBus.publish(
-        'notification.sent',
-        'core.notification.dispatcher',
-        {
-          notificationId: notification.id,
-          channel: notification.channel,
-          recipient: notification.recipient,
-          providerName: result.providerName,
-          providerMessageId: result.providerMessageId,
         },
-      );
 
-      return sent ?? notification;
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'Unknown provider error';
+        eventPublisher:
+          new PropertyOSNotificationEventPublisherAdapter(
+            this.eventBus,
+          ),
 
-      this.logger.error(
-        `Notification dispatch failed: ${notification.id}`,
-        error instanceof Error ? error.stack : undefined,
-      );
-
-      const failed =
-        await this.notificationService.updateDeliveryStatus(
-          notification.id,
-          'FAILED',
-          {
-            providerName: provider.name,
-            deliveryError: message,
+        logger: {
+          error: (
+            message,
+            metadata,
+          ): void => {
+            this.logger.error(
+              metadata
+                ? `${message} ${JSON.stringify(metadata)}`
+                : message,
+            );
           },
-        );
-
-      await this.eventBus.publish(
-        'notification.failed',
-        'core.notification.dispatcher',
-        {
-          notificationId: notification.id,
-          channel: notification.channel,
-          recipient: notification.recipient,
-          providerName: provider.name,
-          reason: message,
         },
-      );
+      });
 
-      return failed ?? notification;
-    }
+    await dispatcher.dispatch({
+      communicationId:
+        notification.id,
+      channel:
+        notification.channel,
+      recipient:
+        notification.recipient,
+      subject:
+        notification.subject,
+      message:
+        notification.message,
+      metadata:
+        notification.metadata,
+      correlationId:
+        typeof notification.metadata
+          .correlationId === 'string'
+          ? notification.metadata
+              .correlationId
+          : undefined,
+      causationId:
+        typeof notification.metadata
+          .causationId === 'string'
+          ? notification.metadata
+              .causationId
+          : undefined,
+    });
+
+    return (
+      updatedNotification ??
+      notification
+    );
   }
 }

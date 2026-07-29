@@ -27,6 +27,21 @@ describe(
           'function',
         );
 
+        expect(
+          typeof maps
+            .NominatimProvider,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof maps
+            .resolveNominatimConfiguration,
+        ).toBe(
+          'function',
+        );
+
+
 
         expect(
           typeof maps

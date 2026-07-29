@@ -34,6 +34,7 @@ import {
 
 import {
   PaymentTimelineController,
+  PaymentWebhookController,
 } from './controllers';
 
 import {
@@ -53,6 +54,7 @@ import {
 
   controllers: [
     PaymentTimelineController,
+    PaymentWebhookController,
   ],
 
   providers: [

@@ -8,7 +8,13 @@ import { ConsolePlatformLogger, setupSwagger } from './core/platform';
 async function bootstrap() {
   validateEnvironment();
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(
+    AppModule,
+    {
+      rawBody:
+        true,
+    },
+  );
   const logger = app.get(ConsolePlatformLogger);
 
   app.enableShutdownHooks();

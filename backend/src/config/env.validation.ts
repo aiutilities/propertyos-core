@@ -37,11 +37,74 @@ function validatePaymentProvider(
   );
 }
 
+
+function validateMapsConfiguration(
+  errors: string[],
+): void {
+  const mapsEnabled =
+    [
+      '1',
+      'true',
+      'yes',
+      'enabled',
+    ].includes(
+      process.env
+        .MAPS_ENABLED
+        ?.trim()
+        .toLowerCase() ??
+        '',
+    );
+
+  if (
+    mapsEnabled &&
+    !process.env
+      .MAPS_NOMINATIM_USER_AGENT
+      ?.trim()
+  ) {
+    errors.push(
+      'MAPS_NOMINATIM_USER_AGENT is required when MAPS_ENABLED is true',
+    );
+  }
+
+  const positiveIntegerKeys = [
+    'MAPS_CACHE_MAX_ENTRIES',
+    'MAPS_NOMINATIM_TIMEOUT_MS',
+    'MAPS_NOMINATIM_MIN_INTERVAL_MS',
+    'MAPS_OSRM_TIMEOUT_MS',
+  ];
+
+  for (
+    const key of
+      positiveIntegerKeys
+  ) {
+    const value =
+      process.env[key];
+
+    if (
+      value !== undefined &&
+      (
+        !Number.isInteger(
+          Number(value),
+        ) ||
+        Number(value) <= 0
+      )
+    ) {
+      errors.push(
+        `${key} must be a positive integer`,
+      );
+    }
+  }
+}
+
 export function validateEnvironment() {
   const nodeEnv = process.env.NODE_ENV ?? 'development';
   const errors: string[] = [];
 
   validatePaymentProvider(
+    errors,
+  );
+
+  validateMapsConfiguration(
     errors,
   );
 

@@ -52,6 +52,7 @@
   "type": "commonjs",
   "dependencies": {
     "@forgeos/communication": "file:../forgeos",
+    "@forgeos/maps": "file:../forgeos/maps",
     "@forgeos/payment": "file:../forgeos/payment",
     "@nestjs/common": "^11.1.28",
     "@nestjs/core": "^11.1.28",

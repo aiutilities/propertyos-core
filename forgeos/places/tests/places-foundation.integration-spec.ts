@@ -7,6 +7,7 @@ import {
   PlacesProviderRegistry,
   OverpassProvider,
   PhotonProvider,
+  WikidataProvider,
   PlacesProviderSelection,
   validatePlaceSearchRequest,
 } from '../index';
@@ -43,6 +44,12 @@ describe(
 
         expect(
           typeof OverpassProvider,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof WikidataProvider,
         ).toBe(
           'function',
         );

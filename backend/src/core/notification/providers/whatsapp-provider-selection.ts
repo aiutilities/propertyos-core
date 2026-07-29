@@ -1,3 +1,8 @@
+import {
+  currentCommunicationEnvironmentClass,
+  resolveWhatsAppCommunicationProvider,
+} from '../provider-selection';
+
 export type WhatsAppEnvironmentClass =
   | 'DEVELOPMENT'
   | 'TEST'
@@ -6,114 +11,81 @@ export type WhatsAppEnvironmentClass =
 export type WhatsAppProviderMode =
   | 'MOCK'
   | 'WEBHOOK'
+  | 'META_CLOUD'
   | 'DISABLED';
 
 export interface WhatsAppProviderSelectionInput {
   environmentClass:
     WhatsAppEnvironmentClass;
-  configuredProvider?: string;
+
+  configuredProvider?:
+    string;
 }
 
 export interface WhatsAppProviderSelection {
   status: 'READY' | 'BLOCKED';
+
   scope:
     'PROPERTYOS_WHATSAPP_PROVIDER_SELECTION';
+
   environmentClass:
     WhatsAppEnvironmentClass;
-  mode: WhatsAppProviderMode;
-  mockAllowed: boolean;
-  realDeliveryConfigured: boolean;
-  errors: string[];
-}
 
-function normalizedProvider(
-  value?: string,
-): string {
-  return value?.trim().toLowerCase() ?? '';
+  mode:
+    WhatsAppProviderMode;
+
+  mockAllowed:
+    boolean;
+
+  realDeliveryConfigured:
+    boolean;
+
+  errors:
+    string[];
 }
 
 export function resolveWhatsAppProviderSelection(
-  input: WhatsAppProviderSelectionInput,
+  input:
+    WhatsAppProviderSelectionInput,
 ): WhatsAppProviderSelection {
-  const errors: string[] = [];
-  const configured =
-    normalizedProvider(
-      input.configuredProvider,
-    );
-
-  let mode: WhatsAppProviderMode =
-    'DISABLED';
-
-  if (!configured) {
-    mode =
-      input.environmentClass ===
-        'PRODUCTION'
-        ? 'DISABLED'
-        : 'MOCK';
-  } else if (configured === 'mock') {
-    mode = 'MOCK';
-  } else if (
-    configured === 'webhook' ||
-    configured === 'wppconnect'
-  ) {
-    mode = 'WEBHOOK';
-  } else if (configured === 'disabled') {
-    mode = 'DISABLED';
-  } else {
-    errors.push(
-      `Unsupported WhatsApp provider: ${configured}`,
-    );
-  }
-
-  if (
-    input.environmentClass ===
-      'PRODUCTION' &&
-    mode === 'MOCK'
-  ) {
-    errors.push(
-      'Mock WhatsApp delivery is forbidden in production',
-    );
-  }
-
-  const status =
-    errors.length === 0
-      ? 'READY'
-      : 'BLOCKED';
+  const selection =
+    resolveWhatsAppCommunicationProvider({
+      environmentClass:
+        input.environmentClass,
+      configuredProvider:
+        input.configuredProvider,
+    });
 
   return {
-    status,
+    status:
+      selection.status,
+
     scope:
       'PROPERTYOS_WHATSAPP_PROVIDER_SELECTION',
+
     environmentClass:
       input.environmentClass,
-    mode,
+
+    mode:
+      selection.provider,
+
     mockAllowed:
-      status === 'READY' &&
-      mode === 'MOCK' &&
-      input.environmentClass !==
-        'PRODUCTION',
+      selection.mockAllowed,
+
     realDeliveryConfigured:
-      status === 'READY' &&
-      mode === 'WEBHOOK',
-    errors,
+      selection
+        .realDeliveryConfigured,
+
+    errors: [
+      ...selection.errors,
+    ],
   };
 }
 
 export function currentWhatsAppEnvironmentClass(
   nodeEnvironment?: string,
 ): WhatsAppEnvironmentClass {
-  const normalized =
-    nodeEnvironment
-      ?.trim()
-      .toLowerCase();
-
-  if (normalized === 'production') {
-    return 'PRODUCTION';
-  }
-
-  if (normalized === 'test') {
-    return 'TEST';
-  }
-
-  return 'DEVELOPMENT';
+  return currentCommunicationEnvironmentClass(
+    nodeEnvironment,
+  );
 }

@@ -149,5 +149,27 @@ describe(
         ),
       ).toBe('DEVELOPMENT');
     });
+    it('selects Meta Cloud delivery in production', () => {
+      const selection =
+        resolveWhatsAppProviderSelection({
+          environmentClass:
+            'PRODUCTION',
+          configuredProvider:
+            'meta-cloud',
+        });
+
+      expect(selection.status).toBe(
+        'READY',
+      );
+
+      expect(selection.mode).toBe(
+        'META_CLOUD',
+      );
+
+      expect(
+        selection.realDeliveryConfigured,
+      ).toBe(true);
+    });
+
   },
 );

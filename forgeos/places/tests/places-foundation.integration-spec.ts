@@ -5,6 +5,7 @@ import {
   PlacesDispatcher,
   PlacesFallbackEngine,
   PlacesProviderRegistry,
+  PhotonProvider,
   PlacesProviderSelection,
   validatePlaceSearchRequest,
 } from '../index';
@@ -29,6 +30,12 @@ describe(
 
         expect(
           typeof PlacesProviderSelection,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof PhotonProvider,
         ).toBe(
           'function',
         );

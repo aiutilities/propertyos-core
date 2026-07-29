@@ -3,6 +3,7 @@ export * from './contracts';
 export * from './dispatcher';
 export * from './fallback';
 export * from './ports';
+export * from './providers';
 export * from './registry';
 export * from './selection';
 export * from './validation';

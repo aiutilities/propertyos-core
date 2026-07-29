@@ -24,3 +24,5 @@ export * from './policies';
 export * from './ports/communication-retry-scheduler';
 
 export * from './fallback';
+
+export * from './providers/meta-whatsapp-cloud';

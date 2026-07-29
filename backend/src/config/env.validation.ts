@@ -14,9 +14,36 @@ const INSECURE_AUTH_SECRETS = new Set([
   'secret',
 ]);
 
+function validatePaymentProvider(
+  errors: string[],
+): void {
+  const provider =
+    process.env.PAYMENT_PROVIDER
+      ?.trim()
+      .toLowerCase();
+
+  if (
+    provider === undefined ||
+    provider === '' ||
+    provider === 'disabled' ||
+    provider === 'razorpay' ||
+    provider === 'stripe'
+  ) {
+    return;
+  }
+
+  errors.push(
+    `PAYMENT_PROVIDER must be one of: disabled, razorpay, stripe`,
+  );
+}
+
 export function validateEnvironment() {
   const nodeEnv = process.env.NODE_ENV ?? 'development';
   const errors: string[] = [];
+
+  validatePaymentProvider(
+    errors,
+  );
 
   if (nodeEnv === 'production') {
     for (const key of REQUIRED_IN_PRODUCTION) {

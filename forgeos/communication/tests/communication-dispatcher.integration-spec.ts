@@ -280,3 +280,228 @@ describe('CommunicationDispatcher', () => {
     ).toHaveLength(1);
   });
 });
+
+describe(
+  'CommunicationDispatcher retries',
+  () => {
+    it(
+      'schedules retry for a retryable provider failure',
+      async () => {
+        const subject =
+          createDependencies();
+
+        const scheduled: unknown[] = [];
+
+        subject.providers.register({
+          name:
+            'mailersend',
+          channel:
+            'EMAIL',
+
+          validateConfiguration(): void {
+            return;
+          },
+
+          async send() {
+            return {
+              success: false,
+              providerName:
+                'mailersend',
+              errorCode:
+                'RATE_LIMITED',
+              errorMessage:
+                'Rate limited',
+              retryable: true,
+            };
+          },
+        });
+
+        const dispatcher =
+          new CommunicationDispatcher({
+            ...subject.dependencies,
+
+            retryScheduler: {
+              async scheduleRetry(
+                input,
+              ): Promise<void> {
+                scheduled.push(
+                  input,
+                );
+              },
+            },
+          });
+
+        await expect(
+          dispatcher.dispatch({
+            communicationId:
+              'communication-retry-1',
+            channel:
+              'EMAIL',
+            recipient:
+              'visitor@example.com',
+            message:
+              'Visitor pass',
+            attemptNumber: 1,
+            retryPolicy: {
+              maximumAttempts: 3,
+              initialDelayMilliseconds:
+                1000,
+              backoffMultiplier: 2,
+              retryableErrorCodes: [
+                'RATE_LIMITED',
+              ],
+            },
+          }),
+        ).resolves.toMatchObject({
+          status:
+            'RETRY_SCHEDULED',
+          nextAttemptNumber: 2,
+          retryDelayMilliseconds:
+            1000,
+        });
+
+        expect(
+          scheduled,
+        ).toHaveLength(1);
+
+        expect(
+          subject.deliveryUpdates,
+        ).toHaveLength(0);
+
+        expect(
+          subject.events[0],
+        ).toMatchObject({
+          type:
+            'communication.retry.scheduled',
+        });
+      },
+    );
+
+    it(
+      'fails terminally when retry attempts are exhausted',
+      async () => {
+        const subject =
+          createDependencies();
+
+        subject.providers.register({
+          name:
+            'mailersend',
+          channel:
+            'EMAIL',
+
+          validateConfiguration(): void {
+            return;
+          },
+
+          async send() {
+            return {
+              success: false,
+              providerName:
+                'mailersend',
+              errorCode:
+                'RATE_LIMITED',
+              errorMessage:
+                'Rate limited',
+              retryable: true,
+            };
+          },
+        });
+
+        const dispatcher =
+          new CommunicationDispatcher(
+            subject.dependencies,
+          );
+
+        await expect(
+          dispatcher.dispatch({
+            communicationId:
+              'communication-retry-2',
+            channel:
+              'EMAIL',
+            recipient:
+              'visitor@example.com',
+            message:
+              'Visitor pass',
+            attemptNumber: 3,
+            retryPolicy: {
+              maximumAttempts: 3,
+              initialDelayMilliseconds:
+                1000,
+              backoffMultiplier: 2,
+            },
+          }),
+        ).resolves.toMatchObject({
+          status: 'FAILED',
+          error:
+            'Rate limited',
+        });
+
+        expect(
+          subject.deliveryUpdates[0],
+        ).toMatchObject({
+          status: 'FAILED',
+        });
+      },
+    );
+
+    it(
+      'does not retry non-retryable provider failures',
+      async () => {
+        const subject =
+          createDependencies();
+
+        subject.providers.register({
+          name:
+            'mailersend',
+          channel:
+            'EMAIL',
+
+          validateConfiguration(): void {
+            return;
+          },
+
+          async send() {
+            return {
+              success: false,
+              providerName:
+                'mailersend',
+              errorCode:
+                'INVALID_RECIPIENT',
+              errorMessage:
+                'Invalid recipient',
+              retryable: false,
+            };
+          },
+        });
+
+        const dispatcher =
+          new CommunicationDispatcher(
+            subject.dependencies,
+          );
+
+        await expect(
+          dispatcher.dispatch({
+            communicationId:
+              'communication-retry-3',
+            channel:
+              'EMAIL',
+            recipient:
+              'invalid',
+            message:
+              'Visitor pass',
+            retryPolicy: {
+              maximumAttempts: 3,
+              initialDelayMilliseconds:
+                1000,
+              backoffMultiplier: 2,
+            },
+          }),
+        ).resolves.toMatchObject({
+          status: 'FAILED',
+          error:
+            'Invalid recipient',
+        });
+      },
+    );
+  },
+);

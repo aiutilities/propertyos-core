@@ -20,3 +20,5 @@ export * from './dispatcher/provider-delivery-request.factory';
 export * from './providers/webhook';
 
 export * from './policies';
+
+export * from './ports/communication-retry-scheduler';

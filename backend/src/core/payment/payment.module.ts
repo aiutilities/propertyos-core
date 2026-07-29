@@ -20,8 +20,10 @@ import {
 } from './adapters/forgeos';
 
 import {
+  PaymentProviderEventRepository,
   PaymentReconciliationRepository,
   PaymentTransactionRepository,
+  PostgresPaymentProviderEventRepository,
   PostgresPaymentReconciliationRepository,
   PostgresPaymentTransactionRepository,
 } from './repositories';
@@ -30,13 +32,27 @@ import {
   PaymentRuntimeService,
 } from './runtime';
 
+import {
+  PaymentTimelineController,
+} from './controllers';
+
+import {
+  PaymentEventStoreService,
+} from './services';
+
 @Module({
   imports: [
     EventBusModule,
     PostgresModule,
   ],
 
+
+  controllers: [
+    PaymentTimelineController,
+  ],
+
   providers: [
+
     {
       provide:
         PaymentTransactionRepository,
@@ -53,6 +69,14 @@ import {
         PostgresPaymentReconciliationRepository,
     },
 
+    {
+      provide:
+        PaymentProviderEventRepository,
+
+      useClass:
+        PostgresPaymentProviderEventRepository,
+    },
+
     PropertyOSPaymentEventPublisherAdapter,
     PropertyOSPaymentLoggerAdapter,
     PropertyOSPaymentStateStoreAdapter,
@@ -61,12 +85,15 @@ import {
     PropertyOSPaymentReconciliationReportStoreAdapter,
     PropertyOSPaymentReconciliationStateUpdaterAdapter,
 
+    PaymentEventStoreService,
     PaymentRuntimeService,
   ],
 
   exports: [
     PaymentRuntimeService,
+    PaymentEventStoreService,
     PaymentTransactionRepository,
+    PaymentProviderEventRepository,
     PaymentReconciliationRepository,
 
     PropertyOSPaymentReconciliationLocalStoreAdapter,

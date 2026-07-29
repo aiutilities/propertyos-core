@@ -61,4 +61,17 @@ export abstract class PaymentTransactionRepository {
   ): Promise<
     PaymentTransaction[]
   >;
+
+  abstract listForReconciliation(
+    providerName:
+      string,
+
+    periodStart:
+      Date,
+
+    periodEnd:
+      Date,
+  ): Promise<
+    PaymentTransaction[]
+  >;
 }

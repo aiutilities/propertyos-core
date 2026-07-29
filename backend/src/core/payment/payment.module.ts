@@ -13,11 +13,16 @@ import {
 import {
   PropertyOSPaymentEventPublisherAdapter,
   PropertyOSPaymentLoggerAdapter,
+  PropertyOSPaymentReconciliationLocalStoreAdapter,
+  PropertyOSPaymentReconciliationReportStoreAdapter,
+  PropertyOSPaymentReconciliationStateUpdaterAdapter,
   PropertyOSPaymentStateStoreAdapter,
 } from './adapters/forgeos';
 
 import {
+  PaymentReconciliationRepository,
   PaymentTransactionRepository,
+  PostgresPaymentReconciliationRepository,
   PostgresPaymentTransactionRepository,
 } from './repositories';
 
@@ -40,15 +45,33 @@ import {
         PostgresPaymentTransactionRepository,
     },
 
+    {
+      provide:
+        PaymentReconciliationRepository,
+
+      useClass:
+        PostgresPaymentReconciliationRepository,
+    },
+
     PropertyOSPaymentEventPublisherAdapter,
     PropertyOSPaymentLoggerAdapter,
     PropertyOSPaymentStateStoreAdapter,
+
+    PropertyOSPaymentReconciliationLocalStoreAdapter,
+    PropertyOSPaymentReconciliationReportStoreAdapter,
+    PropertyOSPaymentReconciliationStateUpdaterAdapter,
+
     PaymentRuntimeService,
   ],
 
   exports: [
     PaymentRuntimeService,
     PaymentTransactionRepository,
+    PaymentReconciliationRepository,
+
+    PropertyOSPaymentReconciliationLocalStoreAdapter,
+    PropertyOSPaymentReconciliationReportStoreAdapter,
+    PropertyOSPaymentReconciliationStateUpdaterAdapter,
   ],
 })
 export class PaymentModule {}

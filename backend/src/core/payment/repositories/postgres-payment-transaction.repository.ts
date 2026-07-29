@@ -394,6 +394,43 @@ export class PostgresPaymentTransactionRepository
     );
   }
 
+  async listForReconciliation(
+    providerName:
+      string,
+
+    periodStart:
+      Date,
+
+    periodEnd:
+      Date,
+  ): Promise<
+    PaymentTransaction[]
+  > {
+    const result =
+      await this.pool.query<
+        PaymentTransactionRow
+      >(
+        `
+          SELECT *
+          FROM payment_transactions
+          WHERE provider_name = $1
+            AND updated_at >= $2
+            AND updated_at <= $3
+          ORDER BY updated_at ASC
+        `,
+        [
+          providerName,
+          periodStart,
+          periodEnd,
+        ],
+      );
+
+    return result.rows.map(
+      (row) =>
+        this.map(row),
+    );
+  }
+
   private map(
     row:
       PaymentTransactionRow,

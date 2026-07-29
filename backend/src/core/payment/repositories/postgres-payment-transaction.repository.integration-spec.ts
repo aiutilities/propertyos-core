@@ -252,5 +252,65 @@ describe(
         });
       },
     );
+
+    it(
+      'lists transactions for reconciliation period',
+      async () => {
+        const query =
+          jest.fn(
+            async (
+              _sql: string,
+              _values:
+                readonly unknown[],
+            ) => ({
+              rows: [
+                row(),
+              ],
+            }),
+          );
+
+        const repository =
+          new PostgresPaymentTransactionRepository(
+            {
+              query,
+            } as unknown as
+              Pool,
+          );
+
+        await expect(
+          repository
+            .listForReconciliation(
+              'razorpay',
+
+              new Date(
+                '2026-07-28T00:00:00.000Z',
+              ),
+
+              new Date(
+                '2026-07-29T23:59:59.000Z',
+              ),
+            ),
+        ).resolves.toHaveLength(1);
+
+        expect(query)
+          .toHaveBeenCalledWith(
+            expect.stringContaining(
+              'updated_at >= $2',
+            ),
+
+            [
+              'razorpay',
+
+              new Date(
+                '2026-07-28T00:00:00.000Z',
+              ),
+
+              new Date(
+                '2026-07-29T23:59:59.000Z',
+              ),
+            ],
+          );
+      },
+    );
   },
 );

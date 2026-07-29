@@ -28,7 +28,8 @@
     "providers/**/*.ts",
     "registry/**/*.ts",
     "webhooks/**/*.ts",
-    "idempotency/**/*.ts"
+    "idempotency/**/*.ts",
+    "retry/**/*.ts"
   ],
   "exclude": [
     "dist",

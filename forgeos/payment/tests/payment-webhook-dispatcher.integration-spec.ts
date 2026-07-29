@@ -439,6 +439,7 @@ describe(
         ).toEqual([
           'payment.webhook.verified',
           'payment.webhook.handler_failed',
+          'payment.webhook.retry_scheduled',
         ]);
       },
     );

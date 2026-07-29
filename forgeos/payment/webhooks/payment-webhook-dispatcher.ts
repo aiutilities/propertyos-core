@@ -15,6 +15,18 @@ import {
 } from '../registry';
 
 import {
+  calculatePaymentWebhookRetryDelay,
+  DEFAULT_PAYMENT_WEBHOOK_RETRY_POLICY,
+  NoopPaymentWebhookDeadLetterStore,
+  NoopPaymentWebhookRetryScheduler,
+  PaymentWebhookDeadLetterStore,
+  PaymentWebhookRetryPolicy,
+  PaymentWebhookRetryScheduler,
+  validatePaymentWebhookRetryPolicy,
+} from '../retry';
+
+
+import {
   PaymentWebhookHandlerRegistry,
 } from './payment-webhook-registry';
 
@@ -43,6 +55,15 @@ export interface PaymentWebhookDispatcherDependencies {
   retryFailedWebhooks?:
     boolean;
 
+  retryScheduler?:
+    PaymentWebhookRetryScheduler;
+
+  retryPolicy?:
+    PaymentWebhookRetryPolicy;
+
+  deadLetterStore?:
+    PaymentWebhookDeadLetterStore;
+
   now?:
     () => Date;
 }
@@ -56,6 +77,15 @@ export class PaymentWebhookDispatcher {
 
   private readonly logger:
     PaymentLogger;
+
+  private readonly retryScheduler:
+    PaymentWebhookRetryScheduler;
+
+  private readonly retryPolicy:
+    PaymentWebhookRetryPolicy;
+
+  private readonly deadLetterStore:
+    PaymentWebhookDeadLetterStore;
 
   private readonly now:
     () => Date;
@@ -75,6 +105,31 @@ export class PaymentWebhookDispatcher {
     this.logger =
       dependencies.logger ??
       new NoopPaymentLogger();
+
+    this.retryScheduler =
+      dependencies.retryScheduler ??
+      new NoopPaymentWebhookRetryScheduler();
+
+    this.retryPolicy =
+      dependencies.retryPolicy ??
+      DEFAULT_PAYMENT_WEBHOOK_RETRY_POLICY;
+
+    const retryPolicyErrors =
+      validatePaymentWebhookRetryPolicy(
+        this.retryPolicy,
+      );
+
+    if (
+      retryPolicyErrors.length > 0
+    ) {
+      throw new Error(
+        `PAYMENT_WEBHOOK_RETRY_POLICY_INVALID: ${retryPolicyErrors.join('; ')}`,
+      );
+    }
+
+    this.deadLetterStore =
+      dependencies.deadLetterStore ??
+      new NoopPaymentWebhookDeadLetterStore();
 
     this.now =
       dependencies.now ??
@@ -450,6 +505,190 @@ export class PaymentWebhookDispatcher {
           metadata:
             event.metadata,
         });
+
+        const currentAttempt =
+          input.attemptNumber ??
+          1;
+
+        if (
+          currentAttempt <
+          this.retryPolicy
+            .maximumAttempts
+        ) {
+          const nextAttempt =
+            currentAttempt + 1;
+
+          const delayMilliseconds =
+            calculatePaymentWebhookRetryDelay(
+              currentAttempt,
+              this.retryPolicy,
+            );
+
+          const scheduledFor =
+            new Date(
+              this.now().getTime() +
+              delayMilliseconds,
+            ).toISOString();
+
+          await this.retryScheduler
+            .schedule({
+              idempotencyKey:
+                idempotencyKey ??
+                `${event.providerName}:${event.eventId ?? 'unknown'}`,
+
+              providerName:
+                event.providerName,
+
+              eventId:
+                event.eventId ??
+                'unknown',
+
+              attemptNumber:
+                nextAttempt,
+
+              delayMilliseconds,
+
+              scheduledFor,
+
+              rawBody:
+                input.rawBody,
+
+              signature:
+                input.signature,
+
+              headers:
+                input.headers,
+
+              correlationId:
+                input.correlationId,
+
+              causationId:
+                input.causationId,
+
+              metadata: {
+                ...input.metadata,
+
+                handlerName:
+                  handler.name,
+
+                errorMessage,
+              },
+            });
+
+          await this.eventPublisher.publish({
+            type:
+              'payment.webhook.retry_scheduled',
+
+            source:
+              'forgeos.payment.webhooks',
+
+            payload: {
+              providerName:
+                event.providerName,
+
+              eventId:
+                event.eventId,
+
+              handlerName:
+                handler.name,
+
+              attemptNumber:
+                nextAttempt,
+
+              delayMilliseconds,
+
+              scheduledFor,
+            },
+
+            correlationId:
+              input.correlationId,
+
+            causationId:
+              input.causationId,
+
+            metadata:
+              event.metadata,
+          });
+        } else {
+          await this.deadLetterStore
+            .store({
+              idempotencyKey,
+
+              providerName:
+                event.providerName,
+
+              eventId:
+                event.eventId,
+
+              eventType:
+                event.eventType,
+
+              attemptNumber:
+                currentAttempt,
+
+              rawBody:
+                input.rawBody,
+
+              signature:
+                input.signature,
+
+              headers:
+                input.headers,
+
+              errorCode:
+                'WEBHOOK_HANDLER_FAILED',
+
+              errorMessage,
+
+              failedAt:
+                this.now()
+                  .toISOString(),
+
+              correlationId:
+                input.correlationId,
+
+              causationId:
+                input.causationId,
+
+              metadata: {
+                ...input.metadata,
+
+                handlerName:
+                  handler.name,
+              },
+            });
+
+          await this.eventPublisher.publish({
+            type:
+              'payment.webhook.dead_lettered',
+
+            source:
+              'forgeos.payment.webhooks',
+
+            payload: {
+              providerName:
+                event.providerName,
+
+              eventId:
+                event.eventId,
+
+              handlerName:
+                handler.name,
+
+              attemptNumber:
+                currentAttempt,
+            },
+
+            correlationId:
+              input.correlationId,
+
+            causationId:
+              input.causationId,
+
+            metadata:
+              event.metadata,
+          });
+        }
 
         if (
           idempotencyKey &&

@@ -23,6 +23,8 @@ export interface DispatchPaymentWebhookInput {
   correlationId?: string;
   causationId?: string;
 
+  attemptNumber?: number;
+
   metadata?:
     Record<string, unknown>;
 }

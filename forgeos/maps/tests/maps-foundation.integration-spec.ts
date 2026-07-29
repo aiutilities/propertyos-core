@@ -36,6 +36,28 @@ describe(
 
         expect(
           typeof maps
+            .CachedMapsService,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof maps
+            .InMemoryMapsCacheStore,
+        ).toBe(
+          'function',
+        );
+
+        expect(
+          typeof maps
+            .createMapsCacheKey,
+        ).toBe(
+          'function',
+        );
+
+
+        expect(
+          typeof maps
             .MapsProviderSelection,
         ).toBe(
           'function',

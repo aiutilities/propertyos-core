@@ -1,3 +1,4 @@
+export * from './cache';
 export * from './contracts';
 export * from './dispatcher';
 export * from './fallback';

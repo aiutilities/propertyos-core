@@ -17,6 +17,7 @@ import {
 } from '../../eventbus/services/eventbus.service';
 
 import {
+  createPropertyOSMailerSendProvider,
   createPropertyOSMetaWhatsAppCloudProvider,
   PropertyOSNotificationEventPublisherAdapter,
   PropertyOSNotificationProviderAdapter,
@@ -38,6 +39,11 @@ import {
   currentWhatsAppEnvironmentClass,
   resolveWhatsAppProviderSelection,
 } from '../providers/whatsapp-provider-selection';
+
+import {
+  currentCommunicationEnvironmentClass,
+  resolveEmailCommunicationProvider,
+} from '../provider-selection';
 
 import {
   NotificationProviderRegistry,
@@ -166,6 +172,86 @@ export class NotificationDispatcherService
 
       this.directForgeOSProviders.push(
         metaProvider,
+      );
+    }
+
+    const emailSelection =
+      resolveEmailCommunicationProvider({
+        environmentClass:
+          currentCommunicationEnvironmentClass(
+            process.env.NODE_ENV,
+          ),
+        configuredProvider:
+          process.env.EMAIL_PROVIDER,
+      });
+
+    if (
+      emailSelection.status ===
+      'BLOCKED'
+    ) {
+      throw new Error(
+        `EMAIL_PROVIDER_SELECTION_BLOCKED: ${emailSelection.errors.join('; ')}`,
+      );
+    }
+
+    if (
+      emailSelection.provider ===
+      'MAILERSEND'
+    ) {
+      const mailerSendProvider =
+        createPropertyOSMailerSendProvider({
+          apiToken:
+            process.env
+              .MAILERSEND_API_TOKEN,
+
+          fromEmail:
+            process.env
+              .MAILERSEND_FROM_EMAIL,
+
+          fromName:
+            process.env
+              .MAILERSEND_FROM_NAME,
+
+          replyToEmail:
+            process.env
+              .MAILERSEND_REPLY_TO_EMAIL,
+
+          replyToName:
+            process.env
+              .MAILERSEND_REPLY_TO_NAME,
+
+          timeoutMilliseconds:
+            process.env
+              .MAILERSEND_TIMEOUT_MS,
+
+          trackClicks:
+            process.env
+              .MAILERSEND_TRACK_CLICKS,
+
+          trackOpens:
+            process.env
+              .MAILERSEND_TRACK_OPENS,
+
+          trackContent:
+            process.env
+              .MAILERSEND_TRACK_CONTENT,
+        });
+
+      const mailerSendConfiguration =
+        mailerSendProvider
+          .validateConfiguration();
+
+      if (
+        mailerSendConfiguration.status ===
+        'BLOCKED'
+      ) {
+        throw new Error(
+          `MAILERSEND_CONFIGURATION_BLOCKED: ${mailerSendConfiguration.errors.join('; ')}`,
+        );
+      }
+
+      this.directForgeOSProviders.push(
+        mailerSendProvider,
       );
     }
 

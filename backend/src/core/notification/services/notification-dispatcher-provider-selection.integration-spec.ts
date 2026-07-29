@@ -28,6 +28,36 @@ describe(
     const originalMetaPreview =
       process.env.WHATSAPP_META_PREVIEW_URL;
 
+    const originalEmailProvider =
+      process.env.EMAIL_PROVIDER;
+
+    const originalMailerSendApiToken =
+      process.env.MAILERSEND_API_TOKEN;
+
+    const originalMailerSendFromEmail =
+      process.env.MAILERSEND_FROM_EMAIL;
+
+    const originalMailerSendFromName =
+      process.env.MAILERSEND_FROM_NAME;
+
+    const originalMailerSendReplyToEmail =
+      process.env.MAILERSEND_REPLY_TO_EMAIL;
+
+    const originalMailerSendReplyToName =
+      process.env.MAILERSEND_REPLY_TO_NAME;
+
+    const originalMailerSendTimeout =
+      process.env.MAILERSEND_TIMEOUT_MS;
+
+    const originalMailerSendTrackClicks =
+      process.env.MAILERSEND_TRACK_CLICKS;
+
+    const originalMailerSendTrackOpens =
+      process.env.MAILERSEND_TRACK_OPENS;
+
+    const originalMailerSendTrackContent =
+      process.env.MAILERSEND_TRACK_CONTENT;
+
     type EnvironmentVariable =
       | 'NODE_ENV'
       | 'WHATSAPP_PROVIDER'
@@ -35,7 +65,17 @@ describe(
       | 'WHATSAPP_META_PHONE_NUMBER_ID'
       | 'WHATSAPP_META_ACCESS_TOKEN'
       | 'WHATSAPP_META_TIMEOUT_MS'
-      | 'WHATSAPP_META_PREVIEW_URL';
+      | 'WHATSAPP_META_PREVIEW_URL'
+      | 'EMAIL_PROVIDER'
+      | 'MAILERSEND_API_TOKEN'
+      | 'MAILERSEND_FROM_EMAIL'
+      | 'MAILERSEND_FROM_NAME'
+      | 'MAILERSEND_REPLY_TO_EMAIL'
+      | 'MAILERSEND_REPLY_TO_NAME'
+      | 'MAILERSEND_TIMEOUT_MS'
+      | 'MAILERSEND_TRACK_CLICKS'
+      | 'MAILERSEND_TRACK_OPENS'
+      | 'MAILERSEND_TRACK_CONTENT';
 
     function restoreEnvironment(
       name: EnvironmentVariable,
@@ -57,6 +97,46 @@ describe(
       restoreEnvironment(
         'WHATSAPP_PROVIDER',
         originalWhatsAppProvider,
+      );
+      restoreEnvironment(
+        'EMAIL_PROVIDER',
+        originalEmailProvider,
+      );
+      restoreEnvironment(
+        'MAILERSEND_API_TOKEN',
+        originalMailerSendApiToken,
+      );
+      restoreEnvironment(
+        'MAILERSEND_FROM_EMAIL',
+        originalMailerSendFromEmail,
+      );
+      restoreEnvironment(
+        'MAILERSEND_FROM_NAME',
+        originalMailerSendFromName,
+      );
+      restoreEnvironment(
+        'MAILERSEND_REPLY_TO_EMAIL',
+        originalMailerSendReplyToEmail,
+      );
+      restoreEnvironment(
+        'MAILERSEND_REPLY_TO_NAME',
+        originalMailerSendReplyToName,
+      );
+      restoreEnvironment(
+        'MAILERSEND_TIMEOUT_MS',
+        originalMailerSendTimeout,
+      );
+      restoreEnvironment(
+        'MAILERSEND_TRACK_CLICKS',
+        originalMailerSendTrackClicks,
+      );
+      restoreEnvironment(
+        'MAILERSEND_TRACK_OPENS',
+        originalMailerSendTrackOpens,
+      );
+      restoreEnvironment(
+        'MAILERSEND_TRACK_CONTENT',
+        originalMailerSendTrackContent,
       );
       jest.restoreAllMocks();
     });
@@ -339,6 +419,76 @@ describe(
             subject.onModuleInit(),
         ).toThrow(
           'WHATSAPP_META_CONFIGURATION_BLOCKED',
+        );
+      },
+    );
+
+    it(
+      'registers validated MailerSend delivery',
+      () => {
+        process.env.EMAIL_PROVIDER =
+          'mailersend';
+
+        process.env.MAILERSEND_API_TOKEN =
+          'mailersend-test-token-0000000000000000';
+
+        process.env.MAILERSEND_FROM_EMAIL =
+          'notifications@example.com';
+
+        process.env.MAILERSEND_FROM_NAME =
+          'PropertyOS';
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).not.toThrow();
+      },
+    );
+
+    it(
+      'fails closed when MailerSend configuration is blocked',
+      () => {
+        process.env.EMAIL_PROVIDER =
+          'mailersend';
+
+        delete process.env
+          .MAILERSEND_API_TOKEN;
+
+        delete process.env
+          .MAILERSEND_FROM_EMAIL;
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).toThrow(
+          'MAILERSEND_CONFIGURATION_BLOCKED',
+        );
+      },
+    );
+
+    it(
+      'fails closed for unsupported email provider',
+      () => {
+        process.env.EMAIL_PROVIDER =
+          'unknown-email-provider';
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).toThrow(
+          'EMAIL_PROVIDER_SELECTION_BLOCKED',
         );
       },
     );

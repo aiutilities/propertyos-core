@@ -6,6 +6,7 @@ import {
 
 import {
   CommunicationDispatcher,
+  CommunicationProvider,
   CommunicationProviderRegistry,
   StoredCommunicationDelivery,
   UpdateDeliveryStateInput,
@@ -16,6 +17,7 @@ import {
 } from '../../eventbus/services/eventbus.service';
 
 import {
+  createPropertyOSMetaWhatsAppCloudProvider,
   PropertyOSNotificationEventPublisherAdapter,
   PropertyOSNotificationProviderAdapter,
 } from '../adapters/forgeos';
@@ -56,6 +58,9 @@ export class NotificationDispatcherService
   private readonly logger = new Logger(
     NotificationDispatcherService.name,
   );
+
+  private readonly directForgeOSProviders:
+    CommunicationProvider[] = [];
 
   constructor(
     private readonly registry:
@@ -123,6 +128,47 @@ export class NotificationDispatcherService
       );
     }
 
+    if (
+      whatsappSelection.mode ===
+      'META_CLOUD'
+    ) {
+      const metaProvider =
+        createPropertyOSMetaWhatsAppCloudProvider({
+          graphApiVersion:
+            process.env
+              .WHATSAPP_META_GRAPH_API_VERSION,
+          phoneNumberId:
+            process.env
+              .WHATSAPP_META_PHONE_NUMBER_ID,
+          accessToken:
+            process.env
+              .WHATSAPP_META_ACCESS_TOKEN,
+          timeoutMilliseconds:
+            process.env
+              .WHATSAPP_META_TIMEOUT_MS,
+          previewUrl:
+            process.env
+              .WHATSAPP_META_PREVIEW_URL,
+        });
+
+      const metaConfiguration =
+        metaProvider
+          .validateConfiguration();
+
+      if (
+        metaConfiguration.status ===
+        'BLOCKED'
+      ) {
+        throw new Error(
+          `WHATSAPP_META_CONFIGURATION_BLOCKED: ${metaConfiguration.errors.join('; ')}`,
+        );
+      }
+
+      this.directForgeOSProviders.push(
+        metaProvider,
+      );
+    }
+
     this.registry.register(
       this.inAppProvider,
     );
@@ -142,6 +188,15 @@ export class NotificationDispatcherService
         new PropertyOSNotificationProviderAdapter(
           provider,
         ),
+      );
+    }
+
+    for (
+      const provider
+      of this.directForgeOSProviders
+    ) {
+      forgeosProviders.register(
+        provider,
       );
     }
 

@@ -17,9 +17,28 @@ describe(
       process.env.NODE_ENV;
     const originalWhatsAppProvider =
       process.env.WHATSAPP_PROVIDER;
+    const originalMetaGraphApiVersion =
+      process.env.WHATSAPP_META_GRAPH_API_VERSION;
+    const originalMetaPhoneNumberId =
+      process.env.WHATSAPP_META_PHONE_NUMBER_ID;
+    const originalMetaAccessToken =
+      process.env.WHATSAPP_META_ACCESS_TOKEN;
+    const originalMetaTimeout =
+      process.env.WHATSAPP_META_TIMEOUT_MS;
+    const originalMetaPreview =
+      process.env.WHATSAPP_META_PREVIEW_URL;
+
+    type EnvironmentVariable =
+      | 'NODE_ENV'
+      | 'WHATSAPP_PROVIDER'
+      | 'WHATSAPP_META_GRAPH_API_VERSION'
+      | 'WHATSAPP_META_PHONE_NUMBER_ID'
+      | 'WHATSAPP_META_ACCESS_TOKEN'
+      | 'WHATSAPP_META_TIMEOUT_MS'
+      | 'WHATSAPP_META_PREVIEW_URL';
 
     function restoreEnvironment(
-      name: 'NODE_ENV' | 'WHATSAPP_PROVIDER',
+      name: EnvironmentVariable,
       value: string | undefined,
     ): void {
       if (value === undefined) {
@@ -261,5 +280,68 @@ describe(
         ).not.toHaveBeenCalled();
       },
     );
+    it(
+      'registers validated Meta Cloud delivery in production',
+      () => {
+        process.env.NODE_ENV =
+          'production';
+
+        process.env.WHATSAPP_PROVIDER =
+          'meta-cloud';
+
+        process.env
+          .WHATSAPP_META_GRAPH_API_VERSION =
+          'v99.0';
+
+        process.env
+          .WHATSAPP_META_PHONE_NUMBER_ID =
+          '123456789012345';
+
+        process.env
+          .WHATSAPP_META_ACCESS_TOKEN =
+          'meta-test-token-00000000000000000000';
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).not.toThrow();
+      },
+    );
+
+    it(
+      'fails closed when Meta Cloud configuration is blocked',
+      () => {
+        process.env.NODE_ENV =
+          'production';
+
+        process.env.WHATSAPP_PROVIDER =
+          'meta-cloud';
+
+        delete process.env
+          .WHATSAPP_META_GRAPH_API_VERSION;
+
+        delete process.env
+          .WHATSAPP_META_PHONE_NUMBER_ID;
+
+        delete process.env
+          .WHATSAPP_META_ACCESS_TOKEN;
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).toThrow(
+          'WHATSAPP_META_CONFIGURATION_BLOCKED',
+        );
+      },
+    );
+
   },
 );

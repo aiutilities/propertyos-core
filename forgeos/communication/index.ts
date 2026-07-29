@@ -28,3 +28,5 @@ export * from './fallback';
 export * from './providers/meta-whatsapp-cloud';
 
 export * from './providers/mailersend';
+
+export * from './providers/fast2sms';

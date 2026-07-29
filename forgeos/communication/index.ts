@@ -12,3 +12,7 @@ export * from './ports/delivery-state-store';
 export * from './ports/communication-template-store';
 export * from './ports/communication-provider-bootstrap';
 export * from './ports/communication-logger';
+
+export * from './dispatcher/communication-dispatcher';
+export * from './dispatcher/communication-dispatcher.types';
+export * from './dispatcher/provider-delivery-request.factory';

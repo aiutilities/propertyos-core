@@ -13,7 +13,8 @@
     "build": "node ../backend/node_modules/typescript/bin/tsc -p tsconfig.build.json",
     "typecheck": "node ../backend/node_modules/typescript/bin/tsc -p tsconfig.build.json --noEmit",
     "test": "../backend/node_modules/.bin/jest --config jest.config.cjs communication/tests --runInBand",
-    "prepare": "npm run clean && npm run build"
+    "prepare": "npm run clean && npm run build",
+    "test:payment": "../backend/node_modules/.bin/jest --config jest.config.cjs payment/tests --runInBand"
   },
   "engines": {
     "node": ">=22"

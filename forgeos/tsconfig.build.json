@@ -3,30 +3,27 @@
     "module": "Node16",
     "target": "ES2021",
     "moduleResolution": "Node16",
-
     "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-
     "types": [
       "node"
     ],
     "typeRoots": [
       "../backend/node_modules/@types"
     ],
-
     "rootDir": ".",
     "outDir": "dist"
   },
   "include": [
     "communication/**/*.ts",
-    "packages/communication-contracts/src/**/*.ts"
+    "packages/communication-contracts/src/**/*.ts",
+    "payment/**/*.ts"
   ],
   "exclude": [
     "dist",

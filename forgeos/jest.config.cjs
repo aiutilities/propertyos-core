@@ -10,7 +10,7 @@ module.exports = {
   testEnvironment: 'node',
 
   testRegex:
-    'forgeos/.*\\.integration-spec\\.ts$',
+    'forgeos/(communication|payment)/.*\\.integration-spec\\.ts$',
 
   moduleFileExtensions: [
     'ts',

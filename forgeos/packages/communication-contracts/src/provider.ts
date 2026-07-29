@@ -25,7 +25,9 @@ export interface CommunicationProvider {
   readonly name: string;
   readonly channel: CommunicationChannel;
 
-  validateConfiguration(): Promise<void> | void;
+  validateConfiguration():
+    | unknown
+    | Promise<unknown>;
 
   send(
     request: ProviderDeliveryRequest,

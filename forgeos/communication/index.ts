@@ -16,3 +16,5 @@ export * from './ports/communication-logger';
 export * from './dispatcher/communication-dispatcher';
 export * from './dispatcher/communication-dispatcher.types';
 export * from './dispatcher/provider-delivery-request.factory';
+
+export * from './providers/webhook';

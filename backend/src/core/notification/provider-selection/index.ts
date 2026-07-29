@@ -6,3 +6,6 @@ export * from './email-provider-selection.types';
 
 export * from './whatsapp-provider-selection';
 export * from './whatsapp-provider-selection.types';
+
+export * from './sms-provider-selection';
+export * from './sms-provider-selection.types';

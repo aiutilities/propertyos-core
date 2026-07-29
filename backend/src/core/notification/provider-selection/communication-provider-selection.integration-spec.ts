@@ -7,6 +7,7 @@ import {
 import {
   currentCommunicationEnvironmentClass,
   resolveEmailCommunicationProvider,
+  resolveSmsCommunicationProvider,
   resolveWhatsAppCommunicationProvider,
 } from './index';
 
@@ -202,5 +203,60 @@ describe(
         ).toBe('DEVELOPMENT');
       },
     );
+    it(
+      'defaults SMS to disabled',
+      () => {
+        expect(
+          resolveSmsCommunicationProvider({
+            environmentClass:
+              'PRODUCTION',
+          }),
+        ).toMatchObject({
+          status: 'READY',
+          channel: 'SMS',
+          provider:
+            'DISABLED',
+          enabled: false,
+          realDeliveryConfigured:
+            false,
+        });
+      },
+    );
+
+    it(
+      'selects Fast2SMS',
+      () => {
+        expect(
+          resolveSmsCommunicationProvider({
+            environmentClass:
+              'PRODUCTION',
+            configuredProvider:
+              'fast2sms',
+          }),
+        ).toMatchObject({
+          status: 'READY',
+          provider:
+            'FAST2SMS',
+          enabled: true,
+          realDeliveryConfigured:
+            true,
+        });
+      },
+    );
+
+    it(
+      'blocks unsupported SMS provider',
+      () => {
+        expect(
+          resolveSmsCommunicationProvider({
+            environmentClass:
+              'DEVELOPMENT',
+            configuredProvider:
+              'unknown-sms-provider',
+          }).status,
+        ).toBe('BLOCKED');
+      },
+    );
+
   },
 );

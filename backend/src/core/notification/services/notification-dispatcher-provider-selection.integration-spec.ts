@@ -58,6 +58,21 @@ describe(
     const originalMailerSendTrackContent =
       process.env.MAILERSEND_TRACK_CONTENT;
 
+    const originalSmsProvider =
+      process.env.SMS_PROVIDER;
+
+    const originalFast2SmsApiKey =
+      process.env.FAST2SMS_API_KEY;
+
+    const originalFast2SmsSenderId =
+      process.env.FAST2SMS_SENDER_ID;
+
+    const originalFast2SmsTimeout =
+      process.env.FAST2SMS_TIMEOUT_MS;
+
+    const originalFast2SmsDetails =
+      process.env.FAST2SMS_INCLUDE_SMS_DETAILS;
+
     type EnvironmentVariable =
       | 'NODE_ENV'
       | 'WHATSAPP_PROVIDER'
@@ -75,7 +90,12 @@ describe(
       | 'MAILERSEND_TIMEOUT_MS'
       | 'MAILERSEND_TRACK_CLICKS'
       | 'MAILERSEND_TRACK_OPENS'
-      | 'MAILERSEND_TRACK_CONTENT';
+      | 'MAILERSEND_TRACK_CONTENT'
+      | 'SMS_PROVIDER'
+      | 'FAST2SMS_API_KEY'
+      | 'FAST2SMS_SENDER_ID'
+      | 'FAST2SMS_TIMEOUT_MS'
+      | 'FAST2SMS_INCLUDE_SMS_DETAILS';
 
     function restoreEnvironment(
       name: EnvironmentVariable,
@@ -137,6 +157,26 @@ describe(
       restoreEnvironment(
         'MAILERSEND_TRACK_CONTENT',
         originalMailerSendTrackContent,
+      );
+      restoreEnvironment(
+        'SMS_PROVIDER',
+        originalSmsProvider,
+      );
+      restoreEnvironment(
+        'FAST2SMS_API_KEY',
+        originalFast2SmsApiKey,
+      );
+      restoreEnvironment(
+        'FAST2SMS_SENDER_ID',
+        originalFast2SmsSenderId,
+      );
+      restoreEnvironment(
+        'FAST2SMS_TIMEOUT_MS',
+        originalFast2SmsTimeout,
+      );
+      restoreEnvironment(
+        'FAST2SMS_INCLUDE_SMS_DETAILS',
+        originalFast2SmsDetails,
       );
       jest.restoreAllMocks();
     });
@@ -489,6 +529,73 @@ describe(
             subject.onModuleInit(),
         ).toThrow(
           'EMAIL_PROVIDER_SELECTION_BLOCKED',
+        );
+      },
+    );
+
+    it(
+      'registers validated Fast2SMS delivery',
+      () => {
+        process.env.SMS_PROVIDER =
+          'fast2sms';
+
+        process.env.FAST2SMS_API_KEY =
+          'fast2sms-test-key-00000000000000000000';
+
+        process.env.FAST2SMS_SENDER_ID =
+          'COGZDL';
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).not.toThrow();
+      },
+    );
+
+    it(
+      'fails closed when Fast2SMS configuration is blocked',
+      () => {
+        process.env.SMS_PROVIDER =
+          'fast2sms';
+
+        delete process.env
+          .FAST2SMS_API_KEY;
+
+        delete process.env
+          .FAST2SMS_SENDER_ID;
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).toThrow(
+          'FAST2SMS_CONFIGURATION_BLOCKED',
+        );
+      },
+    );
+
+    it(
+      'fails closed for unsupported SMS provider',
+      () => {
+        process.env.SMS_PROVIDER =
+          'unknown-sms-provider';
+
+        const {
+          subject,
+        } = createSubject();
+
+        expect(
+          () =>
+            subject.onModuleInit(),
+        ).toThrow(
+          'SMS_PROVIDER_SELECTION_BLOCKED',
         );
       },
     );

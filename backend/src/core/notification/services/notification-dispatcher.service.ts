@@ -17,6 +17,7 @@ import {
 } from '../../eventbus/services/eventbus.service';
 
 import {
+  createPropertyOSFast2SmsProvider,
   createPropertyOSMailerSendProvider,
   createPropertyOSMetaWhatsAppCloudProvider,
   PropertyOSNotificationEventPublisherAdapter,
@@ -43,6 +44,7 @@ import {
 import {
   currentCommunicationEnvironmentClass,
   resolveEmailCommunicationProvider,
+  resolveSmsCommunicationProvider,
 } from '../provider-selection';
 
 import {
@@ -252,6 +254,66 @@ export class NotificationDispatcherService
 
       this.directForgeOSProviders.push(
         mailerSendProvider,
+      );
+    }
+
+    const smsSelection =
+      resolveSmsCommunicationProvider({
+        environmentClass:
+          currentCommunicationEnvironmentClass(
+            process.env.NODE_ENV,
+          ),
+        configuredProvider:
+          process.env.SMS_PROVIDER,
+      });
+
+    if (
+      smsSelection.status ===
+      'BLOCKED'
+    ) {
+      throw new Error(
+        `SMS_PROVIDER_SELECTION_BLOCKED: ${smsSelection.errors.join('; ')}`,
+      );
+    }
+
+    if (
+      smsSelection.provider ===
+      'FAST2SMS'
+    ) {
+      const fast2SmsProvider =
+        createPropertyOSFast2SmsProvider({
+          apiKey:
+            process.env
+              .FAST2SMS_API_KEY,
+
+          senderId:
+            process.env
+              .FAST2SMS_SENDER_ID,
+
+          timeoutMilliseconds:
+            process.env
+              .FAST2SMS_TIMEOUT_MS,
+
+          includeSmsDetails:
+            process.env
+              .FAST2SMS_INCLUDE_SMS_DETAILS,
+        });
+
+      const fast2SmsConfiguration =
+        fast2SmsProvider
+          .validateConfiguration();
+
+      if (
+        fast2SmsConfiguration.status ===
+        'BLOCKED'
+      ) {
+        throw new Error(
+          `FAST2SMS_CONFIGURATION_BLOCKED: ${fast2SmsConfiguration.errors.join('; ')}`,
+        );
+      }
+
+      this.directForgeOSProviders.push(
+        fast2SmsProvider,
       );
     }
 

@@ -229,6 +229,17 @@ const navGroups: NavGroup[] = [
       },
     ],
   },
+
+  {
+    label: "Location Intelligence",
+    items: [
+      {
+        label: "Maps",
+        href: "/maps",
+      },
+    ],
+  },
+
   {
     label: "Community",
     items: [

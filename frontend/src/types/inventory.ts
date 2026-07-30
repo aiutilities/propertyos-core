@@ -271,6 +271,57 @@ export interface TransitionInventoryItemInput {
   remarks?: string;
 }
 
+export type InventoryAdjustmentStatus =
+  | "DRAFT"
+  | "POSTED"
+  | "CANCELLED"
+  | "CANCELED"
+  | string;
+
+export interface InventoryStockAdjustmentItem {
+  id: string;
+  adjustmentId?: string;
+  itemId: string;
+  binLocationId?: string;
+  quantityDelta: number;
+  unitCost?: number;
+  totalCost?: number;
+  remarks?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InventoryStockAdjustment {
+  id: string;
+  adjustmentNumber?: string;
+  propertyId?: string;
+  storeId?: string;
+  status: InventoryAdjustmentStatus;
+  reasonCode?: string;
+  reasonDescription?: string;
+  referenceNumber?: string;
+  remarks?: string;
+  createdByPersonId?: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  createdAt: string;
+  updatedAt: string;
+  postedAt?: string;
+  cancelledAt?: string;
+  items?: InventoryStockAdjustmentItem[];
+}
+
+export interface InventoryAdjustmentFilters {
+  propertyId?: string;
+  storeId?: string;
+  status?: string;
+}
+
+export interface InventoryAdjustmentTransitionInput {
+  personId: string;
+  remarks?: string;
+}
+
 export interface InventoryDashboardFilters {
   search?: string;
   itemType?: InventoryItemType | "";

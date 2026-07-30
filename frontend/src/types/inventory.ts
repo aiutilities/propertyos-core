@@ -437,6 +437,81 @@ export interface InventoryStockLedgerEntry {
   createdAt?: string;
 }
 
+export type InventoryMaterialIssueStatus =
+  | "DRAFT"
+  | "POSTED"
+  | "CANCELLED"
+  | string;
+
+export interface InventoryMaterialIssueItem {
+  id: string;
+  materialIssueId?: string;
+  itemId: string;
+  binLocationId?: string;
+  batchId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+  metadata?: Record<string, unknown>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InventoryMaterialIssue {
+  id: string;
+  issueNumber: string;
+  propertyId: string;
+  storeId: string;
+  status: InventoryMaterialIssueStatus;
+  issueDate: string;
+  reasonCode: string;
+  reasonDescription?: string;
+  requestedByPersonId?: string;
+  createdByPersonId: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  postedAt?: string;
+  cancelledAt?: string;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  items?: InventoryMaterialIssueItem[];
+}
+
+export interface InventoryMaterialIssueFilters {
+  propertyId?: string;
+  storeId?: string;
+  status?: string;
+  reasonCode?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface CreateInventoryMaterialIssueLineInput {
+  itemId: string;
+  binLocationId?: string;
+  batchId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+  manualBatchIds?: string[];
+  strict?: boolean;
+}
+
+export interface CreateInventoryMaterialIssueInput {
+  propertyId: string;
+  storeId: string;
+  issueDate: string;
+  reasonCode: string;
+  reasonDescription?: string;
+  requestedByPersonId?: string;
+  createdByPersonId: string;
+  remarks?: string;
+  items: CreateInventoryMaterialIssueLineInput[];
+}
+
 export interface InventoryStockLedgerFilters {
   propertyId?: string;
   storeId?: string;

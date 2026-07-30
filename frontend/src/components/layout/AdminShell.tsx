@@ -241,6 +241,17 @@ const navGroups: NavGroup[] = [
   },
 
   {
+    label: "Platform Tools",
+    items: [
+      {
+        label: "Forms",
+        href: "/forms",
+      },
+    ],
+  },
+
+
+  {
     label: "Community",
     items: [
       {

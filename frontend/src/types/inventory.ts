@@ -348,6 +348,82 @@ export interface InventoryStockReservation {
   expiredAt?: string;
 }
 
+export type InventoryTransferStatus =
+  | "DRAFT"
+  | "DISPATCHED"
+  | "RECEIVED"
+  | "CANCELLED"
+  | string;
+
+export interface InventoryStockTransferItem {
+  id: string;
+  transferId?: string;
+  itemId: string;
+  sourceBinLocationId?: string;
+  destinationBinLocationId?: string;
+  quantity: number;
+  dispatchedQuantity: number;
+  receivedQuantity: number;
+  unitCost: number;
+  remarks?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InventoryStockTransfer {
+  id: string;
+  transferNumber: string;
+  propertyId: string;
+  sourceStoreId: string;
+  destinationStoreId: string;
+  status: InventoryTransferStatus;
+  transferDate: string;
+  createdByPersonId: string;
+  dispatchedByPersonId?: string;
+  receivedByPersonId?: string;
+  cancelledByPersonId?: string;
+  dispatchedAt?: string;
+  receivedAt?: string;
+  cancelledAt?: string;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  items?: InventoryStockTransferItem[];
+}
+
+export interface InventoryTransferFilters {
+  propertyId?: string;
+  sourceStoreId?: string;
+  destinationStoreId?: string;
+  status?: string;
+}
+
+export interface CreateInventoryTransferLineInput {
+  itemId: string;
+  sourceBinLocationId?: string;
+  destinationBinLocationId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+}
+
+export interface CreateInventoryTransferInput {
+  propertyId: string;
+  sourceStoreId: string;
+  destinationStoreId: string;
+  transferDate: string;
+  createdByPersonId: string;
+  remarks?: string;
+  items: CreateInventoryTransferLineInput[];
+}
+
+export interface InventoryTransferQuantityInput {
+  transferItemId: string;
+  quantity: number;
+}
+
 export interface InventoryReservationFilters {
   propertyId?: string;
   storeId?: string;

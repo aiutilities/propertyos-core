@@ -169,6 +169,15 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "Inventory",
+    items: [
+      {
+        label: "Inventory Dashboard",
+        href: "/inventory",
+      },
+    ],
+  },
+  {
     label: "Community",
     items: [
       {

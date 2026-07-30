@@ -46,6 +46,7 @@ import { AiPromptRendererService } from "./prompts/rendering/ai-prompt-renderer.
 import { AI_SCHEDULE_REPOSITORY } from "./scheduling/repositories/ai-schedule.repository";
 import { PostgresAiScheduleRepository } from "./scheduling/repositories/postgres-ai-schedule.repository";
 import { AiScheduleLifecycleService } from "./scheduling/execution/ai-schedule-lifecycle.service";
+import { AiScheduledOccurrenceExecutionService } from "./scheduling/execution/ai-scheduled-occurrence-execution.service";
 import { AiScheduleManifestValidator } from "./scheduling/validation/ai-schedule-manifest.validator";
 import { AiToolManifestValidator } from "./tools/manifest/ai-tool-manifest.validator";
 import { AiToolExecutionService } from "./tools/execution/ai-tool-execution.service";
@@ -127,6 +128,7 @@ import {
     AiPromptRendererService,
     AiScheduleManifestValidator,
     AiScheduleLifecycleService,
+    AiScheduledOccurrenceExecutionService,
     PostgresAiScheduleRepository,
     {
       provide: AI_SCHEDULE_REPOSITORY,
@@ -183,6 +185,7 @@ import {
     AiPromptRendererService,
     AiScheduleManifestValidator,
     AiScheduleLifecycleService,
+    AiScheduledOccurrenceExecutionService,
     AI_SCHEDULE_REPOSITORY,
     AiToolRegistry,
     AiToolExecutionService,

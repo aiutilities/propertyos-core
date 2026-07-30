@@ -480,6 +480,84 @@ export interface InventoryMaterialIssue {
   items?: InventoryMaterialIssueItem[];
 }
 
+export type InventoryMaterialReturnStatus =
+  | "DRAFT"
+  | "POSTED"
+  | "CANCELLED"
+  | string;
+
+export interface InventoryMaterialReturnItem {
+  id: string;
+  materialReturnId?: string;
+  itemId: string;
+  binLocationId?: string;
+  batchId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+  metadata?: Record<string, unknown>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InventoryMaterialReturn {
+  id: string;
+  returnNumber: string;
+  propertyId: string;
+  storeId: string;
+  materialIssueId?: string;
+  status: InventoryMaterialReturnStatus;
+  returnDate: string;
+  reasonCode: string;
+  reasonDescription?: string;
+  returnedByPersonId?: string;
+  createdByPersonId: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  postedAt?: string;
+  cancelledAt?: string;
+  cancellationReason?: string;
+  remarks?: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  items?: InventoryMaterialReturnItem[];
+}
+
+export interface InventoryMaterialReturnFilters {
+  propertyId?: string;
+  storeId?: string;
+  materialIssueId?: string;
+  status?: string;
+  reasonCode?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface CreateInventoryMaterialReturnLineInput {
+  itemId: string;
+  binLocationId?: string;
+  batchId?: string;
+  quantity: number;
+  unitCost: number;
+  remarks?: string;
+  manualBatchIds?: string[];
+  strict?: boolean;
+}
+
+export interface CreateInventoryMaterialReturnInput {
+  propertyId: string;
+  storeId: string;
+  materialIssueId?: string;
+  returnDate: string;
+  reasonCode: string;
+  reasonDescription?: string;
+  returnedByPersonId?: string;
+  createdByPersonId: string;
+  remarks?: string;
+  items: CreateInventoryMaterialReturnLineInput[];
+}
+
 export interface InventoryMaterialIssueFilters {
   propertyId?: string;
   storeId?: string;

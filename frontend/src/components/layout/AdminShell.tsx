@@ -192,6 +192,10 @@ const navGroups: NavGroup[] = [
         href: "/inventory/adjustments",
       },
       {
+        label: "Stock Reservations",
+        href: "/inventory/reservations",
+      },
+      {
         label: "Categories",
         href: "/inventory/categories",
       },

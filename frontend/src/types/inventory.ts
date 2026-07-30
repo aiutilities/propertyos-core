@@ -311,6 +311,70 @@ export interface InventoryStockAdjustment {
   items?: InventoryStockAdjustmentItem[];
 }
 
+export type InventoryReservationStatus =
+  | "ACTIVE"
+  | "PARTIALLY_FULFILLED"
+  | "FULFILLED"
+  | "RELEASED"
+  | "EXPIRED"
+  | "CANCELLED"
+  | string;
+
+export interface InventoryStockReservation {
+  id: string;
+  reservationNumber?: string;
+  propertyId?: string;
+  storeId: string;
+  binLocationId?: string;
+  itemId: string;
+  quantity: number;
+  fulfilledQuantity: number;
+  releasedQuantity: number;
+  availableQuantity?: number;
+  status: InventoryReservationStatus;
+  sourceType?: string;
+  sourceId?: string;
+  referenceNumber?: string;
+  expiresAt?: string;
+  remarks?: string;
+  createdByPersonId?: string;
+  fulfilledByPersonId?: string;
+  releasedByPersonId?: string;
+  expiredByPersonId?: string;
+  createdAt: string;
+  updatedAt: string;
+  fulfilledAt?: string;
+  releasedAt?: string;
+  expiredAt?: string;
+}
+
+export interface InventoryReservationFilters {
+  propertyId?: string;
+  storeId?: string;
+  itemId?: string;
+  status?: string;
+}
+
+export interface CreateInventoryReservationInput {
+  propertyId?: string;
+  storeId: string;
+  binLocationId?: string;
+  itemId: string;
+  quantity: number;
+  sourceType?: string;
+  sourceId?: string;
+  referenceNumber?: string;
+  expiresAt?: string;
+  remarks?: string;
+  createdByPersonId: string;
+}
+
+export interface InventoryReservationActionInput {
+  personId: string;
+  quantity?: number;
+  remarks?: string;
+}
+
 export interface InventoryAdjustmentFilters {
   propertyId?: string;
   storeId?: string;

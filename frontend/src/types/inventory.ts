@@ -393,6 +393,64 @@ export interface InventoryStockTransfer {
   items?: InventoryStockTransferItem[];
 }
 
+export type InventoryStockMovementType =
+  | "RECEIPT"
+  | "ISSUE"
+  | "RETURN"
+  | "TRANSFER_OUT"
+  | "TRANSFER_IN"
+  | "ADJUSTMENT"
+  | "RESERVATION"
+  | "RESERVATION_RELEASE"
+  | "RESERVATION_FULFILLMENT"
+  | string;
+
+export interface InventoryStockLedgerEntry {
+  id: string;
+  movementNumber: string;
+  movementType: InventoryStockMovementType;
+  propertyId?: string;
+  storeId: string;
+  binLocationId?: string;
+  itemId: string;
+  batchId?: string;
+  quantityDelta: number;
+  quantityBefore: number;
+  quantityAfter: number;
+  reservedQuantityDelta: number;
+  reservedQuantityBefore: number;
+  reservedQuantityAfter: number;
+  unitCost: number;
+  totalCost: number;
+  averageUnitCostBefore: number;
+  averageUnitCostAfter: number;
+  sourceType: string;
+  sourceId?: string;
+  sourceLineId?: string;
+  referenceNumber?: string;
+  idempotencyKey?: string;
+  correlationId?: string;
+  movementDate: string;
+  postedByPersonId?: string;
+  remarks?: string;
+  metadata?: Record<string, unknown>;
+  createdAt?: string;
+}
+
+export interface InventoryStockLedgerFilters {
+  propertyId?: string;
+  storeId?: string;
+  binLocationId?: string;
+  itemId?: string;
+  batchId?: string;
+  movementType?: string;
+  sourceType?: string;
+  sourceId?: string;
+  referenceNumber?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
 export interface InventoryTransferFilters {
   propertyId?: string;
   sourceStoreId?: string;

@@ -40,6 +40,9 @@ import { AiPreparedRequestDispatchBoundaryService } from "./dispatch/ai-prepared
 import { AiDispatchExecutionCoordinatorService } from "./dispatch/ai-dispatch-execution-coordinator.service";
 import { AiExecutionContextService } from "./execution/ai-execution-context.service";
 import { PropertyOsAiSdkService } from "./sdk/propertyos-ai-sdk.service";
+import { AiPromptManifestValidator } from "./prompts/manifest/ai-prompt-manifest.validator";
+import { AiPromptRegistry } from "./prompts/registry/ai-prompt.registry";
+import { AiPromptRendererService } from "./prompts/rendering/ai-prompt-renderer.service";
 import { AiToolManifestValidator } from "./tools/manifest/ai-tool-manifest.validator";
 import { AiToolExecutionService } from "./tools/execution/ai-tool-execution.service";
 import { AiToolCallCoordinatorService } from "./tools/orchestration/ai-tool-call-coordinator.service";
@@ -115,6 +118,9 @@ import {
     AiExecutionContextService,
     PropertyAiDashboardService,
     PropertyOsAiSdkService,
+    AiPromptManifestValidator,
+    AiPromptRegistry,
+    AiPromptRendererService,
     AiToolManifestValidator,
     AiToolExecutionService,
     AiToolCallCoordinatorService,
@@ -161,6 +167,9 @@ import {
     AiExecutionContextService,
     PropertyAiDashboardService,
     PropertyOsAiSdkService,
+    AiPromptManifestValidator,
+    AiPromptRegistry,
+    AiPromptRendererService,
     AiToolRegistry,
     AiToolExecutionService,
 

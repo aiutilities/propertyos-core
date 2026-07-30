@@ -22,6 +22,7 @@ import { AI_PROVIDER_CREDENTIAL_RESOLVER } from "./contracts/ai-provider-credent
 import { AiProviderRuntimeConfigurationService } from "./configuration/ai-provider-runtime-configuration.service";
 import { DiscoveryModule } from "@nestjs/core";
 import { EventBusModule } from "../eventbus/eventbus.module";
+import { SchedulerModule } from "../scheduler/scheduler.module";
 import { AuthModule } from "../auth/auth.module";
 import { AiController } from "./controllers/ai.controller";
 import { PropertyAiDashboardController } from "./controllers/property-ai-dashboard.controller";
@@ -47,6 +48,8 @@ import { AI_SCHEDULE_REPOSITORY } from "./scheduling/repositories/ai-schedule.re
 import { PostgresAiScheduleRepository } from "./scheduling/repositories/postgres-ai-schedule.repository";
 import { AiScheduleLifecycleService } from "./scheduling/execution/ai-schedule-lifecycle.service";
 import { AiScheduledOccurrenceExecutionService } from "./scheduling/execution/ai-scheduled-occurrence-execution.service";
+import { AiPlatformScheduleBridgeService } from "./scheduling/execution/ai-platform-schedule-bridge.service";
+import { AiScheduleOccurrenceJobHandler } from "./scheduling/handlers/ai-schedule-occurrence-job.handler";
 import { AiScheduleManifestValidator } from "./scheduling/validation/ai-schedule-manifest.validator";
 import { AiToolManifestValidator } from "./tools/manifest/ai-tool-manifest.validator";
 import { AiToolExecutionService } from "./tools/execution/ai-tool-execution.service";
@@ -75,7 +78,7 @@ import {
 } from "./specialists/lease-specialist-bootstrap.service";
 
 @Module({
-  imports: [DiscoveryModule, EventBusModule, AuthModule],
+  imports: [DiscoveryModule, EventBusModule, AuthModule, SchedulerModule],
   controllers: [AiController, PropertyAiDashboardController],
   providers: [
     AiContextAssemblyService,
@@ -129,6 +132,8 @@ import {
     AiScheduleManifestValidator,
     AiScheduleLifecycleService,
     AiScheduledOccurrenceExecutionService,
+    AiPlatformScheduleBridgeService,
+    AiScheduleOccurrenceJobHandler,
     PostgresAiScheduleRepository,
     {
       provide: AI_SCHEDULE_REPOSITORY,
@@ -186,6 +191,8 @@ import {
     AiScheduleManifestValidator,
     AiScheduleLifecycleService,
     AiScheduledOccurrenceExecutionService,
+    AiPlatformScheduleBridgeService,
+    AiScheduleOccurrenceJobHandler,
     AI_SCHEDULE_REPOSITORY,
     AiToolRegistry,
     AiToolExecutionService,

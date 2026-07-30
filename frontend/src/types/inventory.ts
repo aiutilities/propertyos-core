@@ -524,6 +524,96 @@ export interface InventoryMaterialReturn {
   items?: InventoryMaterialReturnItem[];
 }
 
+export type InventoryCycleCountStatus =
+  | "DRAFT"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "POSTED"
+  | "CANCELLED"
+  | string;
+
+export type InventoryCycleCountScopeType =
+  | "STORE"
+  | "BIN"
+  | "ITEM"
+  | string;
+
+export interface InventoryCycleCountItem {
+  id: string;
+  cycleCountId?: string;
+  itemId: string;
+  binLocationId?: string;
+  batchId?: string;
+  expectedQuantity?: number;
+  systemQuantity?: number;
+  countedQuantity?: number;
+  varianceQuantity?: number;
+  unitCost?: number;
+  remarks?: string;
+  countedByPersonId?: string;
+  countedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InventoryCycleCount {
+  id: string;
+  countNumber: string;
+  propertyId: string;
+  storeId: string;
+  status: InventoryCycleCountStatus;
+  countDate: string;
+  blindCount: boolean;
+  freezeStock: boolean;
+  scopeType: InventoryCycleCountScopeType;
+  binLocationId?: string;
+  itemId?: string;
+  notes?: string;
+  createdByPersonId: string;
+  startedByPersonId?: string;
+  completedByPersonId?: string;
+  postedByPersonId?: string;
+  cancelledByPersonId?: string;
+  startedAt?: string;
+  completedAt?: string;
+  postedAt?: string;
+  cancelledAt?: string;
+  cancellationReason?: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  items?: InventoryCycleCountItem[];
+  lines?: InventoryCycleCountItem[];
+}
+
+export interface InventoryCycleCountFilters {
+  propertyId?: string;
+  storeId?: string;
+  status?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface CreateInventoryCycleCountInput {
+  propertyId: string;
+  storeId: string;
+  countDate: string;
+  blindCount?: boolean;
+  freezeStock?: boolean;
+  scopeType?: InventoryCycleCountScopeType;
+  binLocationId?: string;
+  itemId?: string;
+  createdByPersonId: string;
+  notes?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface InventoryCycleCountRecordInput {
+  cycleCountItemId: string;
+  countedQuantity: number;
+  remarks?: string;
+}
+
 export interface InventoryMaterialReturnFilters {
   propertyId?: string;
   storeId?: string;

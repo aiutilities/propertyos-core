@@ -212,6 +212,10 @@ const navGroups: NavGroup[] = [
         href: "/inventory/material-returns",
       },
       {
+        label: "Cycle Counts",
+        href: "/inventory/cycle-counts",
+      },
+      {
         label: "Categories",
         href: "/inventory/categories",
       },

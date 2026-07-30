@@ -78,6 +78,82 @@ export interface InventoryStore {
   updatedAt: string;
 }
 
+export interface InventoryBinLocation {
+  id: string;
+  storeId: string;
+  parentBinId?: string;
+  binCode: string;
+  name: string;
+  description?: string;
+  barcode?: string;
+  isReceivingBin: boolean;
+  isDispatchBin: boolean;
+  isQuarantineBin: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface InventoryStoreFilters {
+  propertyId?: string;
+  zoneId?: string;
+  spaceId?: string;
+  isActive?: boolean;
+  search?: string;
+}
+
+export interface CreateInventoryStoreInput {
+  storeCode: string;
+  name: string;
+  description?: string;
+  propertyId: string;
+  zoneId?: string;
+  spaceId?: string;
+  managerPersonId?: string;
+  createdByPersonId: string;
+}
+
+export interface UpdateInventoryStoreInput {
+  name?: string;
+  description?: string;
+  zoneId?: string;
+  spaceId?: string;
+  managerPersonId?: string;
+  updatedByPersonId: string;
+  remarks?: string;
+}
+
+export interface TransitionInventoryStoreInput {
+  changedByPersonId: string;
+  remarks?: string;
+}
+
+export interface CreateInventoryBinInput {
+  storeId: string;
+  parentBinId?: string;
+  binCode: string;
+  name: string;
+  description?: string;
+  barcode?: string;
+  isReceivingBin?: boolean;
+  isDispatchBin?: boolean;
+  isQuarantineBin?: boolean;
+  createdByPersonId: string;
+}
+
+export interface UpdateInventoryBinInput {
+  parentBinId?: string;
+  name?: string;
+  description?: string;
+  barcode?: string;
+  isReceivingBin?: boolean;
+  isDispatchBin?: boolean;
+  isQuarantineBin?: boolean;
+  isActive?: boolean;
+  updatedByPersonId: string;
+  remarks?: string;
+}
+
 export interface InventoryStockBalance {
   id: string;
   itemId: string;

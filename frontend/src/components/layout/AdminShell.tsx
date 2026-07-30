@@ -180,6 +180,10 @@ const navGroups: NavGroup[] = [
         href: "/inventory/items",
       },
       {
+        label: "Stores & Bins",
+        href: "/inventory/stores",
+      },
+      {
         label: "Categories",
         href: "/inventory/categories",
       },

@@ -54,6 +54,7 @@
     "@forgeos/communication": "file:../forgeos",
     "@forgeos/maps": "file:../forgeos/maps",
     "@forgeos/payment": "file:../forgeos/payment",
+    "@forgeos/places": "file:../forgeos/places",
     "@nestjs/common": "^11.1.28",
     "@nestjs/core": "^11.1.28",
     "@nestjs/platform-express": "^11.1.28",

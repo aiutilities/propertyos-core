@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   InventoryBrand,
   InventoryItem,
@@ -95,7 +97,11 @@ export default function InventoryItemTable({
                   <strong>{item.sku}</strong>
                 </td>
                 <td>
-                  <strong>{item.name}</strong>
+                  <Link
+                    href={`/inventory/items/${item.id}`}
+                  >
+                    <strong>{item.name}</strong>
+                  </Link>
                   <div className="muted-text">
                     {item.description ?? "—"}
                   </div>

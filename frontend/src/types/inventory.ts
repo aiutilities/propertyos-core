@@ -92,6 +92,60 @@ export interface InventoryStockBalance {
   updatedAt: string;
 }
 
+export interface InventoryItemFilters {
+  categoryId?: string;
+  unitOfMeasureId?: string;
+  brandId?: string;
+  itemType?: InventoryItemType | "";
+  isActive?: boolean;
+  search?: string;
+}
+
+export interface CreateInventoryItemInput {
+  sku: string;
+  name: string;
+  description?: string;
+  categoryId: string;
+  unitOfMeasureId: string;
+  brandId?: string;
+  itemType: InventoryItemType;
+  barcode?: string;
+  manufacturerPartNumber?: string;
+  minimumStockLevel: number;
+  reorderLevel: number;
+  reorderQuantity: number;
+  standardCost: number;
+  currency: string;
+  isSerialized: boolean;
+  isBatchTracked: boolean;
+  createdByPersonId: string;
+}
+
+export interface UpdateInventoryItemInput {
+  name?: string;
+  description?: string;
+  categoryId?: string;
+  unitOfMeasureId?: string;
+  brandId?: string;
+  itemType?: InventoryItemType;
+  barcode?: string;
+  manufacturerPartNumber?: string;
+  minimumStockLevel?: number;
+  reorderLevel?: number;
+  reorderQuantity?: number;
+  standardCost?: number;
+  currency?: string;
+  isSerialized?: boolean;
+  isBatchTracked?: boolean;
+  updatedByPersonId: string;
+  remarks?: string;
+}
+
+export interface TransitionInventoryItemInput {
+  changedByPersonId: string;
+  remarks?: string;
+}
+
 export interface InventoryDashboardFilters {
   search?: string;
   itemType?: InventoryItemType | "";

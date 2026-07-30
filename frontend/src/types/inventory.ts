@@ -92,6 +92,55 @@ export interface InventoryStockBalance {
   updatedAt: string;
 }
 
+export interface CreateInventoryUnitInput {
+  code: string;
+  name: string;
+  symbol: string;
+  decimalPlaces: number;
+  createdByPersonId: string;
+}
+
+export interface UpdateInventoryUnitInput {
+  name?: string;
+  symbol?: string;
+  decimalPlaces?: number;
+  isActive?: boolean;
+  updatedByPersonId: string;
+  remarks?: string;
+}
+
+export interface CreateInventoryCategoryInput {
+  parentCategoryId?: string;
+  code: string;
+  name: string;
+  description?: string;
+  createdByPersonId: string;
+}
+
+export interface UpdateInventoryCategoryInput {
+  parentCategoryId?: string;
+  name?: string;
+  description?: string;
+  isActive?: boolean;
+  updatedByPersonId: string;
+  remarks?: string;
+}
+
+export interface CreateInventoryBrandInput {
+  code: string;
+  name: string;
+  description?: string;
+  createdByPersonId: string;
+}
+
+export interface UpdateInventoryBrandInput {
+  name?: string;
+  description?: string;
+  isActive?: boolean;
+  updatedByPersonId: string;
+  remarks?: string;
+}
+
 export interface InventoryItemFilters {
   categoryId?: string;
   unitOfMeasureId?: string;

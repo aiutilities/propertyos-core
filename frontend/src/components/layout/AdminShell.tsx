@@ -237,6 +237,10 @@ const navGroups: NavGroup[] = [
         label: "Maps",
         href: "/maps",
       },
+      {
+        label: "Places",
+        href: "/places",
+      },
     ],
   },
 

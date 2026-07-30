@@ -317,6 +317,26 @@ export interface InventoryAdjustmentFilters {
   status?: string;
 }
 
+export interface CreateInventoryAdjustmentLineInput {
+  itemId: string;
+  binLocationId?: string;
+  quantityDelta: number;
+  unitCost?: number;
+  remarks?: string;
+}
+
+export interface CreateInventoryAdjustmentInput {
+  propertyId: string;
+  storeId: string;
+  adjustmentDate?: string;
+  reasonCode?: string;
+  reasonDescription?: string;
+  referenceNumber?: string;
+  remarks?: string;
+  createdByPersonId: string;
+  items: CreateInventoryAdjustmentLineInput[];
+}
+
 export interface InventoryAdjustmentTransitionInput {
   personId: string;
   remarks?: string;

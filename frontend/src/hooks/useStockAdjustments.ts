@@ -10,6 +10,7 @@ import { apiRequest } from "@/lib/api";
 
 import {
   ApiResponse,
+  CreateInventoryAdjustmentInput,
   InventoryAdjustmentFilters,
   InventoryAdjustmentTransitionInput,
   InventoryStockAdjustment,
@@ -90,6 +91,20 @@ export function useStockAdjustments(
     error,
     refresh,
   };
+}
+
+
+export async function createStockAdjustment(
+  input: CreateInventoryAdjustmentInput,
+): Promise<InventoryStockAdjustment> {
+  const response = await apiRequest<
+    ApiResponse<InventoryStockAdjustment>
+  >("/inventory/adjustments", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+
+  return response.data;
 }
 
 export async function getStockAdjustment(

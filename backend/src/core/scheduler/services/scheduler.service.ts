@@ -61,17 +61,13 @@ export class SchedulerService {
 
   async runJob(id: string): Promise<SchedulerJob> {
     const job = await this.getJob(id);
-    const handler = this.handlerRegistry.get(job.jobType);
-
-    if (!handler) {
-      return this.repository.updateStatus(
-        id,
-        'FAILED',
-        `No handler registered for job type: ${job.jobType}`,
-      );
-    }
 
     try {
+      const handler =
+        this.handlerRegistry.resolve(
+          job.jobType,
+        );
+
       await this.repository.incrementAttempts(id);
       await this.repository.updateStatus(id, 'RUNNING');
       await handler.handle(job);

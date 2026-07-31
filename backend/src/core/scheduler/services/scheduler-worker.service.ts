@@ -156,35 +156,12 @@ export class SchedulerWorkerService
         job.jobType,
       );
 
-    const handler =
-      this.handlerRegistry.get(
-        job.jobType,
-      );
-
-    if (!handler) {
-      await this.repository.failClaimedJob(
-        job.id,
-        `No handler registered for job type: ${job.jobType}`,
-      );
-
-      this.logger.warn('scheduler.job.failed', {
-        jobId: job.id,
-        jobType: job.jobType,
-        attempts: job.attempts,
-        errorMessage: 'No handler registered',
-      });
-
-      this.executionMetrics.failure(
-        'claimed_job',
-        job.jobType,
-        'MissingHandler',
-        metricsStartedAt,
-      );
-
-      return false;
-    }
-
     try {
+      const handler =
+        this.handlerRegistry.resolve(
+          job.jobType,
+        );
+
       await handler.handle(job);
       await this.repository.completeClaimedJob(job.id);
 

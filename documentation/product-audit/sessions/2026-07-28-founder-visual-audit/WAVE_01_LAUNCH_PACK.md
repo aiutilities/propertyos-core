@@ -9,8 +9,8 @@
 
 ## Review Property
 
-- Property name: `Advaith Nest Visitor E2E`
-- Property ID: `c4c8725d-4b6a-4345-ab30-0a7b09e455eb`
+- Property name: `Advaith Nest`
+- Property ID: `e79374c0-e322-43cf-9d16-ba3776e0c262`
 
 This is an existing PropertyOS record selected for the read-only visual
 walkthrough.
@@ -22,12 +22,12 @@ walkthrough.
 3. [Dashboard](http://localhost:3002/dashboard)
 4. [Property list](http://localhost:3002/properties)
 5. [Create property](http://localhost:3002/properties/new)
-6. [Property details](http://localhost:3002/properties/c4c8725d-4b6a-4345-ab30-0a7b09e455eb)
-7. [Edit property](http://localhost:3002/properties/c4c8725d-4b6a-4345-ab30-0a7b09e455eb/edit)
-8. [Property zones](http://localhost:3002/properties/c4c8725d-4b6a-4345-ab30-0a7b09e455eb/zones)
-9. [Create zone](http://localhost:3002/properties/c4c8725d-4b6a-4345-ab30-0a7b09e455eb/zones/new)
-10. [Property spaces](http://localhost:3002/properties/c4c8725d-4b6a-4345-ab30-0a7b09e455eb/spaces)
-11. [Create space](http://localhost:3002/properties/c4c8725d-4b6a-4345-ab30-0a7b09e455eb/spaces/new)
+6. [Property details](http://localhost:3002/properties/e79374c0-e322-43cf-9d16-ba3776e0c262)
+7. [Edit property](http://localhost:3002/properties/e79374c0-e322-43cf-9d16-ba3776e0c262/edit)
+8. [Property zones](http://localhost:3002/properties/e79374c0-e322-43cf-9d16-ba3776e0c262/zones)
+9. [Create zone](http://localhost:3002/properties/e79374c0-e322-43cf-9d16-ba3776e0c262/zones/new)
+10. [Property spaces](http://localhost:3002/properties/e79374c0-e322-43cf-9d16-ba3776e0c262/spaces)
+11. [Create space](http://localhost:3002/properties/e79374c0-e322-43cf-9d16-ba3776e0c262/spaces/new)
 
 ## Founder Observation Template
 

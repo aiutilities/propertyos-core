@@ -23,6 +23,8 @@ import { AiProviderRuntimeConfigurationService } from "./configuration/ai-provid
 import { DiscoveryModule } from "@nestjs/core";
 import { EventBusModule } from "../eventbus/eventbus.module";
 import { SchedulerModule } from "../scheduler/scheduler.module";
+import { MetricsModule } from "../metrics/metrics.module";
+import { PlatformModule } from "../platform";
 import { AuthModule } from "../auth/auth.module";
 import { AiController } from "./controllers/ai.controller";
 import { PropertyAiDashboardController } from "./controllers/property-ai-dashboard.controller";
@@ -53,6 +55,7 @@ import { AiScheduledOccurrenceExecutionService } from "./scheduling/execution/ai
 import { AiPlatformScheduleBridgeService } from "./scheduling/execution/ai-platform-schedule-bridge.service";
 import { AiScheduleOccurrenceJobHandler } from "./scheduling/handlers/ai-schedule-occurrence-job.handler";
 import { AiRecurringScheduleMaterializeJobHandler } from "./scheduling/handlers/ai-recurring-schedule-materialize-job.handler";
+import { AiRecurringMaterializationObservabilityService } from "./scheduling/observability/ai-recurring-materialization-observability.service";
 import { AiScheduleManifestValidator } from "./scheduling/validation/ai-schedule-manifest.validator";
 import { AiToolManifestValidator } from "./tools/manifest/ai-tool-manifest.validator";
 import { AiToolExecutionService } from "./tools/execution/ai-tool-execution.service";
@@ -81,7 +84,7 @@ import {
 } from "./specialists/lease-specialist-bootstrap.service";
 
 @Module({
-  imports: [DiscoveryModule, EventBusModule, AuthModule, SchedulerModule],
+  imports: [DiscoveryModule, EventBusModule, AuthModule, SchedulerModule, MetricsModule, PlatformModule],
   controllers: [AiController, PropertyAiDashboardController],
   providers: [
     AiContextAssemblyService,
@@ -140,6 +143,7 @@ import {
     AiPlatformScheduleBridgeService,
     AiScheduleOccurrenceJobHandler,
     AiRecurringScheduleMaterializeJobHandler,
+    AiRecurringMaterializationObservabilityService,
     PostgresAiScheduleRepository,
     {
       provide: AI_SCHEDULE_REPOSITORY,

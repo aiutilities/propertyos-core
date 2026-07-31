@@ -27,6 +27,9 @@ import {
 import {
   AiRecurringScheduleMaterializeJobPayload,
 } from "../types/ai-schedule-job.types";
+import {
+  AiRecurringMaterializationObservabilityService,
+} from "../observability/ai-recurring-materialization-observability.service";
 
 @Injectable()
 export class AiRecurringScheduleMaterializeJobHandler
@@ -47,6 +50,9 @@ export class AiRecurringScheduleMaterializeJobHandler
 
     private readonly schedulerService:
       SchedulerService,
+
+    private readonly observability:
+      AiRecurringMaterializationObservabilityService,
   ) {}
 
   onModuleInit(): void {
@@ -56,11 +62,29 @@ export class AiRecurringScheduleMaterializeJobHandler
   async handle(
     job: SchedulerJob,
   ): Promise<void> {
-    const payload =
-      this.validate(job.payload);
+    const startedAt =
+      Date.now();
 
-    const result =
-      await this.materializer.materialize({
+    let payload:
+      AiRecurringScheduleMaterializeJobPayload |
+      undefined;
+
+    try {
+      payload =
+        this.validate(job.payload);
+
+      const observedStartedAt =
+        this.observability.requested({
+          schedulerJobId:
+            job.id,
+          scheduleId:
+            payload.scheduleId,
+          requestedAt:
+            payload.requestedAt,
+        });
+
+      const result =
+        await this.materializer.materialize({
         scheduleId:
           payload.scheduleId,
         materializedAt:
@@ -69,13 +93,32 @@ export class AiRecurringScheduleMaterializeJobHandler
           payload.maximumCatchUpOccurrences,
       });
 
-    if (
+      if (
       result.decision === "paused" ||
       result.decision === "cancelled" ||
-      result.decision === "terminal"
-    ) {
-      return;
-    }
+        result.decision === "terminal"
+      ) {
+        this.observability.stopped({
+          schedulerJobId:
+            job.id,
+          scheduleId:
+            payload.scheduleId,
+          requestedAt:
+            payload.requestedAt,
+          decision:
+            result.decision,
+          createdOccurrences:
+            0,
+          existingOccurrences:
+            0,
+          skippedIntervals:
+            result.skippedIntervals,
+          startedAt:
+            observedStartedAt,
+        });
+
+        return;
+      }
 
     for (
       const occurrence of
@@ -84,6 +127,26 @@ export class AiRecurringScheduleMaterializeJobHandler
       await this.bridge.enqueueOccurrence(
         occurrence,
       );
+
+      this.observability
+        .occurrenceRegistered({
+          schedulerJobId:
+            job.id,
+          scheduleId:
+            payload.scheduleId,
+          recovery:
+            true,
+        });
+
+      this.observability
+        .occurrenceRegistered({
+          schedulerJobId:
+            job.id,
+          scheduleId:
+            payload.scheduleId,
+          recovery:
+            false,
+        });
     }
 
     for (
@@ -95,17 +158,37 @@ export class AiRecurringScheduleMaterializeJobHandler
       );
     }
 
-    if (!result.nextScheduledFor) {
-      return;
-    }
+      if (!result.nextScheduledFor) {
+        this.observability.completed({
+          schedulerJobId:
+            job.id,
+          scheduleId:
+            payload.scheduleId,
+          requestedAt:
+            payload.requestedAt,
+          decision:
+            result.decision,
+          createdOccurrences:
+            result.createdOccurrences.length,
+          existingOccurrences:
+            result.existingOccurrences.length,
+          skippedIntervals:
+            result.skippedIntervals,
+          startedAt:
+            observedStartedAt,
+        });
+
+        return;
+      }
 
     const nextScheduledFor =
       new Date(
         result.nextScheduledFor,
       ).toISOString();
 
-    await this.schedulerService
-      .createOrResolveJob({
+      const nextJob =
+        await this.schedulerService
+          .createOrResolveJob({
         name:
           `Materialize recurring AI schedule ${payload.scheduleId}`,
         jobType:
@@ -123,13 +206,60 @@ export class AiRecurringScheduleMaterializeJobHandler
         runAt:
           nextScheduledFor,
         maxAttempts:
-          3,
+          this.observability
+            .handlerMaxAttempts(),
         idempotencyKey:
           this.idempotencyKey(
             payload.scheduleId,
             nextScheduledFor,
           ),
       });
+
+      this.observability.nextJobResolved({
+        schedulerJobId:
+          job.id,
+        scheduleId:
+          payload.scheduleId,
+        nextScheduledFor,
+        created:
+          nextJob.created,
+      });
+
+      this.observability.completed({
+        schedulerJobId:
+          job.id,
+        scheduleId:
+          payload.scheduleId,
+        requestedAt:
+          payload.requestedAt,
+        decision:
+          result.decision,
+        createdOccurrences:
+          result.createdOccurrences.length,
+        existingOccurrences:
+          result.existingOccurrences.length,
+        skippedIntervals:
+          result.skippedIntervals,
+        nextScheduledFor,
+        nextJobCreated:
+          nextJob.created,
+        startedAt:
+          observedStartedAt,
+      });
+    } catch (error) {
+      this.observability.failed({
+        schedulerJobId:
+          job.id,
+        scheduleId:
+          payload?.scheduleId,
+        requestedAt:
+          payload?.requestedAt,
+        startedAt,
+        error,
+      });
+
+      throw error;
+    }
   }
 
   private validate(

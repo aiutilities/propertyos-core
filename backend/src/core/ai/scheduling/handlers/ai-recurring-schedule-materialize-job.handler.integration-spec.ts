@@ -26,6 +26,9 @@ import {
 import {
   AiRecurringScheduleMaterializeJobHandler,
 } from "./ai-recurring-schedule-materialize-job.handler";
+import {
+  AiRecurringMaterializationObservabilityService,
+} from "../observability/ai-recurring-materialization-observability.service";
 
 const occurrence = (
   id: string,
@@ -102,6 +105,27 @@ const harness = () => {
         createOrResolveJob,
       } as unknown as
         SchedulerService,
+      {
+        requested:
+          jest.fn(
+            () => Date.now(),
+          ),
+        completed:
+          jest.fn(),
+        stopped:
+          jest.fn(),
+        occurrenceRegistered:
+          jest.fn(),
+        nextJobResolved:
+          jest.fn(),
+        failed:
+          jest.fn(),
+        handlerMaxAttempts:
+          jest.fn(
+            () => 3,
+          ),
+      } as unknown as
+        AiRecurringMaterializationObservabilityService,
     );
 
   return {

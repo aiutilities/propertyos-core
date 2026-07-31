@@ -47,6 +47,8 @@ import { AiPromptRendererService } from "./prompts/rendering/ai-prompt-renderer.
 import { AI_SCHEDULE_REPOSITORY } from "./scheduling/repositories/ai-schedule.repository";
 import { PostgresAiScheduleRepository } from "./scheduling/repositories/postgres-ai-schedule.repository";
 import { AiScheduleLifecycleService } from "./scheduling/execution/ai-schedule-lifecycle.service";
+import { AiRecurringOccurrenceCalculatorService } from "./scheduling/execution/ai-recurring-occurrence-calculator.service";
+import { AiRecurringOccurrenceMaterializerService } from "./scheduling/execution/ai-recurring-occurrence-materializer.service";
 import { AiScheduledOccurrenceExecutionService } from "./scheduling/execution/ai-scheduled-occurrence-execution.service";
 import { AiPlatformScheduleBridgeService } from "./scheduling/execution/ai-platform-schedule-bridge.service";
 import { AiScheduleOccurrenceJobHandler } from "./scheduling/handlers/ai-schedule-occurrence-job.handler";
@@ -131,6 +133,8 @@ import {
     AiPromptRendererService,
     AiScheduleManifestValidator,
     AiScheduleLifecycleService,
+    AiRecurringOccurrenceCalculatorService,
+    AiRecurringOccurrenceMaterializerService,
     AiScheduledOccurrenceExecutionService,
     AiPlatformScheduleBridgeService,
     AiScheduleOccurrenceJobHandler,
@@ -190,6 +194,8 @@ import {
     AiPromptRendererService,
     AiScheduleManifestValidator,
     AiScheduleLifecycleService,
+    AiRecurringOccurrenceCalculatorService,
+    AiRecurringOccurrenceMaterializerService,
     AiScheduledOccurrenceExecutionService,
     AiPlatformScheduleBridgeService,
     AiScheduleOccurrenceJobHandler,

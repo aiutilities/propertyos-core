@@ -26,3 +26,31 @@ export interface AiRecurringOccurrenceCalculationResult {
   nextScheduledFor: string;
   decision: AiRecurringMaterializationDecision;
 }
+
+export type AiRecurringMaterializationServiceDecision =
+  | "materialized"
+  | "not_due"
+  | "paused"
+  | "cancelled"
+  | "terminal";
+
+export interface AiRecurringMaterializationRequest {
+  scheduleId: string;
+  materializedAt: string;
+  maximumCatchUpOccurrences: number;
+}
+
+export interface AiRecurringMaterializationResult {
+  scheduleId: string;
+  scheduleStatus: import("./ai-schedule.types").AiScheduleStatus;
+  anchor: string;
+  intervalSeconds: number;
+  materializedAt: string;
+  createdOccurrences:
+    import("./ai-schedule.types").AiScheduledOccurrence[];
+  existingOccurrences:
+    import("./ai-schedule.types").AiScheduledOccurrence[];
+  skippedIntervals: number;
+  nextScheduledFor?: string;
+  decision: AiRecurringMaterializationServiceDecision;
+}

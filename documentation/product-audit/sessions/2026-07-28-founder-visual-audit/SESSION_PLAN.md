@@ -5,10 +5,14 @@
 - Date: 28 July 2026
 - Runtime: local
 - Frontend: http://localhost:3002
-- API: http://localhost:3000/api/v1
-- Routes: 132
+- API: http://localhost:3001/api/v1
+- Routes: 164
 - Repository mutation during review: forbidden
 - Database mutation during review: forbidden unless explicitly approved
+- Runtime contract validated: 31 July 2026
+- Frontend origin: http://localhost:3002
+- API CORS permits: http://localhost:3002
+- Route inventory synchronized at commit: 2471185
 
 ## Audit Method
 

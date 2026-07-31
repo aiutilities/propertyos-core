@@ -24,8 +24,14 @@ export interface SchedulerJob {
   attempts: number;
   maxAttempts: number;
   errorMessage?: string;
+  idempotencyKey?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface SchedulerJobCreateOrResolveResult {
+  job: SchedulerJob;
+  created: boolean;
 }
 
 export interface SchedulerJobHandler {

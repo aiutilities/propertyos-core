@@ -1,10 +1,15 @@
 import {
   SchedulerJob,
+  SchedulerJobCreateOrResolveResult,
   SchedulerJobStatus,
 } from '../types/scheduler.types';
 
 export interface SchedulerRepository {
   create(job: SchedulerJob): Promise<SchedulerJob>;
+
+  createOrResolve(
+    job: SchedulerJob,
+  ): Promise<SchedulerJobCreateOrResolveResult>;
 
   findById(id: string): Promise<SchedulerJob | null>;
 

@@ -3,7 +3,11 @@ import { randomUUID } from 'crypto';
 import { CreateJobDto } from '../dto/create-job.dto';
 import { PostgresSchedulerRepository } from '../repositories/postgres-scheduler.repository';
 import { SchedulerHandlerRegistry } from '../registries/scheduler-handler.registry';
-import { SchedulerJob, SchedulerJobHandler } from '../types/scheduler.types';
+import {
+  SchedulerJob,
+  SchedulerJobCreateOrResolveResult,
+  SchedulerJobHandler,
+} from '../types/scheduler.types';
 
 @Injectable()
 export class SchedulerService {
@@ -32,6 +36,55 @@ export class SchedulerService {
       cronExpression: dto.cronExpression,
       attempts: 0,
       maxAttempts: dto.maxAttempts ?? 3,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+
+  async createOrResolveJob(
+    dto: CreateJobDto,
+  ): Promise<SchedulerJobCreateOrResolveResult> {
+    const idempotencyKey =
+      dto.idempotencyKey?.trim();
+
+    if (!idempotencyKey) {
+      throw new Error(
+        "Scheduler job idempotency key is required",
+      );
+    }
+
+    if (idempotencyKey.length > 500) {
+      throw new Error(
+        "Scheduler job idempotency key exceeds 500 characters",
+      );
+    }
+
+    const now = new Date();
+    const runAt =
+      dto.runAt
+        ? new Date(dto.runAt)
+        : undefined;
+    const scheduleType =
+      dto.scheduleType ?? "MANUAL";
+
+    return this.repository.createOrResolve({
+      id: randomUUID(),
+      name: dto.name,
+      jobType: dto.jobType,
+      status: "PENDING",
+      payload: dto.payload ?? {},
+      scheduleType,
+      runAt,
+      nextRunAt:
+        scheduleType === "ONE_TIME"
+          ? runAt
+          : undefined,
+      cronExpression:
+        dto.cronExpression,
+      attempts: 0,
+      maxAttempts:
+        dto.maxAttempts ?? 3,
+      idempotencyKey,
       createdAt: now,
       updatedAt: now,
     });

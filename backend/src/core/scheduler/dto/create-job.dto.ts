@@ -8,4 +8,5 @@ export class CreateJobDto {
   runAt?: string;
   cronExpression?: string;
   maxAttempts?: number;
+  idempotencyKey?: string;
 }

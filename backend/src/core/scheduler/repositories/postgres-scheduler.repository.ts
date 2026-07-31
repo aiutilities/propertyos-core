@@ -4,6 +4,7 @@ import { POSTGRES_POOL } from '../../../database/postgres/postgres.types';
 import { SchedulerRepository } from './scheduler.repository';
 import {
   SchedulerJob,
+  SchedulerJobCreateOrResolveResult,
   SchedulerJobStatus,
   SchedulerScheduleType,
 } from '../types/scheduler.types';
@@ -18,9 +19,10 @@ export class PostgresSchedulerRepository implements SchedulerRepository {
       INSERT INTO scheduler_jobs (
         id, name, job_type, status, payload, schedule_type,
         run_at, cron_expression, last_run_at, next_run_at,
-        attempts, max_attempts, error_message, created_at, updated_at
+        attempts, max_attempts, error_message, idempotency_key,
+        created_at, updated_at
       )
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
       RETURNING *
       `,
       [
@@ -37,12 +39,114 @@ export class PostgresSchedulerRepository implements SchedulerRepository {
         job.attempts,
         job.maxAttempts,
         job.errorMessage ?? null,
+        job.idempotencyKey ?? null,
         job.createdAt,
         job.updatedAt,
       ],
     );
 
     return this.mapJob(result.rows[0]);
+  }
+
+  async createOrResolve(
+    job: SchedulerJob,
+  ): Promise<SchedulerJobCreateOrResolveResult> {
+    const idempotencyKey =
+      job.idempotencyKey?.trim();
+
+    if (!idempotencyKey) {
+      throw new Error(
+        "Scheduler job idempotency key is required",
+      );
+    }
+
+    if (idempotencyKey.length > 500) {
+      throw new Error(
+        "Scheduler job idempotency key exceeds 500 characters",
+      );
+    }
+
+    const inserted =
+      await this.pool.query(
+        `
+        INSERT INTO scheduler_jobs (
+          id, name, job_type, status, payload, schedule_type,
+          run_at, cron_expression, last_run_at, next_run_at,
+          attempts, max_attempts, error_message, idempotency_key,
+          created_at, updated_at
+        )
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
+        ON CONFLICT (idempotency_key)
+          WHERE idempotency_key IS NOT NULL
+        DO NOTHING
+        RETURNING *
+        `,
+        [
+          job.id,
+          job.name,
+          job.jobType,
+          job.status,
+          JSON.stringify(
+            job.payload ?? {},
+          ),
+          job.scheduleType,
+          job.runAt ?? null,
+          job.cronExpression ?? null,
+          job.lastRunAt ?? null,
+          job.nextRunAt ?? null,
+          job.attempts,
+          job.maxAttempts,
+          job.errorMessage ?? null,
+          idempotencyKey,
+          job.createdAt,
+          job.updatedAt,
+        ],
+      );
+
+    if (inserted.rows[0]) {
+      return {
+        job: this.mapJob(
+          inserted.rows[0],
+        ),
+        created: true,
+      };
+    }
+
+    const existing =
+      await this.pool.query(
+        `
+        SELECT *
+        FROM scheduler_jobs
+        WHERE idempotency_key = $1
+        LIMIT 1
+        `,
+        [idempotencyKey],
+      );
+
+    if (!existing.rows[0]) {
+      throw new Error(
+        "Scheduler job idempotency conflict could not be resolved",
+      );
+    }
+
+    const resolved =
+      this.mapJob(
+        existing.rows[0],
+      );
+
+    if (
+      resolved.idempotencyKey !==
+      idempotencyKey
+    ) {
+      throw new Error(
+        "Resolved scheduler job idempotency key mismatch",
+      );
+    }
+
+    return {
+      job: resolved,
+      created: false,
+    };
   }
 
   async findById(id: string): Promise<SchedulerJob | null> {
@@ -240,6 +344,7 @@ export class PostgresSchedulerRepository implements SchedulerRepository {
       attempts: Number(row.attempts),
       maxAttempts: Number(row.max_attempts),
       errorMessage: row.error_message ?? undefined,
+      idempotencyKey: row.idempotency_key ?? undefined,
       createdAt: row.created_at,
       updatedAt: row.updated_at,
     };

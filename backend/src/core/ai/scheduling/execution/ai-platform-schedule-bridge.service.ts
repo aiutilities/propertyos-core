@@ -24,21 +24,24 @@ export class AiPlatformScheduleBridgeService {
   async enqueueOccurrence(
     occurrence: AiScheduledOccurrence,
   ): Promise<void> {
-    await this.schedulerService.createJob({
-      name:
-        `Execute AI schedule occurrence ${occurrence.id}`,
-      jobType:
-        AI_SCHEDULE_OCCURRENCE_JOB_TYPE,
-      payload: {
-        occurrenceId:
-          occurrence.id,
-      },
-      scheduleType:
-        "ONE_TIME",
-      runAt:
-        occurrence.scheduledFor,
-      maxAttempts:
-        1,
-    });
+    await this.schedulerService
+      .createOrResolveJob({
+        name:
+          `Execute AI schedule occurrence ${occurrence.id}`,
+        jobType:
+          AI_SCHEDULE_OCCURRENCE_JOB_TYPE,
+        payload: {
+          occurrenceId:
+            occurrence.id,
+        },
+        scheduleType:
+          "ONE_TIME",
+        runAt:
+          occurrence.scheduledFor,
+        maxAttempts:
+          1,
+        idempotencyKey:
+          `ai-schedule-occurrence:${occurrence.id}`,
+      });
   }
 }

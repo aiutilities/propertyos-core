@@ -12,6 +12,7 @@ import {
 } from "../../../../database/postgres";
 
 import {
+  AiOccurrenceCreateOrResolveResult,
   AiScheduleListFilter,
   AiScheduleHistoryFilter,
   AiScheduleRepository,
@@ -230,30 +231,107 @@ export class PostgresAiScheduleRepository
       )
       RETURNING *
       `,
-      [
-        occurrence.id,
-        occurrence.scheduleId,
-        occurrence.sequence,
-        occurrence.scheduledFor,
-        occurrence.status,
-        occurrence.attemptCount,
-        occurrence.nextAttemptAt ?? null,
-        occurrence.workerId ?? null,
-        occurrence.claimedAt ?? null,
-        occurrence.claimExpiresAt ?? null,
-        occurrence.startedAt ?? null,
-        occurrence.completedAt ?? null,
-        occurrence.outcome ?? null,
-        occurrence.errorCode ?? null,
-        occurrence.errorMessage ?? null,
-        occurrence.createdAt,
-        occurrence.updatedAt,
-      ],
+      this.occurrenceValues(
+        occurrence,
+      ),
     );
 
     return this.mapOccurrence(
       result.rows[0],
     );
+  }
+
+  async createOrResolveOccurrence(
+    occurrence: AiScheduledOccurrence,
+  ): Promise<AiOccurrenceCreateOrResolveResult> {
+    const inserted = await this.pool.query(
+      `
+      INSERT INTO ai_schedule_occurrences
+      (
+        id,
+        schedule_id,
+        sequence,
+        scheduled_for,
+        status,
+        attempt_count,
+        next_attempt_at,
+        worker_id,
+        claimed_at,
+        claim_expires_at,
+        started_at,
+        completed_at,
+        outcome,
+        error_code,
+        error_message,
+        created_at,
+        updated_at
+      )
+      VALUES
+      (
+        $1, $2, $3, $4, $5,
+        $6, $7, $8, $9, $10,
+        $11, $12, $13, $14,
+        $15, $16, $17
+      )
+      ON CONFLICT ON CONSTRAINT
+        ai_schedule_occurrences_time_unique
+      DO NOTHING
+      RETURNING *
+      `,
+      this.occurrenceValues(
+        occurrence,
+      ),
+    );
+
+    if (inserted.rows[0]) {
+      return {
+        occurrence: this.mapOccurrence(
+          inserted.rows[0],
+        ),
+        created: true,
+      };
+    }
+
+    const existing = await this.pool.query(
+      `
+      SELECT *
+      FROM ai_schedule_occurrences
+      WHERE schedule_id = $1
+        AND scheduled_for = $2
+      `,
+      [
+        occurrence.scheduleId,
+        occurrence.scheduledFor,
+      ],
+    );
+
+    if (!existing.rows[0]) {
+      throw new Error(
+        "AI schedule occurrence conflict could not be resolved",
+      );
+    }
+
+    const resolved = this.mapOccurrence(
+      existing.rows[0],
+    );
+
+    if (
+      resolved.scheduleId !==
+        occurrence.scheduleId ||
+      resolved.scheduledFor !==
+        new Date(
+          occurrence.scheduledFor,
+        ).toISOString()
+    ) {
+      throw new Error(
+        "AI schedule occurrence conflict resolved to a different logical identity",
+      );
+    }
+
+    return {
+      occurrence: resolved,
+      created: false,
+    };
   }
 
   async getOccurrence(
@@ -558,6 +636,30 @@ export class PostgresAiScheduleRepository
       metadata:
         row.metadata ?? {},
     };
+  }
+
+  private occurrenceValues(
+    occurrence: AiScheduledOccurrence,
+  ): unknown[] {
+    return [
+      occurrence.id,
+      occurrence.scheduleId,
+      occurrence.sequence,
+      occurrence.scheduledFor,
+      occurrence.status,
+      occurrence.attemptCount,
+      occurrence.nextAttemptAt ?? null,
+      occurrence.workerId ?? null,
+      occurrence.claimedAt ?? null,
+      occurrence.claimExpiresAt ?? null,
+      occurrence.startedAt ?? null,
+      occurrence.completedAt ?? null,
+      occurrence.outcome ?? null,
+      occurrence.errorCode ?? null,
+      occurrence.errorMessage ?? null,
+      occurrence.createdAt,
+      occurrence.updatedAt,
+    ];
   }
 
   private mapOccurrence(

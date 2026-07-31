@@ -122,6 +122,36 @@ class MemoryRepository
     return structuredClone(occurrence);
   }
 
+
+  async createOrResolveOccurrence(
+    occurrence: AiScheduledOccurrence,
+  ): Promise<{
+    occurrence: AiScheduledOccurrence;
+    created: boolean;
+  }> {
+    const existing = [...this.occurrences.values()]
+      .find(
+        (item) =>
+          item.scheduleId === occurrence.scheduleId &&
+          item.scheduledFor === occurrence.scheduledFor,
+      );
+
+    if (existing) {
+      return {
+        occurrence: structuredClone(existing),
+        created: false,
+      };
+    }
+
+    const created =
+      await this.createOccurrence(occurrence);
+
+    return {
+      occurrence: created,
+      created: true,
+    };
+  }
+
   async getOccurrence(
     id: string,
   ): Promise<AiScheduledOccurrence | null> {

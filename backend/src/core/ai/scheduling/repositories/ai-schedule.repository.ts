@@ -21,6 +21,11 @@ export interface AiScheduleHistoryFilter {
   limit?: number;
 }
 
+export interface AiOccurrenceCreateOrResolveResult {
+  occurrence: AiScheduledOccurrence;
+  created: boolean;
+}
+
 export interface AiScheduleRepository {
   createSchedule(schedule: AiScheduleManifest): Promise<AiScheduleManifest>;
 
@@ -39,6 +44,10 @@ export interface AiScheduleRepository {
   createOccurrence(
     occurrence: AiScheduledOccurrence,
   ): Promise<AiScheduledOccurrence>;
+
+  createOrResolveOccurrence(
+    occurrence: AiScheduledOccurrence,
+  ): Promise<AiOccurrenceCreateOrResolveResult>;
 
   getOccurrence(id: string): Promise<AiScheduledOccurrence | null>;
 

@@ -91,4 +91,9 @@ jobs:
         run: docker compose config
 
       - name: Build Docker image
-        run: docker build -t propertyos-backend-ci .
+        working-directory: .
+        run: >-
+          docker build
+          --file backend/Dockerfile
+          --tag propertyos-backend-ci
+          .

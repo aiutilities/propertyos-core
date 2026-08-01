@@ -13,6 +13,12 @@ class ApprovedHostSymbol:
     portable: bool
 
 
+def normalize_approved_module_id(
+    module_id: str,
+) -> str:
+    return module_id.replace(":", "-")
+
+
 @dataclass(frozen=True)
 class ApprovedHostSurface:
     schema_version: str
@@ -33,8 +39,18 @@ class ApprovedHostSurface:
         symbol: str,
         kind: str,
     ) -> bool:
+        normalized_module_id = (
+            normalize_approved_module_id(
+                module_id
+            )
+        )
+
         return any(
-            item.module_id == module_id
+            (
+                item.module_id == module_id
+                or item.module_id
+                == normalized_module_id
+            )
             and item.symbol == symbol
             and item.kind == kind
             and item.portable

@@ -1,0 +1,308 @@
+{
+  "hostApiVersion": "0.1.0",
+  "modules": [
+    {
+      "moduleId": "audit",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/audit/audit.module",
+          "symbol": "AuditModule"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/audit/audit.service",
+          "symbol": "AuditService"
+        }
+      ]
+    },
+    {
+      "moduleId": "auth",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/auth/auth.module",
+          "symbol": "AuthModule"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/auth/guards/jwt-auth.guard",
+          "symbol": "JwtAuthGuard"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/auth/guards/permission.guard",
+          "symbol": "PermissionGuard"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/auth/constants/permissions",
+          "symbol": "Permissions"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/auth/decorators/require-permission.decorator",
+          "symbol": "RequirePermission"
+        }
+      ]
+    },
+    {
+      "moduleId": "database-database",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/database/database.module",
+          "symbol": "DatabaseModule"
+        }
+      ]
+    },
+    {
+      "moduleId": "database-postgres",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/database/postgres/postgres.types",
+          "symbol": "POSTGRES_POOL"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/database/postgres/postgres.module",
+          "symbol": "PostgresModule"
+        }
+      ]
+    },
+    {
+      "moduleId": "eventbus",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/eventbus/eventbus.module",
+          "symbol": "EventBusModule"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/eventbus/services/eventbus.service",
+          "symbol": "EventBusService"
+        }
+      ]
+    },
+    {
+      "moduleId": "identity",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/identity/identity.module",
+          "symbol": "IdentityModule"
+        }
+      ]
+    },
+    {
+      "moduleId": "platform",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/platform/repositories/base-postgres.repository",
+          "symbol": "BasePostgresRepository"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/platform/dto/paginated-response.dto",
+          "symbol": "PaginatedResponseDto"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/platform/dto/pagination-query.dto",
+          "symbol": "PaginationQueryDto"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/platform/dto/pagination-query.dto",
+          "symbol": "normalizePagination"
+        }
+      ]
+    },
+    {
+      "moduleId": "plugin",
+      "symbols": [
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/registries/plugin-dashboard.registry",
+          "symbol": "PluginDashboardContributor"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/registries/plugin-dashboard.registry",
+          "symbol": "PluginDashboardMetrics"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/registries/plugin-dashboard.registry",
+          "symbol": "PluginDashboardRegistry"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/plugin.module",
+          "symbol": "PluginModule"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/registries/plugin-notification.registry",
+          "symbol": "PluginNotificationRegistry"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/registries/plugin-permission.registry",
+          "symbol": "PluginPermissionRegistry"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/plugin/registries/plugin-workflow.registry",
+          "symbol": "PluginWorkflowRegistry"
+        }
+      ]
+    },
+    {
+      "moduleId": "scheduler",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/types/report-export-job.types",
+          "symbol": "REPORT_EXPORT_JOB_TYPE"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/types/report-export-job.types",
+          "symbol": "ReportExportJobPayload"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/types/report-export-job.types",
+          "symbol": "ScheduledReportFormat"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/types/report-export-job.types",
+          "symbol": "ScheduledReportType"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/registries/scheduler-handler.registry",
+          "symbol": "SchedulerHandlerRegistry"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/types/scheduler.types",
+          "symbol": "SchedulerJob"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/types/scheduler.types",
+          "symbol": "SchedulerJobHandler"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/scheduler.module",
+          "symbol": "SchedulerModule"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/scheduler/services/scheduler.service",
+          "symbol": "SchedulerService"
+        }
+      ]
+    },
+    {
+      "moduleId": "search",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/search/search.module",
+          "symbol": "SearchModule"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/search/types/search.types",
+          "symbol": "SearchProvider"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/search/registries/search-provider.registry",
+          "symbol": "SearchProviderRegistry"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/search/types/search.types",
+          "symbol": "SearchQuery"
+        },
+        {
+          "kind": "type",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/search/types/search.types",
+          "symbol": "SearchResult"
+        }
+      ]
+    },
+    {
+      "moduleId": "workflow",
+      "symbols": [
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/workflow/workflow.module",
+          "symbol": "WorkflowModule"
+        },
+        {
+          "kind": "runtime",
+          "portable": true,
+          "sourcePath": "../../../../../backend/src/core/workflow/services/workflow.service",
+          "symbol": "WorkflowService"
+        }
+      ]
+    }
+  ],
+  "packageName": "@propertyos/core-contracts",
+  "policy": {
+    "defaultDecision": "deny",
+    "repositoryImplementationExportsAllowed": false,
+    "unlistedSymbolsAllowed": false
+  },
+  "schemaVersion": "1.0.0",
+  "sourceStrategy": "portable-facade"
+}

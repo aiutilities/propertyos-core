@@ -1,3 +1,4 @@
+import { createApiError, createNetworkError } from "@/lib/api-error";
 import { getToken } from "@/lib/session";
 
 const API_BASE_URL =
@@ -7,10 +8,10 @@ type ApiOptions = RequestInit & {
   auth?: boolean;
 };
 
-export async function apiRequest<T>(
+async function executeRequest(
   path: string,
-  options: ApiOptions = {},
-): Promise<T> {
+  options: ApiOptions,
+): Promise<Response> {
   const headers = new Headers(options.headers);
 
   if (!headers.has("Content-Type")) {
@@ -19,61 +20,46 @@ export async function apiRequest<T>(
 
   if (options.auth !== false) {
     const token = getToken();
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
+    if (token) headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
-
-  if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || `Request failed with ${response.status}`);
+  try {
+    return await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+  } catch (error) {
+    throw createNetworkError(error, path);
   }
-
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  return (await response.json()) as T;
 }
 
+export async function apiRequest<T>(
+  path: string,
+  options: ApiOptions = {},
+): Promise<T> {
+  const response = await executeRequest(path, options);
+
+  if (!response.ok) {
+    throw await createApiError(response, {
+      path,
+      authenticationRequest: options.auth === false,
+    });
+  }
+
+  if (response.status === 204) return undefined as T;
+  return (await response.json()) as T;
+}
 
 export async function downloadApiFile(
   path: string,
   fallbackFilename: string,
 ): Promise<void> {
-  const headers = new Headers();
-  const token = getToken();
-
-  if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
-  }
-
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers,
-  });
+  const response = await executeRequest(path, {});
 
   if (!response.ok) {
-    const message = await response.text();
-    throw new Error(
-      message || `Download failed with ${response.status}`,
-    );
+    throw await createApiError(response, { path });
   }
 
-  const disposition =
-    response.headers.get("Content-Disposition") ?? "";
-
-  const filenameMatch = disposition.match(
-    /filename="?([^";]+)"?/i,
-  );
-
-  const filename =
-    filenameMatch?.[1] ?? fallbackFilename;
-
+  const disposition = response.headers.get("Content-Disposition") ?? "";
+  const filenameMatch = disposition.match(/filename="?([^";]+)"?/i);
+  const filename = filenameMatch?.[1] ?? fallbackFilename;
   const blob = await response.blob();
   const objectUrl = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -83,6 +69,5 @@ export async function downloadApiFile(
   document.body.appendChild(link);
   link.click();
   link.remove();
-
   window.URL.revokeObjectURL(objectUrl);
 }

@@ -19,8 +19,8 @@ services:
 
   migrate:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: backend/Dockerfile
     container_name: propertyos-migrate
     command: ["node", "dist/database/runner/migration-runner.js"]
     restart: "no"
@@ -38,8 +38,8 @@ services:
 
   api:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: backend/Dockerfile
     container_name: propertyos-api
     restart: unless-stopped
     init: true
@@ -74,8 +74,8 @@ services:
 
   scheduler:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: backend/Dockerfile
     container_name: propertyos-scheduler
     command: ["node", "dist/scheduler-worker.js"]
     restart: unless-stopped

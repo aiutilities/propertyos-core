@@ -51,7 +51,7 @@ export default function VisitorForm() {
       try {
         const [propertyResponse, personResponse] = await Promise.all([
           apiRequest<PropertyListResponse>(
-            "/properties?page=1&limit=100&sortBy=name&sortOrder=ASC",
+            "/properties?page=1&limit=100&sortBy=name&sortOrder=asc",
           ),
           apiRequest<Person[]>("/persons"),
         ]);

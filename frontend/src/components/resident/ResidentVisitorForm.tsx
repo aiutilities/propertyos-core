@@ -46,7 +46,7 @@ export default function ResidentVisitorForm() {
 
       try {
         const response = await apiRequest<PropertyListResponse>(
-          "/properties?page=1&limit=100&sortBy=name&sortOrder=ASC",
+          "/properties?page=1&limit=100&sortBy=name&sortOrder=asc",
         );
 
         setProperties(

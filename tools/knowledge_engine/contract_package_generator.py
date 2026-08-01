@@ -34,6 +34,9 @@ from .contract_package_layout_models import (
 from .contract_package_layout_models import (
     PlannedContractPackage,
 )
+from .approved_host_surface import (
+    load_approved_host_surface,
+)
 
 
 class ContractPackageGenerationError(
@@ -73,10 +76,23 @@ class ContractPackageGenerator:
     def __init__(
         self,
         repository_root: Path,
+        approved_host_surface_path: Path
+        | None = None,
     ) -> None:
         self._repository_root = (
             repository_root.resolve()
         )
+        self._approved_host_surface_path = (
+            approved_host_surface_path
+            if approved_host_surface_path
+            is not None
+            else (
+                Path(__file__).resolve().parent
+                / "contracts"
+                / "approved_host_surface.json"
+            )
+        )
+        self._approved_host_surface_cache = None
 
     def generate(
         self,
@@ -289,7 +305,33 @@ class ContractPackageGenerator:
             valid=True,
         )
 
+    @property
+    def _approved_host_surface(self):
+        if self._approved_host_surface_cache is None:
+            self._approved_host_surface_cache = (
+                load_approved_host_surface(
+                    self._approved_host_surface_path
+                )
+            )
+
+        return self._approved_host_surface_cache
+
     def _package_content(
+        self,
+        package: PlannedContractPackage,
+    ) -> Dict[str, bytes]:
+        if package.source_strategy == (
+            "portable-facade"
+        ):
+            return self._portable_package_content(
+                package
+            )
+
+        return self._repository_package_content(
+            package
+        )
+
+    def _repository_package_content(
         self,
         package: PlannedContractPackage,
     ) -> Dict[str, bytes]:
@@ -396,6 +438,262 @@ class ContractPackageGenerator:
             )
 
         return content
+
+    def _portable_package_content(
+        self,
+        package: PlannedContractPackage,
+    ) -> Dict[str, bytes]:
+        self._validate_portable_exports(package)
+
+        content: Dict[str, bytes] = {}
+
+        package_json = {
+            "name": package.package_name,
+            "version": package.version,
+            "private": False,
+            "description": (
+                "Generated portable PropertyOS "
+                "plugin host contract facade."
+            ),
+            "main": "./dist/index.js",
+            "types": "./dist/index.d.ts",
+            "files": ["dist"],
+            "sideEffects": False,
+            "scripts": {
+                "build": "tsc -p tsconfig.json",
+                "typecheck": (
+                    "tsc -p tsconfig.json --noEmit"
+                ),
+            },
+            "devDependencies": {
+                "typescript": "^6.0.3",
+            },
+            "exports": {
+                ".": {
+                    "types": "./dist/index.d.ts",
+                    "default": "./dist/index.js",
+                },
+                **{
+                    f"./{module.directory_name}": {
+                        "types": (
+                            "./dist/"
+                            f"{module.directory_name}/"
+                            "index.d.ts"
+                        ),
+                        "default": (
+                            "./dist/"
+                            f"{module.directory_name}/"
+                            "index.js"
+                        ),
+                    }
+                    for module in package.modules
+                },
+            },
+            "propertyos": {
+                "generated": True,
+                "sourceStrategy": (
+                    package.source_strategy
+                ),
+                "publishable": True,
+                "hostApiVersion": (
+                    self._approved_host_surface
+                    .host_api_version
+                ),
+            },
+        }
+
+        tsconfig = {
+            "compilerOptions": {
+                "target": "ES2021",
+                "module": "CommonJS",
+                "moduleResolution": "Node",
+                "declaration": True,
+                "outDir": "./dist",
+                "rootDir": "./src",
+                "strict": True,
+                "skipLibCheck": True,
+                "esModuleInterop": True,
+                "forceConsistentCasingInFileNames": (
+                    True
+                ),
+            },
+            "include": ["src/**/*.ts"],
+            "exclude": ["dist", "node_modules"],
+        }
+
+        content["package.json"] = (
+            _json_bytes(package_json)
+        )
+        content["tsconfig.json"] = (
+            _json_bytes(tsconfig)
+        )
+
+        root_lines = [
+            (
+                "/* This file is generated. "
+                "Do not edit manually. */"
+            ),
+            "",
+        ]
+
+        for module in package.modules:
+            root_lines.append(
+                "export * from "
+                f'"./{module.directory_name}";'
+            )
+
+        content[
+            package.root_entrypoint_path
+        ] = (
+            "\n".join(root_lines)
+            + "\n"
+        ).encode("utf-8")
+
+        content["src/host-runtime.ts"] = (
+            self._portable_host_runtime()
+        )
+
+        for module in package.modules:
+            content[module.entrypoint_path] = (
+                self._portable_module_entrypoint(
+                    module
+                )
+            )
+
+        return content
+
+    def _validate_portable_exports(
+        self,
+        package: PlannedContractPackage,
+    ) -> None:
+        surface = self._approved_host_surface
+
+        if package.package_name != (
+            surface.package_name
+        ):
+            raise ContractPackageGenerationError(
+                "Portable package name does not "
+                "match the approved host surface."
+            )
+
+        for module in package.modules:
+            for export in module.exports:
+                kind = (
+                    "type"
+                    if export.export_kind
+                    in _TYPE_ONLY_EXPORT_KINDS
+                    else "runtime"
+                )
+
+                if not surface.permits(
+                    module_id=module.module_id,
+                    symbol=export.symbol,
+                    kind=kind,
+                ):
+                    raise ContractPackageGenerationError(
+                        "Portable export is not "
+                        "approved by the host surface: "
+                        f"{module.module_id}:"
+                        f"{export.symbol}:"
+                        f"{kind}"
+                    )
+
+    @staticmethod
+    def _portable_host_runtime() -> bytes:
+        return (
+            "/* This file is generated. "
+            "Do not edit manually. */\n\n"
+            "const HOST_KEY = Symbol.for("
+            "\"@propertyos/core-contracts/"
+            "host-runtime\""
+            ");\n\n"
+            "type HostRuntime = "
+            "Record<string, unknown>;\n\n"
+            "export function resolveHostRuntime(): "
+            "HostRuntime {\n"
+            "  const scope = globalThis as "
+            "typeof globalThis & {\n"
+            "    [HOST_KEY]?: HostRuntime;\n"
+            "  };\n\n"
+            "  const runtime = scope[HOST_KEY];\n\n"
+            "  if (!runtime) {\n"
+            "    throw new Error(\n"
+            "      \"PropertyOS host runtime "
+            "contracts are unavailable.\"\n"
+            "    );\n"
+            "  }\n\n"
+            "  return runtime;\n"
+            "}\n"
+        ).encode("utf-8")
+
+    def _portable_module_entrypoint(
+        self,
+        module: ContractPackageModuleLayout,
+    ) -> bytes:
+        runtime_symbols = sorted(
+            {
+                export.symbol
+                for export in module.exports
+                if export.export_kind
+                not in _TYPE_ONLY_EXPORT_KINDS
+            }
+        )
+        type_symbols = sorted(
+            {
+                export.symbol
+                for export in module.exports
+                if export.export_kind
+                in _TYPE_ONLY_EXPORT_KINDS
+            }
+        )
+
+        lines = [
+            (
+                "/* This file is generated. "
+                "Do not edit manually. */"
+            ),
+            "",
+        ]
+
+        if runtime_symbols:
+            lines.extend(
+                [
+                    (
+                        "import { resolveHostRuntime } "
+                        'from "../host-runtime";'
+                    ),
+                    "",
+                    "const host = resolveHostRuntime();",
+                    "",
+                ]
+            )
+
+            for symbol in runtime_symbols:
+                lines.extend(
+                    [
+                        (
+                            f"export const {symbol} = "
+                            f"host[{symbol!r}] as any;"
+                        ),
+                        (
+                            f"export type {symbol} = any;"
+                        ),
+                        "",
+                    ]
+                )
+
+        for symbol in type_symbols:
+            lines.extend(
+                [
+                    f"export type {symbol} = any;",
+                    "",
+                ]
+            )
+
+        return (
+            "\n".join(lines).rstrip()
+            + "\n"
+        ).encode("utf-8")
 
     def _module_entrypoint(
         self,

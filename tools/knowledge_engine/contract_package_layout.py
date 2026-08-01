@@ -365,6 +365,19 @@ class ContractPackageLayoutPlanner:
                 ),
             ),
             *(
+                (
+                    ContractPackageFileLayout(
+                        path="src/host-runtime.ts",
+                        file_kind=(
+                            "host-runtime-bridge"
+                        ),
+                    ),
+                )
+                if request.source_strategy
+                == "portable-facade"
+                else ()
+            ),
+            *(
                 ContractPackageFileLayout(
                     path=module.entrypoint_path,
                     file_kind=(

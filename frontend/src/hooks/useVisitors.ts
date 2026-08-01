@@ -37,7 +37,7 @@ export function useVisitors(filters: VisitorListFilters = {}) {
       const suffix = params.toString() ? `?${params.toString()}` : "";
 
       const response = await apiRequest<VisitListResponse>(
-        `/plugins/visitor${suffix}`,
+        `/plugins/visitor/list${suffix}`,
       );
 
       setItems(response.data.items);

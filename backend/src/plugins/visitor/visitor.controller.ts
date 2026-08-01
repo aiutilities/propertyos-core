@@ -101,7 +101,7 @@ export class VisitorController {
   }
 
   @RequirePermission(Permissions.VISITOR_READ)
-  @Get('/')
+  @Get('/list')
   async listVisitors(@Query() query: Record<string, unknown>) {
     return this.success(await this.visitorService.listVisits(query));
   }

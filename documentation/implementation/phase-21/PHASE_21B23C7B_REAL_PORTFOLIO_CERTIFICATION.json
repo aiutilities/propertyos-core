@@ -1,0 +1,128 @@
+{
+  "accepted": true,
+  "commit": "ee4394b91f3ba1cf1f0bdb74ecb3d86f7793de27",
+  "decision": "ACCEPT",
+  "installOrder": [
+    "agreement",
+    "communications",
+    "facility",
+    "helpdesk",
+    "inventory",
+    "invoice",
+    "maintenance",
+    "procurement",
+    "receipt",
+    "rent",
+    "report",
+    "reservation",
+    "staff",
+    "tenant",
+    "vehicle",
+    "vendor"
+  ],
+  "installSteps": [
+    {
+      "dependencies": [],
+      "pluginId": "agreement",
+      "sequence": 1,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "communications",
+      "sequence": 2,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "facility",
+      "sequence": 3,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "helpdesk",
+      "sequence": 4,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "inventory",
+      "sequence": 5,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "invoice",
+      "sequence": 6,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "maintenance",
+      "sequence": 7,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [
+        "inventory"
+      ],
+      "pluginId": "procurement",
+      "sequence": 8,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "receipt",
+      "sequence": 9,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "rent",
+      "sequence": 10,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "report",
+      "sequence": 11,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "reservation",
+      "sequence": 12,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "staff",
+      "sequence": 13,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "tenant",
+      "sequence": 14,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "vehicle",
+      "sequence": 15,
+      "version": "0.1.0"
+    },
+    {
+      "dependencies": [],
+      "pluginId": "vendor",
+      "sequence": 16,
+      "version": "0.1.0"
+    }
+  ],
+  "issueCount": 0,
+  "phase": "21B23C7B",
+  "pluginCount": 16,
+  "schemaVersion": "1.0.0",
+  "status": "COMPLETE"
+}

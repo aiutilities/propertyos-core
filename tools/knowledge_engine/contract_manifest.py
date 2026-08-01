@@ -263,6 +263,12 @@ class ContractManifestGenerator:
                 if export is None:
                     continue
 
+                export = (
+                    self._canonicalize_export_owner(
+                        export
+                    )
+                )
+
                 existing = exports_by_symbol.get(
                     symbol
                 )
@@ -368,6 +374,33 @@ class ContractManifestGenerator:
             packages=packages,
             issues=ordered_issues,
             valid=not ordered_issues,
+        )
+
+    @staticmethod
+    def _canonicalize_export_owner(
+        export: ContractExport,
+    ) -> ContractExport:
+        canonical_module = export.target_module
+
+        if export.source_path.startswith(
+            "backend/src/database/postgres/"
+        ):
+            canonical_module = "database:postgres"
+
+        elif export.source_path == (
+            "backend/src/database/database.module.ts"
+        ):
+            canonical_module = "database:database"
+
+        if canonical_module == export.target_module:
+            return export
+
+        return ContractExport(
+            symbol=export.symbol,
+            source_path=export.source_path,
+            export_kind=export.export_kind,
+            target_module=canonical_module,
+            package_name=export.package_name,
         )
 
     def _contract_references(

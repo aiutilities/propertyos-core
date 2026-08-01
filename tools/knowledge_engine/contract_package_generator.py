@@ -505,8 +505,8 @@ class ContractPackageGenerator:
         tsconfig = {
             "compilerOptions": {
                 "target": "ES2021",
-                "module": "CommonJS",
-                "moduleResolution": "Node",
+                "module": "Node16",
+                "moduleResolution": "Node16",
                 "declaration": True,
                 "outDir": "./dist",
                 "rootDir": "./src",

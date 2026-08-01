@@ -155,6 +155,28 @@ class PortableContractPackageGeneratorTest(
                 "portable-facade",
             )
 
+            tsconfig_data = json.loads(
+                (
+                    package_root
+                    / "tsconfig.json"
+                ).read_text(
+                    encoding="utf-8"
+                )
+            )
+
+            self.assertEqual(
+                tsconfig_data[
+                    "compilerOptions"
+                ]["module"],
+                "Node16",
+            )
+            self.assertEqual(
+                tsconfig_data[
+                    "compilerOptions"
+                ]["moduleResolution"],
+                "Node16",
+            )
+
             tsconfig = (
                 package_root / "tsconfig.json"
             ).read_text(encoding="utf-8")

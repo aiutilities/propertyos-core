@@ -117,7 +117,21 @@ class PluginWorkspaceGenerator:
             ...,
         ],
         workspace: Path | None = None,
+        source_strategy: str = (
+            "repository-reexport"
+        ),
+        portable_contract_package: Path
+        | None = None,
     ) -> Dict[str, bytes]:
+        if source_strategy not in (
+            "repository-reexport",
+            "portable-facade",
+        ):
+            raise PluginWorkspaceGenerationError(
+                "Unsupported plugin workspace "
+                f"source strategy: {source_strategy}"
+            )
+
         module_file = next(
             (
                 file
@@ -194,16 +208,27 @@ class PluginWorkspaceGenerator:
             "targetRoot": (
                 blueprint.target_root
             ),
+            "sourceStrategy": (
+                source_strategy
+            ),
         }
 
         package_json = (
             self._package_json(
                 blueprint=blueprint,
                 workspace=workspace,
+                source_strategy=(
+                    source_strategy
+                ),
+                portable_contract_package=(
+                    portable_contract_package
+                ),
             )
         )
 
-        tsconfig = self._tsconfig()
+        tsconfig = self._tsconfig(
+            source_strategy=source_strategy,
+        )
 
         extraction_report = (
             self._extraction_report(
@@ -241,6 +266,9 @@ class PluginWorkspaceGenerator:
         self,
         blueprint: PluginBlueprint,
         workspace: Path | None,
+        source_strategy: str,
+        portable_contract_package: Path
+        | None,
     ) -> dict[str, object]:
         backend_package = (
             self._backend_package_json()
@@ -287,7 +315,11 @@ class PluginWorkspaceGenerator:
         dependencies[
             "@propertyos/core-contracts"
         ] = self._contract_dependency(
-            workspace
+            workspace=workspace,
+            source_strategy=source_strategy,
+            portable_contract_package=(
+                portable_contract_package
+            ),
         )
 
         dev_dependencies = {
@@ -412,6 +444,19 @@ class PluginWorkspaceGenerator:
                     dependencies[
                         "@nestjs/core"
                     ]
+                ),
+            },
+            "propertyos": {
+                "workspaceSchemaVersion": (
+                    self.SCHEMA_VERSION
+                ),
+                "sourceStrategy": (
+                    source_strategy
+                ),
+                "hostApiVersion": "0.1.0",
+                "portable": (
+                    source_strategy
+                    == "portable-facade"
                 ),
             },
         }
@@ -943,6 +988,11 @@ class PluginWorkspaceGenerator:
     def _contract_dependency(
         self,
         workspace: Path | None,
+        source_strategy: str = (
+            "repository-reexport"
+        ),
+        portable_contract_package: Path
+        | None = None,
     ) -> str:
         if workspace is None:
             workspace = (
@@ -954,8 +1004,40 @@ class PluginWorkspaceGenerator:
 
         resolved_workspace = workspace.resolve()
 
+        if source_strategy == (
+            "portable-facade"
+        ):
+            if portable_contract_package is None:
+                raise (
+                    PluginWorkspaceGenerationError(
+                        "Portable workspace generation "
+                        "requires a packed core-contract "
+                        "package path."
+                    )
+                )
+
+            contract_path = (
+                portable_contract_package
+                .resolve()
+            )
+
+            if (
+                not contract_path.is_file()
+                or contract_path.suffix != ".tgz"
+            ):
+                raise (
+                    PluginWorkspaceGenerationError(
+                        "Portable core-contract package "
+                        "must be an existing .tgz archive."
+                    )
+                )
+        else:
+            contract_path = (
+                self.contract_package_path
+            )
+
         relative = os.path.relpath(
-            self.contract_package_path,
+            contract_path,
             resolved_workspace,
         )
 
@@ -967,7 +1049,49 @@ class PluginWorkspaceGenerator:
 
     def _tsconfig(
         self,
+        source_strategy: str = (
+            "repository-reexport"
+        ),
     ) -> dict[str, object]:
+        if source_strategy == (
+            "portable-facade"
+        ):
+            return {
+                "compilerOptions": {
+                    "target": "ES2021",
+                    "module": "Node16",
+                    "moduleResolution": (
+                        "Node16"
+                    ),
+                    "experimentalDecorators": (
+                        True
+                    ),
+                    "emitDecoratorMetadata": (
+                        True
+                    ),
+                    "strict": False,
+                    "esModuleInterop": True,
+                    "allowSyntheticDefaultImports": (
+                        True
+                    ),
+                    "skipLibCheck": True,
+                    "forceConsistentCasingInFileNames": (
+                        True
+                    ),
+                    "rootDir": "src",
+                    "outDir": "dist",
+                    "declaration": True,
+                    "composite": False,
+                },
+                "include": [
+                    "src/**/*.ts",
+                ],
+                "exclude": [
+                    "dist",
+                    "node_modules",
+                ],
+            }
+
         return {
             "extends": (
                 "../../../backend/"

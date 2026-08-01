@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceContract": {
+    "name": "PropertyOS Legacy Plugin Manifest",
+    "requiredFields": ["id", "name", "version", "dependencies", "permissions"],
+    "supportedOptionalFields": ["author", "controllers", "entrypoint", "materialization", "moduleClass", "package", "routes", "type"]
+  },
+  "targetContract": {
+    "name": "PropertyOS Marketplace Plugin Manifest",
+    "schemaVersion": "1.0.0",
+    "schemaPath": "tools/knowledge_engine/contracts/marketplace_plugin_manifest.schema.json",
+    "closed": true
+  },
+  "normalization": {
+    "preserveOriginal": true,
+    "deterministic": true,
+    "unknownSourceFields": "reject",
+    "unknownTargetFields": "reject",
+    "sortArrays": ["capabilities", "contracts", "dependencies", "permissions"]
+  },
+  "fieldMappings": [
+    {"source": "id", "target": "id", "strategy": "copy-required"},
+    {"source": "name", "target": "displayName", "strategy": "copy-required"},
+    {"source": "version", "target": "version", "strategy": "copy-semver"},
+    {"source": "permissions", "target": "permissions", "strategy": "normalize-permission-identifiers"},
+    {"source": "dependencies", "target": "capabilities", "strategy": "extract-platform-capabilities"},
+    {"source": "dependencies", "target": "dependencies", "strategy": "resolve-plugin-dependencies"},
+    {"source": "entrypoint", "target": "entrypoint", "strategy": "replace-with-portable-entrypoint"},
+    {"source": "author", "target": "publisher", "strategy": "resolve-publisher-context"},
+    {"source": "materialization", "target": null, "strategy": "drop-build-metadata"},
+    {"source": "controllers", "target": null, "strategy": "drop-repository-metadata"},
+    {"source": "routes", "target": null, "strategy": "drop-repository-metadata"},
+    {"source": "moduleClass", "target": null, "strategy": "drop-repository-metadata"},
+    {"source": "package", "target": null, "strategy": "drop-repository-metadata"},
+    {"source": "type", "target": null, "strategy": "drop-repository-metadata"}
+  ],
+  "contextInjections": [
+    {"target": "schemaVersion", "source": "constant", "value": "1.0.0"},
+    {"target": "publisher", "source": "adapter-context", "required": true},
+    {"target": "engine.hostApi.minimum", "source": "adapter-context", "required": true},
+    {"target": "engine.hostApi.maximum", "source": "adapter-context", "required": true},
+    {"target": "engine.node", "source": "adapter-context", "required": true},
+    {"target": "contracts", "source": "portable-contract-context", "required": true},
+    {"target": "migrations", "source": "migration-inspection", "required": true},
+    {"target": "integrity.archiveSha256", "source": "built-archive", "required": true},
+    {"target": "integrity.signature", "source": "signed-bundle", "required": false}
+  ],
+  "validationStages": [
+    "source-shape", "source-semver", "dependency-classification",
+    "permission-normalization", "publisher-resolution",
+    "host-api-compatibility", "contract-version-compatibility",
+    "migration-contract", "entrypoint-containment", "archive-integrity",
+    "target-schema", "determinism"
+  ],
+  "failurePolicy": {
+    "mode": "default-deny",
+    "partialManifestAllowed": false,
+    "mutationBeforeValidation": false,
+    "unknownPluginDependency": "reject",
+    "unknownPlatformCapability": "reject",
+    "invalidPermission": "reject",
+    "missingPublisherContext": "reject",
+    "missingIntegrityContext": "reject",
+    "unsupportedHostApi": "reject",
+    "unsupportedContractVersion": "reject",
+    "unsafeEntrypoint": "reject"
+  },
+  "implementationBoundary": {
+    "existingAdapterPreserved": true,
+    "externalJsonSchemaDependencyAllowed": false,
+    "schemaValidationStrategy": "propertyos-native-closed-schema-validator",
+    "installerIntegrationDeferred": true,
+    "legacyManifestRewriteDeferred": true
+  }
+}

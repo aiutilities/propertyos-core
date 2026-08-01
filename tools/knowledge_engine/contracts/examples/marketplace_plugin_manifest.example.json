@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "agreement",
+  "displayName": "Agreement",
+  "description": "Agreement lifecycle and repository plugin for PropertyOS.",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "publisher": {
+    "id": "cogzidel",
+    "name": "Cogzidel Technologies",
+    "keyId": "cogzidel-marketplace-primary"
+  },
+  "engine": {
+    "hostApi": {
+      "minimum": "0.1.0",
+      "maximum": "0.1.0"
+    },
+    "node": ">=20"
+  },
+  "contracts": [
+    {
+      "package": "@propertyos/core-contracts",
+      "version": "0.1.0"
+    }
+  ],
+  "entrypoint": "dist/index.js",
+  "permissions": [
+    "agreement:create",
+    "agreement:read",
+    "agreement:update"
+  ],
+  "capabilities": [
+    "dashboard",
+    "search"
+  ],
+  "dependencies": [],
+  "migrations": {
+    "strategy": "ordered-sql",
+    "directory": "migrations",
+    "reversible": true
+  },
+  "lifecycle": {
+    "activate": "dist/index.js",
+    "deactivate": "dist/index.js"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "archiveSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "signature": {
+      "algorithm": "ed25519",
+      "keyId": "cogzidel-marketplace-primary",
+      "value": "EXAMPLE_SIGNATURE_VALUE"
+    }
+  }
+}

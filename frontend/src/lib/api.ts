@@ -1,8 +1,15 @@
-import { createApiError, createNetworkError } from "@/lib/api-error";
+import {
+  createApiError,
+  createNetworkError,
+} from "@/lib/api-error";
+import {
+  handleApiAuthenticationFailure,
+} from "@/lib/api-auth";
 import { getToken } from "@/lib/session";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  "http://localhost:3000/api/v1";
 
 type ApiOptions = RequestInit & {
   auth?: boolean;
@@ -20,14 +27,34 @@ async function executeRequest(
 
   if (options.auth !== false) {
     const token = getToken();
-    if (token) headers.set("Authorization", `Bearer ${token}`);
+
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
   }
 
   try {
-    return await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+    return await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers,
+    });
   } catch (error) {
     throw createNetworkError(error, path);
   }
+}
+
+async function throwApiError(
+  response: Response,
+  path: string,
+  authenticationRequest: boolean,
+): Promise<never> {
+  const error = await createApiError(response, {
+    path,
+    authenticationRequest,
+  });
+
+  handleApiAuthenticationFailure(error);
+  throw error;
 }
 
 export async function apiRequest<T>(
@@ -37,13 +64,17 @@ export async function apiRequest<T>(
   const response = await executeRequest(path, options);
 
   if (!response.ok) {
-    throw await createApiError(response, {
+    return throwApiError(
+      response,
       path,
-      authenticationRequest: options.auth === false,
-    });
+      options.auth === false,
+    );
   }
 
-  if (response.status === 204) return undefined as T;
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   return (await response.json()) as T;
 }
 
@@ -54,12 +85,19 @@ export async function downloadApiFile(
   const response = await executeRequest(path, {});
 
   if (!response.ok) {
-    throw await createApiError(response, { path });
+    return throwApiError(response, path, false);
   }
 
-  const disposition = response.headers.get("Content-Disposition") ?? "";
-  const filenameMatch = disposition.match(/filename="?([^";]+)"?/i);
-  const filename = filenameMatch?.[1] ?? fallbackFilename;
+  const disposition =
+    response.headers.get("Content-Disposition") ?? "";
+
+  const filenameMatch = disposition.match(
+    /filename="?([^";]+)"?/i,
+  );
+
+  const filename =
+    filenameMatch?.[1] ?? fallbackFilename;
+
   const blob = await response.blob();
   const objectUrl = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -69,5 +107,6 @@ export async function downloadApiFile(
   document.body.appendChild(link);
   link.click();
   link.remove();
+
   window.URL.revokeObjectURL(objectUrl);
 }

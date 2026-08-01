@@ -1,0 +1,38 @@
+{
+  "controllers": 8,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "inventory",
+    "plugin"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "procurement",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "procurement",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/procurement"
+  },
+  "moduleClass": "ProcurementModule",
+  "name": "Procurement",
+  "package": "@propertyos/plugin-procurement",
+  "permissions": [
+    "PROCUREMENT_PERMISSIONS.APPROVE",
+    "PROCUREMENT_PERMISSIONS.CREATE",
+    "PROCUREMENT_PERMISSIONS.GOODS_RECEIPT",
+    "PROCUREMENT_PERMISSIONS.INVOICE_MATCH",
+    "PROCUREMENT_PERMISSIONS.MANAGE",
+    "PROCUREMENT_PERMISSIONS.PAYMENT_REQUEST",
+    "PROCUREMENT_PERMISSIONS.PURCHASE_ORDER",
+    "PROCUREMENT_PERMISSIONS.QUOTATION",
+    "PROCUREMENT_PERMISSIONS.READ",
+    "PROCUREMENT_PERMISSIONS.RFQ",
+    "PROCUREMENT_PERMISSIONS.UPDATE"
+  ],
+  "routes": 65,
+  "type": "business",
+  "version": "0.1.0"
+}

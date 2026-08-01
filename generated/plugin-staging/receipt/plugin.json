@@ -1,0 +1,26 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "database:postgres",
+    "eventbus",
+    "identity"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "receipt",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "receipt",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/receipt"
+  },
+  "moduleClass": "ReceiptModule",
+  "name": "Receipt",
+  "package": "@propertyos/plugin-receipt",
+  "permissions": [
+    "Permissions.RECEIPT_CREATE",
+    "Permissions.RECEIPT_READ"
+  ],
+  "routes": 3,
+  "type": "business",
+  "version": "0.1.0"
+}

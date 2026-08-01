@@ -1,0 +1,38 @@
+{
+  "controllers": 8,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "plugin",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "inventory",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "inventory",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/inventory"
+  },
+  "moduleClass": "InventoryModule",
+  "name": "Inventory",
+  "package": "@propertyos/plugin-inventory",
+  "permissions": [
+    "INVENTORY_PERMISSIONS.ADJUST",
+    "INVENTORY_PERMISSIONS.CONFIGURE",
+    "INVENTORY_PERMISSIONS.COUNT",
+    "INVENTORY_PERMISSIONS.ISSUE",
+    "INVENTORY_PERMISSIONS.ITEMS",
+    "INVENTORY_PERMISSIONS.MANAGE",
+    "INVENTORY_PERMISSIONS.READ",
+    "INVENTORY_PERMISSIONS.RETURN",
+    "INVENTORY_PERMISSIONS.STOCK",
+    "INVENTORY_PERMISSIONS.STORES",
+    "INVENTORY_PERMISSIONS.TRANSFER"
+  ],
+  "routes": 65,
+  "type": "business",
+  "version": "0.1.0"
+}

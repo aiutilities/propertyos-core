@@ -1,0 +1,34 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "plugin",
+    "scheduler",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "communications",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "communications",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/communications"
+  },
+  "moduleClass": "CommunicationsModule",
+  "name": "Communications",
+  "package": "@propertyos/plugin-communications",
+  "permissions": [
+    "COMMUNICATIONS_PERMISSIONS.ARCHIVE",
+    "COMMUNICATIONS_PERMISSIONS.CREATE",
+    "COMMUNICATIONS_PERMISSIONS.MANAGE",
+    "COMMUNICATIONS_PERMISSIONS.PUBLISH",
+    "COMMUNICATIONS_PERMISSIONS.READ",
+    "COMMUNICATIONS_PERMISSIONS.READ_RECEIPTS"
+  ],
+  "routes": 16,
+  "type": "business",
+  "version": "0.1.0"
+}

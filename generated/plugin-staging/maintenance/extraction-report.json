@@ -1,0 +1,86 @@
+{
+  "contracts": [
+    {
+      "moduleRoot": "backend/src/core/audit",
+      "name": "AuditModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in audit.",
+      "sourceModule": "audit",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/auth",
+      "name": "AuthModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in auth.",
+      "sourceModule": "auth",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/database/postgres",
+      "name": "PostgresModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in database:postgres.",
+      "sourceModule": "database:postgres",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/eventbus",
+      "name": "EventBusModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in eventbus.",
+      "sourceModule": "eventbus",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/identity",
+      "name": "IdentityModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in identity.",
+      "sourceModule": "identity",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/plugin",
+      "name": "PluginModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in plugin.",
+      "sourceModule": "plugin",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/scheduler",
+      "name": "SchedulerModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in scheduler.",
+      "sourceModule": "scheduler",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/search",
+      "name": "SearchModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in search.",
+      "sourceModule": "search",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/workflow",
+      "name": "WorkflowModuleContract",
+      "reason": "Decouple maintenance from direct implementation imports in workflow.",
+      "sourceModule": "workflow",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    }
+  ],
+  "copiedFileCount": 0,
+  "dependentUpdates": [],
+  "files": [],
+  "migrationScore": 30.9,
+  "migrationTier": "medium",
+  "moduleId": "maintenance",
+  "packageName": "@propertyos/plugin-maintenance",
+  "pluginId": "maintenance",
+  "schemaVersion": "1.0.0",
+  "warnings": []
+}

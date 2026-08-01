@@ -1,0 +1,35 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "plugin",
+    "scheduler",
+    "search",
+    "workflow"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "reservation",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "reservation",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/reservation"
+  },
+  "moduleClass": "ReservationModule",
+  "name": "Reservation",
+  "package": "@propertyos/plugin-reservation",
+  "permissions": [
+    "RESERVATION_PERMISSIONS.APPROVE",
+    "RESERVATION_PERMISSIONS.CANCEL",
+    "RESERVATION_PERMISSIONS.CREATE",
+    "RESERVATION_PERMISSIONS.MANAGE",
+    "RESERVATION_PERMISSIONS.READ",
+    "RESERVATION_PERMISSIONS.UPDATE"
+  ],
+  "routes": 18,
+  "type": "business",
+  "version": "0.1.0"
+}

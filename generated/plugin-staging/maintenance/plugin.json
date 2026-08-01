@@ -1,0 +1,33 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "identity",
+    "plugin",
+    "scheduler",
+    "search",
+    "workflow"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "maintenance",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "maintenance",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/maintenance"
+  },
+  "moduleClass": "MaintenanceModule",
+  "name": "Maintenance",
+  "package": "@propertyos/plugin-maintenance",
+  "permissions": [
+    "MAINTENANCE_PERMISSIONS.CREATE",
+    "MAINTENANCE_PERMISSIONS.MANAGE",
+    "MAINTENANCE_PERMISSIONS.READ"
+  ],
+  "routes": 9,
+  "type": "business",
+  "version": "0.1.0"
+}

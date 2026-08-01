@@ -1,0 +1,50 @@
+{
+  "contracts": [
+    {
+      "moduleRoot": "backend/src/database/postgres",
+      "name": "PostgresModuleContract",
+      "reason": "Decouple rent from direct implementation imports in database:postgres.",
+      "sourceModule": "database:postgres",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/eventbus",
+      "name": "EventBusModuleContract",
+      "reason": "Decouple rent from direct implementation imports in eventbus.",
+      "sourceModule": "eventbus",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/identity",
+      "name": "IdentityModuleContract",
+      "reason": "Decouple rent from direct implementation imports in identity.",
+      "sourceModule": "identity",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/search",
+      "name": "SearchModuleContract",
+      "reason": "Decouple rent from direct implementation imports in search.",
+      "sourceModule": "search",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    }
+  ],
+  "copiedFileCount": 0,
+  "dependentUpdates": [
+    "backend/src/core/admin/admin.module.ts"
+  ],
+  "files": [],
+  "migrationScore": 25.9,
+  "migrationTier": "low",
+  "moduleId": "rent",
+  "packageName": "@propertyos/plugin-rent",
+  "pluginId": "rent",
+  "schemaVersion": "1.0.0",
+  "warnings": [
+    "rent has 1 direct dependent module(s)."
+  ]
+}

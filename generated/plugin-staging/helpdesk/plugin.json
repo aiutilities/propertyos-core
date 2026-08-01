@@ -1,0 +1,34 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "plugin",
+    "scheduler",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "helpdesk",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "helpdesk",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/helpdesk"
+  },
+  "moduleClass": "HelpdeskModule",
+  "name": "Helpdesk",
+  "package": "@propertyos/plugin-helpdesk",
+  "permissions": [
+    "HELPDESK_PERMISSIONS.ASSIGN",
+    "HELPDESK_PERMISSIONS.COMMENT",
+    "HELPDESK_PERMISSIONS.CREATE",
+    "HELPDESK_PERMISSIONS.MANAGE",
+    "HELPDESK_PERMISSIONS.READ",
+    "HELPDESK_PERMISSIONS.RESOLVE"
+  ],
+  "routes": 17,
+  "type": "business",
+  "version": "0.1.0"
+}

@@ -1,0 +1,50 @@
+{
+  "contracts": [
+    {
+      "moduleRoot": "backend/src/database",
+      "name": "DatabaseModuleContract",
+      "reason": "Decouple tenant from direct implementation imports in database:database.",
+      "sourceModule": "database:database",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/eventbus",
+      "name": "EventBusModuleContract",
+      "reason": "Decouple tenant from direct implementation imports in eventbus.",
+      "sourceModule": "eventbus",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/identity",
+      "name": "IdentityModuleContract",
+      "reason": "Decouple tenant from direct implementation imports in identity.",
+      "sourceModule": "identity",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/search",
+      "name": "SearchModuleContract",
+      "reason": "Decouple tenant from direct implementation imports in search.",
+      "sourceModule": "search",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    }
+  ],
+  "copiedFileCount": 0,
+  "dependentUpdates": [
+    "backend/src/core/admin/admin.module.ts"
+  ],
+  "files": [],
+  "migrationScore": 26.25,
+  "migrationTier": "low",
+  "moduleId": "tenant",
+  "packageName": "@propertyos/plugin-tenant",
+  "pluginId": "tenant",
+  "schemaVersion": "1.0.0",
+  "warnings": [
+    "tenant has 1 direct dependent module(s)."
+  ]
+}

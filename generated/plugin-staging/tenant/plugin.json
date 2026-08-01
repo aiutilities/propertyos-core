@@ -1,0 +1,27 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "database:database",
+    "eventbus",
+    "identity",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "tenant",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "tenant",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/tenant"
+  },
+  "moduleClass": "TenantModule",
+  "name": "Tenant",
+  "package": "@propertyos/plugin-tenant",
+  "permissions": [
+    "Permissions.TENANT_CREATE",
+    "Permissions.TENANT_READ"
+  ],
+  "routes": 5,
+  "type": "business",
+  "version": "0.1.0"
+}

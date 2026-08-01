@@ -1,0 +1,26 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "database:database",
+    "eventbus",
+    "identity"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "invoice",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "invoice",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/invoice"
+  },
+  "moduleClass": "InvoiceModule",
+  "name": "Invoice",
+  "package": "@propertyos/plugin-invoice",
+  "permissions": [
+    "'invoice.create'",
+    "'invoice.read'"
+  ],
+  "routes": 3,
+  "type": "business",
+  "version": "0.1.0"
+}

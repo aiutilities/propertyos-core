@@ -1,0 +1,34 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "plugin"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "vendor",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "vendor",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/vendor"
+  },
+  "moduleClass": "VendorModule",
+  "name": "Vendor",
+  "package": "@propertyos/plugin-vendor",
+  "permissions": [
+    "VENDOR_PERMISSIONS.COMPLIANCE",
+    "VENDOR_PERMISSIONS.CONTRACTS",
+    "VENDOR_PERMISSIONS.CREATE",
+    "VENDOR_PERMISSIONS.MANAGE",
+    "VENDOR_PERMISSIONS.RATINGS",
+    "VENDOR_PERMISSIONS.READ",
+    "VENDOR_PERMISSIONS.UPDATE",
+    "VENDOR_PERMISSIONS.WORK_ORDERS"
+  ],
+  "routes": 40,
+  "type": "business",
+  "version": "0.1.0"
+}

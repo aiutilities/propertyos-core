@@ -1,0 +1,32 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "identity",
+    "plugin",
+    "search",
+    "workflow"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "facility",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "facility",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/facility"
+  },
+  "moduleClass": "FacilityModule",
+  "name": "Facility",
+  "package": "@propertyos/plugin-facility",
+  "permissions": [
+    "FACILITY_PERMISSIONS.CREATE",
+    "FACILITY_PERMISSIONS.MANAGE",
+    "FACILITY_PERMISSIONS.READ"
+  ],
+  "routes": 9,
+  "type": "business",
+  "version": "0.1.0"
+}

@@ -1,0 +1,42 @@
+{
+  "contracts": [
+    {
+      "moduleRoot": "backend/src/database/postgres",
+      "name": "PostgresModuleContract",
+      "reason": "Decouple receipt from direct implementation imports in database:postgres.",
+      "sourceModule": "database:postgres",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/eventbus",
+      "name": "EventBusModuleContract",
+      "reason": "Decouple receipt from direct implementation imports in eventbus.",
+      "sourceModule": "eventbus",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/identity",
+      "name": "IdentityModuleContract",
+      "reason": "Decouple receipt from direct implementation imports in identity.",
+      "sourceModule": "identity",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    }
+  ],
+  "copiedFileCount": 0,
+  "dependentUpdates": [
+    "backend/src/core/admin/admin.module.ts"
+  ],
+  "files": [],
+  "migrationScore": 22.55,
+  "migrationTier": "low",
+  "moduleId": "receipt",
+  "packageName": "@propertyos/plugin-receipt",
+  "pluginId": "receipt",
+  "schemaVersion": "1.0.0",
+  "warnings": [
+    "receipt has 1 direct dependent module(s)."
+  ]
+}

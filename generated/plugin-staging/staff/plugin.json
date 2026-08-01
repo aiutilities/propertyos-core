@@ -1,0 +1,32 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "identity",
+    "plugin",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "staff",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "staff",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/staff"
+  },
+  "moduleClass": "StaffModule",
+  "name": "Staff",
+  "package": "@propertyos/plugin-staff",
+  "permissions": [
+    "STAFF_PERMISSIONS.CREATE",
+    "STAFF_PERMISSIONS.MANAGE",
+    "STAFF_PERMISSIONS.READ",
+    "STAFF_PERMISSIONS.SECURITY"
+  ],
+  "routes": 10,
+  "type": "business",
+  "version": "0.1.0"
+}

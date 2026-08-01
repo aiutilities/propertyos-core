@@ -1,0 +1,34 @@
+{
+  "contracts": [
+    {
+      "moduleRoot": "backend/src/database",
+      "name": "DatabaseModuleContract",
+      "reason": "Decouple report from direct implementation imports in database:database.",
+      "sourceModule": "database:database",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/identity",
+      "name": "IdentityModuleContract",
+      "reason": "Decouple report from direct implementation imports in identity.",
+      "sourceModule": "identity",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    }
+  ],
+  "copiedFileCount": 0,
+  "dependentUpdates": [
+    "backend/src/core/scheduler/scheduler.module.ts"
+  ],
+  "files": [],
+  "migrationScore": 33.05,
+  "migrationTier": "medium",
+  "moduleId": "report",
+  "packageName": "@propertyos/plugin-report",
+  "pluginId": "report",
+  "schemaVersion": "1.0.0",
+  "warnings": [
+    "report has 1 direct dependent module(s)."
+  ]
+}

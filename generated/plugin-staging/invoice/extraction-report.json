@@ -1,0 +1,42 @@
+{
+  "contracts": [
+    {
+      "moduleRoot": "backend/src/database",
+      "name": "DatabaseModuleContract",
+      "reason": "Decouple invoice from direct implementation imports in database:database.",
+      "sourceModule": "database:database",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/eventbus",
+      "name": "EventBusModuleContract",
+      "reason": "Decouple invoice from direct implementation imports in eventbus.",
+      "sourceModule": "eventbus",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    },
+    {
+      "moduleRoot": "backend/src/core/identity",
+      "name": "IdentityModuleContract",
+      "reason": "Decouple invoice from direct implementation imports in identity.",
+      "sourceModule": "identity",
+      "targetPackage": "@propertyos/core-contracts",
+      "type": "platform-contract"
+    }
+  ],
+  "copiedFileCount": 0,
+  "dependentUpdates": [
+    "backend/src/core/admin/admin.module.ts"
+  ],
+  "files": [],
+  "migrationScore": 22.9,
+  "migrationTier": "low",
+  "moduleId": "invoice",
+  "packageName": "@propertyos/plugin-invoice",
+  "pluginId": "invoice",
+  "schemaVersion": "1.0.0",
+  "warnings": [
+    "invoice has 1 direct dependent module(s)."
+  ]
+}

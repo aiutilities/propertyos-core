@@ -1,0 +1,32 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "audit",
+    "auth",
+    "database:postgres",
+    "eventbus",
+    "identity",
+    "plugin",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "vehicle",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "vehicle",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/vehicle"
+  },
+  "moduleClass": "VehicleModule",
+  "name": "Vehicle",
+  "package": "@propertyos/plugin-vehicle",
+  "permissions": [
+    "VEHICLE_PERMISSIONS.CREATE",
+    "VEHICLE_PERMISSIONS.MANAGE",
+    "VEHICLE_PERMISSIONS.READ",
+    "VEHICLE_PERMISSIONS.SECURITY"
+  ],
+  "routes": 8,
+  "type": "business",
+  "version": "0.1.0"
+}

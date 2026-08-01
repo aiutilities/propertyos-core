@@ -1,0 +1,27 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "database:postgres",
+    "eventbus",
+    "identity",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "rent",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "rent",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/rent"
+  },
+  "moduleClass": "RentModule",
+  "name": "Rent",
+  "package": "@propertyos/plugin-rent",
+  "permissions": [
+    "'rent.create'",
+    "'rent.read'"
+  ],
+  "routes": 5,
+  "type": "business",
+  "version": "0.1.0"
+}

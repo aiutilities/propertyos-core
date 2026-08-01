@@ -1,0 +1,24 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "database:database",
+    "identity"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "report",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "report",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/report"
+  },
+  "moduleClass": "ReportModule",
+  "name": "Report",
+  "package": "@propertyos/plugin-report",
+  "permissions": [
+    "Permissions.REPORT_READ"
+  ],
+  "routes": 6,
+  "type": "business",
+  "version": "0.1.0"
+}

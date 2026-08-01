@@ -1,0 +1,27 @@
+{
+  "controllers": 1,
+  "dependencies": [
+    "database:postgres",
+    "eventbus",
+    "identity",
+    "search"
+  ],
+  "entrypoint": "src/index.ts",
+  "id": "agreement",
+  "materialization": {
+    "mode": "staged-copy",
+    "sourceModule": "agreement",
+    "sourceStrategy": "portable-facade",
+    "targetRoot": "plugins/agreement"
+  },
+  "moduleClass": "AgreementModule",
+  "name": "Agreement",
+  "package": "@propertyos/plugin-agreement",
+  "permissions": [
+    "'agreement.create'",
+    "'agreement.read'"
+  ],
+  "routes": 4,
+  "type": "business",
+  "version": "0.1.0"
+}

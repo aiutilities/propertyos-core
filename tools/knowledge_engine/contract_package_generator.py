@@ -53,6 +53,76 @@ _TYPE_ONLY_EXPORT_KINDS = frozenset(
 )
 
 
+_PORTABLE_RUNTIME_TYPE_OVERRIDES = {
+    "BasePostgresRepository": (
+        "abstract new (...args: any[]) => "
+        "BasePostgresRepository"
+    ),
+    "PaginationQueryDto": (
+        "new (...args: any[]) => "
+        "PaginationQueryDto"
+    ),
+    "normalizePagination": (
+        "(query?: PaginationQueryDto) => { "
+        "page: number; limit: number; offset: number; }"
+    ),
+}
+
+
+_PORTABLE_TYPE_DECLARATION_OVERRIDES = {
+    "BasePostgresRepository": (
+        "export interface BasePostgresRepository {\n"
+        "  mapRow<T>(row: unknown): T;\n"
+        "  mapRows<T>(rows: unknown[]): T[];\n"
+        "  buildPaginatedQuery<TData>(\n"
+        "    query: PaginationQueryDto,\n"
+        "    options: {\n"
+        "      tableName: string;\n"
+        "      searchableColumns?: string[];\n"
+        "      baseWhereClauses?: string[];\n"
+        "      sortableColumns?: Record<string, string>;\n"
+        "      defaultSortColumn?: string;\n"
+        "      mapRow: (row: any) => TData;\n"
+        "    },\n"
+        "  ): {\n"
+        "    page: number;\n"
+        "    limit: number;\n"
+        "    values: unknown[];\n"
+        "    itemsSql: string;\n"
+        "    countSql: string;\n"
+        "  };\n"
+        "  toPaginatedResponse<TData>(\n"
+        "    rows: any[],\n"
+        "    total: number,\n"
+        "    page: number,\n"
+        "    limit: number,\n"
+        "    mapRow: (row: any) => TData,\n"
+        "  ): PaginatedResponseDto<TData>;\n"
+        "}"
+    ),
+    "PaginatedResponseDto": (
+        "export interface PaginatedResponseDto"
+        "<TData = unknown> {\n"
+        "  items: TData[];\n"
+        "  page: number;\n"
+        "  limit: number;\n"
+        "  total: number;\n"
+        "  totalPages: number;\n"
+        "}"
+    ),
+    "PaginationQueryDto": (
+        "export interface PaginationQueryDto {\n"
+        "  page?: number;\n"
+        "  limit?: number;\n"
+        "  search?: string;\n"
+        "  sortBy?: string;\n"
+        "  sortOrder?: 'asc' | 'desc';\n"
+        "}"
+    ),
+    "normalizePagination": "",
+}
+
+
 def _sha256(content: bytes) -> str:
     return hashlib.sha256(
         content
@@ -669,26 +739,49 @@ class ContractPackageGenerator:
             )
 
             for symbol in runtime_symbols:
-                lines.extend(
-                    [
-                        (
-                            f"export const {symbol} = "
-                            f"host[{symbol!r}] as any;"
-                        ),
-                        (
-                            f"export type {symbol} = any;"
-                        ),
-                        "",
-                    ]
+                runtime_type = (
+                    _PORTABLE_RUNTIME_TYPE_OVERRIDES
+                    .get(symbol, "any")
                 )
 
+                lines.append(
+                    f"export const {symbol} = "
+                    f"host[{symbol!r}] as "
+                    f"{runtime_type};"
+                )
+
+                declaration = (
+                    _PORTABLE_TYPE_DECLARATION_OVERRIDES
+                    .get(symbol)
+                )
+
+                if declaration is None:
+                    lines.append(
+                        f"export type {symbol} = any;"
+                    )
+                elif declaration:
+                    lines.extend(
+                        declaration.splitlines()
+                    )
+
+                lines.append("")
+
         for symbol in type_symbols:
-            lines.extend(
-                [
-                    f"export type {symbol} = any;",
-                    "",
-                ]
+            declaration = (
+                _PORTABLE_TYPE_DECLARATION_OVERRIDES
+                .get(symbol)
             )
+
+            if declaration is None:
+                lines.append(
+                    f"export type {symbol} = any;"
+                )
+            elif declaration:
+                lines.extend(
+                    declaration.splitlines()
+                )
+
+            lines.append("")
 
         return (
             "\n".join(lines).rstrip()

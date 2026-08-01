@@ -16,6 +16,13 @@ class ContractPackageLayoutRequest:
         "repository-reexport"
     )
 
+    @property
+    def publishable(self) -> bool:
+        return (
+            self.source_strategy
+            == "portable-facade"
+        )
+
 
 @dataclass(frozen=True)
 class ContractPackageExportLayout:

@@ -108,6 +108,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--source-strategy",
         choices=(
             "repository-reexport",
+            "portable-facade",
         ),
         default="repository-reexport",
     )

@@ -388,7 +388,7 @@ class ContractPackageLayoutPlanner:
             source_strategy=(
                 request.source_strategy
             ),
-            publishable=False,
+            publishable=request.publishable,
             modules=planned_modules_tuple,
             files=tuple(
                 sorted(
@@ -422,6 +422,7 @@ class ContractPackageLayoutPlanner:
 
         if request.source_strategy not in (
             "repository-reexport",
+            "portable-facade",
         ):
             raise ContractPackageLayoutError(
                 "Unsupported contract package "

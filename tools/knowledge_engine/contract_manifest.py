@@ -40,6 +40,9 @@ from .import_analysis_models import (
 from .import_analysis_models import (
     PluginImportAnalysis,
 )
+from .approved_host_surface import (
+    load_approved_host_surface,
+)
 
 
 class ContractManifestError(ValueError):
@@ -123,6 +126,9 @@ class ContractManifestGenerator:
     ) -> None:
         self._repository_root = (
             repository_root.resolve()
+        )
+        self._approved_host_surface = (
+            load_approved_host_surface()
         )
 
     def generate(
@@ -413,43 +419,125 @@ class ContractManifestGenerator:
 
                     if recovered:
                         yield from recovered
-                    else:
-                        yield ImportReference(
-                            source_file=(
-                                reference.source_file
-                            ),
-                            line=reference.line,
-                            column=(
-                                reference.column
-                            ),
-                            syntax=(
-                                reference.syntax
-                            ),
-                            imported_symbols=(
-                                (symbol,)
-                            ),
-                            original_specifier=(
-                                package_name
-                            ),
-                            classification=(
-                                "platform-contract"
-                            ),
-                            resolution_status=(
-                                "unresolved"
-                            ),
-                            resolved_path="",
-                            target_module="",
-                            proposed_specifier=(
-                                package_name
-                            ),
-                            rewrite_required=False,
-                            reason=(
-                                "Rewritten platform "
-                                "contract symbol could "
-                                "not be recovered from "
-                                "the extraction report."
-                            ),
+                        continue
+
+                    approved = (
+                        self._approved_package_symbol(
+                            reference=reference,
+                            symbol=symbol,
+                            package_name=package_name,
                         )
+                    )
+
+                    if approved is not None:
+                        yield approved
+                        continue
+
+                    yield ImportReference(
+                        source_file=(
+                            reference.source_file
+                        ),
+                        line=reference.line,
+                        column=(
+                            reference.column
+                        ),
+                        syntax=(
+                            reference.syntax
+                        ),
+                        imported_symbols=(
+                            (symbol,)
+                        ),
+                        original_specifier=(
+                            package_name
+                        ),
+                        classification=(
+                            "platform-contract"
+                        ),
+                        resolution_status=(
+                            "unresolved"
+                        ),
+                        resolved_path="",
+                        target_module="",
+                        proposed_specifier=(
+                            package_name
+                        ),
+                        rewrite_required=False,
+                        reason=(
+                            "Rewritten platform "
+                            "contract symbol could "
+                            "not be recovered from "
+                            "the extraction report or "
+                            "approved host surface."
+                        ),
+                    )
+
+    def _approved_package_symbol(
+        self,
+        reference: ImportReference,
+        symbol: str,
+        package_name: str,
+    ) -> Optional[ImportReference]:
+        if (
+            package_name
+            != self._approved_host_surface.package_name
+        ):
+            return None
+
+        matches = tuple(
+            item
+            for item in self._approved_host_surface.symbols
+            if item.symbol == symbol and item.portable
+        )
+
+        if len(matches) != 1:
+            return None
+
+        approved = matches[0]
+        source_parts = Path(approved.source_path).parts
+
+        try:
+            backend_index = source_parts.index("backend")
+        except ValueError:
+            return None
+
+        source_file = (
+            self._repository_root
+            / Path(*source_parts[backend_index:])
+        )
+
+        if source_file.suffix != ".ts":
+            source_file = Path(
+                f"{source_file}.ts"
+            )
+
+        try:
+            source_file.resolve().relative_to(
+                self._repository_root
+            )
+        except ValueError:
+            return None
+
+        if not source_file.is_file():
+            return None
+
+        return ImportReference(
+            source_file=reference.source_file,
+            line=reference.line,
+            column=reference.column,
+            syntax=reference.syntax,
+            imported_symbols=(symbol,),
+            original_specifier=package_name,
+            classification="platform-contract",
+            resolution_status="resolved-package",
+            resolved_path=self._display_path(source_file),
+            target_module=approved.module_id,
+            proposed_specifier=package_name,
+            rewrite_required=False,
+            reason=(
+                "Rewritten platform contract symbol was "
+                "resolved from the approved portable host surface."
+            ),
+        )
 
     def _contract_module_roots(
         self,

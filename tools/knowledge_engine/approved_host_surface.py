@@ -11,15 +11,30 @@ from .approved_host_surface_models import (
 )
 
 
+DEFAULT_APPROVED_HOST_SURFACE_PATH = (
+    Path(__file__).resolve().parent
+    / "contracts"
+    / "approved_host_surface.json"
+)
+
+
 class ApprovedHostSurfaceError(ValueError):
     pass
 
 
 def load_approved_host_surface(
-    path: Path,
+    path: Path | None = None,
 ) -> ApprovedHostSurface:
+    resolved_path = (
+        DEFAULT_APPROVED_HOST_SURFACE_PATH
+        if path is None
+        else path
+    )
+
     data = json.loads(
-        path.read_text(encoding="utf-8")
+        resolved_path.read_text(
+            encoding="utf-8"
+        )
     )
 
     if data.get("schemaVersion") != "1.0.0":

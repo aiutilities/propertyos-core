@@ -1,0 +1,681 @@
+{
+  "addedFileCount": 18,
+  "applied": true,
+  "closureFileCount": 25,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./bootstrap/reservation-bootstrap.service",
+      "resolved_source": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/bootstrap/reservation-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./bootstrap/reservation-workflow-bootstrap.service",
+      "resolved_source": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/bootstrap/reservation-workflow-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./controllers/reservation.controller",
+      "resolved_source": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/controllers/reservation.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/approve-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/approve-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/approve-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/approve-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/approve-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/approve-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/cancel-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/cancel-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/cancel-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/cancel-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/cancel-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/cancel-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/check-availability.dto",
+      "resolved_source": "backend/src/core/reservation/dto/check-availability.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/check-availability.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/check-availability.dto",
+      "resolved_source": "backend/src/core/reservation/dto/check-availability.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/check-availability.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/create-reservation-resource.dto",
+      "resolved_source": "backend/src/core/reservation/dto/create-reservation-resource.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/create-reservation-resource.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/create-reservation-resource.dto",
+      "resolved_source": "backend/src/core/reservation/dto/create-reservation-resource.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/create-reservation-resource.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/create-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/create-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/create-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/create-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/create-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/create-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/create-resource-block.dto",
+      "resolved_source": "backend/src/core/reservation/dto/create-resource-block.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/create-resource-block.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/create-resource-block.dto",
+      "resolved_source": "backend/src/core/reservation/dto/create-resource-block.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/create-resource-block.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/reject-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/reject-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/reject-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/reject-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/reject-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/reject-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/transition-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/transition-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/transition-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/transition-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/transition-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/transition-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/update-reservation-resource.dto",
+      "resolved_source": "backend/src/core/reservation/dto/update-reservation-resource.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/update-reservation-resource.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/update-reservation-resource.dto",
+      "resolved_source": "backend/src/core/reservation/dto/update-reservation-resource.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/update-reservation-resource.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../dto/update-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/update-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/dto/update-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../dto/update-reservation.dto",
+      "resolved_source": "backend/src/core/reservation/dto/update-reservation.dto.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/dto/update-reservation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./handlers/reservation-end-job.handler",
+      "resolved_source": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/handlers/reservation-end-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./handlers/reservation-reminder-job.handler",
+      "resolved_source": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/handlers/reservation-reminder-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./repositories/postgres-reservation.repository",
+      "resolved_source": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/repositories/postgres-reservation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./repositories/reservation.repository",
+      "resolved_source": "backend/src/core/reservation/repositories/reservation.repository.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/repositories/reservation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../repositories/reservation.repository",
+      "resolved_source": "backend/src/core/reservation/repositories/reservation.repository.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/repositories/reservation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./reservation-search-provider.service",
+      "resolved_source": "backend/src/core/reservation/reservation-search-provider.service.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/reservation-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts",
+      "import_specifier": "../reservation-workflow.definition",
+      "resolved_source": "backend/src/core/reservation/reservation-workflow.definition.ts",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts",
+      "staged_target": "src/reservation-workflow.definition.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts",
+      "import_specifier": "../reservation-workflow.definition",
+      "resolved_source": "backend/src/core/reservation/reservation-workflow.definition.ts",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts",
+      "staged_target": "src/reservation-workflow.definition.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation-search-provider.service.ts",
+      "import_specifier": "./reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/reservation-search-provider.service.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./services/reservation-scheduler.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/services/reservation-scheduler.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../services/reservation.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation.service.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/services/reservation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation-search-provider.service.ts",
+      "import_specifier": "./services/reservation.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation.service.ts",
+      "source_file": "backend/src/core/reservation/reservation-search-provider.service.ts",
+      "staged_target": "src/services/reservation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/reservation.module.ts",
+      "import_specifier": "./services/reservation.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation.service.ts",
+      "source_file": "backend/src/core/reservation/reservation.module.ts",
+      "staged_target": "src/services/reservation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "import_specifier": "./reservation.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation.service.ts",
+      "source_file": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "staged_target": "src/services/reservation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/reservation/services/reservation.service.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts",
+      "import_specifier": "./reservation.repository",
+      "resolved_source": "backend/src/core/reservation/repositories/reservation.repository.ts",
+      "source_file": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts",
+      "staged_target": "src/repositories/reservation.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "import_specifier": "../reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/reservation-workflow.definition.ts",
+      "import_specifier": "./reservation.constants",
+      "resolved_source": "backend/src/core/reservation/reservation.constants.ts",
+      "source_file": "backend/src/core/reservation/reservation-workflow.definition.ts",
+      "staged_target": "src/reservation.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "import_specifier": "../services/reservation-scheduler.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "source_file": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "staged_target": "src/services/reservation-scheduler.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "import_specifier": "../services/reservation-scheduler.service",
+      "resolved_source": "backend/src/core/reservation/services/reservation-scheduler.service.ts",
+      "source_file": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "staged_target": "src/services/reservation-scheduler.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "import_specifier": "../types/reservation-job.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation-job.types.ts",
+      "source_file": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts",
+      "staged_target": "src/types/reservation-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "import_specifier": "../types/reservation-job.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation-job.types.ts",
+      "source_file": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts",
+      "staged_target": "src/types/reservation-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/dto/create-reservation-resource.dto.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/dto/create-reservation-resource.dto.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/dto/update-reservation-resource.dto.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/dto/update-reservation-resource.dto.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/reservation/repositories/reservation.repository.ts",
+      "import_specifier": "../types/reservation.types",
+      "resolved_source": "backend/src/core/reservation/types/reservation.types.ts",
+      "source_file": "backend/src/core/reservation/repositories/reservation.repository.ts",
+      "staged_target": "src/types/reservation.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-notification.registry",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-workflow.registry",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../workflow/services/workflow.service",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/reservation/reservation-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/reservation/reservation-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../scheduler",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../workflow",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/reservation/services/reservation-scheduler.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/reservation/services/reservation-scheduler.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/services/scheduler.service",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../workflow/services/workflow.service",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/bootstrap/reservation-workflow-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/reservation/controllers/reservation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/handlers/reservation-end-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/handlers/reservation-reminder-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/reservation/repositories/postgres-reservation.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/reservation-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/reservation.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/services/reservation-scheduler.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/reservation/services/reservation.service.ts"
+    }
+  ],
+  "externalDependencyCount": 41,
+  "maximumDepth": 2,
+  "moduleId": "reservation",
+  "moduleRoot": "backend/src/core/reservation",
+  "packageName": "@propertyos/plugin-reservation",
+  "pluginId": "reservation",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 7,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/reservation"
+}

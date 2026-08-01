@@ -1,0 +1,385 @@
+{
+  "addedFileCount": 8,
+  "applied": true,
+  "closureFileCount": 13,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff.module.ts",
+      "import_specifier": "./bootstrap/staff-bootstrap.service",
+      "resolved_source": "backend/src/core/staff/bootstrap/staff-bootstrap.service.ts",
+      "source_file": "backend/src/core/staff/staff.module.ts",
+      "staged_target": "src/bootstrap/staff-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff.module.ts",
+      "import_specifier": "./controllers/staff.controller",
+      "resolved_source": "backend/src/core/staff/controllers/staff.controller.ts",
+      "source_file": "backend/src/core/staff/staff.module.ts",
+      "staged_target": "src/controllers/staff.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../dto/create-staff.dto",
+      "resolved_source": "backend/src/core/staff/dto/create-staff.dto.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/dto/create-staff.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../dto/create-staff.dto",
+      "resolved_source": "backend/src/core/staff/dto/create-staff.dto.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/dto/create-staff.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../dto/record-staff-attendance.dto",
+      "resolved_source": "backend/src/core/staff/dto/record-staff-attendance.dto.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/dto/record-staff-attendance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../dto/record-staff-attendance.dto",
+      "resolved_source": "backend/src/core/staff/dto/record-staff-attendance.dto.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/dto/record-staff-attendance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../dto/update-staff-status.dto",
+      "resolved_source": "backend/src/core/staff/dto/update-staff-status.dto.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/dto/update-staff-status.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../dto/update-staff-status.dto",
+      "resolved_source": "backend/src/core/staff/dto/update-staff-status.dto.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/dto/update-staff-status.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../dto/update-staff.dto",
+      "resolved_source": "backend/src/core/staff/dto/update-staff.dto.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/dto/update-staff.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../dto/update-staff.dto",
+      "resolved_source": "backend/src/core/staff/dto/update-staff.dto.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/dto/update-staff.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff.module.ts",
+      "import_specifier": "./repositories/postgres-staff.repository",
+      "resolved_source": "backend/src/core/staff/repositories/postgres-staff.repository.ts",
+      "source_file": "backend/src/core/staff/staff.module.ts",
+      "staged_target": "src/repositories/postgres-staff.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../repositories/staff.repository",
+      "resolved_source": "backend/src/core/staff/repositories/staff.repository.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/repositories/staff.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff.module.ts",
+      "import_specifier": "./repositories/staff.repository",
+      "resolved_source": "backend/src/core/staff/repositories/staff.repository.ts",
+      "source_file": "backend/src/core/staff/staff.module.ts",
+      "staged_target": "src/repositories/staff.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../services/staff.service",
+      "resolved_source": "backend/src/core/staff/services/staff.service.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/services/staff.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff-search-provider.service.ts",
+      "import_specifier": "./services/staff.service",
+      "resolved_source": "backend/src/core/staff/services/staff.service.ts",
+      "source_file": "backend/src/core/staff/staff-search-provider.service.ts",
+      "staged_target": "src/services/staff.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff.module.ts",
+      "import_specifier": "./services/staff.service",
+      "resolved_source": "backend/src/core/staff/services/staff.service.ts",
+      "source_file": "backend/src/core/staff/staff.module.ts",
+      "staged_target": "src/services/staff.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff.module.ts",
+      "import_specifier": "./staff-search-provider.service",
+      "resolved_source": "backend/src/core/staff/staff-search-provider.service.ts",
+      "source_file": "backend/src/core/staff/staff.module.ts",
+      "staged_target": "src/staff-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/bootstrap/staff-bootstrap.service.ts",
+      "import_specifier": "../staff.constants",
+      "resolved_source": "backend/src/core/staff/staff.constants.ts",
+      "source_file": "backend/src/core/staff/bootstrap/staff-bootstrap.service.ts",
+      "staged_target": "src/staff.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../staff.constants",
+      "resolved_source": "backend/src/core/staff/staff.constants.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/staff.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../staff.constants",
+      "resolved_source": "backend/src/core/staff/staff.constants.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/staff.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/staff-search-provider.service.ts",
+      "import_specifier": "./staff.constants",
+      "resolved_source": "backend/src/core/staff/staff.constants.ts",
+      "source_file": "backend/src/core/staff/staff-search-provider.service.ts",
+      "staged_target": "src/staff.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/controllers/staff.controller.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/staff/services/staff.service.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/services/staff.service.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/repositories/postgres-staff.repository.ts",
+      "import_specifier": "./staff.repository",
+      "resolved_source": "backend/src/core/staff/repositories/staff.repository.ts",
+      "source_file": "backend/src/core/staff/repositories/postgres-staff.repository.ts",
+      "staged_target": "src/repositories/staff.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/dto/create-staff.dto.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/dto/create-staff.dto.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/dto/record-staff-attendance.dto.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/dto/record-staff-attendance.dto.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/dto/update-staff-status.dto.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/dto/update-staff-status.dto.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/dto/update-staff.dto.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/dto/update-staff.dto.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/repositories/postgres-staff.repository.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/repositories/postgres-staff.repository.ts",
+      "staged_target": "src/types/staff.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/staff/repositories/staff.repository.ts",
+      "import_specifier": "../types/staff.types",
+      "resolved_source": "backend/src/core/staff/types/staff.types.ts",
+      "source_file": "backend/src/core/staff/repositories/staff.repository.ts",
+      "staged_target": "src/types/staff.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/staff/bootstrap/staff-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/staff/repositories/postgres-staff.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/staff/services/staff.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/staff/services/staff.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/staff/staff-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/staff/staff-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/staff/bootstrap/staff-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/staff/controllers/staff.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/staff/repositories/postgres-staff.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/staff/repositories/postgres-staff.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/staff/services/staff.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/staff/staff-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/staff/staff.module.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/staff/services/staff.service.ts"
+    }
+  ],
+  "externalDependencyCount": 25,
+  "maximumDepth": 2,
+  "moduleId": "staff",
+  "moduleRoot": "backend/src/core/staff",
+  "packageName": "@propertyos/plugin-staff",
+  "pluginId": "staff",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 5,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/staff"
+}

@@ -1,0 +1,377 @@
+{
+  "addedFileCount": 8,
+  "applied": true,
+  "closureFileCount": 13,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle.module.ts",
+      "import_specifier": "./bootstrap/vehicle-bootstrap.service",
+      "resolved_source": "backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts",
+      "staged_target": "src/bootstrap/vehicle-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle.module.ts",
+      "import_specifier": "./controllers/vehicle.controller",
+      "resolved_source": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts",
+      "staged_target": "src/controllers/vehicle.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../dto/create-vehicle.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/create-vehicle.dto.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/dto/create-vehicle.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../dto/create-vehicle.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/create-vehicle.dto.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/dto/create-vehicle.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../dto/record-vehicle-movement.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/record-vehicle-movement.dto.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/dto/record-vehicle-movement.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../dto/record-vehicle-movement.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/record-vehicle-movement.dto.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/dto/record-vehicle-movement.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../dto/update-vehicle-status.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/update-vehicle-status.dto.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/dto/update-vehicle-status.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../dto/update-vehicle-status.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/update-vehicle-status.dto.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/dto/update-vehicle-status.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../dto/update-vehicle.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/update-vehicle.dto.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/dto/update-vehicle.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../dto/update-vehicle.dto",
+      "resolved_source": "backend/src/core/vehicle/dto/update-vehicle.dto.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/dto/update-vehicle.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle.module.ts",
+      "import_specifier": "./repositories/postgres-vehicle.repository",
+      "resolved_source": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts",
+      "staged_target": "src/repositories/postgres-vehicle.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../repositories/vehicle.repository",
+      "resolved_source": "backend/src/core/vehicle/repositories/vehicle.repository.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/repositories/vehicle.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle.module.ts",
+      "import_specifier": "./repositories/vehicle.repository",
+      "resolved_source": "backend/src/core/vehicle/repositories/vehicle.repository.ts",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts",
+      "staged_target": "src/repositories/vehicle.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../services/vehicle.service",
+      "resolved_source": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/services/vehicle.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle-search-provider.service.ts",
+      "import_specifier": "./services/vehicle.service",
+      "resolved_source": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "source_file": "backend/src/core/vehicle/vehicle-search-provider.service.ts",
+      "staged_target": "src/services/vehicle.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle.module.ts",
+      "import_specifier": "./services/vehicle.service",
+      "resolved_source": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts",
+      "staged_target": "src/services/vehicle.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/vehicle.module.ts",
+      "import_specifier": "./vehicle-search-provider.service",
+      "resolved_source": "backend/src/core/vehicle/vehicle-search-provider.service.ts",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts",
+      "staged_target": "src/vehicle-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts",
+      "import_specifier": "../vehicle.constants",
+      "resolved_source": "backend/src/core/vehicle/vehicle.constants.ts",
+      "source_file": "backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts",
+      "staged_target": "src/vehicle.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "import_specifier": "../vehicle.constants",
+      "resolved_source": "backend/src/core/vehicle/vehicle.constants.ts",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts",
+      "staged_target": "src/vehicle.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "import_specifier": "../vehicle.constants",
+      "resolved_source": "backend/src/core/vehicle/vehicle.constants.ts",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts",
+      "staged_target": "src/vehicle.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts",
+      "import_specifier": "./vehicle.repository",
+      "resolved_source": "backend/src/core/vehicle/repositories/vehicle.repository.ts",
+      "source_file": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts",
+      "staged_target": "src/repositories/vehicle.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/dto/create-vehicle.dto.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/dto/create-vehicle.dto.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/dto/record-vehicle-movement.dto.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/dto/record-vehicle-movement.dto.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/dto/update-vehicle-status.dto.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/dto/update-vehicle-status.dto.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/dto/update-vehicle.dto.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/dto/update-vehicle.dto.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vehicle/repositories/vehicle.repository.ts",
+      "import_specifier": "../types/vehicle.types",
+      "resolved_source": "backend/src/core/vehicle/types/vehicle.types.ts",
+      "source_file": "backend/src/core/vehicle/repositories/vehicle.repository.ts",
+      "staged_target": "src/types/vehicle.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/vehicle/vehicle-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/vehicle/vehicle-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vehicle/bootstrap/vehicle-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/vehicle/controllers/vehicle.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/vehicle/repositories/postgres-vehicle.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vehicle/vehicle-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vehicle/vehicle.module.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/vehicle/services/vehicle.service.ts"
+    }
+  ],
+  "externalDependencyCount": 25,
+  "maximumDepth": 2,
+  "moduleId": "vehicle",
+  "moduleRoot": "backend/src/core/vehicle",
+  "packageName": "@propertyos/plugin-vehicle",
+  "pluginId": "vehicle",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 5,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/vehicle"
+}

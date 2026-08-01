@@ -1,0 +1,592 @@
+{
+  "addedFileCount": 15,
+  "applied": true,
+  "closureFileCount": 21,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./bootstrap/helpdesk-bootstrap.service",
+      "resolved_source": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/bootstrap/helpdesk-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./controllers/helpdesk.controller",
+      "resolved_source": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/controllers/helpdesk.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/add-helpdesk-comment.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/add-helpdesk-comment.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/add-helpdesk-comment.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/add-helpdesk-comment.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/add-helpdesk-comment.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/add-helpdesk-comment.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/add-helpdesk-worklog.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/add-helpdesk-worklog.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/add-helpdesk-worklog.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/add-helpdesk-worklog.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/add-helpdesk-worklog.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/add-helpdesk-worklog.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/assign-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/assign-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/assign-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/assign-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/assign-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/assign-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/create-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/create-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/create-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/create-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/create-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/create-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/resolve-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/resolve-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/resolve-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/resolve-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/resolve-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/resolve-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/submit-helpdesk-feedback.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/submit-helpdesk-feedback.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/submit-helpdesk-feedback.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/submit-helpdesk-feedback.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/submit-helpdesk-feedback.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/submit-helpdesk-feedback.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/transition-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/transition-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/transition-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/transition-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/transition-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/transition-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../dto/update-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/update-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/dto/update-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../dto/update-helpdesk-ticket.dto",
+      "resolved_source": "backend/src/core/helpdesk/dto/update-helpdesk-ticket.dto.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/dto/update-helpdesk-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./handlers/helpdesk-sla-breach-job.handler",
+      "resolved_source": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/handlers/helpdesk-sla-breach-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./handlers/helpdesk-sla-warning-job.handler",
+      "resolved_source": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/handlers/helpdesk-sla-warning-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./helpdesk-search-provider.service",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/helpdesk-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts",
+      "import_specifier": "../helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts",
+      "import_specifier": "./helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "import_specifier": "../helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./repositories/helpdesk.repository",
+      "resolved_source": "backend/src/core/helpdesk/repositories/helpdesk.repository.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/repositories/helpdesk.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../repositories/helpdesk.repository",
+      "resolved_source": "backend/src/core/helpdesk/repositories/helpdesk.repository.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/repositories/helpdesk.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./repositories/postgres-helpdesk.repository",
+      "resolved_source": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/repositories/postgres-helpdesk.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./services/helpdesk-sla.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/services/helpdesk-sla.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../services/helpdesk.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/services/helpdesk.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts",
+      "import_specifier": "./services/helpdesk.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts",
+      "staged_target": "src/services/helpdesk.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "import_specifier": "./services/helpdesk.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts",
+      "staged_target": "src/services/helpdesk.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "import_specifier": "./helpdesk.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "staged_target": "src/services/helpdesk.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "import_specifier": "../helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "import_specifier": "../helpdesk.constants",
+      "resolved_source": "backend/src/core/helpdesk/helpdesk.constants.ts",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "staged_target": "src/helpdesk.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts",
+      "import_specifier": "./helpdesk.repository",
+      "resolved_source": "backend/src/core/helpdesk/repositories/helpdesk.repository.ts",
+      "source_file": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts",
+      "staged_target": "src/repositories/helpdesk.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "import_specifier": "../services/helpdesk-sla.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "staged_target": "src/services/helpdesk-sla.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "import_specifier": "../services/helpdesk-sla.service",
+      "resolved_source": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "staged_target": "src/services/helpdesk-sla.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "import_specifier": "../types/helpdesk-job.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk-job.types.ts",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts",
+      "staged_target": "src/types/helpdesk-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "import_specifier": "../types/helpdesk-job.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk-job.types.ts",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts",
+      "staged_target": "src/types/helpdesk-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/dto/add-helpdesk-comment.dto.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/dto/add-helpdesk-comment.dto.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/dto/create-helpdesk-ticket.dto.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/dto/create-helpdesk-ticket.dto.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/dto/update-helpdesk-ticket.dto.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/dto/update-helpdesk-ticket.dto.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/repositories/helpdesk.repository.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/repositories/helpdesk.repository.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts",
+      "import_specifier": "../types/helpdesk.types",
+      "resolved_source": "backend/src/core/helpdesk/types/helpdesk.types.ts",
+      "source_file": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts",
+      "staged_target": "src/types/helpdesk.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-notification.registry",
+      "source_file": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../scheduler",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/services/scheduler.service",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/bootstrap/helpdesk-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/helpdesk/controllers/helpdesk.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-breach-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/handlers/helpdesk-sla-warning-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/helpdesk-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/helpdesk.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/helpdesk/repositories/postgres-helpdesk.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk-sla.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/helpdesk/services/helpdesk.service.ts"
+    }
+  ],
+  "externalDependencyCount": 36,
+  "maximumDepth": 2,
+  "moduleId": "helpdesk",
+  "moduleRoot": "backend/src/core/helpdesk",
+  "packageName": "@propertyos/plugin-helpdesk",
+  "pluginId": "helpdesk",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 6,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/helpdesk"
+}

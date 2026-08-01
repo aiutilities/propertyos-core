@@ -1,0 +1,261 @@
+{
+  "addedFileCount": 5,
+  "applied": true,
+  "closureFileCount": 8,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/invoice.module.ts",
+      "import_specifier": "./controllers/invoice.controller",
+      "resolved_source": "backend/src/core/invoice/controllers/invoice.controller.ts",
+      "source_file": "backend/src/core/invoice/invoice.module.ts",
+      "staged_target": "src/controllers/invoice.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/controllers/invoice.controller.ts",
+      "import_specifier": "../dto/create-invoice.dto",
+      "resolved_source": "backend/src/core/invoice/dto/create-invoice.dto.ts",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts",
+      "staged_target": "src/dto/create-invoice.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/services/invoice.service.ts",
+      "import_specifier": "../dto/create-invoice.dto",
+      "resolved_source": "backend/src/core/invoice/dto/create-invoice.dto.ts",
+      "source_file": "backend/src/core/invoice/services/invoice.service.ts",
+      "staged_target": "src/dto/create-invoice.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/invoice.module.ts",
+      "import_specifier": "./repositories/invoice-repository.interface",
+      "resolved_source": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "source_file": "backend/src/core/invoice/invoice.module.ts",
+      "staged_target": "src/repositories/invoice-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/services/invoice.service.ts",
+      "import_specifier": "../repositories/invoice-repository.interface",
+      "resolved_source": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "source_file": "backend/src/core/invoice/services/invoice.service.ts",
+      "staged_target": "src/repositories/invoice-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/invoice.module.ts",
+      "import_specifier": "./repositories/postgres-invoice.repository",
+      "resolved_source": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "source_file": "backend/src/core/invoice/invoice.module.ts",
+      "staged_target": "src/repositories/postgres-invoice.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/invoice.module.ts",
+      "import_specifier": "./services/invoice-dashboard-contributor.service",
+      "resolved_source": "backend/src/core/invoice/services/invoice-dashboard-contributor.service.ts",
+      "source_file": "backend/src/core/invoice/invoice.module.ts",
+      "staged_target": "src/services/invoice-dashboard-contributor.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/controllers/invoice.controller.ts",
+      "import_specifier": "../services/invoice.service",
+      "resolved_source": "backend/src/core/invoice/services/invoice.service.ts",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts",
+      "staged_target": "src/services/invoice.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/invoice.module.ts",
+      "import_specifier": "./services/invoice.service",
+      "resolved_source": "backend/src/core/invoice/services/invoice.service.ts",
+      "source_file": "backend/src/core/invoice/invoice.module.ts",
+      "staged_target": "src/services/invoice.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/invoice/services/invoice.service.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/invoice/types.ts",
+      "source_file": "backend/src/core/invoice/services/invoice.service.ts",
+      "staged_target": "src/types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "import_specifier": "../dto/create-invoice.dto",
+      "resolved_source": "backend/src/core/invoice/dto/create-invoice.dto.ts",
+      "source_file": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "staged_target": "src/dto/create-invoice.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "import_specifier": "../dto/create-invoice.dto",
+      "resolved_source": "backend/src/core/invoice/dto/create-invoice.dto.ts",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "staged_target": "src/dto/create-invoice.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "import_specifier": "./invoice-repository.interface",
+      "resolved_source": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "staged_target": "src/repositories/invoice-repository.interface.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/services/invoice-dashboard-contributor.service.ts",
+      "import_specifier": "./invoice.service",
+      "resolved_source": "backend/src/core/invoice/services/invoice.service.ts",
+      "source_file": "backend/src/core/invoice/services/invoice-dashboard-contributor.service.ts",
+      "staged_target": "src/services/invoice.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/dto/create-invoice.dto.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/invoice/types.ts",
+      "source_file": "backend/src/core/invoice/dto/create-invoice.dto.ts",
+      "staged_target": "src/types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/invoice/types.ts",
+      "source_file": "backend/src/core/invoice/repositories/invoice-repository.interface.ts",
+      "staged_target": "src/types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/invoice/types.ts",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts",
+      "staged_target": "src/types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/database.module",
+      "source_file": "backend/src/core/invoice/invoice.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/invoice/invoice.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/invoice/invoice.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/invoice/invoice.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/invoice/repositories/invoice-repository.interface.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-dashboard.registry",
+      "source_file": "backend/src/core/invoice/services/invoice-dashboard-contributor.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/invoice/services/invoice.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/invoice/services/invoice.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/invoice/controllers/invoice.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/invoice/invoice.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/invoice/repositories/postgres-invoice.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/invoice/services/invoice-dashboard-contributor.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/invoice/services/invoice.service.ts"
+    }
+  ],
+  "externalDependencyCount": 21,
+  "maximumDepth": 2,
+  "moduleId": "invoice",
+  "moduleRoot": "backend/src/core/invoice",
+  "packageName": "@propertyos/plugin-invoice",
+  "pluginId": "invoice",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 3,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/invoice"
+}

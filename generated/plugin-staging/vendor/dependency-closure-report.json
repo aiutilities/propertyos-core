@@ -1,0 +1,512 @@
+{
+  "addedFileCount": 18,
+  "applied": true,
+  "closureFileCount": 22,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/vendor.module.ts",
+      "import_specifier": "./bootstrap/vendor-bootstrap.service",
+      "resolved_source": "backend/src/core/vendor/bootstrap/vendor-bootstrap.service.ts",
+      "source_file": "backend/src/core/vendor/vendor.module.ts",
+      "staged_target": "src/bootstrap/vendor-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/vendor.module.ts",
+      "import_specifier": "./controllers/vendor.controller",
+      "resolved_source": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "source_file": "backend/src/core/vendor/vendor.module.ts",
+      "staged_target": "src/controllers/vendor.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/cancel-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/cancel-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/cancel-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/cancel-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/cancel-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/cancel-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/complete-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/complete-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/complete-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/complete-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/complete-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/complete-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/create-vendor-compliance.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-compliance.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/create-vendor-compliance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/create-vendor-compliance.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-compliance.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/create-vendor-compliance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/create-vendor-contract.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-contract.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/create-vendor-contract.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/create-vendor-contract.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-contract.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/create-vendor-contract.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/create-vendor-rating.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-rating.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/create-vendor-rating.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/create-vendor-rating.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-rating.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/create-vendor-rating.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/create-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/create-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/create-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/create-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/create-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/create-vendor.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/create-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/create-vendor.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/renew-vendor-contract.dto",
+      "resolved_source": "backend/src/core/vendor/dto/renew-vendor-contract.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/renew-vendor-contract.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/renew-vendor-contract.dto",
+      "resolved_source": "backend/src/core/vendor/dto/renew-vendor-contract.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/renew-vendor-contract.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/transition-vendor-compliance.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor-compliance.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/transition-vendor-compliance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/transition-vendor-compliance.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor-compliance.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/transition-vendor-compliance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/transition-vendor-contract.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor-contract.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/transition-vendor-contract.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/transition-vendor-contract.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor-contract.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/transition-vendor-contract.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/transition-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/transition-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/transition-vendor-work-order.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor-work-order.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/transition-vendor-work-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/transition-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/transition-vendor.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/transition-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/transition-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/transition-vendor.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/update-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/update-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/update-vendor.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/update-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/update-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/update-vendor.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../dto/verify-vendor-compliance.dto",
+      "resolved_source": "backend/src/core/vendor/dto/verify-vendor-compliance.dto.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/dto/verify-vendor-compliance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../dto/verify-vendor-compliance.dto",
+      "resolved_source": "backend/src/core/vendor/dto/verify-vendor-compliance.dto.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/dto/verify-vendor-compliance.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/vendor.module.ts",
+      "import_specifier": "./repositories/postgres-vendor.repository",
+      "resolved_source": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts",
+      "source_file": "backend/src/core/vendor/vendor.module.ts",
+      "staged_target": "src/repositories/postgres-vendor.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../repositories/vendor.repository",
+      "resolved_source": "backend/src/core/vendor/repositories/vendor.repository.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/repositories/vendor.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/vendor.module.ts",
+      "import_specifier": "./repositories/vendor.repository",
+      "resolved_source": "backend/src/core/vendor/repositories/vendor.repository.ts",
+      "source_file": "backend/src/core/vendor/vendor.module.ts",
+      "staged_target": "src/repositories/vendor.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../services/vendor.service",
+      "resolved_source": "backend/src/core/vendor/services/vendor.service.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/services/vendor.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/vendor.module.ts",
+      "import_specifier": "./services/vendor.service",
+      "resolved_source": "backend/src/core/vendor/services/vendor.service.ts",
+      "source_file": "backend/src/core/vendor/vendor.module.ts",
+      "staged_target": "src/services/vendor.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/bootstrap/vendor-bootstrap.service.ts",
+      "import_specifier": "../vendor.constants",
+      "resolved_source": "backend/src/core/vendor/vendor.constants.ts",
+      "source_file": "backend/src/core/vendor/bootstrap/vendor-bootstrap.service.ts",
+      "staged_target": "src/vendor.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "import_specifier": "../vendor.constants",
+      "resolved_source": "backend/src/core/vendor/vendor.constants.ts",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts",
+      "staged_target": "src/vendor.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/vendor/services/vendor.service.ts",
+      "import_specifier": "../vendor.constants",
+      "resolved_source": "backend/src/core/vendor/vendor.constants.ts",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts",
+      "staged_target": "src/vendor.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/dto/update-vendor.dto.ts",
+      "import_specifier": "./create-vendor.dto",
+      "resolved_source": "backend/src/core/vendor/dto/create-vendor.dto.ts",
+      "source_file": "backend/src/core/vendor/dto/update-vendor.dto.ts",
+      "staged_target": "src/dto/create-vendor.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts",
+      "import_specifier": "./vendor.repository",
+      "resolved_source": "backend/src/core/vendor/repositories/vendor.repository.ts",
+      "source_file": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts",
+      "staged_target": "src/repositories/vendor.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/dto/create-vendor-compliance.dto.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/dto/create-vendor-compliance.dto.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/dto/create-vendor-contract.dto.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/dto/create-vendor-contract.dto.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/dto/create-vendor-work-order.dto.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/dto/create-vendor-work-order.dto.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/dto/create-vendor.dto.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/dto/create-vendor.dto.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/dto/update-vendor.dto.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/dto/update-vendor.dto.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/vendor/repositories/vendor.repository.ts",
+      "import_specifier": "../types/vendor.types",
+      "resolved_source": "backend/src/core/vendor/types/vendor.types.ts",
+      "source_file": "backend/src/core/vendor/repositories/vendor.repository.ts",
+      "staged_target": "src/types/vendor.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/vendor/bootstrap/vendor-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/vendor/vendor.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/vendor/vendor.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/vendor/vendor.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/vendor/vendor.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/vendor/vendor.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vendor/bootstrap/vendor-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/vendor/controllers/vendor.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/vendor/repositories/postgres-vendor.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/vendor/vendor.module.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/vendor/services/vendor.service.ts"
+    }
+  ],
+  "externalDependencyCount": 20,
+  "maximumDepth": 2,
+  "moduleId": "vendor",
+  "moduleRoot": "backend/src/core/vendor",
+  "packageName": "@propertyos/plugin-vendor",
+  "pluginId": "vendor",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 4,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/vendor"
+}

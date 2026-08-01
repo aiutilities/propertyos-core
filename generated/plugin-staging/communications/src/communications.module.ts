@@ -1,0 +1,90 @@
+import {
+  Module,
+} from '@nestjs/common';
+
+import {
+  PostgresModule,
+} from '@propertyos/core-contracts';
+
+import {
+  AuditModule,
+} from '@propertyos/core-contracts';
+import {
+  AuthModule,
+} from '@propertyos/core-contracts';
+import {
+  EventBusModule,
+} from '@propertyos/core-contracts';
+import {
+  PluginModule,
+} from '@propertyos/core-contracts';
+import {
+  SearchModule,
+} from '@propertyos/core-contracts';
+
+import {
+  SchedulerModule,
+} from '@propertyos/core-contracts';
+
+import {
+  CommunicationsSchedulerService,
+} from './services/communications-scheduler.service';
+
+import {
+  PublishCommunicationJobHandler,
+} from './handlers/publish-communication-job.handler';
+
+import {
+  ExpireCommunicationJobHandler,
+} from './handlers/expire-communication-job.handler';
+
+import {
+  CommunicationsBootstrapService,
+} from './bootstrap/communications-bootstrap.service';
+import {
+  CommunicationsController,
+} from './controllers/communications.controller';
+import {
+  COMMUNICATIONS_REPOSITORY,
+} from './repositories/communications.repository';
+import {
+  PostgresCommunicationsRepository,
+} from './repositories/postgres-communications.repository';
+import {
+  CommunicationsService,
+} from './services/communications.service';
+import {
+  CommunicationsSearchProviderService,
+} from './communications-search-provider.service';
+
+@Module({
+  imports: [
+    AuditModule,
+    AuthModule,
+    EventBusModule,
+    PluginModule,
+    PostgresModule,
+    SearchModule,
+    SchedulerModule,
+  ],
+  controllers: [
+    CommunicationsController,
+  ],
+  providers: [
+    CommunicationsBootstrapService,
+    CommunicationsSearchProviderService,
+    CommunicationsService,
+    {
+      provide:
+        COMMUNICATIONS_REPOSITORY,
+      useClass:
+        PostgresCommunicationsRepository,
+    },
+    CommunicationsSchedulerService,
+    PublishCommunicationJobHandler,
+    ExpireCommunicationJobHandler,],
+  exports: [
+    CommunicationsService,
+  ],
+})
+export class CommunicationsModule {}

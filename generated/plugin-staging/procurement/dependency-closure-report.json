@@ -1,0 +1,1975 @@
+{
+  "addedFileCount": 47,
+  "applied": true,
+  "closureFileCount": 66,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./bootstrap/procurement-bootstrap.service",
+      "resolved_source": "backend/src/core/procurement/bootstrap/procurement-bootstrap.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/bootstrap/procurement-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-goods-receipt.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-goods-receipt.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-invoice-match.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-invoice-match.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-payment-request.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-payment-request.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-purchase-order.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-purchase-order.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-quotation-comparison.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-quotation-comparison.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-quotation.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-quotation.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/procurement-rfq.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/procurement-rfq.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./controllers/purchase-request.controller",
+      "resolved_source": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/controllers/purchase-request.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../dto/approve-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/approve-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/dto/approve-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../dto/approve-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/approve-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/dto/approve-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/approve-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/approve-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/approve-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/approve-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/approve-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/approve-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/cancel-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/cancel-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/cancel-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/cancel-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/cancel-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/cancel-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../dto/complete-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/complete-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/dto/complete-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../dto/complete-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/complete-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/dto/complete-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../dto/create-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/dto/create-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../dto/create-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/dto/create-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../dto/create-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/dto/create-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../dto/create-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/dto/create-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/create-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/create-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/create-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/create-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "import_specifier": "../dto/create-procurement-purchase-order.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-purchase-order.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "staged_target": "src/dto/create-procurement-purchase-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../dto/create-procurement-purchase-order.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-purchase-order.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/dto/create-procurement-purchase-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "import_specifier": "../dto/create-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "staged_target": "src/dto/create-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "../dto/create-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/dto/create-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../dto/create-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/dto/create-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../dto/create-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/dto/create-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../dto/create-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/dto/create-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../dto/create-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/dto/create-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../dto/decline-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/decline-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/dto/decline-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../dto/decline-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/decline-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/dto/decline-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/pay-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/pay-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/pay-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/pay-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/pay-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/pay-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../dto/post-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/post-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/dto/post-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../dto/post-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/post-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/dto/post-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../dto/reject-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reject-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/dto/reject-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../dto/reject-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reject-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/dto/reject-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/reject-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reject-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/reject-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/reject-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reject-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/reject-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../dto/reject-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reject-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/dto/reject-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../dto/reject-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reject-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/dto/reject-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../dto/reverse-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reverse-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/dto/reverse-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../dto/reverse-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/reverse-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/dto/reverse-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/submit-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/submit-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/submit-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/submit-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/submit-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/submit-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "import_specifier": "../dto/transition-procurement-purchase-order.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-procurement-purchase-order.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "staged_target": "src/dto/transition-procurement-purchase-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../dto/transition-procurement-purchase-order.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-procurement-purchase-order.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/dto/transition-procurement-purchase-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "import_specifier": "../dto/transition-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "staged_target": "src/dto/transition-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "../dto/transition-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/dto/transition-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../dto/transition-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/dto/transition-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../dto/transition-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/dto/transition-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../dto/transition-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/dto/transition-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../dto/transition-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/transition-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/dto/transition-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../dto/update-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/dto/update-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../dto/update-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/dto/update-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../dto/update-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/dto/update-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../dto/update-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/dto/update-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../dto/update-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/dto/update-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../dto/update-procurement-payment-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-payment-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/dto/update-procurement-payment-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "import_specifier": "../dto/update-procurement-purchase-order.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-purchase-order.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "staged_target": "src/dto/update-procurement-purchase-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../dto/update-procurement-purchase-order.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-purchase-order.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/dto/update-procurement-purchase-order.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "import_specifier": "../dto/update-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "staged_target": "src/dto/update-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "../dto/update-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/dto/update-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../dto/update-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/dto/update-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../dto/update-procurement-rfq.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-procurement-rfq.dto.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/dto/update-procurement-rfq.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../dto/update-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/dto/update-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../dto/update-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/update-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/dto/update-purchase-request.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/bootstrap/procurement-bootstrap.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/bootstrap/procurement-bootstrap.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../procurement.constants",
+      "resolved_source": "backend/src/core/procurement/procurement.constants.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/procurement.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "import_specifier": "../quotation/quotation-comparison.types",
+      "resolved_source": "backend/src/core/procurement/quotation/quotation-comparison.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "staged_target": "src/quotation/quotation-comparison.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-procurement-goods-receipt.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-procurement-goods-receipt.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-procurement-invoice-match.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-procurement-invoice-match.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-procurement-payment-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-procurement-payment-request.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-procurement-quotation.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-procurement-quotation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-procurement-rfq.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-procurement-rfq.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/postgres-purchase-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/postgres-purchase-request.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/procurement-goods-receipt.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/procurement-goods-receipt.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../repositories/procurement-goods-receipt.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/repositories/procurement-goods-receipt.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts",
+      "import_specifier": "../repositories/procurement-goods-receipt.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts",
+      "staged_target": "src/repositories/procurement-goods-receipt.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../repositories/procurement-goods-receipt.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/repositories/procurement-goods-receipt.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/procurement-invoice-match.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-invoice-match.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/procurement-invoice-match.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../repositories/procurement-invoice-match.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-invoice-match.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/repositories/procurement-invoice-match.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../repositories/procurement-invoice-match.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-invoice-match.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/repositories/procurement-invoice-match.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/procurement-payment-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-payment-request.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/procurement-payment-request.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../repositories/procurement-payment-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-payment-request.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/repositories/procurement-payment-request.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../repositories/procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/repositories/procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts",
+      "import_specifier": "../repositories/procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts",
+      "staged_target": "src/repositories/procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../repositories/procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/repositories/procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../repositories/procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/repositories/procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/procurement-quotation.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/procurement-quotation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../repositories/procurement-quotation.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/repositories/procurement-quotation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "import_specifier": "../repositories/procurement-quotation.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "staged_target": "src/repositories/procurement-quotation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "../repositories/procurement-quotation.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/repositories/procurement-quotation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/procurement-rfq.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-rfq.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/procurement-rfq.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../repositories/procurement-rfq.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-rfq.repository.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/repositories/procurement-rfq.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./repositories/purchase-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/purchase-request.repository.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/repositories/purchase-request.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../repositories/purchase-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/purchase-request.repository.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/repositories/purchase-request.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../services/procurement-goods-receipt.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/services/procurement-goods-receipt.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-goods-receipt.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-goods-receipt.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-inventory-posting.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-inventory-posting.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "./procurement-inventory-posting.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/services/procurement-inventory-posting.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../services/procurement-invoice-match.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/services/procurement-invoice-match.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-invoice-match.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-invoice-match.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../services/procurement-payment-request.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/services/procurement-payment-request.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-payment-request.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-payment-request.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "import_specifier": "../services/procurement-purchase-order.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "staged_target": "src/services/procurement-purchase-order.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-purchase-order.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-purchase-order.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts",
+      "import_specifier": "../services/procurement-quotation-comparison.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts",
+      "staged_target": "src/services/procurement-quotation-comparison.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-quotation-comparison.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-quotation-comparison.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "import_specifier": "../services/procurement-quotation.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "staged_target": "src/services/procurement-quotation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-quotation.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-quotation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../services/procurement-rfq.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/services/procurement-rfq.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/procurement-rfq.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/procurement-rfq.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "./procurement-rfq.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/services/procurement-rfq.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "import_specifier": "./procurement-rfq.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "staged_target": "src/services/procurement-rfq.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "./procurement-rfq.service",
+      "resolved_source": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/services/procurement-rfq.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../services/purchase-request.service",
+      "resolved_source": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/services/purchase-request.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/procurement.module.ts",
+      "import_specifier": "./services/purchase-request.service",
+      "resolved_source": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "source_file": "backend/src/core/procurement/procurement.module.ts",
+      "staged_target": "src/services/purchase-request.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "./purchase-request.service",
+      "resolved_source": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/services/purchase-request.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/dto/update-procurement-goods-receipt.dto.ts",
+      "import_specifier": "./create-procurement-goods-receipt.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-goods-receipt.dto.ts",
+      "source_file": "backend/src/core/procurement/dto/update-procurement-goods-receipt.dto.ts",
+      "staged_target": "src/dto/create-procurement-goods-receipt.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/dto/update-procurement-invoice-match.dto.ts",
+      "import_specifier": "./create-procurement-invoice-match.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-invoice-match.dto.ts",
+      "source_file": "backend/src/core/procurement/dto/update-procurement-invoice-match.dto.ts",
+      "staged_target": "src/dto/create-procurement-invoice-match.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/dto/update-procurement-quotation.dto.ts",
+      "import_specifier": "./create-procurement-quotation.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-procurement-quotation.dto.ts",
+      "source_file": "backend/src/core/procurement/dto/update-procurement-quotation.dto.ts",
+      "staged_target": "src/dto/create-procurement-quotation.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/dto/update-purchase-request.dto.ts",
+      "import_specifier": "./create-purchase-request.dto",
+      "resolved_source": "backend/src/core/procurement/dto/create-purchase-request.dto.ts",
+      "source_file": "backend/src/core/procurement/dto/update-purchase-request.dto.ts",
+      "staged_target": "src/dto/create-purchase-request.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts",
+      "import_specifier": "./procurement-goods-receipt.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts",
+      "staged_target": "src/repositories/procurement-goods-receipt.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts",
+      "import_specifier": "./procurement-invoice-match.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-invoice-match.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts",
+      "staged_target": "src/repositories/procurement-invoice-match.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts",
+      "import_specifier": "./procurement-payment-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-payment-request.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts",
+      "staged_target": "src/repositories/procurement-payment-request.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts",
+      "import_specifier": "./procurement-purchase-order.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts",
+      "staged_target": "src/repositories/procurement-purchase-order.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts",
+      "import_specifier": "./procurement-quotation.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts",
+      "staged_target": "src/repositories/procurement-quotation.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts",
+      "import_specifier": "./procurement-rfq.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/procurement-rfq.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts",
+      "staged_target": "src/repositories/procurement-rfq.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts",
+      "import_specifier": "./purchase-request.repository",
+      "resolved_source": "backend/src/core/procurement/repositories/purchase-request.repository.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts",
+      "staged_target": "src/repositories/purchase-request.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/dto/create-purchase-request.dto.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/dto/create-purchase-request.dto.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/dto/update-purchase-request.dto.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/dto/update-purchase-request.dto.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/quotation/quotation-comparison.types.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/quotation/quotation-comparison.types.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/procurement-goods-receipt.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/procurement-invoice-match.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/procurement-invoice-match.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/procurement-payment-request.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/procurement-payment-request.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/procurement-purchase-order.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/procurement-quotation.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/procurement-rfq.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/procurement-rfq.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/procurement/repositories/purchase-request.repository.ts",
+      "import_specifier": "../types/procurement.types",
+      "resolved_source": "backend/src/core/procurement/types/procurement.types.ts",
+      "source_file": "backend/src/core/procurement/repositories/purchase-request.repository.ts",
+      "staged_target": "src/types/procurement.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/procurement/bootstrap/procurement-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../inventory/inventory.module",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../inventory/repositories/inventory-stock-ledger.repository",
+      "source_file": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../inventory/services/inventory-batch.service",
+      "source_file": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../inventory/types/inventory.types",
+      "source_file": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/bootstrap/procurement-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-goods-receipt.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-invoice-match.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-payment-request.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-purchase-order.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation-comparison.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-quotation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/procurement-rfq.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/procurement/controllers/purchase-request.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/procurement.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-goods-receipt.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-invoice-match.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-payment-request.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-purchase-order.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-quotation.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-procurement-rfq.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/procurement/repositories/postgres-purchase-request.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-inventory-posting.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation-comparison.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/procurement-goods-receipt.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/procurement-invoice-match.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/procurement-payment-request.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/procurement-purchase-order.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/procurement-quotation.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/procurement-rfq.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/procurement/services/purchase-request.service.ts"
+    }
+  ],
+  "externalDependencyCount": 103,
+  "maximumDepth": 2,
+  "moduleId": "procurement",
+  "moduleRoot": "backend/src/core/procurement",
+  "packageName": "@propertyos/plugin-procurement",
+  "pluginId": "procurement",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 19,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/procurement"
+}

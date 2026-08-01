@@ -1,0 +1,595 @@
+{
+  "addedFileCount": 12,
+  "applied": true,
+  "closureFileCount": 19,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./bootstrap/maintenance-bootstrap.service",
+      "resolved_source": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/bootstrap/maintenance-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./bootstrap/maintenance-workflow-bootstrap.service",
+      "resolved_source": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/bootstrap/maintenance-workflow-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./controllers/maintenance.controller",
+      "resolved_source": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/controllers/maintenance.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../dto/assign-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/assign-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/dto/assign-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../dto/assign-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/assign-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/dto/assign-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../dto/create-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/create-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/dto/create-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../dto/create-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/create-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/dto/create-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../dto/transition-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/transition-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/dto/transition-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../dto/transition-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/transition-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/dto/transition-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../dto/update-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/update-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/dto/update-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../dto/update-maintenance-ticket.dto",
+      "resolved_source": "backend/src/core/maintenance/dto/update-maintenance-ticket.dto.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/dto/update-maintenance-ticket.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./handlers/maintenance-sla-overdue-job.handler",
+      "resolved_source": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/handlers/maintenance-sla-overdue-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./handlers/maintenance-sla-warning-job.handler",
+      "resolved_source": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/handlers/maintenance-sla-warning-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./maintenance-search-provider.service",
+      "resolved_source": "backend/src/core/maintenance/maintenance-search-provider.service.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/maintenance-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts",
+      "import_specifier": "../maintenance-workflow.definition",
+      "resolved_source": "backend/src/core/maintenance/maintenance-workflow.definition.ts",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts",
+      "staged_target": "src/maintenance-workflow.definition.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts",
+      "import_specifier": "../maintenance-workflow.definition",
+      "resolved_source": "backend/src/core/maintenance/maintenance-workflow.definition.ts",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts",
+      "staged_target": "src/maintenance-workflow.definition.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./repositories/maintenance.repository",
+      "resolved_source": "backend/src/core/maintenance/repositories/maintenance.repository.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/repositories/maintenance.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../repositories/maintenance.repository",
+      "resolved_source": "backend/src/core/maintenance/repositories/maintenance.repository.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/repositories/maintenance.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./repositories/postgres-maintenance.repository",
+      "resolved_source": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/repositories/postgres-maintenance.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./services/maintenance-sla.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/services/maintenance-sla.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../services/maintenance.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/services/maintenance.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance-search-provider.service.ts",
+      "import_specifier": "./services/maintenance.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "source_file": "backend/src/core/maintenance/maintenance-search-provider.service.ts",
+      "staged_target": "src/services/maintenance.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/maintenance.module.ts",
+      "import_specifier": "./services/maintenance.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts",
+      "staged_target": "src/services/maintenance.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "import_specifier": "./maintenance.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "staged_target": "src/services/maintenance.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "import_specifier": "../maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/maintenance-workflow.definition.ts",
+      "import_specifier": "./maintenance.constants",
+      "resolved_source": "backend/src/core/maintenance/maintenance.constants.ts",
+      "source_file": "backend/src/core/maintenance/maintenance-workflow.definition.ts",
+      "staged_target": "src/maintenance.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts",
+      "import_specifier": "./maintenance.repository",
+      "resolved_source": "backend/src/core/maintenance/repositories/maintenance.repository.ts",
+      "source_file": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts",
+      "staged_target": "src/repositories/maintenance.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "import_specifier": "../services/maintenance-sla.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "staged_target": "src/services/maintenance-sla.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "import_specifier": "../services/maintenance-sla.service",
+      "resolved_source": "backend/src/core/maintenance/services/maintenance-sla.service.ts",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "staged_target": "src/services/maintenance-sla.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "import_specifier": "../types/maintenance-sla-job.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance-sla-job.types.ts",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts",
+      "staged_target": "src/types/maintenance-sla-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "import_specifier": "../types/maintenance-sla-job.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance-sla-job.types.ts",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts",
+      "staged_target": "src/types/maintenance-sla-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/dto/create-maintenance-ticket.dto.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/dto/create-maintenance-ticket.dto.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/dto/transition-maintenance-ticket.dto.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/dto/transition-maintenance-ticket.dto.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/dto/update-maintenance-ticket.dto.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/dto/update-maintenance-ticket.dto.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/repositories/maintenance.repository.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/repositories/maintenance.repository.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts",
+      "import_specifier": "../types/maintenance.types",
+      "resolved_source": "backend/src/core/maintenance/types/maintenance.types.ts",
+      "source_file": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts",
+      "staged_target": "src/types/maintenance.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-notification.registry",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-workflow.registry",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../workflow/services/workflow.service",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/constants/permissions",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/maintenance/maintenance-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/maintenance/maintenance-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../scheduler",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../workflow",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/maintenance/services/maintenance-sla.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/maintenance/services/maintenance-sla.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/services/scheduler.service",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../workflow/services/workflow.service",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/bootstrap/maintenance-workflow-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/maintenance/controllers/maintenance.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-overdue-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/handlers/maintenance-sla-warning-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/maintenance-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/maintenance.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/maintenance/repositories/postgres-maintenance.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/services/maintenance-sla.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/maintenance/services/maintenance.service.ts"
+    }
+  ],
+  "externalDependencyCount": 43,
+  "maximumDepth": 2,
+  "moduleId": "maintenance",
+  "moduleRoot": "backend/src/core/maintenance",
+  "packageName": "@propertyos/plugin-maintenance",
+  "pluginId": "maintenance",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 7,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/maintenance"
+}

@@ -1,0 +1,258 @@
+{
+  "addedFileCount": 5,
+  "applied": true,
+  "closureFileCount": 8,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/receipt.module.ts",
+      "import_specifier": "./controllers/receipt.controller",
+      "resolved_source": "backend/src/core/receipt/controllers/receipt.controller.ts",
+      "source_file": "backend/src/core/receipt/receipt.module.ts",
+      "staged_target": "src/controllers/receipt.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/controllers/receipt.controller.ts",
+      "import_specifier": "../dto/create-receipt.dto",
+      "resolved_source": "backend/src/core/receipt/dto/create-receipt.dto.ts",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts",
+      "staged_target": "src/dto/create-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/services/receipt.service.ts",
+      "import_specifier": "../dto/create-receipt.dto",
+      "resolved_source": "backend/src/core/receipt/dto/create-receipt.dto.ts",
+      "source_file": "backend/src/core/receipt/services/receipt.service.ts",
+      "staged_target": "src/dto/create-receipt.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/receipt.module.ts",
+      "import_specifier": "./repositories/postgres-receipt.repository",
+      "resolved_source": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "source_file": "backend/src/core/receipt/receipt.module.ts",
+      "staged_target": "src/repositories/postgres-receipt.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/receipt.module.ts",
+      "import_specifier": "./repositories/receipt-repository.interface",
+      "resolved_source": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "source_file": "backend/src/core/receipt/receipt.module.ts",
+      "staged_target": "src/repositories/receipt-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/services/receipt.service.ts",
+      "import_specifier": "../repositories/receipt-repository.interface",
+      "resolved_source": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "source_file": "backend/src/core/receipt/services/receipt.service.ts",
+      "staged_target": "src/repositories/receipt-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/receipt.module.ts",
+      "import_specifier": "./services/receipt-dashboard-contributor.service",
+      "resolved_source": "backend/src/core/receipt/services/receipt-dashboard-contributor.service.ts",
+      "source_file": "backend/src/core/receipt/receipt.module.ts",
+      "staged_target": "src/services/receipt-dashboard-contributor.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/controllers/receipt.controller.ts",
+      "import_specifier": "../services/receipt.service",
+      "resolved_source": "backend/src/core/receipt/services/receipt.service.ts",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts",
+      "staged_target": "src/services/receipt.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/receipt.module.ts",
+      "import_specifier": "./services/receipt.service",
+      "resolved_source": "backend/src/core/receipt/services/receipt.service.ts",
+      "source_file": "backend/src/core/receipt/receipt.module.ts",
+      "staged_target": "src/services/receipt.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/receipt/services/receipt.service.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/receipt/types.ts",
+      "source_file": "backend/src/core/receipt/services/receipt.service.ts",
+      "staged_target": "src/types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "import_specifier": "../dto/create-receipt.dto",
+      "resolved_source": "backend/src/core/receipt/dto/create-receipt.dto.ts",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "staged_target": "src/dto/create-receipt.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "import_specifier": "../dto/create-receipt.dto",
+      "resolved_source": "backend/src/core/receipt/dto/create-receipt.dto.ts",
+      "source_file": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "staged_target": "src/dto/create-receipt.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "import_specifier": "./receipt-repository.interface",
+      "resolved_source": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "staged_target": "src/repositories/receipt-repository.interface.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/receipt/services/receipt-dashboard-contributor.service.ts",
+      "import_specifier": "./receipt.service",
+      "resolved_source": "backend/src/core/receipt/services/receipt.service.ts",
+      "source_file": "backend/src/core/receipt/services/receipt-dashboard-contributor.service.ts",
+      "staged_target": "src/services/receipt.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/receipt/types.ts",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts",
+      "staged_target": "src/types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "import_specifier": "../types",
+      "resolved_source": "backend/src/core/receipt/types.ts",
+      "source_file": "backend/src/core/receipt/repositories/receipt-repository.interface.ts",
+      "staged_target": "src/types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/constants/permissions",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres",
+      "source_file": "backend/src/core/receipt/receipt.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/receipt/receipt.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/receipt/receipt.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/receipt/receipt.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/receipt/repositories/receipt-repository.interface.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-dashboard.registry",
+      "source_file": "backend/src/core/receipt/services/receipt-dashboard-contributor.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/receipt/services/receipt.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/receipt/services/receipt.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/receipt/controllers/receipt.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/receipt/receipt.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/receipt/repositories/postgres-receipt.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/receipt/services/receipt-dashboard-contributor.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/receipt/services/receipt.service.ts"
+    }
+  ],
+  "externalDependencyCount": 22,
+  "maximumDepth": 2,
+  "moduleId": "receipt",
+  "moduleRoot": "backend/src/core/receipt",
+  "packageName": "@propertyos/plugin-receipt",
+  "pluginId": "receipt",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 3,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/receipt"
+}

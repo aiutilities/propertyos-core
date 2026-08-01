@@ -1,0 +1,408 @@
+{
+  "addedFileCount": 8,
+  "applied": true,
+  "closureFileCount": 12,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/report.module.ts",
+      "import_specifier": "./controllers/report.controller",
+      "resolved_source": "backend/src/core/report/controllers/report.controller.ts",
+      "source_file": "backend/src/core/report/report.module.ts",
+      "staged_target": "src/controllers/report.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/controllers/report.controller.ts",
+      "import_specifier": "../dto/outstanding-rent-query.dto",
+      "resolved_source": "backend/src/core/report/dto/outstanding-rent-query.dto.ts",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts",
+      "staged_target": "src/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report-export.service.ts",
+      "import_specifier": "../dto/outstanding-rent-query.dto",
+      "resolved_source": "backend/src/core/report/dto/outstanding-rent-query.dto.ts",
+      "source_file": "backend/src/core/report/services/report-export.service.ts",
+      "staged_target": "src/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report.service.ts",
+      "import_specifier": "../dto/outstanding-rent-query.dto",
+      "resolved_source": "backend/src/core/report/dto/outstanding-rent-query.dto.ts",
+      "source_file": "backend/src/core/report/services/report.service.ts",
+      "staged_target": "src/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/controllers/report.controller.ts",
+      "import_specifier": "../dto/rent-collection-query.dto",
+      "resolved_source": "backend/src/core/report/dto/rent-collection-query.dto.ts",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts",
+      "staged_target": "src/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report-export.service.ts",
+      "import_specifier": "../dto/rent-collection-query.dto",
+      "resolved_source": "backend/src/core/report/dto/rent-collection-query.dto.ts",
+      "source_file": "backend/src/core/report/services/report-export.service.ts",
+      "staged_target": "src/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report.service.ts",
+      "import_specifier": "../dto/rent-collection-query.dto",
+      "resolved_source": "backend/src/core/report/dto/rent-collection-query.dto.ts",
+      "source_file": "backend/src/core/report/services/report.service.ts",
+      "staged_target": "src/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/report.module.ts",
+      "import_specifier": "./handlers/report-export-job.handler",
+      "resolved_source": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "source_file": "backend/src/core/report/report.module.ts",
+      "staged_target": "src/handlers/report-export-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/report.module.ts",
+      "import_specifier": "./repositories/postgres-report.repository",
+      "resolved_source": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "source_file": "backend/src/core/report/report.module.ts",
+      "staged_target": "src/repositories/postgres-report.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/report.module.ts",
+      "import_specifier": "./repositories/report-repository.interface",
+      "resolved_source": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "source_file": "backend/src/core/report/report.module.ts",
+      "staged_target": "src/repositories/report-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report-export.service.ts",
+      "import_specifier": "../repositories/report-repository.interface",
+      "resolved_source": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "source_file": "backend/src/core/report/services/report-export.service.ts",
+      "staged_target": "src/repositories/report-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report.service.ts",
+      "import_specifier": "../repositories/report-repository.interface",
+      "resolved_source": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "source_file": "backend/src/core/report/services/report.service.ts",
+      "staged_target": "src/repositories/report-repository.interface.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/report.module.ts",
+      "import_specifier": "./services/report-export.service",
+      "resolved_source": "backend/src/core/report/services/report-export.service.ts",
+      "source_file": "backend/src/core/report/report.module.ts",
+      "staged_target": "src/services/report-export.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report.service.ts",
+      "import_specifier": "./report-export.service",
+      "resolved_source": "backend/src/core/report/services/report-export.service.ts",
+      "source_file": "backend/src/core/report/services/report.service.ts",
+      "staged_target": "src/services/report-export.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/controllers/report.controller.ts",
+      "import_specifier": "../services/report.service",
+      "resolved_source": "backend/src/core/report/services/report.service.ts",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts",
+      "staged_target": "src/services/report.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/report.module.ts",
+      "import_specifier": "./services/report.service",
+      "resolved_source": "backend/src/core/report/services/report.service.ts",
+      "source_file": "backend/src/core/report/report.module.ts",
+      "staged_target": "src/services/report.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report-export.service.ts",
+      "import_specifier": "../types/outstanding-rent.types",
+      "resolved_source": "backend/src/core/report/types/outstanding-rent.types.ts",
+      "source_file": "backend/src/core/report/services/report-export.service.ts",
+      "staged_target": "src/types/outstanding-rent.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report-export.service.ts",
+      "import_specifier": "../types/rent-collection.types",
+      "resolved_source": "backend/src/core/report/types/rent-collection.types.ts",
+      "source_file": "backend/src/core/report/services/report-export.service.ts",
+      "staged_target": "src/types/rent-collection.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/report/services/report-export.service.ts",
+      "import_specifier": "../types/report-export.types",
+      "resolved_source": "backend/src/core/report/types/report-export.types.ts",
+      "source_file": "backend/src/core/report/services/report-export.service.ts",
+      "staged_target": "src/types/report-export.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "import_specifier": "../dto/outstanding-rent-query.dto",
+      "resolved_source": "backend/src/core/report/dto/outstanding-rent-query.dto.ts",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "staged_target": "src/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "import_specifier": "../dto/outstanding-rent-query.dto",
+      "resolved_source": "backend/src/core/report/dto/outstanding-rent-query.dto.ts",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "staged_target": "src/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "import_specifier": "../dto/outstanding-rent-query.dto",
+      "resolved_source": "backend/src/core/report/dto/outstanding-rent-query.dto.ts",
+      "source_file": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "staged_target": "src/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "import_specifier": "../dto/rent-collection-query.dto",
+      "resolved_source": "backend/src/core/report/dto/rent-collection-query.dto.ts",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "staged_target": "src/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "import_specifier": "../dto/rent-collection-query.dto",
+      "resolved_source": "backend/src/core/report/dto/rent-collection-query.dto.ts",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "staged_target": "src/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "import_specifier": "../dto/rent-collection-query.dto",
+      "resolved_source": "backend/src/core/report/dto/rent-collection-query.dto.ts",
+      "source_file": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "staged_target": "src/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "import_specifier": "./report-repository.interface",
+      "resolved_source": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "staged_target": "src/repositories/report-repository.interface.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "import_specifier": "../services/report-export.service",
+      "resolved_source": "backend/src/core/report/services/report-export.service.ts",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts",
+      "staged_target": "src/services/report-export.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "import_specifier": "../types/outstanding-rent.types",
+      "resolved_source": "backend/src/core/report/types/outstanding-rent.types.ts",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "staged_target": "src/types/outstanding-rent.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "import_specifier": "../types/outstanding-rent.types",
+      "resolved_source": "backend/src/core/report/types/outstanding-rent.types.ts",
+      "source_file": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "staged_target": "src/types/outstanding-rent.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "import_specifier": "../types/rent-collection.types",
+      "resolved_source": "backend/src/core/report/types/rent-collection.types.ts",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts",
+      "staged_target": "src/types/rent-collection.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "import_specifier": "../types/rent-collection.types",
+      "resolved_source": "backend/src/core/report/types/rent-collection.types.ts",
+      "source_file": "backend/src/core/report/repositories/report-repository.interface.ts",
+      "staged_target": "src/types/rent-collection.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/constants/permissions",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/report/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/report/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/report-export-job.types",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/database.module",
+      "source_file": "backend/src/core/report/report.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/report/report.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/report/report.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../scheduler/scheduler.module",
+      "source_file": "backend/src/core/report/report.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../platform",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "express",
+      "source_file": "backend/src/core/report/controllers/report.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/report/dto/outstanding-rent-query.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/report/dto/rent-collection-query.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/report/handlers/report-export-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/report/report.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/report/repositories/postgres-report.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/report/services/report-export.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pdfkit",
+      "source_file": "backend/src/core/report/services/report-export.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/report/services/report.service.ts"
+    }
+  ],
+  "externalDependencyCount": 28,
+  "maximumDepth": 2,
+  "moduleId": "report",
+  "moduleRoot": "backend/src/core/report",
+  "packageName": "@propertyos/plugin-report",
+  "pluginId": "report",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 4,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/report"
+}

@@ -1,0 +1,1876 @@
+{
+  "addedFileCount": 50,
+  "applied": true,
+  "closureFileCount": 70,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./bootstrap/inventory-bootstrap.service",
+      "resolved_source": "backend/src/core/inventory/bootstrap/inventory-bootstrap.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/bootstrap/inventory-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-batch-allocation.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-batch-allocation.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-cycle-count.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-cycle-count.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-material-issue.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-material-issue.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-material-return.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-material-return.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-stock-adjustment.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-stock-adjustment.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-stock-reservation.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-stock-reservation.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory-stock-transfer.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory-stock-transfer.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./controllers/inventory.controller",
+      "resolved_source": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/controllers/inventory.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory.service.ts",
+      "import_specifier": "../dto",
+      "resolved_source": "backend/src/core/inventory/dto/index.ts",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts",
+      "staged_target": "src/dto/index.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./inventory-search-provider.service",
+      "resolved_source": "backend/src/core/inventory/inventory-search-provider.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/inventory-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/bootstrap/inventory-bootstrap.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/bootstrap/inventory-bootstrap.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory.service.ts",
+      "import_specifier": "../inventory.constants",
+      "resolved_source": "backend/src/core/inventory/inventory.constants.ts",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts",
+      "staged_target": "src/inventory.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/inventory-batch-allocation.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-batch-allocation.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/inventory-batch-allocation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "import_specifier": "../repositories/inventory-batch-allocation.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-batch-allocation.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "staged_target": "src/repositories/inventory-batch-allocation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/inventory-batch.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-batch.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/inventory-batch.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "import_specifier": "../repositories/inventory-batch.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-batch.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "staged_target": "src/repositories/inventory-batch.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "import_specifier": "../repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "import_specifier": "../repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "import_specifier": "../repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "import_specifier": "../repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "import_specifier": "../repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "import_specifier": "../repositories/inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/inventory.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/inventory.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "import_specifier": "../repositories/inventory.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "staged_target": "src/repositories/inventory.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "import_specifier": "../repositories/inventory.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "staged_target": "src/repositories/inventory.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory.service.ts",
+      "import_specifier": "../repositories/inventory.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts",
+      "staged_target": "src/repositories/inventory.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/postgres-inventory-batch-allocation.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/postgres-inventory-batch-allocation.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/postgres-inventory-batch.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/postgres-inventory-batch.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/postgres-inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/postgres-inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./repositories/postgres-inventory.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/repositories/postgres-inventory.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "import_specifier": "../services/inventory-batch-allocation.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts",
+      "staged_target": "src/services/inventory-batch-allocation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-batch-allocation.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-batch-allocation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "import_specifier": "./inventory-batch-allocation.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "staged_target": "src/services/inventory-batch-allocation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-batch.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-batch.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "import_specifier": "./inventory-batch.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "staged_target": "src/services/inventory-batch.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "import_specifier": "../services/inventory-cycle-count.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts",
+      "staged_target": "src/services/inventory-cycle-count.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-cycle-count.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-cycle-count.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "import_specifier": "../services/inventory-material-issue.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts",
+      "staged_target": "src/services/inventory-material-issue.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-material-issue.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-material-issue.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "import_specifier": "../services/inventory-material-return.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts",
+      "staged_target": "src/services/inventory-material-return.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-material-return.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-material-return.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "import_specifier": "../services/inventory-stock-adjustment.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts",
+      "staged_target": "src/services/inventory-stock-adjustment.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-stock-adjustment.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-stock-adjustment.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "import_specifier": "../services/inventory-stock-reservation.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts",
+      "staged_target": "src/services/inventory-stock-reservation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-stock-reservation.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-stock-reservation.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "import_specifier": "../services/inventory-stock-transfer.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts",
+      "staged_target": "src/services/inventory-stock-transfer.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory-stock-transfer.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory-stock-transfer.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "import_specifier": "../services/inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory-search-provider.service.ts",
+      "import_specifier": "./services/inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/inventory-search-provider.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/inventory.module.ts",
+      "import_specifier": "./services/inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/inventory.module.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "import_specifier": "./inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "import_specifier": "./inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "import_specifier": "./inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "import_specifier": "./inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "import_specifier": "./inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "import_specifier": "./inventory.service",
+      "resolved_source": "backend/src/core/inventory/services/inventory.service.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "staged_target": "src/services/inventory.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-batch.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/inventory/services/inventory.service.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./allocate-inventory-batches.dto",
+      "resolved_source": "backend/src/core/inventory/dto/allocate-inventory-batches.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/allocate-inventory-batches.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./cancel-cycle-count.dto",
+      "resolved_source": "backend/src/core/inventory/dto/cancel-cycle-count.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/cancel-cycle-count.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./cancel-material-issue.dto",
+      "resolved_source": "backend/src/core/inventory/dto/cancel-material-issue.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/cancel-material-issue.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./cancel-material-return.dto",
+      "resolved_source": "backend/src/core/inventory/dto/cancel-material-return.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/cancel-material-return.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./cancel-stock-adjustment.dto",
+      "resolved_source": "backend/src/core/inventory/dto/cancel-stock-adjustment.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/cancel-stock-adjustment.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./cancel-stock-transfer.dto",
+      "resolved_source": "backend/src/core/inventory/dto/cancel-stock-transfer.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/cancel-stock-transfer.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./complete-cycle-count.dto",
+      "resolved_source": "backend/src/core/inventory/dto/complete-cycle-count.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/complete-cycle-count.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-bin-location.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-bin-location.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-bin-location.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-brand.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-brand.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-brand.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-cycle-count.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-cycle-count.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-cycle-count.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-inventory-item.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-inventory-item.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-inventory-item.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-inventory-store.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-inventory-store.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-inventory-store.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-item-category.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-item-category.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-item-category.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-material-issue.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-material-issue.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-material-issue.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-material-return.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-material-return.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-material-return.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-stock-adjustment.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-stock-adjustment.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-stock-adjustment.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-stock-reservation.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-stock-reservation.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-stock-reservation.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-stock-transfer.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-stock-transfer.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-stock-transfer.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./create-unit-of-measure.dto",
+      "resolved_source": "backend/src/core/inventory/dto/create-unit-of-measure.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/create-unit-of-measure.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./dispatch-stock-transfer.dto",
+      "resolved_source": "backend/src/core/inventory/dto/dispatch-stock-transfer.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/dispatch-stock-transfer.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./expire-stock-reservation.dto",
+      "resolved_source": "backend/src/core/inventory/dto/expire-stock-reservation.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/expire-stock-reservation.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./fulfill-stock-reservation.dto",
+      "resolved_source": "backend/src/core/inventory/dto/fulfill-stock-reservation.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/fulfill-stock-reservation.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./post-cycle-count.dto",
+      "resolved_source": "backend/src/core/inventory/dto/post-cycle-count.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/post-cycle-count.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./post-material-issue.dto",
+      "resolved_source": "backend/src/core/inventory/dto/post-material-issue.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/post-material-issue.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./post-material-return.dto",
+      "resolved_source": "backend/src/core/inventory/dto/post-material-return.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/post-material-return.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./post-stock-adjustment.dto",
+      "resolved_source": "backend/src/core/inventory/dto/post-stock-adjustment.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/post-stock-adjustment.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./query-stock.dto",
+      "resolved_source": "backend/src/core/inventory/dto/query-stock.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/query-stock.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./receive-stock-transfer.dto",
+      "resolved_source": "backend/src/core/inventory/dto/receive-stock-transfer.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/receive-stock-transfer.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./record-cycle-count.dto",
+      "resolved_source": "backend/src/core/inventory/dto/record-cycle-count.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/record-cycle-count.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./release-stock-reservation.dto",
+      "resolved_source": "backend/src/core/inventory/dto/release-stock-reservation.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/release-stock-reservation.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./start-cycle-count.dto",
+      "resolved_source": "backend/src/core/inventory/dto/start-cycle-count.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/start-cycle-count.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./transition-inventory-item.dto",
+      "resolved_source": "backend/src/core/inventory/dto/transition-inventory-item.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/transition-inventory-item.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./transition-inventory-store.dto",
+      "resolved_source": "backend/src/core/inventory/dto/transition-inventory-store.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/transition-inventory-store.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./update-bin-location.dto",
+      "resolved_source": "backend/src/core/inventory/dto/update-bin-location.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/update-bin-location.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./update-brand.dto",
+      "resolved_source": "backend/src/core/inventory/dto/update-brand.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/update-brand.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./update-inventory-item.dto",
+      "resolved_source": "backend/src/core/inventory/dto/update-inventory-item.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/update-inventory-item.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./update-inventory-store.dto",
+      "resolved_source": "backend/src/core/inventory/dto/update-inventory-store.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/update-inventory-store.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./update-item-category.dto",
+      "resolved_source": "backend/src/core/inventory/dto/update-item-category.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/update-item-category.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/dto/index.ts",
+      "import_specifier": "./update-unit-of-measure.dto",
+      "resolved_source": "backend/src/core/inventory/dto/update-unit-of-measure.dto.ts",
+      "source_file": "backend/src/core/inventory/dto/index.ts",
+      "staged_target": "src/dto/update-unit-of-measure.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts",
+      "import_specifier": "./inventory-batch-allocation.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-batch-allocation.repository.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts",
+      "staged_target": "src/repositories/inventory-batch-allocation.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts",
+      "import_specifier": "./inventory-batch.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-batch.repository.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts",
+      "staged_target": "src/repositories/inventory-batch.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts",
+      "import_specifier": "./inventory-stock-ledger.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts",
+      "staged_target": "src/repositories/inventory-stock-ledger.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts",
+      "import_specifier": "./inventory.repository",
+      "resolved_source": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts",
+      "staged_target": "src/repositories/inventory.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/inventory-batch-allocation.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/inventory-batch-allocation.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/inventory-batch.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/inventory-batch.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/inventory-stock-ledger.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/inventory.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 3,
+      "discovered_from": "backend/src/core/inventory/dto/allocate-inventory-batches.dto.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/dto/allocate-inventory-batches.dto.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 3,
+      "discovered_from": "backend/src/core/inventory/dto/create-cycle-count.dto.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/dto/create-cycle-count.dto.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 3,
+      "discovered_from": "backend/src/core/inventory/dto/create-inventory-item.dto.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/dto/create-inventory-item.dto.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 3,
+      "discovered_from": "backend/src/core/inventory/dto/create-material-issue.dto.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/dto/create-material-issue.dto.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 3,
+      "discovered_from": "backend/src/core/inventory/dto/create-material-return.dto.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/dto/create-material-return.dto.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    },
+    {
+      "depth": 3,
+      "discovered_from": "backend/src/core/inventory/dto/update-inventory-item.dto.ts",
+      "import_specifier": "../types/inventory.types",
+      "resolved_source": "backend/src/core/inventory/types/inventory.types.ts",
+      "source_file": "backend/src/core/inventory/dto/update-inventory-item.dto.ts",
+      "staged_target": "src/types/inventory.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/inventory/bootstrap/inventory-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/inventory/inventory-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/inventory/inventory-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/search.module",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/bootstrap/inventory-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-batch-allocation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-cycle-count.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-issue.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-material-return.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-adjustment.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-reservation.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory-stock-transfer.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/inventory/controllers/inventory.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/allocate-inventory-batches.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/allocate-inventory-batches.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/cancel-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/cancel-material-issue.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/cancel-material-return.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/cancel-stock-adjustment.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/cancel-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/complete-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/create-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/create-material-issue.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/create-material-issue.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/create-material-return.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/create-material-return.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/create-stock-adjustment.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/create-stock-adjustment.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/create-stock-reservation.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/create-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/create-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/dispatch-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/dispatch-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/expire-stock-reservation.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/fulfill-stock-reservation.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/post-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/post-material-issue.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/post-material-return.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/post-stock-adjustment.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/receive-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/receive-stock-transfer.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-transformer",
+      "source_file": "backend/src/core/inventory/dto/record-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/record-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/release-stock-reservation.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "class-validator",
+      "source_file": "backend/src/core/inventory/dto/start-cycle-count.dto.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/inventory-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/inventory.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch-allocation.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-batch.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-batch-allocation.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-batch.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/repositories/postgres-inventory-stock-ledger.repository.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-batch.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-cycle-count.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-material-issue.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-material-return.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-adjustment.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-reservation.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory-stock-transfer.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/inventory/services/inventory.service.ts"
+    }
+  ],
+  "externalDependencyCount": 128,
+  "maximumDepth": 3,
+  "moduleId": "inventory",
+  "moduleRoot": "backend/src/core/inventory",
+  "packageName": "@propertyos/plugin-inventory",
+  "pluginId": "inventory",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 20,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/inventory"
+}

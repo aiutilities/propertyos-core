@@ -1,0 +1,550 @@
+{
+  "addedFileCount": 13,
+  "applied": true,
+  "closureFileCount": 19,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./bootstrap/communications-bootstrap.service",
+      "resolved_source": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/bootstrap/communications-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./communications-search-provider.service",
+      "resolved_source": "backend/src/core/communications/communications-search-provider.service.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/communications-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts",
+      "import_specifier": "../communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications-search-provider.service.ts",
+      "import_specifier": "./communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/communications-search-provider.service.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications-scheduler.service.ts",
+      "import_specifier": "../communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/services/communications-scheduler.service.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./controllers/communications.controller",
+      "resolved_source": "backend/src/core/communications/controllers/communications.controller.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/controllers/communications.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../dto/acknowledge-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/acknowledge-communication.dto.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/dto/acknowledge-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../dto/acknowledge-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/acknowledge-communication.dto.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/dto/acknowledge-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../dto/create-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/create-communication.dto.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/dto/create-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../dto/create-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/create-communication.dto.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/dto/create-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../dto/mark-communication-read.dto",
+      "resolved_source": "backend/src/core/communications/dto/mark-communication-read.dto.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/dto/mark-communication-read.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../dto/mark-communication-read.dto",
+      "resolved_source": "backend/src/core/communications/dto/mark-communication-read.dto.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/dto/mark-communication-read.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../dto/schedule-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/schedule-communication.dto.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/dto/schedule-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../dto/schedule-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/schedule-communication.dto.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/dto/schedule-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../dto/transition-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/transition-communication.dto.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/dto/transition-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../dto/transition-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/transition-communication.dto.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/dto/transition-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../dto/update-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/update-communication.dto.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/dto/update-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../dto/update-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/update-communication.dto.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/dto/update-communication.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./handlers/expire-communication-job.handler",
+      "resolved_source": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/handlers/expire-communication-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./handlers/publish-communication-job.handler",
+      "resolved_source": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/handlers/publish-communication-job.handler.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./repositories/communications.repository",
+      "resolved_source": "backend/src/core/communications/repositories/communications.repository.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/repositories/communications.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../repositories/communications.repository",
+      "resolved_source": "backend/src/core/communications/repositories/communications.repository.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/repositories/communications.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./repositories/postgres-communications.repository",
+      "resolved_source": "backend/src/core/communications/repositories/postgres-communications.repository.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/repositories/postgres-communications.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./services/communications-scheduler.service",
+      "resolved_source": "backend/src/core/communications/services/communications-scheduler.service.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/services/communications-scheduler.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "./communications-scheduler.service",
+      "resolved_source": "backend/src/core/communications/services/communications-scheduler.service.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/services/communications-scheduler.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications-search-provider.service.ts",
+      "import_specifier": "./services/communications.service",
+      "resolved_source": "backend/src/core/communications/services/communications.service.ts",
+      "source_file": "backend/src/core/communications/communications-search-provider.service.ts",
+      "staged_target": "src/services/communications.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/communications.module.ts",
+      "import_specifier": "./services/communications.service",
+      "resolved_source": "backend/src/core/communications/services/communications.service.ts",
+      "source_file": "backend/src/core/communications/communications.module.ts",
+      "staged_target": "src/services/communications.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../services/communications.service",
+      "resolved_source": "backend/src/core/communications/services/communications.service.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/services/communications.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/controllers/communications.controller.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts",
+      "staged_target": "src/types/communications.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications-scheduler.service.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/services/communications-scheduler.service.ts",
+      "staged_target": "src/types/communications.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/communications/services/communications.service.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/services/communications.service.ts",
+      "staged_target": "src/types/communications.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "import_specifier": "../communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "import_specifier": "../communications.constants",
+      "resolved_source": "backend/src/core/communications/communications.constants.ts",
+      "source_file": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "staged_target": "src/communications.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/dto/update-communication.dto.ts",
+      "import_specifier": "./create-communication.dto",
+      "resolved_source": "backend/src/core/communications/dto/create-communication.dto.ts",
+      "source_file": "backend/src/core/communications/dto/update-communication.dto.ts",
+      "staged_target": "src/dto/create-communication.dto.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/repositories/postgres-communications.repository.ts",
+      "import_specifier": "./communications.repository",
+      "resolved_source": "backend/src/core/communications/repositories/communications.repository.ts",
+      "source_file": "backend/src/core/communications/repositories/postgres-communications.repository.ts",
+      "staged_target": "src/repositories/communications.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "import_specifier": "../services/communications.service",
+      "resolved_source": "backend/src/core/communications/services/communications.service.ts",
+      "source_file": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "staged_target": "src/services/communications.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "import_specifier": "../services/communications.service",
+      "resolved_source": "backend/src/core/communications/services/communications.service.ts",
+      "source_file": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "staged_target": "src/services/communications.service.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "import_specifier": "../types/communications-job.types",
+      "resolved_source": "backend/src/core/communications/types/communications-job.types.ts",
+      "source_file": "backend/src/core/communications/handlers/expire-communication-job.handler.ts",
+      "staged_target": "src/types/communications-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "import_specifier": "../types/communications-job.types",
+      "resolved_source": "backend/src/core/communications/types/communications-job.types.ts",
+      "source_file": "backend/src/core/communications/handlers/publish-communication-job.handler.ts",
+      "staged_target": "src/types/communications-job.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/dto/create-communication.dto.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/dto/create-communication.dto.ts",
+      "staged_target": "src/types/communications.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/dto/update-communication.dto.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/dto/update-communication.dto.ts",
+      "staged_target": "src/types/communications.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/repositories/communications.repository.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/repositories/communications.repository.ts",
+      "staged_target": "src/types/communications.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/communications/repositories/postgres-communications.repository.ts",
+      "import_specifier": "../types/communications.types",
+      "resolved_source": "backend/src/core/communications/types/communications.types.ts",
+      "source_file": "backend/src/core/communications/repositories/postgres-communications.repository.ts",
+      "staged_target": "src/types/communications.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-notification.registry",
+      "source_file": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/communications/communications-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/communications/communications-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../scheduler",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/communications/handlers/expire-communication-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/communications/handlers/expire-communication-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/registries/scheduler-handler.registry",
+      "source_file": "backend/src/core/communications/handlers/publish-communication-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/types/scheduler.types",
+      "source_file": "backend/src/core/communications/handlers/publish-communication-job.handler.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/communications/repositories/postgres-communications.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../scheduler/services/scheduler.service",
+      "source_file": "backend/src/core/communications/services/communications-scheduler.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/communications/services/communications.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/communications/services/communications.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/bootstrap/communications-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/communications-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/communications.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/communications/controllers/communications.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/handlers/expire-communication-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/handlers/publish-communication-job.handler.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/repositories/postgres-communications.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/communications/repositories/postgres-communications.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/services/communications-scheduler.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/communications/services/communications.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/communications/services/communications.service.ts"
+    }
+  ],
+  "externalDependencyCount": 34,
+  "maximumDepth": 2,
+  "moduleId": "communications",
+  "moduleRoot": "backend/src/core/communications",
+  "packageName": "@propertyos/plugin-communications",
+  "pluginId": "communications",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 6,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/communications"
+}

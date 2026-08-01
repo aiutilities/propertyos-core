@@ -1,0 +1,458 @@
+{
+  "addedFileCount": 10,
+  "applied": true,
+  "closureFileCount": 16,
+  "dependencies": [
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./bootstrap/facility-bootstrap.service",
+      "resolved_source": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/bootstrap/facility-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./bootstrap/facility-workflow-bootstrap.service",
+      "resolved_source": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/bootstrap/facility-workflow-bootstrap.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./controllers/facility.controller",
+      "resolved_source": "backend/src/core/facility/controllers/facility.controller.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/controllers/facility.controller.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../dto/create-asset-category.dto",
+      "resolved_source": "backend/src/core/facility/dto/create-asset-category.dto.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/dto/create-asset-category.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../dto/create-asset-category.dto",
+      "resolved_source": "backend/src/core/facility/dto/create-asset-category.dto.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/dto/create-asset-category.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../dto/create-asset.dto",
+      "resolved_source": "backend/src/core/facility/dto/create-asset.dto.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/dto/create-asset.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../dto/create-asset.dto",
+      "resolved_source": "backend/src/core/facility/dto/create-asset.dto.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/dto/create-asset.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../dto/create-preventive-maintenance-plan.dto",
+      "resolved_source": "backend/src/core/facility/dto/create-preventive-maintenance-plan.dto.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/dto/create-preventive-maintenance-plan.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../dto/create-preventive-maintenance-plan.dto",
+      "resolved_source": "backend/src/core/facility/dto/create-preventive-maintenance-plan.dto.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/dto/create-preventive-maintenance-plan.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../dto/transition-asset.dto",
+      "resolved_source": "backend/src/core/facility/dto/transition-asset.dto.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/dto/transition-asset.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../dto/transition-asset.dto",
+      "resolved_source": "backend/src/core/facility/dto/transition-asset.dto.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/dto/transition-asset.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../dto/update-asset.dto",
+      "resolved_source": "backend/src/core/facility/dto/update-asset.dto.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/dto/update-asset.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../dto/update-asset.dto",
+      "resolved_source": "backend/src/core/facility/dto/update-asset.dto.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/dto/update-asset.dto.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./facility-search-provider.service",
+      "resolved_source": "backend/src/core/facility/facility-search-provider.service.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/facility-search-provider.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts",
+      "import_specifier": "../facility-workflow.definition",
+      "resolved_source": "backend/src/core/facility/facility-workflow.definition.ts",
+      "source_file": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts",
+      "staged_target": "src/facility-workflow.definition.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts",
+      "import_specifier": "../facility-workflow.definition",
+      "resolved_source": "backend/src/core/facility/facility-workflow.definition.ts",
+      "source_file": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts",
+      "staged_target": "src/facility-workflow.definition.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts",
+      "import_specifier": "../facility.constants",
+      "resolved_source": "backend/src/core/facility/facility.constants.ts",
+      "source_file": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts",
+      "staged_target": "src/facility.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts",
+      "import_specifier": "../facility.constants",
+      "resolved_source": "backend/src/core/facility/facility.constants.ts",
+      "source_file": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts",
+      "staged_target": "src/facility.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../facility.constants",
+      "resolved_source": "backend/src/core/facility/facility.constants.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/facility.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../facility.constants",
+      "resolved_source": "backend/src/core/facility/facility.constants.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/facility.constants.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./repositories/facility.repository",
+      "resolved_source": "backend/src/core/facility/repositories/facility.repository.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/repositories/facility.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../repositories/facility.repository",
+      "resolved_source": "backend/src/core/facility/repositories/facility.repository.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/repositories/facility.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./repositories/postgres-facility.repository",
+      "resolved_source": "backend/src/core/facility/repositories/postgres-facility.repository.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/repositories/postgres-facility.repository.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../services/facility.service",
+      "resolved_source": "backend/src/core/facility/services/facility.service.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/services/facility.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility-search-provider.service.ts",
+      "import_specifier": "./services/facility.service",
+      "resolved_source": "backend/src/core/facility/services/facility.service.ts",
+      "source_file": "backend/src/core/facility/facility-search-provider.service.ts",
+      "staged_target": "src/services/facility.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/facility.module.ts",
+      "import_specifier": "./services/facility.service",
+      "resolved_source": "backend/src/core/facility/services/facility.service.ts",
+      "source_file": "backend/src/core/facility/facility.module.ts",
+      "staged_target": "src/services/facility.service.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/controllers/facility.controller.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 1,
+      "discovered_from": "backend/src/core/facility/services/facility.service.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/services/facility.service.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/facility-workflow.definition.ts",
+      "import_specifier": "./facility.constants",
+      "resolved_source": "backend/src/core/facility/facility.constants.ts",
+      "source_file": "backend/src/core/facility/facility-workflow.definition.ts",
+      "staged_target": "src/facility.constants.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/repositories/postgres-facility.repository.ts",
+      "import_specifier": "./facility.repository",
+      "resolved_source": "backend/src/core/facility/repositories/facility.repository.ts",
+      "source_file": "backend/src/core/facility/repositories/postgres-facility.repository.ts",
+      "staged_target": "src/repositories/facility.repository.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/dto/create-asset.dto.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/dto/create-asset.dto.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/dto/create-preventive-maintenance-plan.dto.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/dto/create-preventive-maintenance-plan.dto.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/dto/transition-asset.dto.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/dto/transition-asset.dto.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/dto/update-asset.dto.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/dto/update-asset.dto.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/repositories/facility.repository.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/repositories/facility.repository.ts",
+      "staged_target": "src/types/facility.types.ts"
+    },
+    {
+      "depth": 2,
+      "discovered_from": "backend/src/core/facility/repositories/postgres-facility.repository.ts",
+      "import_specifier": "../types/facility.types",
+      "resolved_source": "backend/src/core/facility/types/facility.types.ts",
+      "source_file": "backend/src/core/facility/repositories/postgres-facility.repository.ts",
+      "staged_target": "src/types/facility.types.ts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-permission.registry",
+      "source_file": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../plugin/registries/plugin-workflow.registry",
+      "source_file": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../workflow/services/workflow.service",
+      "source_file": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/decorators/require-permission.decorator",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/jwt-auth.guard",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../auth/guards/permission.guard",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/registries/search-provider.registry",
+      "source_file": "backend/src/core/facility/facility-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search/types/search.types",
+      "source_file": "backend/src/core/facility/facility-search-provider.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../database/postgres/postgres.module",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../audit/audit.module",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../auth/auth.module",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../eventbus/eventbus.module",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../identity/identity.module",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../plugin/plugin.module",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../search",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../workflow",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../../database/postgres",
+      "source_file": "backend/src/core/facility/repositories/postgres-facility.repository.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../audit/audit.service",
+      "source_file": "backend/src/core/facility/services/facility.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../eventbus/services/eventbus.service",
+      "source_file": "backend/src/core/facility/services/facility.service.ts"
+    },
+    {
+      "classification": "cross-module",
+      "import_specifier": "../../workflow/services/workflow.service",
+      "source_file": "backend/src/core/facility/services/facility.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/bootstrap/facility-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/bootstrap/facility-workflow-bootstrap.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/swagger",
+      "source_file": "backend/src/core/facility/controllers/facility.controller.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/facility-search-provider.service.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/facility.module.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/repositories/postgres-facility.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "pg",
+      "source_file": "backend/src/core/facility/repositories/postgres-facility.repository.ts"
+    },
+    {
+      "classification": "external-package",
+      "import_specifier": "@nestjs/common",
+      "source_file": "backend/src/core/facility/services/facility.service.ts"
+    },
+    {
+      "classification": "node-builtin",
+      "import_specifier": "crypto",
+      "source_file": "backend/src/core/facility/services/facility.service.ts"
+    }
+  ],
+  "externalDependencyCount": 30,
+  "maximumDepth": 2,
+  "moduleId": "facility",
+  "moduleRoot": "backend/src/core/facility",
+  "packageName": "@propertyos/plugin-facility",
+  "pluginId": "facility",
+  "schemaVersion": "1.0.0",
+  "seedFileCount": 6,
+  "valid": true,
+  "warnings": [],
+  "workspace": "generated/plugin-staging/facility"
+}

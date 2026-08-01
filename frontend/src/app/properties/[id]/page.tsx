@@ -12,21 +12,82 @@ export default function PropertyDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const { property, loading } = useProperty(id);
+  const {
+    property,
+    loading,
+    error,
+    errorMessage,
+    reload,
+  } = useProperty(id);
 
   return (
     <ProtectedRoute>
       <AdminShell>
         <div className="page-header">
           <h1>Property Details</h1>
-          <Link className="button-link" href="/properties">
+
+          <Link
+            className="button-link"
+            href="/properties"
+          >
             Back to Properties
           </Link>
         </div>
 
-        {loading && <p>Loading...</p>}
+        {loading ? (
+          <main
+            className="center-screen"
+            aria-live="polite"
+          >
+            Loading property...
+          </main>
+        ) : null}
 
-        {!loading && property && (
+        {!loading && error ? (
+          <section
+            className="empty-state"
+            role="alert"
+          >
+            <h2>Unable to load property</h2>
+
+            <p>{errorMessage}</p>
+
+            {error.requestId ? (
+              <p className="muted">
+                Reference: {error.requestId}
+              </p>
+            ) : null}
+
+            {error.retryable ? (
+              <button
+                type="button"
+                onClick={reload}
+              >
+                Try again
+              </button>
+            ) : null}
+          </section>
+        ) : null}
+
+        {!loading && !error && !property ? (
+          <section className="empty-state">
+            <h2>Property not found</h2>
+
+            <p>
+              The requested property could not be
+              found or is no longer available.
+            </p>
+
+            <Link
+              className="button-link"
+              href="/properties"
+            >
+              View all properties
+            </Link>
+          </section>
+        ) : null}
+
+        {!loading && !error && property ? (
           <>
             <table className="table">
               <tbody>
@@ -48,7 +109,11 @@ export default function PropertyDetailsPage({
                 </tr>
                 <tr>
                   <th>Status</th>
-                  <td>{property.isActive ? "Active" : "Inactive"}</td>
+                  <td>
+                    {property.isActive
+                      ? "Active"
+                      : "Inactive"}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -60,12 +125,14 @@ export default function PropertyDetailsPage({
               >
                 View Zones
               </Link>
+
               <Link
                 className="button-link"
                 href={`/properties/${property.id}/spaces`}
               >
                 View Spaces
               </Link>
+
               <Link
                 className="button-link"
                 href={`/properties/${property.id}/edit`}
@@ -74,7 +141,7 @@ export default function PropertyDetailsPage({
               </Link>
             </div>
           </>
-        )}
+        ) : null}
       </AdminShell>
     </ProtectedRoute>
   );
